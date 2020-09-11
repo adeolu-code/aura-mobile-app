@@ -1,19 +1,17 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { MyText } from '../../utils/Index';
-
+import React, {Component} from 'react';
+import {View, Text} from 'react-native';
+import {MyText} from '../../utils/Index';
 
 class Index extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   render() {
     return (
       <View>
-        <MyText> Dashboard </MyText>
+        <MyText> Dashboard Update</MyText>
       </View>
     );
   }
