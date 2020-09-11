@@ -3,78 +3,52 @@ import { Text, View, TextInput, Image, StyleSheet, TouchableOpacity } from 'reac
 import { Icon } from 'native-base';
 import { MyText } from './MyText';
 import GStyles from '../assets/styles/GeneralStyles';
+import colors from '../colors';
+import { color } from 'react-native-reanimated';
 
 class SearchInput extends Component {
     state = { secure: true }
     
     
     render() {
-        const { InputContainerStyles, inputStyle, lTextStyles
-         } = styles;
+        const { InputContainerStyles, inputStyle, searchContainer, iconStyle } = styles;
         const { textH4Style, textBold } = GStyles;
         const { placeholder, imageUrl, onChangeText, secureTextEntry, value, onFocus, onBlur, password,
-            autoCapitalize,textInputStyle, onChange, iconName, label, sublabel, placeholderColor } = this.props;
+            autoCapitalize, textInputStyle, onChange, placeholderColor } = this.props;
         
         const keyboard = this.props.keyType ? this.props.keyType : 'default'
         return (
-            <View>
-                
-                <View style={InputContainerStyles}>
-                    <TextInput style={[inputStyle, textInputStyle ]} onChangeText={onChangeText}
-                    secureTextEntry={secureTextEntry && this.state.secure} autoCorrect={false} value={value}
-                    onBlur={onBlur} onFocus={onFocus} autoCapitalize={ autoCapitalize || 'none'}
-                    placeholder={placeholder || 'Placeholder'} onChange={onChange} keyboardType={keyboard}
-                    placeholderTextColor={placeholderColor || "rgba(193, 221, 247, 0.5)"} />
+              
+            <View style={InputContainerStyles}>
+                <TextInput style={[inputStyle, textInputStyle ]} onChangeText={onChangeText}
+                secureTextEntry={secureTextEntry && this.state.secure} autoCorrect={false} value={value}
+                onBlur={onBlur} onFocus={onFocus} autoCapitalize={ autoCapitalize || 'none'}
+                placeholder={placeholder || 'Placeholder'} onChange={onChange} keyboardType={keyboard}
+                placeholderTextColor={placeholderColor || "#646464"} />
 
-                    <View>
-                        
-                    </View>
-                    
-                </View>
-                
+                <TouchableOpacity style={searchContainer}>
+                    <Icon type="Ionicons" name="search" style={iconStyle} />
+                </TouchableOpacity>
             </View>
+                
         )
     }
 }
 const styles = StyleSheet.create({
     InputContainerStyles:{
-        display: 'flex',
-        position: 'relative',
-        width: '100%',
-        // flex: 1
-    },
-    
-    ImageStyles: {
-        width: 18,
-        height: 18,
+        display: 'flex', flexDirection: 'row', width: '100%', marginVertical: 10
     },
     inputStyle: {
-        paddingLeft: 40,
-        paddingRight: 20,
-        height: 45,
-        borderBottomColor: '#D5D5D5',
-        borderBottomWidth: 1,
-        // borderWidth: 1,
-        fontSize: 17, color: '#D7E8F7', fontFamily: 'Nunito-bold'
+        paddingLeft: 15,paddingRight: 20,height: 45, backgroundColor: colors.white,
+        fontSize: 14, color: colors.darkGrey, fontFamily: 'Nunito-bold',
+        flex: 4, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderBottomLeftRadius: 5
     },
-    InputWithImgStyle: {
-        paddingLeft: 0
+    searchContainer: {
+        backgroundColor: colors.orange, flex: 1, justifyContent: 'center', alignItems: 'center',
+        borderTopRightRadius: 5, borderBottomRightRadius: 5
     },
-    inputRightPadding: {
-        paddingRight: 20
-    },
-    showImgContainerStyle: {
-        position: 'absolute', right: 0, top: 0, height: 50,
-        width: 50, display: 'flex',justifyContent: 'center',alignItems: 'center',
-    },
-    lStyles: {
-        paddingLeft: 40, color: 'rgba(193, 221, 247, 0.6)', 
-    },
-    lTextStyles: {
-        paddingRight: 10
-    },
-    showImg:{
-        width: 22, height: 22
+    iconStyle: {
+        fontSize: 16, color: colors.white
     }
 })
 
