@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import colors from '../../../colors';
+import colors from '../../colors';
 import SmallScreenStyles from './SmallerScreenStyles';
 const width = Dimensions.get('window').width;
 
@@ -106,12 +106,16 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline'
   },
   textNormal: {
-    fontFamily: 'Roboto-Light',
+    fontFamily: 'Nunito-Light',
     fontWeight: '300'
   },
   textBold: {
     // fontWeight: 'bold',
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'Nunito-Bold',
+  },
+  textExtraBold: {
+    // fontWeight: 'bold',
+    fontFamily: 'Nunito-ExtraBold',
   },
   textCenter: {
     textAlign: 'center',

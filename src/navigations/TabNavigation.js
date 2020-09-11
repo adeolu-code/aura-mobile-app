@@ -14,7 +14,7 @@ const Tab = createMaterialTopTabNavigator();
 function MyTabs() {
     const { imgStyle } = styles
     return (
-      <Tab.Navigator tabBarPosition="bottom" initialRouteName="Dashboard" timingConfig={{ duration: 120 }}
+      <Tab.Navigator tabBarPosition="bottom" initialRouteName="Explore" timingConfig={{ duration: 120 }}
 
       
       tabBarOptions={{
@@ -54,7 +54,7 @@ function MyTabs() {
                     }
                 }}
              />
-            <Tab.Screen name="Booking" component={BookingsStack} 
+            <Tab.Screen name="Bookings" component={BookingsStack} 
             options={{
                 tabBarIcon({ focused, color }) {
                 const imgName = focused ? require("../assets/images/icons/bookmark_active/bookmark-outline.png") 

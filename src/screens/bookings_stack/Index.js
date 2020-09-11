@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import { MyText } from '../../utils/Index';
+
 
 class Index extends Component {
   constructor(props) {
@@ -11,7 +13,7 @@ class Index extends Component {
   render() {
     return (
       <View>
-        <Text> Index </Text>
+        <MyText> Bookings </MyText>
       </View>
     );
   }
