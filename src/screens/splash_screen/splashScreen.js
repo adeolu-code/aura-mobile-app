@@ -1,8 +1,9 @@
-const { Container, Header, Content } = require("native-base");
-const { Image } = require("react-native");
+import React from 'react';
+import { Container, Header, Content } from "native-base";
+import { Image } from 'react-native';
 import { Styles } from "./splashScreenStyle";
 
-const auraAnimated = require("./../../../assets/aura_animation.gif");
+const auraAnimated = require("../../assets/aura_animation.gif");
 
 const SplashScreen = () => {
     return (
