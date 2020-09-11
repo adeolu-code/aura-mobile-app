@@ -44,12 +44,7 @@ const styles = StyleSheet.create({
   lowerCase: {
     textTransform: 'lowercase'
   },
-  textBrandColor: {
-    color: colors.primary,
-  },
-  textAccent: {
-    color: colors.accent,
-  },
+  
   textSecondary: {
     color: colors.secondary
   },
@@ -58,10 +53,11 @@ const styles = StyleSheet.create({
     color: '#FF3100'
   },
   textSuccess: {
-    color: '#0AC876'
+    // color: '#0AC876'
+    color: colors.success
   },
   textOrange: {
-    color: '#FFA883'
+    color: colors.orange
   },
   textInfo: {
     color: '#009ADA'
@@ -73,18 +69,18 @@ const styles = StyleSheet.create({
     color: '#9E008E',
   },
   textGrey: {
-    color: '#5C5C5C'
+    color: colors.grey
   },
-  textGreyColor: {
-    color: '#424141',
+  textLightGrey: {
+    color: colors.lightGrey,
   },
   textDarkGrey: {
-    color: '#757575'
+    color: colors.darkGrey
   },
   textLightBlack: {
     color: '#353535'
   },
-  textColorBlack: {
+  textBlack: {
     color: 'rgba(0,0,0,1)',
   },
   lineHeightTextSmall: {
@@ -122,46 +118,46 @@ const styles = StyleSheet.create({
   },
   textXlStyle: {
     fontSize: 40,
-    ...checkScreen().textXlStyle
+    // ...checkScreen().textXlStyle
   },
   textH1Style: {
     fontSize: 32,
-    ...checkScreen().textH1Style
+    // ...checkScreen().textH1Style
   },
   textLgStyle: {
     fontSize: 28,
-    ...checkScreen().textLgStyle
+    // ...checkScreen().textLgStyle
   },
   textHStyle: {
     fontSize: 24,
-    ...checkScreen().textHStyle
+    // ...checkScreen().textHStyle
   },
   textH2Style: {
     fontSize: 22,
-    ...checkScreen().textH2Style
+    // ...checkScreen().textH2Style
   },
   textH3Style: {
     fontSize: 18,
   },
   textH4Style: {
     fontSize: 16,
-    ...checkScreen().textH4Style
+    // ...checkScreen().textH4Style
   },
   textH5Style: {
     fontSize: 14,
-    ...checkScreen().textH5Style
+    // ...checkScreen().textH5Style
   },
   textH6Style: {
     fontSize: 12,
-    ...checkScreen().textH6Style
+    // ...checkScreen().textH6Style
   },
   textH7Style: {
     fontSize: 10,
-    ...checkScreen().textH7Style
+    // ...checkScreen().textH7Style
   },
   textH8Style: {
     fontSize: 8,
-    ...checkScreen().textH8Style
+    // ...checkScreen().textH8Style
   },
   marginVerticalSmall: {
     marginVertical: 10,
