@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, Dimensions } from 'react-native';
 import { MyText } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
-import HouseComponent from './HouseComponent';
+import PhotoComponent from './PhotoComponent';
 ;
 class ScrollContent extends Component {
   constructor(props) {
@@ -21,20 +21,20 @@ class ScrollContent extends Component {
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
             <View style={[scrollContainer, { width: '100%' }]}>
                 <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../assets/images/places/bed.png')} 
-                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" />
+                    <PhotoComponent img={require('../../assets/images/photo/photo.png')} 
+                    title2="Photographer" location="Lagos" title1="Daniel Ubake" />
                 </View>
                 <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../assets/images/places/bed1.png')} 
-                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" />
+                    <PhotoComponent img={require('../../assets/images/photo/photo1.png')} 
+                    title2="Photographer" location="Lagos" title1="Daniel Ubake" />
                 </View>
                 <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../assets/images/places/bed2.png')} 
-                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" />
+                    <PhotoComponent img={require('../../assets/images/photo/photo3.png')} 
+                        title2="Photographer" location="Lagos" title1="Daniel Ubake" />
                 </View>
                 <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../assets/images/places/bed3.png')} 
-                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" />
+                    <PhotoComponent img={require('../../assets/images/photo/photo4.png')} 
+                        title2="Photographer" location="Lagos" title1="Daniel Ubake" />
                 </View>
             </View>
         </ScrollView>

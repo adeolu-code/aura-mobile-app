@@ -19,6 +19,8 @@ import colors from '../../colors';
 import ScrollHeader from '../../components/explore/ScrollHeader';
 import ScrollContent from '../../components/explore/ScrollContent';
 import ScrollContentFood from '../../components/explore/ScrollContentFood';
+import ScrollContentPhoto from '../../components/explore/ScrollContentPhoto';
+import TourImgComponent from '../../components/explore/TourImgComponent';
 
 class Index extends Component {
   constructor(props) {
@@ -28,28 +30,23 @@ class Index extends Component {
 
   render() {
     const {
-      headerBg,
-      searchContainer,
-      placeAroundContainer,
-      headerContainer,
-      scrollContainer,
-      buttonContainer,
-      buttonStyle,
-      foodContainer,
+      headerBg,searchContainer,placeAroundContainer,
+      headerContainer, scrollContainer, buttonContainer,
+      buttonStyle, foodContainer,
       foodBgStyles,
       textContainer,
-      foodAroundContainer,
-      placeStayContainer,
+      foodAroundContainer, tourContentStyle,
+      placeStayContainer, photoContainer, tourContainer
     } = styles;
     const {
-      textWhite,
+      textWhite,textH3Style, textCenter,
       textH1Style,
       textExtraBold,
       marginBottomSmall,
       marginTopLarge,
       textH2Style,
       textH4Style,
-      lineHeightText,
+      lineHeightText, textDarkGrey
     } = GStyles;
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -109,10 +106,7 @@ class Index extends Component {
                 <ScrollContentFood />
               </View>
               <View style={buttonContainer}>
-                <CustomButton
-                  buttonText="Find More Restaurants"
-                  iconName="arrow-right"
-                />
+                <CustomButton buttonText="Find More Restaurants" iconName="arrow-right" />
               </View>
             </View>
           </ImageBackground>
@@ -125,11 +119,7 @@ class Index extends Component {
               <ScrollContent />
             </View>
             <View style={buttonContainer}>
-              <CustomButton
-                buttonText="View More Places"
-                iconName="arrow-right"
-                buttonStyle={buttonStyle}
-              />
+              <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
             </View>
           </View>
 
@@ -141,13 +131,43 @@ class Index extends Component {
               <ScrollContent />
             </View>
             <View style={buttonContainer}>
-              <CustomButton
-                buttonText="View More Places"
-                iconName="arrow-right"
-                buttonStyle={buttonStyle}
-              />
+              <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
             </View>
           </View>
+
+          <View style={photoContainer}>
+            <View style={headerContainer}>
+              <ScrollHeader title="Book photographers on Aura" noDot />
+            </View>
+            <View style={textContainer}>
+              <MyText style={[textDarkGrey, textH4Style, lineHeightText]}>
+                Curabitur vulputate arcu odio, ac facilisis diam accumsan ut.
+                Ut imperdiet et leo in vulputate.
+              </MyText>
+            </View>
+            <View style={scrollContainer}>
+              <ScrollContentPhoto />
+            </View>
+            <View style={buttonContainer}>
+              <CustomButton buttonText="Find More Photographers" iconName="arrow-right" />
+            </View>
+          </View>
+
+          <View style={tourContainer}>
+              <MyText style={[textWhite, textExtraBold, textH2Style, textCenter, { marginBottom: 15 }]}>Are you New in a city ?</MyText>
+              <MyText style={[textWhite, textH4Style, textCenter, lineHeightText, { marginBottom: 25 }]}>Book a Tour Guide Today</MyText>
+              <MyText style={[textWhite, textH4Style, textCenter, {lineHeight: 30}]}>
+                Curabitur vulputate arcu odio, ac facilisis diam accumsan ut. Ut imperdiet et leo in vulputate.
+              </MyText>
+              <View style={tourContentStyle}>
+                <TourImgComponent />
+              </View>
+              <View>
+                <CustomButton buttonText="Find More Photographers" iconName="arrow-right" />
+              </View>
+          </View>
+
+
         </ScrollView>
       </SafeAreaView>
     );
@@ -184,7 +204,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     paddingHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 15,
   },
   foodBgStyles: {
     width: '100%',
@@ -201,6 +221,15 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     backgroundColor: '#F8F8F8',
   },
+  photoContainer: {
+    paddingVertical: 20,
+  },
+  tourContainer: {
+    paddingHorizontal: 20, paddingVertical: 40, backgroundColor: colors.black
+  },
+  tourContentStyle: {
+    marginBottom: 40
+  }
 });
 
 export default Index;
