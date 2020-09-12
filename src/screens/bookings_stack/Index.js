@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
 import {
-  View,
   ScrollView,
   StyleSheet,
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import {MyText, CustomButton} from '../../utils/Index';
 import colors from '../../colors';
-import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 
 

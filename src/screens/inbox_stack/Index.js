@@ -2,12 +2,9 @@ import React, {Component} from 'react';
 import {
   ScrollView,
   SafeAreaView,
-  TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import {MyText, CustomButton} from '../../utils/Index';
 import colors from '../../colors';
-import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 
 
