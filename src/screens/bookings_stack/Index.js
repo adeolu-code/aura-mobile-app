@@ -6,6 +6,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {MyText, CustomButton} from '../../utils/Index';
 import colors from '../../colors';
@@ -20,22 +21,22 @@ class Index extends Component {
   render() {
     const {textWhite, textBold, textH1Style, textExtraBold} = GStyles;
     return (
-      <SafeAreaView style={{flex: 1}}>
-        <View style={styles.container}>
-          <View style={{marginTop: 30}}>
-            <MyText style={[textExtraBold, textH1Style]}>Bookings</MyText>
-            <MyText>
-              Information about all your trips and bookings are here.
-            </MyText>
-          </View>
-          <View style={styles.container2}>
-            <View>
+      <>
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <SafeAreaView style={{flex: 1, backgroundColor: '#ffffff'}}>
+          <View style={styles.container}>
+            <View style={{marginTop: 30}}>
+              <MyText style={[textExtraBold, textH1Style]}>Bookings</MyText>
+              <MyText>
+                Information about all your trips and bookings are here.
+              </MyText>
+            </View>
+            <View style={{paddingTop: 55}}>
               <Image
                 source={require('../../assets/images/booking/booking.png')}
               />
             </View>
-
-            <View>
+            <View style={styles.btnSection}>
               <CustomButton
                 buttonText="Log In"
                 buttonStyle={{
@@ -48,13 +49,15 @@ class Index extends Component {
               />
 
               <TouchableOpacity style={styles.register}>
-                <MyText style={colors.darkBlue}>Don’t have an account?</MyText>
-                <MyText style={styles.btnText}>Sign Up</MyText>
+                <MyText style={colors.darkBlue}>
+                  Don’t have an account?{' '}
+                  <MyText style={styles.btnText}>Sign Up</MyText>
+                </MyText>
               </TouchableOpacity>
             </View>
           </View>
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </>
     );
   }
 }
@@ -71,12 +74,9 @@ const styles = StyleSheet.create({
     paddingLeft: 24,
     paddingRight: 25,
     flex: 1,
-    // justifyContent: 'space-between',
   },
-  container2: {
-    justifyContent: 'space-between',
-    flex: 0.88,
-    paddingTop: 90,
+  btnSection: {
+    paddingTop: 80,
   },
   btnText: {color: '#378915', fontSize: 14},
 });
