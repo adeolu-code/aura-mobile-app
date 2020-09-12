@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   touchableContainerStyle: {
-    paddingVertical: 12,
+    paddingTop: 12, paddingBottom: 15,
     borderRadius: 6,
     backgroundColor: colors.orange,
   },
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   buttonTextStyles: {
     color: colors.white,
-    fontSize: 16,
+    fontSize: 17, fontFamily: 'Nunito-SemiBold'
   },
   imageContainerStyle: {
     marginLeft: 10,

@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import {
   View,
-  Text,
-  Image,
+  ScrollView,
   StyleSheet,
   SafeAreaView,
-  TouchableOpacity,
   StatusBar,
 } from 'react-native';
 import {MyText, CustomButton} from '../../utils/Index';
 import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
+import PlaceHolderComponent from '../../components/PlaceHolderComponent';
+
 
 class Index extends Component {
   constructor(props) {
@@ -19,43 +19,14 @@ class Index extends Component {
   }
 
   render() {
-    const {textWhite, textBold, textH1Style, textExtraBold} = GStyles;
+    const description = `Information about all your trips and bookings are here.`
     return (
       <>
-        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-        <SafeAreaView style={{flex: 1, backgroundColor: '#ffffff'}}>
-          <View style={styles.container}>
-            <View style={{marginTop: 30}}>
-              <MyText style={[textExtraBold, textH1Style]}>Bookings</MyText>
-              <MyText>
-                Information about all your trips and bookings are here.
-              </MyText>
-            </View>
-            <View style={{paddingTop: 55}}>
-              <Image
-                source={require('../../assets/images/booking/booking.png')}
-              />
-            </View>
-            <View style={styles.btnSection}>
-              <CustomButton
-                buttonText="Log In"
-                buttonStyle={{
-                  color: '#FD8323',
-                  borderColor: '#FD8323',
-                  borderWidth: 1,
-                  backgroundColor: '#ffffff',
-                }}
-                textStyle={{color: '#FD8323'}}
-              />
-
-              <TouchableOpacity style={styles.register}>
-                <MyText style={colors.darkBlue}>
-                  Don’t have an account?{' '}
-                  <MyText style={styles.btnText}>Sign Up</MyText>
-                </MyText>
-              </TouchableOpacity>
-            </View>
-          </View>
+        <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+        <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
+          <ScrollView>
+            <PlaceHolderComponent title="Bookings" description={description} img={require('../../assets/images/booking/booking.png')} />
+          </ScrollView>
         </SafeAreaView>
       </>
     );
@@ -63,22 +34,7 @@ class Index extends Component {
 }
 
 const styles = StyleSheet.create({
-  register: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 28,
-  },
-  container: {
-    alignSelf: 'center',
-    backgroundColor: 'white',
-    paddingLeft: 24,
-    paddingRight: 25,
-    flex: 1,
-  },
-  btnSection: {
-    paddingTop: 80,
-  },
-  btnText: {color: '#378915', fontSize: 14},
+  
 });
 
 export default Index;

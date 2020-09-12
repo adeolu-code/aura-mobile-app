@@ -77,6 +77,9 @@ const styles = StyleSheet.create({
   textDarkGrey: {
     color: colors.darkGrey
   },
+  textDarkBlue: {
+    color: colors.darkBlue
+  },
   textLightBlack: {
     color: '#353535'
   },
@@ -130,11 +133,11 @@ const styles = StyleSheet.create({
   },
   textHStyle: {
     fontSize: 24,
-    // ...checkScreen().textHStyle
+    ...checkScreen().textHStyle
   },
   textH2Style: {
     fontSize: 22,
-    // ...checkScreen().textH2Style
+    ...checkScreen().textH2Style
   },
   textH3Style: {
     fontSize: 18,

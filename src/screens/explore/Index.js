@@ -52,7 +52,7 @@ class Index extends Component {
       lineHeightText,
     } = GStyles;
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
         <ScrollView>
           <ImageBackground
             source={require('../../assets/images/mask/mask.png')}
@@ -149,7 +149,7 @@ class Index extends Component {
             </View>
           </View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }
