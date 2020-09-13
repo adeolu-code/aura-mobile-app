@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, MyText } from '../../utils/Index';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 import colors from '../../colors';
 import { Icon } from 'native-base'
@@ -15,23 +15,28 @@ class DashboardCardComponent extends Component {
   render() {
     const { cardStyle, imgContainer, leftContainer, rightContainer, iconStyle } = styles
     const { textH4Style, textFadedBlack, textBold, textH3Style, lineHeightText, marginBottomSmall, imgStyle, textH5Style , textGrey} = GStyles;
-    const { title, description, img, iconX } = this.props
+    const { title, description, img, iconX, onPressOut, onPressIn, onPress } = this.props
     const iconName = iconX ? "close" : "add";
     return (
-      <Card style={cardStyle}>
-          <View style={leftContainer}>
-              <View style={imgContainer}>
-                <Image source={img} resizeMode="contain" style={imgStyle} />
-              </View>
-              <Icon type="Ionicons" name={iconName} style={iconStyle} />
-          </View>
-          <View style={rightContainer}>
-              <MyText style={[textFadedBlack, textH4Style, textBold, marginBottomSmall]}>{title}</MyText>
-              <MyText style={[lineHeightText, textH5Style, textGrey]}>
-                  {description}
-              </MyText>
-          </View>
-      </Card>
+      <View>  
+        <TouchableOpacity onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut}>
+            <Card style={cardStyle}>
+                <View style={leftContainer}>
+                    <View style={imgContainer}>
+                        <Image source={img} resizeMode="contain" style={imgStyle} />
+                        <Icon type="Ionicons" name={iconName} style={iconStyle} />
+                    </View>
+                    
+                </View>
+                <View style={rightContainer}>
+                    <MyText style={[textFadedBlack, textH4Style, textBold, marginBottomSmall]}>{title}</MyText>
+                    <MyText style={[lineHeightText, textH5Style, textGrey]}>
+                        {description}
+                    </MyText>
+                </View>
+            </Card>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -53,7 +58,9 @@ const styles = StyleSheet.create({
         padding: 10, 
     },
     iconStyle: {
-        position: 'absolute',top: 20, right: 8, fontSize: 10, color: colors.orange,
+        position: 'absolute', fontSize: 12, color: colors.orange,
+        // top: 20, right: 8,
+        top: -10, right: -2
         // borderWidth: 1,
     }
 });

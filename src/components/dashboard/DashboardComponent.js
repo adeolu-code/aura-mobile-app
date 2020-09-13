@@ -12,6 +12,10 @@ class DashboardComponent extends Component {
     };
   }
 
+  onPressDashboard = () => {
+    this.props.navigation.navigate('Dashboard')
+  }
+
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
     const { container, headerStyle, sectionStyle,contentStyle } = styles;
@@ -26,7 +30,7 @@ class DashboardComponent extends Component {
                 
                 <View style={sectionStyle}>
                     <DashboardCardComponent title="Dashboard" description={dasboardDescription} iconX
-                    img={require('../../assets/images/dashboard_icons/dashboard.png')} />
+                    img={require('../../assets/images/dashboard_icons/dashboard.png')} onPress={this.onPressDashboard} />
                 </View>
 
                 <View style={sectionStyle}>

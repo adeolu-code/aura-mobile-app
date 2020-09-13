@@ -3,7 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
-  StatusBar,
+  StatusBar, View
 } from 'react-native';
 import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
@@ -25,8 +25,9 @@ class Index extends Component {
           {/* <ScrollView>
             <PlaceHolderComponent title="Dashboard" description={description} img={require('../../assets/images/dash/dash.png')} />
           </ScrollView> */}
-          
-          <DashboardComponent />
+          <View style={{ flex: 1}}>
+            <DashboardComponent {...this.props } />
+          </View>
           
         </SafeAreaView>
       </>
