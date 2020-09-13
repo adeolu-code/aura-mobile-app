@@ -74,11 +74,17 @@ const styles = StyleSheet.create({
   textLightGrey: {
     color: colors.lightGrey,
   },
+  textLightGreyOne: {
+    color: colors.lightGreyOne
+  },
   textDarkGrey: {
     color: colors.darkGrey
   },
   textDarkBlue: {
     color: colors.darkBlue
+  },
+  textFadedBlack: {
+    color: colors.fadedBlack
   },
   textLightBlack: {
     color: '#353535'

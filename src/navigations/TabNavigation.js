@@ -14,7 +14,7 @@ const Tab = createMaterialTopTabNavigator();
 function MyTabs() {
     const { imgStyle } = styles
     return (
-      <Tab.Navigator tabBarPosition="bottom" initialRouteName="Explore" timingConfig={{ duration: 120 }}
+      <Tab.Navigator tabBarPosition="bottom" initialRouteName="Dashboard" timingConfig={{ duration: 120 }}
 
       
       tabBarOptions={{

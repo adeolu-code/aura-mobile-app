@@ -8,6 +8,7 @@ import {
 import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
+import DashboardComponent from '../../components/dashboard/DashboardComponent';
 
 class Index extends Component {
   constructor(props) {
@@ -21,9 +22,12 @@ class Index extends Component {
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-          <ScrollView>
+          {/* <ScrollView>
             <PlaceHolderComponent title="Dashboard" description={description} img={require('../../assets/images/dash/dash.png')} />
-          </ScrollView>
+          </ScrollView> */}
+          
+          <DashboardComponent />
+          
         </SafeAreaView>
       </>
     );
