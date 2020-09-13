@@ -25,7 +25,7 @@ class PlaceHolderComponent extends Component {
                 <Image source={img} resizeMode="contain" style={imgStyle} />
             </View>
             <View style={btnSection}>
-                <CustomButton buttonText="Log In" buttonStyle={buttonStyle} textStyle={{color: colors.orange }} />
+                <CustomButton buttonText={this.props.buttonText ?? "Log In"} buttonStyle={buttonStyle} textStyle={{color: colors.orange }} />
             </View>
             <View style={accountStyle}>
                 <MyText style={[textH4Style, textDarkBlue]}> Don’t have an account? </MyText>

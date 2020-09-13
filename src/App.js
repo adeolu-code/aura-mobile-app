@@ -7,6 +7,8 @@ import {Provider} from 'react-redux';
 import reducers from './redux/reducers/Index';
 import ReduxThunk from 'redux-thunk';
 import {createStore, applyMiddleware} from 'redux';
+import { AppProvider } from '../AppProvider';
+import { Root } from 'native-base';
 
 
 
@@ -15,12 +17,16 @@ export class App extends Component {
   render() {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
-      <Fragment>
-        <Provider store={store}>
-          <AppNavigation />
-        </Provider>
-        
-      </Fragment>
+      <AppProvider>
+        <Fragment>
+          <Provider store={store}>
+            <Root>
+              <AppNavigation />
+            </Root>
+          </Provider>
+        </Fragment>
+      </AppProvider>
+      
     );
   }
 }

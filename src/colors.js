@@ -8,7 +8,9 @@ const colors = {
     secondary:'#F86792',
     white:'#ffffff',
     black: '#000000',
-    fadedWhite: 'rgba(255,255,255,0.6)'
+    fadedWhite: 'rgba(255,255,255,0.6)',
+    green: "#378915",
+    willowBrook: "#eaf3e7",
 }
 
 export default colors;
