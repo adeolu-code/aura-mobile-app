@@ -30,16 +30,16 @@ export default class BookingPropertyCompoenent extends Component {
                     <View style={[Styles.textSection]}>
                         <View style={[Styles.textView]}>
                             <MyText style={[Styles.properyTitle, textH4Style, textBold]}>
-                                Umbaka Homes
+                                {this.props.title}
                             </MyText>
                             <MyText style={[Styles.properyLocation]}>
-                                Transcorp Hotels Abuja
+                                {this.props.location}
                             </MyText>
                             <MyText style={[Styles.properyType]}>
-                                Platinum Room
+                                {this.props.type}
                             </MyText>
                             <MyText style={[Styles.properyCheckinDays, textBold]}>
-                                10 days to Check-in
+                                {this.props.dayLeft} days to Check-in
                             </MyText>
                         </View>
                         <Icon style={[Styles.iconSection]} name={"ios-ellipsis-vertical-sharp"} style={[Styles.icon]} />

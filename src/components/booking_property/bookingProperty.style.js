@@ -4,21 +4,31 @@ import colors from "../../colors";
 export const Styles = StyleSheet.create({
     parentView: {
         width: "100%",
-        height: 120,
+        height: 140,
         flexDirection: "row",
         marginTop: 15,
+        borderRadius: 5,
+        shadowColor: colors.grey,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1, 
+        elevation: 2,
+        paddingLeft: 10,
+        paddingTop: 10,
     },
     imageView: {
         flex: 0.38
     },
     imageStyle: {
-        height: 120,
+        height: 117,
         width: 120,
         borderRadius: 10,
+        marginTop: 3,
     },
     textSection: {
         flexDirection: "row",
         flex: 0.62,
+        padding: 10,
     },
     textView: {
         flex: 0.9,
@@ -46,6 +56,6 @@ export const Styles = StyleSheet.create({
     },
     icon: {
         flex: 0.1,
-        color: colors.lightGrey,
+        color: colors.grey,
     }
 });

@@ -34,7 +34,21 @@ class BookingsScreen extends Component {
 //     buttonText={"Explore Aura"}
 //     onButtonPress={() => alert("")}            
 //     />
-    <BookingPropertyCompoenent />
+    <>
+    <BookingPropertyCompoenent 
+        title={"Umbaka Homes"} 
+        location={"Tanscorp Hotels Abuja"} 
+        type={"Platinum Room"}
+        dayLeft={10}
+    />
+    <BookingPropertyCompoenent 
+        title={"Umbaka Homes"} 
+        location={"Tanscorp Hotels Abuja"} 
+        type={"Platinum Room"}
+        dayLeft={15}
+    />
+    </>
+    
     );
 
 
