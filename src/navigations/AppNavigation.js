@@ -15,7 +15,7 @@ const RootStack = createStackNavigator();
 function AppNavigator() {
   return (
     <RootStack.Navigator
-      initialRouteName="Auth"
+      initialRouteName="Tabs"
       options={{gestureEnabled: true}}>
       <RootStack.Screen
         name="Splash"
