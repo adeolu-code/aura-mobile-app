@@ -14,24 +14,10 @@ const RootStack = createStackNavigator();
 
 function AppNavigator() {
   return (
-    <RootStack.Navigator
-      initialRouteName="Auth"
-      options={{gestureEnabled: true}}>
-      <RootStack.Screen
-        name="Splash"
-        component={SplashScreen}
-        options={{headerShown: false}}
-      />
-      <RootStack.Screen
-        name="Tabs"
-        component={TabsScreen}
-        options={{headerShown: false}}
-      />
-      <RootStack.Screen
-        name="Auth"
-        component={SignUpScreen}
-        options={{headerShown: false}}
-      />
+    <RootStack.Navigator initialRouteName="Splash" options={{gestureEnabled: true}}>
+      <RootStack.Screen name="Splash" component={SplashScreen} options={{headerShown: false}} />
+      <RootStack.Screen name="Tabs" component={TabsScreen} options={{headerShown: false}} />
+      <RootStack.Screen name="Auth" component={SignUpScreen} options={{headerShown: false}} />
     </RootStack.Navigator>
   );
 }

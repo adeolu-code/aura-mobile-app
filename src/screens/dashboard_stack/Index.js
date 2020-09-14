@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, SafeAreaView, StatusBar} from 'react-native';
+import {ScrollView, StyleSheet, SafeAreaView, StatusBar, View} from 'react-native';
 import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
