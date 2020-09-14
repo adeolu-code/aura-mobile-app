@@ -1,13 +1,7 @@
-import React, {Component} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
+import React, { Component } from 'react';
+import { ScrollView, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import colors from '../../colors';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
-
 
 class Index extends Component {
   constructor(props) {
@@ -16,13 +10,17 @@ class Index extends Component {
   }
 
   render() {
-    const description = `Information about all your trips and bookings are here.`
+    const description = `Information about all your trips and bookings are here.`;
     return (
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
-        <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
-            <PlaceHolderComponent title="Bookings" description={description} img={require('../../assets/images/booking/booking.png')} />
+            <PlaceHolderComponent
+              title="Bookings"
+              description={description}
+              img={require('../../assets/images/booking/booking.png')}
+            />
           </ScrollView>
         </SafeAreaView>
       </>
@@ -30,8 +28,6 @@ class Index extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  
-});
+const styles = StyleSheet.create({});
 
 export default Index;

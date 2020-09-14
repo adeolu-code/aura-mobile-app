@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
-import {
-  ScrollView,
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
+import {ScrollView, SafeAreaView, StatusBar} from 'react-native';
 import colors from '../../colors';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
-
 
 class Index extends Component {
   constructor(props) {
@@ -15,13 +10,17 @@ class Index extends Component {
   }
 
   render() {
-    const description = `Keep in touch with your host in real-time and get notified on any updates in your notifications tab.`
+    const description = `Keep in touch with your host in real-time and get notified on any updates in your notifications tab.`;
     return (
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
-        <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
+        <SafeAreaView style={{flex: 1, backgroundColor: colors.white}}>
           <ScrollView>
-            <PlaceHolderComponent title="Inbox" description={description} img={require('../../assets/images/inbox/inbox.png')} />
+            <PlaceHolderComponent
+              title="Inbox"
+              description={description}
+              img={require('../../assets/images/inbox/inbox.png')}
+            />
           </ScrollView>
         </SafeAreaView>
       </>
