@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  imgContainer: {
+   height: 330, 
+  },
   imageViewStyles: {
     height: 90,
     width: 120,

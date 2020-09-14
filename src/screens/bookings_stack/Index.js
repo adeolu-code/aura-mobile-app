@@ -7,12 +7,18 @@ import {
 } from 'react-native';
 import colors from '../../colors';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
+import { AppContext } from '../../../AppProvider';
+import TopTab from '../../components/top_tab/topTabComponent';
+import BookingsScreen from '../bookings/bookingsScreen';
 
 
 class Index extends Component {
+  static contextType = AppContext;
+  
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   render() {
@@ -22,7 +28,12 @@ class Index extends Component {
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
-            <PlaceHolderComponent title="Bookings" description={description} img={require('../../assets/images/booking/booking.png')} />
+            {
+              !this.context.state.isLoggedIn ?
+              <PlaceHolderComponent title="Bookings" description={description} img={require('../../assets/images/booking/booking.png')} />
+              :
+              <BookingsScreen />
+            }
           </ScrollView>
         </SafeAreaView>
       </>

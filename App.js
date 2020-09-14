@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, Fragment, Component } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -26,24 +26,36 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { AppProvider } from './AppProvider';
 import { Root, Content,  Header, Container } from 'native-base';
-import SwitchNavigator from './src/navigations/SwitchNavigator';
+import SwitchNavigator, { SwitchStack } from './src/navigations/SwitchNavigator';
 import SplashScreen from './src/screens/splash_screen/splashScreen';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reducers from './src/redux/reducers/Index';
+import ReduxThunk from 'redux-thunk';
+import AppNaigator from "./src/navigations/AppNavigation";
 
 
 
-const App = (props) => {
+class App extends Component {
   
-  return (
-    // <AppProvider>
-    //   <Root>
-    //     {/* <SwitchNavigator navigation={props.navigation} /> */}
-    //     <SplashScreen />
-    //     {/* <View style={{width: "100%", backgroundColor: "red"}}></View> */}
-    //   </Root>
-    // </AppProvider>
-    <View style={{backgroundColor: "red", flex: 1}}></View>
-  );
-};
+  render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+    return (
+      <AppProvider>
+        <Fragment>
+          <Provider store={store}>
+            <Root>
+              {/* <SwitchNavigator navigation={this.props.navigation} /> */}
+              {/* <AppNaigator /> */}
+              <SwitchStack />
+            </Root>
+          </Provider>
+        </Fragment>
+      </AppProvider>
+      
+    );
+  }
+}
 
 
 export default App;

@@ -1,20 +1,23 @@
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
-import AppNavigation from "./AppNavigation";
-import AuthNavigator from "./AuthNavigation";
+import React from 'react';
+
+import AppNavigator from "./AppNavigation";
 import SplashScreen from "./../screens/splash_screen/splashScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 
-const SwitchNavigator = createSwitchNavigator({
-  Home: {
-    screen: AppNavigation,
-  },
-  Auth: {
-      screen: AuthNavigator
-  }, 
-  Splash: {
-    screen: SplashScreen
-  }},
-  {
-      initialRouteName: 'Splash',
-  });
+// const SwitchNavigator = createSwitchNavigator();
+const Stack = createStackNavigator();
 
-  export default createAppContainer(SwitchNavigator);
+export function SwitchStack() {
+    return (
+      <NavigationContainer>
+          <Stack.Navigator initialRouteName="Splash" options={{ gestureEnabled: true }}>
+              <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="AppNavigator" component={AppNavigator} options={{ headerShown: false }} />
+          </Stack.Navigator>
+      </NavigationContainer>
+    );
+}
+
+// export default createAppContainer(SwitchNavigator);

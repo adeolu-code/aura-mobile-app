@@ -14,7 +14,7 @@ const RootStack = createStackNavigator();
 
 function AppNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="Tabs" options={{ gestureEnabled: true }}>
+    <RootStack.Navigator initialRouteName="Splash" options={{ gestureEnabled: true }}>
       <RootStack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
       <RootStack.Screen name="Tabs" component={TabsScreen} options={{ headerShown: false }} />
     </RootStack.Navigator>
@@ -22,5 +22,5 @@ function AppNavigator() {
 }
 
 export default function App() {
-  return <NavigationContainer><AppNavigator /></NavigationContainer>
+  return <NavigationContainer><AppNavigator /></NavigationContainer>;
 }

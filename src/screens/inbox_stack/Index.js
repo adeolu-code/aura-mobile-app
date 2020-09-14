@@ -6,9 +6,12 @@ import {
 } from 'react-native';
 import colors from '../../colors';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
+import InboxScreen from '../inbox/inboxScreen';
+import { AppContext } from '../../../AppProvider';
 
 
 class Index extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {};
@@ -21,7 +24,13 @@ class Index extends Component {
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
-            <PlaceHolderComponent title="Inbox" description={description} img={require('../../assets/images/inbox/inbox.png')} />
+            
+            {
+              !this.context.state.isLoggedIn ?
+              <PlaceHolderComponent title="Inbox" description={description} img={require('../../assets/images/inbox/inbox.png')} />
+              :
+              <InboxScreen />
+            }
           </ScrollView>
         </SafeAreaView>
       </>
