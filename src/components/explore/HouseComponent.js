@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         width: '100%', 
     },
     imgContainer: {
-        width: '100%', height: 190, borderRadius: 10, overflow: 'hidden', marginBottom: 10
+        width: '100%', height: 190, borderRadius: 8, overflow: 'hidden', marginBottom: 10
     },
     starStyle: {
         height: 14, width: 14, marginRight: 10

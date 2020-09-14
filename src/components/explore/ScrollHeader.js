@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MyText } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
@@ -11,8 +11,9 @@ class ScrollHeader extends Component {
     };
   }
 
+
   render() {
-    const { title, white } = this.props
+    const { title, white, noDot } = this.props
     const { dotStyle, dotContainer, textDotContainer, container, textContainer, dotActiveStyle, bottomBorderStyle, dotWhite } = styles;
     const { flexRow, textExtraBold, textH2Style, textWhite } = GStyles
     return (
@@ -21,11 +22,10 @@ class ScrollHeader extends Component {
             <View style={textContainer}>
                 <MyText style={[textH2Style, textExtraBold, white ? textWhite : '']}>{title}</MyText>
             </View>
-            <View style={[flexRow, dotContainer]}>
+            {!noDot ? <View style={[flexRow, dotContainer]}>
                 <View style={[dotStyle, white ? dotWhite: '', dotActiveStyle] }></View>
-                <View style={[dotStyle, white ? dotWhite: '',]}></View>
-                {/* <View style={dotStyle}></View> */}
-            </View>
+                <View style={[dotStyle, white ? dotWhite: '']}></View>
+            </View> : <Fragment></Fragment>}
         </View>
         <View style={bottomBorderStyle}></View>
       </View>

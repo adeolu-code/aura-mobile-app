@@ -55,6 +55,21 @@ const styles = StyleSheet.create({
   textDanger: {
     color: '#FF3100'
   },
+  textDarkGreen: {
+    color: colors.darkGreen
+  },
+  textFadedGreen: {
+    color: colors.fadedGreen
+  },
+  textLightGreen: {
+    color: colors.lightGreen
+  },
+  textLighterGreen: {
+    color: colors.lighterGreen
+  },
+  textGreen: {
+    color: colors.green
+  },
   textSuccess: {
     // color: '#0AC876'
     color: colors.success
@@ -77,11 +92,17 @@ const styles = StyleSheet.create({
   textLightGrey: {
     color: colors.lightGrey,
   },
+  textLightGreyOne: {
+    color: colors.lightGreyOne
+  },
   textDarkGrey: {
     color: colors.darkGrey
   },
   textDarkBlue: {
     color: colors.darkBlue
+  },
+  textFadedBlack: {
+    color: colors.fadedBlack
   },
   textLightBlack: {
     color: '#353535'

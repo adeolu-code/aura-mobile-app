@@ -2,21 +2,25 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import DashboardScreen from '../screens/dashboard_stack/Index';
+import DashboardViewScreen from '../screens/dashboard_stack/Index';
+import DashboardScreen from '../screens/dashboard_stack/Dashboard';
+import ReservationsScreen from '../screens/dashboard_stack/Reservations';
 
 import BookingScreen from '../screens/bookings_stack/Index';
 
 import ProfileScreen from '../screens/profile_stack/Index';
 
-import InboxScreen from '../screens/inbox_stack/Index'
+import InboxScreen from '../screens/inbox_stack/Index';
 
 const Stack = createStackNavigator();
 
 
 export function DashboardStack() {
     return (
-        <Stack.Navigator initialRouteName="Dashboard" options={{ gestureEnabled: true }}>
+        <Stack.Navigator initialRouteName="DashboardView" options={{ gestureEnabled: true }}>
+            <Stack.Screen name="DashboardView" component={DashboardViewScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Reservations" component={ReservationsScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

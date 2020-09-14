@@ -14,6 +14,8 @@ class ScrollContent extends Component {
     const { scrollItemContainer, scrollContainer } = styles
     const { width } = Dimensions.get('window')
 
+    const { photo } = this.props
+
     // const actualWidth = (20/width) * 100
     return (
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
