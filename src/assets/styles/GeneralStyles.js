@@ -61,6 +61,9 @@ const styles = StyleSheet.create({
   textLightGreen: {
     color: colors.lightGreen
   },
+  textLighterGreen: {
+    color: colors.lighterGreen
+  },
   textGreen: {
     color: colors.green
   },

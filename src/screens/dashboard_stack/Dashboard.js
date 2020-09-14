@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MyText } from '../../utils/Index';
 import colors from '../../colors';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import ReservationRow from '../../components/dashboard/ReservationRow';
 import CommentRow from '../../components/dashboard/CommentRow';
@@ -16,6 +15,9 @@ class Dashboard extends Component {
     super(props);
     this.state = {
     };
+  }
+  linkToReservations = () => {
+    this.props.navigation.navigate('Reservations')
   }
 
   render() {
@@ -69,7 +71,7 @@ class Dashboard extends Component {
           <View style={contentContainer}>
             <View style={[flexRow, contentHeader]}>
               <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Reservations</MyText>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={this.linkToReservations}>
                 <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
               </TouchableOpacity>
             </View>

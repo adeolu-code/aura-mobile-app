@@ -18,9 +18,9 @@ class Header extends Component {
   render() {
     const { iconStyle, iconContainer, titleContainer, container } = styles;
     const { textH1Style, textExtraBold, textLgStyle } = GStyles
-    const { title } = this.props
+    const { title, wrapperStyles } = this.props
     return (
-      <View style={container}>
+      <View style={[container, wrapperStyles]}>
         <TouchableOpacity style={iconContainer} onPress={this.goBack}>
             <Icon type="Feather" name="chevron-left" style={iconStyle} />
         </TouchableOpacity>

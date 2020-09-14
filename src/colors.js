@@ -8,6 +8,7 @@ const colors = {
     lightGreen: '#78CAA4',
     darkGreen: '#2A5F46',
     fadedGreen: '#489571',
+    lighterGreen: '#EAF3E7',
     green: '#378904',
     success: '#378915',
     secondary:'#F86792',
