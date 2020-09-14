@@ -3,6 +3,7 @@ import { StyleSheet, SafeAreaView, StatusBar, View, Image, ScrollView } from 're
 import colors from '../../colors';
 import { CustomInput, MyText, CustomButton } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
+import Header from '../../components/Header';
 
 class signUp extends Component {
   constructor(props) {
@@ -12,35 +13,32 @@ class signUp extends Component {
 
   render() {
     const { textWhite, textBold, textExtraBold, textH1Style } = GStyles;
+    const {inputContainer } = styles
     return (
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
+          <Header title="Sign Up With Email" {...this.props} />
           <ScrollView>
             <View style={styles.container}>
-              <View><Image
+              {/* <View><Image
                 source={require('../../assets/images/icons/cheveron-left/cheveron-left.png')}
               /></View>
-              <View style={{ paddingTop: 20 }}><MyText style={[textExtraBold, textH1Style]}>Sign Up With Email</MyText></View>
-              <View>
-                <MyText style={styles.fnStyle}>First Name</MyText>
-                <CustomInput placeholder='First Name' />
+              <View style={{ paddingTop: 20 }}><MyText style={[textExtraBold, textH1Style]}>Sign Up With Email</MyText></View> */}
+              <View style={inputContainer}>
+                <CustomInput placeholder='First Name' label="First Name" />
               </View>
-              <View>
-                <MyText style={styles.lnStyle}>Last Name</MyText>
-                <CustomInput placeholder='Last Name' />
+              <View style={inputContainer}>
+                <CustomInput placeholder='Last Name' label="Last Name" />
               </View>
-              <View>
-                <MyText style={styles.emailStyle}>Email</MyText>
-                <CustomInput placeholder='Email' />
+              <View style={inputContainer}>
+                <CustomInput placeholder='Email' label="Email" />
               </View>
-              <View>
-                <MyText style={styles.phoneStyle}>Phone Number</MyText>
-                <CustomInput />
+              <View style={inputContainer}>
+                <CustomInput label="Phone Number" />
               </View>
-              <View>
-                <MyText style={styles.passwordStyle}>Password</MyText>
-                <CustomInput password secureTextEntry placeholder='Password' />
+              <View style={inputContainer}>
+                <CustomInput password secureTextEntry placeholder='Password' label="Password" />
               </View>
               <View style={{ paddingTop: 50 }}>
                 <CustomButton buttonText="Sign Up With Email" />
@@ -57,8 +55,8 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     backgroundColor: colors.white,
-    paddingHorizontal: 24,
-    paddingVertical: 40,
+    paddingHorizontal: 20,
+    paddingBottom: 40, paddingTop: 140,
     flex: 1,
   },
   fnStyle: {
@@ -81,6 +79,9 @@ const styles = StyleSheet.create({
     color: colors.grey,
     paddingTop: 10,
   },
+  inputContainer: {
+    marginBottom: 30
+  }
 });
 
 export default signUp;
