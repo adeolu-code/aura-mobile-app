@@ -70,17 +70,17 @@ class HomeDetails extends Component {
             </View>
 
             <View style={lowerContainer}>
-                <MyText style={[textH2Style, textExtraBold, textDarkGrey, { marginBottom: 30}]}>Guests</MyText>
+                <MyText style={[textH2Style, textExtraBold, textDarkGrey, { marginBottom: 25}]}>Guests</MyText>
                 <View>
-                    <GuestRow name="Nwabogor Joshua" img={require('../../assets/images/photo/photo.png')} />
+                    <GuestRow name="Nwabogor Joshua" img={require('../../assets/images/photo/photo.png')} {...this.props} />
                     <View style={divider}></View>
                 </View>
                 <View>
-                    <GuestRow name="Cypril Hill" img={require('../../assets/images/photo/photo1.png')} />
+                    <GuestRow name="Cypril Hill" img={require('../../assets/images/photo/photo1.png')} {...this.props} />
                     <View style={divider}></View>
                 </View>
                 <View>
-                    <GuestRow name="Cypril Hill" img={require('../../assets/images/photo/photo4.png')} />
+                    <GuestRow name="Cypril Hill" img={require('../../assets/images/photo/photo4.png')} {...this.props} />
                 </View>
             </View>
         </ScrollView>
