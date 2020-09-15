@@ -1,15 +1,9 @@
-import React, {Component} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
+import React, { Component } from 'react';
+import { ScrollView, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import colors from '../../colors';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 import { AppContext } from '../../../AppProvider';
 import BookingsScreen from '../bookings/bookingsScreen';
-
 
 class Index extends Component {
   static contextType = AppContext;
@@ -21,11 +15,11 @@ class Index extends Component {
   }
 
   render() {
-    const description = `Information about all your trips and bookings are here.`
+    const description = `Information about all your trips and bookings are here.`;
     return (
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
-        <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
             {
               !this.context.state.isLoggedIn ?
@@ -40,5 +34,6 @@ class Index extends Component {
   }
 }
 
+const styles = StyleSheet.create({});
 
 export default Index;
