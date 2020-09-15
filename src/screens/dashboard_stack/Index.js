@@ -1,10 +1,5 @@
 import React, {Component} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar, View
-} from 'react-native';
+import {ScrollView, StyleSheet, SafeAreaView, StatusBar, View} from 'react-native';
 import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
@@ -17,7 +12,7 @@ class Index extends Component {
   }
 
   render() {
-    const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`
+    const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`;
     return (
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
@@ -35,8 +30,6 @@ class Index extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  
-});
+const styles = StyleSheet.create({});
 
 export default Index;

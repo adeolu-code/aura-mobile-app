@@ -143,6 +143,9 @@ const styles = StyleSheet.create({
   textCenter: {
     textAlign: 'center',
   },
+  textRight: {
+    textAlign: 'right',
+  },
   textXlStyle: {
     fontSize: 40,
     // ...checkScreen().textXlStyle

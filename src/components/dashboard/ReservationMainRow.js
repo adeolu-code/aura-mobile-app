@@ -11,6 +11,9 @@ class ReservationMainRow extends Component {
     this.state = {
     };
   }
+  linkToHome = () => {
+      this.props.navigation.navigate('HomeDetails')
+  }
 
   render() {
     const { container, imgContainer, rightContainer, typeStyle, iconStyle } = styles
@@ -19,7 +22,7 @@ class ReservationMainRow extends Component {
     const { title, location, reserve, img } = this.props
     return (
         <View style={{ width: '100%'}}>
-            <TouchableOpacity style={[flexRow, container]}>
+            <TouchableOpacity style={[flexRow, container]} onPress={this.linkToHome}>
                 <View style={imgContainer}>
                     <Image source={img} resizeMode="cover" style={imgStyle} />
                 </View>
