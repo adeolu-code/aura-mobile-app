@@ -10,7 +10,7 @@ import { Styles } from "./bookingsScreen.style";
 import BottomTabSectionNoRecord from '../../components/bottom_tab_section_no_record/bottomTabSectionNoRecord';
 import RenderNoRecord from '../../components/render_no_record/renderNoRecord';
 import { BOOKINGS_NO_BOOKINGS, BOOKINGS_SCREEN_DESCRIPTION } from '../../strings';
-import BookingPropertyCompoenent from '../../components/booking_property/bookingPropertyComponent';
+import BookingPropertyComponent from '../../components/booking_property/bookingPropertyComponent';
 
 const illustration = require("./../../../assets/bookings-page-1-illustration.png");
 
@@ -35,13 +35,13 @@ class BookingsScreen extends Component {
 //     onButtonPress={() => alert("")}            
 //     />
     <>
-    <BookingPropertyCompoenent 
+    <BookingPropertyComponent 
         title={"Umbaka Homes"} 
         location={"Tanscorp Hotels Abuja"} 
         type={"Platinum Room"}
         dayLeft={10}
     />
-    <BookingPropertyCompoenent 
+    <BookingPropertyComponent 
         title={"Umbaka Homes"} 
         location={"Tanscorp Hotels Abuja"} 
         type={"Platinum Room"}

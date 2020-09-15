@@ -8,7 +8,6 @@ import {
 import colors from '../../colors';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 import { AppContext } from '../../../AppProvider';
-import TopTab from '../../components/top_tab/topTabComponent';
 import BookingsScreen from '../bookings/bookingsScreen';
 
 
@@ -41,8 +40,5 @@ class Index extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  
-});
 
 export default Index;
