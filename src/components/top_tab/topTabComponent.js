@@ -31,7 +31,7 @@ class TopTab extends Component {
     if (activeTab != index) {
         this.updateActiveTab(index);
     }
-    this.props.onClick(index);
+    this.props.onClick && this.props.onClick(index);
   }
 
   render() {
