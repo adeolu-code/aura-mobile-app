@@ -11,9 +11,11 @@ import BottomTabSectionNoRecord from '../../components/bottom_tab_section_no_rec
 import RenderNoRecord from '../../components/render_no_record/renderNoRecord';
 import { INBOX_NO_UNREAD_MESSAGES } from '../../strings';
 import InboxContent from "./inboxContent";
+import NotificationScreen from '../notifications/notificationScreen';
+import { useNavigation } from '@react-navigation/native';
 
 
-class InboxScreen extends Component {
+class InboxScreenClass extends Component {
   static contextType = AppContext;
   
   constructor(props) {
@@ -32,8 +34,18 @@ class InboxScreen extends Component {
    * **/
 
   defaultRender = (
-      <InboxContent />
+    <InboxContent {...this.props} />
+      
   )
+
+  onTopTabClick = (index) => {
+    if (index == 0) {
+      this.setState({toBeRendered: <InboxContent {...this.props} />});
+    }
+    else {
+      this.setState({toBeRendered: <NotificationScreen {...this.props} />});
+    }
+  }
 
   render() {
     return (
@@ -46,7 +58,7 @@ class InboxScreen extends Component {
                 <BottomTabSectionNoRecord
                     title={"Inbox"}
                     tabs={["Messages", "Notifications"]} 
-                    onTopTabClick={(e) => console.log(e)}
+                    onTopTabClick={(index) => this.onTopTabClick(index)}
                     render={this.state.toBeRendered}
                 />
               :
@@ -59,4 +71,9 @@ class InboxScreen extends Component {
   }
 }
 
+const InboxScreen = () => {
+  return (
+      <InboxScreenClass navigation={ useNavigation()} />
+  );
+};
 export default InboxScreen;

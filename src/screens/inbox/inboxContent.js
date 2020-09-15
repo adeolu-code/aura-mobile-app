@@ -27,13 +27,16 @@ export default class InboxContent extends Component {
             </Item>
             <ScrollView contentContainerStyle={[Styles.scrollView]}>
                 <InboxMessage 
+                    {...this.props}
                     imageSource={require("./../../assets/images/photo/photo.png")} 
                     messageContent={"It’s kind of common on the Internet where – if we fail"}
                     messageSender={"Joseph Slane"}
                     time={"13:39"}
                     newMessageCount={1}
+                    onPress={() => this.props.navigation.navigate("InboxChat")}
                 />
                 <InboxMessage 
+                    {...this.props}
                     imageSource={require("./../../assets/images/photo/photo.png")} 
                     messageContent={"It’s kind of common on the Internet where – if we fail"}
                     messageSender={"Joseph Slane"}

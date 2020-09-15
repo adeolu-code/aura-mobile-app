@@ -1,7 +1,7 @@
 import { View } from "native-base";
 import React, { Component } from "react";
 import { Styles } from "./inboxMessage.style";
-import { Image } from "react-native";
+import { Image, Pressable } from "react-native";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 
@@ -21,7 +21,10 @@ export default class InboxMessage extends Component {
     render() {
         const { textH1Style, textExtraBold, textDarkBlue, textBold } = GStyles;
         return (
-            <View style={[Styles.parentView, this.props.parentStyle]}>
+            <Pressable 
+                style={[Styles.parentView, this.props.parentStyle]}
+                onPress={() => this.props.onPress()}
+            >
                 <Image 
                     source={this.props.imageSource} 
                     style={[Styles.image]} 
@@ -41,7 +44,7 @@ export default class InboxMessage extends Component {
                         }
                     </View>
                 </View>
-            </View>
+            </Pressable>
         );
     }
 
