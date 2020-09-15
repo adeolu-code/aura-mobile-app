@@ -10,26 +10,26 @@ import {
 import { CustomButton, MyText } from '../utils/Index';
 import colors from '../colors';
 import GStyles from '../assets/styles/GeneralStyles';
-import LoginModal from '../screens/auth/LoginModal';
-import SignUpModal from '../screens/auth/SignUpModal';
+import LoginModal from '../components/auth/LoginModal';
+import SignUpModal from '../components/auth/SignUpModal';
 
 class PlaceHolderComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = {showModal: false};
+    this.state = {showLoginModal: false, showRegisterModal: false };
   }
   openLoginModal = () => {
-    this.setState({ showModal: true })
+    this.setState({ showLoginModal: true })
   }
   closeLoginModal = () => {
-    this.setState({ showModal: false })
+    this.setState({ showLoginModal: false })
   }
-  // openSignUpModal = () => {
-  //   this.setState({ showModal: true })
-  // }
-  // closeSignUpModal = () => {
-  //   this.setState({ showModal: false })
-  // }
+  openSignUpModal = () => {
+    this.setState({ showRegisterModal: true })
+  }
+  closeSignUpModal = () => {
+    this.setState({ showRegisterModal: false })
+  }
   render() {
     const {
       textWhite,
@@ -62,16 +62,17 @@ class PlaceHolderComponent extends Component {
             <Image source={img} resizeMode="contain" style={imgStyle} />
           </View>
           <View style={btnSection}>
-            <CustomButton buttonText={this.props.buttonText ?? "Log In"} onPress={this.openLoginModal} buttonStyle={buttonStyle} textStyle={{ color: colors.orange }} />
+            <CustomButton buttonText={this.props.buttonText ?? "Log In"} onPress={this.openLoginModal} 
+            buttonStyle={buttonStyle} textStyle={{ color: colors.orange }} />
           </View>
           <View style={accountStyle}>
             <MyText style={[textH4Style, textDarkBlue]}> Don’t have an account? </MyText>
-            <TouchableOpacity onPress={this.openSignupModal}>
+            <TouchableOpacity onPress={this.openSignUpModal}>
               <MyText style={[btnText, textH4Style, textUnderline, textBold]}>Sign Up</MyText>
             </TouchableOpacity>
           </View>
-          <LoginModal visible={this.state.showModal}/>
-          <SignUpModal visible={this.state.showModal}/>
+          <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} />
+          <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
         </View>
       </View>
     );
