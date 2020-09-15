@@ -12,25 +12,31 @@ class GuestsRow extends Component {
     };
   }
 
+  linkToProfile = () => {
+      this.props.navigation.navigate('GuestProfile')
+  }
+
   render() {
     const { flexRow, imgStyle, textH4Style,textDarkGrey, textBold } = GStyles;
     const { imgContainer, nameContainer, iconContainer, leftContainer, container } = styles
     const { name, img } = this.props
     return (
-      <TouchableOpacity style={[flexRow, container]}>
-        <View style={leftContainer}>
-            <View style={imgContainer}>
-                <Image source={img} resizeMode="cover"
-                style={imgStyle} />
-            </View>
+        <View>
+            <TouchableOpacity style={[flexRow, container]} onPress={this.linkToProfile}>
+                <View style={leftContainer}>
+                    <View style={imgContainer}>
+                        <Image source={img} resizeMode="cover"
+                        style={imgStyle} />
+                    </View>
+                </View>
+                <View style={nameContainer}>
+                    <MyText style={[textH4Style, textDarkGrey, textBold]}>{name}</MyText>
+                </View>
+                <View style={iconContainer}>
+                    <Icon name="chevron-forward-circle-outline" style={{ fontSize: 26, color: colors.darkGrey}} />
+                </View>
+            </TouchableOpacity>
         </View>
-        <View style={nameContainer}>
-            <MyText style={[textH4Style, textDarkGrey, textBold]}>{name}</MyText>
-        </View>
-        <View style={iconContainer}>
-            <Icon name="chevron-forward-circle-outline" style={{ fontSize: 26, color: colors.darkGrey}} />
-        </View>
-      </TouchableOpacity>
     );
   }
 }

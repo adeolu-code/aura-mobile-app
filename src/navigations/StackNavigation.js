@@ -6,6 +6,7 @@ import DashboardViewScreen from '../screens/dashboard_stack/Index';
 import DashboardScreen from '../screens/dashboard_stack/Dashboard';
 import ReservationsScreen from '../screens/dashboard_stack/Reservations';
 import HomeDetailsScreen from '../screens/dashboard_stack/HomeDetails';
+import GuestProfileScreen from '../screens/dashboard_stack/GuestProfile';
 
 
 import BookingScreen from '../screens/bookings_stack/Index';
@@ -24,6 +25,8 @@ export function DashboardStack() {
             <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Reservations" component={ReservationsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="HomeDetails" component={HomeDetailsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="GuestProfile" component={GuestProfileScreen} options={{ headerShown: false }} />
+
         </Stack.Navigator>
     );
 }
