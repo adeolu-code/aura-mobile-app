@@ -33,33 +33,54 @@ class SignUpModal extends Component {
               onRequestClose={() => {}}
               animationType="slide"
             >
-              <View
-                style={{
-                  paddingHorizontal: 24,
-                  paddingVertical: 40,
-                  flexDirection: "column",
-                }}
-              >
-                <MyText style={{ alignSelf: "flex-start" }}>Aura</MyText>
-                <Image
-                  source={require("../../assets/images/icons/close/close.png")}
-                  style={{ alignSelf: "flex-end" }}
-                />
-              </View>
               <View style={styles.container}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <MyText style={[textExtraBold]}>Aura</MyText>
+
+                  <Image
+                    source={require("../../assets/images/icons/close/close.png")}
+                    style={{ alignSelf: "flex-end" }}
+                  />
+                </View>
+              </View>
+              <View style={styles.container2}>
                 <View>
                   <CustomButton buttonText="Sign Up With Email" />
                 </View>
-                <View>
-                  <MyText
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flex: 0.1,
+                    marginTop: 40,
+                    marginBottom: 31,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <View
                     style={{
-                      alignSelf: "center",
-                      marginTop: 40,
-                      marginBottom: 31,
+                      height: 2,
+                      backgroundColor: "#E5E5E5",
+                      width: 125,
                     }}
-                  >
+                  ></View>
+                  <MyText>
+                    {"     "}
                     OR
+                    {"      "}
                   </MyText>
+                  <View
+                    style={{
+                      height: 2,
+                      backgroundColor: "#E5E5E5",
+                      width: 125,
+                    }}
+                  ></View>
                 </View>
                 <View>
                   <CustomButton
@@ -73,9 +94,9 @@ class SignUpModal extends Component {
                     textStyle={{ color: colors.orange }}
                   />
                 </View>
-                <View>
+                <View style={{ marginTop: 50, flex: 0.1}}>
                   <TouchableOpacity
-                    style={{ alignSelf: "center", marginTop: 50 }}
+                    style={{ alignSelf: "center" }}
                   >
                     <MyText>
                       Already have an account? {""}
@@ -101,21 +122,30 @@ class SignUpModal extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignContent: "center",
+     alignContent: 'flex-start',
+    backgroundColor: colors.white,
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    flex: 0.1,
+    justifyContent: "center",
+  },
+  container2: {
+    // alignContent: "center",
     backgroundColor: colors.white,
     paddingHorizontal: 24,
     paddingVertical: 40,
     flex: 1,
     justifyContent: "center",
+    marginTop: 150,
   },
-  emailStyle: {
-    color: colors.grey,
-    marginTop: 10,
-  },
-  passwordStyle: {
-    color: colors.grey,
-    marginTop: 10,
-  },
+//   emailStyle: {
+//     color: colors.grey,
+//     // marginTop: 10,
+//   },
+//   passwordStyle: {
+//     color: colors.grey,
+//     marginTop: 10,
+//   },
   buttonStyle: {
     borderWidth: 1,
     backgroundColor: colors.white,

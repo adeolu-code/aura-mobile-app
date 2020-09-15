@@ -37,10 +37,13 @@ class LoginModal extends Component {
               animationType="slide"
             >
               <View style={styles.container}>
-                <View>
-                  <View>
-                    <MyText style={{ alignSelf: "flex-start" }}>Aura</MyText>
-                  </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <MyText style={[textExtraBold]}>Aura</MyText>
 
                   <Image
                     source={require("../../assets/images/icons/close/close.png")}
@@ -68,16 +71,35 @@ class LoginModal extends Component {
                     </MyText>
                   </TouchableOpacity>
                 </View>
-                <View>
-                  <MyText
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flex: 1,
+                    marginTop: 40,
+                    marginBottom: 31,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <View
                     style={{
-                      alignSelf: "center",
-                      marginTop: 40,
-                      marginBottom: 31,
+                      height: 2,
+                      backgroundColor: "#E5E5E5",
+                      width: 125,
                     }}
-                  >
+                  ></View>
+                  <MyText>
+                    {"     "}
                     OR
+                    {"      "}
                   </MyText>
+                  <View
+                    style={{
+                      height: 2,
+                      backgroundColor: "#E5E5E5",
+                      width: 125,
+                    }}
+                  ></View>
                 </View>
                 <View>
                   <CustomButton
