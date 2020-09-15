@@ -8,7 +8,7 @@ import {
 import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
-import DashboardComponent from '../../components/dashboard/DashboardComponent';
+import DashboardComponent from './../../components/dashboard/DashboardComponent';
 
 class Index extends Component {
   constructor(props) {
