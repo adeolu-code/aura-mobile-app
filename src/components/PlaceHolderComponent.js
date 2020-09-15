@@ -59,27 +59,7 @@ class PlaceHolderComponent extends Component {
             </View>
             
         </View>
-        <View style={imgContainer}>
-          <Image source={img} resizeMode="contain" style={imgStyle} />
-        </View>
-        <View style={btnSection}>
-          <CustomButton
-            buttonText="Log In"
-            buttonStyle={buttonStyle}
-            textStyle={{color: colors.orange}}
-          />
-        </View>
-        <View style={accountStyle}>
-          <MyText style={[textH4Style, textDarkBlue]}>
-            {' '}
-            Don’t have an account?{' '}
-          </MyText>
-          <TouchableOpacity>
-            <MyText style={[btnText, textH4Style, textUnderline, textBold]}>
-              Sign Up
-            </MyText>
-          </TouchableOpacity>
-        </View>
+        
       </View>
     );
   }
