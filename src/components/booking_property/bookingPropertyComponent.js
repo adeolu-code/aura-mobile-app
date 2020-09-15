@@ -6,7 +6,7 @@ import colors from "../../colors";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 
-export default class BookingPropertyCompoenent extends Component {
+export default class BookingPropertyComponent extends Component {
     constructor(props) {
         super(props);
 

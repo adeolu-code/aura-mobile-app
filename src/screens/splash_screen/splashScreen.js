@@ -4,7 +4,7 @@ import { Image, TouchableOpacity } from "react-native";
 import { Styles } from "./splashScreenStyle";
 
 const auraAnimated = require("./../../../assets/aura_animation.gif");
-const splashTimeout = 5500;
+const splashTimeout = 4800;
 
 const navigateToTab = (props) => {
     props.navigation.navigate("Tabs");
