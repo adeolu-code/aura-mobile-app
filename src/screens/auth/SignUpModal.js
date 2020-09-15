@@ -40,12 +40,22 @@ class SignUpModal extends Component {
                     justifyContent: "space-between",
                   }}
                 >
-                  <MyText style={[textExtraBold]}>Aura</MyText>
-
-                  <Image
-                    source={require("../../assets/images/icons/close/close.png")}
-                    style={{ alignSelf: "flex-end" }}
-                  />
+                  <View style={{ width: 100, height: 20 }}>
+                    <Image
+                      style={{
+                        resizeMode: "contain",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      source={require("../../assets/images/icons/aura/aura.png")}
+                    />
+                  </View>
+                  <TouchableOpacity>
+                    <Image
+                      source={require("../../assets/images/icons/close/close.png")}
+                      style={{ alignSelf: "flex-end" }}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.container2}>
@@ -94,10 +104,8 @@ class SignUpModal extends Component {
                     textStyle={{ color: colors.orange }}
                   />
                 </View>
-                <View style={{ marginTop: 50, flex: 0.1}}>
-                  <TouchableOpacity
-                    style={{ alignSelf: "center" }}
-                  >
+                <View style={{ marginTop: 50, flex: 0.1 }}>
+                  <TouchableOpacity style={{ alignSelf: "center" }}>
                     <MyText>
                       Already have an account? {""}
                       <MyText
@@ -122,15 +130,13 @@ class SignUpModal extends Component {
 
 const styles = StyleSheet.create({
   container: {
-     alignContent: 'flex-start',
     backgroundColor: colors.white,
-    paddingHorizontal: 24,
+    paddingRight: 24,
     paddingVertical: 10,
     flex: 0.1,
     justifyContent: "center",
   },
   container2: {
-    // alignContent: "center",
     backgroundColor: colors.white,
     paddingHorizontal: 24,
     paddingVertical: 40,
@@ -138,14 +144,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 150,
   },
-//   emailStyle: {
-//     color: colors.grey,
-//     // marginTop: 10,
-//   },
-//   passwordStyle: {
-//     color: colors.grey,
-//     marginTop: 10,
-//   },
   buttonStyle: {
     borderWidth: 1,
     backgroundColor: colors.white,

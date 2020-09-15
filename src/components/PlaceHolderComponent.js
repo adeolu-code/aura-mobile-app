@@ -24,12 +24,12 @@ class PlaceHolderComponent extends Component {
   closeLoginModal = () => {
     this.setState({ showModal: false })
   }
-  openSignUpModal = () => {
-    this.setState({ showModal: true })
-  }
-  closeSignUpModal = () => {
-    this.setState({ showModal: false })
-  }
+  // openSignUpModal = () => {
+  //   this.setState({ showModal: true })
+  // }
+  // closeSignUpModal = () => {
+  //   this.setState({ showModal: false })
+  // }
   render() {
     const {
       textWhite,

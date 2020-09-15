@@ -18,9 +18,6 @@ class LoginModal extends Component {
     super(props);
     this.state = {};
   }
-  //   setModalVisible(visible) {
-  //       this.setState({modalVisible: visible});
-  //   }
 
   render() {
     const { visible, onDecline } = this.props;
@@ -36,21 +33,34 @@ class LoginModal extends Component {
               onRequestClose={() => {}}
               animationType="slide"
             >
-              <View style={styles.container}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <MyText style={[textExtraBold]}>Aura</MyText>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingRight: 24,
+                  paddingVertical: 20,
+                }}
+              >
+                <View style={{ width: 100, height: 20 }}>
+                  <Image
+                    style={{
+                      resizeMode: "contain",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    source={require("../../assets/images/icons/aura/aura.png")}
+                  />
+                </View>
 
+                <TouchableOpacity>
                   <Image
                     source={require("../../assets/images/icons/close/close.png")}
                     style={{ alignSelf: "flex-end" }}
                   />
-                </View>
-                <View style={{ marginTop: 50 }}>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.container}>
+                <View style={{ marginTop: 10 }}>
                   <CustomInput placeholder="Email" label="Email" />
                 </View>
                 <View style={{ marginTop: 30 }}>
@@ -141,7 +151,6 @@ class LoginModal extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignContent: "center",
     backgroundColor: colors.white,
     paddingHorizontal: 24,
     paddingVertical: 40,
