@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import GStyles from '../../../assets/styles/GeneralStyles';
+import { MyText } from '../../../utils/Index';
+import colors from '../../../colors';
+
+import RatingsRowComponent from './RatingsRowComponent';
 
 class RatingsComponent extends Component {
   constructor(props) {
@@ -11,7 +16,8 @@ class RatingsComponent extends Component {
   render() {
     return (
       <View>
-        <Text> RatingsComponent </Text>
+        <RatingsRowComponent />
+        <RatingsRowComponent />
       </View>
     );
   }
