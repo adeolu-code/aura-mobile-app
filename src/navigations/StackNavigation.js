@@ -13,6 +13,9 @@ import BookingScreen from '../screens/bookings_stack/Index';
 import ProfileScreen from '../screens/profile_stack/Index';
 
 import InboxScreen from '../screens/inbox_stack/Index';
+import NotificationDetail from '../screens/notifications/notification.detail';
+import InboxContent from '../screens/inbox/inboxContent';
+import InboxChat from '../screens/inbox/inboxChat';
 
 const Stack = createStackNavigator();
 
@@ -40,6 +43,9 @@ export function InboxStack() {
     return (
         <Stack.Navigator initialRouteName="Inbox" options={{ gestureEnabled: true }}>
             <Stack.Screen name="Inbox" component={InboxScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="InboxContent" component={InboxContent} options={{ headerShown: false }} />
+            <Stack.Screen name="NotificationDetail" component={NotificationDetail} options={{ headerShown: false }} />
+            <Stack.Screen name="InboxChat" component={InboxChat} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

@@ -3,7 +3,6 @@ import { ScrollView, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import colors from '../../colors';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 import { AppContext } from '../../../AppProvider';
-import TopTab from '../../components/top_tab/topTabComponent';
 import BookingsScreen from '../bookings/bookingsScreen';
 
 class Index extends Component {
