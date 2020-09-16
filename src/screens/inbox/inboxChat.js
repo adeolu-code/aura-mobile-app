@@ -59,11 +59,13 @@ export default class InboxChat extends Component {
                                     message={"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                     time={"12:00"}
                                     type={"left"}
+                                    source={this.props.route.params.userImage} 
                                 />
                                 <SingleMessage 
                                     message={"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                     time={"12:05"}
                                     type={"right"}
+                                    source={this.props.route.params.userImage} 
                                 />
                             </ScrollView>
                         </ImageBackground>

@@ -39,7 +39,7 @@ const Left = (props) => {
                 
             </View>
             <Image 
-                source={require("./../../assets/images/photo/photo.png")} 
+                source={props.source} 
                 style={[Styles.userImage]}
             />
         </View>
@@ -60,7 +60,7 @@ const Right = (props) => {
                 
             </View>
             <Image 
-                source={require("./../../assets/images/photo/photo.png")} 
+                source={props.source} 
                 style={[Styles.userImageRight]}
             />
         </View>
