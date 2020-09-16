@@ -28,7 +28,7 @@ export default class InboxChat extends Component {
                 <Container>
                     <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"}  androidStatusBarColor={"white"}>
                         <Left>
-                            <Button icon transparent>
+                            <Button icon transparent onPress={() => this.props.navigation.goBack()}>
                                 <Icon name={"ios-chevron-back-sharp"} style={[Styles.headerIcon]} />
                             </Button>
                         </Left>
