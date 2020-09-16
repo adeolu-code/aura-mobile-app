@@ -16,10 +16,10 @@ export default class SingleMessage extends Component {
 
     render() {
         return(
-            this.state.left ?
-                <Left />
+            this.props.type == "left" ?
+                <Left {...this.props} />
             :
-                <Right />
+                <Right {...this.props} />
         );
     }
 }

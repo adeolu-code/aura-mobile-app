@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, ImageBackground, StatusBar } from "react-native";
+import { Image, ImageBackground, ScrollView, StatusBar } from "react-native";
 import { AppContext } from "../../../AppProvider";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
@@ -54,10 +54,18 @@ export default class InboxChat extends Component {
                     </Header>
                     <Content scrollEnabled={false}>
                         <ImageBackground style={[Styles.chatBackground]} source={require("./../../assets/images/inbox/pattern_3x.png")}>
-                            <SingleMessage 
-                                message={"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
-                                time={"12:00"}
-                            />
+                            <ScrollView>
+                                <SingleMessage 
+                                    message={"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
+                                    time={"12:00"}
+                                    type={"left"}
+                                />
+                                <SingleMessage 
+                                    message={"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
+                                    time={"12:05"}
+                                    type={"right"}
+                                />
+                            </ScrollView>
                         </ImageBackground>
                     </Content>
                     <Footer style={[Styles.footer]}>
