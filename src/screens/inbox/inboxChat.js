@@ -35,14 +35,14 @@ export default class InboxChat extends Component {
                         <Body style={[Styles.headerBody]}>
                             <View style={[Styles.userImageView]}>
                                 <Image 
-                                    source={require("./../../assets/images/photo/photo.png")} 
+                                    source={this.props.route.params.userImage} 
                                     style={[Styles.userImage]}
                                 />
                                 <View style={[Styles.userOnline]}></View>
                             </View>
                             <View style={[Styles.userInfoView]}>
-                                <MyText style={[textBold, textH4Style]}>Jospeh Slane</MyText>
-                                <MyText>Online</MyText>
+                                <MyText style={[textBold, textH4Style]}>{this.props.route.params.name}</MyText>
+                                <MyText>{this.props.route.params.status}</MyText>
                             </View>
                             
                         </Body>
