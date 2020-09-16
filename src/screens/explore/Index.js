@@ -77,7 +77,7 @@ class Index extends Component {
               <ScrollHeader title="Places to stay around you" />
             </View>
             <View style={scrollContainer}>
-              <ScrollContent />
+              <ScrollContent {...this.props} />
             </View>
             <View style={buttonContainer}>
               <CustomButton
@@ -103,7 +103,7 @@ class Index extends Component {
               </View>
 
               <View style={scrollContainer}>
-                <ScrollContentFood />
+                <ScrollContentFood {...this.props} />
               </View>
               <View style={buttonContainer}>
                 <CustomButton buttonText="Find More Restaurants" iconName="arrow-right" />
@@ -116,7 +116,7 @@ class Index extends Component {
               <ScrollHeader title="Places to get great food" />
             </View>
             <View style={scrollContainer}>
-              <ScrollContent />
+              <ScrollContent {...this.props} />
             </View>
             <View style={buttonContainer}>
               <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
@@ -128,7 +128,7 @@ class Index extends Component {
               <ScrollHeader title="Places to stay around you" />
             </View>
             <View style={scrollContainer}>
-              <ScrollContent />
+              <ScrollContent {...this.props} />
             </View>
             <View style={buttonContainer}>
               <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
@@ -146,7 +146,7 @@ class Index extends Component {
               </MyText>
             </View>
             <View style={scrollContainer}>
-              <ScrollContentPhoto />
+              <ScrollContentPhoto {...this.props} />
             </View>
             <View style={buttonContainer}>
               <CustomButton buttonText="Find More Photographers" iconName="arrow-right" />
@@ -160,7 +160,7 @@ class Index extends Component {
                 Curabitur vulputate arcu odio, ac facilisis diam accumsan ut. Ut imperdiet et leo in vulputate.
               </MyText>
               <View style={tourContentStyle}>
-                <TourImgComponent />
+                <TourImgComponent {...this.props} />
               </View>
               <View>
                 <CustomButton buttonText="Find More Photographers" iconName="arrow-right" />

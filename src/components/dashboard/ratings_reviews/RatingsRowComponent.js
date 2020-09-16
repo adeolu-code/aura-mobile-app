@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../../../assets/styles/GeneralStyles';
 import { MyText } from '../../../utils/Index';
 import colors from '../../../colors';
@@ -18,6 +18,7 @@ class RatingsRowComponent extends Component {
     const { flexRow, imgStyle, textH5Style, textBold, textH4Style, textDarkGrey, textGrey, textH6Style } = GStyles;
     const { wrapperStyle } = this.props
     return (
+        
         <View style={[container, wrapperStyle]}>
             <View style={[flexRow, headerStyles]}>
                 <View style={headerImgContainer}>
@@ -40,8 +41,6 @@ class RatingsRowComponent extends Component {
                     </View>
                 </View>
             </View>
-
-            
 
             <View style={[flexRow, lowerContainer]}>
                 <View style={thumbStyles}>
