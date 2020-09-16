@@ -1,8 +1,12 @@
 import React, { Component } from "react";
+import { Image, ImageBackground, StatusBar } from "react-native";
 import { AppContext } from "../../../AppProvider";
 import colors from "../../colors";
-const { Container, Content, Header } = require("native-base");
+import { MyText } from "../../utils/Index";
+const { Container, Content, Header, Footer, Icon, Item, Input, Text, Left, Button, Body, Right, View } = require("native-base");
 import { Styles } from "./inbox.style";
+import GStyles from "./../../assets/styles/GeneralStyles";
+import SingleMessage from "../../components/inbox_message/singleMessage";
 
 export default class InboxChat extends Component {
     static contextType = AppContext;
@@ -16,13 +20,58 @@ export default class InboxChat extends Component {
     }
 
     render() {
+        const {textBold, textH4Style } = GStyles;
         return (
-            <Container>
-                <Header  style={[Styles.chatHeader]} />
-                <Content>
-                    
-                </Content>
-            </Container>
+            <>
+                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+           
+                <Container>
+                    <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"}  androidStatusBarColor={"white"}>
+                        <Left>
+                            <Button icon transparent>
+                                <Icon name={"ios-chevron-back-sharp"} style={[Styles.headerIcon]} />
+                            </Button>
+                        </Left>
+                        <Body style={[Styles.headerBody]}>
+                            <View style={[Styles.userImageView]}>
+                                <Image 
+                                    source={require("./../../assets/images/photo/photo.png")} 
+                                    style={[Styles.userImage]}
+                                />
+                                <View style={[Styles.userOnline]}></View>
+                            </View>
+                            <View style={[Styles.userInfoView]}>
+                                <MyText style={[textBold, textH4Style]}>Jospeh Slane</MyText>
+                                <MyText>Online</MyText>
+                            </View>
+                            
+                        </Body>
+                        <Right>
+                            <Button icon transparent>
+                                <Icon name={"ios-ellipsis-vertical"} style={[Styles.headerIcon]} />
+                            </Button>
+                        </Right>
+                    </Header>
+                    <Content scrollEnabled={false}>
+                        <ImageBackground style={[Styles.chatBackground]} source={require("./../../assets/images/inbox/pattern_3x.png")}>
+                            <SingleMessage />
+                        </ImageBackground>
+                    </Content>
+                    <Footer style={[Styles.footer]}>
+                        <Image 
+                            source={require("./../../../assets/aura_attachment_2x.png")} 
+                            style={[Styles.attachmentImage]} 
+                            resizeMode={"center"}
+                        />
+                        <Icon style={[Styles.icon]} name={"ios-mic"} />
+                        <Item style={[Styles.chatInputItem]}>
+                            <Input style={[Styles.chatInput]} placeholder={"Start a message"} />
+                            <Icon name={"ios-happy-outline"} />
+                        </Item>
+                        <Icon style={[Styles.icon]} name={"ios-send-sharp"} />
+                    </Footer>
+                </Container>
+            </>
         );
     }
 }

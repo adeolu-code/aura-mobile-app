@@ -43,5 +43,32 @@ export const Styles = StyleSheet.create({
         textAlign: 'center',
         alignSelf: "center",
         marginTop: 10,
-    }
+    },
+    messageView: {
+        backgroundColor: colors.darkBlue,
+        padding: 10,
+        width: 300,
+        borderRadius: 10,
+        marginLeft: 10,
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    icon: {
+        color: colors.white,
+        alignSelf: "flex-end",
+        fontSize: 16,
+    },
+    userImage: {
+        height: 45,
+        width: 45,
+        borderRadius: 50,
+        position: "absolute",
+        borderColor: colors.darkBlue,
+        borderWidth: 2,
+        alignSelf: "flex-end",
+        left: 7,
+        paddingTop: 10,
+    },
+    viewLeft: {flexDirection: "row"},
+    viewRight: {flexDirection: "row-reverse"},
 });
