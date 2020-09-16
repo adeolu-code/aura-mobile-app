@@ -90,7 +90,7 @@ export const Styles = StyleSheet.create({
         width: 45,
         borderRadius: 50,
         position: "absolute",
-        borderColor: colors.darkBlue,
+        borderColor: colors.white,
         borderWidth: 2,
         alignSelf: "flex-end",
         left: 7,
