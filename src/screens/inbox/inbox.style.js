@@ -84,5 +84,8 @@ export const Styles = StyleSheet.create({
     },
     userInfoView: {
         marginLeft: 10,
+    },
+    chatScrollView: {
+        padding: 5,
     }
 });

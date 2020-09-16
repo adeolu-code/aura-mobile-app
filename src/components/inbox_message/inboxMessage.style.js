@@ -57,6 +57,7 @@ export const Styles = StyleSheet.create({
         color: colors.white,
         alignSelf: "flex-end",
         fontSize: 16,
+        marginLeft: 3,
     },
     userImage: {
         height: 45,

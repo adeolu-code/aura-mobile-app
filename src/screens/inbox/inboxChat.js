@@ -54,7 +54,7 @@ export default class InboxChat extends Component {
                     </Header>
                     <Content scrollEnabled={false}>
                         <ImageBackground style={[Styles.chatBackground]} source={require("./../../assets/images/inbox/pattern_3x.png")}>
-                            <ScrollView>
+                            <ScrollView contentContainerStyle={[Styles.chatScrollView]}>
                                 <SingleMessage 
                                     message={"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                     time={"12:00"}
