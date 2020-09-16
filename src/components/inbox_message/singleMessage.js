@@ -15,47 +15,54 @@ export default class SingleMessage extends Component {
     }
 
     render() {
-        const { textWhite, textRight, textH6Style, textH4Style } = GStyles;
         return(
-            
-                this.state.left ?
-                    <View style={[Styles.viewLeft]}>
-                        <View style={[Styles.messageView]}>
-                            <MyText style={[textWhite, textH4Style]}>
-                            Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            </MyText>
-                            <View style={[{flexDirection: "row", alignSelf: "flex-end", alignItems: "center"}]}>
-                                <MyText style={[textWhite, textRight, textH6Style]}>12: 00</MyText>
-                                <Icon name={"ios-checkmark-done"} style={[Styles.icon]} />
-                            </View>
-                            
-                        </View>
-                        <Image 
-                            source={require("./../../assets/images/photo/photo.png")} 
-                            style={[Styles.userImage]}
-                        />
-                    </View>
-                :
-                <View style={{flexDirection: "row-reverse"}}>
-                    <View style={[Styles.messageView]}>
-                        <MyText style={[textWhite, textH4Style]}>
-                        Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        </MyText>
-                        <View style={[{flexDirection: "row", alignSelf: "flex-end", alignItems: "center"}]}>
-                            <MyText style={[textWhite, textRight, textH6Style]}>12: 00</MyText>
-                            <Icon name={"ios-checkmark-done"} style={[Styles.icon]} />
-                        </View>
-                        
-                    </View>
-                    <Image 
-                        source={require("./../../assets/images/photo/photo.png")} 
-                        style={[Styles.userImage]}
-                    />
-                </View>
-
-            
+            this.state.left ?
+                <Left />
+            :
+                <Right />
         );
     }
 }
+
+const Left = (props) => {
+    const { textWhite, textRight, textH6Style, textH4Style } = GStyles;
+    return (
+        <View style={[Styles.viewLeft]}>
+            <View style={[Styles.messageView]}>
+                <MyText style={[textWhite, textH4Style, Styles.messageText]}>
+                {props.message}
+                </MyText>
+                <View style={[Styles.messageInfo]}>
+                    <MyText style={[textWhite, textRight, textH6Style]}>{props.time}</MyText>
+                    <Icon name={"ios-checkmark-done"} style={[Styles.icon]} />
+                </View>
+                
+            </View>
+            <Image 
+                source={require("./../../assets/images/photo/photo.png")} 
+                style={[Styles.userImage]}
+            />
+        </View>
+    );
+}
+
+const Right = (props) => {
+    const { textDarkGrey, textRight, textH6Style, textH4Style } = GStyles;
+    return (
+        <View style={{flexDirection: "row-reverse"}}>
+            <View style={[Styles.messageViewRight]}>
+                <MyText style={[textDarkGrey, textH4Style, Styles.messageText]}>
+                {props.message}
+                </MyText>
+                <View style={[Styles.messageInfoRight]}>
+                    <MyText style={[textDarkGrey, textRight, textH6Style]}>{props.time}</MyText>
+                </View>
+                
+            </View>
+            <Image 
+                source={require("./../../assets/images/photo/photo.png")} 
+                style={[Styles.userImageRight]}
+            />
+        </View>
+    );
+};
