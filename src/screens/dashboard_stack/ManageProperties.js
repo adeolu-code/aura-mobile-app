@@ -7,28 +7,30 @@ import {Fab, Icon} from 'native-base';
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 
-import ReservationMainRow from '../../components/dashboard/ReservationMainRow';
+import ManageOnlineRow from '../../components/dashboard/ManageOnlineRow';
+import ManagePendingRow from '../../components/dashboard/ManagePendingRow';
 
-class Reservations extends Component {
+class ManageProperties extends Component {
   constructor(props) {
     super(props);
-    this.state = { tabOneSelected: true };
+    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false };
   }
+  
 
   selectTabOne = () => {
-    this.setState({ tabOneSelected: true });
+    this.setState({ tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false });
   }
 
   selectTabTwo = () => {
-    this.setState({ tabOneSelected: false });
+    this.setState({ tabOneSelected: false, tabTwoSelected: true, tabThreeSelected: false });
   }
 
   selectTabThree = () => {
-    this.setState({tabOneSelected: false});
+    this.setState({tabOneSelected: false, tabThreeSelected: true, tabTwoSelected: false});
   }
   render() {
-    const { textGrey, textH3Style, textH4Style, textSuccess, textWhite, textH5Style, textBold, } = GStyles;
-    const { manageHeader, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
+    const { flexRow, textGrey, textH3Style, textH4Style, textSuccess, textWhite, textH5Style,imgStyle,textExtraBold, textDarkGrey, textBold, } = GStyles;
+    const { manageHeader, container, imgContainer, rightContainer, typeStyle, iconStyle, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
     const { tabOneSelected, tabTwoSelected, tabThreeSelected } = this.state
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
@@ -38,8 +40,8 @@ class Reservations extends Component {
                 <TouchableOpacity style={[tabStyle, tabOneSelected ? activeTab : '']} onPress={this.selectTabOne}>
                     <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>All Properties</MyText>
                 </TouchableOpacity>
-                <TouchableOpacity style={[tabStyle, !tabTwoSelected ? activeTab : '']} onPress={this.selectTabTwo}>
-                    <MyText style={[textH5Style, textBold, !tabTwoSelected ? textWhite : textSuccess]}>Hotels</MyText>
+                <TouchableOpacity style={[tabStyle, tabTwoSelected ? activeTab : '']} onPress={this.selectTabTwo}>
+                    <MyText style={[textH5Style, textBold, tabTwoSelected ? textWhite : textSuccess]}>Hotels</MyText>
                 </TouchableOpacity>
                 <TouchableOpacity style={[tabStyle,  tabThreeSelected ? activeTab : '']} onPress={this.selectTabThree}>
                     <MyText style={[textH5Style, textBold, tabThreeSelected ? textWhite : textSuccess]}>Apartments</MyText>
@@ -48,18 +50,15 @@ class Reservations extends Component {
         </View>
         <ScrollView>
             <View style={contentContainer}>
-                <View style={rowContainer}>
-                    <ReservationMainRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')}
-                    location="Transcorp Hilton Abuja"  {...this.props} />
-                </View>
-                <View style={rowContainer}>
-                    <ReservationMainRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')}
-                    location="Transcorp Hilton Abuja"  {...this.props} />
-                </View>
-                <View style={rowContainer}>
-                    <ReservationMainRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')}
-                    location="Transcorp Hilton Abuja"  {...this.props} />
-                </View>
+              <View style={rowContainer}>
+                <ManagePendingRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')} location="Transcorp Hilton Abuja" status="Pending" {...this.props} />
+              </View>
+              <View style={rowContainer}>
+              <ManageOnlineRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')} location="Transcorp Hilton Abuja" status="Online" {...this.props} />
+              </View>
+              <View style={rowContainer}>
+              <ManageOnlineRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')} location="Transcorp Hilton Abuja" status="Online" {...this.props} />
+              </View>
             </View>
         </ScrollView>
         <View>
@@ -97,7 +96,37 @@ const styles = StyleSheet.create({
     },
     rowContainer: {
         marginBottom: 20,
-    }
+    },
+    statusPending: {
+      textAlignVertical: "bottom",
+      height: 30,
+      marginTop: 5,
+      color: colors.orange
+  },
+  statusOnline: {
+    textAlignVertical: "bottom",
+    height: 30,
+    marginTop: 5,
+    color: colors.green,
+},
+icon: {
+  flex: 0.1,
+  color: colors.grey,
+},
+container: {
+  width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8
+},
+imgContainer: {
+  width: 120, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
+  borderWidth: 1
+},
+typeStyle: {
+  marginBottom: 20, alignItems: 'center'
+},
+iconStyle: {
+  fontSize: 6, marginHorizontal: 6
+},
+
 });
 
-export default Reservations;
+export default ManageProperties;
