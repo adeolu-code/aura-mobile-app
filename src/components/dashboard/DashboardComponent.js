@@ -21,6 +21,9 @@ class DashboardComponent extends Component {
   onPressProperties = () => {
     this.props.navigation.navigate('ManageProperties')
   }
+  onPressRR = () => {
+    this.props.navigation.navigate('RatingsReviews')
+  }
   
 
   render() {
@@ -51,7 +54,7 @@ class DashboardComponent extends Component {
                 </View>
                 <View style={sectionStyle}>
                     <DashboardCardComponent title="Reviews and Ratings" description={dasboardDescription}
-                    img={require('../../assets/images/dashboard_icons/review.png')} />
+                    img={require('../../assets/images/dashboard_icons/review.png')} onPress={this.onPressRR} />
                 </View>
                 <View style={sectionStyle}>
                     <DashboardCardComponent title="My Earnings" description={dasboardDescription} iconX

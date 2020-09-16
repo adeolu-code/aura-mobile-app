@@ -31,7 +31,6 @@ class Reservations extends Component {
         <Header {...this.props} title="Reservations" wrapperStyles={{ paddingBottom: 5}} 
         sub="Bookings Made By Clients For Apartments And Hotels" />
         <View style={reservationHeader}>
-            {/* <MyText style={[textGrey, textH4Style]}>Bookings Made By Clients For Apartments And Hotels</MyText> */}
             <View style={tabsContainer}>
                 <TouchableOpacity style={[tabStyle, tabOneSelected ? activeTab : '']} onPress={this.selectTabOne}>
                     <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>Reservations</MyText>

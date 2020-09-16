@@ -16,14 +16,15 @@ class Index extends Component {
     return (
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
-        <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
           {/* <ScrollView>
-            <PlaceHolderComponent title="Dashboard" description={description} img={require('../../assets/images/dash/dash.png')} />
+            <PlaceHolderComponent title="Dashboard" description={description} {...this.props} 
+            img={require('../../assets/images/dash/dash.png')} />
           </ScrollView> */}
-          <View style={{ flex: 1}}>
-            <DashboardComponent {...this.props } />
+          <View style={{ flex: 1 }}>
+            <DashboardComponent {...this.props} />
           </View>
-          
+
         </SafeAreaView>
       </>
     );

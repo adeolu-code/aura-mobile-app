@@ -8,15 +8,16 @@ import colors from '../colors';
 
 class CustomButton extends Component {
   renderImage() {
-    const {buttonImg, iconName, iconType, iconStyle} = this.props;
+    const {buttonImg, iconName, iconType, iconStyle, socialImg} = this.props;
     const {imageContainerStyle, buttonIconStyle} = styles;
     if (buttonImg) {
       return (
         <View style={imageContainerStyle}>
-          <Image source={buttonImg} />
+          <Image source={buttonImg} resizeMode="contain" />
         </View>
       );
     }
+    
     if (iconName) {
       return (
         <View style={imageContainerStyle}>
@@ -25,6 +26,17 @@ class CustomButton extends Component {
             type={iconType || 'Feather'}
             style={[buttonIconStyle, iconStyle]}
           />
+        </View>
+      );
+    }
+  }
+  renderSocialImg = () => {
+    const {socialImg} = this.props;
+    const {imgSocialStyle} = styles;
+    if (socialImg) {
+      return (
+        <View style={imgSocialStyle}>
+          <Image source={socialImg} resizeMode="contain" />
         </View>
       );
     }
@@ -67,7 +79,9 @@ class CustomButton extends Component {
           onLongPress={onLongPress}
           disabled={buttonDisabled}
           style={[touchableContainerStyle, centerContentStyle, buttonStyle]}>
+          {this.renderSocialImg()}
           <View style={contentContainer}>
+            
             {this.renderSpinnerOrText()}
             {this.renderImage()}
           </View>
@@ -82,7 +96,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   touchableContainerStyle: {
-    paddingTop: 12, paddingBottom: 15,
+    paddingTop: 10, paddingBottom: 13,
     borderRadius: 6,
     backgroundColor: colors.orange,
   },
@@ -101,6 +115,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
     // paddingBottom: 4,
+  },
+  imgSocialStyle: {
+    position: 'absolute', left: 15
   },
   buttonIconStyle: {
     fontSize: 25,
