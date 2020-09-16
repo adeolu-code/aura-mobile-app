@@ -33,7 +33,11 @@ export default class InboxContent extends Component {
                     messageSender={"Joseph Slane"}
                     time={"13:39"}
                     newMessageCount={1}
-                    onPress={() => this.props.navigation.navigate("InboxChat")}
+                    onPress={() => this.props.navigation.navigate("InboxChat", {
+                      name: "Jospeh Slane",
+                      status: "Online",
+                      userImage: require("./../../assets/images/photo/photo.png"),
+                    })}
                 />
                 <InboxMessage 
                     {...this.props}
