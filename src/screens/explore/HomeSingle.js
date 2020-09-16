@@ -13,6 +13,7 @@ import BackHeader from '../../components/BackHeader'
 import StarComponent from '../../components/StarComponent';
 
 import ImageAndDetails from '../../components/explore/home_single/ImageAndDetails';
+import AmenitiesComponent from '../../components/explore/home_single/AmenitiesComponent';
 
 
 class HomeSingle extends Component {
@@ -33,6 +34,7 @@ class HomeSingle extends Component {
         <ScrollView>
             <View>
                 <ImageAndDetails />
+                <AmenitiesComponent />
             </View>
             
 
