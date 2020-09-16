@@ -46,6 +46,11 @@ export default class InboxContent extends Component {
                     messageSender={"Joseph Slane"}
                     time={"13:39"}
                     newMessageCount={0}
+                    onPress={() => this.props.navigation.navigate("InboxChat", {
+                      name: "Mike Ade",
+                      status: "Offline",
+                      userImage: require("./../../assets/images/photo/photo1.png"),
+                    })}
                 />
             </ScrollView>
             
