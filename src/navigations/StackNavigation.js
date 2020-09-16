@@ -2,12 +2,16 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
+import ExploreScreen from '../screens/explore/Index';
+import HomeSingleScreen from '../screens/explore/HomeSingle';
+
 import DashboardViewScreen from '../screens/dashboard_stack/Index';
 import DashboardScreen from '../screens/dashboard_stack/Dashboard';
 import ReservationsScreen from '../screens/dashboard_stack/Reservations';
 import HomeDetailsScreen from '../screens/dashboard_stack/HomeDetails';
 import GuestProfileScreen from '../screens/dashboard_stack/GuestProfile';
 import ManagePropertiesScreen from '../screens/dashboard_stack/ManageProperties';
+import RatingsAndReviewsScreen from '../screens/dashboard_stack/RatingsAndReviews';
 
 
 import BookingScreen from '../screens/bookings_stack/Index';
@@ -21,6 +25,14 @@ import InboxChat from '../screens/inbox/inboxChat';
 
 const Stack = createStackNavigator();
 
+export function ExploreStack() {
+    return (
+        <Stack.Navigator initialRouteName="Explore" options={{ gestureEnabled: true }}>
+            <Stack.Screen name="Explore" component={ExploreScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="HouseDetails" component={HomeSingleScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+    );
+}
 
 export function DashboardStack() {
     return (
@@ -31,6 +43,7 @@ export function DashboardStack() {
             <Stack.Screen name="HomeDetails" component={HomeDetailsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="GuestProfile" component={GuestProfileScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ManageProperties" component={ManagePropertiesScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="RatingsReviews" component={RatingsAndReviewsScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>
     );

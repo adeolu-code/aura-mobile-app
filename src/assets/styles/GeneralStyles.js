@@ -77,6 +77,12 @@ const styles = StyleSheet.create({
   textOrange: {
     color: colors.orange
   },
+  textLightOrange: {
+    color: colors.lightOrange
+  },
+  textGreyWhite: {
+    color: colors.greyWhite
+  },
   textInfo: {
     color: '#009ADA'
   },
