@@ -33,7 +33,17 @@ class BookingsScreen extends Component {
         location={"Tanscorp Hotels Abuja"} 
         type={"Platinum Room"}
         dayLeft={10}
-        onClick={() => this.props.navigation.navigate("BookingDetail")}
+        image={require("../../assets/images/places/bed2.png")}
+        onClick={() => this.props.navigation.navigate("BookingDetail",{
+          propertyCategory: "Hotel",
+          checkOut: "2/04/2020",
+          propertyType: "Platinum Room",
+          propertyType: "Platinum Room",
+          time: "8:00am - 10:00am",
+          checkIn: "12/12/2021",
+          amount: 300,
+          image: require('../../assets/images/places/bed2.png'),
+        })}
         {...this.props}
     />
     <BookingPropertyComponent 
@@ -41,7 +51,17 @@ class BookingsScreen extends Component {
         location={"Tanscorp Hotels Abuja"} 
         type={"Platinum Room"}
         dayLeft={15}
-        onClick={() => this.props.navigation.navigate("BookingDetail")}
+        image={require("./../../assets/images/places/bed1.png")}
+        onClick={() => this.props.navigation.navigate("BookingDetail",{
+          propertyCategory: "Hotel",
+          checkOut: "2/04/2020",
+          propertyType: "Platinum Room",
+          propertyType: "Platinum Room",
+          time: "8:00am - 10:00am",
+          checkIn: "12/12/2021",
+          amount: 300,
+          image: require('./../../assets/images/places/bed1.png'),
+        })}
         {...this.props}
     />
     </>
