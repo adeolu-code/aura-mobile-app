@@ -63,7 +63,7 @@ export function InboxStack() {
             <Stack.Screen name="Inbox" component={InboxScreen} options={{ headerShown: false }} />
             <Stack.Screen name="InboxContent" component={InboxContent} options={{ headerShown: false }} />
             <Stack.Screen name="NotificationDetail" component={NotificationDetail} options={{ headerShown: false }} />
-            <Stack.Screen name="InboxChat" component={InboxChat} options={{ headerShown: false }} />
+            
         </Stack.Navigator>
     );
 }
@@ -75,6 +75,7 @@ export function ProfileStack() {
         </Stack.Navigator>
     );
 }
+
 
 
 
