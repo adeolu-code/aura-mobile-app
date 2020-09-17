@@ -22,6 +22,7 @@ import InboxScreen from '../screens/inbox_stack/Index';
 import NotificationDetail from '../screens/notifications/notification.detail';
 import InboxContent from '../screens/inbox/inboxContent';
 import InboxChat from '../screens/inbox/inboxChat';
+import BookingsDetail from '../screens/bookings/booking.detail';
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,7 @@ export function BookingsStack() {
     return (
         <Stack.Navigator initialRouteName="Bookings" options={{ gestureEnabled: true }}>
             <Stack.Screen name="Bookings" component={BookingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="BookingDetail" component={BookingsDetail} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

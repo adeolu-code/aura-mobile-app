@@ -27,25 +27,22 @@ class BookingsScreen extends Component {
   }
 
   defaultRender = (
-//   <RenderNoRecord 
-//     illustrationSource={illustration} 
-//     noRecordText={BOOKINGS_NO_BOOKINGS}
-//     description={BOOKINGS_SCREEN_DESCRIPTION}
-//     buttonText={"Explore Aura"}
-//     onButtonPress={() => alert("")}            
-//     />
     <>
     <BookingPropertyComponent 
         title={"Umbaka Homes"} 
         location={"Tanscorp Hotels Abuja"} 
         type={"Platinum Room"}
         dayLeft={10}
+        onClick={() => this.props.navigation.navigate("BookingDetail")}
+        {...this.props}
     />
     <BookingPropertyComponent 
         title={"Umbaka Homes"} 
         location={"Tanscorp Hotels Abuja"} 
         type={"Platinum Room"}
         dayLeft={15}
+        onClick={() => this.props.navigation.navigate("BookingDetail")}
+        {...this.props}
     />
     </>
     
@@ -62,13 +59,7 @@ class BookingsScreen extends Component {
       if (index == 0) {
           this.set(
             {
-                toBeRendered: <RenderNoRecord 
-                    illustrationSource={illustration} 
-                    noRecordText={BOOKINGS_NO_BOOKINGS}
-                    description={BOOKINGS_SCREEN_DESCRIPTION}
-                    buttonText={"Explore Aura"}
-                    onButtonPress={() => alert("")}            
-                />
+                toBeRendered: this.defaultRender
             });
       }
       else if (index == 1) {
@@ -78,7 +69,7 @@ class BookingsScreen extends Component {
                     illustrationSource={illustration} 
                     noRecordText={BOOKINGS_NO_BOOKINGS}
                     description={BOOKINGS_SCREEN_DESCRIPTION}
-                    buttonText={"Explore Tours"}
+                    buttonText={"Explore Aura"}
                     onButtonPress={() => alert("")}            
                 />
             });
