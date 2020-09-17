@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Icon, Text } from "native-base";
-import { Image } from "react-native";
+import { Image, Pressable } from "react-native";
 import { Styles } from "./bookingProperty.style";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
@@ -19,7 +19,7 @@ export default class BookingPropertyComponent extends Component {
         const { textGrey, textH2Style, textH3Style, textBold, textDarkBlue, textH4Style, imgContainer, imgStyle, textCenter } = GStyles;
         return (
             <>
-                <View style={[Styles.parentView]}>
+                <Pressable style={[Styles.parentView]} onPress={() => this.props.onClick && this.props.onClick()}>
                     <View style={[Styles.imageView]}>
                         <Image 
                             source={require("./../../../assets/aura_property_3.png")} 
@@ -44,7 +44,7 @@ export default class BookingPropertyComponent extends Component {
                         </View>
                         <Icon style={[Styles.iconSection]} name={"ios-ellipsis-vertical-sharp"} style={[Styles.icon]} />
                     </View>
-                </View>
+                </Pressable>
             </>
         );
     }
