@@ -7,6 +7,7 @@ import TabsScreen from './TabNavigation';
 
 import SplashScreen from '../screens/splash_screen/splashScreen';
 import SignUpScreen from '../screens/auth/signup';
+import InboxChat from '../screens/inbox/inboxChat';
 
 import OtherStack from './OtherNavigation';
 
@@ -20,6 +21,7 @@ function AppNavigator() {
       <RootStack.Screen name="Splash" component={SplashScreen} options={{headerShown: false}} />
       <RootStack.Screen name="Tabs" component={TabsScreen} options={{headerShown: false}} />
       <RootStack.Screen name="Auth" component={SignUpScreen} options={{headerShown: false}} />
+      <RootStack.Screen name="InboxChat" component={InboxChat} options={{headerShown: false}} />
       <RootStack.Screen name="Other" component={OtherStack} options={{headerShown: false}} />
     </RootStack.Navigator>
   );
