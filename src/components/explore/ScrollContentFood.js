@@ -19,16 +19,20 @@ class ScrollContentFood extends Component {
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
             <View style={[scrollContainer, { width: '100%' }]}>
                 <View style={scrollItemContainer}>
-                    <FoodComponent title="Breakfast Hub" img={require('../../assets/images/food/food.png')} location="Lagos" />
+                    <FoodComponent title="Breakfast Hub" img={require('../../assets/images/food/food.png')} location="Lagos" 
+                    {...this.props} />
                 </View>
                 <View style={scrollItemContainer}>
-                    <FoodComponent title="Breakfast Hub" img={require('../../assets/images/places/bed1.png')} location="Lagos" />
+                    <FoodComponent title="Breakfast Hub" img={require('../../assets/images/places/bed1.png')} location="Lagos"
+                    {...this.props} />
                 </View>
                 <View style={scrollItemContainer}>
-                    <FoodComponent title="Breakfast Hub" img={require('../../assets/images/places/bed2.png')} location="Lagos" />
+                    <FoodComponent title="Breakfast Hub" img={require('../../assets/images/places/bed2.png')} location="Lagos"
+                    {...this.props} />
                 </View>
                 <View style={scrollItemContainer}>
-                    <FoodComponent title="Breakfast Hub" img={require('../../assets/images/places/bed3.png')} location="Lagos" />
+                    <FoodComponent title="Breakfast Hub" img={require('../../assets/images/places/bed3.png')} location="Lagos"
+                    {...this.props} />
                 </View>
             </View>
         </ScrollView>

@@ -3,13 +3,13 @@ import {Image, StyleSheet} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
-import ExploreScreen from '../screens/explore/Index';
 
 import {
   DashboardStack,
   ProfileStack,
   InboxStack,
   BookingsStack,
+  ExploreStack
 } from './StackNavigation';
 
 import colors from '../colors';
@@ -48,7 +48,7 @@ function MyTabs() {
       <>
         <Tab.Screen
           name="Explore"
-          component={ExploreScreen}
+          component={ExploreStack}
           options={{
             tabBarIcon({focused, color}) {
               const imgName = focused

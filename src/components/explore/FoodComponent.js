@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MyText } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
+import colors from '../../colors';
+
+import { Icon } from 'native-base';
+
+import StarComponent from '../StarComponent';
+
 
 class FoodComponent extends Component {
   constructor(props) {
@@ -10,26 +16,26 @@ class FoodComponent extends Component {
     };
   }
 
+  linkToFood = () => {
+    this.props.navigation.navigate('FoodDetails')
+  }
+
   render() {
-    const { imgContainer, contentContainer, scrollItemContainer, starStyle, starContainer } = styles;
+    const { imgContainer, contentContainer, scrollItemContainer } = styles;
     const { imgStyle, flexRow, textExtraBold, textH3Style, marginBottomSmall, textH4Style, textWhite } = GStyles;
     const { title, img, location } = this.props;
     return (
-        <View style={scrollItemContainer}>
-            <View style={imgContainer}>
-                <Image source={img} resizeMode="cover" style={imgStyle} />
-            </View>
-            <View style={contentContainer}>
-                <MyText style={[textWhite, textExtraBold, textH3Style, marginBottomSmall]}>{title}</MyText>
-                <View style={[flexRow, marginBottomSmall, starContainer]}>
-                    <Image source={require('../../assets/images/icons/star/star.png')} style={starStyle} />
-                    <Image source={require('../../assets/images/icons/star/star.png')} style={starStyle} />
-                    <Image source={require('../../assets/images/icons/star/star.png')} style={starStyle} />
-                    <Image source={require('../../assets/images/icons/star/star_white.png')} style={starStyle} />
-                    <Image source={require('../../assets/images/icons/star/star_white.png')} style={starStyle} />
+        <View>
+            <TouchableOpacity style={scrollItemContainer} onPress={this.linkToFood}>
+                <View style={imgContainer}>
+                    <Image source={img} resizeMode="cover" style={imgStyle} />
                 </View>
-                <MyText style={[textWhite, textH4Style]}>{location}</MyText>
-            </View>
+                <View style={contentContainer}>
+                    <MyText style={[textWhite, textExtraBold, textH3Style, marginBottomSmall]}>{title}</MyText>
+                    <StarComponent />
+                    <MyText style={[textWhite, textH4Style]}>{location}</MyText>
+                </View>
+            </TouchableOpacity>
         </View>
     );
   }
@@ -45,12 +51,6 @@ const styles = StyleSheet.create({
     imgContainer: {
         width: '100%', height: 190, borderRadius: 8, overflow: 'hidden', marginBottom: 10
     },
-    starStyle: {
-        height: 14, width: 14, marginRight: 10
-    },
-    starContainer: {
-        marginTop: 8, marginBottom: 15
-    }
 });
 
 export default FoodComponent;

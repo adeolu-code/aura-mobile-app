@@ -8,6 +8,8 @@ import TabsScreen from './TabNavigation';
 import SplashScreen from '../screens/splash_screen/splashScreen';
 import SignUpScreen from '../screens/auth/signup';
 
+import OtherStack from './OtherNavigation';
+
 const RootStack = createStackNavigator();
 
 //all screens are registered here
@@ -18,6 +20,7 @@ function AppNavigator() {
       <RootStack.Screen name="Splash" component={SplashScreen} options={{headerShown: false}} />
       <RootStack.Screen name="Tabs" component={TabsScreen} options={{headerShown: false}} />
       <RootStack.Screen name="Auth" component={SignUpScreen} options={{headerShown: false}} />
+      <RootStack.Screen name="Other" component={OtherStack} options={{headerShown: false}} />
     </RootStack.Navigator>
   );
 }

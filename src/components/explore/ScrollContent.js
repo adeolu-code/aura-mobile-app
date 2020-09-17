@@ -22,19 +22,19 @@ class ScrollContent extends Component {
             <View style={[scrollContainer, { width: '100%' }]}>
                 <View style={scrollItemContainer}>
                     <HouseComponent img={require('../../assets/images/places/bed.png')} 
-                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" />
+                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
                 </View>
                 <View style={scrollItemContainer}>
                     <HouseComponent img={require('../../assets/images/places/bed1.png')} 
-                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" />
+                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
                 </View>
                 <View style={scrollItemContainer}>
                     <HouseComponent img={require('../../assets/images/places/bed2.png')} 
-                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" />
+                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
                 </View>
                 <View style={scrollItemContainer}>
                     <HouseComponent img={require('../../assets/images/places/bed3.png')} 
-                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" />
+                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
                 </View>
             </View>
         </ScrollView>
