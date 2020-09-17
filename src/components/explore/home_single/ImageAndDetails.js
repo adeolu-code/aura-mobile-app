@@ -16,14 +16,36 @@ class ImageAndDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        currentIndex: 1,
+        imgArr: [require('../../../assets/images/places/house.png'), 
+        require('../../../assets/images/places/bed3.png'), require('../../../assets/images/places/bed.png'),
+        require('../../../assets/images/places/bed2.png'), require('../../../assets/images/places/bed1.png')]
     };
   }
+  indexChange = (index) => {
+    this.setState({ currentIndex: index + 1})
+  }
+  renderImages = () => {
+        
+        const { imgContainer, overlayStyles } = styles
+        const { imgStyle } = GStyles
+        return this.state.imgArr.map((item, index) => {
+            return (
+                <View style={imgContainer} key={index}>
+                    <Image source={item} style={imgStyle} resizeMode="cover" />
+                    <View style={overlayStyles}></View>
+                </View>
+            )
+        })
+    }
 
   render() {
     const { headerStyle, shareStyle, shareContainer, iconStyle, starContainer, imgContainer, contentContainer,
-        overlayStyles, iconVerifiedContainer, verifiedStyle, countContainer, divider, thumbContainer, thumbTxtContainer, thumbStyle } = styles;
+        overlayStyles, iconVerifiedContainer, verifiedStyle, countContainer, divider, thumbContainer, thumbTxtContainer, 
+        thumbStyle, cContainer, verifyContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textLgStyle, textH5Style, textGrey, textH4Style, 
             imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
+    const { imgArr, currentIndex } = this.state
     return (
         <View>
             <View style={[flexRow, headerStyle]}>
@@ -39,18 +61,23 @@ class ImageAndDetails extends Component {
                 </TouchableOpacity>
             </View>
 
+                 
+
             <View style={contentContainer}>
                 <View style={imgContainer}>
-                    <Image source={require('../../../assets/images/places/house.png')} resizeMode="cover" style={imgStyle} />
-                    <View style={overlayStyles}>
-                        <View style={[flexRow]}>
-                            <MyText style={[textWhite, textH3Style, { marginRight: 5}]}>Verified</MyText>
-                            <View style={iconVerifiedContainer}>
-                                <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
-                            </View>
+                    <Swiper style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
+                    showsPagination={false} onIndexChanged={this.indexChange} >
+                        {this.renderImages()}
+                    </Swiper>
+                    <View style={[flexRow, verifyContainer]}>
+                        <MyText style={[textWhite, textH3Style, { marginRight: 5}]}>Verified</MyText>
+                        <View style={iconVerifiedContainer}>
+                            <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
                         </View>
+                    </View>
+                    <View style={cContainer}>
                         <View style={countContainer}>
-                            <MyText style={[textH4Style, textWhite, textBold]}>1/10</MyText>
+                            <MyText style={[textH4Style, textWhite, textBold]}>{currentIndex}/{imgArr.length}</MyText>
                         </View>
                     </View>
                 </View>
@@ -111,6 +138,12 @@ const styles = StyleSheet.create({
     iconVerifiedContainer: {
         width: 25, height: 25, borderWidth:2, borderColor: colors.white, borderRadius: 20, backgroundColor: colors.orange,
         justifyContent: 'center', alignItems: 'center',
+    },
+    verifyContainer: {
+        position: 'absolute', top: 20, right:20,
+    },
+    cContainer: {
+        position: 'absolute', bottom: 20, right: 20
     },
     verifiedStyle: {
         fontSize: 12, color: colors.white
