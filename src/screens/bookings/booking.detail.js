@@ -27,7 +27,7 @@ export default class BookingsDetail extends Component {
             <ScrollView>
                 <View style={contentContainer}>
                     <View style={imgContainer}>
-                        <Image source={require('../../assets/images/places/bed2.png')} resizeMode="cover" style={imgStyle} />
+                        <Image source={this.props.route.params.image} resizeMode="cover" style={imgStyle} />
                     </View>
                     <View style={[flexRow, titleStyle]}>
                         <Icon name="information-circle" style={{ marginRight: 5, color: colors.grey, fontSize: 20}} />
@@ -38,33 +38,33 @@ export default class BookingsDetail extends Component {
                         <View style={[flexRow, rowContainer]}>
                             <View>
                                 <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Property Category</MyText>
-                                <MyText  style={[textH4Style, textBold]}>Hotel</MyText>
+                                <MyText  style={[textH4Style, textBold]}>{this.props.route.params.propertyCategory}</MyText>
                             </View>
                             <View>
                                 <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Check-out</MyText>
-                                <MyText style={[textH4Style, textBold]}>2/04/2020</MyText>
+                                <MyText style={[textH4Style, textBold]}>{this.props.route.params.checkOut}</MyText>
                             </View>
                         </View>
     
                         <View style={[flexRow, rowContainer]}>
                             <View>
                                 <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Property Type</MyText>
-                                <MyText  style={[textH4Style, textBold]}>Platinum Room</MyText>
+                                <MyText  style={[textH4Style, textBold]}>{this.props.route.params.propertyType}</MyText>
                             </View>
                             <View>
                                 <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Time</MyText>
-                                <MyText style={[textH4Style, textBold]}>8:00am - 10:00am</MyText>
+                                <MyText style={[textH4Style, textBold]}>{this.props.route.params.time}</MyText>
                             </View>
                         </View>
     
                         <View style={[flexRow, rowContainer]}>
                             <View>
                                 <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Check-in</MyText>
-                                <MyText  style={[textH4Style, textBold]}>12/12/2021</MyText>
+                                <MyText  style={[textH4Style, textBold]}>{this.props.route.params.checkIn}</MyText>
                             </View>
                             <View>
                                 <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Amount Paid</MyText>
-                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>$</MyText>300</MyText>
+                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>$</MyText>{this.props.route.params.amount}</MyText>
                             </View>
                         </View>
                         <View style={[flexRow, rowContainer]}>

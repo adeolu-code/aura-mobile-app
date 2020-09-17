@@ -22,7 +22,7 @@ export default class BookingPropertyComponent extends Component {
                 <Pressable style={[Styles.parentView]} onPress={() => this.props.onClick && this.props.onClick()}>
                     <View style={[Styles.imageView]}>
                         <Image 
-                            source={require("./../../../assets/aura_property_3.png")} 
+                            source={this.props.image} 
                             style={[Styles.imageStyle]} 
                             resizeMode={"contain"} 
                         />
