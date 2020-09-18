@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import GStyles from '../../../assets/styles/GeneralStyles';
+import GStyles from '../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton } from '../../../utils/Index';
+import { MyText, CustomButton } from '../../utils/Index';
 
 import { Icon } from 'native-base';
 
-import colors from '../../../colors';
+import colors from '../../colors';
 
 
 
@@ -29,7 +29,7 @@ class LocationComponent extends Component {
             <View style={contentContainer}>
                 <MyText style={[textH4Style]}>13A, Hebert Macaulay, Yaba, Lagos</MyText>
                 <View style={mapContainer}>
-                    <Image source={require('../../../assets/images/map/map.png')} resizeMode="cover" style={imgStyle} />
+                    <Image source={require('../../assets/images/map/map.png')} resizeMode="cover" style={imgStyle} />
                 </View>
             </View>
             <View style={divider}></View>

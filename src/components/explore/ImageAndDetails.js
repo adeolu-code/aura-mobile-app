@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import GStyles from '../../../assets/styles/GeneralStyles';
+import GStyles from '../../assets/styles/GeneralStyles';
 import Swiper from 'react-native-swiper'
 
-import { MyText } from '../../../utils/Index';
+import { MyText } from '../../utils/Index';
 
 import { Icon } from 'native-base';
 
-import colors from '../../../colors';
+import colors from '../../colors';
 
-import StarComponent from '../../../components/StarComponent';
+import StarComponent from '../../components/StarComponent';
 
 
 class ImageAndDetails extends Component {
@@ -17,19 +17,16 @@ class ImageAndDetails extends Component {
     super(props);
     this.state = {
         currentIndex: 1,
-        imgArr: [require('../../../assets/images/places/house.png'), 
-        require('../../../assets/images/places/bed3.png'), require('../../../assets/images/places/bed.png'),
-        require('../../../assets/images/places/bed2.png'), require('../../../assets/images/places/bed1.png')]
     };
   }
   indexChange = (index) => {
     this.setState({ currentIndex: index + 1})
   }
   renderImages = () => {
-        
+        const { imgArr } = this.props
         const { imgContainer, overlayStyles } = styles
         const { imgStyle } = GStyles
-        return this.state.imgArr.map((item, index) => {
+        return imgArr.map((item, index) => {
             return (
                 <View style={imgContainer} key={index}>
                     <Image source={item} style={imgStyle} resizeMode="cover" />
@@ -39,22 +36,28 @@ class ImageAndDetails extends Component {
         })
     }
 
+    
+
   render() {
     const { headerStyle, shareStyle, shareContainer, iconStyle, starContainer, imgContainer, contentContainer,
         overlayStyles, iconVerifiedContainer, verifiedStyle, countContainer, divider, thumbContainer, thumbTxtContainer, 
         thumbStyle, cContainer, verifyContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textLgStyle, textH5Style, textGrey, textH4Style, 
-            imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
-    const { imgArr, currentIndex } = this.state
+            imgStyle, textWhite, textH3Style, textSuccess, textH6Style, textDarkGrey } = GStyles
+    const { currentIndex } = this.state
+    const { imgArr, time, house, title } = this.props
     return (
         <View>
             <View style={[flexRow, headerStyle]}>
                 <View>
-                    <MyText style={[textExtraBold, textLgStyle]}>Umbaka Home Park</MyText>
+                    <MyText style={[textExtraBold, textLgStyle]}>{title}</MyText>
                     <View style={starContainer}>
                         <StarComponent style={iconStyle} grey />
                     </View>
                     <MyText style={[textH4Style, textGrey]}>Lagos</MyText>
+                    {time ? <MyText style={[textGrey, { paddingVertical: 8}]}>
+                        <MyText style={[textSuccess, textExtraBold, textH5Style]}>Open</MyText> · <MyText style={[textH6Style]}>12:00pm - 9:00pm</MyText>
+                    </MyText>:<Fragment></Fragment>}
                 </View>
                 <TouchableOpacity style={shareContainer}>
                     <Icon name="share-social" style={shareStyle} />
@@ -81,24 +84,26 @@ class ImageAndDetails extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={divider}></View>
-                <View style={{marginVertical: 25}}>
-                    <MyText style={[textH2Style, { marginBottom: 8}]}>Private room in bed and breakfast</MyText>
-                    <MyText style={[textH5Style, textGrey]}>3 guests · 1 bedroom · 3 beds · 1 private bath</MyText>
+                {house ? <Fragment>
+                    <View style={divider}></View>
+                    <View style={{marginVertical: 25}}>
+                        <MyText style={[textH2Style, { marginBottom: 8}]}>Private room in bed and breakfast</MyText>
+                        <MyText style={[textH5Style, textGrey]}>3 guests · 1 bedroom · 3 beds · 1 private bath</MyText>
 
-                    <View style={[flexRow, thumbTxtContainer]}>
-                        <View style={thumbContainer}>
-                            <Image source={require('../../../assets/images/photo/photo3.png')} resizeMode="cover" style={thumbStyle} />
-                            <View style={{ position: 'absolute', right: 0, top: -5}}>
-                                <View style={iconVerifiedContainer}>
-                                    <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
+                        <View style={[flexRow, thumbTxtContainer]}>
+                            <View style={thumbContainer}>
+                                <Image source={require('../../assets/images/photo/photo3.png')} resizeMode="cover" style={thumbStyle} />
+                                <View style={{ position: 'absolute', right: 0, top: -5}}>
+                                    <View style={iconVerifiedContainer}>
+                                        <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
+                                    </View>
                                 </View>
                             </View>
+                            <MyText style={[textH3Style]}>Posted by Yuko Ono</MyText>
                         </View>
-                        <MyText style={[textH3Style]}>Posted by Yuko Ono</MyText>
                     </View>
-                </View>
-                <View style={divider}></View>
+                    <View style={divider}></View>
+                </Fragment> : <Fragment></Fragment>}
             </View>
 
         </View>
@@ -117,7 +122,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     starContainer: {
-        paddingTop: 8, paddingBottom: 2
+        paddingTop: 8, paddingBottom: 0
     },
     shareStyle: {
         color: colors.success, fontSize: 25, marginLeft: -2

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import GStyles from '../../../assets/styles/GeneralStyles';
+import GStyles from '../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton } from '../../../utils/Index';
+import { MyText, CustomButton } from '../../utils/Index';
 
 import { Icon } from 'native-base';
 
-import colors from '../../../colors';
-
-import SubHeader from './SubHeader'
+import colors from '../../colors';
 
 
 
@@ -32,7 +30,7 @@ class HostComponent extends Component {
             <View style={contentContainer}>
                 <View style={[flexRow, thumbTxtContainer]}>
                     <View style={thumbContainer}>
-                        <Image source={require('../../../assets/images/photo/photo5.png')} resizeMode="cover" style={thumbStyle} />
+                        <Image source={require('../../assets/images/photo/photo5.png')} resizeMode="cover" style={thumbStyle} />
                         <View style={{ position: 'absolute', right: 0, top: -5}}>
                             <View style={iconVerifiedContainer}>
                                 <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
@@ -53,7 +51,7 @@ class HostComponent extends Component {
                 </View>
                 <View style={[flexRow, lowerContainer]}>
                     <View style={shieldContainer}>
-                        <Image source={require('../../../assets/images/icons/shield/shield.png')} resizeMode="contain" style={imgStyle} />
+                        <Image source={require('../../assets/images/icons/shield/shield.png')} resizeMode="contain" style={imgStyle} />
                     </View>
                     <View style={textStyle}>
                         <MyText style={[textH5Style, textGrey]}>

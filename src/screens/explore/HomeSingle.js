@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
-import Swiper from 'react-native-swiper'
 
 import { MyText } from '../../utils/Index';
 
@@ -10,16 +9,15 @@ import { Icon } from 'native-base';
 import colors from '../../colors';
 
 import BackHeader from '../../components/BackHeader'
-import StarComponent from '../../components/StarComponent';
 
-import ImageAndDetails from '../../components/explore/home_single/ImageAndDetails';
+import ImageAndDetails from '../../components/explore/ImageAndDetails';
 import AmenitiesComponent from '../../components/explore/home_single/AmenitiesComponent';
 import HouseRulesComponent from '../../components/explore/home_single/HouseRulesComponent';
-import LocationComponent from '../../components/explore/home_single/LocationComponent';
-import HostComponent from '../../components/explore/home_single/HostComponent';
-import DetailsComponent from '../../components/explore/home_single/DetailsComponent';
-import ReviewsComponent from '../../components/explore/home_single/ReviewsComponent';
-import CommentComponent from '../../components/explore/home_single/CommentComponent';
+import LocationComponent from '../../components/explore/LocationComponent';
+import HostComponent from '../../components/explore/HostComponent';
+import DetailsComponent from '../../components/explore/DetailsComponent';
+import ReviewsComponent from '../../components/explore/ReviewsComponent';
+import CommentComponent from '../../components/explore/CommentComponent';
 import BottomMenuComponent from '../../components/explore/home_single/BottomMenuComponent';
 
 import CalendarModal from '../../components/explore/home_single/CalendarModal';
@@ -28,14 +26,17 @@ import ScrollContent from '../../components/explore/ScrollContent';
 class HomeSingle extends Component {
   constructor(props) {
     super(props);
-    this.state = { showModal: false };
+    this.state = { showModal: false,
+        imgArr: [require('../../assets/images/places/house.png'), 
+        require('../../assets/images/places/bed3.png'), require('../../assets/images/places/bed.png'),
+        require('../../assets/images/places/bed2.png'), require('../../assets/images/places/bed1.png')] };
   }
 
   openModal = () => {
-      this.setState({ showModal: true })
+    this.setState({ showModal: true })
   }
   closeModal = () => {
-      this.setState({ showModal: false })
+    this.setState({ showModal: false })
   }
 
   render() {
@@ -46,7 +47,7 @@ class HomeSingle extends Component {
         <BackHeader {...this.props} />
         <ScrollView>
             <View>
-                <ImageAndDetails />
+                <ImageAndDetails imgArr={this.state.imgArr} house title="Umbaka Home Park" />
                 <AmenitiesComponent />
                 <HouseRulesComponent />
                 <LocationComponent />

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import GStyles from '../../../assets/styles/GeneralStyles';
+import GStyles from '../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton } from '../../../utils/Index';
+import { MyText, CustomButton } from '../../utils/Index';
 
 
-import colors from '../../../colors';
+import colors from '../../colors';
 
 
 

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import GStyles from '../../../assets/styles/GeneralStyles';
+import GStyles from '../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton } from '../../../utils/Index';
-import StarComponent from '../../StarComponent';
+import { MyText, CustomButton } from '../../utils/Index';
+import StarComponent from '../StarComponent';
 
 import ReviewRow from './ReviewRow';
 
-import colors from '../../../colors';
+import colors from '../../colors';
 
 
 
