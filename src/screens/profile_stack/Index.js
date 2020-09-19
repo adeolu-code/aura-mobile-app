@@ -13,7 +13,7 @@ class Index extends Component {
 
   render() {
     return (
-        <ProfileScreen />
+        <ProfileScreen {...this.props} />
     );
   }
 }
