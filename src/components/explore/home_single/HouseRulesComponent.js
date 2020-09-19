@@ -12,7 +12,7 @@ import SubHeader from './SubHeader'
 
 
 
-class AmenitiesComponent extends Component {
+class HouseRulesComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,36 +25,33 @@ class AmenitiesComponent extends Component {
             imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
     return (
         <View style={container}>
-            <SubHeader title="Amenities" />
+            <SubHeader title="House Rules" />
             <View style={contentContainer}>
                 <View style={[flexRow, rowStyle]}>
-                    <Icon type="Feather" name="wifi" style={iconStyle} />
-                    <MyText style={[textH3Style]}>Wifi</MyText>
+                    <Icon type="MaterialIcons" name="access-time" style={iconStyle} />
+                    <MyText style={[textH3Style]}>Check-in: Flexible</MyText>
                 </View>
                 <View style={[flexRow, rowStyle]}>
-                    <Icon type="MaterialIcons" name="free-breakfast" style={iconStyle} />
-                    <MyText style={[textH3Style]}>Coffee, Tea</MyText>
+                    <Icon type="MaterialIcons" name="access-time" style={iconStyle} />
+                    <MyText style={[textH3Style]}>Check-out: 10:00 am</MyText>
                 </View>
                 <View style={[flexRow, rowStyle]}>
-                    <Icon type="Ionicons" name="restaurant" style={iconStyle} />
-                    <MyText style={[textH3Style]}>Kitchen</MyText>
+                    <Icon type="MaterialIcons" name="child-friendly" style={iconStyle} />
+                    <MyText style={[textH3Style]}>Suitable For Infants</MyText>
                 </View>
                 <View style={[flexRow, rowStyle]}>
-                    <Icon type="MaterialIcons" name="pool" style={iconStyle} />
-                    <MyText style={[textH3Style]}>Swimming pool</MyText>
+                    <Icon type="MaterialIcons" name="pets" style={iconStyle} />
+                    <MyText style={[textH3Style]}>Pets Allowed</MyText>
                 </View>
                 <View style={[flexRow, rowStyle]}>
-                    <Icon type="Ionicons" name="tv-outline" style={iconStyle} />
-                    <MyText style={[textH3Style]}>Television</MyText>
+                    <Icon type="MaterialIcons" name="local-bar" style={iconStyle} />
+                    <MyText style={[textH3Style]}>Parties & Events Allowed</MyText>
                 </View>
                 <View style={[flexRow, rowStyle]}>
-                    <Icon type="MaterialIcons" name="local-parking" style={iconStyle} />
-                    <MyText style={[textH3Style]}>Parking space</MyText>
+                    <Icon type="MaterialIcons" name="smoke-free" style={iconStyle} />
+                    <MyText style={[textH3Style]}>No Smoking Allowed</MyText>
                 </View>
 
-                <View style={buttonContainer}>
-                    <CustomButton buttonText="Show All Available Amenities" buttonStyle={buttonStyle} textStyle={{color: colors.black}} />
-                </View>
             </View>
             <View style={divider}></View>
         </View>
@@ -77,7 +74,7 @@ const styles = StyleSheet.create({
         
     },
     buttonStyle: {
-        borderColor: colors.black, borderWidth: 1, backgroundColor: colors.white, borderRadius: 10, elevation: 2
+        borderColor: colors.black, borderWidth: 1, backgroundColor: colors.white, borderRadius: 10
     },
     buttonContainer: {
         marginVertical: 40
@@ -88,4 +85,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AmenitiesComponent;
+export default HouseRulesComponent;

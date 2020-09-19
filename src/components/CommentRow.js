@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Card, MyText } from '../../utils/Index';
+import { Card, MyText } from '../utils/Index';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import GStyles from '../../assets/styles/GeneralStyles';
-import colors from '../../colors';
+import GStyles from '../assets/styles/GeneralStyles';
 
 class CommentRow extends Component {
   constructor(props) {
@@ -19,7 +18,7 @@ class CommentRow extends Component {
       <View style={[flexRow, container]}>
         <View style={leftContainer}>
             <View style={imgContainer}>
-                <Image source={require('../../assets/images/photo/photo6.png')} resizeMode="cover" style={imgStyle} />
+                <Image source={require('../assets/images/photo/photo6.png')} resizeMode="cover" style={imgStyle} />
             </View>
         </View>
         <View style={rightContainer}>

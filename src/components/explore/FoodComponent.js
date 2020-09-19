@@ -17,7 +17,7 @@ class FoodComponent extends Component {
   }
 
   linkToFood = () => {
-    this.props.navigation.navigate('FoodDetails')
+    this.props.navigation.navigate('Other', { screen: 'FoodSingle'})
   }
 
   render() {

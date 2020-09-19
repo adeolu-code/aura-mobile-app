@@ -13,11 +13,11 @@ class StarComponent extends Component {
   }
 
   render() {
-    const { starContainer, iconStyle, orangeIcon, colorGrey, colorGreyWhite } = styles;
+    const { sContainer, iconStyle, orangeIcon, colorGrey, colorGreyWhite } = styles;
     const { flexRow } = GStyles;
-    const { grey, style } = this.props;
+    const { grey, style, starContainer } = this.props;
     return (
-        <View style={[flexRow, starContainer]}>
+        <View style={[flexRow, sContainer, starContainer ]}>
             <Icon name="star" style={[iconStyle, grey ? colorGrey : colorGreyWhite, style, orangeIcon]} />
             <Icon name="star" style={[iconStyle, grey ? colorGrey : colorGreyWhite, style, orangeIcon]} />
             <Icon name="star" style={[iconStyle, grey ? colorGrey : colorGreyWhite, style, orangeIcon]} />
@@ -29,7 +29,7 @@ class StarComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-    starContainer: {
+    sContainer: {
         marginBottom: 10, alignItems: 'center'
     },
     iconStyle: {
