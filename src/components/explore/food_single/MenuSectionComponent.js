@@ -8,6 +8,11 @@ import { Icon } from 'native-base';
 
 import colors from '../../../colors';
 
+import LunchComponent from './LunchComponent';
+import BreakfastComponent from './BreakfastComponent';
+import DinnerComponent from './DinnerComponent';
+import OtherMenuComponent from './OtherMenuComponent';
+
 
 class MenuSectionComponent extends Component {
   constructor(props) {
@@ -32,6 +37,19 @@ class MenuSectionComponent extends Component {
     
       default:
         break;
+    }
+  }
+
+  renderTabs = () => {
+    const { tabOne, tabTwo, tabThree, tabFour } = this.state
+    if(tabOne) {
+      return <BreakfastComponent />
+    } else if(tabTwo) {
+      return <LunchComponent />
+    } else if(tabThree) {
+      return <DinnerComponent />
+    } else {
+      return <OtherMenuComponent />
     }
   }
 
@@ -61,7 +79,7 @@ class MenuSectionComponent extends Component {
         </View>
 
         <View style={bodyContainer}>
-
+          {this.renderTabs()}
         </View>
       </View>
     );
@@ -70,12 +88,14 @@ class MenuSectionComponent extends Component {
 
 const styles = StyleSheet.create({
     container: {
-
+      // borderWidth: 1, borderColor: 'red',
+      borderBottomColor: colors.lightGrey, borderBottomWidth: 3, paddingBottom: 10,
     },
     tabContainer: {
         borderTopWidth: 2, borderTopColor: colors.lightGrey, backgroundColor: colors.white,
-        borderBottomWidth: 1, borderBottomColor: colors.lightGrey, elevation: 2, paddingTop: 10,
-        justifyContent: 'flex-end', paddingBottom: 0
+        elevation: 3, paddingTop: 30,
+        justifyContent: 'flex-end', paddingBottom: 0,
+        // borderBottomWidth: 1, borderBottomColor: colors.lightGrey, 
     },
     headerContainer: {
       justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 0
@@ -86,6 +106,9 @@ const styles = StyleSheet.create({
     },
     activeMenu: {
       borderBottomColor: colors.orange, borderBottomWidth: 3
+    },
+    bodyContainer: {
+      paddingTop: 10
     }
 });
 
