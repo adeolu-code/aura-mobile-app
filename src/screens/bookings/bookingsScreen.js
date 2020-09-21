@@ -27,25 +27,42 @@ class BookingsScreen extends Component {
   }
 
   defaultRender = (
-//   <RenderNoRecord 
-//     illustrationSource={illustration} 
-//     noRecordText={BOOKINGS_NO_BOOKINGS}
-//     description={BOOKINGS_SCREEN_DESCRIPTION}
-//     buttonText={"Explore Aura"}
-//     onButtonPress={() => alert("")}            
-//     />
     <>
     <BookingPropertyComponent 
         title={"Umbaka Homes"} 
         location={"Tanscorp Hotels Abuja"} 
         type={"Platinum Room"}
         dayLeft={10}
+        image={require("../../assets/images/places/bed2.png")}
+        onClick={() => this.props.navigation.navigate("BookingDetail",{
+          propertyCategory: "Hotel",
+          checkOut: "2/04/2020",
+          propertyType: "Platinum Room",
+          propertyType: "Platinum Room",
+          time: "8:00am - 10:00am",
+          checkIn: "12/12/2021",
+          amount: 300,
+          image: require('../../assets/images/places/bed2.png'),
+        })}
+        {...this.props}
     />
     <BookingPropertyComponent 
         title={"Umbaka Homes"} 
         location={"Tanscorp Hotels Abuja"} 
         type={"Platinum Room"}
         dayLeft={15}
+        image={require("./../../assets/images/places/bed1.png")}
+        onClick={() => this.props.navigation.navigate("BookingDetail",{
+          propertyCategory: "Hotel",
+          checkOut: "2/04/2020",
+          propertyType: "Platinum Room",
+          propertyType: "Platinum Room",
+          time: "8:00am - 10:00am",
+          checkIn: "12/12/2021",
+          amount: 300,
+          image: require('./../../assets/images/places/bed1.png'),
+        })}
+        {...this.props}
     />
     </>
     
@@ -62,13 +79,7 @@ class BookingsScreen extends Component {
       if (index == 0) {
           this.set(
             {
-                toBeRendered: <RenderNoRecord 
-                    illustrationSource={illustration} 
-                    noRecordText={BOOKINGS_NO_BOOKINGS}
-                    description={BOOKINGS_SCREEN_DESCRIPTION}
-                    buttonText={"Explore Aura"}
-                    onButtonPress={() => alert("")}            
-                />
+                toBeRendered: this.defaultRender
             });
       }
       else if (index == 1) {
@@ -78,7 +89,7 @@ class BookingsScreen extends Component {
                     illustrationSource={illustration} 
                     noRecordText={BOOKINGS_NO_BOOKINGS}
                     description={BOOKINGS_SCREEN_DESCRIPTION}
-                    buttonText={"Explore Tours"}
+                    buttonText={"Explore Aura"}
                     onButtonPress={() => alert("")}            
                 />
             });

@@ -7,7 +7,7 @@ import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import ReservationRow from './../../components/dashboard/ReservationRow';
-import CommentRow from '../../components/dashboard/CommentRow';
+import CommentRow from '../../components/CommentRow';
 import RatingRow from '../../components/dashboard/RatingRow';
 
 class Dashboard extends Component {
