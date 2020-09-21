@@ -1,9 +1,13 @@
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet, SafeAreaView, StatusBar, View} from 'react-native';
 import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 import DashboardComponent from './../../components/dashboard/DashboardComponent';
+import OtpScreen from '../../components/auth/OtpScreen';
+import SuccessScreen from '../../components/auth/SuccessScreen';
+import ListPropertyScreen from '../../components/auth/ListPropertyScreen';
 
 class Index extends Component {
   constructor(props) {
@@ -17,13 +21,16 @@ class Index extends Component {
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-          {/* <ScrollView>
+          <ScrollView>
             <PlaceHolderComponent title="Dashboard" description={description} {...this.props} 
             img={require('../../assets/images/dash/dash.png')} />
-          </ScrollView> */}
-          <View style={{ flex: 1 }}>
+          </ScrollView>
+          {/* <View style={{ flex: 1 }}>
             <DashboardComponent {...this.props} />
-          </View>
+          </View> */}
+          {/* <View style={{flex: 1}}>
+            <ListPropertyScreen {...this.props} />
+          </View> */}
 
         </SafeAreaView>
       </>

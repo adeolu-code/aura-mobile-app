@@ -31,7 +31,7 @@ export function DashboardStack() {
             <Stack.Screen name="HomeDetails" component={HomeDetailsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="GuestProfile" component={GuestProfileScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ManageProperties" component={ManagePropertiesScreen} options={{ headerShown: false }} />
-
+   
         </Stack.Navigator>
     );
 }
