@@ -29,7 +29,7 @@ class SignUpModal extends Component {
   }
   linkToSignUp = () => {
     this.props.onDecline();
-    this.props.navigation.navigate('Auth')
+    this.props.navigation.navigate('Auth');
   }
 
   render() {

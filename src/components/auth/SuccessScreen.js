@@ -16,7 +16,9 @@ class SuccessScreen extends Component {
     this.state = {
     };
   }
-
+  ListScreen = () => {
+    this.props.navigation.navigate('List');
+  }
   render() {
     const {container, middleRow, bottomRow  } = styles
     const { textBold, textSuccess, textUnderline} = GStyles
@@ -33,7 +35,7 @@ class SuccessScreen extends Component {
                 <Icon name="checkmark-circle" style={{color:"#FD8323", fontSize: 70}} />
             </View>
             <View>
-                <CustomButton buttonText='Resend Mail' buttonStyle={{borderColor: '#000', borderWidth: 1,borderRadius: 8, backgroundColor: '#fff'}} textStyle={{color: '#000'}}/>
+                <CustomButton onPress={this.ListScreen} buttonText='Resend Mail' buttonStyle={{borderColor: '#000', borderWidth: 1,borderRadius: 8, backgroundColor: '#fff'}} textStyle={{color: '#000'}}/>
             </View>
             <View style={bottomRow}>
             <TouchableOpacity><MyText>Don’t have access to your mail?{' '}

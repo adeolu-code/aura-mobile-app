@@ -14,7 +14,9 @@ class OtpScreen extends Component {
     this.state = {
     };
   }
-
+  SuccessScreen = () => {
+    this.props.navigation.navigate('Success');
+  }
   render() {
     const { container, middleRow, bottomRow } = styles
     const { textBold, textH4Style, flexRow, imgStyle, textH3Style, textGrey, textWhite, 
@@ -40,7 +42,7 @@ class OtpScreen extends Component {
             </View>
             </View>
             <View style={bottomRow}>
-                <CustomButton buttonText="Next" />
+                <CustomButton onPress={this.SuccessScreen} buttonText="Next" />
             </View>
           </View>
       </SafeAreaView>
