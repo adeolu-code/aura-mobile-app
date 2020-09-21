@@ -23,6 +23,9 @@ import NotificationDetail from '../screens/notifications/notification.detail';
 import InboxContent from '../screens/inbox/inboxContent';
 import InboxChat from '../screens/inbox/inboxChat';
 import BookingsDetail from '../screens/bookings/booking.detail';
+import PaymentReferral from '../screens/payments_referrals/paymentReferrals.screen';
+import NotificationSettings from '../screens/settings/notification.screen';
+import AccountVerification from '../screens/account_verification/index.screen';
 
 const Stack = createStackNavigator();
 
@@ -74,6 +77,9 @@ export function ProfileStack() {
     return (
         <Stack.Navigator initialRouteName="Profile" options={{ gestureEnabled: true }}>
             <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PaymentReferral" component={PaymentReferral} options={{ headerShown: false }} />
+            <Stack.Screen name="NotificationSettings" component={NotificationSettings} options={{ headerShown: false }} />
+            <Stack.Screen name="AccountVerification" component={AccountVerification} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

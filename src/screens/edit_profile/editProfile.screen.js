@@ -30,7 +30,12 @@ export default class EditProfile extends Component {
                             <EditInput label={"First Name"} placeholder={"Joshua"} />
                             <EditInput label={"Last Name"} placeholder={"Nwagbo"} />
                             <EditInput label={"Email"} placeholder={"ode@g.com"} />
-                            <EditInput phone label={"Phone Number"} placeholder={"812345678"} itemStyle={Styles.phoneItem} />
+                            <EditInput 
+                                phone 
+                                label={"Phone Number"} 
+                                placeholder={"812345678"} 
+                                itemStyle={Styles.phoneItem} 
+                            />
                             <View style={[Styles.personalInfo]}>
                                 <EditInput dateTime label={"Date of Birth"} placeholder={"812345678"} itemStyle={{flex: 0.5, marginLeft: 5}} />
                                 <EditInput picker label={"Gender"} itemStyle={{flex: 0.5}} />

@@ -41,17 +41,19 @@ export const Styles = StyleSheet.create({
         borderRadius: 5,
         padding: 3,
         borderWidth: 1,
-        height: 45,
+        height: 55,
     },
     nextOfKinView: {
         flexDirection: "row",
         marginTop: 10,
+        marginBottom: 10,
     },
     icon: {
         color: colors.green,
     },
     phoneItem: {
-        height: 55,
-        marginBottom: 15,
+        paddingBottom: 15,
+        borderBottomWidth: 0,
+        
     }
 });

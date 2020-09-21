@@ -29,7 +29,7 @@ export default class ProfileScreen extends Component {
                     <View>
                         {/* Account settings */}
                         <ProfileComponent 
-                            title={"Personl Information"} 
+                            title={"Personal Information"} 
                             description={"Biodata and information about you"} 
                             iconImage={require("./../../assets/images/profile/user_solid/user-solid-square.png")}
                             onPress={() => this.props.navigation.navigate("EditProfile")}
@@ -38,6 +38,7 @@ export default class ProfileScreen extends Component {
                             title={"Payments and Referrals"} 
                             description={"Credit Cards, debit cards, referrals and more"} 
                             iconImage={require("./../../assets/images/profile/credit_card/credit-card.png")}
+                            onPress={() => this.props.navigation.navigate("PaymentReferral")}
                         />
                         <ProfileComponent 
                             title={"Device Sharing"} 
@@ -48,11 +49,13 @@ export default class ProfileScreen extends Component {
                             title={"Notifications"} 
                             description={"How we contact you"} 
                             iconImage={require("./../../assets/images/profile/notification/notificatio.png")}
+                            onPress={() => this.props.navigation.navigate("NotificationSettings")}
                         />
                         <ProfileComponent 
                             title={"Account Verifications"} 
                             description={"How we confirm your identity"} 
                             iconImage={require("./../../assets/images/profile/document/document.png")}
+                            onPress={() => this.props.navigation.navigate("AccountVerification")}
                         />
                     </View>
                     <Separator style={[Styles.separator]}>
