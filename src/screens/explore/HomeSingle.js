@@ -11,8 +11,8 @@ import colors from '../../colors';
 import BackHeader from '../../components/BackHeader'
 
 import ImageAndDetails from '../../components/explore/ImageAndDetails';
-import AmenitiesComponent from '../../components/explore/home_single/AmenitiesComponent';
-import HouseRulesComponent from '../../components/explore/home_single/HouseRulesComponent';
+import AmenitiesComponent from '../../components/explore/AmenitiesComponent';
+import RulesComponent from '../../components/explore/RulesComponent';
 import LocationComponent from '../../components/explore/LocationComponent';
 import HostComponent from '../../components/explore/HostComponent';
 import DetailsComponent from '../../components/explore/DetailsComponent';
@@ -48,8 +48,8 @@ class HomeSingle extends Component {
         <ScrollView>
             <View>
                 <ImageAndDetails imgArr={this.state.imgArr} house title="Umbaka Home Park" />
-                <AmenitiesComponent />
-                <HouseRulesComponent />
+                <AmenitiesComponent btn />
+                <RulesComponent title="House Rules" />
                 <LocationComponent />
                 <HostComponent />
                 <DetailsComponent />

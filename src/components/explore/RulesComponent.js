@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import GStyles from '../../../assets/styles/GeneralStyles';
+import GStyles from '../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton } from '../../../utils/Index';
+import { MyText, CustomButton } from '../../utils/Index';
 
 import { Icon } from 'native-base';
 
-import colors from '../../../colors';
+import colors from '../../colors';
 
 import SubHeader from './SubHeader'
 
 
 
-class HouseRulesComponent extends Component {
+class RulesComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,9 +23,10 @@ class HouseRulesComponent extends Component {
     const {  contentContainer, divider, container, iconStyle, rowStyle, buttonStyle, buttonContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textGrey, textH4Style, 
             imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
+    const { title } = this.props
     return (
         <View style={container}>
-            <SubHeader title="House Rules" />
+            <SubHeader title={title} />
             <View style={contentContainer}>
                 <View style={[flexRow, rowStyle]}>
                     <Icon type="MaterialIcons" name="access-time" style={iconStyle} />
@@ -85,4 +86,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HouseRulesComponent;
+export default RulesComponent;

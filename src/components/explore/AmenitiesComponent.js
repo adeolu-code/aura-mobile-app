@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import GStyles from '../../../assets/styles/GeneralStyles';
+import GStyles from '../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton } from '../../../utils/Index';
+import { MyText, CustomButton } from '../../utils/Index';
 
 import { Icon } from 'native-base';
 
-import colors from '../../../colors';
+import colors from '../../colors';
 
 import SubHeader from './SubHeader'
 
@@ -23,6 +23,7 @@ class AmenitiesComponent extends Component {
     const {  contentContainer, divider, container, iconStyle, rowStyle, buttonStyle, buttonContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textGrey, textH4Style, 
             imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
+    const { btn } = this.props
     return (
         <View style={container}>
             <SubHeader title="Amenities" />
@@ -52,9 +53,9 @@ class AmenitiesComponent extends Component {
                     <MyText style={[textH3Style]}>Parking space</MyText>
                 </View>
 
-                <View style={buttonContainer}>
+                {btn ? <View style={buttonContainer}>
                     <CustomButton buttonText="Show All Available Amenities" buttonStyle={buttonStyle} textStyle={{color: colors.black}} />
-                </View>
+                </View>: <Fragment></Fragment>}
             </View>
             <View style={divider}></View>
         </View>
