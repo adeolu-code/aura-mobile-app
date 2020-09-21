@@ -5,9 +5,6 @@ import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 import DashboardComponent from './../../components/dashboard/DashboardComponent';
-import OtpScreen from '../../components/auth/OtpScreen';
-import SuccessScreen from '../../components/auth/SuccessScreen';
-import ListPropertyScreen from '../../components/auth/ListPropertyScreen';
 
 class Index extends Component {
   constructor(props) {
@@ -28,10 +25,6 @@ class Index extends Component {
           {/* <View style={{ flex: 1 }}>
             <DashboardComponent {...this.props} />
           </View> */}
-          {/* <View style={{flex: 1}}>
-            <ListPropertyScreen {...this.props} />
-          </View> */}
-
         </SafeAreaView>
       </>
     );
