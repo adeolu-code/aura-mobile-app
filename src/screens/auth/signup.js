@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, View, Image, ScrollView } from 'react-native';
 import colors from '../../colors';
@@ -12,6 +13,7 @@ class signUp extends Component {
   }
 
   render() {
+    // eslint-disable-next-line prettier/prettier
     const { textWhite, textBold, textExtraBold, textH1Style } = GStyles;
     const {inputContainer } = styles
     return (
@@ -41,7 +43,7 @@ class signUp extends Component {
                 <CustomInput password secureTextEntry placeholder='Password' label="Password" />
               </View>
               <View style={{ paddingTop: 50 }}>
-                <CustomButton buttonText="Sign Up With Email" />
+                <CustomButton buttonText="Sign Up With Email"/>
               </View>
             </View>
           </ScrollView>
