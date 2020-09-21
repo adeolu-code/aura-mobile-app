@@ -10,6 +10,7 @@ import SignUpScreen from '../screens/auth/signup';
 import InboxChat from '../screens/inbox/inboxChat';
 
 import OtherStack from './OtherNavigation';
+import EditProfile from '../screens/edit_profile/editProfile.screen';
 
 const RootStack = createStackNavigator();
 
@@ -17,12 +18,13 @@ const RootStack = createStackNavigator();
 
 function AppNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="Splash" options={{gestureEnabled: true}}>
+    <RootStack.Navigator initialRouteName="Tabs" options={{gestureEnabled: true}}>
       <RootStack.Screen name="Splash" component={SplashScreen} options={{headerShown: false}} />
       <RootStack.Screen name="Tabs" component={TabsScreen} options={{headerShown: false}} />
       <RootStack.Screen name="Auth" component={SignUpScreen} options={{headerShown: false}} />
       <RootStack.Screen name="InboxChat" component={InboxChat} options={{headerShown: false}} />
       <RootStack.Screen name="Other" component={OtherStack} options={{headerShown: false}} />
+      <RootStack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}} />
     </RootStack.Navigator>
   );
 }

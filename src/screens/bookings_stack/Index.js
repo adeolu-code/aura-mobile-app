@@ -23,9 +23,9 @@ class Index extends Component {
           <ScrollView>
             {
               !this.context.state.isLoggedIn ?
-              <PlaceHolderComponent title="Bookings" description={description} img={require('../../assets/images/booking/booking.png')} />
+              <PlaceHolderComponent title="Bookings" description={description} img={require('../../assets/images/booking/booking.png')} {...this.props} />
               :
-              <BookingsScreen />
+              <BookingsScreen {...this.props} />
             }
           </ScrollView>
         </SafeAreaView>
