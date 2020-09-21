@@ -20,15 +20,17 @@ class SuccessScreen extends Component {
     this.props.navigation.navigate('List');
   }
   render() {
-    const {container, middleRow, bottomRow  } = styles
-    const { textBold, textSuccess, textUnderline} = GStyles
+    const {container, middleRow, bottomRow, header  } = styles
+    const { textBold, textSuccess, textUnderline, textCenter, textExtraBold, textLgStyle} = GStyles
     return (
       <SafeAreaView style={{ flex: 1}}>
-        <Header {...this.props} title="Account Successfully Created" />
+        <View style={header}>
+            <MyText style={[textLgStyle, textExtraBold]}>Account Successfully Created</MyText>
+        </View>
           <View style={container}>
             <View>
             <MyText>
-            A verification link has been sent to josh***d@gmail.com
+              A verification link has been sent to josh***d@gmail.com
             </MyText>
             </View>
             <View style={middleRow}>
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    paddingTop: 120,
+    paddingTop: 130,
     flex: 1,
   }, middleRow:{
       flex: 1,
@@ -63,8 +65,12 @@ const styles = StyleSheet.create({
   bottomRow: {
     alignItems: 'center',
     marginTop: 20,
-    paddingBottom: 40,
-}
+    paddingBottom: 77,
+  },
+  header: {
+    width: '100%', paddingTop: 40, backgroundColor: colors.white, paddingHorizontal: 20,
+        position: 'absolute', top: 0, zIndex: 100,
+  },
     
 });
 

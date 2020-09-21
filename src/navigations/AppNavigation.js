@@ -7,9 +7,9 @@ import TabsScreen from './TabNavigation';
 
 import SplashScreen from '../screens/splash_screen/splashScreen';
 import SignUpScreen from '../screens/auth/signup';
-import OtpScreen from '../../src/components/auth/OtpScreen';
-import SuccessScreen from '../../src/components/auth/SuccessScreen';
-import ListPropertyScreen from '../../src/components/auth/ListPropertyScreen';
+import OtpScreen from '../screens/auth/OtpScreen';
+import SuccessScreen from '../screens/auth/SuccessScreen';
+import ListPropertyScreen from '../screens/auth/ListPropertyScreen';
 
 const RootStack = createStackNavigator();
 
