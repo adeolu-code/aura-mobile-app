@@ -4,8 +4,6 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 import { MyText } from '../../utils/Index';
 
-import { Icon } from 'native-base';
-
 import colors from '../../colors';
 
 import BackHeader from '../../components/BackHeader'

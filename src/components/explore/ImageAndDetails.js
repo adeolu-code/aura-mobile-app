@@ -49,7 +49,7 @@ class ImageAndDetails extends Component {
     return (
         <View>
             <View style={[flexRow, headerStyle]}>
-                <View>
+                <View style={{flex: 6 }}>
                     <MyText style={[textExtraBold, textLgStyle]}>{title}</MyText>
                     <View style={starContainer}>
                         <StarComponent style={iconStyle} grey />
@@ -59,9 +59,11 @@ class ImageAndDetails extends Component {
                         <MyText style={[textSuccess, textExtraBold, textH5Style]}>Open</MyText> · <MyText style={[textH6Style]}>12:00pm - 9:00pm</MyText>
                     </MyText>:<Fragment></Fragment>}
                 </View>
-                <TouchableOpacity style={shareContainer}>
-                    <Icon name="share-social" style={shareStyle} />
-                </TouchableOpacity>
+                <View style={{flex: 1,alignItems: 'flex-end' }}>
+                    <TouchableOpacity style={shareContainer}>
+                        <Icon name="share-social" style={shareStyle} />
+                    </TouchableOpacity>
+                </View>
             </View>
 
                  
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
     headerStyle: {
         paddingTop: 70, paddingBottom: 15,
         backgroundColor: colors.white,
-        justifyContent: 'space-between', paddingHorizontal: 20,
+        paddingHorizontal: 20,
     },
     shareContainer: {
         width: 40, height: 40, borderRadius: 40, backgroundColor: colors.white, elevation: 3, justifyContent: 'center',

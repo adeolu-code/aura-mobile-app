@@ -15,7 +15,7 @@ class HouseComponent extends Component {
   }
 
   linkToHouse = () => {
-    this.props.navigation.navigate('Other')
+    this.props.navigation.navigate('Other', { screen: 'HouseSingle'})
   }
 
   render() {
