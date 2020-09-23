@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, View, Image, ScrollView } from 'react-native';
 import colors from '../../colors';
@@ -10,8 +11,11 @@ class signUp extends Component {
     super(props);
     this.state = {};
   }
-
+  OtpScreen = () => {
+    this.props.navigation.navigate('Otp');
+  }
   render() {
+    // eslint-disable-next-line prettier/prettier
     const { textWhite, textBold, textExtraBold, textH1Style } = GStyles;
     const {inputContainer } = styles
     return (
@@ -41,7 +45,7 @@ class signUp extends Component {
                 <CustomInput password secureTextEntry placeholder='Password' label="Password" />
               </View>
               <View style={{ paddingTop: 50 }}>
-                <CustomButton buttonText="Sign Up With Email" />
+                <CustomButton onPress={this.OtpScreen} buttonText="Sign Up With Email"/>
               </View>
             </View>
           </ScrollView>

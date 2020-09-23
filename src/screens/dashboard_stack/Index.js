@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet, SafeAreaView, StatusBar, View} from 'react-native';
 import colors from '../../colors';
@@ -17,14 +18,13 @@ class Index extends Component {
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-          {/* <ScrollView>
+          <ScrollView>
             <PlaceHolderComponent title="Dashboard" description={description} {...this.props} 
             img={require('../../assets/images/dash/dash.png')} />
-          </ScrollView> */}
-          <View style={{ flex: 1 }}>
+          </ScrollView>
+          {/* <View style={{ flex: 1 }}>
             <DashboardComponent {...this.props} />
-          </View>
-
+          </View> */}
         </SafeAreaView>
       </>
     );

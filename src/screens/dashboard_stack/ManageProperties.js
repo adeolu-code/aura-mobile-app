@@ -9,11 +9,12 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 import ManageOnlineRow from '../../components/dashboard/ManageOnlineRow';
 import ManagePendingRow from '../../components/dashboard/ManagePendingRow';
+import FilterModal from '../../components/dashboard/FilterModal';
 
 class ManageProperties extends Component {
   constructor(props) {
     super(props);
-    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false };
+    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false  };
   }
   
 
@@ -28,10 +29,16 @@ class ManageProperties extends Component {
   selectTabThree = () => {
     this.setState({tabOneSelected: false, tabThreeSelected: true, tabTwoSelected: false});
   }
+  openFilterModal = () => {
+    this.setState({ showFilterModal: true });
+  }
+  closeFilterModal = () => {
+    this.setState({ showFilterModal: false });
+  }
   render() {
     const { flexRow, textGrey, textH3Style, textH4Style, textSuccess, textWhite, textH5Style,imgStyle,textExtraBold, textDarkGrey, textBold, } = GStyles;
     const { manageHeader, container, imgContainer, rightContainer, typeStyle, iconStyle, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
-    const { tabOneSelected, tabTwoSelected, tabThreeSelected } = this.state
+    const { tabOneSelected, tabTwoSelected, tabThreeSelected, showFilterModal } = this.state;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         <Header {...this.props} title="Manage Properties" wrapperStyles={{ paddingBottom: 5}} />
@@ -51,14 +58,18 @@ class ManageProperties extends Component {
         <ScrollView>
             <View style={contentContainer}>
               <View style={rowContainer}>
-                <ManagePendingRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')} location="Transcorp Hilton Abuja" status="Pending" {...this.props} />
+                <ManagePendingRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')} 
+                location="Transcorp Hilton Abuja" status="Pending" {...this.props} openModal={this.openFilterModal} />
               </View>
               <View style={rowContainer}>
-              <ManageOnlineRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')} location="Transcorp Hilton Abuja" status="Online" {...this.props} />
+              <ManageOnlineRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')} openModal={this.openFilterModal}
+              location="Transcorp Hilton Abuja" status="Online" {...this.props} />
               </View>
               <View style={rowContainer}>
-              <ManageOnlineRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')} location="Transcorp Hilton Abuja" status="Online" {...this.props} />
+              <ManageOnlineRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')} 
+              location="Transcorp Hilton Abuja" status="Online" {...this.props} openModal={this.openFilterModal} />
               </View>
+              <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} img={require('../../assets/images/places/bed.png')}  title='Umbaka Homes' {...this.props} />
             </View>
         </ScrollView>
         <View>

@@ -14,12 +14,16 @@ class ManageOnlineRow extends Component {
   linkToHome = () => {
       this.props.navigation.navigate('HomeDetails');
   }
+  openFilterModal = () => {
+    const { openModal } = this.props
+    openModal()
+}
 
   render() {
-    const { container, imgContainer, rightContainer, typeStyle, iconStyle } = styles;
+    const { container, imgContainer, rightContainer, typeStyle, iconStyle, ellipsis } = styles;
     const { flexRow, imgStyle, textBold, textH4Style, textH5Style, textGrey, textFadedBlack,
         textDarkGrey, textExtraBold, textH1Style, textSuccess } = GStyles;
-    const { title, location, status, img } = this.props
+    const { title, location, status, img, onPress } = this.props
     return (
         <View style={{ width: '100%'}}>
             <TouchableOpacity style={[flexRow, container]} onPress={this.linkToHome}>
@@ -27,9 +31,15 @@ class ManageOnlineRow extends Component {
                     <Image source={img} resizeMode="cover" style={imgStyle} />
                 </View>
                 <View style={rightContainer}>
-                <View style={[flexRow]}>
-                    <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>{title}</MyText><TouchableOpacity><MyText>{'        '}</MyText></TouchableOpacity>
-                    <Icon style={{color: colors.grey}} name={'ios-ellipsis-vertical-sharp'} />
+                    <View style={[flexRow]}>
+                        <View style={{flex:10}}>
+                        <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>{title}</MyText>
+                        </View>
+                        <View style={{flex:1, paddingTop: 1}}>
+                            <TouchableOpacity onPress={this.openFilterModal}>
+                                <Icon style={{color: colors.grey, fontSize: 21}} name={"ios-ellipsis-vertical-sharp"} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <MyText style={[textH5Style, textGrey, { marginVertical: 6}]}>{location}</MyText>
                     <View style={[flexRow, typeStyle]}>
@@ -64,6 +74,9 @@ const styles = StyleSheet.create({
     iconStyle: {
         fontSize: 6, marginHorizontal: 6,
     },
+    ellipsis: {
+        flex: 9,
+    }
 });
 
 export default ManageOnlineRow;

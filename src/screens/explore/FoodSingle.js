@@ -12,10 +12,12 @@ import LocationComponent from '../../components/explore/LocationComponent';
 import HostComponent from '../../components/explore/HostComponent';
 import CommentComponent from '../../components/explore/CommentComponent';
 import ReviewsComponent from '../../components/explore/ReviewsComponent';
+import AmenitiesComponent from '../../components/explore/AmenitiesComponent';
+import RulesComponent from '../../components/explore/RulesComponent';
 
 import DetailsComponent from '../../components/explore/DetailsComponent';
 
-import Header from '../../components/explore/food_single/Header'
+import MenuSectionComponent from '../../components/explore/food_single/MenuSectionComponent'
 
 import BackHeader from '../../components/BackHeader'
 
@@ -36,7 +38,9 @@ class FoodSingle extends Component {
         <ScrollView>
             <View>
                 <ImageAndDetails imgArr={this.state.imgArr} time title="Ocean Basket" />
-                <Header />
+                <MenuSectionComponent />
+                <AmenitiesComponent />
+                <RulesComponent title="Restaurant Rules" />
                 <LocationComponent />
                 <HostComponent />
                 <DetailsComponent />

@@ -12,6 +12,9 @@ class PhotoComponent extends Component {
     super(props);
     this.state = {};
   }
+  linkToPhoto = () => {
+    this.props.navigation.navigate('Other', { screen: 'PhotoSingle'})
+  }
 
   render() {
     const { imgContainer, contentContainer, scrollItemContainer } = styles;
@@ -20,7 +23,7 @@ class PhotoComponent extends Component {
     const { title, img, location, price, title1, title2 } = this.props;
     return (
       <View>
-        <TouchableOpacity style={scrollItemContainer}>
+        <TouchableOpacity style={scrollItemContainer} onPress={this.linkToPhoto}>
             <View style={imgContainer}>
                 <Image source={img} resizeMode="cover" style={imgStyle} />
             </View>
