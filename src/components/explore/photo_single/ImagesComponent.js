@@ -31,16 +31,16 @@ class ImagesComponent extends Component {
 
   render() {
     const { photosContainer, container, leftImgContainer, middleImgContainer, leftContainer, middleContainer, 
-        rightContainer } = styles;
-    const { flexRow, imgStyle } = GStyles
+        rightContainer, portfolioStyle, divider } = styles;
+    const { flexRow, imgStyle, textExtraBold, textH3Style, textH4Style } = GStyles
     return (
       <View style={container}>
-          <View  style={[photosContainer]}>
+        {/* <View  style={[photosContainer]}>
             <MasonryList columns="3"
                     images={this.state.images} listContainerStyle={{margin: 0}}
                 />
-            </View>
-        {/* <View style={[flexRow, photosContainer]}>
+        </View> */}
+        <View style={[flexRow, photosContainer]}>
             <View style={leftContainer}>
                 <View style={leftImgContainer}>
                     <Image source={require('../../../assets/images/photo/pic.png')} resizeMode="cover" style={imgStyle} />
@@ -62,7 +62,11 @@ class ImagesComponent extends Component {
                     <Image source={require('../../../assets/images/photo/pic3.png')} resizeMode="cover" style={imgStyle} />
                 </View>
             </View>
-        </View> */}
+        </View>
+        <TouchableOpacity style={portfolioStyle}>
+            <MyText style={[textExtraBold, textH3Style]}>Portfolio</MyText>
+        </TouchableOpacity>
+        <View style={divider}></View>
       </View>
     );
   }
@@ -70,28 +74,34 @@ class ImagesComponent extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 15
+        paddingHorizontal: 20
     },
     photosContainer: {
-        // justifyContent: 'space-between', 
-        width: '100%', borderRadius: 30, overflow: 'hidden',
+        justifyContent: 'space-between', 
+        width: '100%', borderRadius: 10, overflow: 'hidden',
         // borderWidth: 1
     },
     leftContainer: {
-        width: '32%'
+        width: '32.3%', height: 288, justifyContent: 'space-between'
     },
     middleContainer:{
-        width: '32%'
+        width: '32.3%', height: 288
     },
     rightContainer: {
-        width: '32%'
+        width: '32.3%', height: 288, justifyContent: 'space-between'
     },
     
     leftImgContainer: {
-        width: '100%', height: 200
+        width: '100%', height: 140,
     },
     middleImgContainer: {
-        width: '100%', height: 400
+        width: '100%', height: 290
+    },
+    portfolioStyle: {
+        marginTop: 20, marginBottom: 30
+    },
+    divider: {
+        height: 1, width: '100%', backgroundColor: colors.lightGrey
     }
 });
 
