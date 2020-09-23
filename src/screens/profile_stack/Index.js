@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { MyText } from '../../utils/Index';
+import ProfileScreen from '../profile/profile.screen';
 
 
 class Index extends Component {
@@ -12,9 +13,7 @@ class Index extends Component {
 
   render() {
     return (
-      <View>
-        <MyText> Profile </MyText>
-      </View>
+        <ProfileScreen {...this.props} />
     );
   }
 }

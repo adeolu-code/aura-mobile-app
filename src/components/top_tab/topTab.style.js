@@ -7,6 +7,7 @@ export const Styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         backgroundColor: colors.willowBrook,
+        borderRadius: 5,
     },
     sectionActive: {
         backgroundColor: colors.green,
@@ -15,6 +16,7 @@ export const Styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         marginRight: 3,
+        justifyContent: "center",
 
     },
     sectionInactive: {
@@ -24,6 +26,7 @@ export const Styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         marginRight: 3,
+        justifyContent: "center",
 
     },
     sectionTextActive: {

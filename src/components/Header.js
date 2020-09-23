@@ -15,6 +15,18 @@ class Header extends Component {
     this.props.navigation.goBack();
   }
 
+  renderSubTitle = () => {
+    const { sub } = this.props;
+    const { textH4Style, textGrey, textH5Style } = GStyles;
+    if(sub) {
+        return (
+            <View style={{ marginTop: 3}}>
+                <MyText style={[textH5Style, textGrey]}>{sub}</MyText>
+            </View>
+        )
+    }
+  }
+
   render() {
     const { iconStyle, iconContainer, titleContainer, container } = styles;
     const { textH1Style, textExtraBold, textLgStyle } = GStyles
@@ -27,6 +39,7 @@ class Header extends Component {
         <View style={titleContainer}>
             <MyText style={[textLgStyle, textExtraBold]}>{title}</MyText>
         </View>
+        {this.renderSubTitle()}
       </View>
     );
   }

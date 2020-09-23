@@ -48,20 +48,20 @@ const styles = StyleSheet.create({
     },
     imgContainer: {
         width: 130, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
-        borderWidth: 1
+        borderWidth: 1,
     },
     starContainer: {
-        marginVertical: 8
+        marginVertical: 8,
     },
     iconStyle: {
-        fontSize: 12, marginRight: 6, color: colors.grey
+        fontSize: 12, marginRight: 6, color: colors.grey,
     },
     orangeIcon: {
-        color: colors.orange
+        color: colors.orange,
     },
     dateStyle: {
-        position: 'absolute', top: 10, right: 10
-    }
+        position: 'absolute', top: 10, right: 10,
+    },
 });
 
 export default ReservationRow;
