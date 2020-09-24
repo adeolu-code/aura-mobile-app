@@ -25,6 +25,9 @@ class ExploreAll extends Component {
   goBack = () => {
       this.props.navigation.goBack()
   }
+  linkToTab = (value) => {
+    this.linkTo(value)
+  }
   linkTo = (tab) => {
     this.scrollViewRef.scrollTo({ x: this.tabs[tab] - 20, y: 0, animated: true})
     switch (tab) {
@@ -58,15 +61,15 @@ class ExploreAll extends Component {
   renderTabs = () => {
     const { tabOne, tabTwo, tabThree, tabFour, tabFive } = this.state;
     if(tabOne) {
-        return <TopRatedComponent />
+        return <TopRatedComponent link={this.linkToTab} />
     } else if(tabTwo) {
-        return <HomesComponent />
+        return <HomesComponent link={this.linkToTab} />
     } else if (tabThree) {
-        return <FoodComponent />
+        return <FoodComponent link={this.linkToTab} />
     } else if (tabFour) {
-        return <PhotographersComponent />
+        return <PhotographersComponent link={this.linkToTab} />
     } else {
-        return <ToursComponent />
+        return <ToursComponent link={this.linkToTab} />
     }
   }
 

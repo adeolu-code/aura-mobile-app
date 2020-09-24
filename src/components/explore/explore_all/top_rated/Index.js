@@ -15,16 +15,16 @@ class Index extends Component {
     };
   }
   linkToFood = () => {
-
+    this.props.link('two')
   }
   linkToHouse = () => {
-
+    this.props.link('three')
   }
   linkToPhoto = () => {
-
+    this.props.link('four')
   }
   linkToTour = () => {
-      
+    this.props.link('five')
   }
 
   render() {
