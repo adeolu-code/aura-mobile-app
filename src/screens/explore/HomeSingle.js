@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
@@ -65,7 +66,7 @@ class HomeSingle extends Component {
             </View>
         </ScrollView>
         <View style={buttomContainer}>
-            <BottomMenuComponent onPress={this.openModal} />        
+            <BottomMenuComponent onPress={this.openModal} />
         </View>
         <CalendarModal visible={this.state.showModal} onDecline={this.closeModal} />
       </SafeAreaView>

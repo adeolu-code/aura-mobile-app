@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../../../assets/styles/GeneralStyles';

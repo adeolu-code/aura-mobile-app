@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { MyText } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import FoodComponent from './FoodComponent';
@@ -10,12 +11,17 @@ class TourImgComponent extends Component {
     this.state = {
     };
   }
+  
+  linkToTour = () => {
+    this.props.navigation.navigate('Other', { screen: 'TourSingle'});
+  }
 
   render() {
     const { imgContainer2, imgContainer1, container, bottomImgContainer } = styles;
-    const { imgStyle, flexRow } = GStyles
+    const { imgStyle, flexRow } = GStyles;
     return (
       <View style={container}>
+        <TouchableOpacity onPress={this.linkToTour}>
         <View style={imgContainer1}>
             <Image source={require('../../assets/images/photo/photo2.png')} resizeMode="cover" style={imgStyle} />
         </View>
@@ -27,6 +33,7 @@ class TourImgComponent extends Component {
                 <Image source={require('../../assets/images/photo/photo3.png')} resizeMode="cover" style={imgStyle} />
             </View>
         </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -43,7 +50,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     imgContainer2: {
-        width: '47.5%', height: 190, borderRadius: 5, overflow: 'hidden'
+        width: '47.5%', height: 190, borderRadius: 5, overflow: 'hidden',
     }
 });
 

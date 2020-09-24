@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { MyText } from '../../utils/Index';
-import GStyles from '../../assets/styles/GeneralStyles';
-import colors from '../../colors';
+import { MyText } from '../../../utils/Index';
+import GStyles from '../../../assets/styles/GeneralStyles';
+import colors from '../../../colors';
 import { Icon } from 'native-base';
 
-import StarComponent from '../StarComponent';
+import StarComponent from '../../StarComponent';
 
 class PhotoComponent extends Component {
   constructor(props) {
@@ -29,8 +29,8 @@ class PhotoComponent extends Component {
                 <Image source={img} resizeMode="cover" style={imgStyle} />
             </View>
             <View style={contentContainer}>
-                <MyText style={[textDarkGrey, textExtraBold, textH3Style, marginBottomSmall]}>{title1}</MyText>
-                <MyText style={[textDarkGrey, textH3Style, marginBottomSmall]}>{title2}</MyText>
+                <MyText style={[textSuccess, textExtraBold, textH3Style, marginBottomSmall]}>{title1}</MyText>
+                <MyText style={[textDarkGrey, textH4Style, marginBottomSmall]}>{title2}</MyText>
                 <StarComponent grey />
                 
                 <MyText style={[textGrey, textH4Style]}>{location}</MyText>

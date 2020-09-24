@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
 import React, { Component } from "react";
 import {
     StyleSheet,
@@ -22,28 +24,11 @@ class FilterModal extends Component {
     closeFilterModal = () => {
         this.props.onDecline();
        }
-    //   openSignUpModal = () => {
-    //     this.setState({ showRegisterModal: true })
-    //   }
-    //   closeSignUpModal = () => {
-    //     this.setState({ showRegisterModal: false })
-    //   }
-    //   linkToLogin = () => {
-    //     this.props.openLogin();
-    //     setTimeout(() => {
-    //       this.props.onDecline();
-    //     }, 300);
-    //   }
-    //   linkToSignUp = () => {
-    //     this.props.onDecline();
-    //     this.props.navigation.navigate('Auth')
-    //   }
 
     render() {
         const { visible, onDecline, title, img } = this.props;
-        const { textWhite, textH5Style, textH4Style, textCenter, textDarkGrey, textUnderline,
-            textGreen, textBold, textDanger, textDarkBlue } = GStyles;
-        const { container, dash, tabOne, tabTwo, tabThree, tabFour,  imgStyle, container2 } = styles
+        const { textDarkGrey, textBold, textDanger, textDarkBlue } = GStyles;
+        const { container, dash, tabOne, tabTwo, tabThree, tabFour,  imgStyle, container2 } = styles;
         return (
 
             <Modal visible={visible} onRequestClose={() => { }} animationType="slide">

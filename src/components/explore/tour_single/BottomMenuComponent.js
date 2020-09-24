@@ -5,7 +5,6 @@ import GStyles from '../../../assets/styles/GeneralStyles';
 
 import { MyText, CustomButton } from '../../../utils/Index';
 
-import { Icon } from 'native-base';
 
 import colors from '../../../colors';
 
@@ -21,18 +20,18 @@ class BottomMenuComponent extends Component {
 
   render() {
     const {   container, buttonStyle, buttonContainer } = styles;
-    const { flexRow, textExtraBold, textBold, textGrey, textH4Style, textSuccess, textH6Style } = GStyles;
-    const { onPress } = this.props
+    const { flexRow, textExtraBold, textBold, textGrey, textH4Style, textH5Style, textSuccess, textH6Style } = GStyles;
+    const { onPress, price, title } = this.props
     return (
         <View style={[flexRow, container]}>
             <View style={{flex: 1}}>
                 <MyText style={[textGrey, textH6Style]}>Price:</MyText>
-                <MyText style={[textSuccess, textH4Style, textBold]}>N 200,341/night</MyText>
+    <MyText style={[textSuccess, textH4Style, textBold]}>{price}</MyText>
             </View>
-            <View style={{flex: 1}}>
+            <View style={{flex: 1.3}}>
                 <View style={buttonContainer}>
-                    <CustomButton buttonText="Check Availability" 
-                    buttonStyle={buttonStyle} onPress={onPress} />
+                    <CustomButton buttonText={title}
+                    buttonStyle={buttonStyle} textStyle={[textH5Style]} onPress={onPress} />
                 </View>
             </View>
             
@@ -48,16 +47,13 @@ const styles = StyleSheet.create({
     },
     
     contentContainer: {
-        marginBottom: 30
+        marginBottom: 30,
     },
     buttonStyle: {
-        borderRadius: 10, elevation: 2
+        borderRadius: 10, elevation: 2,
     },
     buttonContainer: {
         // marginVertical: 40
-    },
-    divider: {
-        width: '100%', height: 1, backgroundColor: colors.lightGrey,
     },
 });
 

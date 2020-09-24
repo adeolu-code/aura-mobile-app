@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from 'native-base';
@@ -87,7 +88,7 @@ class CalendarModal extends Component {
                                 textDayHeaderFontFamily: 'Nunito-Regular',
                                 textDayFontSize: 14,
                                 textMonthFontSize: 16,
-                                textDayHeaderFontSize: 16
+                                textDayHeaderFontSize: 16,
                             }}
                         />
                     </View>
