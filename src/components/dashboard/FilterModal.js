@@ -31,7 +31,7 @@ class FilterModal extends Component {
         const { container, dash, tabOne, tabTwo, tabThree, tabFour,  imgStyle, container2 } = styles;
         return (
 
-            <Modal visible={visible} onRequestClose={() => { }} animationType="slide">
+            <Modal visible={visible} onRequestClose={() => { }} transparent animationType="slide">
                 <TouchableWithoutFeedback onPress={onDecline}>
                     <View style={container2}>
                         <View style={container}>
@@ -48,12 +48,11 @@ class FilterModal extends Component {
                                     Edit Property
                             </MyText>
                             </TouchableOpacity>
-                            <View style={[dash]}>
-                            </View>
+                            <View style={[dash]}></View>
                             <TouchableOpacity style={tabThree}>
                                 <MyText style={[textDarkBlue, textBold]}>
-                                    Go Offline
-                            </MyText>
+                                        Go Offline
+                                </MyText>
                             </TouchableOpacity>
                             <View style={[dash]}></View>
                             <TouchableOpacity style={tabFour}>
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
         width: '95%',
     },
     container2: {
-        backgroundColor: '#0000004D', 
+        backgroundColor: 'rgba(0, 0, 0, 0.3)', 
         width: '100%', 
         height: '100%', 
         padding: 30,
@@ -105,19 +104,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 60,
+        height: 74,
     },
     tabThree: {
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 60,
+        height: 74,
     },
     tabFour: {
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 60,
+        height: 74,
     }
 });
 

@@ -8,8 +8,7 @@ import {Fab, Icon} from 'native-base';
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 
-import ManageOnlineRow from '../../components/dashboard/ManageOnlineRow';
-import ManagePendingRow from '../../components/dashboard/ManagePendingRow';
+import ManagePropertyRow from '../../components/dashboard/ManagePropertyRow';
 import FilterModal from '../../components/dashboard/FilterModal';
 
 class ManageProperties extends Component {
@@ -59,16 +58,16 @@ class ManageProperties extends Component {
         <ScrollView>
             <View style={contentContainer}>
               <View style={rowContainer}>
-                <ManagePendingRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')} 
+                <ManagePropertyRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')} 
                 location="Transcorp Hilton Abuja" status="Pending" {...this.props} openModal={this.openFilterModal} />
               </View>
               <View style={rowContainer}>
-              <ManageOnlineRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')} openModal={this.openFilterModal}
-              location="Transcorp Hilton Abuja" status="Online" {...this.props} />
+                <ManagePropertyRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')} openModal={this.openFilterModal}
+                location="Transcorp Hilton Abuja" status="Online" {...this.props} />
               </View>
               <View style={rowContainer}>
-              <ManageOnlineRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')} 
-              location="Transcorp Hilton Abuja" status="Online" {...this.props} openModal={this.openFilterModal} />
+                <ManagePropertyRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')} 
+                location="Transcorp Hilton Abuja" status="Online" {...this.props} openModal={this.openFilterModal} />
               </View>
               <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} img={require('../../assets/images/places/bed.png')}  title='Umbaka Homes' {...this.props} />
             </View>
@@ -83,7 +82,7 @@ class ManageProperties extends Component {
             onPress={() => this.setState({ active: !this.state.active })}>
             <Icon name="home" />
           </Fab>
-          </View>
+        </View>
       </SafeAreaView>
     );
   }
@@ -91,7 +90,7 @@ class ManageProperties extends Component {
 
 const styles = StyleSheet.create({
     manageHeader: {
-        position: 'absolute', backgroundColor: colors.white, paddingTop: 130, width: '100%', paddingHorizontal: 20, zIndex: 1
+        position: 'absolute', backgroundColor: colors.white, paddingTop: 100, width: '100%', paddingHorizontal: 20, zIndex: 1,
     }, 
     tabsContainer: {
         display: 'flex', flexDirection: 'row', backgroundColor: colors.lighterGreen, borderRadius: 6, padding: 4,
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.green, borderRadius: 6,
     },
     contentContainer: {
-        paddingTop: 250, paddingHorizontal: 20, paddingBottom:30,
+        paddingTop: 210, paddingHorizontal: 20, paddingBottom:30,
     },
     rowContainer: {
         marginBottom: 20,
