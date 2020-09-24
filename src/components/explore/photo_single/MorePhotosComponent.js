@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../../../assets/styles/GeneralStyles';
 
 
-import { MyText, CustomButton } from '../../../utils/Index';
+import { MyText } from '../../../utils/Index';
 
 import { Icon } from 'native-base';
 

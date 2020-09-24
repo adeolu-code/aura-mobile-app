@@ -7,12 +7,18 @@ import colors from '../../../../colors';
 
 import { Icon } from 'native-base';
 import ItemComponent from '../ItemComponent';
+import FilterModal from './FilterModal';
 
 class Index extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = { showModal: false };
+  }
+  openModal = () => {
+    this.setState({ showModal: true })
+  }
+  closeModal = () => {
+    this.setState({ showModal: false })
   }
 
   render() {
@@ -20,7 +26,7 @@ class Index extends Component {
     const { textH3Style, textExtraBold, textH4Style, textDarkGrey } = GStyles
     return (
       <View style={container}>
-        <TouchableOpacity style={filterContainer}>
+        <TouchableOpacity style={filterContainer} onPress={this.openModal}>
           <MyText style={[textH4Style, textDarkGrey]}>Filters</MyText>
         </TouchableOpacity>
         <MyText style={[textH3Style, textExtraBold, { marginTop:30}]}>Homes & Hotels On Aura</MyText>
@@ -34,6 +40,7 @@ class Index extends Component {
           <ItemComponent title="Umbaka Home Park" price="₦ 200,341 / night" location="Lagos" 
           img={require('../../../../assets/images/places/house.png')} type="Hotel" />
         </View>
+        <FilterModal visible={this.state.showModal} onDecline={this.closeModal} />
       </View>
     );
   }

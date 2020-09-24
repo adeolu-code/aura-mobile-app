@@ -19,8 +19,18 @@ import ExploreLocation from '../../components/explore/explore_all/ExploreLocatio
 class ExploreAll extends Component {
   constructor(props) {
     super(props);
-    this.state = { tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false };
+    this.state = { tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, selectedTab: 'one' };
     this.tabs = {}
+    const { tab } = props.route.params;
+    this.state.selectedTab = tab
+    // this.linkTo(tab)
+  }
+  componentDidMount = () => {
+      const { selectedTab } = this.state
+      this.linkTo(selectedTab)
+      setTimeout(() => {
+        this.scrollViewRef.scrollTo({ x: this.tabs[selectedTab] - 20, y: 0, animated: true})
+      }, 10);
   }
   goBack = () => {
       this.props.navigation.goBack()
