@@ -28,6 +28,18 @@ class Index extends Component {
     super(props);
     this.state = {};
   }
+  linkToHouses = () => {
+    this.props.navigation.navigate('ExploreAll', { tab: 'two' })
+  }
+  linkToFood = () => {
+    this.props.navigation.navigate('ExploreAll', { tab: 'three' })
+  }
+  linkToPhotograph = () => {
+    this.props.navigation.navigate('ExploreAll', { tab: 'four' })
+  }
+  linkToTour = () => {
+    this.props.navigation.navigate('ExploreAll', { tab: 'five' })
+  }
 
   render() {
     const {
@@ -81,11 +93,7 @@ class Index extends Component {
               <ScrollContent {...this.props} />
             </View>
             <View style={buttonContainer}>
-              <CustomButton
-                buttonText="View More Places"
-                iconName="arrow-right"
-                buttonStyle={buttonStyle}
-              />
+              <CustomButton onPress={this.linkToHouses} buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
             </View>
           </View>
 
@@ -107,7 +115,7 @@ class Index extends Component {
                 <ScrollContentFood {...this.props} />
               </View>
               <View style={buttonContainer}>
-                <CustomButton buttonText="Find More Restaurants" iconName="arrow-right" />
+                <CustomButton buttonText="Find More Restaurants" iconName="arrow-right" onPress={this.linkToFood} />
               </View>
             </View>
           </ImageBackground>
@@ -120,7 +128,7 @@ class Index extends Component {
               <ScrollContent {...this.props} />
             </View>
             <View style={buttonContainer}>
-              <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
+              <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} onPress={this.linkToFood} />
             </View>
           </View>
 
@@ -132,7 +140,7 @@ class Index extends Component {
               <ScrollContent {...this.props} />
             </View>
             <View style={buttonContainer}>
-              <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
+              <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} onPress={this.linkToHouses} />
             </View>
           </View>
 
@@ -150,7 +158,7 @@ class Index extends Component {
               <ScrollContentPhoto {...this.props} />
             </View>
             <View style={buttonContainer}>
-              <CustomButton buttonText="Find More Photographers" iconName="arrow-right" />
+              <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToPhotograph} />
             </View>
           </View>
 
@@ -164,7 +172,7 @@ class Index extends Component {
                 <TourImgComponent {...this.props} />
               </View>
               <View>
-                <CustomButton buttonText="Find More Photographers" iconName="arrow-right" />
+                <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToTour} />
               </View>
           </View>
 

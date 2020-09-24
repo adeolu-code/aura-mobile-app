@@ -12,8 +12,8 @@ class CommentRow extends Component {
 
   render() {
     const { container, rightContainer, imgContainer, leftContainer, dateContainer } = styles;
-    const { flexRow, textGrey, textH4Style, imgStyle, textBold, textH5Style } = GStyles;
-    const { name } = this.props;
+    const { flexRow, textGrey, textH4Style, imgStyle, textBold, textH5Style, textWhite } = GStyles;
+    const { name, white } = this.props;
     return (
       <View style={[flexRow, container]}>
         <View style={leftContainer}>
@@ -23,11 +23,11 @@ class CommentRow extends Component {
         </View>
         <View style={rightContainer}>
             <View style={[flexRow, dateContainer]}>
-                <MyText style={[textBold, textH4Style]}>{name}</MyText>
-                <MyText style={[textGrey, textH5Style]}>Sept 12, 2019</MyText>
+                <MyText style={[textBold, textH4Style, white ? textWhite : '']}>{name}</MyText>
+                <MyText style={[ textH5Style, white ? textWhite : textGrey]}>Sept 12, 2019</MyText>
             </View>
             <View>
-                <MyText style={[textGrey, textH4Style]}>
+                <MyText style={[textH4Style, white ? textWhite : textGrey]}>
                 Lorem ipsum dolor sit amet, veullri ma conset sadipscing elitr, sed diam nonumy eirmod tempor invidunt.
                 </MyText>
             </View>

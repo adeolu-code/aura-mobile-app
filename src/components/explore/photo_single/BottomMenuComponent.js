@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import GStyles from '../../../assets/styles/GeneralStyles';
@@ -27,11 +26,11 @@ class BottomMenuComponent extends Component {
         <View style={[flexRow, container]}>
             <View style={{flex: 1}}>
                 <MyText style={[textGrey, textH6Style]}>Price:</MyText>
-                <MyText style={[textSuccess, textH4Style, textBold]}>N 200,341/night</MyText>
+                <MyText style={[textSuccess, textH4Style, textBold]}>N 200,341/ person</MyText>
             </View>
-            <View style={{flex: 1}}>
+            <View style={{flex: 1.2}}>
                 <View style={buttonContainer}>
-                    <CustomButton buttonText="Check Availability" 
+                    <CustomButton buttonText="Contact Photographer" 
                     buttonStyle={buttonStyle} onPress={onPress} />
                 </View>
             </View>
