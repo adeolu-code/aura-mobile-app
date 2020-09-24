@@ -3,7 +3,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import ExploreScreen from '../screens/explore/Index';
-import HomeSingleScreen from '../screens/explore/HomeSingle';
+import ExploreAllScreen from '../screens/explore/ExploreAll';
 
 import DashboardViewScreen from '../screens/dashboard_stack/Index';
 import DashboardScreen from '../screens/dashboard_stack/Dashboard';
@@ -33,7 +33,7 @@ export function ExploreStack() {
     return (
         <Stack.Navigator initialRouteName="Explore" options={{ gestureEnabled: true }}>
             <Stack.Screen name="Explore" component={ExploreScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="HouseDetails" component={HomeSingleScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="ExploreAll" component={ExploreAllScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

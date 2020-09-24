@@ -27,6 +27,9 @@ class Index extends Component {
     super(props);
     this.state = {};
   }
+  linkToHouses = () => {
+    this.props.navigation.navigate('ExploreAll')
+  }
 
   render() {
     const {
@@ -80,7 +83,7 @@ class Index extends Component {
               <ScrollContent {...this.props} />
             </View>
             <View style={buttonContainer}>
-              <CustomButton
+              <CustomButton onPress={this.linkToHouses}
                 buttonText="View More Places"
                 iconName="arrow-right"
                 buttonStyle={buttonStyle}
