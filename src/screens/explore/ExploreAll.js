@@ -30,7 +30,7 @@ class ExploreAll extends Component {
       this.linkTo(selectedTab)
       setTimeout(() => {
         this.scrollViewRef.scrollTo({ x: this.tabs[selectedTab] - 20, y: 0, animated: true})
-      }, 10);
+      }, 50);
   }
   goBack = () => {
       this.props.navigation.goBack()
