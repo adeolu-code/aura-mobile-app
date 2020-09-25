@@ -79,10 +79,10 @@ export default class HostSteps extends Component {
 
                                     <TouchableOpacity 
                                         style={[Styles.nextButton, {marginTop: 10}]}
-                                        onPress={() => this.getStarted()}
+                                        onPress={() => alert("")}
                                     >
-                                    <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Publish For Review</MyText>
-                                </TouchableOpacity>
+                                        <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Publish For Review</MyText>
+                                    </TouchableOpacity>
                                 </View>
                             }
                             <Card 

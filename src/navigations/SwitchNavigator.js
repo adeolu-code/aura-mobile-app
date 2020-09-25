@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 export function SwitchStack() {
     return (
       <NavigationContainer>
-          <Stack.Navigator initialRouteName="Splash" options={{ gestureEnabled: true }}>
+          <Stack.Navigator initialRouteName="AppNavigator" options={{ gestureEnabled: true }}>
               <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
               <Stack.Screen name="AppNavigator" component={AppNavigator} options={{ headerShown: false }} />
           </Stack.Navigator>

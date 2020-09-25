@@ -73,4 +73,43 @@ export const Styles = StyleSheet.create({
         width: 120, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
         borderWidth: 1
     },
+
+    //slider
+    sliderContainer: {
+        marginTop: 100,
+        padding: GLOBAL_PADDING,
+        paddingBottom: 10,
+    },
+    sliderImgContainer: {
+        width: '100%', height: 200, borderRadius: 10, overflow: 'hidden'
+    },
+    overlayStyles: {
+        position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.3)',
+        justifyContent: 'space-between', alignItems: 'flex-end', padding: 20
+    },
+    sliderImg: {
+        width: "100%",
+        height: 200,
+    },
+    dotView: {
+        flexDirection: "row",
+        justifyContent: "center",
+        height: 20,
+        marginTop: 10
+    },
+    dot: {
+        height: 10,
+        width: 10,
+        borderRadius: 50,
+        marginRight: 5,
+    },
+    activeDot: {
+        backgroundColor: colors.green
+    },
+    inActiveDot: {
+        backgroundColor: colors.lightGrey
+    },
+    textBodyView: {
+        marginTop: 20,
+    },
 });
