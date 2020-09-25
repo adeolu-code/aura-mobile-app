@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from "react";
 import { StatusBar, ScrollView, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

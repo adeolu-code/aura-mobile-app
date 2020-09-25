@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
         borderRadius: 35,
         height: 35,
         width: 35,
-    }
+    },
 });
 
 export default HostComponent;

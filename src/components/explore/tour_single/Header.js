@@ -20,7 +20,7 @@ class Header extends Component {
         images: [{ source: require('../../../assets/images/photo/pic.png'),
             dimensions: { width: 120, height: 150 }
         },  { source: require('../../../assets/images/photo/pic5.png'),
-            dimensions: { width: 200, height: 513.7 }
+            dimensions: { width: 200, height: 510 }
         }, 
         { source: require('../../../assets/images/photo/pic1.png'),
                 dimensions: { width: 120, height: 150 }
@@ -35,11 +35,10 @@ class Header extends Component {
     
 
   render() {
-    const { headerStyle, shareStyle, shareContainer, iconStyle, starContainer, imgContainer, contentContainer,
-        overlayStyles, iconVerifiedContainer, verifiedStyle, countContainer, divider, thumbContainer, thumbTxtContainer, 
-        thumbStyle, containerOne, photosContainer, header, iconStyleOne } = styles;
-    const { flexRow, textH2Style, textExtraBold, textLgStyle, textH5Style, textGrey, textH4Style, textH3Style, textH6Style } = GStyles
-    const { title } = this.props
+    const { headerStyle, shareStyle, shareContainer, iconStyle, starContainer, contentContainer, iconVerifiedContainer, verifiedStyle, divider, thumbContainer, thumbTxtContainer, 
+        thumbStyle, containerOne, photosContainer, header, iconStyleOne, leftImgContainer, leftContainer, middleContainer, middleImgContainer, rightContainer } = styles;
+    const { flexRow, textExtraBold, textLgStyle, textH5Style, textGrey, textH4Style, textH3Style, textH6Style, imgStyle } = GStyles
+    const { title } = this.props;
     return (
         <View style={{marginBottom: 40}}>
             <View style={[flexRow, headerStyle]}>
@@ -57,11 +56,29 @@ class Header extends Component {
                 </View>
             </View>
             <View style={containerOne}>
-                <View  style={[photosContainer]}>
-                <MasonryList columns="3"
-                        images={this.state.images} listContainerStyle={{margin: 0}}
-                    />
+            <View style={[flexRow, photosContainer]}>
+            <View style={leftContainer}>
+                <View style={leftImgContainer}>
+                    <Image source={require('../../../assets/images/photo/pic.png')} resizeMode="cover" style={imgStyle} />
                 </View>
+                <View style={leftImgContainer}>
+                    <Image source={require('../../../assets/images/photo/pic1.png')} resizeMode="cover" style={imgStyle} />
+                </View>
+            </View>
+            <View style={middleContainer}>
+                <View style={middleImgContainer}>
+                    <Image source={require('../../../assets/images/photo/pic5.png')} resizeMode="cover" style={imgStyle} />
+                </View>
+            </View>
+            <View style={rightContainer}>
+                <View style={leftImgContainer}>
+                    <Image source={require('../../../assets/images/photo/pic2.png')} resizeMode="cover" style={imgStyle} />
+                </View>
+                <View style={leftImgContainer}>
+                    <Image source={require('../../../assets/images/photo/pic3.png')} resizeMode="cover" style={imgStyle} />
+                </View>
+            </View>
+        </View>
             </View>
             <View style={divider}></View>
                 <View style={contentContainer}>
@@ -162,27 +179,28 @@ const styles = StyleSheet.create({
         paddingVertical: 15, alignItems:'center',
     },
     containerOne: {
-        paddingHorizontal: 15,
+        paddingHorizontal: 20,
     },
     photosContainer: {
-        // justifyContent: 'space-between',
-        width: '100%', borderRadius: 30, overflow: 'hidden',
+        justifyContent: 'space-between', 
+        width: '100%', borderRadius: 10, overflow: 'hidden',
         // borderWidth: 1
     },
     leftContainer: {
-        width: '32%',
+        width: '32.3%', height: 288, justifyContent: 'space-between'
     },
     middleContainer:{
-        width: '32%',
+        width: '32.3%', height: 288
     },
     rightContainer: {
-        width: '32%',
+        width: '32.3%', height: 288, justifyContent: 'space-between'
     },
+    
     leftImgContainer: {
-        width: '100%', height: 200,
+        width: '100%', height: 140,
     },
     middleImgContainer: {
-        width: '100%', height: 400,
+        width: '100%', height: 290,
     },
     header: {
         marginTop: 50,

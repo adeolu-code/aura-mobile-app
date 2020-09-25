@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from "react";
 import { Styles } from "./labelInput.style";
 import IntlPhoneInput from 'react-native-intl-phone-input';

@@ -12,6 +12,8 @@ import SignUpScreen from '../screens/auth/signup';
 import OtpScreen from '../screens/auth/OtpScreen';
 import SuccessScreen from '../screens/auth/SuccessScreen';
 import ListPropertyScreen from '../screens/auth/ListPropertyScreen';
+import LocationScreen from '../screens/auth/LocationScreen';
+import AmenitiesScreen from '../screens/auth/AmenitiesScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +35,8 @@ export function AuthStack() {
             <Stack.Screen name="Otp" component={OtpScreen} options={{headerShown: false}} />
             <Stack.Screen name="Success" component={SuccessScreen} options={{headerShown: false}} />
             <Stack.Screen name="List" component={ListPropertyScreen} options={{headerShown: false}} />
+            <Stack.Screen name="Location" component={LocationScreen} options={{headerShown: false}} />
+            <Stack.Screen name="Amenities" component={AmenitiesScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }

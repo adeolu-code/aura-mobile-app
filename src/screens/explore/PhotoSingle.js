@@ -56,7 +56,7 @@ class PhotoSingle extends Component {
                 </View>
             </ScrollView>
             <View style={buttomContainer}>
-                <BottomMenuComponent onPress={this.openModal} />        
+                <BottomMenuComponent onPress={this.openModal} />
             </View>
             <ContactModal visible={this.state.showModal} onDecline={this.closeModal} />
         </SafeAreaView>

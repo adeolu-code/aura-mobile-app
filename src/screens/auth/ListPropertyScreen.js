@@ -34,6 +34,9 @@ onValueChangeTwo(value: string) {
       selected2: value
     });
 }
+LocationScreen = () => {
+  this.props.navigation.navigate('Location');
+}
 
   render() {
     const { container, picker, button } = styles;
@@ -112,7 +115,7 @@ onValueChangeTwo(value: string) {
                     </View>
                 </View>
                 <View style={button}>
-                <CustomButton buttonText="Next" />
+                <CustomButton buttonText="Next" onPress={this.LocationScreen}/>
                 </View>
             </View>
           </ScrollView>

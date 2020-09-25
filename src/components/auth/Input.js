@@ -9,11 +9,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Icon} from 'native-base';
-import {MyText} from './MyText';
-import GStyles from '../assets/styles/GeneralStyles';
-import colors from '../colors';
+import {MyText} from '../../utils/MyText';
+import GStyles from '../../assets/styles/GeneralStyles';
+import colors from '../../colors';
 
-class CustomInput extends Component {
+class Input extends Component {
   state = {secure: true};
 
   renderShow() {
@@ -45,7 +45,7 @@ class CustomInput extends Component {
       lStyles,
       lTextStyles,
     } = styles;
-    const {textH4Style} = GStyles;
+    const {textH4Style, textH6Style} = GStyles;
     const {
       placeholder,
       imageUrl,
@@ -70,7 +70,7 @@ class CustomInput extends Component {
       <View>
         {label ? (
           <MyText style={[lStyles]}>
-            <MyText style={[lTextStyles, textH4Style]}>{label}</MyText>
+            <MyText style={[lTextStyles, textH6Style]}>{label}</MyText>
           </MyText>
         ) : (
           <MyText></MyText>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     // flex: 1
   },
   inputStyle: {
-    height: 55,
+    height: 40,
     width: '100%',
     borderRadius: 5,
     borderColor: colors.lightGrey,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: 0,
-    height: 55,
+    height: 50,
     width: 60,
     display: 'flex',
     justifyContent: 'center',
@@ -144,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {CustomInput};
+export {Input};
