@@ -14,17 +14,19 @@ export default class HostSteps extends Component {
         super();
 
         this.state = {
-            step: 1,
-            isComplete: true,
+            step: 2,
+            isComplete: false,
         }
     }
 
     getStarted = () => {
+        
         if (this.state.step == 1) {
-            this.props.navigation.navigate("HostPropertyStack")
+            this.props.navigation.navigate("HostPropertyStack");
         }
         else if (this.state.step == 2) {
-
+            
+            this.props.navigation.navigate("UploadPropertyImage");
         }
         else if (this.state.step == 3) {
 

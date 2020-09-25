@@ -8,6 +8,7 @@ import PropertyAmenity from '../screens/host/propertyAmenities.screen';
 
 import HostSteps from '../screens/host/hostSteps.screen';
 import HostSlider from '../screens/host/slider.screen';
+import UploadPropertyImage from '../screens/host/uploadPropertyImage.screen';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ export default function HostPropertyStack() {
             <Stack.Screen name="PropertyAmenity" component={PropertyAmenity} options={{ headerShown: false }} />
             <Stack.Screen name="HostSteps" component={HostSteps} options={{ headerShown: false }} />
             <Stack.Screen name="HostSlider" component={HostSlider} options={{ headerShown: false }} />
+            <Stack.Screen name="UploadPropertyImage" component={UploadPropertyImage} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

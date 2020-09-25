@@ -112,4 +112,41 @@ export const Styles = StyleSheet.create({
     textBodyView: {
         marginTop: 20,
     },
+
+    //Upload
+    sectionView: {
+        height: 200,
+        width: "100%",
+        flexDirection: "row",
+        marginBottom: 20,
+        borderRadius: 5,
+    },
+    imageView: {
+        flex: 0.4,
+        alignItems: "center",
+        paddingTop: 30,
+        paddingRight: 20,
+        
+    },
+    contentView: {
+        flex: 0.6,
+        
+    },
+    cameraImage: {
+        width: 115,
+        height: 200,
+    },
+    hireView: {
+        
+        height: 40,
+        width: 100,
+        marginTop: 10,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    lowerTextView: {
+        paddingTop: 10,
+        padding: 10,
+    },
+
 });
