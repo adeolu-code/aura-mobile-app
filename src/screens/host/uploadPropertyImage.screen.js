@@ -19,15 +19,6 @@ export default class UploadPropertyImage extends Component {
         const {
             textWhite,
             textBlack,
-            flexRow,
-            textH2Style,
-            textCenter,
-            imgStyle,
-            textExtraBold,
-            textH5Style, 
-            textGrey,
-            textGreen,
-            textDarkGrey,
           } = GStyles;
         return(
             <>
@@ -69,15 +60,9 @@ const Section = (props) => {
     const {
         textWhite,
         textBold,
-        flexRow,
         textH2Style,
-        textCenter,
-        imgStyle,
         textExtraBold,
-        textH5Style, 
-        textGrey,
-        textGreen,
-        textDarkGrey,
+        textH5Style,
       } = GStyles;
     return (
         <TouchableOpacity style={[Styles.sectionView, props.style]}>
