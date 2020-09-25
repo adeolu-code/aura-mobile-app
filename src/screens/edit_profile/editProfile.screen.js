@@ -8,6 +8,8 @@ import { Form, Item, Label, Input, Container, Content, Footer, View, Picker, Dat
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import IntlPhoneInput from 'react-native-intl-phone-input';
+import {LabelInput as EditInput} from "./../../components/label_input/labelInput.component";
+
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import  from "@react-native-community/picker";
 
@@ -55,76 +57,6 @@ export default class EditProfile extends Component {
                     </Container>
                 </SafeAreaView>
             </>
-        );
-    }
-}
-
-const EditInput = (props) => {
-    const dateTime = (props.dateTime == undefined) ? false : ((props.dateTime) ? true : false);
-    const picker = (props.picker == undefined) ? false : ((props.picker) ? true : false);
-    const phone = (props.phone == undefined) ? false : ((props.phone) ? true : false);
-    if (dateTime) {
-        return (
-            <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label]}>{props.label}</Label>
-                <View style={[Styles.personalContentView]}>
-                    <DatePicker
-                        defaultDate={new Date()}
-                        maximumDate={new Date()}
-                        style={[Styles.input, Styles.datePicker]}
-                    />
-                </View>
-                
-            </Item>
-        );
-    }
-    else if (picker) {
-        return (
-            <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label]}>{props.label}</Label>
-                <View style={[Styles.personalContentView]}>
-                    <Picker
-                        selectedValue={"Male"}
-                        onValueChange={() => console.log('')}
-                    >
-                        <Picker.Item value={"Male"} label={"Male"} />
-                        <Picker.Item value={"Female"} label={"Female"} />
-                    </Picker>
-                </View>
-                
-            </Item>
-        );
-    }
-    else if (phone) {
-        /***
-         * 
-         * onChangeText = ({dialCode, unmaskedPhoneNumber, phoneNumber, isVerified}) => {
-                console.log(dialCode, unmaskedPhoneNumber, phoneNumber, isVerified);
-            };
-         */
-        return (
-            <Item stackedLabel style={[Styles.phoneItem, props.itemStyle]}>
-                <Label style={[Styles.label]}>{props.label}</Label>
-                <View style={[Styles.personalContentView]}>
-                    <IntlPhoneInput 
-                        onChangeText={props.onChangeText} 
-                        defaultCountry="NG" 
-                        containerStyle={{height: 45}}
-                        phoneInputStyle={{color: "black"}}
-                    />
-                </View>
-                
-            </Item>
-            // 
-        );
-    }
-    else 
-    {
-        return (
-            <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label]}>{props.label}</Label>
-                <Input placeholder={props.placeholder} style={[Styles.input]} />
-            </Item>
         );
     }
 }

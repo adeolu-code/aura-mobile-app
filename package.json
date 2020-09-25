@@ -21,6 +21,7 @@
     "react-native": "0.63.2",
     "react-native-calendars": "^1.403.0",
     "react-native-gesture-handler": "^1.8.0",
+	"react-native-image-picker": "^2.3.1",
     "react-native-intl-phone-input": "^1.2.26",
     "react-native-masonry-list": "^2.16.1",
     "react-native-reanimated": "^1.13.0",

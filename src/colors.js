@@ -20,6 +20,8 @@ const colors = {
     fadedWhite: 'rgba(255,255,255,0.6)',
     green: "#378915",
     willowBrook: "#eaf3e7",
+    fadedOrange: "#fff2e5",
+    brilliantRose: "#EF48A2",
 }
 
 export default colors;

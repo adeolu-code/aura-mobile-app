@@ -8,6 +8,6 @@ export const Styles = StyleSheet.create({
     },
     starInactive: { 
         fontSize:24, 
-        color: colors.darkGrey,
+        color: colors.lightGrey,
     },
 });

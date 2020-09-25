@@ -12,7 +12,7 @@ export class RenderStars extends Component {
         };
     }
 
-    renderStars(totalStars = 5, stars, style={}) {
+    renderStars(totalStars = 5, stars, starActiveStyle={},starInactiveStyle={}) {
         let elems = [];
         for (let i=1; i<= totalStars; i++){
           if (i <= Math.floor(stars)) {
@@ -20,14 +20,14 @@ export class RenderStars extends Component {
               <Pressable key={i} onPress={async () => {
                 this.updateAverageRate(i);
               }}>
-                  <Icon name="star" style={[Styles.starActive, style.starActive]}  />
+                  <Icon name="star" style={[Styles.starActive, starActiveStyle]}  />
             </Pressable>
             );
           }
           else {
             elems.push(
                 <Pressable key={i} onPress={() => this.updateAverageRate(i)} key={i}>
-                    <Icon name="star" style={[Styles.starInactive, style.starInactive]} />
+                    <Icon name="star-outline" style={[Styles.starInactive, starInactiveStyle]} />
               </Pressable>
               );
           }
@@ -40,9 +40,9 @@ export class RenderStars extends Component {
     render() {
         const totalStars = this.props.totalStars ? this.props.totalStars : this.state.totalStars;
         return (
-            <View style={[{flexDirection: 'row', flex: 1}]}>
+            <View style={[{flexDirection: 'row', flex: 1}, this.props.style]}>
                 {
-                    this.renderStars(totalStars, this.props.stars, this.props.style)
+                    this.renderStars(totalStars, this.props.stars, this.props.starActive, this.props.starInactive)
                 }
             </View>
             

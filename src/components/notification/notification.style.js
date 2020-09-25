@@ -11,7 +11,7 @@ export const Styles = StyleSheet.create({
         overflow: "hidden"
     },
     alertView: {
-        backgroundColor: colors.willowBrook,
+        backgroundColor: colors.fadedOrange,
     },
     middleSection: {
         
