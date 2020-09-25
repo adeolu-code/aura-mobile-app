@@ -73,7 +73,7 @@ export default class ProfileScreen extends Component {
                             title={"Host your Home/Hotel"} 
                             description={"Credit Cards, Coupons and more"} 
                             iconImage={require("./../../assets/images/profile/location_hotel/location-hotel.png")}
-                            onPress={() => this.props.navigation.navigate("HostSteps")}
+                            onPress={() => this.props.navigation.navigate("HostPropertyStack")}
                         />
                         <ProfileComponent 
                             title={"Host your Resturant"} 
