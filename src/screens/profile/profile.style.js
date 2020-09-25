@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import colors from "../../colors";
+import { GLOBAL_PADDING } from "../../utils";
 
 export const Styles = StyleSheet.create({
     separator: {
@@ -40,4 +41,38 @@ export const Styles = StyleSheet.create({
         width: "100%",
         padding: 5,
     },
+    container: {
+        marginTop: 100,
+        padding: GLOBAL_PADDING,
+    },
+
+    // device sharing
+    deviceItemView: {
+        borderBottomColor: colors.lightGrey,
+        borderBottomWidth: 1,
+        paddingBottom: 10,
+        
+    },
+    computerImage: {
+        width: 25, 
+        height: 25,
+        alignSelf: "center",
+        marginTop: 3,
+    },
+    rowView: {
+        flexDirection: "row",
+        padding: 5,
+    },
+    deviceText: {
+        marginLeft: 10,
+    },
+    logoutText: {
+        color: colors.green,
+    },
+    dateTimeText: {
+        marginLeft: 20,
+    },
+    deviceHistoryScrollView: {
+        marginTop: 20,
+    }
 });

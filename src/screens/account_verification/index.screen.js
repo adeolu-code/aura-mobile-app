@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StatusBar, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
-import { Container, Content, View, Footer, Button, Text, Icon } from "native-base";
+import { Container, Content, View, Button } from "native-base";
 import { Styles } from "./accountVerification.style";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
@@ -20,12 +20,7 @@ export default class AccountVerification extends Component {
             textWhite,
             textBold,
             textH5Style,
-            textExtraBold,
-            textDarkBlue,
-            textGrey,
             textH4Style,
-            imgStyle,
-            textUnderline,
           } = GStyles;
         return (
             <>
@@ -41,11 +36,15 @@ export default class AccountVerification extends Component {
                                 <Image source={require("./../../assets/images/account_verification/Group_4614_2x.png")} resizeMode="contain" style={Styles.imgStyle} />
                             </View>
                             <View style={[Styles.lowerView]}>
-                                {/* <Image  
+                                <View style={[Styles.shiedlView]}>
+                                    <Image  
                                     source={require("./../../assets/images/account_verification/shield_2x.png")} 
                                     style={[Styles.imageShield]}
-                                /> */}
-                                <Icon name={"shield"} style={[Styles.shieldIcon]} />
+                                    resizeMode={"contain"}
+                                />
+                                </View>
+                                
+                                {/* <Icon name={"shield"} style={[Styles.shieldIcon]} /> */}
                                 <MyText style={[textBold]}>
                                     Your Information Is Safe & Secure
                                 </MyText>
@@ -53,7 +52,11 @@ export default class AccountVerification extends Component {
                             <MyText style={[textH5Style, Styles.lowerText]}>
                                 This info won’t be shared with other people who use Aura
                             </MyText>
-                            <Button transparent style={[Styles.nextButton]}>
+                            <Button 
+                                transparent 
+                                style={[Styles.nextButton]}
+                                onPress={() => this.props.navigation.navigate('SelectVerification')}
+                            >
                                 <MyText style={[textWhite, textH4Style, textBold]}>Next</MyText>
                             </Button>
                         </Content>

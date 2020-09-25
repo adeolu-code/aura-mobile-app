@@ -44,6 +44,7 @@ export default class ProfileScreen extends Component {
                             title={"Device Sharing"} 
                             description={"Credit Cards, Coupons and more"} 
                             iconImage={require("./../../assets/images/profile/mobile_devices/mobile-devices.png")}
+                            onPress={() => this.props.navigation.navigate("DeviceSharing")}
                         />
                         <ProfileComponent 
                             title={"Notifications"} 
@@ -72,6 +73,7 @@ export default class ProfileScreen extends Component {
                             title={"Host your Home/Hotel"} 
                             description={"Credit Cards, Coupons and more"} 
                             iconImage={require("./../../assets/images/profile/location_hotel/location-hotel.png")}
+                            onPress={() => this.props.navigation.navigate("HostSteps")}
                         />
                         <ProfileComponent 
                             title={"Host your Resturant"} 

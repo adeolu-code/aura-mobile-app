@@ -15,11 +15,11 @@ export default class PaymentReferral extends Component {
     }
 
     onPressPayment = () => {
-
+        this.props.navigation.navigate("PaymentInitial");
     }
 
     onPressReferral = () => {
-        
+        this.props.navigation.navigate("Referrals");
     }
 
     render() {
@@ -33,12 +33,19 @@ export default class PaymentReferral extends Component {
                     <ScrollView>
                         <View style={contentStyle}>
                             <View style={sectionStyle}>
-                                <DashboardCardComponent title="Payment Settings" description={description}
-                                img={require('../../assets/images/dashboard_icons/dashboard.png')} onPress={this.onPressPayment} />
+                                <DashboardCardComponent 
+                                    title="Payment Settings" 
+                                    description={description}
+                                    img={require('../../assets/images/profile/credit_card/Component64–1_2x.png')} onPress={this.onPressPayment} 
+                                />
                             </View>
                             <View style={sectionStyle}>
-                                <DashboardCardComponent title="Payment Settings" description={description}
-                                img={require('../../assets/images/dashboard_icons/dashboard.png')} onPress={this.onPressReferral} />
+                                <DashboardCardComponent 
+                                    title="Referrals" 
+                                    description={description}
+                                    img={require('../../assets/images/profile/component_64_1/Component_64_1_2x.png')} 
+                                    onPress={this.onPressReferral} 
+                                />
                             </View>
                         </View>
                     </ScrollView>

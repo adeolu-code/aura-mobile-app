@@ -26,6 +26,12 @@ import BookingsDetail from '../screens/bookings/booking.detail';
 import PaymentReferral from '../screens/payments_referrals/paymentReferrals.screen';
 import NotificationSettings from '../screens/settings/notification.screen';
 import AccountVerification from '../screens/account_verification/index.screen';
+import Referrals from '../screens/referrals/refferal.screen';
+import AddPayment from '../screens/payment/addPayment.screen';
+import PaymentInitial from '../screens/payment/paymentInitial.screen';
+import PayWith from '../screens/payment/payWith.screen';
+import DeviceSharing from '../screens/profile/deviceSharing.screen';
+import HostSteps from '../screens/host/hostSteps.screen';
 
 const Stack = createStackNavigator();
 
@@ -80,6 +86,12 @@ export function ProfileStack() {
             <Stack.Screen name="PaymentReferral" component={PaymentReferral} options={{ headerShown: false }} />
             <Stack.Screen name="NotificationSettings" component={NotificationSettings} options={{ headerShown: false }} />
             <Stack.Screen name="AccountVerification" component={AccountVerification} options={{ headerShown: false }} />
+            <Stack.Screen name="Referrals" component={Referrals} options={{ headerShown: false }} />
+            <Stack.Screen name="PaymentInitial" component={PaymentInitial} options={{ headerShown: false }} />
+            <Stack.Screen name="PayWith" component={PayWith} options={{ headerShown: false }} />
+            <Stack.Screen name="AddPayment" component={AddPayment} options={{ headerShown: false }} />
+            <Stack.Screen name="DeviceSharing" component={DeviceSharing} options={{ headerShown: false }} />
+            <Stack.Screen name="HostSteps" component={HostSteps} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
