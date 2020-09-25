@@ -149,4 +149,60 @@ export const Styles = StyleSheet.create({
         padding: 10,
     },
 
+    //pick image
+    centerItems: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    galleryIcon: {
+        color: colors.orange,
+        fontSize: 120,
+    },
+    miniGalleryIcon: {
+        color: colors.orange,
+        fontSize: 40,
+    },
+    pickImageImageView: {
+        height: 250,
+        width: "100%",
+        backgroundColor: colors.lightOrange,
+        marginBottom: 5,
+        marginLeft: 5,
+    },
+    miniPickImageImageView: {
+        height: 120,
+        width: 140,
+        backgroundColor: colors.lightOrange,
+        borderRadius: 5,
+        
+    },
+    picturesRowView: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+    },
+    miniSelectedImage: {
+        height: 120,
+        width: 120,
+        marginLeft: 5,
+        borderRadius: 5,
+        marginTop: 5,
+        marginBottom: 5,
+    },
+    miniSelectedImageView: {
+        justifyContent: "flex-end",
+    },
+    trashIcon: {
+        backgroundColor: colors.white,
+        width: 25,
+        height: 25,
+        borderRadius: 50,
+        color: colors.black,
+        padding: 5,
+        position: "absolute",
+        alignSelf: "flex-end",
+        fontSize: 16,
+        right: 5,
+        bottom: 10,
+    }
+
 });

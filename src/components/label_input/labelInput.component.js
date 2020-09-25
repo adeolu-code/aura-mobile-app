@@ -12,7 +12,7 @@ export const LabelInput = (props) => {
     if (dateTime) {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <DatePicker
                         defaultDate={new Date()}
@@ -31,7 +31,7 @@ export const LabelInput = (props) => {
         ];
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <Picker
                         selectedValue={props.selectedOption ? props.selectedOption : "Male"}
@@ -60,7 +60,7 @@ export const LabelInput = (props) => {
          */
         return (
             <Item stackedLabel style={[Styles.phoneItem, props.itemStyle]}>
-                <Label style={[Styles.label]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <IntlPhoneInput
                         onChangeText={props.onChangeText} 
@@ -77,7 +77,7 @@ export const LabelInput = (props) => {
     else if (textarea) {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView, props.contentViewStyle]}>
                     {/* <Textarea 
                         style={[Styles.textarea, ]}
@@ -97,7 +97,7 @@ export const LabelInput = (props) => {
     {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.inputView]}>
                     <View style={[Styles.left, {width: (icon ? "90%": "100%" )}]}>
                         <Input 
