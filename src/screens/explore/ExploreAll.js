@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
@@ -87,8 +88,8 @@ class ExploreAll extends Component {
     const { iconStyle, fixedHeaderContainer, searchContainer, inputStyles, headerContainer, leftStyle, rightStyle, lastItem,
         searchIconStyle, secondHeaderContainer, smallIconStyle, menuItemStyle, menuItemActive, iconActive, container,
     contentContainer } = styles;
-    const { imgStyle, flexRow, textH5Style, textH4Style, textGrey, textOrange } = GStyles;
-    const { tabOne, tabTwo, tabThree, tabFour, tabFive } = this.state
+    const { flexRow, textH5Style, textGrey, textOrange } = GStyles;
+    const { tabOne, tabTwo, tabThree, tabFour, tabFive } = this.state;
     return (
         <SafeAreaView style={container}>
             <View style={fixedHeaderContainer}>
@@ -99,23 +100,23 @@ class ExploreAll extends Component {
                     <View style={rightStyle}>
                         <View style={[flexRow, searchContainer]}>
                             <TextInput style={[inputStyles]} placeholder="Location, landmark, restaurant" />
-                            <Icon name="search" style={searchIconStyle}  /> 
+                            <Icon name="search" style={searchIconStyle}  />
                         </View>
                     </View>
                 </View>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} ref={ref => {this.scrollViewRef = ref }}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} ref={ref => {this.scrollViewRef = ref}}>
                     <View style={[flexRow, secondHeaderContainer]}>
-                        <TouchableOpacity style={[flexRow, menuItemStyle, tabOne ? menuItemActive : '']} 
+                        <TouchableOpacity style={[flexRow, menuItemStyle, tabOne ? menuItemActive : '']}
                         onPress={this.linkTo.bind(this, 'one')} onLayout={this.onLayout.bind(this, 'one')}>
                             <Icon name="star" style={[smallIconStyle, tabOne ? iconActive : '']} />
                             <MyText style={[textH5Style, tabOne ? textOrange : textGrey ]}>Top Rated On Aura</MyText>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[flexRow, menuItemStyle, tabTwo ? menuItemActive : '']} 
+                        <TouchableOpacity style={[flexRow, menuItemStyle, tabTwo ? menuItemActive : '']}
                         onPress={this.linkTo.bind(this, 'two')} onLayout={this.onLayout.bind(this, 'two')}>
                             <Icon type="MaterialIcons" name="hotel" style={[smallIconStyle, tabTwo ? iconActive : '']} />
                             <MyText style={[textH5Style, tabTwo ? textOrange : textGrey]}>Homes & Hotels</MyText>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[flexRow, menuItemStyle, tabThree ? menuItemActive : '']} 
+                        <TouchableOpacity style={[flexRow, menuItemStyle, tabThree ? menuItemActive : '']}
                         onPress={this.linkTo.bind(this, 'three')} onLayout={this.onLayout.bind(this, 'three')}>
                             <Icon type="MaterialIcons" name="restaurant" style={[smallIconStyle, tabThree ? iconActive : '']} />
                             <MyText style={[textH5Style, tabThree ? textOrange : textGrey]}>Food & Restaurant</MyText>
@@ -146,55 +147,55 @@ class ExploreAll extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1, backgroundColor: colors.white
+        flex: 1, backgroundColor: colors.white,
     },
     fixedHeaderContainer: {
-        backgroundColor: colors.white, position: 'absolute', zIndex: 100
+        backgroundColor: colors.white, position: 'absolute', zIndex: 100,
     },
     iconStyle: {
-        padding: 0,margin: 0, fontSize: 35, marginLeft: -10
+        padding: 0,margin: 0, fontSize: 35, marginLeft: -10,
     },
     headerContainer: {
         width: '100%', alignItems: 'center',
-        paddingHorizontal: 20, paddingTop: 40, paddingBottom: 20, backgroundColor: colors.white, 
-        borderBottomWidth: 1, borderBottomColor: colors.lightGrey
+        paddingHorizontal: 20, paddingTop: 40, paddingBottom: 20, backgroundColor: colors.white,
+        borderBottomWidth: 1, borderBottomColor: colors.lightGrey,
     },
     leftStyle: {
-        flex: 1
+        flex: 1,
     },
     rightStyle: {
-        flex:5, 
+        flex:5,
     },
     searchContainer: {
-        elevation: 4, backgroundColor: colors.white, alignItems: 'center', borderRadius: 4
-    }, 
+        elevation: 4, backgroundColor: colors.white, alignItems: 'center', borderRadius: 4,
+    },
     inputStyles: {
-        flex: 1, height: 40, paddingHorizontal: 20, fontFamily: 'Nunito-Regular'
+        flex: 1, height: 40, paddingHorizontal: 20, fontFamily: 'Nunito-Regular',
     },
     searchIconStyle: {
-        paddingHorizontal: 20, fontSize: 18, color: colors.grey
+        paddingHorizontal: 20, fontSize: 18, color: colors.grey,
     },
     secondHeaderContainer: {
         paddingTop: 30, paddingHorizontal: 20, borderBottomColor: colors.lightGrey, borderBottomWidth: 1,
     },
     smallIconStyle: {
-        fontSize: 15, marginRight: 4, color: colors.grey
+        fontSize: 15, marginRight: 4, color: colors.grey,
     },
     menuItemStyle: {
         alignItems: 'center', marginRight: 30, paddingBottom: 8,
     },
     menuItemActive: {
-        borderBottomWidth: 3, borderBottomColor: colors.orange
+        borderBottomWidth: 3, borderBottomColor: colors.orange,
     },
     iconActive: {
-        color: colors.orange
+        color: colors.orange,
     },
     lastItem: {
-        marginRight: 0
+        marginRight: 0,
     },
     contentContainer: {
-        marginTop:180
-    }
+        marginTop:180,
+    },
 });
 
 export default ExploreAll;

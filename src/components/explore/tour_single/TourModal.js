@@ -51,10 +51,9 @@ onValueChange(value: string) {
         
     ];
     const { visible, onDecline } = this.props;
-    const { textWhite, textH2Style, textExtraBold, textDarkBlue,textH3Style, textH6Style, textGrey, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, 
-      textGreen, textBold, flexRow, textSuccess } = GStyles;
-    const { modalHeader, closeContainer, logoContainer, container, modalContainer, modalBody, inputContainer, 
-      buttonContainer, modalBodyStyle, radio, divider, dashStyles, dashContainer, socialContainer, buttonStyle, accountStyle, picker } = styles
+    const { textH2Style, textExtraBold, textDarkBlue,textH3Style, textH6Style, textGrey, textH4Style, flexRow, textSuccess } = GStyles;
+    const { modalHeader, closeContainer, modalContainer, modalBody,
+      buttonContainer, modalBodyStyle, divider, picker } = styles
     return (
       
         <Modal visible={visible} transparent onRequestClose={() => {}} animationType="slide">

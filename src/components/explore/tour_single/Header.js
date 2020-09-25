@@ -37,9 +37,8 @@ class Header extends Component {
   render() {
     const { headerStyle, shareStyle, shareContainer, iconStyle, starContainer, imgContainer, contentContainer,
         overlayStyles, iconVerifiedContainer, verifiedStyle, countContainer, divider, thumbContainer, thumbTxtContainer, 
-        thumbStyle, cContainer, verifyContainer, containerOne, photosContainer, header, iconStyleOne } = styles;
-    const { flexRow, textH2Style, textExtraBold, textBold, textLgStyle, textH5Style, textGrey, textH4Style, 
-            imgStyle, textWhite, textH3Style, textSuccess, textH6Style, textDarkGrey, textBlack } = GStyles
+        thumbStyle, containerOne, photosContainer, header, iconStyleOne } = styles;
+    const { flexRow, textH2Style, textExtraBold, textLgStyle, textH5Style, textGrey, textH4Style, textH3Style, textH6Style } = GStyles
     const { title } = this.props
     return (
         <View style={{marginBottom: 40}}>
@@ -110,26 +109,26 @@ const styles = StyleSheet.create({
     },
     shareContainer: {
         width: 40, height: 40, borderRadius: 40, backgroundColor: colors.white, elevation: 3, justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     starContainer: {
-        paddingTop: 8, paddingBottom: 0
+        paddingTop: 8, paddingBottom: 0,
     },
     shareStyle: {
-        color: colors.success, fontSize: 25, marginLeft: -2
+        color: colors.success, fontSize: 25, marginLeft: -2,
     },
     iconStyle: {
-        fontSize: 16
+        fontSize: 16,
     },
     imgContainer: {
-        width: '100%', height: 300, borderRadius: 10, overflow: 'hidden', marginBottom: 35
+        width: '100%', height: 300, borderRadius: 10, overflow: 'hidden', marginBottom: 35,
     },
     contentContainer: {
         paddingLeft: 20,
     },
     overlayStyles: {
         position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.3)',
-        justifyContent: 'space-between', alignItems: 'flex-end', padding: 20
+        justifyContent: 'space-between', alignItems: 'flex-end', padding: 20,
     },
     iconVerifiedContainer: {
         width: 25, height: 25, borderWidth:2, borderColor: colors.white, borderRadius: 20, backgroundColor: colors.orange,
@@ -154,37 +153,36 @@ const styles = StyleSheet.create({
         marginRight: 20,
     },
     thumbContainer: {
-        width: 60, height: 60, borderRadius: 60, marginRight: 20
+        width: 60, height: 60, borderRadius: 60, marginRight: 20,
     },
     thumbStyle: {
         width: 60, height: 60, borderRadius: 60,
     },
     thumbTxtContainer: {
-        paddingVertical: 15, alignItems:'center'
+        paddingVertical: 15, alignItems:'center',
     },
     containerOne: {
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
     },
     photosContainer: {
-        // justifyContent: 'space-between', 
+        // justifyContent: 'space-between',
         width: '100%', borderRadius: 30, overflow: 'hidden',
         // borderWidth: 1
     },
     leftContainer: {
-        width: '32%'
+        width: '32%',
     },
     middleContainer:{
-        width: '32%'
+        width: '32%',
     },
     rightContainer: {
-        width: '32%'
+        width: '32%',
     },
-    
     leftImgContainer: {
-        width: '100%', height: 200
+        width: '100%', height: 200,
     },
     middleImgContainer: {
-        width: '100%', height: 400
+        width: '100%', height: 400,
     },
     header: {
         marginTop: 50,
