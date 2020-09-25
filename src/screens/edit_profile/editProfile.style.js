@@ -53,7 +53,41 @@ export const Styles = StyleSheet.create({
     },
     phoneItem: {
         paddingBottom: 15,
-        borderBottomWidth: 0,
-        
+        borderBottomWidth: 0,  
+    },
+
+    //add profile pic
+    nextButton: {
+        backgroundColor: colors.orange,
+        alignSelf: "center",
+        width: "100%",
+        justifyContent: "center",
+        marginTop: 5,
+        marginBottom: 5,
+    },
+    roundedUser: {
+        height: 120,
+        width: 120,
+        borderRadius: 60,
+        backgroundColor: colors.lightGrey,
+        alignSelf: "center",
+    },
+    userIcon: {
+        color: colors.grey,
+        fontSize: 45,
+        alignSelf: "center",
+        padding: 30,
+    },
+    fbProfilePic: {
+        flexDirection: "row",
+        justifyContent: "center",
+        width: "100%",
+        marginTop: 10,
+    },
+    userImage: {
+        height: 120,
+        width: 120,
+        borderRadius: 60,
+        alignSelf: "center",
     }
 });
