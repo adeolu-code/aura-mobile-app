@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -5,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeSingleScreen from '../screens/explore/HomeSingle';
 import FoodSingleScreen from '../screens/explore/FoodSingle';
 import PhotoSingleScreen from '../screens/explore/PhotoSingle';
+import TourSingleScreen from '../screens/explore/TourSingle';
 
 import SignUpScreen from '../screens/auth/signup';
 import OtpScreen from '../screens/auth/OtpScreen';
@@ -19,6 +21,7 @@ export function OtherStack() {
             <Stack.Screen name="HouseSingle" component={HomeSingleScreen} options={{ headerShown: false }} />
             <Stack.Screen name="FoodSingle" component={FoodSingleScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotoSingle" component={PhotoSingleScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSingle" component={TourSingleScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }

@@ -116,6 +116,12 @@ const styles = StyleSheet.create({
   textBlack: {
     color: 'rgba(0,0,0,1)',
   },
+  textBlackClose: {
+    color: colors.blackClose
+  },
+  textlightGreyTwo: {
+    color: colors.lightGreyTwo
+  },
   lineHeightTextSmall: {
     lineHeight: 20,
   },

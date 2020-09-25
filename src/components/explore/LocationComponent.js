@@ -20,9 +20,10 @@ class LocationComponent extends Component {
 
   render() {
     const {  contentContainer, divider, container, mapContainer, headerStyle } = styles;
-    const { textH2Style, textExtraBold,  textH4Style, imgStyle  } = GStyles
+    const { textH2Style, textExtraBold,  textH4Style, imgStyle  } = GStyles;
+    const { wrapper, noDivider } = this.props
     return (
-        <View style={container}>
+        <View style={[container, wrapper]}>
             <View style={headerStyle}>
                 <MyText style={[textH2Style, textExtraBold]}>Location</MyText>
             </View>
@@ -32,7 +33,7 @@ class LocationComponent extends Component {
                     <Image source={require('../../assets/images/map/map.png')} resizeMode="cover" style={imgStyle} />
                 </View>
             </View>
-            <View style={divider}></View>
+            {!noDivider ? <View style={divider}></View> : <View></View>}
         </View>
     );
   }

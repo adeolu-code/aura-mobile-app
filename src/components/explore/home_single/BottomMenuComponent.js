@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import GStyles from '../../../assets/styles/GeneralStyles';
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         marginBottom: 30
     },
     buttonStyle: {
-        borderRadius: 10, elevation: 2
+        borderRadius: 6, elevation: 2
     },
     buttonContainer: {
         // marginVertical: 40
