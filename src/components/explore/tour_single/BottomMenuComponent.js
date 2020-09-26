@@ -26,7 +26,7 @@ class BottomMenuComponent extends Component {
         <View style={[flexRow, container]}>
             <View style={{flex: 1}}>
                 <MyText style={[textGrey, textH6Style]}>Price:</MyText>
-    <MyText style={[textSuccess, textH4Style, textBold]}>{price}</MyText>
+                <MyText style={[textSuccess, textH4Style, textBold]}>{price}</MyText>
             </View>
             <View style={{flex: 1.3}}>
                 <View style={buttonContainer}>

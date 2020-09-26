@@ -28,14 +28,19 @@ class OtpScreen extends Component {
           <View style={container} >
             <View>
             <MyText>
-            An OTP code has been sent to +2347033934020 Kindly enter below the 6 digit code or {' '}
-            <TouchableOpacity><MyText style={[textOrange, textUnderline, textBold]}>Change Phone Number</MyText></TouchableOpacity>
+              An OTP code has been sent to +2347033934020 Kindly enter below the 6 digit code or {' '}
+            <TouchableOpacity>
+              <MyText style={[textOrange, textUnderline, textBold]}>Change Phone Number</MyText>
+            </TouchableOpacity>
             </MyText>
             </View>
             <View style={middleRow}>
             <View></View>
-            <View>
-                <MyText>Didn’t receive a code? {' '}<TouchableOpacity><MyText style={[textUnderline, textOrange, textBold]}>Resend Code</MyText></TouchableOpacity></MyText>
+            <View style={[flexRow]}>
+                <MyText>Didn’t receive a code? {' '}</MyText>
+                <TouchableOpacity>
+                  <MyText style={[textUnderline, textOrange, textBold]}>Resend Code</MyText>
+                </TouchableOpacity>
             </View>
             <View style={{paddingTop: 20}}>
                 <MyText style={[textUnderline, textGreen, textBold]}>Request Call</MyText>
