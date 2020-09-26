@@ -15,6 +15,7 @@ import UploadVerification from '../screens/account_verification/uploadVerificati
 import HostProperty from '../screens/host/hostProperty.screen';
 import HostPropertyStack from './HostPropertyNavigation';
 import AddProfilePicture from '../screens/edit_profile/addProfilePic.screen';
+import VerifyPhoneNumber from '../screens/account_verification/verifyPhone.screen';
 
 const RootStack = createStackNavigator();
 
@@ -33,7 +34,7 @@ function AppNavigator() {
       <RootStack.Screen name="UploadVerification" component={UploadVerification} options={{headerShown: false}} />
       <RootStack.Screen name="HostPropertyStack" component={HostPropertyStack} options={{headerShown: false}} />
       <RootStack.Screen name="AddProfilePicture" component={AddProfilePicture} options={{headerShown: false}} />
-      
+      <RootStack.Screen name="VerifyPhoneNumber" component={VerifyPhoneNumber} options={{headerShown: false}} />
     </RootStack.Navigator>
   );
 }

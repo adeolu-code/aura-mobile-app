@@ -21,7 +21,7 @@ export default class NotificationComponent extends Component {
         const {textBold, textCenter } = GStyles;
         const alert = (this.props.alert == undefined) ? false : ((this.props.alert) ? true : false);
         return (
-            <Pressable 
+            <Pressable
                 style={[Styles.parentView, (alert ? Styles.alertView: undefined)]}
                 onPress={() => this.props.onPress()}
             >

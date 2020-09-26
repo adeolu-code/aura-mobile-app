@@ -203,6 +203,58 @@ export const Styles = StyleSheet.create({
         fontSize: 16,
         right: 5,
         bottom: 10,
+    },
+
+    //booking information requirements
+    lockIcon: {
+        color:colors.lightGrey,
+        marginRight: 10,
+        fontSize: 24
+    },
+
+    //booking info preview
+    shieldView: {
+        backgroundColor: colors.orange,
+        borderRadius: 50,
+        height: 20, 
+        width:20,
+        alignItems: "center",
+        marginRight: 5,
+    },
+    imageShield: {
+        height: 10, 
+        width:10,
+        marginTop: 5,
+    },
+    previewParentView: {
+        padding: 10,
+        flexDirection: 'row',
+        overflow: "hidden"
+    },
+    previewIconParent: {
+        flex: 0.1,
+    },
+    alertIcon: {
+        backgroundColor: colors.white,
+        color: colors.orange,
+        borderRadius: 50,
+        height: 20,
+        width: 20,
+        textAlign: 'center',
+        marginTop: 0,
+        fontSize: 18,
+    },
+    middleSection: {  
+        flex: 0.85
+    },
+    previewTitle: {
+        marginTop: 0,
+        marginLeft: 0,
+        width: "100%",
+        textAlign: "left",
+    },
+    content: {
+        marginTop: 5,
     }
 
 });
