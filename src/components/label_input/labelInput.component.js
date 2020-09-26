@@ -67,6 +67,8 @@ export const LabelInput = (props) => {
                         defaultCountry="NG" 
                         containerStyle={{height: 45}}
                         phoneInputStyle={{color: "black"}}
+                        placeholder={props.placeholder}
+                        
                     />
                 </View>
                 

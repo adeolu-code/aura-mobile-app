@@ -20,9 +20,7 @@ export default class PickPropertyImage extends Component {
         const {
             textWhite,
             textBold,
-            textH5Style,
             textCenter,
-            textDarkBlue,
             textOrange,
             textH4Style,
             textGreen,
@@ -93,7 +91,7 @@ export default class PickPropertyImage extends Component {
                                     :
                                         <TouchableOpacity 
                                             style={[Styles.nextButton, {marginTop: 10}]}
-                                            onPress={() => this.setState({isCaptured: true})}
+                                            onPress={() => this.props.navigation.navigate('AddProfilePicture')}
                                         >
                                             <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Next</MyText>
                                         </TouchableOpacity>

@@ -24,6 +24,8 @@ export default class AddProfilePicture extends Component {
             });
             return;
         }
+
+        this.props.navigation.navigate('VerifyPhoneNumber');
     }
 
     render() {

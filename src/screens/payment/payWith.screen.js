@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-import { StatusBar, SafeAreaView, ScrollView, Image, Pressable } from "react-native";
+import { StatusBar, SafeAreaView, ScrollView, Image, Pressable, TouchableOpacity } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
 import { BOOKINGS_NO_BOOKINGS, BOOKINGS_SCREEN_DESCRIPTION } from "../../strings";
@@ -59,13 +59,13 @@ export default class PayWith extends Component {
 const Card = (props) => {
     const { textGrey, textH2Style, textH6Style, textExtraBold, textDarkBlue, textH4Style, imgContainer, imgStyle, textCenter } = GStyles;
     return (
-        <Pressable style={[Styles.cardView]} onPress={props.onPress}>
+        <TouchableOpacity style={[Styles.cardView]} onPress={props.onPress}>
             <Image 
                 source={props.imgSource} 
                 style={[Styles.cardImage, props.imgStyle]} 
                 resizeMode={props.resizeMode}
             />
             <MyText style={[textH6Style, textCenter, Styles.cardText]}>{props.text}</MyText>
-        </Pressable>
+        </TouchableOpacity>
     );
 }
