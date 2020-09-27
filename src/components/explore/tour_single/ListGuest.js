@@ -69,8 +69,6 @@ disabled = () => {
 
 const styles = StyleSheet.create({
   rowContainer: {
-    //   borderBottomWidth: 1,
-    //   borderBottomColor: colors.lightGreyOne,
       height: 50,
       paddingTop: 20,
   },
@@ -79,7 +77,6 @@ const styles = StyleSheet.create({
        marginBottom: 20,
     },
 decrement: {
-    // color: '#FF8300',
     backgroundColor: '#FD8323',
     height: 20,
     width: 20,
