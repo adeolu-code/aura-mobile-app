@@ -115,7 +115,7 @@ class HostComponent extends Component {
                 <View style={{marginBottom: 30, marginTop: 10}}>
                     <View style={[flexRow]}>
                         <View style={[imageView]}>
-                            <Icon type="IonicIcons" name="map-sharp" style={iconStyleOne} />
+                            <Icon type="Ionicons" name="map-sharp" style={iconStyleOne} />
                         </View>
                         <View style={{marginLeft: 20, justifyContent: 'center'}}>
                             <MyText style={[textWhite, textH4Style]}>
@@ -125,7 +125,7 @@ class HostComponent extends Component {
                     </View>
                     <View style={[flexRow, {marginTop: 30}]}>
                         <View style={[imageView]}>
-                            <Icon type="IonicIcons" name="camera" style={iconStyleOne} />
+                            <Icon type="Ionicons" name="camera" style={iconStyleOne} />
                         </View>
                         <View style={{marginLeft: 20, justifyContent: 'center'}}>
                             <MyText style={[textWhite, textH4Style]}>

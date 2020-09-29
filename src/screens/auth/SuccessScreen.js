@@ -20,8 +20,8 @@ class SuccessScreen extends Component {
     this.props.navigation.navigate('List');
   }
   render() {
-    const {container, middleRow, bottomRow, header  } = styles
-    const { textBold, textSuccess, textUnderline, textCenter, textExtraBold, textLgStyle} = GStyles
+    const {container, middleRow, bottomRow, header, iconContainer  } = styles
+    const { textBold, textSuccess, textUnderline, textCenter, textExtraBold, textLgStyle, textH4Style, textGrey, textH5Style} = GStyles
     return (
       <SafeAreaView style={{ flex: 1}}>
         <View style={header}>
@@ -29,20 +29,23 @@ class SuccessScreen extends Component {
         </View>
           <View style={container}>
             <View>
-            <MyText>
-              A verification link has been sent to josh***d@gmail.com
-            </MyText>
+              <MyText style={[textH5Style, textGrey, { lineHeight: 25}]}>
+                A verification link has been sent to josh***d@gmail.com
+              </MyText>
             </View>
             <View style={middleRow}>
-                <Icon name="checkmark-circle" style={{color:"#FD8323", fontSize: 70}} />
+                <View style={iconContainer}>
+                  <Icon type="Feather" name="check" style={{color:colors.white, fontSize: 40}} />
+                </View>
             </View>
             <View>
-                <CustomButton onPress={this.ListScreen} buttonText='Resend Mail' buttonStyle={{borderColor: '#000', borderWidth: 1,borderRadius: 8, backgroundColor: '#fff'}} textStyle={{color: '#000'}}/>
+                <CustomButton onPress={this.ListScreen} buttonText='Resend Mail' 
+                buttonStyle={{borderColor: '#000', borderWidth: 1,borderRadius: 8, backgroundColor: '#fff', elevation: 1}} textStyle={{color: '#222222'}}/>
             </View>
             <View style={bottomRow}>
-            <TouchableOpacity><MyText>Don’t have access to your mail?{' '}
+              <TouchableOpacity><MyText style={[textGrey, textH5Style]}>Don’t have access to your mail?{' '}
                 <MyText style={[textSuccess, textBold, textUnderline]}>Skip This</MyText></MyText>
-                </TouchableOpacity>
+              </TouchableOpacity>
             </View>
           </View>
       </SafeAreaView>
@@ -71,6 +74,9 @@ const styles = StyleSheet.create({
     width: '100%', paddingTop: 40, backgroundColor: colors.white, paddingHorizontal: 20,
         position: 'absolute', top: 0, zIndex: 100,
   },
+  iconContainer: {
+    width: 70, height: 70, borderRadius: 50, backgroundColor: colors.orange, justifyContent: 'center', alignItems:'center'
+  }
     
 });
 
