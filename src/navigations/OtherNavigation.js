@@ -15,6 +15,7 @@ import ListPropertyScreen from '../screens/auth/ListPropertyScreen';
 import LocationScreen from '../screens/auth/LocationScreen';
 import AmenitiesScreen from '../screens/auth/AmenitiesScreen';
 import SavedScreen from '../screens/auth/SavedScreen';
+import Location from '../screens/auth/Location';
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,7 @@ export function AuthStack() {
             <Stack.Screen name="Success" component={SuccessScreen} options={{headerShown: false}} />
             <Stack.Screen name="List" component={ListPropertyScreen} options={{headerShown: false}} />
             <Stack.Screen name="Location" component={LocationScreen} options={{headerShown: false}} />
+            <Stack.Screen name="LocationOne" component={Location} options={{headerShown: false}} />
             <Stack.Screen name="Amenities" component={AmenitiesScreen} options={{headerShown: false}}/>
             <Stack.Screen name="Saved" component={SavedScreen} options={{headerShown: false}}/>
         </Stack.Navigator>

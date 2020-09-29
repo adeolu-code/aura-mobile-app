@@ -34,8 +34,8 @@ onValueChangeTwo(value: string) {
       selected2: value
     });
 }
-AmenitiesScreen = () => {
-    this.props.navigation.navigate('Amenities');
+ Location = () => {
+    this.props.navigation.navigate('LocationOne');
   }
 
   render() {
@@ -50,7 +50,7 @@ AmenitiesScreen = () => {
                     <MyText style={textGrey}>
                         Guests will only get your exact address once they’ve booked a reservation
                     </MyText>
-                    <TouchableOpacity style={{marginTop: 44}}>
+                    <TouchableOpacity style={{marginTop: 44}} onPress={this.Location}>
                         <View style={[flexRow]}>
                             <View style={[imageView]}>
                                 <Icon type="FontAwesome" name="location-arrow" style={iconStyle} />
@@ -86,24 +86,11 @@ AmenitiesScreen = () => {
                                 </View>
                         </View>
                     </View>
-                    {/* <View style={picker}>
-                        <Picker
-                        mode="dropdown"
-                        iosHeader="Choose A Type of Property"
-                        Icon={<Icon name="md-arrow-down" />}
-                        style={{ width: undefined }}
-                        selectedValue={this.state.selected}
-                        onValueChange={this.onValueChange.bind(this)}
-                        >
-                        <Picker.Item label="Choose A Type of Property" value="key0"/>
-                        <Picker.Item label="Hotels" value="key1" />
-                        <Picker.Item label="Apartments" value="key2" />
-                        </Picker>
-                    </View> */}
+                    
                 </View>
                 
                 <View style={button}>
-                    <CustomButton buttonText="Next" onPress={this.AmenitiesScreen}/>
+                    <CustomButton buttonText="Next" />
                 </View>
             </View>
           </ScrollView>

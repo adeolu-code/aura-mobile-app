@@ -85,61 +85,6 @@ SavedScreen = () => {
                         <CheckBox title="Lock On Bedroom Door" subtitle="Private room can be locked For Safety & Privacy"/>
                     </View>
                 </View>
-                {/* <View style={{marginTop: 18}}>
-                    <MyText style={textGrey}>
-                        Guests will only get your exact address once they’ve booked a reservation
-                    </MyText>
-                    <TouchableOpacity style={{marginTop: 44}}>
-                        <View style={[flexRow]}>
-                            <View style={[imageView]}>
-                                <Icon type="FontAwesome" name="location-arrow" style={iconStyle} />
-                            </View>
-                            <View style={{marginTop: 20}}>
-                                <MyText style={[textOrange, textH5Style, textBold,textUnderline]}>
-                                    Use Present Location
-                                </MyText>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                    <View style={{marginTop: 45}}>
-                        <MyText style={[textGrey, textH6Style]}>
-                            Are You Listing As A Part Of A Company?
-                        </MyText>
-                        <TextInput style={input}/>
-                    </View>
-                    <View style={{marginTop: 30}}>
-                        <View style={[flexRow, {flex: 1, marginBottom: 30}]}>
-                                <View style={{flex: 1, marginRight: 10}}>
-                                    <Input label="Country" />
-                                </View>
-                                <View style={{flex: 1, marginLeft: 10}}>
-                                    <Input label="State" />
-                                </View>
-                        </View>
-                        <View style={[flexRow, {flex: 1}]}>
-                                <View style={{flex: 1, marginRight: 10}}>
-                                    <Input label="City" />
-                                </View>
-                                <View style={{flex: 1, marginLeft: 10}}>
-                                    <Input label="Zip Code" />
-                                </View>
-                        </View>
-                    </View>
-                    {/* <View style={picker}>
-                        <Picker
-                        mode="dropdown"
-                        iosHeader="Choose A Type of Property"
-                        Icon={<Icon name="md-arrow-down" />}
-                        style={{ width: undefined }}
-                        selectedValue={this.state.selected}
-                        onValueChange={this.onValueChange.bind(this)}
-                        >
-                        <Picker.Item label="Choose A Type of Property" value="key0"/>
-                        <Picker.Item label="Hotels" value="key1" />
-                        <Picker.Item label="Apartments" value="key2" />
-                        </Picker>
-                    </View> */}
-                {/* </View> */} 
                 
                 <View style={button}>
                     <CustomButton buttonText="Next" onPress={this.SavedScreen}/>

@@ -8,6 +8,8 @@ import colors from '../../../../colors';
 import {CheckBox} from '../../../auth/CheckBox';
 import {Input} from '../../../auth/Input';
 import ListProperty from '../../../auth/ListProperty';
+import Slider from '../../../auth/RangeSlider';
+import Switch from '../../../Switch';
 
 import { Icon } from 'native-base';
 
@@ -62,21 +64,24 @@ class FilterModal extends Component {
                             <View style={{flex: 9}}>
                                 <MyText style={[textExtraBold, textH2Style, textDarkBlue]}>Price Range</MyText>
                                 <MyText style={[textGrey, textH6Style, {marginTop: 10}]}>Find homes & hotels that fit your budget</MyText>
-                                <View style={{marginTop: 20}}>
-                                    <View style={[flexRow, {flex: 1}]}>
-                                        <View style={{flex: 1, marginRight: 10}}>
-                                            <Input label="min price" placeholder="N 0" placeholderColor={colors.black}/>
-                                        </View>
-                                        <View style={{flex: 1, marginLeft: 10}}>
-                                            <Input label="max price" placeholder="N 500,000+" placeholderColor={colors.black} />
-                                        </View>
-                                    </View>
-                                </View>
                             </View>
                             <View>
                                 <TouchableOpacity>
                                     <Icon type="MaterialIcons" name="keyboard-arrow-up" />
                                 </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View>
+                            <Slider/>
+                            <View style={{marginBottom: 30}}>
+                                <View style={[flexRow, {flex: 1}]}>
+                                    <View style={{flex: 1, marginRight: 10}}>
+                                        <Input label="min price" placeholder="N 0" placeholderColor={colors.black}/>
+                                    </View>
+                                    <View style={{flex: 1, marginLeft: 10}}>
+                                        <Input label="max price" placeholder="N 500,000+" placeholderColor={colors.black} />
+                                    </View>
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -155,17 +160,15 @@ class FilterModal extends Component {
                     </View>
                     <View style={divider}></View>
                     <View style={body}>
-                        <View style={[divider, {marginTop: 10}]}></View>
+                        {/* <View style={[divider, {marginTop: 10}]}></View> */}
                         <View style={[flexRow, property]}>
-                            <View style={{flex: 6}}>
+                            <View style={{flex: 8}}>
                                 <MyText style={[textExtraBold, textH2Style, textDarkBlue]}>Verified Properties</MyText>
                                 <MyText style={[textGrey, textH6Style, {marginTop: 10}]}>Find properties that have been verified</MyText>
-                                <View style={[divider, {marginTop: 20}]}></View>
+                                {/* <View style={[divider, {marginTop: 20}]}></View> */}
                             </View>
-                            <View>
-                                <TouchableOpacity>
-                                    <Icon type="MaterialIcons" name="keyboard-arrow-up" />
-                                </TouchableOpacity>
+                            <View style={{flex: 3}}>
+                                <Switch />
                             </View>
                         </View>
                     </View>
@@ -202,7 +205,6 @@ const styles = StyleSheet.create({
     },
     closeStyle: {
         height: 30, flex: 1, justifyContent:'flex-end', alignItems: 'flex-end',
-        // borderWidth: 1
     },
     body: {
         paddingHorizontal: 24,
