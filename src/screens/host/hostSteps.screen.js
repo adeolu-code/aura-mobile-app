@@ -19,17 +19,20 @@ export default class HostSteps extends Component {
         }
     }
 
+    set = (v) => {
+        this.setState(v);
+    }
+
     getStarted = () => {
         
         if (this.state.step == 1) {
-            this.props.navigation.navigate("HostPropertyStack");
+            this.props.navigation.navigate("HostProperty");
         }
         else if (this.state.step == 2) {
-            
             this.props.navigation.navigate("UploadPropertyImage");
         }
         else if (this.state.step == 3) {
-
+            this.props.navigation.navigate("BookingInformationRequirements");   
         }
     }
 
@@ -91,19 +94,22 @@ export default class HostSteps extends Component {
                                 title={"Facilities And Location"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                 completed={true}
-                                step={"1"}
+                                step={1}
+                                onEditPress={() => this.set({step: 1})}
                             />
                             <Card 
                                 title={"Upload Picture And Short Description Of Your Place"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                 completed={true}
-                                step={"2"}
+                                step={2}
+                                onEditPress={() => this.set({step: 2})}
                             />
                             <Card 
                                 title={"Welcome Your First Guest"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                 completed={true}
-                                step={"3"}
+                                step={3}
+                                onEditPress={() => this.set({step: 3})}
                             />
                         </Content>
                         {
@@ -154,7 +160,7 @@ const Card = (props) => {
                     {props.description}
                 </MyText>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={props.onEditPress}>
                 <MyText style={[textH4Style, textUnderline, textOrange, {marginTop: 20}]}>Edit Changes</MyText>
             </TouchableOpacity>
         </View>
