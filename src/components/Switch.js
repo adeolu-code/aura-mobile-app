@@ -45,8 +45,8 @@ handleSwitchToggle = () => {
                     marginTop: 2,
                     marginBottom: 2,
                     marginLeft: 2,
-                    marginRight: 2
-                    }} 
+                    marginRight: 2,
+                    }}
                     onPress={this.handleSwitchToggle}>
                     <Icon type={this.state.active ? 'AntDesign' : 'Feather'} name={this.state.active ? 'check' : 'x' } style={{color: this.state.active ? colors.green : colors.lightGrey,
                     fontSize: this.state.active ? 14 : 14}}/>

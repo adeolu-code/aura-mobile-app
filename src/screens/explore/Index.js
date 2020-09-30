@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   ScrollView,
   ImageBackground,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import {
   MyText,
@@ -23,10 +24,14 @@ import ScrollContentFood from '../../components/explore/ScrollContentFood';
 import ScrollContentPhoto from '../../components/explore/ScrollContentPhoto';
 import TourImgComponent from '../../components/explore/TourImgComponent';
 
+import { Icon } from 'native-base';
+
 class Index extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      active: false,
+    };
   }
   linkToHouses = () => {
     this.props.navigation.navigate('ExploreAll', { tab: 'two' })
@@ -41,29 +46,125 @@ class Index extends Component {
     this.props.navigation.navigate('ExploreAll', { tab: 'five' })
   }
 
+  handleSearchToggle = () => {
+    this.setState({
+        active: !this.state.active,
+    });
+}
   render() {
     const {
-      headerBg,searchContainer,placeAroundContainer,
+      headerBg, searchContainer, placeAroundContainer,
       headerContainer, scrollContainer, buttonContainer,
       buttonStyle, foodContainer,
       foodBgStyles,
       textContainer,
       foodAroundContainer, tourContentStyle,
-      placeStayContainer, photoContainer, tourContainer
+      placeStayContainer, photoContainer, tourContainer,
+       search, iconStyle, SearchArea, searchGroup,
+       icons, iconsArea,
     } = styles;
     const {
-      textWhite,textH3Style, textCenter,
+      textWhite, textH3Style, textCenter,
       textH1Style,
       textExtraBold,
       marginBottomSmall,
       marginTopLarge,
       textH2Style,
       textH4Style,
-      lineHeightText, textDarkGrey
+      lineHeightText, textDarkGrey,
+      textDarkBlue,
+      flexRow,
+      textH5Style,
+      textH6Style,
+      textH7Style,
+      textBold,
     } = GStyles;
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-        <ScrollView>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={[search, {zIndex: this.state.active ? 10 : -10}]}>
+          <View style={[flexRow, searchGroup]}>
+            <TouchableOpacity style={iconStyle}>
+              <Icon type="MaterialIcons" name="keyboard-arrow-left" style={{fontSize: 30}} />
+            </TouchableOpacity>
+            <View style={SearchArea}>
+              <SearchInput placeholder="Where are you going?" />
+            </View>
+          </View>
+          <View style={{marginTop: 20}}>
+            <View style={[flexRow, iconsArea]}>
+              <View style={icons}>
+                <TouchableOpacity onPress={this.handleSearchToggle}>
+                  <Icon type="FontAwesome" name="location-arrow" style={{fontSize: 20, color: colors.white}} />
+                </TouchableOpacity>
+              </View>
+              <View >
+                <MyText style={[textH5Style, {paddingTop: 9}]}>
+                  Nearby Places
+                </MyText>
+              </View>
+            </View>
+          </View>
+          <View>
+            <MyText style={textDarkBlue, textH6Style, textBold}>
+              POPULAR SEARCHES BY CITY
+            </MyText>
+          </View>
+          <View style={{marginTop: 20}}>
+            <View style={[flexRow, iconsArea]}>
+                <View style={icons}>
+                  <TouchableOpacity>
+                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity>
+                  <MyText style={[textH5Style, {paddingTop: 9}]}>
+                    Lagos
+                  </MyText>
+                </TouchableOpacity>
+            </View>
+            <View style={[flexRow, iconsArea]}>
+                <View style={icons}>
+                  <TouchableOpacity>
+                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity>
+                  <MyText style={[textH5Style, {paddingTop: 9}]}>
+                    Abuja
+                  </MyText>
+                </TouchableOpacity>
+            </View>
+            <View style={[flexRow, iconsArea]}>
+                <View style={icons}>
+                  <TouchableOpacity>
+                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity >
+                  <MyText style={[textH5Style, {paddingTop: 9}]}>
+                    Ibadan
+                  </MyText>
+                </TouchableOpacity>
+            </View>
+            <View style={[flexRow, iconsArea]}>
+                <View style={icons}>
+                  <TouchableOpacity>
+                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity>
+                  <MyText style={[textH5Style, {paddingTop: 9}]}>
+                    Calabar
+                  </MyText>
+                </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+
+
+
+        <ScrollView style={{position: 'relative', backgroundColor: colors.white}}>
           <ImageBackground
             source={require('../../assets/images/mask/mask.png')}
             style={[headerBg]}>
@@ -77,11 +178,12 @@ class Index extends Component {
               ]}>
               Book unique places
             </MyText>
+
             <MyText style={[textWhite, textH2Style, marginBottomSmall]}>
               to stay and things to do
             </MyText>
             <View style={searchContainer}>
-              <SearchInput placeholder="Location, landmark, address" />
+              <SearchInput onFocus={this.handleSearchToggle} placeholder="Location, landmark, address" />
             </View>
           </ImageBackground>
 
@@ -163,17 +265,17 @@ class Index extends Component {
           </View>
 
           <View style={tourContainer}>
-              <MyText style={[textWhite, textExtraBold, textH2Style, textCenter, { marginBottom: 15 }]}>Are you New in a city ?</MyText>
-              <MyText style={[textWhite, textH4Style, textCenter, lineHeightText, { marginBottom: 25 }]}>Book a Tour Guide Today</MyText>
-              <MyText style={[textWhite, textH4Style, textCenter, {lineHeight: 30}]}>
-                Curabitur vulputate arcu odio, ac facilisis diam accumsan ut. Ut imperdiet et leo in vulputate.
+            <MyText style={[textWhite, textExtraBold, textH2Style, textCenter, { marginBottom: 15 }]}>Are you New in a city ?</MyText>
+            <MyText style={[textWhite, textH4Style, textCenter, lineHeightText, { marginBottom: 25 }]}>Book a Tour Guide Today</MyText>
+            <MyText style={[textWhite, textH4Style, textCenter, { lineHeight: 30 }]}>
+              Curabitur vulputate arcu odio, ac facilisis diam accumsan ut. Ut imperdiet et leo in vulputate.
               </MyText>
-              <View style={tourContentStyle}>
-                <TourImgComponent {...this.props} />
-              </View>
-              <View>
-                <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToTour} />
-              </View>
+            <View style={tourContentStyle}>
+              <TourImgComponent {...this.props} />
+            </View>
+            <View>
+              <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToTour} />
+            </View>
           </View>
 
 
@@ -234,11 +336,54 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   tourContainer: {
-    paddingHorizontal: 20, paddingVertical: 40, backgroundColor: colors.black
+    paddingHorizontal: 20, paddingVertical: 40, backgroundColor: colors.black,
   },
   tourContentStyle: {
-    marginBottom: 40
-  }
+    marginBottom: 40,
+  },
+  search: {
+    paddingTop: 30,
+    paddingHorizontal: 20,
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: colors.white,
+  },
+  iconStyle: {
+    height: 40, flex: 1, justifyContent: 'center', marginRight: 15,
+  },
+  SearchArea: {
+    flex: 8,
+    elevation: 5,
+    backgroundColor: colors.orange,
+    borderWidth: 0.01,
+    borderColor: colors.orange,
+    borderRadius: 5,
+    height: 43.7,
+    justifyContent: 'center',
+   },
+   searchGroup: {
+    justifyContent: 'center',
+    // flex: 1,
+    marginBottom: 20,
+   },
+   icons: {
+     height: 36,
+     width: 36,
+     justifyContent: 'center',
+     alignItems: 'center',
+     backgroundColor: colors.orange,
+     borderRadius: 4,
+     borderWidth: 1,
+     borderColor: colors.orange,
+     marginRight: 10,
+     marginBottom: 10,
+   },
+   iconsArea: {
+     marginBottom: 10,
+    //  justifyContent: 'center',
+   },
 });
 
 export default Index;

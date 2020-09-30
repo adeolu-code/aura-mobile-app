@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { Text, View, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from 'native-base';
