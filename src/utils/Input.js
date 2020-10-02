@@ -15,7 +15,10 @@ import colors from '../colors';
 
 class CustomInput extends Component {
   state = {secure: true};
-
+  _onChangeText = (updatedValue) => {
+    const { attrName, onChangeText } = this.props; 
+    onChangeText(attrName, updatedValue)
+}
   renderShow() {
     const {password, iconStyle} = this.props;
     const {showImgContainerStyle, inputIconStyle, showImg} = styles;
@@ -78,7 +81,7 @@ class CustomInput extends Component {
         <View style={InputContainerStyles}>
           <TextInput
             style={[inputStyle, textInputStyle, paddingRight]}
-            onChangeText={onChangeText}
+            onChangeText={this._onChangeText}
             secureTextEntry={secureTextEntry && this.state.secure}
             autoCorrect={false}
             value={value}

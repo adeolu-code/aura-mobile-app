@@ -5,3 +5,4 @@ export * from './Input';
 export * from './SearchInput';
 export * from './Card';
 export * from './InputNumber';
+export * from './PhoneNumberInput';
