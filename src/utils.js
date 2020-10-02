@@ -1,6 +1,22 @@
 let context = undefined;
 export const GLOBAL_PADDING = 20;
 
+export const urls = {
+   identityBase: "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/",
+    bookingBase: "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/",
+    listingBase: "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/",
+    messagingBase: "http://aura-messaging.d6f993e093904834a7f1.eastus.aksapp.io/",
+    paymentBase: "http://aura-payment-service.d6f993e093904834a7f1.eastus.aksapp.io/",
+    photographyBase: "http://aura-photography-service.d6f993e093904834a7f1.eastus.aksapp.io/",
+    supportBase: "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/",
+    promotionBase: "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/",
+    storageBase: "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/",
+    v1: "/api/v1/",
+    auth: "auth/",
+    user: "user/",
+    login: "login/"
+}
+
 export function setContext(appContext) {
     if (context === undefined) {
       context = appContext;
@@ -31,10 +47,8 @@ export function prepareMedia(data) {
 function PrepareData(Data, type = "json") {
   //change default based on app's api default content type
   if (type == "json") {
-     console.log("strigifying data", JSON.stringify(Data))
      return JSON.stringify(Data)
   } else if (type == "multipart") {
-     console.log("multipart data")
      const formData = new FormData()
      Object.keys(Data).forEach((e) => {
         formData.append(e, Data[e])
