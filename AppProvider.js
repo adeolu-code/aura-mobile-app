@@ -8,7 +8,7 @@ const defaultContext = {
   balance: 0,
   userData: undefined,
   token: undefined,
-  isLoggedIn: true,
+  isLoggedIn: false,
 };
 
 
