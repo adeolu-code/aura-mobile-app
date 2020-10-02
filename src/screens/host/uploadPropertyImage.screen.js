@@ -36,6 +36,7 @@ export default class UploadPropertyImage extends Component {
                                 titleStyle={textWhite}
                                 desciptionStyle={textWhite}
                                 image={require("./../../assets/images/profile/Group3990/Group3990_2x.png")}
+                                onPress={() => this.props.navigation.navigate('PickPropertyImage')}
                             />
                             <Section 
                                 style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, overflow: "hidden"}} 
@@ -46,6 +47,7 @@ export default class UploadPropertyImage extends Component {
                                 titleStyle={textBlack}
                                 desciptionStyle={textBlack}
                                 image={require("./../../assets/images/profile/Component125-1/Component125–1_2x.png")}
+                                onPress={() => this.props.navigation.navigate('PickPropertyImage')}
                             />
 
                         </Content>
@@ -65,7 +67,7 @@ const Section = (props) => {
         textH5Style,
       } = GStyles;
     return (
-        <TouchableOpacity style={[Styles.sectionView, props.style]}>
+        <TouchableOpacity style={[Styles.sectionView, props.style]} onPress={() => props.onPress && props.onPress()}>
             <View style={[Styles.contentView]}>
                 <View style={[Styles.hireView, props.hireStyle]}>
                     <MyText style={[textBold,textWhite]}>

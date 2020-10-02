@@ -33,7 +33,6 @@ export class RenderStars extends Component {
           }
           
         }
-        console.log("star elems", elems);
         return elems;
       }
 

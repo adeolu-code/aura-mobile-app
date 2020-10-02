@@ -5,13 +5,36 @@ import colors from '../../colors';
 import { CustomInput, MyText, CustomButton } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import Header from '../../components/Header';
+import { AppContext } from '../../../AppProvider';
+import { setContext } from '../../utils';
 
 class signUp extends Component {
+  //import AppContext
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  componentDidMount() {
+    setContext(this.context);
+    /**
+     * can access global context using this.context.state[value] || can set using this.context.set({v:v})
+     * any value set in this page can be accessed globally.. even functions :D
+     * e.g
+     * **/
+    console.log(this.context.state.name)
+    /**
+     * using the setContext function cos, sometimes i need to access data in the context or change stuff in 
+     * the context  e.g onLogout reset context to default value
+     * so i save the current context object locally in the utils.js file as the file is not a react component
+     */
+  }
+
   OtpScreen = () => {
+    //temporary, afer this check my pages booking inbox... content rendered should be different
+    this.context.set({isLoggedIn: true});
+    //
     this.props.navigation.navigate('Otp');
   }
   render() {

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from "react";
-import { StatusBar, ScrollView, Pressable } from "react-native";
+import { StatusBar, ScrollView, Pressable, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 import colors from "../../colors";
@@ -53,7 +53,10 @@ export default class EditProfile extends Component {
                             </Pressable>
                         </Content>
                         <Footer style={[Styles.footer]}>
-                            <MyText style={[textH3Style, textCenter, textWhite, textBold]}>Save Changes</MyText>
+                            <TouchableOpacity>
+                                <MyText style={[textH3Style, textCenter, textWhite, textBold]}>Save Changes</MyText>
+                            </TouchableOpacity>
+                            
                         </Footer>
                     </Container>
                 </SafeAreaView>

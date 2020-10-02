@@ -77,7 +77,7 @@ export default class PropertyAmenity extends Component {
                             
                             <TouchableOpacity 
                                 style={[Styles.nextButton]}
-                                onPress={() => this.props.navigation.navigate('PropertyAmenity')}
+                                onPress={() => this.props.navigation.navigate('HostSteps')}
                             >
                                 <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Next</MyText>
                             </TouchableOpacity>
@@ -87,27 +87,4 @@ export default class PropertyAmenity extends Component {
             </>
         );
     }
-}
-
-const Item1 = (props) => {
-    let {textH6Style} = GStyles;
-    return (
-        <TouchableOpacity 
-            style={[Styles.rowView, Styles.itemView]}
-            onPress={() => props.onPress && props.onPress()} 
-        >
-            <CheckBox 
-                checked={props.checked} 
-                style={[Styles.checkBox]}
-            />
-            <View style={[]}>
-                <MyText>{props.label}</MyText>
-                {
-                    props.description && 
-                    <MyText style={[textH6Style]}>{props.description}</MyText>
-                }
-            </View>
-            
-        </TouchableOpacity>
-    );
 }

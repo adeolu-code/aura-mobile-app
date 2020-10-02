@@ -9,10 +9,18 @@ import PropertyAmenity from '../screens/host/propertyAmenities.screen';
 import HostSteps from '../screens/host/hostSteps.screen';
 import HostSlider from '../screens/host/slider.screen';
 import UploadPropertyImage from '../screens/host/uploadPropertyImage.screen';
+import PickPropertyImage from '../screens/host/pickPropertyImages.screen';
+import PropertyDescription from '../screens/host/propertyDescription.screen';
+import BookingInformationRequirements from '../screens/host/bookingInformationRequirements.screen';
+import HouseRules from '../screens/host/houseRules.screen';
+import BookingPreview from '../screens/host/bookingPreview.screen';
+import NotifyHost from '../screens/host/notifyHost.screen';
 
 const Stack = createStackNavigator();
 
 export default function HostPropertyStack() {
+    //HostSlider
+    //
     return (
         <Stack.Navigator initialRouteName="HostSlider" options={{ gestureEnabled: true }}>
             <Stack.Screen name="HostProperty" component={HostProperty} options={{ headerShown: false }} />
@@ -21,6 +29,12 @@ export default function HostPropertyStack() {
             <Stack.Screen name="HostSteps" component={HostSteps} options={{ headerShown: false }} />
             <Stack.Screen name="HostSlider" component={HostSlider} options={{ headerShown: false }} />
             <Stack.Screen name="UploadPropertyImage" component={UploadPropertyImage} options={{ headerShown: false }} />
+            <Stack.Screen name="PickPropertyImage" component={PickPropertyImage} options={{ headerShown: false }} />
+            <Stack.Screen name="PropertyDescription" component={PropertyDescription} options={{ headerShown: false }} />
+            <Stack.Screen name="BookingInformationRequirements" component={BookingInformationRequirements} options={{ headerShown: false }} />
+            <Stack.Screen name="HouseRules" component={HouseRules} options={{ headerShown: false }} />
+            <Stack.Screen name="BookingPreview" component={BookingPreview} options={{ headerShown: false }} />
+            <Stack.Screen name="NotifyHost" component={NotifyHost} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
