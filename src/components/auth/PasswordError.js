@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import {
   StyleSheet,
-  SafeAreaView,
   View,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  Modal,
 } from "react-native";
 import colors from "../../colors";
-import { MyText, CustomButton } from "../../utils/Index";
+import { MyText } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 
@@ -24,15 +19,106 @@ class PasswordError extends Component {
     ]};
   }
 
+  
+  componentDidUpdate = (prevProps, prevState) => {
+      
+    if(this.props.inputValue !== prevProps.inputValue) {
+        // console.log(this.props, prevProps)
+        const letters = this.props.inputValue
+        const lowerCase = this.checkLowerCase(letters);
+        lowerCase ? this.setResolvedTrue('smallLetter') : this.setResolvedFalse('smallLetter')
+        
+        const upperCase = this.checkUpperCase(letters);
+        upperCase ? this.setResolvedTrue('capitalLetter') : this.setResolvedFalse('capitalLetter')
+
+        const specialXter = this.checkSpecialxter(letters);
+        specialXter ? this.setResolvedTrue('specialCharacter') : this.setResolvedFalse('specialCharacter')
+
+        const numberDigit = this.checkNumber(letters)
+        numberDigit ? this.setResolvedTrue('numberDigit') : this.setResolvedFalse('numberDigit')
+
+        this.checkResolved();
+
+        // console.log('Lowercase ',lowerCase, 'UpperCase ', upperCase, 'special xter ', specialXter, 'Number Digit ', numberDigit)
+    }
+  }
+  checkUpperCase = (letters) => {
+    const arr = [];
+    for (let index = 0; index < letters.length; index++) {
+        const element = letters[index];
+        if (/^[A-Z]*$/.test(element)) {
+            arr.push(element)
+        }
+    }
+    // console.log('Upper case ', arr)
+    if(arr.length > 0) {
+        return true
+    } else {
+        return false
+    }
+  }
+  checkLowerCase = (letters) => {
+    const arr = [];
+    for (let index = 0; index < letters.length; index++) {
+        const element = letters[index];
+        if (/[a-z]/.test(element)) {
+            arr.push(element)
+        }
+    }
+    // console.log('Lower case ', arr)
+    if(arr.length > 0) {
+        return true
+    }
+    return false
+  }
+  checkSpecialxter = (value) => {
+    const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    return format.test(value)
+  }
+  checkNumber = (value) => {
+    const format = /\d+/;
+    return format.test(value)
+  }
+  setResolvedTrue = (type) => {
+    const { errors } = this.state;
+    const arr = [ ...errors ]
+    arr.filter(item => {
+        if(type === item.title) {
+            item.resolved = true
+        }
+    })
+    this.setState({ errors: arr })
+  }
+  setResolvedFalse = (type) => {
+    const { errors } = this.state;
+    const arr = [ ...errors ]
+    arr.filter(item => {
+        if(type === item.title) {
+            item.resolved = false
+        }
+    })
+    this.setState({ errors: arr })
+  }
+
+  checkResolved = () => {
+    const { errors } = this.state;
+    const res = errors.find(item => !item.resolved)
+    if(res) {
+        this.props.error(true)
+    } else {
+        this.props.error(false)
+    }
+  }
+
   renderErrors = () => {
       const { errors } = this.state;
-      const { iconStyle, errorRow, errorContainer } = styles
+      const { iconStyle, errorRow, errorContainer, iconGreen } = styles
       const { textWhite, textBold, textExtraBold, textH1Style, flexRow, textH5Style, textSuccess, textGrey } = GStyles;
 
       return errors.map((item, i) => {
           return (
             <View style={[flexRow, errorRow]} key={i}>
-                <Icon type="Feather" name={item.resolved ? "check" : "x"} style={iconStyle} />
+                <Icon type="Feather" name={item.resolved ? "check" : "x"} style={[iconStyle, item.resolved ? iconGreen : '' ]} />
                 <MyText style={[textH5Style, textGrey]}>{item.description}</MyText>
             </View>
           )
@@ -77,6 +163,9 @@ const styles = StyleSheet.create({
     },
     errorContainer: {
         marginTop: 10
+    },
+    iconGreen: {
+        color: colors.success
     }
 });
 

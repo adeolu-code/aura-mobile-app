@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, View, Image, ScrollView } from 'react-native';
 import colors from '../../colors';
 import { CustomInput, MyText, CustomButton, PhoneNumberInput } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import Header from '../../components/Header';
 import PasswordError from '../../components/auth/PasswordError';
+import FormError from '../../components/auth/FormError';
 import { AppContext } from '../../../AppProvider';
 import { setContext, Request, urls } from '../../utils';
 import { Icon } from 'native-base'
@@ -15,13 +16,56 @@ class signUp extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { loading: false, firstName: '', lastName: '', email: '', phoneNumber:'', password: '', country: '', passwordFocused: false};
+    this.state = { loading: false, firstName: '', lastName: '', email: '', phoneNumber:'', password: '', country: '', passwordFocused: false,
+    firstNameErrors: [], lastNameErrors: [], emailErrors: [], phoneErrors: [], passwordError: false };
   }
   getCountry = (country) => {
     this.setState({ country })
   }
   onChangeValue = (attrName, value) => {
     this.setState({ [attrName]: value });
+  }
+  onBlurFirstName = () => {
+    const { firstName } = this.state;
+    firstName === '' ? this.setState({ firstNameErrors: ['first name required'] }) : this.setState({ firstNameErrors: [] })
+  }
+  onBlurLastName = () => {
+    const { lastName } = this.state;
+    lastName === '' ? this.setState({ lastNameErrors: ['last name required'] }) : this.setState({ lastNameErrors: [] })
+  }
+  onBlurEmail = () => {
+    const { email, emailErrors } = this.state;
+    this.setState({ emailErrors: []})
+    const errors = [{name: 'required', description: 'Email required' }, { name: 'valid', description: 'Input a valid email' }]
+    const arr = [ ]
+    if(email === '' ) {
+      arr.push('Email required')
+      this.setState({ emailErrors: arr })
+    } 
+    if(!email.includes('@')) {
+      arr.push('Input a valid email')
+      this.setState({ emailErrors: arr })
+    }
+  }
+  onBlurPhone = () => {
+    const { phoneNumber } = this.state;
+    phoneNumber === '' ? this.setState({ phoneErrors: ['Phone number is required'] }) : this.setState({ phoneErrors: [] })
+  }
+  disabled = () => {
+    const { firstNameErrors, lastNameErrors, passwordError, phoneErrors, emailErrors, 
+      firstName, lastName, email, phoneNumber, password } = this.state;
+    // if(firstNameErrors.length !== 0  || lastNameErrors !== 0 || phoneErrors !== 0 || emailErrors.length !== 0 || passwordError) {
+    //   return true
+    // }
+    if(firstNameErrors.length !== 0 || lastNameErrors !== 0 ) {
+      console.log(firstNameErrors.length, lastNameErrors.length)
+      console.log('Got here')
+      return true
+    }
+    if(firstName === '' || lastName === '' || phoneNumber === '' || password === '' || email === '' || !email.includes('@')) {
+      return true
+    }
+    return false
   }
 
   submit = async () => {
@@ -50,21 +94,25 @@ class signUp extends Component {
   OtpScreen = () => {
     //temporary, afer this check my pages booking inbox... content rendered should be different
     this.context.set({isLoggedIn: true});
-    //
     this.props.navigation.navigate('Otp');
   }
   renderPasswordError = () => {
     const { passwordFocused } = this.state;
     if(passwordFocused) {
       return (
-        <PasswordError inputValue={this.state.password} />
+        <PasswordError inputValue={this.state.password} error={this.getPasswordError} />
       )
     }
   }
+  getPasswordError = (value) => {
+    this.setState({ passwordError: value })
+    console.log('Resolved value ', value)
+  }
   render() {
     // eslint-disable-next-line prettier/prettier
-    const { textWhite, textBold, textExtraBold, textH1Style, flexRow, textH5Style, textSuccess, textGrey } = GStyles;
-    const {inputContainer, iconStyle, errorRow, errorContainer } = styles
+    const { textWhite, textBold } = GStyles;
+    const {inputContainer, iconStyle, errorRow, errorContainer } = styles;
+    const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors } = this.state
     return (
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
@@ -75,19 +123,23 @@ class signUp extends Component {
               
               <View style={inputContainer}>
                 <CustomInput placeholder='First Name' label="First Name" onChangeText={this.onChangeValue} value={this.state.firstName}
-                attrName="firstName" />
+                attrName="firstName" onBlur={this.onBlurFirstName} />
+                {firstNameErrors.length !== 0 ? <FormError errorMessages={firstNameErrors} /> : <Fragment />}
               </View>
               <View style={inputContainer}>
                 <CustomInput placeholder='Last Name' label="Last Name" onChangeText={this.onChangeValue} value={this.state.lastName}
-                attrName="lastName" />
+                attrName="lastName" onBlur={this.onBlurLastName} />
+                {lastNameErrors.length !== 0 ? <FormError errorMessages={lastNameErrors} /> : <Fragment />}
               </View>
               <View style={inputContainer}>
                 <CustomInput placeholder='Email' label="Email" onChangeText={this.onChangeValue} value={this.state.email}
-                attrName="email" />
+                attrName="email" onBlur={this.onBlurEmail} />
+                {emailErrors.length !== 0 ? <FormError errorMessages={emailErrors} /> : <Fragment />}
               </View>
               <View style={inputContainer}>
                 <PhoneNumberInput getCountry={this.getCountry} label="Phone Number" placeholder="Phone number" 
-                value={this.state.phoneNumber} onChangeText={this.onChangeValue} attrName="phoneNumber"  />
+                value={this.state.phoneNumber} onChangeText={this.onChangeValue} attrName="phoneNumber" onBlur={this.onBlurPhone} />
+                {phoneErrors.length !== 0 ? <FormError errorMessages={phoneErrors} /> : <Fragment />}
               </View>
               <View style={inputContainer}>
                 <CustomInput password secureTextEntry placeholder='Password' label="Password" onChangeText={this.onChangeValue} 
@@ -95,7 +147,7 @@ class signUp extends Component {
                 {this.renderPasswordError()}
               </View>
               <View style={{ paddingTop: 50 }}>
-                <CustomButton onPress={this.submit} buttonText="Sign Up With Email"/>
+                <CustomButton onPress={this.submit} disabled={this.disabled()} buttonText="Sign Up With Email"/>
               </View>
             </View>
           </ScrollView>
