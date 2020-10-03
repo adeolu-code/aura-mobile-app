@@ -57,9 +57,7 @@ class signUp extends Component {
     // if(firstNameErrors.length !== 0  || lastNameErrors !== 0 || phoneErrors !== 0 || emailErrors.length !== 0 || passwordError) {
     //   return true
     // }
-    if(firstNameErrors.length !== 0 || lastNameErrors !== 0 ) {
-      console.log(firstNameErrors.length, lastNameErrors.length)
-      console.log('Got here')
+    if(firstNameErrors.length > 0 || lastNameErrors > 0 || phoneErrors > 0 || emailErrors.length > 0 || passwordError) {
       return true
     }
     if(firstName === '' || lastName === '' || phoneNumber === '' || password === '' || email === '' || !email.includes('@')) {
@@ -106,7 +104,6 @@ class signUp extends Component {
   }
   getPasswordError = (value) => {
     this.setState({ passwordError: value })
-    console.log('Resolved value ', value)
   }
   render() {
     // eslint-disable-next-line prettier/prettier

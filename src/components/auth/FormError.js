@@ -16,7 +16,6 @@ class FormError extends Component {
   }
   renderErrors = () => {
     const { errorMessages } = this.props;
-    console.log(errorMessages)
     const { textDanger, textH5Style } = GStyles;
     return errorMessages.map((item, i) => {
         return (
