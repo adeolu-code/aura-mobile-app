@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, View, Image, ScrollView, Keyboard, TouchableOpacity } from 'react-native';
 import colors from '../../colors';
-import { CustomInput, MyText, CustomButton, PhoneNumberInput } from '../../utils/Index';
+import { CustomInput, MyText, CustomButton, PhoneNumberInput, Loading, Error } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import Header from '../../components/Header';
 import PasswordError from '../../components/auth/PasswordError';
@@ -17,9 +17,33 @@ class signUp extends Component {
   constructor(props) {
     super(props);
     this.state = { loading: false, firstName: '', lastName: '', email: '', phoneNumber:'', password: '', country: '', passwordFocused: false,
-    firstNameErrors: [], lastNameErrors: [], emailErrors: [], phoneErrors: [], passwordError: false };
+    firstNameErrors: [], lastNameErrors: [], emailErrors: [], phoneErrors: [], passwordError: false, formErrors: [], acceptTerms: false };
   }
+  checkTerms = () => {
+    this.setState({ acceptTerms: !this.state.acceptTerms })
+  }
+  linkToTerms = async () => {
+    // try {
+    //   await Linking.openURL('')
+    // } catch (error) {
+    //     showMessage({ message: error.message, type: 'danger', floating: true})
+    // }
+  }
+  renderLoading = () => {
+      const { loading } = this.state;
+      if(loading) {
+        return (<Loading />)
+      }
+  }
+  renderError = () => {
+    const { formErrors } = this.state
+      if(formErrors.length !== 0) {
+        return (<Error errors={formErrors} />)
+    }
+  }
+  
   getCountry = (country) => {
+    console.log(country)
     this.setState({ country })
   }
   onChangeValue = (attrName, value) => {
@@ -51,6 +75,11 @@ class signUp extends Component {
     const { phoneNumber } = this.state;
     phoneNumber === '' ? this.setState({ phoneErrors: ['Phone number is required'] }) : this.setState({ phoneErrors: [] })
   }
+  formatNumber = () => {
+    const { country, phoneNumber } = this.state;
+    const number = `+${country.callingCode[0]}${phoneNumber}`;
+    return number;
+  }
   disabled = () => {
     const { firstNameErrors, lastNameErrors, passwordError, phoneErrors, emailErrors, 
       firstName, lastName, email, phoneNumber, password } = this.state;
@@ -67,9 +96,18 @@ class signUp extends Component {
   }
 
   submit = async () => {
-    const { firstName, lastName, email, phoneNumber, password } = this.state
-    const obj = { firstName, lastName, email, phoneNumber, password}
+    Keyboard.dismiss();
+    const { firstName, lastName, email, phoneNumber, password, acceptTerms } = this.state;
+    this.setState({ loading: true, formErrors: [] })
+    const number = this.formatNumber()
+    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms }
     const res = await Request(urls.identityBase, 'api/v1/user/signup', obj)
+    if(res.isError) {
+      this.setState({ formErrors: res.data })
+    } else {
+
+    }
+    this.setState({ loading: false })
     console.log(res)
   }
 
@@ -102,12 +140,29 @@ class signUp extends Component {
       )
     }
   }
+  renderAgree = () => {
+    const { acceptTerms } = this.state
+    const { boxStyle, checkedStyle } = styles
+    if(acceptTerms) {
+      return (
+        <TouchableOpacity style={[boxStyle, checkedStyle]} onPress={this.checkTerms}>
+          <View>
+            <Icon name="md-checkmark" style={{ color: colors.white, fontSize: 20}} />
+          </View>
+        </TouchableOpacity>
+      )
+    } else {
+      return (
+        <TouchableOpacity style={[boxStyle]} onPress={this.checkTerms}></TouchableOpacity>
+      )
+    }
+  }
   getPasswordError = (value) => {
     this.setState({ passwordError: value })
   }
   render() {
     // eslint-disable-next-line prettier/prettier
-    const { textWhite, textBold } = GStyles;
+    const { textWhite, textBold, flexRow, textH5Style, textGrey } = GStyles;
     const {inputContainer, iconStyle, errorRow, errorContainer } = styles;
     const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors } = this.state
     return (
@@ -115,7 +170,8 @@ class signUp extends Component {
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
           <Header title="Sign Up With Email" {...this.props} />
-          <ScrollView>
+          {this.renderLoading()}
+          <ScrollView keyboardShouldPersistTaps="always" >
             <View style={styles.container}>
               
               <View style={inputContainer}>
@@ -143,7 +199,16 @@ class signUp extends Component {
                 value={this.state.password} attrName="password" onFocus={() => { this.setState({ passwordFocused: true})}} />
                 {this.renderPasswordError()}
               </View>
+              <View style={[inputContainer, flexRow]}>
+                <View>
+                  {this.renderAgree()}
+                </View>
+                <TouchableOpacity onPress={this.linkToTerms}>
+                  <MyText style={[textH5Style, textGrey]}>I agree to the terms and conditions</MyText>
+                </TouchableOpacity>
+              </View>
               <View style={{ paddingTop: 50 }}>
+                {this.renderError()}
                 <CustomButton onPress={this.submit} disabled={this.disabled()} buttonText="Sign Up With Email"/>
               </View>
             </View>
@@ -173,7 +238,14 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     marginTop: 10
-  }
+  },
+  boxStyle: {
+    height: 24, width: 24, borderWidth: 1, borderColor: colors.lightGrey, marginRight: 10, borderRadius: 4, display: 'flex',
+    justifyContent: 'center', alignItems: 'center'
+  },
+  checkedStyle: {
+    backgroundColor: colors.orange
+  },
 
 });
 
