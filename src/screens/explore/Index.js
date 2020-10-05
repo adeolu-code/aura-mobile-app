@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   View,
   Text,
@@ -23,8 +23,7 @@ import ScrollContent from '../../components/explore/ScrollContent';
 import ScrollContentFood from '../../components/explore/ScrollContentFood';
 import ScrollContentPhoto from '../../components/explore/ScrollContentPhoto';
 import TourImgComponent from '../../components/explore/TourImgComponent';
-
-import { Icon } from 'native-base';
+import SearchToggle from '../../components/explore/SearchToggle';
 
 class Index extends Component {
   constructor(props) {
@@ -46,11 +45,21 @@ class Index extends Component {
     this.props.navigation.navigate('ExploreAll', { tab: 'five' })
   }
 
-  handleSearchToggle = () => {
+  // handleSearchToggle = () => {
+  //   this.setState({
+  //       active: !this.state.active,
+  //   });
+  // }
+  closeSearch = () => {
     this.setState({
-        active: !this.state.active,
+        active: false,
     });
-}
+  }
+  openSearch = () => {
+    this.setState({
+        active: true,
+    });
+    }
   render() {
     const {
       headerBg, searchContainer, placeAroundContainer,
@@ -80,90 +89,8 @@ class Index extends Component {
       textBold,
     } = GStyles;
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-        <View style={[search, {zIndex: this.state.active ? 10 : -10}]}>
-          <View style={[flexRow, searchGroup]}>
-            <TouchableOpacity style={iconStyle}>
-              <Icon type="MaterialIcons" name="keyboard-arrow-left" style={{fontSize: 30}} />
-            </TouchableOpacity>
-            <View style={SearchArea}>
-              <SearchInput placeholder="Where are you going?" />
-            </View>
-          </View>
-          <View style={{marginTop: 20}}>
-            <View style={[flexRow, iconsArea]}>
-              <View style={icons}>
-                <TouchableOpacity onPress={this.handleSearchToggle}>
-                  <Icon type="FontAwesome" name="location-arrow" style={{fontSize: 20, color: colors.white}} />
-                </TouchableOpacity>
-              </View>
-              <View >
-                <MyText style={[textH5Style, {paddingTop: 9}]}>
-                  Nearby Places
-                </MyText>
-              </View>
-            </View>
-          </View>
-          <View>
-            <MyText style={textDarkBlue, textH6Style, textBold}>
-              POPULAR SEARCHES BY CITY
-            </MyText>
-          </View>
-          <View style={{marginTop: 20}}>
-            <View style={[flexRow, iconsArea]}>
-                <View style={icons}>
-                  <TouchableOpacity>
-                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity>
-                  <MyText style={[textH5Style, {paddingTop: 9}]}>
-                    Lagos
-                  </MyText>
-                </TouchableOpacity>
-            </View>
-            <View style={[flexRow, iconsArea]}>
-                <View style={icons}>
-                  <TouchableOpacity>
-                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity>
-                  <MyText style={[textH5Style, {paddingTop: 9}]}>
-                    Abuja
-                  </MyText>
-                </TouchableOpacity>
-            </View>
-            <View style={[flexRow, iconsArea]}>
-                <View style={icons}>
-                  <TouchableOpacity>
-                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity >
-                  <MyText style={[textH5Style, {paddingTop: 9}]}>
-                    Ibadan
-                  </MyText>
-                </TouchableOpacity>
-            </View>
-            <View style={[flexRow, iconsArea]}>
-                <View style={icons}>
-                  <TouchableOpacity>
-                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity>
-                  <MyText style={[textH5Style, {paddingTop: 9}]}>
-                    Calabar
-                  </MyText>
-                </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-
-
-
+      <SafeAreaView style={{flex: 1, backgroundColor: 'white' }}>
+        {this.state.active ? <SearchToggle close={this.closeSearch} /> : <Fragment />}
         <ScrollView style={{position: 'relative', backgroundColor: colors.white}}>
           <ImageBackground
             source={require('../../assets/images/mask/mask.png')}
@@ -183,7 +110,7 @@ class Index extends Component {
               to stay and things to do
             </MyText>
             <View style={searchContainer}>
-              <SearchInput onFocus={this.handleSearchToggle} placeholder="Location, landmark, address" />
+              <SearchInput onFocus={this.openSearch} placeholder="Location, landmark, address" />
             </View>
           </ImageBackground>
 
