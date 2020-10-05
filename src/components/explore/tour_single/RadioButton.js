@@ -21,15 +21,17 @@ export default class RadioButton extends Component {
 
 		return (
 			<View>
-				{options.map(item => {
+				{options.map((item, index) => {
 					return (
-                        <View key={item.key} style={[flexRow, radio]}>
+                        <View key={item.key} style={[flexRow, radio, this.props.style]}>
 							<TouchableOpacity
 								style={[circle]}
 								onPress={() => {
 									this.setState({
 										value: item.key,
 									});
+
+									this.props.onPress && this.props.onPress(index);
 								}}
 							>
 								{value === item.key && <View style={checkedCircle} />}

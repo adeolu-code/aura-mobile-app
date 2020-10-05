@@ -33,6 +33,7 @@ export default class ProfileScreen extends Component {
                             description={"Biodata and information about you"} 
                             iconImage={require("./../../assets/images/profile/user_solid/user-solid-square.png")}
                             onPress={() => this.props.navigation.navigate("EditProfile")}
+                            // onPress={() => this.props.navigation.navigate("VerifyPhoneNumber")}
                         />
                         <ProfileComponent 
                             title={"Payments and Referrals"} 
