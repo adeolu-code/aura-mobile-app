@@ -1,5 +1,7 @@
 let context = undefined;
 export const GLOBAL_PADDING = 20;
+const CLIENT_ID = '0987654321'
+const CLIENT_SECRET = '1234567890'
 
 export const urls = {
    identityBase: "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/",
@@ -74,10 +76,12 @@ export async function Request(
      headers["Content-Type"] = "application/json"
   }
 
-  headers["Access-Control-Allow-Origin"] = "*"   
+  headers["Access-Control-Allow-Origin"] = "*"  
+  headers["ClientId"] = CLIENT_ID
+  headers["ClientSecret"] = CLIENT_SECRET
   
   if (typeof token === "boolean" && token) {
-     headers["Authorization"] = "Bearer " + Token
+     headers["Authorization"] = "Bearer " + token
   } else if (token != undefined) {
      headers["Authorization"] = "Bearer " + token
   }   
