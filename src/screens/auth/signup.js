@@ -9,7 +9,8 @@ import PasswordError from '../../components/auth/PasswordError';
 import FormError from '../../components/auth/FormError';
 import { AppContext } from '../../../AppProvider';
 import { setContext, Request, urls } from '../../utils';
-import { Icon } from 'native-base'
+import { Icon } from 'native-base';
+import { setUser } from '../../helpers';
 
 class signUp extends Component {
   //import AppContext
@@ -43,7 +44,6 @@ class signUp extends Component {
   }
   
   getCountry = (country) => {
-    console.log(country)
     this.setState({ country })
   }
   onChangeValue = (attrName, value) => {
@@ -102,13 +102,14 @@ class signUp extends Component {
     const number = this.formatNumber()
     const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms }
     const res = await Request(urls.identityBase, 'api/v1/user/signup', obj)
+    console.log(res)
     if(res.isError) {
       this.setState({ formErrors: res.data })
     } else {
-
+      await setUser(res.data)
+      this.props.navigation.navigate('Otp');
     }
     this.setState({ loading: false })
-    console.log(res)
   }
 
   componentDidMount() {
