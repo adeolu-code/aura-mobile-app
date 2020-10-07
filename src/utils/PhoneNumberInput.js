@@ -25,39 +25,38 @@ class PhoneNumberInput extends Component {
     });
   }
   openModal = () => {
-    this.setState({ showCountryPicker: true })
+    this.setState({ showCountryPicker: true });
   }
   closeModal = () => {
     console.log('closed')
-    this.setState({ showCountryPicker: false })
+    this.setState({ showCountryPicker: false });
   }
   onSelect = (country) => {
-    console.log(country, country.callingCode[0])
-    this.setState({ country, countryCode: country.cca2, callingCode: country.callingCode[0] })
-    this.props.getCountry(country)
+    console.log(country, country.callingCode[0]);
+    this.setState({ country, countryCode: country.cca2, callingCode: country.callingCode[0] });
+    this.props.getCountry(country);
   }
   _onChangeText = (updatedValue) => {
-      const { attrName, onChangeText } = this.props; 
-      onChangeText(attrName, updatedValue)
+      const { attrName, onChangeText } = this.props;
+      onChangeText(attrName, updatedValue);
   }
 
   renderCountryPicker = () => {
-    const { flexRow, textWhite,textH4Style } = GStyles
-    const { pickerContainer } = styles
+    const { flexRow, textWhite,textH4Style } = GStyles;
+    const { pickerContainer } = styles;
     return (
       <View style={[flexRow, pickerContainer]}>
         <CountryPicker onSelect={this.onSelect}
             translation='eng' countryCode={this.state.countryCode} withCallingCode={true} withFilter={true} withCallingCodeButton={false} 
             withFlagButton={true}  withCloseButton={true} containerButtonStyle={{ marginHorizontal: 0}}
             // withAlphaFilter={true}  
-            onClose={this.closeModal} 
+            onClose={this.closeModal}
             visible={this.state.showCountryPicker} />
         <Icon name="chevron-down-outline" style={{ color: colors.grey, fontSize: 25}}  />
       </View>
-    )
+    );
   }
 
-  
   render() {
     const {
       InputContainerStyles,
@@ -114,7 +113,6 @@ class PhoneNumberInput extends Component {
               keyboardType={keyboard}
               placeholderTextColor={placeholderColor || 'rgba(99, 99, 99, 0.7)'}
             />
-            
           </View>
         </View>
       </View>

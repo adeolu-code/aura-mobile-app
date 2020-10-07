@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { urls, Request } from "../../utils";
 
 export async function loginApi(data) {

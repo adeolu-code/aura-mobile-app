@@ -18,7 +18,9 @@ import { Icon } from 'native-base';
 class LoginModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: false, email: '', password: '', emailErrors: [], passwordError: false,
+    };
   }
   linkToRegister = () => {
     this.props.openSignUp();

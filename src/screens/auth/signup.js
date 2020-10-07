@@ -9,7 +9,7 @@ import PasswordError from '../../components/auth/PasswordError';
 import FormError from '../../components/auth/FormError';
 import { AppContext } from '../../../AppProvider';
 import { setContext, Request, urls } from '../../utils';
-import { Icon } from 'native-base'
+import { Icon } from 'native-base';
 
 class signUp extends Component {
   //import AppContext
@@ -31,17 +31,17 @@ class signUp extends Component {
   }
   renderLoading = () => {
       const { loading } = this.state;
-      if(loading) {
+      if (loading) {
         return (<Loading />)
       }
   }
   renderError = () => {
-    const { formErrors } = this.state
-      if(formErrors.length !== 0) {
-        return (<Error errors={formErrors} />)
+    const { formErrors } = this.state;
+      if (formErrors.length !== 0) {
+        return (<Error errors={formErrors} />);
     }
   }
-  
+
   getCountry = (country) => {
     console.log(country)
     this.setState({ country })
@@ -62,13 +62,13 @@ class signUp extends Component {
     this.setState({ emailErrors: []})
     const errors = [{name: 'required', description: 'Email required' }, { name: 'valid', description: 'Input a valid email' }]
     const arr = [ ]
-    if(email === '' ) {
+    if (email === '' ) {
       arr.push('Email required')
-      this.setState({ emailErrors: arr })
-    } 
-    if(!email.includes('@')) {
+      this.setState({ emailErrors: arr });
+    }
+    if (!email.includes('@')) {
       arr.push('Input a valid email')
-      this.setState({ emailErrors: arr })
+      this.setState({ emailErrors: arr });
     }
   }
   onBlurPhone = () => {
@@ -81,34 +81,34 @@ class signUp extends Component {
     return number;
   }
   disabled = () => {
-    const { firstNameErrors, lastNameErrors, passwordError, phoneErrors, emailErrors, 
+    const { firstNameErrors, lastNameErrors, passwordError, phoneErrors, emailErrors,
       firstName, lastName, email, phoneNumber, password } = this.state;
     // if(firstNameErrors.length !== 0  || lastNameErrors !== 0 || phoneErrors !== 0 || emailErrors.length !== 0 || passwordError) {
     //   return true
     // }
-    if(firstNameErrors.length > 0 || lastNameErrors > 0 || phoneErrors > 0 || emailErrors.length > 0 || passwordError) {
-      return true
+    if (firstNameErrors.length > 0 || lastNameErrors > 0 || phoneErrors > 0 || emailErrors.length > 0 || passwordError) {
+      return true;
     }
-    if(firstName === '' || lastName === '' || phoneNumber === '' || password === '' || email === '' || !email.includes('@')) {
-      return true
+    if (firstName === '' || lastName === '' || phoneNumber === '' || password === '' || email === '' || !email.includes('@')) {
+      return true;
     }
-    return false
+    return false;
   }
 
   submit = async () => {
     Keyboard.dismiss();
     const { firstName, lastName, email, phoneNumber, password, acceptTerms } = this.state;
-    this.setState({ loading: true, formErrors: [] })
-    const number = this.formatNumber()
+    this.setState({ loading: true, formErrors: [] });
+    const number = this.formatNumber();
     const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms }
     const res = await Request(urls.identityBase, 'api/v1/user/signup', obj)
-    if(res.isError) {
-      this.setState({ formErrors: res.data })
+    if (res.isError) {
+      this.setState({ formErrors: res.data });
     } else {
 
     }
-    this.setState({ loading: false })
-    console.log(res)
+    this.setState({ loading: false });
+    console.log(res);
   }
 
   componentDidMount() {
@@ -119,7 +119,7 @@ class signUp extends Component {
      * e.g
      * **/
     // console.log(this.context)
-    console.log(this.context.state.name)
+    console.log(this.context.state.name);
     /**
      * using the setContext function cos, sometimes i need to access data in the context or change stuff in 
      * the context  e.g onLogout reset context to default value
@@ -134,31 +134,31 @@ class signUp extends Component {
   }
   renderPasswordError = () => {
     const { passwordFocused } = this.state;
-    if(passwordFocused) {
+    if (passwordFocused) {
       return (
         <PasswordError inputValue={this.state.password} error={this.getPasswordError} />
-      )
+      );
     }
   }
   renderAgree = () => {
-    const { acceptTerms } = this.state
-    const { boxStyle, checkedStyle } = styles
-    if(acceptTerms) {
+    const { acceptTerms } = this.state;
+    const { boxStyle, checkedStyle } = styles;
+    if (acceptTerms) {
       return (
         <TouchableOpacity style={[boxStyle, checkedStyle]} onPress={this.checkTerms}>
           <View>
             <Icon name="md-checkmark" style={{ color: colors.white, fontSize: 20}} />
           </View>
         </TouchableOpacity>
-      )
+      );
     } else {
       return (
         <TouchableOpacity style={[boxStyle]} onPress={this.checkTerms}></TouchableOpacity>
-      )
+      );
     }
   }
   getPasswordError = (value) => {
-    this.setState({ passwordError: value })
+    this.setState({ passwordError: value });
   }
   render() {
     // eslint-disable-next-line prettier/prettier
