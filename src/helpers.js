@@ -31,7 +31,7 @@ export const getUser = async () => {
 
 export const setUser = async (userData) => {
     try {
-        const token = userData.authentication.access_token;
+        const token = userData.token;
         await AsyncStorage.setItem("userData", JSON.stringify(userData));
         await AsyncStorage.setItem("token", token);
     } catch (error) {

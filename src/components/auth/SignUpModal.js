@@ -18,9 +18,11 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { setUser } from '../../helpers';
 import { setContext, Request, urls } from '../../utils';
+import { AppContext } from '../../../AppProvider';
 
 
 class SignUpModal extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = { formErrors: [], loading: false };
