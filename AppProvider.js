@@ -1,5 +1,7 @@
 import React, { Component, useState } from "react";
-import { setContext } from "./src/utils";
+import { setContext, Request, GetRequest, urls } from "./src/utils";
+
+import { setUser } from './src/helpers';
 
 const AppContext = React.createContext({});
 
@@ -22,6 +24,20 @@ class AppProvider extends Component {
     }, 1000);
   };
 
+  getUserProfile = (token) => {
+    return new Promise( async (resolve, reject) => {
+      const res = await GetRequest(urls.identityBase, 'api/v1/user/me', token);
+      if(res.isError) {
+        reject(res.message)
+      } else {
+        const userData = { ...res.data, token}
+        await setUser(userData)
+        resolve(res.data)
+        this.set({ userData: userData, isLoggedIn: true, token })
+      }
+    })
+  }
+
   render() {
     const context = this.state;
     return (
@@ -32,6 +48,9 @@ class AppProvider extends Component {
             return this.set(value);
           },
           getState: (key)=> this.state[key],
+          getUserProfile: (token) => {
+            return this.getUserProfile(token)
+          },
           reset: () => {
             console.log("resetting context", this.state);
             this.set(defaultContext);

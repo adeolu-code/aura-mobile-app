@@ -18,9 +18,11 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { setUser } from '../../helpers';
 import { setContext, Request, urls } from '../../utils';
+import { AppContext } from '../../../AppProvider';
 
 
 class LoginModal extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = { email: '', password: '', loading: false, formErrors: [] };
@@ -54,11 +56,11 @@ class LoginModal extends Component {
     if(res.isError) {
       const message = res.message;
       const error = [message]
-      this.setState({ formErrors: error})
+      this.setState({ formErrors: error, loading: false})
     } else {
-      // await setUser(res.data)
+      this.getUserDetails(res.data.access_token);
     }
-    this.setState({ loading: false })
+    // this.setState({ loading: false })
   }
   disabled = () => {
     const { email, password } = this.state
@@ -66,6 +68,14 @@ class LoginModal extends Component {
       return true
     }
     return false
+  }
+
+  getUserDetails = (token) => {
+    this.context.getUserProfile(token)
+    .then(() => {})
+    .catch((error) => {
+      this.setState({ formErrors: ['Something went wrong please try again'], loading: false })
+    })
   }
 
   socialApiCall = async (type, token) => {
@@ -77,7 +87,7 @@ class LoginModal extends Component {
       const error = [message]
       this.setState({ formErrors: error})
     } else {
-      // await setUser(res.data)
+      this.getUserDetails(res.data.access_token);
     }
     this.setState({ loading: false })
   }
@@ -122,10 +132,16 @@ class LoginModal extends Component {
         }
       }.bind(this),
       function(error) {
-        console.log('Error ', error)
         this.setState({ loading: false, error: [error] })
       }.bind(this)
     );
+  }
+
+  componentDidMount() {
+    // setContext(this.context);
+  }
+  componentWillUnmount = () => {
+    this.setState({ loading: false })
   }
 
   render() {

@@ -5,11 +5,31 @@ import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 import DashboardComponent from './../../components/dashboard/DashboardComponent';
+import { AppContext } from '../../../AppProvider';
+
 
 class Index extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {};
+  }
+  renderLoginOrDashboard = () => {
+    console.log(this.context)
+    const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`;
+    if(this.context.state.isLoggedIn) {
+      return (
+        <View style={{ flex: 1 }}>
+          <DashboardComponent {...this.props} />
+        </View>
+      )
+    }
+    return (
+      <ScrollView>
+        <PlaceHolderComponent title="Dashboard" description={description} {...this.props} 
+        img={require('../../assets/images/dash/dash.png')} />
+      </ScrollView>
+    )
   }
 
   render() {
@@ -18,11 +38,12 @@ class Index extends Component {
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-          <ScrollView>
+          {this.renderLoginOrDashboard()}
+          {/* <ScrollView>
             <PlaceHolderComponent title="Dashboard" description={description} {...this.props} 
             img={require('../../assets/images/dash/dash.png')} />
           </ScrollView>
-          {/* <View style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
             <DashboardComponent {...this.props} />
           </View> */}
         </SafeAreaView>
