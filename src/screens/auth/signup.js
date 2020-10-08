@@ -10,10 +10,7 @@ import FormError from '../../components/auth/FormError';
 import { AppContext } from '../../../AppProvider';
 import { setContext, Request, urls } from '../../utils';
 import { Icon } from 'native-base';
-<<<<<<< HEAD
-=======
 import { setUser } from '../../helpers';
->>>>>>> aa51b41e0a97d9056c1be7350b20cab3f678df6f
 
 class signUp extends Component {
   //import AppContext
@@ -105,24 +102,14 @@ class signUp extends Component {
     const number = this.formatNumber();
     const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms }
     const res = await Request(urls.identityBase, 'api/v1/user/signup', obj)
-<<<<<<< HEAD
-    if (res.isError) {
-      this.setState({ formErrors: res.data });
-=======
     console.log(res)
     if(res.isError) {
       this.setState({ formErrors: res.data })
->>>>>>> aa51b41e0a97d9056c1be7350b20cab3f678df6f
     } else {
       await setUser(res.data)
       this.props.navigation.navigate('Otp');
     }
-<<<<<<< HEAD
-    this.setState({ loading: false });
-    console.log(res);
-=======
     this.setState({ loading: false })
->>>>>>> aa51b41e0a97d9056c1be7350b20cab3f678df6f
   }
 
   componentDidMount() {

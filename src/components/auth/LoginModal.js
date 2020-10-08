@@ -19,27 +19,20 @@ import { Icon } from 'native-base';
 import { setUser } from '../../helpers';
 import { setContext, Request, urls } from '../../utils';
 
-
 class LoginModal extends Component {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
-    this.state = {
-      loading: false, email: '', password: '', emailErrors: [], passwordError: false,
-    };
-=======
     this.state = { email: '', password: '', loading: false, formErrors: [] };
   }
   renderLoading = () => {
     const { loading } = this.state;
-    if(loading) { return (<Loading />) }
+    if (loading) { return (<Loading />); }
   }
   renderError = () => {
     const { formErrors } = this.state
     if(formErrors.length !== 0) {
       return (<Error errors={formErrors} />)
     }
->>>>>>> aa51b41e0a97d9056c1be7350b20cab3f678df6f
   }
   linkToRegister = () => {
     this.props.openSignUp();
