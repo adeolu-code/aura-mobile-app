@@ -5,6 +5,7 @@ import colors from '../../colors';
 import GStyles from '../../assets/styles/GeneralStyles';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 import DashboardComponent from './../../components/dashboard/DashboardComponent';
+import HostScreen from './HostScreen';
 import { AppContext } from '../../../AppProvider';
 
 
@@ -17,12 +18,23 @@ class Index extends Component {
   renderLoginOrDashboard = () => {
     console.log(this.context)
     const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`;
-    if(this.context.state.isLoggedIn) {
-      return (
-        <View style={{ flex: 1 }}>
-          <DashboardComponent {...this.props} />
-        </View>
-      )
+    if (this.context.state.isLoggedIn) {
+      // return (
+        const val = this.context.state.userData.userTypeName;
+        if (val === 'Guest') {
+          return (
+            <View style={{ flex: 1 }}>
+             <HostScreen />
+            </View>
+          );
+        } else {
+          return (
+          <View style={{ flex: 1 }}>
+            <DashboardComponent {...this.props} />
+          </View>
+        );
+      }
+      // );
     }
     return (
       <ScrollView>

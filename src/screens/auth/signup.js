@@ -100,16 +100,16 @@ class signUp extends Component {
     const { firstName, lastName, email, phoneNumber, password, acceptTerms } = this.state;
     this.setState({ loading: true, formErrors: [] });
     const number = this.formatNumber();
-    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms }
-    const res = await Request(urls.identityBase, 'api/v1/user/signup', obj)
-    console.log(res)
-    if(res.isError) {
-      this.setState({ formErrors: res.data })
+    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms };
+    const res = await Request(urls.identityBase, 'api/v1/user/signup', obj);
+    console.log(res);
+    if (res.isError) {
+      this.setState({ formErrors: res.data });
     } else {
-      await setUser(res.data)
+      await setUser(res.data);
       this.props.navigation.navigate('Otp');
     }
-    this.setState({ loading: false })
+    this.setState({ loading: false });
   }
 
   componentDidMount() {
@@ -173,8 +173,7 @@ class signUp extends Component {
           <Header title="Sign Up With Email" {...this.props} />
           {this.renderLoading()}
           <ScrollView keyboardShouldPersistTaps="always" >
-            <View style={styles.container}>
-              
+            <View style={styles.container}>              
               <View style={inputContainer}>
                 <CustomInput placeholder='First Name' label="First Name" onChangeText={this.onChangeValue} value={this.state.firstName}
                 attrName="firstName" onBlur={this.onBlurFirstName} />
