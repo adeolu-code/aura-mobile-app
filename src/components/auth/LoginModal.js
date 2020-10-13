@@ -21,7 +21,6 @@ import { setContext, Request, urls } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { GOOGLE_WEB_CLIENTID } from '../../strings'
 
-
 class LoginModal extends Component {
   static contextType = AppContext;
   constructor(props) {
@@ -30,7 +29,7 @@ class LoginModal extends Component {
   }
   renderLoading = () => {
     const { loading } = this.state;
-    if(loading) { return (<Loading />) }
+    if (loading) { return (<Loading />); }
   }
   renderError = () => {
     const { formErrors } = this.state

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 let context = undefined;
 export const GLOBAL_PADDING = 20;
 const CLIENT_ID = '0987654321'
@@ -54,8 +55,8 @@ function PrepareData(Data, type = "json") {
      const formData = new FormData()
      Object.keys(Data).forEach((e) => {
         formData.append(e, Data[e])
-     })
-     return formData
+     });
+     return formData;
   }
 }
 
