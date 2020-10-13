@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from "react";
 import Swiper from "react-native-swiper";
 import colors from "../../colors";
