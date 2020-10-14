@@ -8,3 +8,4 @@ export * from './InputNumber';
 export * from './PhoneNumberInput';
 export * from './Loading';
 export * from './Error';
+export * from './DatePicker';
