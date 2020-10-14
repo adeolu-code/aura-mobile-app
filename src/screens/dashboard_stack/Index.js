@@ -24,7 +24,7 @@ class Index extends Component {
         if (val === 'Guest') {
           return (
             <View style={{ flex: 1 }}>
-             <HostScreen />
+             <HostScreen {...this.props} />
             </View>
           );
         } else {

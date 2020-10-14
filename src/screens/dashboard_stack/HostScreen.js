@@ -13,8 +13,11 @@ class HostScreen extends Component {
     };
   }
   HostProperty = () => {
-    // this.context.set({isLoggedIn: true});
-    this.props.navigation.navigate('HostSlider');
+    this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSlider'});
+  }
+
+  HostSteps = () => {
+    this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSteps'});
   }
 
   render() {
@@ -32,7 +35,7 @@ class HostScreen extends Component {
                         </MyText>
                     </View>
                     <View style={buttonContainer}>
-                        <CustomButton buttonText='Become A Host' buttonStyle={{backgroundColor: colors.black}} textStyle={[textH4Style,{color: colors.white}]}/>
+                        <CustomButton buttonText='Become A Host' onPress={this.HostSteps} buttonStyle={{backgroundColor: colors.black}} textStyle={[textH4Style,{color: colors.white}]}/>
                         <TouchableOpacity onPress={this.HostProperty}>
                             <MyText style={[textUnderline, textGreen, textH5Style, {marginTop: 20}]}>Learn about Hosting</MyText>
                         </TouchableOpacity>
