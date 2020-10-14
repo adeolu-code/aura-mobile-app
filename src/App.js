@@ -10,6 +10,9 @@ import {createStore, applyMiddleware} from 'redux';
 import { AppProvider } from '../AppProvider';
 import { Root } from 'native-base';
 
+import FlashMessage from "react-native-flash-message";
+
+
 
 
 export class App extends Component {
@@ -24,6 +27,8 @@ export class App extends Component {
               <AppNavigation />
             </Root>
           </Provider>
+
+          <FlashMessage position="bottom" />
         </Fragment>
       </AppProvider>
       
