@@ -11,6 +11,10 @@ const defaultContext = {
   userData: undefined,
   token: undefined,
   isLoggedIn: false,
+  propertyTypes: [],
+  gettingPropertyTypes: false,
+  apartments: [],
+  gettingApartments: false
 };
 
 
@@ -27,7 +31,6 @@ class AppProvider extends Component {
   getUserProfile = (token) => {
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.identityBase, 'api/v1/user/me', token);
-      console
       if (res.isError) {
         reject(res.message)
       } else {
@@ -35,8 +38,37 @@ class AppProvider extends Component {
         await setUser(userData)
         resolve(res.data)
         this.set({ userData: userData, isLoggedIn: true, token })
+        this.getPropertyTypes()
+        this.getApartments()
       }
     })
+  }
+  getPropertyTypes = () => {
+    this.set({ gettingPropertyTypes: true})
+    return new Promise( async (resolve, reject) => {
+      const res = await GetRequest(urls.listingBase, 'api/v1/listing/propertytype');
+      if (res.isError) {
+        this.set({ gettingPropertyTypes: false})
+        reject(res.message)
+      } else {
+        this.set({ propertyTypes: res.data, gettingPropertyTypes: false })
+        resolve(res.data)
+      }
+    })
+  }
+  getApartments = () => {
+    this.set({ gettingApartments: true})
+    return new Promise( async (resolve, reject) => {
+      const res = await GetRequest(urls.listingBase, 'api/v1/listing/roomtype/apartment');
+      if (res.isError) {
+        this.set({ gettingApartments: false})
+        reject(res.message)
+      } else {
+        this.set({ apartments: res.data, gettingApartments: false })
+        resolve(res.data)
+      }
+    })
+    
   }
 
   render() {
@@ -51,6 +83,12 @@ class AppProvider extends Component {
           getState: (key)=> this.state[key],
           getUserProfile: (token) => {
             return this.getUserProfile(token)
+          },
+          getApartments: () => {
+            return this.getApartments()
+          },
+          getPropertyTypes: () => {
+            return this.getPropertyTypes()
           },
           reset: () => {
             console.log("resetting context", this.state);

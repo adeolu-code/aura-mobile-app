@@ -89,7 +89,7 @@ class LoginModal extends Component {
     } else {
       this.getUserDetails(res.data.access_token);
     }
-    this.setState({ loading: false })
+    // this.setState({ loading: false })
   }
 
   loginWithGoogle = async () => {
@@ -125,16 +125,18 @@ class LoginModal extends Component {
     LoginManager.logInWithPermissions(["public_profile", "email"]).then(
       function(result) {
         if (result.isCancelled) {
-          this.setState({ loading: false, error: ['Login cancelled'] })
+          this.setState({ loading: false, formErrors: ['Login cancelled'] })
         } else {
           AccessToken.getCurrentAccessToken()
           .then((data) => {
+            console.log(data)
             this.socialApiCall('facebook', data.accessToken)
           })
         }
       }.bind(this),
       function(error) {
-        this.setState({ loading: false, error: [error] })
+        console.log('Facebook Error ', "" + error)
+        this.setState({ loading: false, formErrors: ["" + error] })
       }.bind(this)
     );
   }
