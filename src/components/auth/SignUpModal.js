@@ -47,6 +47,13 @@ class SignUpModal extends Component {
       return (<Error errors={formErrors} />)
     }
   }
+  getUserDetails = (token) => {
+    this.context.getUserProfile(token)
+    .then(() => {})
+    .catch((error) => {
+      this.setState({ formErrors: ['Something went wrong please try again'], loading: false })
+    })
+  }
   socialApiCall = async (type, token) => {
     const obj = { userType: 0, token }
     const res = await Request(urls.identityBase, `api/v1/auth/user/login/${type}`, obj);
@@ -56,7 +63,7 @@ class SignUpModal extends Component {
       const error = [message]
       this.setState({ formErrors: error})
     } else {
-      // await setUser(res.data)
+      this.getUserDetails(res.data.access_token);
     }
     this.setState({ loading: false })
   }
@@ -91,7 +98,7 @@ class SignUpModal extends Component {
     LoginManager.logInWithPermissions(["public_profile", "email"]).then(
       function(result) {
         if (result.isCancelled) {
-          this.setState({ loading: false, error: ['Login cancelled'] })
+          this.setState({ loading: false, formErrors: ['Login cancelled'] })
         } else {
           AccessToken.getCurrentAccessToken()
           .then((data) => {
@@ -101,7 +108,7 @@ class SignUpModal extends Component {
       }.bind(this),
       function(error) {
         console.log('Error ', error)
-        this.setState({ loading: false, error: [error] })
+        this.setState({ loading: false, formErrors: ["" + error] })
       }.bind(this)
     );
   }

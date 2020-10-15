@@ -19,22 +19,21 @@ class Index extends Component {
     console.log(this.context)
     const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`;
     if (this.context.state.isLoggedIn) {
-      // return (
-        const val = this.context.state.userData.userTypeName;
-        if (val === 'Guest') {
+        const { userData } = this.context.state 
+        const roleHost = userData.roles.find(item => item === 'Host')
+        if (roleHost) {
           return (
             <View style={{ flex: 1 }}>
-             <HostScreen {...this.props} />
+              <DashboardComponent {...this.props} />
             </View>
           );
         } else {
           return (
-          <View style={{ flex: 1 }}>
-            <DashboardComponent {...this.props} />
-          </View>
-        );
-      }
-      // );
+            <View style={{ flex: 1 }}>
+              <HostScreen {...this.props} />
+            </View>
+          );
+        }
     }
     return (
       <ScrollView>

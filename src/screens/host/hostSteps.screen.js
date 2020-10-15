@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import { Container, Content, Footer, View, Icon } from "native-base";
 import { Styles } from "./host.style";
 import colors from "../../colors";
-import { MyText } from "../../utils/Index";
+import { MyText, CustomButton } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { GLOBAL_PADDING } from "../../utils";
 import { RenderStars } from "../../components/render_stars/renderStars";
@@ -12,11 +12,7 @@ import { RenderStars } from "../../components/render_stars/renderStars";
 export default class HostSteps extends Component {
     constructor() {
         super();
-
-        this.state = {
-            step: 2,
-            isComplete: false,
-        }
+        this.state = { step: 1, isComplete: false }
     }
 
     set = (v) => {
@@ -93,26 +89,26 @@ export default class HostSteps extends Component {
                             <Card 
                                 title={"Facilities And Location"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
-                                completed={true}
-                                step={1}
-                                onEditPress={() => this.set({step: 1})}
+                                completed={false}
+                                step={1} getStarted
+                                onEditPress={() => this.set({step: 1})} onGetStartedPress={this.getStarted}
                             />
                             <Card 
                                 title={"Upload Picture And Short Description Of Your Place"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
-                                completed={true}
-                                step={2}
+                                completed={false}
+                                step={2} 
                                 onEditPress={() => this.set({step: 2})}
                             />
                             <Card 
                                 title={"Welcome Your First Guest"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
-                                completed={true}
+                                completed={false}
                                 step={3}
                                 onEditPress={() => this.set({step: 3})}
                             />
                         </Content>
-                        {
+                        {/* {
                             !this.state.isComplete &&
                         
                             <Footer style={[Styles.footer, {backgroundColor: "transparent",padding: GLOBAL_PADDING}]} >
@@ -122,7 +118,7 @@ export default class HostSteps extends Component {
                                     <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Get Started</MyText>
                                 </TouchableOpacity>
                             </Footer>
-                        }
+                        } */}
                     </Container>
                 </SafeAreaView>
             </>
@@ -132,37 +128,54 @@ export default class HostSteps extends Component {
 
 const Card = (props) => {
     const {
-        textUnderline,
-        textOrange,
-        textH6Style,
-        textH4Style,
-        textCenter,
+        textUnderline, textOrange, textH6Style, textGrey, textH5Style,
+        textH4Style, textCenter, textPureGreen, 
         textGreen,
         textBold,
       } = GStyles;
+    const renderEdit = () => {
+        if(props.edit) {
+            return (
+                <TouchableOpacity onPress={props.onEditPress}>
+                    <MyText style={[textH4Style, textUnderline, textOrange, {marginTop: 20}]}>Edit Changes</MyText>
+                </TouchableOpacity>
+            )
+        }
+    }
+    const renderGetStarted = () => {
+        if(props.getStarted) {
+            return (
+                <View style={{ marginTop: 20}}>
+                    <CustomButton buttonText="Get Started" buttonStyle={Styles.buttonStyle} onPress={props.onGetStartedPress} />
+                </View>
+            )
+        }
+    }
     return (
         <View style={[Styles.cardView]}>
             <View style={[Styles.topView]}>
-                <MyText style={[textH4Style, {flex: 0.6}]}>Step {props.step}</MyText>
+                <MyText style={[textH5Style, textGrey, {flex: 0.6}]}>Step {props.step}</MyText>
                 {
                     props.completed &&
                     <View style={[Styles.completedView]}>
-                        <Icon name={"checkmark-circle"} style={[Styles.completedIcon]} />
-                        <MyText style={[textH4Style, textGreen]}>Completed</MyText>
+                        <Icon type="FontAwesome" name={"check-circle"} style={[Styles.completedIcon]} />
+                        <MyText style={[textH5Style, textPureGreen, textBold]}>Completed</MyText>
                     </View>
                 }
             </View>
             <View>
-                <MyText style={[textBold, {marginTop: 5, marginBottom: 5}]}>
+                <MyText style={[textBold, textH4Style, {marginTop: 5, marginBottom: 5}]}>
                     {props.title}
                 </MyText>
-                <MyText style={[textH6Style]}>
+                <MyText style={[textH4Style, textGrey]}>
                     {props.description}
                 </MyText>
             </View>
-            <TouchableOpacity onPress={props.onEditPress}>
-                <MyText style={[textH4Style, textUnderline, textOrange, {marginTop: 20}]}>Edit Changes</MyText>
-            </TouchableOpacity>
+            {renderEdit()}
+            {renderGetStarted()}
+            {/* <TouchableOpacity onPress={props.onEditPress}>
+                <MyText style={[textH4Style, textUnderline, textOrange, {marginTop: 20, marginBottom: 30}]}>Edit Changes</MyText>
+            </TouchableOpacity> */}
         </View>
     );
 }

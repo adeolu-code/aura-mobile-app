@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, View, Image, ScrollView, Keyboard, TouchableOpacity } from 'react-native';
 import colors from '../../colors';
-import { CustomInput, MyText, CustomButton, PhoneNumberInput, Loading, Error } from '../../utils/Index';
+import { CustomInput, MyText, CustomButton, PhoneNumberInput, Loading, Error, DatePicker } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import Header from '../../components/Header';
 import PasswordError from '../../components/auth/PasswordError';
@@ -17,8 +17,9 @@ class signUp extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { loading: false, firstName: '', lastName: '', email: '', phoneNumber:'', password: '', country: '', passwordFocused: false,
-    firstNameErrors: [], lastNameErrors: [], emailErrors: [], phoneErrors: [], passwordError: false, formErrors: [], acceptTerms: false };
+    this.state = { loading: false, firstName: '', lastName: '', dateOfBirth: '', email: '', phoneNumber:'', password: '', country: '', passwordFocused: false,
+    firstNameErrors: [], lastNameErrors: [], emailErrors: [], phoneErrors: [], passwordError: false, formErrors: [], acceptTerms: false,
+    dobErrors: [] };
   }
   checkTerms = () => {
     this.setState({ acceptTerms: !this.state.acceptTerms })
@@ -45,6 +46,13 @@ class signUp extends Component {
 
   getCountry = (country) => {
     this.setState({ country })
+  }
+  getDob = (value) => {
+    const { dateOfBirth } = this.state
+    const newDate = new Date(value);
+    // console.log('Dob ', value, newDate)
+    value ? this.setState({ dateOfBirth: newDate, dobErrors: [] }) : dateOfBirth ? this.setState({ dateOfBirth, dobErrors: [] }) : this.setState({ dobErrors: ['date of birth required'] })
+    
   }
   onChangeValue = (attrName, value) => {
     this.setState({ [attrName]: value });
@@ -82,14 +90,14 @@ class signUp extends Component {
   }
   disabled = () => {
     const { firstNameErrors, lastNameErrors, passwordError, phoneErrors, emailErrors,
-      firstName, lastName, email, phoneNumber, password } = this.state;
+      firstName, lastName, email, phoneNumber, password, dateOfBirth } = this.state;
     // if(firstNameErrors.length !== 0  || lastNameErrors !== 0 || phoneErrors !== 0 || emailErrors.length !== 0 || passwordError) {
     //   return true
     // }
     if (firstNameErrors.length > 0 || lastNameErrors > 0 || phoneErrors > 0 || emailErrors.length > 0 || passwordError) {
       return true;
     }
-    if (firstName === '' || lastName === '' || phoneNumber === '' || password === '' || email === '' || !email.includes('@')) {
+    if (firstName === '' || lastName === '' || phoneNumber === '' || password === '' || dateOfBirth === '' || email === '' || !email.includes('@')) {
       return true;
     }
     return false;
@@ -97,17 +105,17 @@ class signUp extends Component {
 
   submit = async () => {
     Keyboard.dismiss();
-    const { firstName, lastName, email, phoneNumber, password, acceptTerms } = this.state;
+    const { firstName, lastName, email, phoneNumber, password, acceptTerms, dateOfBirth } = this.state;
     this.setState({ loading: true, formErrors: [] });
     const number = this.formatNumber();
-    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms };
+    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms, dateOfBirth };
     const res = await Request(urls.identityBase, 'api/v1/user/signup', obj);
     console.log(res);
     if (res.isError) {
       this.setState({ formErrors: res.data });
     } else {
       await setUser(res.data);
-      this.props.navigation.navigate('Otp');
+      this.props.navigation.navigate('Otp', { params: { userData: res.data }});
     }
     this.setState({ loading: false });
   }
@@ -163,9 +171,9 @@ class signUp extends Component {
   }
   render() {
     // eslint-disable-next-line prettier/prettier
-    const { textWhite, textBold, flexRow, textH5Style, textGrey } = GStyles;
+    const { textWhite, textBold, flexRow, textH5Style, textGrey, textH4Style } = GStyles;
     const {inputContainer, iconStyle, errorRow, errorContainer } = styles;
-    const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors } = this.state
+    const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors, dobErrors } = this.state
     return (
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
@@ -190,6 +198,11 @@ class signUp extends Component {
                 {emailErrors.length !== 0 ? <FormError errorMessages={emailErrors} /> : <Fragment />}
               </View>
               <View style={inputContainer}>
+                <MyText style={[textGrey, textH4Style, { marginBottom: 8}]}>Date of Birth</MyText>
+                <DatePicker placeholder="DD/MM/YYYY" receiveData={this.getDob} />
+                {dobErrors.length !== 0 ? <FormError errorMessages={dobErrors} /> : <Fragment />}
+              </View>
+              <View style={inputContainer}>
                 <PhoneNumberInput getCountry={this.getCountry} label="Phone Number" placeholder="Phone number" 
                 value={this.state.phoneNumber} onChangeText={this.onChangeValue} attrName="phoneNumber" onBlur={this.onBlurPhone} />
                 {phoneErrors.length !== 0 ? <FormError errorMessages={phoneErrors} /> : <Fragment />}
@@ -199,6 +212,7 @@ class signUp extends Component {
                 value={this.state.password} attrName="password" onFocus={() => { this.setState({ passwordFocused: true})}} />
                 {this.renderPasswordError()}
               </View>
+              
               <View style={[inputContainer, flexRow]}>
                 <View>
                   {this.renderAgree()}
@@ -207,7 +221,7 @@ class signUp extends Component {
                   <MyText style={[textH5Style, textGrey]}>I agree to the terms and conditions</MyText>
                 </TouchableOpacity>
               </View>
-              <View style={{ paddingTop: 50 }}>
+              <View style={{ paddingTop: 30 }}>
                 {this.renderError()}
                 <CustomButton onPress={this.submit} disabled={this.disabled()} buttonText="Sign Up With Email"/>
               </View>

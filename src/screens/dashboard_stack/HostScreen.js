@@ -1,154 +1,129 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Alert, PermissionsAndroid, Platform, ToastAndroid, Switch } from 'react-native';
-
-import Geolocation from 'react-native-geolocation-service';
-
-import { MyText, CustomButton } from '../../utils/Index';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { MyText, CustomButton, Loading, Error } from '../../utils/Index';
 import colors from '../../colors';
-
+import OtpModal from '../../components/dashboard/OtpModal';
+import EmailVerificationModal from '../../components/dashboard/EmailVerificationModal';
 import GStyles from '../../assets/styles/GeneralStyles';
+import { AppContext } from '../../../AppProvider';
+import { setContext, Request, urls, GetRequest } from '../../utils';
+
 
 class HostScreen extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = {
-      forceLocation: true,
-      highAccuracy: true,
-      showLocationDialog: true,
-      significantChanges: false,
-      updatesEnabled: false,
-      // foregroundService: false,
-      location: {},
-    };
+    this.state = { showOtpModal: false, showEmailModal: false, errors: [], loading: false };
   }
 
-  // componentWillUnmount() {
-  //   this.removeLocationUpdates();
+  // HostProperty = () => {
+  //   this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSlider'});
   // }
-
-  hasLocationPermission = async () => {
-    // if (Platform.OS === 'ios') {
-    //   const hasPermission = await this.hasLocationPermissionIOS();
-    //   return hasPermission;
-    // }
-
-    if (Platform.OS === 'android' && Platform.Version < 23) {
-      return true;
-    }
-
-    const hasPermission = await PermissionsAndroid.check(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    );
-
-    if (hasPermission) {
-      return true;
-    }
-
-    const status = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    );
-
-    if (status === PermissionsAndroid.RESULTS.GRANTED) {
-      return true;
-    }
-
-    if (status === PermissionsAndroid.RESULTS.DENIED) {
-      ToastAndroid.show(
-        'Location permission denied by user.',
-        ToastAndroid.LONG,
-      );
-    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-      ToastAndroid.show(
-        'Location permission revoked by user.',
-        ToastAndroid.LONG,
-      );
-    }
-
-    return false;
-  };  
-
-  getLocation = async () => {
-    const hasLocationPermission = await this.hasLocationPermission();
-
-    if (!hasLocationPermission) {
-      return;
-    }
-
-    this.setState( () => {
-      Geolocation.getCurrentPosition(
-        (position) => {
-          this.setState({ location: position });
-          console.log(position);
-        },
-        (error) => {
-          // this.setState({ loading: false });
-          console.log(error);
-        },
-        {
-          enableHighAccuracy: this.state.highAccuracy,
-          timeout: 15000,
-          maximumAge: 10000,
-          distanceFilter: 0,
-          forceRequestLocation: this.state.forceLocation,
-          showLocationDialog: this.state.showLocationDialog,
-        },
-      );
-    });
-  };
-
-  HostProperty = () => {
-    this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSlider'});
+  renderLoading = () => {
+      const { loading } = this.state;
+      if (loading) { return (<Loading />); }
   }
-
-  HostSteps = () => {
-    this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSteps'});
+  renderError = () => {
+      const { errors } = this.state;
+      if (errors.length !== 0) {
+          return (<Error errors={errors} />);
+      }
+  }
+  becomeAHost = () => {
+    const { userData } = this.context.state;
+    const { navigation } = this.props;
+    // this.openOtpModal()
+    // this.generateOtp()
+    if (userData.isPhoneVerified) {
+      if (userData.isEmailVerified) {
+        navigation.navigate('HostPropertyStack', {screen: 'HostSteps'});
+      } else {
+        this.sendMail();
+      }
+    } else {
+      // Got to OTP modal to verify phone
+      if (userData.phoneNumber) {
+        this.generateOtp();
+      } else {
+        if (userData.isEmailVerified) {
+          navigation.navigate('HostPropertyStack', {screen: 'HostSteps'});
+        } else {
+          this.sendMail();
+        }
+      }
+    }
+  }
+  openOtpModal = () => {
+    this.setState({ showOtpModal: true });
+  }
+  closeOtpModal = () => {
+    this.setState({ showOtpModal: false });
+  }
+  openEmailModal = () => {
+    this.setState({ showEmailModal: true });
+  }
+  closeEmailModal = () => {
+    this.setState({ showEmailModal: false });
+  }
+  generateOtp = async () => {
+    this.setState({ loading: true, errors: [] });
+    const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
+    this.setState({ loading: false });
+    if (res.IsError) {
+        const message = res.Message;
+        const error = [message];
+        this.setState({ errors: error});
+    } else {
+      this.openOtpModal()
+    }
+  }
+  sendMail = async () => {
+      const { userData } = this.context.state;
+      this.setState({ loading: true, errors: [] });
+      const res = await GetRequest(urls.identityBase, `api/v1/user/email/verification/resend/${userData.username}`);
+      this.setState({ loading: false });
+      if (res.isError) {
+          const message = res.message;
+          const error = [message];
+          this.setState({ errors: error});
+      } else {
+        this.openEmailModal();
+      }
   }
 
   render() {
     const { contentContainer, middleStyle, buttonContainer } = styles;
     const {  textH5Style, textH4Style, textBold, textGrey, textH6Style, textUnderline, textH1Style, textExtraBold, textDarkBlue, textCenter, textGreen } = GStyles;
-    const {
-      forceLocation,
-      highAccuracy,
-      // loading,
-      location,
-      showLocationDialog,
-      significantChanges,
-      // updatesEnabled,
-      // foregroundService,
-    } = this.state;
+
     return (
-      <SafeAreaView style={contentContainer}>
-        <ScrollView style={{flex: 1}}>
-                    <View style={{flex: 2}}>
-                        <MyText style={[textExtraBold, textH1Style, textDarkBlue]}>Dashboard</MyText>
-                    </View>
-                    <View style={middleStyle}>
-                        <MyText style={[textGrey, textH6Style, textCenter]}>
-                            You have no property listed on Aura yet. Become a host to get started.
-                        </MyText>
-                    </View>
-                    <View style={buttonContainer}>
-                    {/* <Switch
-                    onValueChange={this.setLocationDialog}
-                    value={showLocationDialog}
-                  />
-                  <Switch
-                    onValueChange={this.setForceLocation}
-                    value={forceLocation}
-                  />
-                  <CustomButton
-              buttonText="Get Location"
-              onPress={this.getLocation}
-              // disabled={loading || updatesEnabled}
-            /> */}
-                        <CustomButton buttonText='Become A Host' onPress={this.HostSteps} buttonStyle={{backgroundColor: colors.black}} textStyle={[textH4Style,{color: colors.white}]}/>
-                        <TouchableOpacity onPress={this.HostProperty}>
-                            <MyText style={[textUnderline, textGreen, textH5Style, {marginTop: 20}]}>Learn about Hosting</MyText>
-                        </TouchableOpacity>
-                    </View>
+      <SafeAreaView style={{flex: 1}}>
+        {this.renderLoading()}
+        <View style={contentContainer}>  
+        <ScrollView style={{flex: 1, backgroundColor: colors.white }}>
+            <View style={{flex: 2}}>
+                <MyText style={[textExtraBold, textH1Style, textDarkBlue]}>Dashboard</MyText>
+            </View>
+            <View style={middleStyle}>
+                <MyText style={[textGrey, textH4Style, textCenter]}>
+                    You have no property listed on Aura yet. Become a host to get started.
+                </MyText>
+            </View>
+            <View style={buttonContainer}>
+                {this.renderError()}
+                <CustomButton buttonText='Become A Host' onPress={this.becomeAHost} 
+                buttonStyle={{backgroundColor: colors.black}} textStyle={[textH4Style,{color: colors.white}]}/>
+                <TouchableOpacity onPress={this.HostProperty}>
+                    <MyText style={[textUnderline, textGreen, textH5Style, {marginTop: 20}]}>Learn about Hosting</MyText>
+                </TouchableOpacity>
+            </View>
+            <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } />
+            <OtpModal visible={this.state.showOtpModal} onDecline={this.closeOtpModal} { ...this.props } 
+            openEmail={this.openEmailModal} />
+            
         </ScrollView>
+        </View>
+        
       </SafeAreaView>
     );
   }

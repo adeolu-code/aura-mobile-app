@@ -4,7 +4,7 @@ import { GLOBAL_PADDING } from "../../utils";
 
 export const Styles = StyleSheet.create({
     container: {
-        marginTop: 140,
+        marginTop: 120,
         padding: GLOBAL_PADDING,
         paddingBottom: 10,
     },
@@ -33,7 +33,7 @@ export const Styles = StyleSheet.create({
         marginBottom: 20,
     },
     rowView: {
-        flexDirection: "row",
+        flexDirection: "row", 
     },
 
     //amenities
@@ -48,20 +48,20 @@ export const Styles = StyleSheet.create({
     //Host Steps
     cardView: {
         borderBottomColor: colors.lightGrey,
-        borderBottomWidth: 1,
-        paddingBottom: 10,
+        borderBottomWidth: 2,
+        paddingBottom: 30,
         padding: GLOBAL_PADDING,
     },
     topView: {
-        flexDirection: "row",
+        flexDirection: "row", alignItems: 'center', marginBottom: 12, marginTop: 15
     },
     completedView: {
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "center", justifyContent: 'flex-end',
         flex: 0.4,
     },
     completedIcon: {
-        color: colors.green,
+        color: colors.pureGreen, fontSize: 18, marginRight: 5
     },
     reviewView: {
         padding: GLOBAL_PADDING,
@@ -72,6 +72,9 @@ export const Styles = StyleSheet.create({
     imgContainer: {
         width: 120, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
         borderWidth: 1
+    },
+    buttonStyle: {
+
     },
 
     //slider

@@ -11,7 +11,7 @@ import {
   Modal,
 } from "react-native";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
-import { GoogleSignin } from '@react-native-community/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import colors from "../../colors";
 import { CustomInput, MyText, CustomButton, Loading, Error } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
@@ -19,6 +19,7 @@ import { Icon } from 'native-base';
 import { setUser } from '../../helpers';
 import { setContext, Request, urls } from '../../utils';
 import { AppContext } from '../../../AppProvider';
+import { GOOGLE_WEB_CLIENTID } from '../../strings'
 
 class LoginModal extends Component {
   static contextType = AppContext;
@@ -80,7 +81,7 @@ class LoginModal extends Component {
   socialApiCall = async (type, token) => {
     const obj = { userType: 0, token }
     const res = await Request(urls.identityBase, `api/v1/auth/user/login/${type}`, obj);
-    console.log(res)
+    // console.log(res)
     if(res.isError) {
       const message = res.message;
       const error = [message]
@@ -88,23 +89,25 @@ class LoginModal extends Component {
     } else {
       this.getUserDetails(res.data.access_token);
     }
-    this.setState({ loading: false })
+    // this.setState({ loading: false })
   }
 
   loginWithGoogle = async () => {
       this.setState({ loading: true, formErrors: [] })
-      GoogleSignin.configure();
+      GoogleSignin.configure({
+        webClientId: '745362274321-sptpssq375evl7b4s7q46hk8dgc7aao6.apps.googleusercontent.com',
+      });
       try {
           await GoogleSignin.hasPlayServices();
-          // const userInfo = await GoogleSignin.signIn();
-          // console.log('USer info ', userInfo)
+          const userInfo = await GoogleSignin.signIn();
+          console.log('USer info ', userInfo)
           // await GoogleSignin.signOut();
           const token = await GoogleSignin.getTokens();
           console.log('USer token ', token)
           this.socialApiCall('google', token.accessToken)
           
       } catch (error) {
-          console.log('Error ', error)
+          console.log('Error ', error, error.code)
           this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
               // user cancelled the login flow
@@ -122,16 +125,18 @@ class LoginModal extends Component {
     LoginManager.logInWithPermissions(["public_profile", "email"]).then(
       function(result) {
         if (result.isCancelled) {
-          this.setState({ loading: false, error: ['Login cancelled'] })
+          this.setState({ loading: false, formErrors: ['Login cancelled'] })
         } else {
           AccessToken.getCurrentAccessToken()
           .then((data) => {
+            console.log(data)
             this.socialApiCall('facebook', data.accessToken)
           })
         }
       }.bind(this),
       function(error) {
-        this.setState({ loading: false, error: [error] })
+        console.log('Facebook Error ', "" + error)
+        this.setState({ loading: false, formErrors: ["" + error] })
       }.bind(this)
     );
   }

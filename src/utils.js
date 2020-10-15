@@ -4,6 +4,9 @@ export const GLOBAL_PADDING = 20;
 const CLIENT_ID = '0987654321'
 const CLIENT_SECRET = '1234567890'
 
+import AsyncStorage from "@react-native-community/async-storage";
+
+
 export const urls = {
    identityBase: "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/",
     bookingBase: "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/",
@@ -19,6 +22,15 @@ export const urls = {
     user: "user/",
     login: "login/"
 }
+const getUserToken = async () => {
+	try {
+		let token = await AsyncStorage.getItem("token");
+		return token;
+	} catch (error) {
+		return error;
+	}
+};
+
 
 export function setContext(appContext) {
     if (context === undefined) {
@@ -67,10 +79,11 @@ export async function Request(
   Data,
   PreparedData = false,
   method = "POST",
-  token = undefined
+  
 ) {
   //if PreparedData then no need to convert the data to json or multi part e.g is data being passed is already a form data
   //also change content type
+  const token = await getUserToken();
   let headers = {}
   
   if (!PreparedData) {
@@ -83,7 +96,7 @@ export async function Request(
   
   if (typeof token === "boolean" && token) {
      headers["Authorization"] = "Bearer " + token
-  } else if (token != undefined) {
+  } else if (token != undefined && token !== null) {
      headers["Authorization"] = "Bearer " + token
   }   
   
@@ -104,17 +117,24 @@ export async function Request(
      })
 }
 
-export async function GetRequest(Base, Url, token = undefined, type = "GET") {
-  let headers = {
+export async function GetRequest(Base, Url, accessToken, type = "GET") {
+   let token = '';
+   if(accessToken) {
+      token = accessToken
+   } else {
+      token = await getUserToken();
+   }
+   let headers = {
      Accept: "application/json",
      "Content-Type": "application/json",
      "Access-Control-Allow-Origin": "*",
     }   
     if (typeof token === "boolean" && token) {
       headers["Authorization"] = "Bearer " + Token
-    } else if (token != undefined) {
+    } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
-    }   return fetch(Base + Url, {
+    }   
+    return fetch(Base + Url, {
       method: type,
       headers: headers,
     })

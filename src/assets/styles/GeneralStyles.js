@@ -70,6 +70,9 @@ const styles = StyleSheet.create({
   textGreen: {
     color: colors.green
   },
+  textPureGreen: {
+    color: colors.pureGreen
+  },
   textSuccess: {
     // color: '#0AC876'
     color: colors.success

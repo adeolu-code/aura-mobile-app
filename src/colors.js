@@ -8,6 +8,7 @@ const colors = {
     greyWhite: '#D5D5D5',
     grey: '#646464',
     darkGrey: '#222222',
+    pureGreen: '#26D3A4',
     lightGreen: '#78CAA4',
     darkGreen: '#2A5F46',
     fadedGreen: '#489571',

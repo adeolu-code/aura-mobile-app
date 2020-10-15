@@ -11,7 +11,9 @@ import GStyles from '../../assets/styles/GeneralStyles';
 class OtpScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { numbers: [],};
+    this.state = { numbers: [], userData: ''};
+    const { userData } = props.route.params;
+    this.state.userData = userData
     this.num1 = React.createRef();
     this.num2 = React.createRef();
     this.num3 = React.createRef();
