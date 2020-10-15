@@ -59,7 +59,7 @@ class HostScreen extends Component {
   }
   generateOtp = async () => {
     this.setState({ loading: true, errors: [] })
-    const res = await Request(urls.identityBase, 'api/v1/user/otp/generate',null, this.context.state.token);
+    const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
     this.setState({ loading: false })
     if(res.IsError) {
         const message = res.Message;

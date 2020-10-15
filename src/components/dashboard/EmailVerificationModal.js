@@ -58,6 +58,7 @@ class EmailVerificationModal extends Component {
         .then((res) => {
             this.setState({ loading: false })
             if(res.isEmailVerified) {
+                this.props.onDecline();
                 this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
             } else {
                 this.setState({ formErrors: ['Email verification failed']})

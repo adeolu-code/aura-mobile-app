@@ -96,7 +96,7 @@ class OtpModal extends Component {
     }
     resendCode = async () => {
         this.setState({ loading: true, formErrors: [] })
-        const res = await Request(urls.identityBase, 'api/v1/user/otp/generate', null, this.context.state.token);
+        const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
         console.log(res)
         if(res.IsError) {
             const message = res.Message;
@@ -123,7 +123,7 @@ class OtpModal extends Component {
                 numberString = numberString+item
             })
             const obj = { Otp: numberString }
-            const res = await GetRequest(urls.identityBase, `api/v1/user/otp/verify?Otp=${numberString}`, this.context.state.token);
+            const res = await GetRequest(urls.identityBase, `api/v1/user/otp/verify?Otp=${numberString}`);
             console.log(res)
             if(res.isError) {
                 const message = res.message;

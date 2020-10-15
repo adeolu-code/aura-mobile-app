@@ -27,6 +27,7 @@ class AppProvider extends Component {
   getUserProfile = (token) => {
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.identityBase, 'api/v1/user/me', token);
+      console
       if (res.isError) {
         reject(res.message)
       } else {
