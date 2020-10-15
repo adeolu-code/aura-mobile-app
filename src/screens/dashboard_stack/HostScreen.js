@@ -42,7 +42,15 @@ class HostScreen extends Component {
       }
     } else {
       // Got to OTP modal to verify phone
-      this.generateOtp()
+      if(userData.phoneNumber) {
+        this.generateOtp()
+      } else {
+        if(userData.isEmailVerified) {
+          navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
+        } else {
+          this.sendMail()
+        }
+      }
     }
   }
   openOtpModal = () => {
