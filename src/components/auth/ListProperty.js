@@ -17,25 +17,24 @@ class ListProperty extends Component {
   }
 
   increment = () => {
-    this.setState({
-      count: this.state.count + 1,
-    });
+    const count = this.state.count + 1
+    this.props.countValue(count)
+    this.setState({ count });
   }
 
   decrement = () => {
     if (this.state.count === 0){
-        this.setState({
-            count:0,
-        });
-      } else {
-        this.setState({
-            count: this.state.count - 1,
-        });
+      this.props.countValue(0)
+      this.setState({ count:0 });
+    } else {
+      const count = this.state.count - 1
+      this.props.countValue(count)
+      this.setState({ count });
+    }
   }
-}
-disabled = () => {
+  disabled = () => {
 
-}
+  }
   render() {
     const { rowContainer, increment, decrement} = styles;
     const { textBold, textH4Style, flexRow} = GStyles;
@@ -46,18 +45,18 @@ disabled = () => {
             <View style={{flex: 7}}>
                 <MyText style={[textBold, textH4Style, {color: '#1E2B37'}]}>{title}</MyText>
             </View>
-            <View style={[flexRow, {flex: 3, alignContent: 'space-between'}]}>
+            <View style={[flexRow, {flex: 2.5, alignContent: 'space-between'}]}>
                 <View>
-                <TouchableOpacity style={decrement} onPress={this.decrement}>
-                    <Icon name="remove-outline"  style={{color: '#FF8300', fontSize: 20}} />
-                </TouchableOpacity>
+                  <TouchableOpacity style={decrement} onPress={this.decrement}>
+                      <Icon name="remove-outline"  style={{color: colors.orange, fontSize: 20}} />
+                  </TouchableOpacity>
                 </View>
                 <View style={{flex: 1, alignItems: 'center'}}>
                     <MyText style={[textBold, textH4Style]}>{this.state.count}</MyText>
                 </View>
                 <View>
                     <TouchableOpacity style={increment} onPress={this.increment}>
-                        <Icon name="add-outline" style={{color: '#fff', fontSize: 20}} />
+                        <Icon name="add-outline" style={{color: '#fff', fontSize: 22, marginRight: -1}} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -77,8 +76,8 @@ const styles = StyleSheet.create({
   rowContainer: {
       borderBottomWidth: 1,
       borderBottomColor: colors.lightGreyOne,
-      height: 50,
-      paddingTop: 20,
+      // height: 50,
+      paddingTop: 20, paddingBottom: 15
   },
   button: {
       marginTop: 50,
@@ -87,9 +86,9 @@ const styles = StyleSheet.create({
 decrement: {
     color: '#FF8300',
     backgroundColor: '#FFD9B2',
-    height: 20,
-    width: 20,
-    borderRadius: 20,
+    height: 25,
+    width: 25,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: -10,
@@ -98,9 +97,9 @@ decrement: {
 },
 increment: {
     backgroundColor: '#FD8323',
-    height: 20,
-    width: 20,
-    borderRadius: 20,
+    height: 25,
+    width: 25,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,

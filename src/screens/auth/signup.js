@@ -112,12 +112,30 @@ class signUp extends Component {
     const res = await Request(urls.identityBase, 'api/v1/user/signup', obj);
     console.log(res);
     if (res.isError) {
-      this.setState({ formErrors: res.data });
+      this.setState({ formErrors: res.data, loading: false });
     } else {
-      await setUser(res.data);
-      this.props.navigation.navigate('Otp', { params: { userData: res.data }});
+      this.getUserDetails(res.data.authentication.access_token);
     }
-    this.setState({ loading: false });
+  }
+  getUserDetails = (token) => {
+    this.context.getUserProfile(token)
+    .then(() => {
+      this.generateOtp()
+    })
+    .catch((error) => {
+      this.setState({ formErrors: ['Something went wrong please try again, or try signing with your details'], loading: false })
+    })
+  }
+  generateOtp = async () => {
+    const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
+    this.setState({ loading: false })
+    if(res.IsError) {
+        const message = res.Message;
+        const error = [`${message}. Or Try signing with your details`]
+        this.setState({ formErrors: error})
+    } else {
+      this.props.navigation.navigate('Otp');
+    }
   }
 
   componentDidMount() {

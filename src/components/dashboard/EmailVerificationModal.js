@@ -139,7 +139,7 @@ class EmailVerificationModal extends Component {
                                 </TouchableOpacity></MyText>
                                 <View style={{paddingHorizontal: 20, paddingTop: 20, width: '100%'}}>
                                     {this.renderError()}
-                                    <CustomButton onPress={this.SuccessScreen} buttonText="I have Verified mail" 
+                                    <CustomButton onPress={this.SuccessScreen} buttonText="I have Verified my account" 
                                     onPress={this.checkVerified} />
                                 </View>
                             </View>
