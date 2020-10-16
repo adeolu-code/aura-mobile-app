@@ -173,7 +173,7 @@ class signUp extends Component {
     // eslint-disable-next-line prettier/prettier
     const { textWhite, textBold, flexRow, textH5Style, textGrey, textH4Style } = GStyles;
     const {inputContainer, iconStyle, errorRow, errorContainer } = styles;
-    const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors, dobErrors } = this.state
+    const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors, dobErrors } = this.state;
     return (
       <>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />

@@ -120,7 +120,7 @@ export async function Request(
 export async function GetRequest(Base, Url, accessToken, type = "GET") {
    let token = '';
    if(accessToken) {
-      token = accessToken
+      token = accessToken;
    } else {
       token = await getUserToken();
    }

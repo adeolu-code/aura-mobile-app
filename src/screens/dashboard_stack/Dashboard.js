@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MyText } from '../../utils/Index';
@@ -10,23 +11,64 @@ import ReservationRow from './../../components/dashboard/ReservationRow';
 import CommentRow from '../../components/CommentRow';
 import RatingRow from '../../components/dashboard/RatingRow';
 
+import { AppContext } from '../../../AppProvider';
+import { setContext, Request, urls, GetRequest } from '../../utils';
+
 class Dashboard extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {
+      earnings: [],
     };
   }
+
+  // componentDidMount() {
+    
+  // }
+
   linkToReservations = () => {
     this.props.navigation.navigate('Reservations')
   }
 
+  renderName = () => {
+    if (this.context.state.isLoggedIn) {
+      const {userData} = this.context.state;
+      const name = userData.firstName;
+      const { textBold, textH4Style } = GStyles;
+      if (name) {
+        return (
+          <View style={{ flex: 1 }}>
+            <MyText style={[textH4Style, textBold]}>Hi {name},</MyText>
+          </View>
+        );
+      }
+    }
+  }
+
+// weeklyEarnings = async () => {
+//     this.setState({ earnings: [] });
+//     const res = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/earnings');
+//     console.log(res);
+//     if (res.data) {
+//       const earnings = res.data.weeklyEarnings;
+//       const earning = [earnings];
+//       this.setState({earnings: earning});
+//       // return (
+//       //   <View style={{ flex: 1 }}>
+//       //     <MyText style={[textH4Style, textBold]}>{earnings}</MyText>
+//       //   </View>
+//       // );
+//     }
+// }
+
   render() {
     const { subHeaderContainer, profileContainer, walletContainer, imgContainer, profileImg, profileText, firstRow, 
       secondRow, viewContainer, walletImgContainer, contentContainer, contentHeader,
-      contentBody, rowContainer, divider, noBorderBottom } = styles
+      contentBody, rowContainer, divider, noBorderBottom } = styles;
     const { textBold, textH4Style, flexRow, imgStyle, textH3Style, textGrey, textWhite, 
       textH5Style, textFadedGreen, textDarkGreen, textH2Style, textExtraBold, textGreen, 
-      textUnderline, textDarkGrey } = GStyles
+      textUnderline, textDarkGrey } = GStyles;
     return (
       <SafeAreaView style={{ flex: 1}}>
         <Header {...this.props} title="Dashboard" />
@@ -39,7 +81,7 @@ class Dashboard extends Component {
                 </View>
               </View>
               <View style={profileText}>
-                <MyText style={[textBold, textH4Style]}>Hi Joshua,</MyText>
+                {this.renderName()}
                 <MyText style={[textGrey, textH4Style]}>You are now A Host on Aura</MyText>
               </View>
             </View>
@@ -55,7 +97,7 @@ class Dashboard extends Component {
               </View>
               <View style={[flexRow, secondRow]}>
                 <View>
-                  <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Weekly Earnings</MyText>
+                  <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Weekly Earnings</MyText>                
                   <MyText style={[textH2Style, textWhite, textExtraBold]}>$ 32,000</MyText>
                 </View>
                 <View>
