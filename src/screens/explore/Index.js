@@ -25,6 +25,8 @@ import ScrollContentPhoto from '../../components/explore/ScrollContentPhoto';
 import TourImgComponent from '../../components/explore/TourImgComponent';
 import SearchToggle from '../../components/explore/SearchToggle';
 
+import { errorMessage } from '../../utils'
+
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -43,6 +45,10 @@ class Index extends Component {
   }
   linkToTour = () => {
     this.props.navigation.navigate('ExploreAll', { tab: 'five' })
+  }
+
+  componentDidMount = () => {
+    
   }
 
   // handleSearchToggle = () => {

@@ -25,18 +25,18 @@ class LocationScreen extends Component {
       });
   }
   onValueChangeOne(value: string) {
-    this.setState({
-      selected1: value
-    });
-}
-onValueChangeTwo(value: string) {
-    this.setState({
-      selected2: value
-    });
-}
- Location = () => {
-    this.props.navigation.navigate('LocationOne');
+      this.setState({
+        selected1: value
+      });
   }
+  onValueChangeTwo(value: string) {
+      this.setState({
+        selected2: value
+      });
+  }
+  Location = () => {
+      this.props.navigation.navigate('LocationOne');
+    }
 
   render() {
     const { container, picker, button, imageView, iconStyle, input } = styles;

@@ -12,7 +12,7 @@ import ListProperty from '../../components/auth/ListProperty';
 import { Toast } from "native-base";
 
 import { AppContext } from '../../../AppProvider';
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, errorMessage } from '../../utils';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
 
@@ -146,24 +146,21 @@ class ListPropertyScreen extends Component {
   }
   next = () => {
     if(this.validate()) {
-      showMessage({
-        message: "Please enter all fields",
-        type: "danger", floating: true
-      });
+      errorMessage("Please enter all fields")
     } else {
       this.storeFormValues()
     }
   }
   storeFormValues = () => {
     const { set, state } = this.context
-    console.log('Context State ', state)
+    // console.log('Context State ', state)
     if(state.propertyFormData) {
       const obj = { ...state.propertyFormData, ...this.state }
       set({ propertyFormData: obj })
     } else {
       set({ propertyFormData: this.state })
     }
-    this.props.navigation.navigate('Location');
+    this.props.navigation.navigate('LocationMap');
   }
 
   render() {

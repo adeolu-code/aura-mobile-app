@@ -38,7 +38,7 @@ export function AuthStack() {
             <Stack.Screen name="Success" component={SuccessScreen} options={{headerShown: false}} />
             <Stack.Screen name="List" component={ListPropertyScreen} options={{headerShown: false}} />
             <Stack.Screen name="Location" component={LocationScreen} options={{headerShown: false}} />
-            <Stack.Screen name="LocationOne" component={Location} options={{headerShown: false}} />
+            <Stack.Screen name="LocationMap" component={Location} options={{headerShown: false}} />
             <Stack.Screen name="Amenities" component={AmenitiesScreen} options={{headerShown: false}}/>
             <Stack.Screen name="Saved" component={SavedScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
