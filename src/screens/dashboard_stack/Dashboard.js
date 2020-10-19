@@ -260,8 +260,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.green, paddingHorizontal: 25, paddingVertical: 10, borderRadius: 6
   },
   contentContainer: {
-    paddingHorizontal: 20, paddingVertical: 25, backgroundColor: colors.white,
-    paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey
+    paddingHorizontal: 20, paddingVertical: 25, backgroundColor: colors.white, borderBottomWidth: 4, borderBottomColor: colors.lightGrey
 
   },
   contentHeader: {
