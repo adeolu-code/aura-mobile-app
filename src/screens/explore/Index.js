@@ -1,13 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  ImageBackground,
-  StyleSheet,
-  TouchableOpacity,
+  View,SafeAreaView,ScrollView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform,
 } from 'react-native';
 import {
   MyText,
@@ -25,14 +19,16 @@ import ScrollContentPhoto from '../../components/explore/ScrollContentPhoto';
 import TourImgComponent from '../../components/explore/TourImgComponent';
 import SearchToggle from '../../components/explore/SearchToggle';
 
-import { errorMessage } from '../../utils'
+import { setContext, Request, urls, GetRequest } from '../../utils';
+import { AppContext } from '../../../AppProvider';
+import Geolocation from 'react-native-geolocation-service';
+
 
 class Index extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = {
-      active: false,
-    };
+    this.state = { active: false, loadingPlaces: false, cord: null, places: [] };
   }
   linkToHouses = () => {
     this.props.navigation.navigate('ExploreAll', { tab: 'two' })
@@ -47,8 +43,85 @@ class Index extends Component {
     this.props.navigation.navigate('ExploreAll', { tab: 'five' })
   }
 
+  requestLocationPermission = async () => {
+    if(Platform.OS === 'android') {
+      this.requestPermissionAndroid()
+    } else {
+      this.requestPermissionIos()
+    }
+  };
+  requestPermissionAndroid = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: "Aura App Location Permission",
+          message: "Aura App needs access to your location.",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        this.getCurrentPos()
+      } else { console.log("Location permission denied"); }
+    } catch (err) {
+      console.warn("Warn error ", err);
+    }
+  }
+
+  requestPermissionIos = async () => {
+    request(PERMISSIONS.IOS.LOCATION_ALWAYS)
+    .then((result) => {
+      switch (result) {
+        case 'granted':
+          this.getCurrentPos();
+          break;
+        default:
+          break;
+      }
+    })
+    .catch((error) => {
+      console.log('Permissions catched error ', error)
+    });
+  }
+  getCurrentPos = async () => {
+    Geolocation.getCurrentPosition(
+        async (position) => {
+          const cord = position.coords;
+          console.log('Cord ', cord)
+          const obj =  {
+            // latitude: cord.latitude,
+            // longitude: cord.longitude,
+            // latitudeDelta: 0,
+            // longitudeDelta: 0,
+          }
+          this.setState({ cord })
+          this.getPlaces(cord.longitude, cord.latitude)
+          // http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${Dev.API_KEY}`
+        },
+        (error) => {
+          // See error code charts below.
+          console.log(error.code, error.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  }
+
   componentDidMount = () => {
-    
+    console.log('Explore ',this.context.state)
+    // this.requestLocationPermission()
+  }
+  getPlaces = async (long, lat) => {
+    this.setState({ loadingPlaces: true })
+    const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
+    `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
+    console.log('Res ', res)
+    this.setState({ loadingPlaces: false })
+    if(res.isError) {
+        const message = res.Message;
+    } else {
+      this.setState({ places: res.data })
+    }
   }
 
   // handleSearchToggle = () => {
@@ -65,7 +138,7 @@ class Index extends Component {
     this.setState({
         active: true,
     });
-    }
+  }
   render() {
     const {
       headerBg, searchContainer, placeAroundContainer,
@@ -125,15 +198,14 @@ class Index extends Component {
               <ScrollHeader title="Places to stay around you" />
             </View>
             <View style={scrollContainer}>
-              <ScrollContent {...this.props} />
+              <ScrollContent {...this.props} places={this.state.places} />
             </View>
             <View style={buttonContainer}>
               <CustomButton onPress={this.linkToHouses} buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
             </View>
           </View>
 
-          <ImageBackground
-            source={require('../../assets/images/food_bg/food_bg.png')}
+          <ImageBackground  source={require('../../assets/images/food_bg/food_bg.png')}
             style={foodBgStyles}>
             <View style={foodContainer}>
               <View style={headerContainer}>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, Dimensions } from 'react-native';
 import { MyText } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
@@ -8,6 +8,22 @@ class ScrollContent extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  renderPlaces = () => {
+    const { places } = this.props
+    if(places.length !== 0) {
+        return (
+            <Fragment>
+                {places.map((item, i) => {
+                    return (
+                        <HouseComponent img={require('../../assets/images/places/bed.png')} 
+                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
+                    )
+                })}
+            </Fragment>
+        )
+    }
   }
 
   render() {

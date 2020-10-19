@@ -15,7 +15,8 @@ const defaultContext = {
   gettingPropertyTypes: false,
   roomTypes: [],
   gettingRoomTypes: false,
-  propertyFormData: null
+  propertyFormData: null,
+  location: null
 };
 
 
@@ -35,10 +36,9 @@ class AppProvider extends Component {
       if (res.isError) {
         reject(res.message)
       } else {
-        const userData = { ...res.data, token}
-        await setUser(userData)
+        await setUser(res.data)
         resolve(res.data)
-        this.set({ userData: userData, isLoggedIn: true, token })
+        this.set({ userData: res.data, isLoggedIn: true })
         this.getPropertyTypes()
       }
     })
@@ -52,7 +52,9 @@ class AppProvider extends Component {
         reject(res.message)
       } else {
         this.set({ propertyTypes: res.data, gettingPropertyTypes: false })
-        this.getRoomTypes(res.data[0].name.toLowerCase())
+        const name = res.data[0].name.toLowerCase()
+        console.log('Room type name ', name)
+        this.getRoomTypes(name)
         resolve(res.data)
       }
     })
@@ -61,6 +63,7 @@ class AppProvider extends Component {
     this.set({ gettingRoomTypes: true})
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.listingBase, `api/v1/listing/roomtype/${type}`);
+      console.log('Res ', res)
       if (res.isError) {
         this.set({ gettingRoomTypes: false})
         reject(res.message)

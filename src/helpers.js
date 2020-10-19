@@ -28,12 +28,29 @@ export const getUser = async () => {
         return error;
     }
 }
+export const getToken = async () => {
+    try {
+        let token = await AsyncStorage.getItem("token");
+        return JSON.parse(token);
+    } catch (error) {
+        return error;
+    }
+}
 
 export const setUser = async (userData) => {
     try {
-        const token = userData.token;
+        // const token = userData.token;
         await AsyncStorage.setItem("userData", JSON.stringify(userData));
-        await AsyncStorage.setItem("token", token);
+        // await AsyncStorage.setItem("token", token);
+    } catch (error) {
+        console.log("Could not set user Data ", error.message);
+    }
+}
+
+export const setToken = async (data) => {
+    try {
+        const token = data;
+        await AsyncStorage.setItem("token", JSON.stringify(token));
     } catch (error) {
         console.log("Could not set user Data ", error.message);
     }

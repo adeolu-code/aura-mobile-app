@@ -29,8 +29,9 @@ export const urls = {
 }
 const getUserToken = async () => {
 	try {
-		let token = await AsyncStorage.getItem("token");
-		return token;
+      let token = await AsyncStorage.getItem("token");
+      token = JSON.parse(token);
+		return token.access_token;
 	} catch (error) {
 		return error;
 	}
