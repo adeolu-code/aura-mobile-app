@@ -51,16 +51,20 @@ class LoginModal extends Component {
     const { email, password } = this.state;
     this.setState({ loading: true, formErrors: [] })
     const obj = { username: email, password }
-    const res = await Request(urls.identityBase, 'api/v1/auth/user/login', obj)
-    console.log(res)
-    if(res.isError) {
-      const message = res.message;
-      const error = [message]
+    try {
+      const res = await Request(urls.identityBase, 'api/v1/auth/user/login', obj)
+      // console.log('Res ',res)
+      if(!res.isError) {
+        this.getUserDetails(res.data.access_token);
+      } else {
+        const message = res.message;
+        const error = [message]
+        this.setState({ formErrors: error, loading: false})
+      }
+    } catch (error) {
+      console.log('Catched error ', error)
       this.setState({ formErrors: error, loading: false})
-    } else {
-      this.getUserDetails(res.data.access_token);
     }
-    // this.setState({ loading: false })
   }
   disabled = () => {
     const { email, password } = this.state

@@ -114,7 +114,7 @@ class OtpModal extends Component {
         Keyboard.dismiss()
         const { numbers } = this.state;
         const { state, set } = this.context
-        if(numbers < 6) {
+        if(numbers.length < 6) {
             this.setState({ formErrors: ['Please fill out the code']})
         } else {
             this.setState({ loading: true, formErrors: [] })

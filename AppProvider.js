@@ -13,8 +13,9 @@ const defaultContext = {
   isLoggedIn: false,
   propertyTypes: [],
   gettingPropertyTypes: false,
-  apartments: [],
-  gettingApartments: false
+  roomTypes: [],
+  gettingRoomTypes: false,
+  propertyFormData: null
 };
 
 
@@ -39,7 +40,6 @@ class AppProvider extends Component {
         resolve(res.data)
         this.set({ userData: userData, isLoggedIn: true, token })
         this.getPropertyTypes()
-        this.getApartments()
       }
     })
   }
@@ -52,24 +52,25 @@ class AppProvider extends Component {
         reject(res.message)
       } else {
         this.set({ propertyTypes: res.data, gettingPropertyTypes: false })
+        this.getRoomTypes(res.data[0].name.toLowerCase())
         resolve(res.data)
       }
     })
   }
-  getApartments = () => {
-    this.set({ gettingApartments: true})
+  getRoomTypes = (type) => {
+    this.set({ gettingRoomTypes: true})
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.listingBase, 'api/v1/listing/roomtype/apartment');
+      const res = await GetRequest(urls.listingBase, `api/v1/listing/roomtype/${type}`);
       if (res.isError) {
-        this.set({ gettingApartments: false})
+        this.set({ gettingRoomTypes: false})
         reject(res.message)
       } else {
-        this.set({ apartments: res.data, gettingApartments: false })
+        this.set({ roomTypes: res.data, gettingRoomTypes: false })
         resolve(res.data)
       }
     })
-    
   }
+  
 
   render() {
     const context = this.state;
@@ -84,8 +85,8 @@ class AppProvider extends Component {
           getUserProfile: (token) => {
             return this.getUserProfile(token)
           },
-          getApartments: () => {
-            return this.getApartments()
+          getRoomTypes: (value) => {
+            return this.getRoomTypes(value)
           },
           getPropertyTypes: () => {
             return this.getPropertyTypes()

@@ -16,7 +16,7 @@ class Index extends Component {
     this.state = {};
   }
   renderLoginOrDashboard = () => {
-    console.log(this.context)
+    // console.log(this.context)
     const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`;
     if (this.context.state.isLoggedIn) {
         const { userData } = this.context.state;

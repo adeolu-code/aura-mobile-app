@@ -8,6 +8,8 @@ import EmailVerificationModal from '../../components/dashboard/EmailVerification
 import GStyles from '../../assets/styles/GeneralStyles';
 import { AppContext } from '../../../AppProvider';
 import { setContext, Request, urls, GetRequest } from '../../utils';
+import Loader from '../../assets/loader.svg'
+
 
 
 class HostScreen extends Component {
@@ -16,10 +18,10 @@ class HostScreen extends Component {
     super(props);
     this.state = { showOtpModal: false, showEmailModal: false, errors: [], loading: false };
   }
-
-  // HostProperty = () => {
-  //   this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSlider'});
-  // }
+  HostProperty = () => {
+    // this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSlider'});
+    this.props.navigation.navigate('Auth', { screen: 'List'})
+  }
   renderLoading = () => {
       const { loading } = this.state;
       if (loading) { return (<Loading />); }
@@ -104,6 +106,7 @@ class HostScreen extends Component {
             <View style={{flex: 2}}>
                 <MyText style={[textExtraBold, textH1Style, textDarkBlue]}>Dashboard</MyText>
             </View>
+            <Loader />
             <View style={middleStyle}>
                 <MyText style={[textGrey, textH4Style, textCenter]}>
                     You have no property listed on Aura yet. Become a host to get started.
