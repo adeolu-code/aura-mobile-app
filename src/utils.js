@@ -9,7 +9,7 @@ export const GLOBAL_PADDING = 20;
 const CLIENT_ID = '0987654321'
 const CLIENT_SECRET = '1234567890'
 
-
+export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs"
 
 
 export const urls = {

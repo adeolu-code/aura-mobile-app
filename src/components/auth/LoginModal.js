@@ -95,6 +95,8 @@ class LoginModal extends Component {
       this.setState({ formErrors: error})
     } else {
       this.getUserDetails(res.data.access_token);
+      this.context.set({ token: res.data })
+      await setToken(res.data)
     }
     // this.setState({ loading: false })
   }

@@ -19,8 +19,8 @@ class HostScreen extends Component {
     this.state = { showOtpModal: false, showEmailModal: false, errors: [], loading: false };
   }
   HostProperty = () => {
-    // this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSlider'});
-    this.props.navigation.navigate('Auth', { screen: 'List'})
+    this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSlider'});
+    // this.props.navigation.navigate('Auth', { screen: 'List'})
   }
   renderLoading = () => {
       const { loading } = this.state;
@@ -106,7 +106,7 @@ class HostScreen extends Component {
             <View style={{flex: 2}}>
                 <MyText style={[textExtraBold, textH1Style, textDarkBlue]}>Dashboard</MyText>
             </View>
-            <Loader />
+            
             <View style={middleStyle}>
                 <MyText style={[textGrey, textH4Style, textCenter]}>
                     You have no property listed on Aura yet. Become a host to get started.

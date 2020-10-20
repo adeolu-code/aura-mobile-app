@@ -14,15 +14,12 @@ import { AppContext } from '../../../AppProvider';
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker, ProviderPropType } from 'react-native-maps';
 
-import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
+import { GetRequest, errorMessage, GOOGLE_API_KEY } from '../../utils';
 
 const { width, height } = Dimensions.get('window');
 
-const KEY = 'AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs'
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0
@@ -35,120 +32,63 @@ function randomColor() {
 class Location extends Component {
   static contextType = AppContext;
   constructor(props) {
-      super(props);
-      this.state = { cord: null, region: null, markers: [], loading: false };
+    super(props);
+    this.state = { region: null, markers: [], loading: false };
   }
-  requestLocationPermission = async () => {
-    if(Platform.OS === 'android') {
-      this.requestPermissionAndroid()
-    } else {
-      this.requestPermissionIos()
-    }
-  };
+  
   renderLoading = () => {
       const { loading } = this.state;
       if(loading) { return (<Loading />) }
   }
-  requestPermissionAndroid = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "Aura App Location Permission",
-          message: "Aura App needs access to your location.",
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the Location");
-        this.getCurrentPos()
-      } else {
-        console.log("Location permission denied");
-        // this.resources()
-      }
-    } catch (err) {
-      console.warn("Warn error ",err);
-      // this.resources();
-    }
-  }
-
-  requestPermissionIos = async () => {
-    request(PERMISSIONS.IOS.LOCATION_ALWAYS)
-    .then((result) => {
-      console.log('Request permissions ios ', result)
-      switch (result) {
-        case 'granted':
-          this.getCurrentPos();
-          break;
-        default:
-          // this.resources()
-          break;
-      }
-    })
-    .catch((error) => {
-      console.log('Permissions catched error ', error)
-    });
-  }
-  getCurrentPos = async () => {
-    Geolocation.getCurrentPosition(
-        async (position) => {
-          const cord = position.coords;
-          console.log('Cord ', cord, position)
-          const obj =  {
-            latitude: cord.latitude,
-            longitude: cord.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          }
-          this.setState({ cord, region: obj })
-          
-          // http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${Dev.API_KEY}`
-        },
-        (error) => {
-          // See error code charts below.
-          console.log(error.code, error.message);
-        },
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
-  }
+  
   AmenitiesScreen = () => {
     this.props.navigation.navigate('Amenities');
   }
-  onMapPress(e) {
+  onMapPress = (e) => {
+    const coordinate = e.nativeEvent.coordinate
+    const region = { ...this.state.region, ...coordinate }
+    // console.log('coordinate ', coordinate, r)
     this.setState({
       markers: [
         ...this.state.markers,
         {
-          coordinate: e.nativeEvent.coordinate,
+          coordinate,
           key: id++,
           color: randomColor(),
         },
       ],
+      region
     });
+    // setTimeout(() => {
+    //   console.log('Markers ', this.state.markers, this.state.region)
+    // }, 1000);
   }
   componentDidMount = () => {
-    const { location } = this.context.state;
-    if(location) {
+    const { location, propertyFormData } = this.context.state;
+    if(propertyFormData && propertyFormData.latitude) {
       const obj =  {
-        latitude: location.latitude,
-        longitude: location.longitude,
+        latitude: propertyFormData.latitude,
+        longitude: propertyFormData.longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       }
-      this.setState({ cord:location, region: obj })
-    } else {
-      this.requestLocationPermission()
-    }
+      const defaultMarker = {
+        coordinate: { longitude: propertyFormData.longitude, latitude: propertyFormData.latitude },
+        key: id++,
+        color: randomColor()
+      }
+      const markers = [defaultMarker]
+      this.setState({ region: obj, markers })
+    } 
   }
   onRegionChange = (region) => {
-    this.setState({ region })
-    // console.log('Region ', region)
+    // this.setState({ region })
+    console.log('Region ', region)
   }
   getGeolocation = async () => {
     const { region } = this.state
     this.setState({ loading: true })
-    const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${region.latitude},${region.longitude}&key=${KEY}`)
+    const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${region.latitude},${region.longitude}&key=${GOOGLE_API_KEY}`)
     this.setState({ loading: false })
     this.getAddressDetails(res.results[0])
     console.log('Res ', res)
@@ -166,18 +106,17 @@ class Location extends Component {
       const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: arr[0], country: arr[1]}
       const obj = { ...state.propertyFormData, ...locationObj }
       set({ propertyFormData: obj })
-    } else {
-      errorMessage('Please go back and fill out List property section')
-    }
+      this.props.navigation.navigate('Amenities');
+    } 
   }
   renderMapView = () => {
-    const { cord } = this.state;
+    const { region } = this.state;
     const { imgContainer } = styles;
     const { imgStyle } = GStyles
-    if(cord) {
+    if(region) {
       return (
         <View style={[imgContainer, { paddingHorizontal: 0, height: 350, overflow: 'hidden' }]}>
-          <MapView region={this.state.region} onRegionChange={this.onRegionChange}
+          <MapView region={this.state.region} onRegionChange={this.onRegionChange} minZoomLevel={15}
             style={{ height: '100%', width: '100%'}} onPress={e => this.onMapPress(e)} >
             {this.state.markers.map(marker => (
               <Marker key={marker.key} coordinate={marker.coordinate} pinColor={marker.color} />
