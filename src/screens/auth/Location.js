@@ -96,14 +96,27 @@ class Location extends Component {
   getAddressDetails = (res) => {
     const geometryloc = res.geometry.location
     const addressComponents = res.address_components
-    const addressArr = addressComponents.map(item => item.long_name)
-    const arr = addressArr.splice(addressArr.length - 2, 2)
-    console.log('Address component ',addressComponents, addressArr, arr)
+    // const addressArr = addressComponents.map(item => item.long_name)
+    // const arr = addressArr.splice(addressArr.length - 2, 2)
+
+    let countryObj = null;
+    let stateObj = null
+    addressComponents.filter(item => {
+        const types = item.types
+        const foundCountry = types.find(item => item === 'country')
+        const foundState = types.find(item => item === 'administrative_area_level_1')
+        if(foundCountry) {
+            countryObj = item
+        }
+        if(foundState) {
+            stateObj = item
+        }
+    })
 
     const { set, state } = this.context
     // console.log('Context State ', state)
     if(state.propertyFormData) {
-      const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: arr[0], country: arr[1]}
+      const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, country: countryObj.long_name}
       const obj = { ...state.propertyFormData, ...locationObj }
       set({ propertyFormData: obj })
       this.props.navigation.navigate('Amenities');

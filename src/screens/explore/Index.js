@@ -16,6 +16,7 @@ import ScrollHeader from '../../components/explore/ScrollHeader';
 import ScrollContent from '../../components/explore/ScrollContent';
 import ScrollContentFood from '../../components/explore/ScrollContentFood';
 import ScrollContentPhoto from '../../components/explore/ScrollContentPhoto';
+import ScrollContentPlaces from '../../components/explore/ScrollContentPlaces';
 import TourImgComponent from '../../components/explore/TourImgComponent';
 import SearchToggle from '../../components/explore/SearchToggle';
 
@@ -28,7 +29,7 @@ class Index extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { active: false, loadingPlaces: false, cord: null, places: [] };
+    this.state = { active: false, loadingPlaces: false, places: [], refreshPlaces: false };
   }
   linkToHouses = () => {
     this.props.navigation.navigate('ExploreAll', { tab: 'two' })
@@ -88,16 +89,8 @@ class Index extends Component {
     Geolocation.getCurrentPosition(
         async (position) => {
           const cord = position.coords;
-          console.log('Cord ', cord)
-          const obj =  {
-            // latitude: cord.latitude,
-            // longitude: cord.longitude,
-            // latitudeDelta: 0,
-            // longitudeDelta: 0,
-          }
-          this.setState({ cord })
-          this.getPlaces(cord.longitude, cord.latitude)
-          // http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${Dev.API_KEY}`
+          this.context.set({ location: cord })
+          this.setState({ refreshPlaces: !this.state.refreshPlaces })
         },
         (error) => {
           // See error code charts below.
@@ -108,22 +101,11 @@ class Index extends Component {
   }
 
   componentDidMount = () => {
-    console.log('Explore ',this.context.state)
+    // console.log('Explore ',this.context.state)
+    // const { location } = this.context.state
     // this.requestLocationPermission()
   }
-  getPlaces = async (long, lat) => {
-    this.setState({ loadingPlaces: true })
-    const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-    `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
-    console.log('Res ', res)
-    this.setState({ loadingPlaces: false })
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-      this.setState({ places: res.data })
-    }
-  }
-
+  
   // handleSearchToggle = () => {
   //   this.setState({
   //       active: !this.state.active,
@@ -193,17 +175,7 @@ class Index extends Component {
             </View>
           </ImageBackground>
 
-          <View style={placeAroundContainer}>
-            <View style={headerContainer}>
-              <ScrollHeader title="Places to stay around you" />
-            </View>
-            <View style={scrollContainer}>
-              <ScrollContent {...this.props} places={this.state.places} />
-            </View>
-            <View style={buttonContainer}>
-              <CustomButton onPress={this.linkToHouses} buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
-            </View>
-          </View>
+          <ScrollContentPlaces {...this.props} onPhoneLocation={this.requestLocationPermission} refresh={this.state.refreshPlaces} />
 
           <ImageBackground  source={require('../../assets/images/food_bg/food_bg.png')}
             style={foodBgStyles}>
@@ -227,7 +199,7 @@ class Index extends Component {
             </View>
           </ImageBackground>
 
-          <View style={foodAroundContainer}>
+          {/* <View style={foodAroundContainer}>
             <View style={headerContainer}>
               <ScrollHeader title="Places to get great food" />
             </View>
@@ -237,9 +209,9 @@ class Index extends Component {
             <View style={buttonContainer}>
               <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} onPress={this.linkToFood} />
             </View>
-          </View>
-
-          <View style={placeStayContainer}>
+          </View> */}
+          <ScrollContent {...this.props} onPhoneLocation={this.requestLocationPermission} refresh={this.state.refreshPlaces} />
+          {/* <View style={placeStayContainer}>
             <View style={headerContainer}>
               <ScrollHeader title="Places to stay around you" />
             </View>
@@ -249,7 +221,7 @@ class Index extends Component {
             <View style={buttonContainer}>
               <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} onPress={this.linkToHouses} />
             </View>
-          </View>
+          </View> */}
 
           <View style={photoContainer}>
             <View style={headerContainer}>

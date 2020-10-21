@@ -46,6 +46,16 @@ export const setUser = async (userData) => {
         console.log("Could not set user Data ", error.message);
     }
 }
+export const formatAmount = (amount) => {
+    if (Number(amount) === 0 || amount) {
+        return Number(amount).toLocaleString(undefined, {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2,
+        });
+    }
+    
+    return '***';
+}
 
 export const setToken = async (data) => {
     try {
