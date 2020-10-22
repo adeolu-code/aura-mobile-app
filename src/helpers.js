@@ -20,6 +20,32 @@ export const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
+export const amenityIcons = [
+    { name: 'dryer', iconName: 'waves', type: 'MaterialIcons'},
+    { name: 'breakfast', iconName: 'free-breakfast', type: 'MaterialIcons'},
+    { name: 'laptop friendly workspace', iconName: 'laptop-mac', type: 'MaterialIcons'},
+    { name: 'lift', iconName: 'elevator', type: 'MaterialIcons'},
+    { name: 'tv', iconName: 'tv-outline', type: 'Ionicons'},
+    { name: 'hot water', iconName: 'hot-tub', type: 'MaterialIcons'},
+    { name: 'air conditioning', iconName: 'toys', type: 'MaterialIcons'},
+    { name: 'washing machine', iconName: 'wash', type: 'MaterialIcons'},
+    { name: 'towels', iconName: 'check-circle', type: 'MaterialIcons'},
+    { name: 'bedsheets', iconName: 'bed', type: 'Ionicons'},
+    { name: 'soap', iconName: 'soap', type: 'MaterialIcons'},
+    { name: 'toilet paper', iconName: 'toilet-paper', type: 'FontAwesome5'},
+    { name: 'pillows', iconName: 'check-circle', type: 'MaterialIcons'},
+    { name: 'wifi', iconName: 'wifi', type: 'Feather'},
+    { name: 'default', iconName: 'check-circle', type: 'MaterialIcons'}
+]
+export const rulesIcons = [
+    { name: 'suitable for children', iconName: 'child-friendly', type: 'MaterialIcons'},
+    { name: 'suitable for infants', iconName: 'child-friendly', type: 'MaterialIcons'},
+    { name: 'pets allowed', iconName: 'pets', type: 'MaterialIcons'},
+    { name: 'parties & events allowed', iconName: 'local-bar', type: 'MaterialIcons'},
+    { name: 'no smoking allowed', iconName: 'smoke-free', type: 'MaterialIcons'},
+    { name: 'default', iconName: 'check-circle', type: 'MaterialIcons'}
+]
+
 export const getUser = async () => {
     try {
         let user = await AsyncStorage.getItem("userData");

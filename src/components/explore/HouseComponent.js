@@ -6,7 +6,6 @@ import { Icon } from 'native-base';
 import colors from '../../colors';
 
 import StarComponent from '../StarComponent';
-import { color } from 'react-native-reanimated';
 
 
 class HouseComponent extends Component {
@@ -47,10 +46,10 @@ class HouseComponent extends Component {
       textGrey,
       textH4Style,
     } = GStyles;
-    const {title, img, location, price } = this.props;
+    const {title, img, location, price, onPress } = this.props;
     return (
       <View>
-        <TouchableOpacity style={scrollItemContainer} onPress={this.linkToHouse}>
+        <TouchableOpacity style={scrollItemContainer} onPress={onPress}>
           <View style={imgContainer}>
             <Image source={img} resizeMode="cover" style={imgStyle} />
             {this.renderVerified()}

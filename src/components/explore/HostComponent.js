@@ -18,11 +18,28 @@ class HostComponent extends Component {
     };
   }
 
+  renderVerified = () => {
+    const { house } = this.props
+    const { iconVerifiedContainer, verifiedStyle } = styles
+    if(house.isVerified) {
+        return (
+            <View style={{ position: 'absolute', right: 0, top: -5}}>
+                <View style={iconVerifiedContainer}>
+                    <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
+                </View>
+            </View>
+        )
+    }
+  }
+
   render() {
     const {  contentContainer, divider, container, headerStyle, thumbTxtContainer, thumbContainer, verifiedStyle, 
         iconVerifiedContainer, thumbStyle, buttonContainer, buttonStyle, shieldContainer, textStyle, lowerContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textGrey, textH4Style, textH5Style, 
             imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
+    const { house } = this.props
+    const imgUrl = house.hostPicture ? { uri: house.hostPicture } : require('../../assets/images/profile.png')
+
     return (
         <View style={container}>
             <View style={headerStyle}>
@@ -31,21 +48,18 @@ class HostComponent extends Component {
             <View style={contentContainer}>
                 <View style={[flexRow, thumbTxtContainer]}>
                     <View style={thumbContainer}>
-                        <Image source={require('../../assets/images/photo/photo5.png')} resizeMode="cover" style={thumbStyle} />
-                        <View style={{ position: 'absolute', right: 0, top: -5}}>
+                        <Image source={imgUrl} resizeMode="cover" style={thumbStyle} />
+                        {this.renderVerified()}
+                        {/* <View style={{ position: 'absolute', right: 0, top: -5}}>
                             <View style={iconVerifiedContainer}>
                                 <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
                             </View>
-                        </View>
+                        </View> */}
                     </View>
-                    <MyText style={[textH3Style]}>Yuko Ono</MyText>
+                    <MyText style={[textH3Style]}>{house ? house.hostName : '***'}</MyText>
                 </View>
                 <View>
-                    <MyText style={[textGrey, textH4Style]}>Quisque suscipit ipsum est, eu venenatis leo ornare eget. 
-                        Ut porta facilisis elementum. Sed condimentum sed massa quis ullamcorper. 
-                        Donec at scelerisque neque. Pellentesque sagittis, 
-                        massa sodales sodales finibus, felis ligula tempus lorem, 
-                        eu porttitor ex lacus vel felis.</MyText>
+                    <MyText style={[textGrey, textH4Style]}>{ house ? house.description : '***'}</MyText>
                 </View>
                 <View style={buttonContainer}>
                     <CustomButton buttonText="Contact Host" buttonStyle={buttonStyle} textStyle={{color: colors.black}} />
@@ -101,10 +115,10 @@ const styles = StyleSheet.create({
         fontSize: 12, color: colors.white
     },
     thumbContainer: {
-        width: 60, height: 60, borderRadius: 60, marginRight: 20
+        width: 60, height: 60, borderRadius: 60, marginRight: 20, borderWidth: 2, borderColor: colors.orange
     },
     thumbStyle: {
-        width: 60, height: 60, borderRadius: 60,
+        width: 56, height: 56, borderRadius: 56, 
     },
     thumbTxtContainer: {
         paddingVertical: 15, alignItems:'center'

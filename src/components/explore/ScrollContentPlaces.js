@@ -19,11 +19,14 @@ class ScrollContentPlaces extends Component {
     linkToHouses = () => {
         this.props.navigation.navigate('ExploreAll', { tab: 'two' })
     }
+    linkToHouse = (house) => {
+        this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
+    }
     
     getPlaces = async (long, lat) => {
         this.setState({ loading: true })
         const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-        `api/v1/listing/property/search/available/?State=${long}&Latitude=${lat}&Size=4&Page=1`);
+        `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
         console.log('Res places', res)
         this.setState({ loading: false })
         if(res.isError) {
@@ -68,11 +71,11 @@ class ScrollContentPlaces extends Component {
         return (
             places.map((item, i) => {
                 const formattedAmount = formatAmount(item.pricePerNight)
-                const address = shortenXterLength(item.address, 18)
+                const title = shortenXterLength(item.title, 18)
                 return (
                     <View style={scrollItemContainer} key={item.id}>
-                        <HouseComponent img={{uri: item.mainImage.assetPath}} 
-                        title={address} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
+                        <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={this.linkToHouse.bind(this, item)}
+                        title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
                     </View>
                 )
             })
