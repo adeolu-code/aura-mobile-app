@@ -2,91 +2,189 @@
 import React, { Component } from 'react';
 import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, TextInput, checkBox } from 'react-native';
 import {Icon, Picker} from 'native-base';
-import { CustomButton, MyText } from '../../utils/Index';
+import { CustomButton, MyText, Loading, Error } from '../../utils/Index';
 import {Input} from '../../components/auth/Input';
 import colors from '../../colors';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 import { CheckBox } from '../../components/auth/CheckBox';
+import { AppContext } from '../../../AppProvider';
+
+import { GetRequest, Request, errorMessage, urls } from '../../utils';
 
 
 class AmenitiesScreen extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {
-        selected: "key0",
-        selected1: "key0",
-        selected2: "key0",
-      };
-    }
-    onValueChange(value: string) {
-      this.setState({
-        selected: value
-      });
+      amenities: [], safetyAmenities: [], loadingAmenities: false, loadingSafetyAmenities: false,
+      amenitiesValues: [], safetyAmenitiesValues: [], saving: false, errors: []
+    };
   }
-  onValueChangeOne(value: string) {
-    this.setState({
-      selected1: value
-    });
-}
-onValueChangeTwo(value: string) {
-    this.setState({
-      selected2: value
-    });
-}
-SavedScreen = () => {
-    this.props.navigation.navigate('Saved');
+
+  renderLoading = () => {
+      const { loadingAmenities, loadingSafetyAmenities, saving } = this.state;
+      if(loadingAmenities || loadingSafetyAmenities || saving) { return (<Loading />) }
+  }
+  renderError = () => {
+    const { errors } = this.state
+    if(errors.length !== 0) {
+        return (<Error errors={errors} />)
+    }
+  }
+  
+  getAmmenities = async () => {
+    this.setState({ loadingAmenities: true })
+    const res = await GetRequest(urls.listingBase, `api/v1/listing/ammenity`);
+    // console.log(res)
+    if(res.isError) {
+        const message = res.message;
+        const error = [message]
+        this.setState({ errors: error, loadingAmenities: false })
+    } else {
+      this.setState({ amenities: res.data, loadingAmenities: false })
+    }
+  }
+  getSafetyAmmenities = async () => {
+    this.setState({ loadingSafetyAmenities: true })
+    const res = await GetRequest(urls.listingBase, `api/v1/listing/safetyamenity`);
+    // console.log(res)
+    if(res.isError) {
+        const message = res.message;
+        const error = [message]
+        this.setState({ errors: error, loadingSafetyAmenities: false })
+    } else {
+      this.setState({ safetyAmenities: res.data, loadingSafetyAmenities: false })
+    }
+  }
+  SavedScreen = () => {
+    const { set, state } = this.context
+    const { amenitiesValues, safetyAmenitiesValues} = this.state
+    if(state.propertyFormData) {
+      const amenityObj = { amenity:amenitiesValues, safetyAmenity: safetyAmenitiesValues}
+      const obj = { ...state.propertyFormData, ...amenityObj }
+      this.saveProperty(obj)
+    } 
+    
+  }
+  saveProperty = async (propertyFormData) => {
+    // console.log(propertyFormData)
+    const { set, state, getUserProfile } = this.context
+    this.setState({ saving: true })
+    const res = await Request(urls.listingBase, `api/v1/listing/property`, propertyFormData);
+    console.log(res)
+    if(res.isError) {
+        const message = res.message;
+        const error = [message]
+        this.setState({ errors: error, saving: false })
+    } else {
+      set({ propertyFormData: null })
+      await getUserProfile()
+      this.setState({ saving: false })
+      this.props.navigation.navigate('Saved');
+    }
+  }
+  componentDidMount = () => {
+    this.getAmmenities()
+    this.getSafetyAmmenities()
+  }
+
+  renderAmmenities = () => {
+    const { amenities } = this.state;
+    if(amenities.length !== 0) {
+      return amenities.map((item, i) => {
+        return (
+          <CheckBox title={item.name} key={i} item={item} onPress={this.onCheckAmmenity}  />
+        )
+      })
+    }
+  }
+  onCheckPress = (arg) => {
+    const { safetyAmenitiesValues } = this.state
+    const item = arg.item;
+    const value = arg.value;
+    let arr = [...safetyAmenitiesValues]
+    if(value) {
+      arr.push(item.id)
+      this.setState({ safetyAmenitiesValues: arr })
+    } else {
+      const index = arr.findIndex(x => x === item.id )
+      if(index !== -1) {
+        arr.splice(index, 1)
+        this.setState({ safetyAmenitiesValues: arr})
+      }
+    }
+  }
+  onCheckAmmenity = (arg) => {
+    const { amenitiesValues } = this.state
+    const item = arg.item;
+    const value = arg.value;
+    let arr = [...amenitiesValues]
+    if(value) {
+      arr.push(item.id)
+      this.setState({ amenitiesValues: arr })
+    } else {
+      const index = arr.findIndex(x => x === item.id )
+      if(index !== -1) {
+        arr.splice(index, 1)
+        this.setState({ amenitiesValues: arr})
+      }
+    }
+    
+  }
+  renderSafetyAmmenities = () => {
+    const { safetyAmenities } = this.state;
+    console.log(safetyAmenities)
+    const { tiles } = styles
+    if(safetyAmenities.length !== 0) {
+      return safetyAmenities.map((item, i) => {
+        return (
+          <View style={tiles} key={item.id}>
+            <CheckBox title={item.name} item={item} subtitle={item.description} onPress={this.onCheckPress} />
+          </View>
+        )
+      })
+    }
   }
 
   render() {
     const { container, picker, button, imageView, iconStyle, input, header, tiles } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH4Style, textH5Style, textH6Style, textExtraBold, textH2Style, textH3Style, textDarkBlue} = GStyles;
     return (
-      <SafeAreaView style={{ flex: 1}}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
+        {this.renderLoading()}
         <Header {...this.props} title="Amenities Available At Your Place" />
           <ScrollView style={container}>
             <View>
                 <View style={{marginTop: 20}}>
-                    <CheckBox title="Kitchen" />
+                  {this.renderAmmenities()}
+                    {/* <CheckBox title="Kitchen" />
                     <CheckBox title="WiFi" />
-                    <CheckBox title="Television" />
-                    <CheckBox title="Heat" />
-                    <CheckBox title="Air Conditioning" />
-                    <CheckBox title="Iron" />
-                    <CheckBox title="Swimming Pool" />
-                    <CheckBox title="Gym" />
-                    <CheckBox title="Breakfast, Coffee, Tea" />
-                    <CheckBox title="Desk/Workspace" />
                     <CheckBox title="Parking Space" />
                     <CheckBox title="Closet/Drawers" />
-                    <CheckBox title="Private Entrance" />
-                    <MyText style={[textOrange, textH5Style, textBold,textUnderline]}>
+                    <CheckBox title="Private Entrance" /> */}
+                    {/* <MyText style={[textOrange, textH5Style, textBold,textUnderline]}>
                         Add Additional Amenities
-                    </MyText>
+                    </MyText> */}
                 </View>
                 <View>
                     <View style={header}>
                         <MyText style={[textExtraBold, textH2Style, textDarkBlue]}>Safety Amenities</MyText>
                     </View>
-                    <View style={tiles}>
+                    {this.renderSafetyAmmenities()}
+                    {/* <View style={tiles}>
                         <CheckBox title="Smoke Detector" subtitle="Check your local laws, which may require a working Smoke detector in every room"/>
                     </View>
-                    <View style={tiles}>
-                        <CheckBox title="Carbon Monoxide Detector" subtitle="Check your local laws, which may require a working Smoke detector in every room"/>
-                    </View>
-                    <View style={tiles}>
-                        <CheckBox title="First Aid Kit" />
-                    </View>
-                    <View style={tiles}>
-                        <CheckBox title="Fire Extinguisher" />
-                    </View>
+                    
                     <View style={tiles}>
                         <CheckBox title="Lock On Bedroom Door" subtitle="Private room can be locked For Safety & Privacy"/>
-                    </View>
+                    </View> */}
                 </View>
                 
                 <View style={button}>
+                    {this.renderError()}
                     <CustomButton buttonText="Next" onPress={this.SavedScreen}/>
                 </View>
             </View>
@@ -100,7 +198,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 140,
+    marginTop: 120,
     flex: 1,
   },
 //   picker: {

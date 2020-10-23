@@ -10,7 +10,7 @@ import FormError from '../../components/auth/FormError';
 import { AppContext } from '../../../AppProvider';
 import { setContext, Request, urls } from '../../utils';
 import { Icon } from 'native-base';
-import { setUser } from '../../helpers';
+import { setToken } from '../../helpers';
 
 class signUp extends Component {
   //import AppContext
@@ -115,6 +115,8 @@ class signUp extends Component {
       this.setState({ formErrors: res.data, loading: false });
     } else {
       this.getUserDetails(res.data.authentication.access_token);
+      this.context.set({ token: res.data })
+      setToken(res.data)
     }
   }
   getUserDetails = (token) => {

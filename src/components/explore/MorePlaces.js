@@ -2,21 +2,19 @@ import React, { Component, Fragment } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { MyText, Loading, CustomButton } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
-import ScrollHeader from './ScrollHeader';
-
 import HouseComponent from './HouseComponent';
-
-import { GetRequest, GOOGLE_API_KEY } from '../../utils';
+import ScrollHeader from './ScrollHeader';
+import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 
 import colors from '../../colors';
 
-class ScrollContent extends Component {
+class MorePlaces extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { loading: false, places: [], noDot: true, first: true, st: '' };
+        this.state = { loading: false, places: [], noDot: true, first: true };
     }
     linkToHouses = () => {
         this.props.navigation.navigate('ExploreAll', { tab: 'two' })
@@ -25,35 +23,14 @@ class ScrollContent extends Component {
         this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
     }
     
-    getGeolocation = async () => {
-        const { location } = this.context.state
+    getPlaces = async () => {
         this.setState({ loading: true })
-        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${location.latitude},${location.longitude}&key=${GOOGLE_API_KEY}`)
-        this.getAddressDetails(res.results[0])
-    }
-    getAddressDetails = (res) => {
-        const addressComponents = res.address_components
-        let countryObj = null;
-        let stateObj = null
-        addressComponents.filter(item => {
-            const types = item.types
-            const foundCountry = types.find(item => item === 'country')
-            const foundState = types.find(item => item === 'administrative_area_level_1')
-            if(foundCountry) {
-                countryObj = item
-            }
-            if(foundState) {
-                stateObj = item
-            }
-        })
-        // console.log('Address Arr ', countryObj, stateObj)
-        this.setState({ st: stateObj.long_name })
-        this.getPlaces(stateObj.long_name)
-    }
-    getPlaces = async (st) => {
+        const { house } = this.props
+        // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
+        // `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
         const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-        `api/v1/listing/property/search/available/?State=${st}&Size=4&Page=1`);
-        // console.log('Res ', res)
+        `api/v1/listing/property/closeby/?propertyid=${house.id}`);
+        console.log('Places around ', res)
         this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;
@@ -71,21 +48,40 @@ class ScrollContent extends Component {
     }
 
     componentDidMount = () => {
-        const { location } = this.context.state;
-        if(location) {
-            this.getGeolocation()
-        } 
-        
+        this.getPlaces()
     }
     componentDidUpdate = (prevProps, prevState) => {
         if(prevProps.refresh !== this.props.refresh) {
             const { location } = this.context.state;
             if(location) {
-                this.getGeolocation()
+                this.getPlaces(location.longitude, location.latitude)
             }
         }
     }
 
+
+  renderPlaces = () => {
+    const { location } = this.context.state;
+    const { places, loading } = this.state
+    const { scrollItemContainer, emptyStyles, locationContainer } = styles;
+    
+    
+    if(places.length !== 0) {
+        return (
+            places.map((item, i) => {
+                const formattedAmount = formatAmount(item.pricePerNight)
+                const title = shortenXterLength(item.title, 18)
+                return (
+                    <View style={scrollItemContainer} key={item.id}>
+                        <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={this.linkToHouse.bind(this, item)}
+                        title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
+                    </View>
+                )
+            })
+        )
+    }
+    
+  }
   renderEmptyLocation = () => {
     const { location } = this.context.state;
     const { loading } = this.state
@@ -108,29 +104,6 @@ class ScrollContent extends Component {
         ) 
     }
   }
-
-  renderPlaces = () => {
-    const { places } = this.state
-    const { scrollItemContainer } = styles;
-    
-    if(places.length !== 0) {
-        return (
-            places.map((item, i) => {
-                const formattedAmount = formatAmount(item.pricePerNight)
-                let title = item.title ? item.title : 'no title'
-                title = shortenXterLength(title, 18)
-                return (
-                    <View style={scrollItemContainer} key={item.id}>
-                        <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={this.linkToHouse.bind(this, item)}
-                        title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
-                    </View>
-                )
-            })
-        )
-    }
-    
-  }
-
   renderEmptyProperty = () => {
     const { location } = this.context.state;
     const { places, loading } = this.state
@@ -162,31 +135,21 @@ class ScrollContent extends Component {
         )
     }
   }
-
   render() {
-    const { scrollContainer, scrollMainContainer, placeAroundContainer, placeStayContainer,
-        headerContainer, buttonContainer, buttonStyle } = styles
+    const { scrollContainer, scrollMainContainer, placeAroundContainer, headerStyle } = styles
     const { width } = Dimensions.get('window')
+
+    const { textH2Style, textExtraBold} = GStyles
+
+    const { photo } = this.props
 
     // const actualWidth = (20/width) * 100
     return (
         <Fragment>
-            {/* <View style={placeStayContainer}>
-                <View style={headerContainer}>
-                    <ScrollHeader title="Places to stay around you" />
-                </View>
-                <View style={scrollContainer}>
-                    <ScrollContent {...this.props} />
-                </View>
-                <View style={buttonContainer}>
-                    <CustomButton buttonText="View More Places" iconName="arrow-right" 
-                    buttonStyle={buttonStyle} onPress={this.linkToHouses} />
-                </View>
-            </View> */}
             <View style={placeAroundContainer}>
                 {this.renderLoading()}
-                <View style={headerContainer}>
-                    <ScrollHeader title={`Places to stay around ${this.state.st}`} noDot={this.state.noDot} first={this.state.first} />
+                <View style={headerStyle}>
+                    <MyText style={[textH2Style, textExtraBold]}>More Places To Stay</MyText>
                 </View>
                 <View style={scrollMainContainer}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}>
@@ -195,7 +158,6 @@ class ScrollContent extends Component {
                         </View>
                     </ScrollView>
                 </View>
-                {this.renderButton()}
                 {this.renderEmptyLocation()}
                 {this.renderEmptyProperty()}
             </View>
@@ -206,20 +168,24 @@ class ScrollContent extends Component {
 
 const styles = StyleSheet.create({
     scrollContainer: {
-        flexDirection: 'row', marginVertical: 30
+        flexDirection: 'row', marginVertical: 30,
         // borderWidth: 1
     }, 
     scrollItemContainer: { 
         marginRight: '1.8%', width: '21.5%'
     },
+    // placeAroundContainer: {
+    //     paddingVertical: 20,
+    //     backgroundColor: colors.white, minHeight: 250
+    // },
     placeAroundContainer: {
-        paddingVertical: 20,
-        backgroundColor: colors.white, minHeight: 250
+        paddingTop: 20, paddingBottom:100,
+        backgroundColor: colors.white,
+        borderTopWidth: 2, borderTopColor: colors.lightGrey
     },
-    placeStayContainer: {
-        paddingVertical: 20,
-        backgroundColor: '#F8F8F8',
-      },
+    headerStyle: {
+        marginBottom: 10, marginTop: 10, paddingHorizontal: 20
+    },
     headerContainer: {
         paddingHorizontal: 20,
     },
@@ -246,4 +212,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ScrollContent;
+export default MorePlaces;

@@ -13,7 +13,7 @@ class ScrollHeader extends Component {
 
 
   render() {
-    const { title, white, noDot } = this.props
+    const { title, white, noDot, first } = this.props
     const { dotStyle, dotContainer, textDotContainer, container, textContainer, dotActiveStyle, bottomBorderStyle, dotWhite } = styles;
     const { flexRow, textExtraBold, textH2Style, textWhite } = GStyles
     return (
@@ -23,8 +23,8 @@ class ScrollHeader extends Component {
                 <MyText style={[textH2Style, textExtraBold, white ? textWhite : '']}>{title}</MyText>
             </View>
             {!noDot ? <View style={[flexRow, dotContainer]}>
-                <View style={[dotStyle, white ? dotWhite: '', dotActiveStyle] }></View>
-                <View style={[dotStyle, white ? dotWhite: '']}></View>
+                <View style={[dotStyle, white ? dotWhite: '', first ? dotActiveStyle : ''] }></View>
+                <View style={[dotStyle, white ? dotWhite: '', !first ? dotActiveStyle : '']}></View>
             </View> : <Fragment></Fragment>}
         </View>
         <View style={bottomBorderStyle}></View>

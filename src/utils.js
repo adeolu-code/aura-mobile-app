@@ -1,10 +1,15 @@
 /* eslint-disable prettier/prettier */
+import AsyncStorage from "@react-native-community/async-storage";
+import { showMessage, hideMessage } from "react-native-flash-message";
+import colors from './colors'
+
 let context = undefined;
 export const GLOBAL_PADDING = 20;
+
 const CLIENT_ID = '0987654321'
 const CLIENT_SECRET = '1234567890'
 
-import AsyncStorage from "@react-native-community/async-storage";
+export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs"
 
 
 export const urls = {
@@ -24,8 +29,9 @@ export const urls = {
 }
 const getUserToken = async () => {
 	try {
-		let token = await AsyncStorage.getItem("token");
-		return token;
+      let token = await AsyncStorage.getItem("token");
+      token = JSON.parse(token);
+		return token.access_token;
 	} catch (error) {
 		return error;
 	}
@@ -148,4 +154,18 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
        let data = {error: error, type: "error"}
         return data
      })
+}
+
+export const errorMessage = (message, size) => {
+   showMessage({
+      message, floating: true,
+      position: {bottom: 10, left: size ? size : 50, right: size ? size : 50},
+      style: { width: '100%', backgroundColor: 'white', paddingHorizontal: 0, borderWidth: 1, borderColor: colors.secondary },
+      titleStyle: { textAlign: 'center', color: colors.secondary }
+    });
+}
+export const successMessage = (message) => {
+   showMessage({
+      message, type: "success", floating: true
+    });
 }

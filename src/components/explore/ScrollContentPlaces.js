@@ -2,21 +2,19 @@ import React, { Component, Fragment } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { MyText, Loading, CustomButton } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
-import ScrollHeader from './ScrollHeader';
-
 import HouseComponent from './HouseComponent';
-
-import { GetRequest, GOOGLE_API_KEY } from '../../utils';
+import ScrollHeader from './ScrollHeader';
+import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 
 import colors from '../../colors';
 
-class ScrollContent extends Component {
+class ScrollContentPlaces extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { loading: false, places: [], noDot: true, first: true, st: '' };
+        this.state = { loading: false, places: [], noDot: true, first: true };
     }
     linkToHouses = () => {
         this.props.navigation.navigate('ExploreAll', { tab: 'two' })
@@ -25,41 +23,18 @@ class ScrollContent extends Component {
         this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
     }
     
-    getGeolocation = async () => {
-        const { location } = this.context.state
+    getPlaces = async (long, lat) => {
         this.setState({ loading: true })
-        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${location.latitude},${location.longitude}&key=${GOOGLE_API_KEY}`)
-        this.getAddressDetails(res.results[0])
-    }
-    getAddressDetails = (res) => {
-        const addressComponents = res.address_components
-        let countryObj = null;
-        let stateObj = null
-        addressComponents.filter(item => {
-            const types = item.types
-            const foundCountry = types.find(item => item === 'country')
-            const foundState = types.find(item => item === 'administrative_area_level_1')
-            if(foundCountry) {
-                countryObj = item
-            }
-            if(foundState) {
-                stateObj = item
-            }
-        })
-        // console.log('Address Arr ', countryObj, stateObj)
-        this.setState({ st: stateObj.long_name })
-        this.getPlaces(stateObj.long_name)
-    }
-    getPlaces = async (st) => {
         const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-        `api/v1/listing/property/search/available/?State=${st}&Size=4&Page=1`);
-        // console.log('Res ', res)
+        `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
+        console.log('Res places', res)
         this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;
         } else {
-            this.setState({ places: res.data.data })
-            if(res.data.data.length !== 0) {
+            const data = res.data.data
+            this.setState({ places: data })
+            if(data.length !== 0) {
                 this.setState({ noDot: false })
             }
         }
@@ -73,7 +48,7 @@ class ScrollContent extends Component {
     componentDidMount = () => {
         const { location } = this.context.state;
         if(location) {
-            this.getGeolocation()
+            this.getPlaces(location.longitude, location.latitude)
         } 
         
     }
@@ -81,11 +56,33 @@ class ScrollContent extends Component {
         if(prevProps.refresh !== this.props.refresh) {
             const { location } = this.context.state;
             if(location) {
-                this.getGeolocation()
+                this.getPlaces(location.longitude, location.latitude)
             }
         }
     }
 
+
+  renderPlaces = () => {
+    const { location } = this.context.state;
+    const { places, loading } = this.state
+    const { scrollItemContainer, emptyStyles, locationContainer } = styles;
+    if(places.length !== 0) {
+        return (
+            places.map((item, i) => {
+                const formattedAmount = formatAmount(item.pricePerNight)
+                let title = item.title ? item.title : 'no title'
+                title = shortenXterLength(title, 18)
+                return (
+                    <View style={scrollItemContainer} key={item.id}>
+                        <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={this.linkToHouse.bind(this, item)}
+                        title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
+                    </View>
+                )
+            })
+        )
+    }
+    
+  }
   renderEmptyLocation = () => {
     const { location } = this.context.state;
     const { loading } = this.state
@@ -108,29 +105,6 @@ class ScrollContent extends Component {
         ) 
     }
   }
-
-  renderPlaces = () => {
-    const { places } = this.state
-    const { scrollItemContainer } = styles;
-    
-    if(places.length !== 0) {
-        return (
-            places.map((item, i) => {
-                const formattedAmount = formatAmount(item.pricePerNight)
-                let title = item.title ? item.title : 'no title'
-                title = shortenXterLength(title, 18)
-                return (
-                    <View style={scrollItemContainer} key={item.id}>
-                        <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={this.linkToHouse.bind(this, item)}
-                        title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
-                    </View>
-                )
-            })
-        )
-    }
-    
-  }
-
   renderEmptyProperty = () => {
     const { location } = this.context.state;
     const { places, loading } = this.state
@@ -162,31 +136,20 @@ class ScrollContent extends Component {
         )
     }
   }
-
   render() {
-    const { scrollContainer, scrollMainContainer, placeAroundContainer, placeStayContainer,
+    const { scrollContainer, scrollMainContainer, placeAroundContainer, 
         headerContainer, buttonContainer, buttonStyle } = styles
     const { width } = Dimensions.get('window')
+
+    const { photo } = this.props
 
     // const actualWidth = (20/width) * 100
     return (
         <Fragment>
-            {/* <View style={placeStayContainer}>
-                <View style={headerContainer}>
-                    <ScrollHeader title="Places to stay around you" />
-                </View>
-                <View style={scrollContainer}>
-                    <ScrollContent {...this.props} />
-                </View>
-                <View style={buttonContainer}>
-                    <CustomButton buttonText="View More Places" iconName="arrow-right" 
-                    buttonStyle={buttonStyle} onPress={this.linkToHouses} />
-                </View>
-            </View> */}
             <View style={placeAroundContainer}>
                 {this.renderLoading()}
                 <View style={headerContainer}>
-                    <ScrollHeader title={`Places to stay around ${this.state.st}`} noDot={this.state.noDot} first={this.state.first} />
+                    <ScrollHeader title="Places to stay around you" noDot={this.state.noDot} first={this.state.first} />
                 </View>
                 <View style={scrollMainContainer}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}>
@@ -206,7 +169,7 @@ class ScrollContent extends Component {
 
 const styles = StyleSheet.create({
     scrollContainer: {
-        flexDirection: 'row', marginVertical: 30
+        flexDirection: 'row', marginVertical: 30,
         // borderWidth: 1
     }, 
     scrollItemContainer: { 
@@ -216,10 +179,6 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         backgroundColor: colors.white, minHeight: 250
     },
-    placeStayContainer: {
-        paddingVertical: 20,
-        backgroundColor: '#F8F8F8',
-      },
     headerContainer: {
         paddingHorizontal: 20,
     },
@@ -246,4 +205,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ScrollContent;
+export default ScrollContentPlaces;

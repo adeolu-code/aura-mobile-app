@@ -15,6 +15,9 @@ class SavedScreen extends Component {
     this.state = {
     };
   }
+  onPress = () => {
+    this.props.navigation.navigate('Tabs', { screen: 'Dashboard'})
+  }
 //   ListScreen = () => {
 //     this.props.navigation.navigate('List');
 //   }
@@ -23,8 +26,11 @@ class SavedScreen extends Component {
     const {  textExtraBold, textLgStyle, textDarkBlue} = GStyles
     return (
       <SafeAreaView style={container}>
+          <TouchableOpacity style={{ alignSelf: 'flex-end', paddingHorizontal: 20, paddingVertical: 30}} onPress={this.onPress}>
+            <Icon name="x" type="Feather" style={{ fontSize: 40}} />
+          </TouchableOpacity>
           <View style={middleRow}>
-                <Icon name="checkmark-circle" style={{color:"#FD8323", fontSize: 80}} />
+                <Icon name="checkmark-circle" style={{color:"#FD8323", fontSize: 80, marginTop: -70}} />
                 <MyText style={[textLgStyle, textExtraBold, textDarkBlue]}>Successfully Saved</MyText>
             </View>
       </SafeAreaView>
@@ -36,12 +42,14 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     flex: 1,
-  }, middleRow:{
+  }, 
+  middleRow:{
       flex: 1,
       justifyContent: 'center',
-      alignSelf: 'center',
+      // alignSelf: 'center',
       alignItems: 'center',
-      backgroundColor: colors.white,
+      backgroundColor: colors.white, 
+      // borderWidth: 1
   },
 //   bottomRow: {
 //     alignItems: 'center',

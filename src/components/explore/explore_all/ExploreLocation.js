@@ -11,22 +11,55 @@ import colors from '../../../colors';
 class ExploreLocation extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = { statesArr: [
+        {name: 'Lagos', imgUrl: 'https://images.pexels.com/photos/3316337/pexels-photo-3316337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+        {name: 'Abuja', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+        {name: 'Rivers', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+        {name: 'Oyo', imgUrl: 'https://images.pexels.com/photos/3172830/pexels-photo-3172830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+        {name: 'Kaduna', imgUrl: 'https://images.pexels.com/photos/823696/pexels-photo-823696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+        {name: 'Ogun', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
+    ]};
+  }
+
+  renderLocation = () => {
+      const { statesArr } = this.state;
+      const { width } = Dimensions.get('window')
+    //   const percent = ((statesArr.length * width)/statesArr.length)/(statesArr.length * width) * 100;
+    const percent = 9.5
+      const { textContainer, imgContainer, scrollContainer, scrollItemContainer, overlayStyles, locationStyle, locationContainer } = styles;
+      const { imgStyle, flexRow, textWhite, textH5Style, textBold, textH6Style } = GStyles
+      return statesArr.map((item, i) => {
+        return (
+            <View style={[scrollItemContainer, { width: `${percent}%`}]} key={i}>
+                <View style={imgContainer}>
+                    <Image source={{uri: item.imgUrl}} resizeMode="cover" style={imgStyle} />
+                    <View style={overlayStyles}>
+                        <View style={[flexRow, locationContainer]}>
+                            <Icon name="location-sharp" style={locationStyle} />
+                            <MyText style={[textH5Style, textWhite, textBold]}>{item.name}</MyText>
+                        </View>
+                    </View>
+                </View>
+
+            </View>
+        )
+      })
   }
 
   render() {
     const { width } = Dimensions.get('window')
     const { textContainer, imgContainer, scrollContainer, scrollItemContainer, overlayStyles, locationStyle, locationContainer } = styles;
     const { imgStyle, flexRow, textH3Style, textExtraBold, textWhite, textH4Style,textH5Style, textBold, textH6Style } = GStyles
+    const { statesArr} = this.state
     return (
       <View>
         <View style={textContainer}>
             <MyText style={[textH3Style, textExtraBold]}>Explore Based On Location </MyText>
         </View>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: statesArr.length * width }}>
             <View style={[flexRow, scrollContainer]}>
-                <View style={scrollItemContainer}>
+                {this.renderLocation()}
+                {/* <View style={scrollItemContainer}>
                     <View style={imgContainer}>
                         <Image source={require('../../../assets/images/places/bed1.png')} resizeMode="cover" style={imgStyle} />
                         <View style={overlayStyles}>
@@ -48,7 +81,7 @@ class ExploreLocation extends Component {
                             </View>
                         </View>
                     </View>
-                </View>
+                </View> 
                 <View style={scrollItemContainer}>
                     <View style={imgContainer}>
                         <Image source={require('../../../assets/images/places/bed3.png')} resizeMode="cover" style={imgStyle} />
@@ -71,6 +104,7 @@ class ExploreLocation extends Component {
                         </View>
                     </View>
                 </View>
+                */}
             </View>
         </ScrollView>
       </View>
