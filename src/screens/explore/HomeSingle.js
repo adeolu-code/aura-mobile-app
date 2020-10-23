@@ -89,7 +89,7 @@ class HomeSingle extends Component {
     const { house } = this.state
     this.setState({ gettingHouseRules: true })
     const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', `api/v1/listing/property/houserules/?propertyid=${house.id}`);
-    // console.log('House Rules ', res)
+    console.log('House Rules ', res)
     this.setState({ gettingHouseRules: false })
     if(res.isError) {
         const message = res.Message;

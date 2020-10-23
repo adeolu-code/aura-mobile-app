@@ -66,15 +66,11 @@ class ScrollContentPlaces extends Component {
     const { location } = this.context.state;
     const { places, loading } = this.state
     const { scrollItemContainer, emptyStyles, locationContainer } = styles;
-    // console.log('Places render places ', places)
-    // console.log('Places length ', places.length)
-    
     if(places.length !== 0) {
         return (
             places.map((item, i) => {
                 const formattedAmount = formatAmount(item.pricePerNight)
                 let title = item.title ? item.title : 'no title'
-                // console.log('Title ', title)
                 title = shortenXterLength(title, 18)
                 return (
                     <View style={scrollItemContainer} key={item.id}>

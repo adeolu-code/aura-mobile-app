@@ -41,7 +41,7 @@ export const rulesIcons = [
     { name: 'suitable for children', iconName: 'child-friendly', type: 'MaterialIcons'},
     { name: 'suitable for infants', iconName: 'child-friendly', type: 'MaterialIcons'},
     { name: 'pets allowed', iconName: 'pets', type: 'MaterialIcons'},
-    { name: 'parties & events allowed', iconName: 'local-bar', type: 'MaterialIcons'},
+    { name: 'events or parties allowed', iconName: 'local-bar', type: 'MaterialIcons'},
     { name: 'no smoking allowed', iconName: 'smoke-free', type: 'MaterialIcons'},
     { name: 'default', iconName: 'check-circle', type: 'MaterialIcons'}
 ]
