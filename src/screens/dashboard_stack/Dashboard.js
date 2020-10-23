@@ -127,7 +127,6 @@ this.setState({ error: true });
   renderReservations = () => {
     const { reservations } = this.state;
     if (reservations.length !== 0) {
-      // display the reservations
       const {rowContainer} = styles;
       if (this.state.reservations.data.propertyTitle !== undefined) {
         const name = this.state.reservations.data.propertyTitle;
@@ -210,10 +209,6 @@ this.setState({ error: true });
             </View>
 
             <View style={contentBody}>
-              {/* <View style={rowContainer}>
-                <ReservationRow title={this.state.name} img={{uri: this.state.image}}
-                location="Lagos" reserve={this.state.reservation} calendar />
-              </View> */}
               {this.renderReservations()}
               {/* <View style={rowContainer}>
                 <ReservationRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed1.png')}
@@ -329,7 +324,7 @@ const styles = StyleSheet.create({
     // borderBottomColor: colors.lightGrey
   },
   reservation: {
-    width: '90%',
+    width: '100%',
     paddingHorizontal: 20,
     height: 150,
     marginBottom: 20,
