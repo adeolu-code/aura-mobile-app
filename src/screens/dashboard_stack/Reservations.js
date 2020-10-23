@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MyText } from '../../utils/Index';
@@ -7,13 +8,17 @@ import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import ReservationMainRow from '../../components/dashboard/ReservationMainRow';
+import { AppContext } from '../../../AppProvider';
+import { setContext, Request, urls, GetRequest } from '../../utils';
 
 class Reservations extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { tabOneSelected: true };
+    this.state = { tabOneSelected: true, error : false };
   }
-
+  componentDidMount () {
+  }
   selectTabOne = () => {
     this.setState({ tabOneSelected: true })
   }
@@ -22,10 +27,11 @@ class Reservations extends Component {
     this.setState({ tabOneSelected: false })
   }
 
+
   render() {
     const { textGrey, textH3Style, textH4Style, textSuccess, textWhite, textH5Style, textBold, } = GStyles;
     const { reservationHeader, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
-    const { tabOneSelected } = this.state
+    const { tabOneSelected } = this.state;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         <Header {...this.props} title="Reservations" wrapperStyles={{ paddingBottom: 5}} 
