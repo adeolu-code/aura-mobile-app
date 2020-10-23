@@ -20,7 +20,8 @@ class Index extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { showModal: false, places: [], totalItems: 0, activePage: 1, perPage: 10, pageCount: 0, loading: false, loadMore: false };
+    this.state = { showModal: false, places: [], totalItems: 0, activePage: 1, perPage: 10, pageCount: 0, loading: false, loadMore: false,
+    selectedLocation: '' };
   }
   openModal = () => {
     this.setState({ showModal: true })
@@ -35,9 +36,9 @@ class Index extends Component {
 
   getPlaces = async (more=false) => {
       more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
-      const { activePage, perPage, places } = this.state
+      const { activePage, perPage, places, selectedLocation } = this.state
       const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-      `api/v1/listing/property/search/available/?Size=${perPage}&Page=${activePage}`);
+      `api/v1/listing/property/search/available/?state=${selectedLocation}&Size=${perPage}&Page=${activePage}`);
       console.log('Res places', res)
       more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
       if(res.isError) {
@@ -99,6 +100,32 @@ class Index extends Component {
     }
   }
   
+  selectState = (value) => {
+    this.setState(() => ({ selectedLocation: value }), () => {
+      this.getPlaces()
+    })
+  }
+  removeState = () => {
+    this.setState(() => ({ selectedLocation: ''}), () => {
+      this.getPlaces()
+    } )
+  }
+
+  renderEmptyContainer = () => {
+    const { emptyContainerStyle } = styles;
+    const { imgStyle, textCenter, textOrange, textBold, textH4Style } = GStyles
+    const { loading, places } = this.state
+    if(places.length === 0 && !loading) {
+      return (
+        <View>
+          <View style={emptyContainerStyle}>
+            <Image source={require('../../../../assets/images/house_searching.png')} style={imgStyle} resizeMode="contain" />
+          </View>
+          <MyText style={[textBold, textCenter, textOrange]}>No Property Found</MyText>
+        </View>
+      )
+    }
+  }
 
   render() {
     const {filterContainer, container, contentContainer, contentMainContainer } = styles
@@ -112,7 +139,7 @@ class Index extends Component {
             <FlatList
               ListHeaderComponent={
                 <>
-                  <ExploreLocation />
+                  <ExploreLocation onSelectState={this.selectState} onRemoveState={this.removeState} {...this.props} />
                   <View style={container}>
                     <TouchableOpacity style={filterContainer} onPress={this.openModal}>
                       <MyText style={[textH4Style, textDarkGrey]}>Filters</MyText>
@@ -126,6 +153,7 @@ class Index extends Component {
                   {this.renderLoadMore()}
                 </>
               }
+              ListEmptyComponent={this.renderEmptyContainer()}
               ListFooterComponentStyle={{ marginBottom: 40}}
               ListHeaderComponentStyle={{ marginBottom: 20}}
               data={places}
@@ -184,6 +212,9 @@ const styles = StyleSheet.create({
   filterContainer: {
     borderRadius: 30, borderWidth:1, borderColor: colors.darkGrey, paddingHorizontal: 20, paddingTop: 4, paddingBottom:6, 
     flexDirection: 'row', alignSelf: 'flex-start', marginTop: 20
+  },
+  emptyContainerStyle: {
+    height: 200, width: '100%', marginBottom: 20
   }
 });
 
