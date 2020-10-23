@@ -222,8 +222,8 @@ class Index extends Component {
               <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} onPress={this.linkToHouses} />
             </View>
           </View> */}
-
-          <View style={photoContainer}>
+          <ScrollContentPhoto {...this.props} />
+          {/* <View style={photoContainer}>
             <View style={headerContainer}>
               <ScrollHeader title="Book photographers on Aura" noDot />
             </View>
@@ -239,7 +239,7 @@ class Index extends Component {
             <View style={buttonContainer}>
               <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToPhotograph} />
             </View>
-          </View>
+          </View> */}
 
           <View style={tourContainer}>
             <MyText style={[textWhite, textExtraBold, textH2Style, textCenter, { marginBottom: 15 }]}>Are you New in a city ?</MyText>

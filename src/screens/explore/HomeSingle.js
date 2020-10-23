@@ -21,6 +21,7 @@ import BottomMenuComponent from '../../components/explore/home_single/BottomMenu
 
 import CalendarModal from '../../components/explore/home_single/CalendarModal';
 import ScrollContent from '../../components/explore/ScrollContent';
+import MorePlaces from '../../components/explore/MorePlaces';
 
 import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
@@ -29,9 +30,11 @@ class HomeSingle extends Component {
   constructor(props) {
     super(props);
     this.state = { showModal: false, house: null, loadingImages: false, photos: [], gettingHouse: false, gettingHouseRules: false,
-         houseId: '', houseRules: [] };
+         houseId: '', houseRules: [], location: null, gettingReviews: false, reviews: [], 
+         gettingComments: false, comments: [] };
     const { house } = props.route.params;
-    this.state.house = house
+    this.state.house = house;
+    this.state.location = { longitude: house.longitude, latitude: house.latitude }
     console.log('House ', house)
   }
 
@@ -95,15 +98,45 @@ class HomeSingle extends Component {
         this.setState({ houseRules: data.rules })
     }
   }
+
+  getReviews = async () => {
+    const { house } = this.state
+    this.setState({ gettingReviews: true })
+    const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', `api/v1/listing/review/property/?PropertyId=${house.id}`);
+    console.log('House Reviews ', res)
+    this.setState({ gettingReviews: false })
+    if(res.isError) {
+        const message = res.Message;
+    } else {
+        const data = res.data;
+        this.setState({ reviews: data })
+    }
+  }
+
+//   getComments = async () => {
+//     const { house } = this.state
+//     this.setState({ gettingComments: true })
+//     const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
+//     `api/v1/listing/review/comment/?PropertyId=${house.id}`);
+//     console.log('House Reviews ', res)
+//     this.setState({ gettingComments: false })
+//     if(res.isError) {
+//         const message = res.Message;
+//     } else {
+//         const data = res.data;
+//         this.setState({ comments: data })
+//     }
+//   }
   renderLoading = () => {
         const { gettingHouse } = this.state;
-        if (gettingHouse) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 2000 }} />); }
+        if (gettingHouse) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
     }
 
   componentDidMount = () => {
     this.getHouse()
     this.getPhotos()
     this.getHouseRules()
+    this.getReviews()
     // this.getAmenity()
   }
 
@@ -111,7 +144,7 @@ class HomeSingle extends Component {
     const { buttomContainer, placeAroundContainer, headerStyle, scrollContainer } = styles;
     const { imgStyle, textWhite, textH3Style, textDarkGrey, textExtraBold, textH2Style } = GStyles
 
-    const { house, houseRules } = this.state
+    const { house, houseRules, location, reviews } = this.state
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
@@ -122,20 +155,21 @@ class HomeSingle extends Component {
                 loading={this.state.loadingImages} />
                 <AmenitiesComponent house={house} />
                 {houseRules.length !== 0 ?<RulesComponent title="House Rules" rules={houseRules} /> : <Fragment />}
-                <LocationComponent house={house} />
+                <LocationComponent house={house} address={house.address} location={location} />
                 <HostComponent house={house} />
                 <DetailsComponent />
-                <ReviewsComponent />
+                <ReviewsComponent reviews={reviews} />
                 <CommentComponent />
 
-                <View style={placeAroundContainer}>
+                {house ? <MorePlaces {...this.props} house={house}  /> : <Fragment />}
+                {/* <View style={placeAroundContainer}>
                     <View style={headerStyle}>
                         <MyText style={[textH2Style, textExtraBold]}>More Places To Stay</MyText>
                     </View>
                     <View style={scrollContainer}>
                         <ScrollContent {...this.props} />
                     </View>
-                </View>
+                </View> */}
             </View>
         </ScrollView>
         <View style={buttomContainer}>

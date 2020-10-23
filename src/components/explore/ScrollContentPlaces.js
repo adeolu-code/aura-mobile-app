@@ -32,8 +32,9 @@ class ScrollContentPlaces extends Component {
         if(res.isError) {
             const message = res.Message;
         } else {
-            this.setState({ places: res.data.data })
-            if(res.data.data.length !== 0) {
+            const data = res.data.data
+            this.setState({ places: data })
+            if(data.length !== 0) {
                 this.setState({ noDot: false })
             }
         }
@@ -65,13 +66,16 @@ class ScrollContentPlaces extends Component {
     const { location } = this.context.state;
     const { places, loading } = this.state
     const { scrollItemContainer, emptyStyles, locationContainer } = styles;
-    
+    // console.log('Places render places ', places)
+    // console.log('Places length ', places.length)
     
     if(places.length !== 0) {
         return (
             places.map((item, i) => {
                 const formattedAmount = formatAmount(item.pricePerNight)
-                const title = shortenXterLength(item.title, 18)
+                let title = item.title ? item.title : 'no title'
+                // console.log('Title ', title)
+                title = shortenXterLength(title, 18)
                 return (
                     <View style={scrollItemContainer} key={item.id}>
                         <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={this.linkToHouse.bind(this, item)}
