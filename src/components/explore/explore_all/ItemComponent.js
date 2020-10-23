@@ -38,8 +38,8 @@ class ItemComponent extends Component {
     const { type } = this.props;
     if(type) {
       return (
-        <View style={[typeContainer, type.toLowerCase() === 'home' ? bgLightOrange : bgOrange]}>
-            <MyText style={[textH4Style, type.toLowerCase() === 'home' ? textOrange : textWhite]}>{type}</MyText>
+        <View style={[typeContainer, type.toLowerCase() === 'apartment' ? bgLightOrange : bgOrange]}>
+            <MyText style={[textH4Style, type.toLowerCase() === 'apartment' ? textOrange : textWhite]}>{type}</MyText>
         </View>
       )
     }

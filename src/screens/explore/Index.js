@@ -1,13 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  ImageBackground,
-  StyleSheet,
-  TouchableOpacity,
+  View,SafeAreaView,ScrollView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform,
 } from 'react-native';
 import {
   MyText,
@@ -22,15 +16,20 @@ import ScrollHeader from '../../components/explore/ScrollHeader';
 import ScrollContent from '../../components/explore/ScrollContent';
 import ScrollContentFood from '../../components/explore/ScrollContentFood';
 import ScrollContentPhoto from '../../components/explore/ScrollContentPhoto';
+import ScrollContentPlaces from '../../components/explore/ScrollContentPlaces';
 import TourImgComponent from '../../components/explore/TourImgComponent';
 import SearchToggle from '../../components/explore/SearchToggle';
 
+import { setContext, Request, urls, GetRequest } from '../../utils';
+import { AppContext } from '../../../AppProvider';
+import Geolocation from 'react-native-geolocation-service';
+
+
 class Index extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = {
-      active: false,
-    };
+    this.state = { active: false, loadingPlaces: false, places: [], refreshPlaces: false };
   }
   linkToHouses = () => {
     this.props.navigation.navigate('ExploreAll', { tab: 'two' })
@@ -45,6 +44,68 @@ class Index extends Component {
     this.props.navigation.navigate('ExploreAll', { tab: 'five' })
   }
 
+  requestLocationPermission = async () => {
+    if(Platform.OS === 'android') {
+      this.requestPermissionAndroid()
+    } else {
+      this.requestPermissionIos()
+    }
+  };
+  requestPermissionAndroid = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: "Aura App Location Permission",
+          message: "Aura App needs access to your location.",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        this.getCurrentPos()
+      } else { console.log("Location permission denied"); }
+    } catch (err) {
+      console.warn("Warn error ", err);
+    }
+  }
+
+  requestPermissionIos = async () => {
+    request(PERMISSIONS.IOS.LOCATION_ALWAYS)
+    .then((result) => {
+      switch (result) {
+        case 'granted':
+          this.getCurrentPos();
+          break;
+        default:
+          break;
+      }
+    })
+    .catch((error) => {
+      console.log('Permissions catched error ', error)
+    });
+  }
+  getCurrentPos = async () => {
+    Geolocation.getCurrentPosition(
+        async (position) => {
+          const cord = position.coords;
+          this.context.set({ location: cord })
+          this.setState({ refreshPlaces: !this.state.refreshPlaces })
+        },
+        (error) => {
+          // See error code charts below.
+          console.log(error.code, error.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  }
+
+  componentDidMount = () => {
+    // console.log('Explore ',this.context.state)
+    // const { location } = this.context.state
+    // this.requestLocationPermission()
+  }
+  
   // handleSearchToggle = () => {
   //   this.setState({
   //       active: !this.state.active,
@@ -59,7 +120,7 @@ class Index extends Component {
     this.setState({
         active: true,
     });
-    }
+  }
   render() {
     const {
       headerBg, searchContainer, placeAroundContainer,
@@ -114,20 +175,9 @@ class Index extends Component {
             </View>
           </ImageBackground>
 
-          <View style={placeAroundContainer}>
-            <View style={headerContainer}>
-              <ScrollHeader title="Places to stay around you" />
-            </View>
-            <View style={scrollContainer}>
-              <ScrollContent {...this.props} />
-            </View>
-            <View style={buttonContainer}>
-              <CustomButton onPress={this.linkToHouses} buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
-            </View>
-          </View>
+          <ScrollContentPlaces {...this.props} onPhoneLocation={this.requestLocationPermission} refresh={this.state.refreshPlaces} />
 
-          <ImageBackground
-            source={require('../../assets/images/food_bg/food_bg.png')}
+          <ImageBackground  source={require('../../assets/images/food_bg/food_bg.png')}
             style={foodBgStyles}>
             <View style={foodContainer}>
               <View style={headerContainer}>
@@ -149,7 +199,7 @@ class Index extends Component {
             </View>
           </ImageBackground>
 
-          <View style={foodAroundContainer}>
+          {/* <View style={foodAroundContainer}>
             <View style={headerContainer}>
               <ScrollHeader title="Places to get great food" />
             </View>
@@ -159,9 +209,9 @@ class Index extends Component {
             <View style={buttonContainer}>
               <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} onPress={this.linkToFood} />
             </View>
-          </View>
-
-          <View style={placeStayContainer}>
+          </View> */}
+          <ScrollContent {...this.props} onPhoneLocation={this.requestLocationPermission} refresh={this.state.refreshPlaces} />
+          {/* <View style={placeStayContainer}>
             <View style={headerContainer}>
               <ScrollHeader title="Places to stay around you" />
             </View>
@@ -171,9 +221,9 @@ class Index extends Component {
             <View style={buttonContainer}>
               <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} onPress={this.linkToHouses} />
             </View>
-          </View>
-
-          <View style={photoContainer}>
+          </View> */}
+          <ScrollContentPhoto {...this.props} />
+          {/* <View style={photoContainer}>
             <View style={headerContainer}>
               <ScrollHeader title="Book photographers on Aura" noDot />
             </View>
@@ -189,7 +239,7 @@ class Index extends Component {
             <View style={buttonContainer}>
               <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToPhotograph} />
             </View>
-          </View>
+          </View> */}
 
           <View style={tourContainer}>
             <MyText style={[textWhite, textExtraBold, textH2Style, textCenter, { marginBottom: 15 }]}>Are you New in a city ?</MyText>

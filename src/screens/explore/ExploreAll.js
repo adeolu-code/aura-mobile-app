@@ -72,15 +72,15 @@ class ExploreAll extends Component {
   renderTabs = () => {
     const { tabOne, tabTwo, tabThree, tabFour, tabFive } = this.state;
     if(tabOne) {
-        return <TopRatedComponent link={this.linkToTab} />
+        return <TopRatedComponent link={this.linkToTab} {...this.props} />
     } else if(tabTwo) {
-        return <HomesComponent link={this.linkToTab} />
+        return <HomesComponent link={this.linkToTab} {...this.props} />
     } else if (tabThree) {
-        return <FoodComponent link={this.linkToTab} />
+        return <FoodComponent link={this.linkToTab} {...this.props} />
     } else if (tabFour) {
-        return <PhotographersComponent link={this.linkToTab} />
+        return <PhotographersComponent link={this.linkToTab} {...this.props} />
     } else {
-        return <ToursComponent link={this.linkToTab} />
+        return <ToursComponent link={this.linkToTab} {...this.props} />
     }
   }
 
@@ -134,12 +134,13 @@ class ExploreAll extends Component {
                     </View>
                 </ScrollView>
             </View>
-            <ScrollView>
-                <View style={contentContainer}>
+            <View>
+                {this.renderTabs()}
+                {/* <View style={contentContainer}>
                     <ExploreLocation />
                     {this.renderTabs()}
-                </View>
-            </ScrollView>
+                </View> */}
+            </View>
 
         </SafeAreaView>
     );

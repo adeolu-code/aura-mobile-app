@@ -8,7 +8,8 @@ import { Icon } from 'native-base';
 
 import colors from '../../colors';
 
-import SubHeader from './SubHeader'
+import SubHeader from './SubHeader';
+import { amenityIcons } from '../../helpers'
 
 
 
@@ -17,6 +18,25 @@ class AmenitiesComponent extends Component {
     super(props);
     this.state = {
     };
+  }
+
+  renderAmenities = () => {
+    const { house } = this.props;
+    const {  iconStyle, rowStyle } = styles;
+    const { flexRow, textH3Style, textDarkGrey } = GStyles
+    const defaultIcon = amenityIcons.find(icon => icon.name === 'default')
+    if(house && house.amenity) {
+        return house.amenity.map(item => {
+            const iconObj = amenityIcons.find(icon => icon.name === item.name.toLowerCase())
+            const icon = iconObj ? iconObj : defaultIcon
+            return (
+                <View style={[flexRow, rowStyle]} key={item.id}>
+                    <Icon type={icon.type} name={icon.iconName} style={iconStyle} />
+                    <MyText style={[textH3Style]}>{item.name}</MyText>
+                </View>
+            )
+        })
+    }
   }
 
   render() {
@@ -28,15 +48,8 @@ class AmenitiesComponent extends Component {
         <View style={container}>
             <SubHeader title="Amenities" />
             <View style={contentContainer}>
-                <View style={[flexRow, rowStyle]}>
-                    <Icon type="Feather" name="wifi" style={iconStyle} />
-                    <MyText style={[textH3Style]}>Wifi</MyText>
-                </View>
-                <View style={[flexRow, rowStyle]}>
-                    <Icon type="MaterialIcons" name="free-breakfast" style={iconStyle} />
-                    <MyText style={[textH3Style]}>Coffee, Tea</MyText>
-                </View>
-                <View style={[flexRow, rowStyle]}>
+                {this.renderAmenities()}
+                {/* <View style={[flexRow, rowStyle]}>
                     <Icon type="Ionicons" name="restaurant" style={iconStyle} />
                     <MyText style={[textH3Style]}>Kitchen</MyText>
                 </View>
@@ -51,7 +64,7 @@ class AmenitiesComponent extends Component {
                 <View style={[flexRow, rowStyle]}>
                     <Icon type="MaterialIcons" name="local-parking" style={iconStyle} />
                     <MyText style={[textH3Style]}>Parking space</MyText>
-                </View>
+                </View> */}
 
                 {btn ? <View style={buttonContainer}>
                     <CustomButton buttonText="Show All Available Amenities" buttonStyle={buttonStyle} textStyle={{color: colors.black}} />

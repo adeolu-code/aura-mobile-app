@@ -9,6 +9,8 @@ import { Icon } from 'native-base';
 
 import colors from '../../../colors';
 
+import { formatAmount } from '../../../helpers';
+
 
 
 
@@ -22,12 +24,12 @@ class BottomMenuComponent extends Component {
   render() {
     const {   container, buttonStyle, buttonContainer } = styles;
     const { flexRow, textExtraBold, textBold, textGrey, textH4Style, textSuccess, textH6Style } = GStyles;
-    const { onPress } = this.props
+    const { onPress, house } = this.props
     return (
         <View style={[flexRow, container]}>
             <View style={{flex: 1}}>
                 <MyText style={[textGrey, textH6Style]}>Price:</MyText>
-                <MyText style={[textSuccess, textH4Style, textBold]}>N 200,341/night</MyText>
+                <MyText style={[textSuccess, textH4Style, textBold]}>₦ {house ? formatAmount(house.pricePerNight) : '***'} / night</MyText>
             </View>
             <View style={{flex: 1}}>
                 <View style={buttonContainer}>

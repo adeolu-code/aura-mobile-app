@@ -16,7 +16,7 @@ import colors from "../../colors";
 import { CustomInput, MyText, CustomButton, Loading, Error } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
-import { setUser } from '../../helpers';
+import { setUser, setToken } from '../../helpers';
 import { setContext, Request, urls } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { GOOGLE_WEB_CLIENTID } from '../../strings'
@@ -53,13 +53,16 @@ class LoginModal extends Component {
     const obj = { username: email, password }
     try {
       const res = await Request(urls.identityBase, 'api/v1/auth/user/login', obj)
-      // console.log('Res ',res)
+      console.log('Res ',res)
       if(!res.isError) {
         this.getUserDetails(res.data.access_token);
+        this.context.set({ token: res.data })
+        await setToken(res.data)
       } else {
         const message = res.message;
         const error = [message]
         this.setState({ formErrors: error, loading: false})
+        
       }
     } catch (error) {
       console.log('Catched error ', error)
@@ -92,6 +95,8 @@ class LoginModal extends Component {
       this.setState({ formErrors: error})
     } else {
       this.getUserDetails(res.data.access_token);
+      this.context.set({ token: res.data })
+      await setToken(res.data)
     }
     // this.setState({ loading: false })
   }
@@ -172,7 +177,7 @@ class LoginModal extends Component {
                 <Icon type="Feather" name="x" />
               </TouchableOpacity>
             </View>
-            <ScrollView keyboardShouldPersistTaps="handled">
+            <ScrollView keyboardShouldPersistTaps="always">
               <View style={modalBodyStyle}>
                 <View style={inputContainer}>
                   <CustomInput placeholder="Email" label="Email" onChangeText={this.onChangeValue} value={this.state.email}

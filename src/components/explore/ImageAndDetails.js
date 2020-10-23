@@ -4,7 +4,7 @@ import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 import Swiper from 'react-native-swiper'
 
-import { MyText } from '../../utils/Index';
+import { MyText, Loading } from '../../utils/Index';
 
 import { Icon } from 'native-base';
 
@@ -16,18 +16,20 @@ import StarComponent from '../../components/StarComponent';
 class ImageAndDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-        currentIndex: 1,
-    };
+    this.state = { currentIndex: 1, photos: [], loadingPhotos: false };
   }
-  indexChange = (index) => {
-    this.setState({ currentIndex: index + 1})
-  }
-  renderImages = () => {
-        const { imgArr } = this.props
+    indexChange = (index) => {
+        this.setState({ currentIndex: index + 1})
+    }
+    renderPhotoLoading = () => {
+        const { loading } = this.state;
+        if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />); }
+    }
+    renderImages = () => {
         const { imgContainer, overlayStyles } = styles
         const { imgStyle } = GStyles
-        return imgArr.map((item, index) => {
+        const { photos } = this.state
+        return photos.map((item, index) => {
             return (
                 <View style={imgContainer} key={index}>
                     <Image source={item} style={imgStyle} resizeMode="cover" />
@@ -35,6 +37,43 @@ class ImageAndDetails extends Component {
                 </View>
             )
         })
+    }
+    renderVerified = () => {
+        const { house } = this.props;
+        const { flexRow, textWhite, textH3Style } = GStyles;
+        const { verifyContainer, verifiedStyle, iconVerifiedContainer } = styles
+        if(house.isVerified) {
+            return (
+                <View style={[flexRow, verifyContainer]}>
+                    <MyText style={[textWhite, textH3Style, { marginRight: 5}]}>Verified</MyText>
+                    <View style={iconVerifiedContainer}>
+                        <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
+                    </View>
+                </View>
+            )
+        }
+    }
+    renderProfileVerified = () => {
+        const { house } = this.props
+        const { iconVerifiedContainer, verifiedStyle } = styles
+        if(house.isVerified) {
+            return (
+                <View style={{ position: 'absolute', right: 0, top: -5}}>
+                    <View style={iconVerifiedContainer}>
+                        <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
+                    </View>
+                </View>
+            )
+        }
+      }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if(prevProps.imgArr.length !== this.props.imgArr.length) {
+            this.setState({ photos: this.props.imgArr })
+        }
+        if(prevProps.loading !== this.props.loading) {
+            this.setState({ loadingPhotos: this.props.loading})
+        }
     }
 
     
@@ -45,8 +84,10 @@ class ImageAndDetails extends Component {
         thumbStyle, cContainer, verifyContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textLgStyle, textH5Style, textGrey, textH4Style, 
             imgStyle, textWhite, textH3Style, textSuccess, textH6Style, textDarkGrey } = GStyles
-    const { currentIndex } = this.state
-    const { imgArr, time, house, title } = this.props
+    const { currentIndex, photos } = this.state
+    const { time, house, title, loading } = this.props;
+
+    const imgUrl = house.hostPicture ? { uri: house.hostPicture } : require('../../assets/images/profile.png')
     return (
         <View>
             <View style={[flexRow, headerStyle]}>
@@ -55,7 +96,7 @@ class ImageAndDetails extends Component {
                     <View style={starContainer}>
                         <StarComponent style={iconStyle} grey />
                     </View>
-                    <MyText style={[textH4Style, textGrey]}>Lagos</MyText>
+                    <MyText style={[textH4Style, textGrey]}>{house ? house.state : '**'}</MyText>
                     {time ? <MyText style={[textGrey, { paddingVertical: 8}]}>
                         <MyText style={[textSuccess, textExtraBold, textH5Style]}>Open</MyText> · <MyText style={[textH6Style]}>12:00pm - 9:00pm</MyText>
                     </MyText>:<Fragment></Fragment>}
@@ -70,20 +111,24 @@ class ImageAndDetails extends Component {
                  
 
             <View style={contentContainer}>
+                
                 <View style={imgContainer}>
-                    <Swiper style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
+                
+                    {!loading ?<Swiper style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
                     showsPagination={false} onIndexChanged={this.indexChange} >
                         {this.renderImages()}
-                    </Swiper>
-                    <View style={[flexRow, verifyContainer]}>
+                    </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}
+
+                    {this.renderVerified()}
+                    {/* <View style={[flexRow, verifyContainer]}>
                         <MyText style={[textWhite, textH3Style, { marginRight: 5}]}>Verified</MyText>
                         <View style={iconVerifiedContainer}>
                             <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
                         </View>
-                    </View>
+                    </View> */}
                     <View style={cContainer}>
                         <View style={countContainer}>
-                            <MyText style={[textH4Style, textWhite, textBold]}>{currentIndex}/{imgArr.length}</MyText>
+                            <MyText style={[textH4Style, textWhite, textBold]}>{currentIndex}/{photos.length}</MyText>
                         </View>
                     </View>
                 </View>
@@ -91,18 +136,19 @@ class ImageAndDetails extends Component {
                     <View style={divider}></View>
                     <View style={{marginVertical: 25}}>
                         <MyText style={[textH2Style, { marginBottom: 8}]}>Private room in bed and breakfast</MyText>
-                        <MyText style={[textH5Style, textGrey]}>3 guests · 1 bedroom · 3 beds · 1 private bath</MyText>
+                        <MyText style={[textH5Style, textGrey]}>{house.noofAvailableRooms} guests · {house.noofRooms} bedroom · {house.noofBeds} beds · {house.noofBathrooms} private bath</MyText>
 
                         <View style={[flexRow, thumbTxtContainer]}>
                             <View style={thumbContainer}>
-                                <Image source={require('../../assets/images/photo/photo3.png')} resizeMode="cover" style={thumbStyle} />
-                                <View style={{ position: 'absolute', right: 0, top: -5}}>
+                                <Image source={imgUrl} resizeMode="cover" style={thumbStyle} />
+                                {this.renderProfileVerified()}
+                                {/* <View style={{ position: 'absolute', right: 0, top: -5}}>
                                     <View style={iconVerifiedContainer}>
                                         <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
                                     </View>
-                                </View>
+                                </View> */}
                             </View>
-                            <MyText style={[textH3Style]}>Posted by Yuko Ono</MyText>
+                            <MyText style={[textH3Style]}>Posted by {house.hostName}</MyText>
                         </View>
                     </View>
                     <View style={divider}></View>
@@ -122,7 +168,7 @@ const styles = StyleSheet.create({
     },
     shareContainer: {
         width: 40, height: 40, borderRadius: 40, backgroundColor: colors.white, elevation: 3, justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center', 
     },
     starContainer: {
         paddingTop: 8, paddingBottom: 0
@@ -164,10 +210,10 @@ const styles = StyleSheet.create({
         // marginVertical: 30
     },
     thumbContainer: {
-        width: 60, height: 60, borderRadius: 60, marginRight: 20
+        width: 60, height: 60, borderRadius: 60, marginRight: 20, borderWidth: 2,borderColor: colors.orange
     },
     thumbStyle: {
-        width: 60, height: 60, borderRadius: 60,
+        width: 56, height: 56, borderRadius: 56,
     },
     thumbTxtContainer: {
         paddingVertical: 15, alignItems:'center'

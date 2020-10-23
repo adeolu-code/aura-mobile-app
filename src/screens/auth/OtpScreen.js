@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 import { AppContext } from '../../../AppProvider';
 import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setUser } from '../../helpers'
 
 
 class OtpScreen extends Component {

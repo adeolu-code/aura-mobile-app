@@ -12,8 +12,7 @@ import ListProperty from '../../components/auth/ListProperty';
 import { Toast } from "native-base";
 
 import { AppContext } from '../../../AppProvider';
-import { setContext, Request, urls, GetRequest } from '../../utils';
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { setContext, errorMessage, } from '../../utils';
 
 
 
@@ -21,7 +20,7 @@ class ListPropertyScreen extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { propertyTypeId: '', roomTypeId: '', isCompanyListing: null, companyName: '', isGuestOnly: null,
+    this.state = { propertyTypeId: '', roomTypeId: '', isCompanyListing: null, companyName: '', dedicatedGuestSpace: null,
     noOfBathrooms: 0, noOfRooms: 0, noOfBeds: 0, noOfAvailableRooms: 0 };
     this.categories = [
       { name: 'Yes, I am listing as a company', value: true },
@@ -111,7 +110,7 @@ class ListPropertyScreen extends Component {
     this.setState({ isCompanyListing: value })
   }
   onGuestOnlyChange = (value) => {
-    this.setState({ isGuestOnly: value })
+    this.setState({ dedicatedGuestSpace: value })
   }
   onChangeRoomType = (value) => {
     this.setState({ roomTypeId: value });
@@ -134,9 +133,9 @@ class ListPropertyScreen extends Component {
 
   validate = () => {
     const { propertyTypeId, roomTypeId, noOfBathrooms, noOfRooms, noOfBeds, noOfAvailableRooms, isCompanyListing, 
-      companyName, isGuestOnly } = this.state
+      companyName, dedicatedGuestSpace } = this.state
     if(propertyTypeId === '' || roomTypeId === '' || noOfAvailableRooms === 0 || noOfRooms === 0 || noOfBathrooms === 0 
-    || noOfBeds === 0 || isGuestOnly === null) {
+    || noOfBeds === 0 || dedicatedGuestSpace === null) {
       return true
     }
     if(isCompanyListing && companyName === '') {
@@ -146,17 +145,14 @@ class ListPropertyScreen extends Component {
   }
   next = () => {
     if(this.validate()) {
-      showMessage({
-        message: "Please enter all fields",
-        type: "danger", floating: true
-      });
+      errorMessage("Please enter all fields")
     } else {
       this.storeFormValues()
     }
   }
   storeFormValues = () => {
     const { set, state } = this.context
-    console.log('Context State ', state)
+    // console.log('Context State ', state)
     if(state.propertyFormData) {
       const obj = { ...state.propertyFormData, ...this.state }
       set({ propertyFormData: obj })
@@ -214,7 +210,7 @@ class ListPropertyScreen extends Component {
                     <MyText style={[textGrey, textH4Style]}> Is this set up as a dedicated guest space? </MyText>
                     <View style={picker}>
                         <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                          style={{ width: undefined }} selectedValue={this.state.isGuestOnly} onValueChange={this.onGuestOnlyChange}>
+                          style={{ width: undefined }} selectedValue={this.state.dedicatedGuestSpace} onValueChange={this.onGuestOnlyChange}>
                           <Picker.Item label="Choose Category" value=""/>
                           {this.dedicatedGuests.map((item, i) => {
                             return (
