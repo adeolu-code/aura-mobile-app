@@ -8,7 +8,7 @@ import colors from '../../../../colors';
 import { Icon } from 'native-base';
 import ItemComponent from '../ItemComponent';
 import FilterModal from './FilterModal';
-import { setContext, Request, urls, GetRequest } from '../../../../utils';
+import { urls, GetRequest } from '../../../../utils';
 import { AppContext } from '../../../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../../../helpers';
 
@@ -21,7 +21,18 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = { showModal: false, places: [], totalItems: 0, activePage: 1, perPage: 10, pageCount: 0, loading: false, loadMore: false,
-    selectedLocation: '' };
+      selectedLocation: '', filter: {
+        ammenities: '', 
+        PropertyTypeId: '', 
+        noOfBathrooms: '', 
+        noOfRooms: '', 
+        noOfBeds: '', 
+        minPrice: '', 
+        maxPrice: '', 
+        isVerified: ''
+      },
+      filterUrl: ''
+    };
   }
   openModal = () => {
     this.setState({ showModal: true })
@@ -36,9 +47,18 @@ class Index extends Component {
 
   getPlaces = async (more=false) => {
       more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
-      const { activePage, perPage, places, selectedLocation } = this.state
+      const { activePage, perPage, places, selectedLocation, filterUrl } = this.state
+      let queryUrl = ''
+      if(filterUrl) {
+        queryUrl = filterUrl
+        if(selectedLocation) {
+          queryUrl = `${filterUrl}&State=${this.state.selectedLocation}`
+        }
+      } else {
+        queryUrl = `state=${selectedLocation}`
+      }
       const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-      `api/v1/listing/property/search/available/?state=${selectedLocation}&Size=${perPage}&Page=${activePage}`);
+      `api/v1/listing/property/search/available/?${queryUrl}&Size=${perPage}&Page=${activePage}`);
       console.log('Res places', res)
       more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
       if(res.isError) {
@@ -127,6 +147,63 @@ class Index extends Component {
     }
   }
 
+  applyFilter = (value) => {
+    this.setFilterValues(value)
+  }
+  setFilterValues = (value) => {
+    const { amenitiesValues, houseTypeValues, noOfBathrooms, noOfRooms, noOfBeds, minPrice, maxPrice, isVerified } = value
+    const filter = {
+      ammenities: amenitiesValues.join(), 
+      PropertyTypeId: houseTypeValues.join(), 
+      noOfBathrooms, noOfRooms, noOfBeds, minPrice, maxPrice,isVerified
+    }
+    this.setState(() => ({ filter }), () => {
+      const url = this.createUrl()
+      this.setState(() => ({ filterUrl: url }), () => {
+        this.getPlaces()
+      })
+    })
+  }
+  createUrl = () => {
+    const { filter, selectedLocation } = this.state
+    let url = ''
+    const keys = Object.keys(filter)
+    keys.filter((item) => {
+      const values = filter[item].toString()
+      if(values.length !== 0) {
+        const string = `${item}=${values}`;
+        url += `${string}&`
+      }
+    })
+    console.log('Selected location ', selectedLocation)
+    if(selectedLocation) {
+      url += `State=${selectedLocation}&`
+    }
+    if(url.endsWith('&')) {
+      url = url.slice(0, -1)
+    }
+    return url
+  }
+
+  clearFilter = () => {
+    const { filterUrl } = this.state
+    const obj = {
+      ammenities: '', 
+      PropertyTypeId: '', 
+      noOfBathrooms: '', 
+      noOfRooms: '', 
+      noOfBeds: '', 
+      minPrice: '', 
+      maxPrice: '', 
+      isVerified: ''
+    }
+    if(filterUrl) {
+      this.setState(() => ({ filterUrl: '', filter: obj, activePage: 1 }), () => {
+        this.getPlaces()
+      })
+    }
+  }
+
   render() {
     const {filterContainer, container, contentContainer, contentMainContainer } = styles
     const { textH3Style, textExtraBold, textH4Style, textDarkGrey, textCenter, textOrange } = GStyles;
@@ -163,7 +240,7 @@ class Index extends Component {
               onEndReachedThreshold={0.8}
               // extraData={selectedId}
             />
-            <FilterModal visible={this.state.showModal} onDecline={this.closeModal} />
+            <FilterModal visible={this.state.showModal} onDecline={this.closeModal} filter={this.applyFilter} clearFilter={this.clearFilter} />
         </View>
         {/* <View style={contentMainContainer}>
           <ExploreLocation />

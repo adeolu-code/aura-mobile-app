@@ -20,39 +20,40 @@ handleSwitchToggle = () => {
         UIManager.setLayoutAnimationEnabledExperimental(true);
       }
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({
-        active: !this.state.active,
+    this.setState(() => ({ active: !this.state.active }), 
+    () => {
+      this.props.value(this.state.active)
     });
 }
   render() {
     return (
-      <SafeAreaView style={{ flex: 1}}>
+      <View style={{ flex: 1}}>
         <View style={{
-                    backgroundColor: this.state.active ? colors.green : colors.lightGrey,
-                    borderRadius: 15,
-                    height: 30,
-                    width: 80,
-                    }}>
-                <TouchableOpacity style={{
-                    height: 26,
-                    width: 26,
-                    borderRadius: 15,
-                    backgroundColor: colors.white,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    alignSelf: this.state.active ? 'flex-end' : 'flex-start',
-                    overflow: 'hidden',
-                    marginTop: 2,
-                    marginBottom: 2,
-                    marginLeft: 2,
-                    marginRight: 2,
-                    }}
-                    onPress={this.handleSwitchToggle}>
-                    <Icon type={this.state.active ? 'AntDesign' : 'Feather'} name={this.state.active ? 'check' : 'x' } style={{color: this.state.active ? colors.green : colors.lightGrey,
-                    fontSize: this.state.active ? 14 : 14}}/>
-                </TouchableOpacity>
+          backgroundColor: this.state.active ? colors.green : colors.lightGrey,
+          borderRadius: 15,
+          height: 30,
+          width: 80,
+        }}>
+          <TouchableOpacity style={{
+              height: 26,
+              width: 26,
+              borderRadius: 15,
+              backgroundColor: colors.white,
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignSelf: this.state.active ? 'flex-end' : 'flex-start',
+              overflow: 'hidden',
+              marginTop: 2,
+              marginBottom: 2,
+              marginLeft: 2,
+              marginRight: 2,
+              }}
+              onPress={this.handleSwitchToggle}>
+              <Icon type={this.state.active ? 'AntDesign' : 'Feather'} name={this.state.active ? 'check' : 'x' } style={{color: this.state.active ? colors.green : colors.lightGrey,
+              fontSize: this.state.active ? 14 : 14}}/>
+          </TouchableOpacity>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }

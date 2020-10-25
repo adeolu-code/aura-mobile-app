@@ -27,12 +27,12 @@ class CheckBox extends Component {
     
   }
   
-  checkClicked = async () => {
-    await this.setState(prevState => ({
-      isCheck: !prevState.isCheck,
-    }));
-    this.props.clicked && this.props.clicked(this.props.value, this.state.isCheck);
-  }
+  // checkClicked = async () => {
+  //   await this.setState(prevState => ({
+  //     isCheck: !prevState.isCheck,
+  //   }));
+  //   this.props.clicked && this.props.clicked(this.props.value, this.state.isCheck);
+  // }
 
   renderCheck = () => {
     const { isCheck } = this.state;
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     height: 22,
   },
   boxStyle: {
-    height: 30, width: 30, borderWidth: 1, borderColor: colors.lightGrey, marginRight: 10, borderRadius: 4, display: 'flex',
+    height: 25, width: 25, borderWidth: 1, borderColor: colors.lightGrey, marginRight: 20, borderRadius: 4, display: 'flex',
     justifyContent: 'center', alignItems: 'center'
   },
   checkedStyle: {
