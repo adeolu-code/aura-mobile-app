@@ -50,15 +50,18 @@ class Index extends Component {
       const { activePage, perPage, places, selectedLocation, filterUrl } = this.state
       let queryUrl = ''
       if(filterUrl) {
-        queryUrl = filterUrl
+        queryUrl = `${filterUrl}&`
         if(selectedLocation) {
-          queryUrl = `${filterUrl}&State=${this.state.selectedLocation}`
+          queryUrl = `${filterUrl}&State=${this.state.selectedLocation}&`
         }
       } else {
-        queryUrl = `state=${selectedLocation}`
+        if(selectedLocation) {
+          queryUrl = `state=${selectedLocation}&`
+        }
       }
+      console.log('FilterUrl ', filterUrl, 'queryUrl ', queryUrl)
       const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-      `api/v1/listing/property/search/available/?${queryUrl}&Size=${perPage}&Page=${activePage}`);
+      `api/v1/listing/property/search/available/?${queryUrl}Size=${perPage}&Page=${activePage}`);
       console.log('Res places', res)
       more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
       if(res.isError) {
@@ -169,16 +172,14 @@ class Index extends Component {
     let url = ''
     const keys = Object.keys(filter)
     keys.filter((item) => {
+      
       const values = filter[item].toString()
-      if(values.length !== 0) {
+      console.log('query values ',values, item)
+      if(values.length !== 0 && values !== "0") {
         const string = `${item}=${values}`;
         url += `${string}&`
       }
     })
-    console.log('Selected location ', selectedLocation)
-    if(selectedLocation) {
-      url += `State=${selectedLocation}&`
-    }
     if(url.endsWith('&')) {
       url = url.slice(0, -1)
     }

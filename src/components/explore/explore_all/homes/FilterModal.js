@@ -1,18 +1,17 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, Dimensions, Platform, LayoutAnimation, UIManager,
+TouchableWithoutFeedback } from 'react-native';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton } from '../../../../utils/Index';
+import { MyText, CustomButton, CheckBox, Switch } from '../../../../utils/Index';
 import colors from '../../../../colors';
-import {CheckBox} from '../../../auth/CheckBox';
 import {Input} from '../../../auth/Input';
 
 import { urls, GetRequest } from '../../../../utils';
 import { AppContext } from '../../../../../AppProvider';
-import ListProperty from '../../../auth/ListProperty';
+import FilterListProperty from '../../../auth/FilterListProperty';
 import Slider from '../../../auth/RangeSlider';
-import Switch from '../../../Switch';
 
 import { Icon } from 'native-base';
 
@@ -22,7 +21,12 @@ class FilterModal extends Component {
     super(props);
     this.state = { loadingAmenities: false, amenities: [], amenitiesValues: [], 
         loadingHouseType: false, houseTypes: [], houseTypeValues:[], noOfBathrooms: '', noOfRooms: '', noOfBeds: '', 
-        minPrice: 0, maxPrice: 500000, max: 500000, isVerified: false, toggleComponent: false };
+        minPrice: 0, maxPrice: 500000, max: 500000, isVerified: '', toggleComponent: false,
+        contentBody : {
+          one: false, two: false, three: false, four: false, five: false
+        }
+       };
+    
   }
 
   setNoOfBathroom = (value) => {
@@ -52,7 +56,7 @@ class FilterModal extends Component {
     if(amenities.length !== 0 && !toggleComponent) {
       return amenities.map((item, i) => {
         return (
-          <CheckBox title={item.name} key={i} item={item} onPress={this.onCheckAmmenity}  />
+          <CheckBox title={item.name} key={i} item={item} onPress={this.onCheckAmmenity} value={this.getAmmenityValue(item.id)}  />
         )
       })
     }
@@ -73,6 +77,11 @@ class FilterModal extends Component {
       }
     }
   }
+  getAmmenityValue = (id) => {
+    const { amenitiesValues } = this.state;
+    const found = amenitiesValues.find(item => item === id)
+    return found ? true : false
+  }
 
   getHouseType = async () => {
     this.setState({ loadingHouseType: true })
@@ -91,7 +100,7 @@ class FilterModal extends Component {
     if(houseTypes.length !== 0 && !toggleComponent) {
       return houseTypes.map((item, i) => {
         return (
-          <CheckBox title={item.name} key={item.id} item={item} onPress={this.onCheckHouseType}  />
+          <CheckBox title={item.name} key={item.id} item={item} onPress={this.onCheckHouseType} value={this.getHouseTypeValue(item.id)}  />
         )
       })
     }
@@ -112,6 +121,11 @@ class FilterModal extends Component {
       }
     }
   }
+  getHouseTypeValue = (id) => {
+    const { houseTypeValues } = this.state;
+    const found = houseTypeValues.find(item => item === id)
+    return found ? true : false
+  }
   onMinPriceChange = (value) => {
     this.setState({ minPrice: Number(value) })
   }
@@ -125,7 +139,7 @@ class FilterModal extends Component {
     const { amenitiesValues, houseTypeValues, noOfBathrooms, noOfRooms, noOfBeds, minPrice, maxPrice, isVerified } = this.state
     const obj = { amenitiesValues, houseTypeValues, noOfBathrooms, noOfRooms, noOfBeds, minPrice, maxPrice, isVerified }
     this.props.filter(obj)
-    // this.props.onDecline();
+    this.props.onDecline();
   }
   clearFilter = () => {
     this.setState(() => ({ toggleComponent: true }), () => {
@@ -140,13 +154,24 @@ class FilterModal extends Component {
     this.getHouseType()
   }
 
+  
+  setVisibility = (value) => {
+    const { contentBody } = this.state
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({ contentBody: {...contentBody, [value]: !contentBody[value]} })
+  }
+
   render() {
     const {visible, onDecline } = this.props;
     const { textH3Style, textExtraBold, textDarkGrey, textCenter, flexRow, textH2Style, textH4Style, textBold, textDarkBlue, textUnderline, 
         textGreen, textGrey, textH6Style, textBlack, textH5Style } = GStyles
     const { closeStyle, modalContainer, modalHeader, body, property, divider, bottomMenu, bottomContainer, buttonStyle,
-         contentContainer, buttonContainer } = styles
-    const { toggleComponent } = this.state
+         contentContainer, buttonContainer, showContainer, hideContainer } = styles
+    const { toggleComponent, noOfBathrooms, noOfBeds, noOfRooms, contentBody } = this.state
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
                 
@@ -163,9 +188,9 @@ class FilterModal extends Component {
                 </View>
                 <ScrollView style={{flex: 1}}>
                     <View style={body}>
-                        <Header title="Property Type" 
-                        subtitle="Filter out the type of properties you’re searching for" />
-                        <View style={{marginTop: 20}}>
+                        <Header title="Property Type" subtitle="Filter out the type of properties you’re searching for" 
+                        onPress={this.setVisibility.bind(this, 'one')} collapsed={contentBody.one} />
+                        <View style={[contentBody.one ? hideContainer : showContainer, { marginTop: 30} ]}>
                             {this.renderHouseType()}
                         </View>
                     </View>
@@ -173,8 +198,9 @@ class FilterModal extends Component {
                     <View style={divider}></View>
 
                     <View style={body}>
-                        <Header title="Price Range"  subtitle="Find homes & hotels that fit your budget" />
-                        <View>
+                        <Header title="Price Range"  subtitle="Find homes & hotels that fit your budget" 
+                        onPress={this.setVisibility.bind(this, 'two')} collapsed={contentBody.two} />
+                        <View style={[contentBody.two ? hideContainer : showContainer]}>
                             
                             {!toggleComponent ? <Slider initialLowValue={this.state.minPrice} initialHighValue={this.state.maxPrice} max={this.state.max}
                                 onValueChanged={(low, high, fromUser) => {
@@ -197,19 +223,23 @@ class FilterModal extends Component {
                     <View style={divider}></View>
 
                     <View style={body}>
-                        <Header title="Rooms & Beds"  subtitle="Filter by the number of rooms & beds you want" />
-                        {!toggleComponent ? <View style={{marginBottom: 20}}>
-                            <ListProperty title="Beds" countValue={this.setNoOfBeds} />
-                            <ListProperty title="Bedroom" countValue={this.setNoOfBedroom} />
-                            <ListProperty title="Bathroom" countValue={this.setNoOfBathroom} />
+                        <Header title="Rooms & Beds"  subtitle="Filter by the number of rooms & beds you want" 
+                        onPress={this.setVisibility.bind(this, 'three')} collapsed={contentBody.three} />
+                        {!toggleComponent ? <View style={[contentBody.three ? hideContainer : showContainer, { marginTop: 10, marginBottom: 20} ]}>
+                            <FilterListProperty title="Beds" countValue={this.setNoOfBeds} value={noOfBeds} />
+                            <FilterListProperty title="Bedroom" countValue={this.setNoOfBedroom} value={noOfRooms} />
+                            <FilterListProperty title="Bathroom" countValue={this.setNoOfBathroom} value={noOfBathrooms} />
                         </View> : <></>}
                     </View>
 
                     <View style={divider}></View>
 
                     <View style={body}>
-                        <Header title="Amenities"  subtitle="Find homes & hotels with the amenities you need" />
-                        {this.renderAmmenities()}
+                        <Header title="Amenities" subtitle="Find homes & hotels with the amenities you need"
+                        onPress={this.setVisibility.bind(this, 'four')} collapsed={contentBody.four}  />
+                        <View style={[contentBody.four ? hideContainer : showContainer, {marginTop: 30}]}>
+                          {this.renderAmmenities()}
+                        </View>
                     </View>
 
                     {/* <View style={divider}></View>
@@ -235,8 +265,8 @@ class FilterModal extends Component {
                                 <MyText style={[textGrey, textH5Style, {marginTop: 10}]}>Find properties that have been verified</MyText>
                                 {/* <View style={[divider, {marginTop: 20}]}></View> */}
                             </View>
-                            <View style={{flex: 3}}>
-                                <Switch value={this.switchValue} />
+                            <View style={{flex: 2, alignItems: 'flex-end'}}>
+                                <Switch value={this.state.isVerified} onPress={this.switchValue} />
                             </View>
                         </View>
                     </View>
@@ -264,16 +294,19 @@ class FilterModal extends Component {
 const Header = (props) => {
     const {textExtraBold, textH2Style, textDarkBlue, textH5Style, textGrey, flexRow } = GStyles
     const { headerLeft, headerRight } = styles
+    const arrowName = !props.collapsed ? "keyboard-arrow-up" : "keyboard-arrow-down"
     return (
-        <View style={[flexRow]}>
+      <TouchableWithoutFeedback onPress={props.onPress}>
+        <View style={[flexRow]} >
             <View style={headerLeft}>
                 <MyText style={[textExtraBold, textH2Style, textDarkBlue]}>{props.title}</MyText>
                 <MyText style={[textGrey, textH5Style, {marginTop: 10}]}>{props.subtitle}</MyText>
             </View>
             <View style={headerRight}>
-                <Icon type="MaterialIcons" name="keyboard-arrow-up" />
+                <Icon type="MaterialIcons" name={arrowName} />
             </View>
         </View>
+      </TouchableWithoutFeedback>
     )
 }
 
@@ -335,6 +368,12 @@ const styles = StyleSheet.create({
     },
     headerLeft: {
         flex:10
+    },
+    hideContainer: {
+      height: 0, opacity: 0
+    },
+    showContainer: {
+      height: 'auto', opacity: 1
     }
 });
 
