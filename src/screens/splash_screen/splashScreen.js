@@ -79,7 +79,7 @@ const SplashScreen = (props) => {
         Geolocation.getCurrentPosition(
             async (position) => {
                 const cord = position.coords;
-                console.log('Cord ', cord, position)
+                // console.log('Cord ', cord, position)
                 context.set({ location: cord })
                 // http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${Dev.API_KEY}`
             },
@@ -91,14 +91,18 @@ const SplashScreen = (props) => {
         );
     }
 
+    // const checkTokenExpired = (tokenObj) => {
+    //     const diff = moment(tokenObj.expires_in).diff(moment(), 'days')
+    // }
+
     const checkLogin = async () => {
         const userData = await getUser()
-        console.log('User await ', userData)
         const token = await getToken()
+        // console.log('User await ', userData, token)
         if(userData && token) {
             context.set({ userData, token, isLoggedIn: true })
             context.getUserProfile(token.access_token)
-            console.log('check login userData ', userData, token)
+            // console.log('check login userData ', userData, token)
             // if(expired) {
             //     this.props.signOut()
             // } else {

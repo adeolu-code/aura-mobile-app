@@ -11,15 +11,17 @@ import colors from '../../../colors';
 
 import { formatAmount } from '../../../helpers';
 
+import { urls, GetRequest } from '../../../utils';
+
 
 
 
 class BottomMenuComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
+
 
   render() {
     const {   container, buttonStyle, buttonContainer } = styles;

@@ -43,9 +43,9 @@ class Input extends Component {
       InputWithImgStyle,
       inputRightPadding,
       lStyles,
-      lTextStyles,
+      lTextStyles, leftStyle
     } = styles;
-    const {textH4Style, textH6Style} = GStyles;
+    const {textH4Style, textH6Style, flexRow, textBold, textH3Style} = GStyles;
     const {
       placeholder,
       imageUrl,
@@ -70,12 +70,15 @@ class Input extends Component {
       <View>
         {label ? (
           <MyText style={[lStyles]}>
-            <MyText style={[lTextStyles, textH6Style]}>{label}</MyText>
+            <MyText style={[lTextStyles, textH4Style, textBold]}>{label}</MyText>
           </MyText>
         ) : (
           <MyText></MyText>
         )}
-        <View style={InputContainerStyles}>
+        <View style={[flexRow, InputContainerStyles]}>
+          <View style={leftStyle}>
+            <MyText style={[textH3Style, { marginBottom: 4}]}>₦</MyText>
+          </View>
           <TextInput
             style={[inputStyle, textInputStyle, paddingRight]}
             onChangeText={onChangeText}
@@ -100,19 +103,21 @@ const styles = StyleSheet.create({
   InputContainerStyles: {
     display: 'flex',
     position: 'relative',
-    width: '100%',
+    width: '100%', borderWidth: 1, borderColor: colors.lightGrey, borderRadius: 5
     // flex: 1
   },
+  leftStyle: {
+    flex: 1, justifyContent: 'center', alignItems: 'center'
+  },
   inputStyle: {
-    height: 40,
-    width: '100%',
+    height: 40, flex: 4,
     borderRadius: 5,
-    borderColor: colors.lightGrey,
-    borderWidth: 1,
-    fontSize: 17,
+    // borderColor: colors.lightGrey,
+    // borderWidth: 1,
+    fontSize: 16,
     color: colors.darkGrey,
     fontFamily: 'Nunito-bold',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 10,
   },
   InputWithImgStyle: {
     paddingLeft: 0,

@@ -18,30 +18,30 @@ class Slider extends Component {
   render() {
     const { rowContainer, increment, decrement} = styles;
     const { textBold, textH4Style, flexRow} = GStyles;
-    const { title } = this.props;
+    const { title, onValueChanged, initialLowValue, initialHighValue, max } = this.props;
     return (
       <SafeAreaView>
         <View style={[flexRow]}>
+            {/* <RangeSlider
+                style={{width: '100%', height: 80 }} thumbColor='#9E008E' thumbRadius={13} thumbBorderColor="#9E008E"
+                gravity={'center'} min={0} max={150000} step={200} labelBackgroundColor="#9E008E" labelBorderColor="#9E008E"
+                selectionColor="#9E008E" initialLowValue={this.state.value1} initialHighValue={this.state.value2}
+                blankColor="#c4c4c4"
+                onValueChanged={(low, high, fromUser) => {
+                    this.setState({value1: low, value2: high})
+                }}
+            /> */}
             <RangeSlider
-                style={{width: '100%', height: 80}}
-                gravity={'center'}
-                min={0}
-                max={8000}
-                step={1000}
+                style={{width: '100%', height: 90}} gravity={'center'}
+                min={0} max={max} step={1000}
                 // textFormat= {String}
-                textSize={20}
-                selectionColor={colors.orange}
-                blankColor="#f618"
-                thumbBorderColor="#FF8300"
-                labelBorderColor="#D9E1F0"
-                lineWidth={8}
-                labelGapHeight={8}
+                textSize={20} selectionColor={colors.orange} blankColor="#f618" thumbBorderColor="#FF8300" labelBorderColor="#D9E1F0"
+                lineWidth={8} labelGapHeight={8}
                 labelBackgroundColor={colors.white}
                 labelTextColor={colors.black}
-                labelBorderWidth={0.5}
-                onValueChanged={(low, high, fromUser) => {
-                this.setState({rangeLow: low, rangeHigh: high});
-            }}/>
+                labelBorderWidth={0.5} labelPadding={10}
+                initialLowValue={initialLowValue} initialHighValue={initialHighValue}
+                onValueChanged={onValueChanged} />
         </View>
       </SafeAreaView>
     );

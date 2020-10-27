@@ -9,10 +9,19 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 
 
-class CalendarModal extends Component {
+class CheckInModal extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  next = () => {
+    // this.props.onDecline();
+    this.props.onDecline();
+    this.props.next()
+    // setTimeout(() => {
+    //     this.props.next()
+    // }, 10);
   }
 
   render() {
@@ -26,7 +35,7 @@ class CalendarModal extends Component {
             <View style={{ flex: 1}}>
                 <View style={buttomStyle}>
                     <View style={buttonContainer}>
-                        <CustomButton buttonText="Next" />
+                        <CustomButton buttonText="Next" onPress={this.next} />
                     </View>
                 </View>
                 <View style={modalContainer}>
@@ -144,4 +153,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CalendarModal;
+export default CheckInModal;
