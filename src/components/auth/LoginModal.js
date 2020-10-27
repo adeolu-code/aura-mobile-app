@@ -79,7 +79,13 @@ class LoginModal extends Component {
 
   getUserDetails = (token) => {
     this.context.getUserProfile(token)
-    .then(() => {})
+    .then(() => {
+      const { close } = this.props
+      if(close) {
+        this.setState({ loading: false })
+        this.props.onDecline(true)
+      }
+    })
     .catch((error) => {
       this.setState({ formErrors: ['Something went wrong please try again'], loading: false })
     })

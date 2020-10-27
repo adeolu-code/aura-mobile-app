@@ -19,35 +19,76 @@ import ReviewsComponent from '../../components/explore/ReviewsComponent';
 import CommentComponent from '../../components/explore/CommentComponent';
 import BottomMenuComponent from '../../components/explore/home_single/BottomMenuComponent';
 
-import CalendarModal from '../../components/explore/home_single/CalendarModal';
-import ScrollContent from '../../components/explore/ScrollContent';
+import CheckInModal from '../../components/explore/home_single/CheckInModal';
+import CheckOutModal from '../../components/explore/home_single/CheckOutModal';
+import ReserveModal from '../../components/explore/home_single/ReserveModal';
 import MorePlaces from '../../components/explore/MorePlaces';
 
 import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 
+import LoginModal from '../../components/auth/LoginModal';
+import SignUpModal from '../../components/auth/SignUpModal';
+
+
 class HomeSingle extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { showModal: false, house: null, loadingImages: false, photos: [], gettingHouse: false, gettingHouseRules: false,
-         houseId: '', houseRules: [], location: null, gettingReviews: false, reviews: [], 
-         gettingComments: false, comments: [] };
+    this.state = { showCheckInModal: false, showCheckOutModal: false, showReserveModal: false, house: null, loadingImages: false, photos: [], gettingHouse: false, gettingHouseRules: false,
+        houseId: '', houseRules: [], location: null, gettingReviews: false, reviews: [], 
+        gettingComments: false, comments: [], gettingCalendar: false, calendar: null, showLoginModal: false, showRegisterModal: false, 
+    };
     const { house } = props.route.params;
     this.state.house = house;
     this.state.location = { longitude: house.longitude, latitude: house.latitude }
     console.log('House ', house)
+    
   }
-
-  openModal = () => {
-    this.setState({ showModal: true })
+  openLoginModal = () => {
+    this.setState({ showLoginModal: true })
   }
-  closeModal = () => {
-    this.setState({ showModal: false })
+  closeLoginModal = (bool) => {
+    this.setState(() => ({ showLoginModal: false }), () => {
+      if(bool) {
+        this.openCheckInModal();
+      }
+    })
+  }
+  openSignUpModal = () => {
+    this.setState({ showRegisterModal: true })
+  }
+  closeSignUpModal = () => {
+    this.setState({ showRegisterModal: false })
+  }
+  openCheckInModal = () => {
+    this.openReserveModal()
+    // const { state } = this.context
+    // if(state.isLoggedIn) {
+    //   this.setState({ showCheckInModal: true })
+    // } else {
+    //   this.setState({ showLoginModal: true})
+    // }
+  }
+  closeCheckInModal = () => {
+    this.setState({ showCheckInModal: false })
+  }
+  openCheckOutModal = () => {
+    this.setState({ showCheckOutModal: true})
+  }
+  closeCheckOutModal = () => {
+    this.setState({ showCheckInModal: false })
+  }
+  openReserveModal = () => {
+    this.setState({ showReserveModal: true })
+  }
+  closeReserveModal = () => {
+    this.setState({ showReserveModal: false })
   }
   getPhotos = async () => {
     const { house } = this.state
     this.setState({ loadingImages: true })
-    const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
+    const res = await GetRequest(urls.listingBase, 
     `api/v1/listing/photo/property/?PropertyId=${house.id}&Size=6&Page=1`);
     this.setState({ loadingImages: false })
     if(res.isError) {
@@ -63,7 +104,7 @@ class HomeSingle extends Component {
     }
   }
   getAmenity = async () => {
-    const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/',  `api/v1/listing/houserule`);
+    const res = await GetRequest(urls.listingBase,  `api/v1/listing/houserule`);
     
     if(res.isError) {
         const message = res.Message;
@@ -75,20 +116,23 @@ class HomeSingle extends Component {
   getHouse = async () => {
     const { house } = this.state
     this.setState({ gettingHouse: true })
-    const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', `api/v1/listing/property/${house.id}`);
+    const res = await GetRequest(urls.listingBase, `api/v1/listing/property/${house.id}`);
+    // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', `api/v1/listing/property/${house.id}`);
     console.log('House Details ', res)
     this.setState({ gettingHouse: false })
     if(res.isError) {
         const message = res.Message;
     } else {
         const data = res.data;
-        this.setState({ house: data })
+        if(data !== null) {
+          this.setState({ house: data })
+        }
     }
   }
   getHouseRules = async () => {
     const { house } = this.state
     this.setState({ gettingHouseRules: true })
-    const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', `api/v1/listing/property/houserules/?propertyid=${house.id}`);
+    const res = await GetRequest(urls.listingBase, `api/v1/listing/property/houserules/?propertyid=${house.id}`);
     console.log('House Rules ', res)
     this.setState({ gettingHouseRules: false })
     if(res.isError) {
@@ -102,7 +146,7 @@ class HomeSingle extends Component {
   getReviews = async () => {
     const { house } = this.state
     this.setState({ gettingReviews: true })
-    const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', `api/v1/listing/review/property/?PropertyId=${house.id}`);
+    const res = await GetRequest(urls.listingBase, `api/v1/listing/review/property/?PropertyId=${house.id}`);
     console.log('House Reviews ', res)
     this.setState({ gettingReviews: false })
     if(res.isError) {
@@ -128,16 +172,37 @@ class HomeSingle extends Component {
 //     }
 //   }
   renderLoading = () => {
-        const { gettingHouse } = this.state;
-        if (gettingHouse) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
-    }
+      const { gettingHouse } = this.state;
+      if (gettingHouse) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+  }
 
   componentDidMount = () => {
     this.getHouse()
     this.getPhotos()
     this.getHouseRules()
     this.getReviews()
+    this.getCalendar()
     // this.getAmenity()
+  }
+
+  getCalendar = async () => {
+    const { house } = this.state
+    this.setState({ gettingCalendar: true })
+    const res = await GetRequest(urls.listingBase, `api/v1/listing/property/calendar?PropertyId=${house.id}`);
+    console.log('House calendar ', res)
+    this.setState({ gettingCalendar: false })
+    if(res.isError) {
+        const message = res.Message;
+    } else {
+        const data = res.data;
+        this.setState({ calendar: data })
+    }
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    // if(isLoggedIn !== prevState.isLoggedIn) {
+    //   this.closeLoginModal()
+    // }
   }
 
   render() {
@@ -173,9 +238,13 @@ class HomeSingle extends Component {
             </View>
         </ScrollView>
         <View style={buttomContainer}>
-            <BottomMenuComponent onPress={this.openModal} house={this.state.house} />
+            <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
         </View>
-        <CalendarModal visible={this.state.showModal} onDecline={this.closeModal} />
+        <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} />
+        <CheckOutModal visible={this.state.showCheckOutModal} onDecline={this.closeCheckOutModal} />
+        <ReserveModal visible={this.state.showReserveModal} onDecline={this.closeReserveModal} />
+        <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
+        <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
       </SafeAreaView>
     );
   }

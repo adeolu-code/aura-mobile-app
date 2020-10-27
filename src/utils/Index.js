@@ -12,3 +12,4 @@ export * from './DatePicker';
 export * from './CountryPickerComponent';
 export * from './CheckBox';
 export * from './Switch';
+export * from './ItemCountPicker';

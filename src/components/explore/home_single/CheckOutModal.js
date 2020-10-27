@@ -9,7 +9,7 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 
 
-class CalendarModal extends Component {
+class CheckOutModal extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -40,7 +40,7 @@ class CalendarModal extends Component {
                     </View>
                     <View style={headerStyle}>
                         <MyText style={[textH3Style, textExtraBold, textDarkGrey, textCenter]}>
-                            Select A Check-In Date
+                            Select A Check-Out Date
                         </MyText>
                     </View>
                     <View style={[flexRow, daysStyles]}>
@@ -144,4 +144,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CalendarModal;
+export default CheckOutModal;

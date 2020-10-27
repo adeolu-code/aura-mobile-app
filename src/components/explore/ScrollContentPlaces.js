@@ -25,7 +25,7 @@ class ScrollContentPlaces extends Component {
     
     getPlaces = async (long, lat) => {
         this.setState({ loading: true })
-        const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
+        const res = await GetRequest(urls.listingBase, 
         `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
         // console.log('Res places', res)
         this.setState({ loading: false })

@@ -135,7 +135,9 @@ class ImageAndDetails extends Component {
                 {house ? <Fragment>
                     <View style={divider}></View>
                     <View style={{marginVertical: 25}}>
-                        <MyText style={[textH2Style, { marginBottom: 8}]}>Private room in bed and breakfast</MyText>
+                        <MyText style={[textH2Style, { marginBottom: 8}]}>
+                            {house.roomType && house.roomType.name ? house.roomType.name : ''}
+                        </MyText>
                         <MyText style={[textH5Style, textGrey]}>{house.noofAvailableRooms} guests · {house.noofRooms} bedroom · {house.noofBeds} beds · {house.noofBathrooms} private bath</MyText>
 
                         <View style={[flexRow, thumbTxtContainer]}>

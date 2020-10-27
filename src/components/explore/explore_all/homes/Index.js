@@ -79,6 +79,7 @@ class Index extends Component {
       }
   }
   linkHouse = (house) => {
+    console.log('House from explore ', house)
     this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
   }
   onEndReached = () => {

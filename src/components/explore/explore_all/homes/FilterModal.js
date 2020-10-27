@@ -4,13 +4,12 @@ import { View, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, Dimension
 TouchableWithoutFeedback } from 'react-native';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton, CheckBox, Switch } from '../../../../utils/Index';
+import { MyText, CustomButton, CheckBox, Switch, ItemCountPicker } from '../../../../utils/Index';
 import colors from '../../../../colors';
 import {Input} from '../../../auth/Input';
 
 import { urls, GetRequest } from '../../../../utils';
 import { AppContext } from '../../../../../AppProvider';
-import FilterListProperty from '../../../auth/FilterListProperty';
 import Slider from '../../../auth/RangeSlider';
 
 import { Icon } from 'native-base';
@@ -226,9 +225,9 @@ class FilterModal extends Component {
                         <Header title="Rooms & Beds"  subtitle="Filter by the number of rooms & beds you want" 
                         onPress={this.setVisibility.bind(this, 'three')} collapsed={contentBody.three} />
                         {!toggleComponent ? <View style={[contentBody.three ? hideContainer : showContainer, { marginTop: 10, marginBottom: 20} ]}>
-                            <FilterListProperty title="Beds" countValue={this.setNoOfBeds} value={noOfBeds} />
-                            <FilterListProperty title="Bedroom" countValue={this.setNoOfBedroom} value={noOfRooms} />
-                            <FilterListProperty title="Bathroom" countValue={this.setNoOfBathroom} value={noOfBathrooms} />
+                            <ItemCountPicker title="Beds" countValue={this.setNoOfBeds} value={noOfBeds} />
+                            <ItemCountPicker title="Bedroom" countValue={this.setNoOfBedroom} value={noOfRooms} />
+                            <ItemCountPicker title="Bathroom" countValue={this.setNoOfBathroom} value={noOfBathrooms} />
                         </View> : <></>}
                     </View>
 
