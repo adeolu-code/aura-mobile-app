@@ -17,6 +17,13 @@ class ReserveModal extends Component {
   getTime = (value) => {
 
   }
+  onDecline = () => {
+    this.props.onDecline();
+    this.props.back()
+    // setTimeout(() => {
+    //     this.props.back()
+    // }, 10);
+  }
 
   render() {
     const { visible, onDecline } = this.props;
@@ -30,7 +37,7 @@ class ReserveModal extends Component {
                 <View style={modalContainer}>
                     <View style={mainHeader}>
                         <View style={[flexRow, modalHeader]}>
-                            <TouchableOpacity style={closeStyle} onPress={onDecline}>
+                            <TouchableOpacity style={closeStyle} onPress={this.onDecline}>
                                 <Icon type="Feather" name="chevron-left" />
                             </TouchableOpacity>
                             <View style={{ flex: 6, alignItems: 'center', paddingRight: 50 }}>

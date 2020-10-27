@@ -62,13 +62,13 @@ class HomeSingle extends Component {
     this.setState({ showRegisterModal: false })
   }
   openCheckInModal = () => {
-    this.openReserveModal()
-    // const { state } = this.context
-    // if(state.isLoggedIn) {
-    //   this.setState({ showCheckInModal: true })
-    // } else {
-    //   this.setState({ showLoginModal: true})
-    // }
+    // this.openReserveModal()
+    const { state } = this.context
+    if(state.isLoggedIn) {
+      this.setState({ showCheckInModal: true })
+    } else {
+      this.setState({ showLoginModal: true})
+    }
   }
   closeCheckInModal = () => {
     this.setState({ showCheckInModal: false })
@@ -77,7 +77,7 @@ class HomeSingle extends Component {
     this.setState({ showCheckOutModal: true})
   }
   closeCheckOutModal = () => {
-    this.setState({ showCheckInModal: false })
+    this.setState({ showCheckOutModal: false })
   }
   openReserveModal = () => {
     this.setState({ showReserveModal: true })
@@ -240,9 +240,9 @@ class HomeSingle extends Component {
         <View style={buttomContainer}>
             <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
         </View>
-        <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} />
-        <CheckOutModal visible={this.state.showCheckOutModal} onDecline={this.closeCheckOutModal} />
-        <ReserveModal visible={this.state.showReserveModal} onDecline={this.closeReserveModal} />
+        <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} next={this.openCheckOutModal} />
+        <CheckOutModal visible={this.state.showCheckOutModal} onDecline={this.closeCheckOutModal} next={this.openReserveModal} back={this.openCheckInModal} />
+        <ReserveModal visible={this.state.showReserveModal} onDecline={this.closeReserveModal} back={this.openCheckOutModal} />
         <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
         <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
       </SafeAreaView>

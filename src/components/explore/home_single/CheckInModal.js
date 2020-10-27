@@ -15,6 +15,15 @@ class CheckInModal extends Component {
     this.state = {};
   }
 
+  next = () => {
+    // this.props.onDecline();
+    this.props.onDecline();
+    this.props.next()
+    // setTimeout(() => {
+    //     this.props.next()
+    // }, 10);
+  }
+
   render() {
     const { visible, onDecline } = this.props;
     const { modalContainer, buttonContainer, modalHeader, lineStyle, closeStyle, buttomStyle, 
@@ -26,7 +35,7 @@ class CheckInModal extends Component {
             <View style={{ flex: 1}}>
                 <View style={buttomStyle}>
                     <View style={buttonContainer}>
-                        <CustomButton buttonText="Next" />
+                        <CustomButton buttonText="Next" onPress={this.next} />
                     </View>
                 </View>
                 <View style={modalContainer}>

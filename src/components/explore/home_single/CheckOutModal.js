@@ -14,6 +14,20 @@ class CheckOutModal extends Component {
     super(props);
     this.state = {};
   }
+  next = () => {
+    this.props.onDecline();
+    this.props.next()
+    // setTimeout(() => {
+    //     this.props.next()
+    // }, 10);
+  }
+  back = () => {
+    this.props.onDecline();
+    this.props.back()
+    // setTimeout(() => {
+    //     this.props.back()
+    // }, 10);
+  }
 
   render() {
     const { visible, onDecline } = this.props;
@@ -26,12 +40,15 @@ class CheckOutModal extends Component {
             <View style={{ flex: 1}}>
                 <View style={buttomStyle}>
                     <View style={buttonContainer}>
-                        <CustomButton buttonText="Next" />
+                        <CustomButton buttonText="Next" onPress={this.next} />
                     </View>
                 </View>
                 <View style={modalContainer}>
                     <View style={[flexRow, modalHeader]}>
-                        <View style={{ flex: 6, alignItems: 'center'}}>
+                        <TouchableOpacity style={[closeStyle, { alignItems: 'flex-start'}]} onPress={this.back}>
+                            <Icon type="Feather" name="chevron-left" />
+                        </TouchableOpacity>
+                        <View style={{ flex: 4, alignItems: 'center'}}>
                             <View style={lineStyle}></View>
                         </View>
                         <TouchableOpacity style={closeStyle} onPress={onDecline}>
@@ -126,7 +143,7 @@ const styles = StyleSheet.create({
         paddingBottom: 10
     },
     lineStyle: {
-        width: '20%', height: 4, backgroundColor: colors.lightGrey, borderRadius: 10, marginLeft: 40
+        width: '20%', height: 4, backgroundColor: colors.lightGrey, borderRadius: 10, 
     },
     closeStyle: {
         height: 30, flex: 1, justifyContent:'flex-end',alignItems: 'flex-end'
