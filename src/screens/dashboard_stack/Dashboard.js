@@ -26,6 +26,9 @@ class Dashboard extends Component {
       reservations: [],
       name: null,
       image: null,
+      comment: null,
+      comments: [],
+      guestName: null,
     };
   }
 
@@ -33,6 +36,7 @@ class Dashboard extends Component {
     this.renderWeeklyEarnings();
     this.renderTotalEarnings();
     this.getReservations();
+    this.getComments();
   }
 
   renderWeeklyEarnings = async () => {
@@ -157,6 +161,36 @@ this.setState({ error: true });
     }
   }
 
+  getComments = async () => {
+    try {
+      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/comment/host');
+      if (!response.isError) {
+          const data = response.data;
+          this.setState({ comments: data });
+          console.log(data);
+      } else { this.setState({ error: true }); }
+  } catch (e) {
+    console.log(e);
+this.setState({ error: true });
+}
+  }
+
+  renderComments = () => {
+    const { comments } = this.state;
+    if (comments.length !== 0) {
+      const {divider} = styles;
+      if (this.state.comments.data.guestName !== undefined){
+        const name = this.comments.data.guestName;
+        this.setState({guestName: name });
+        return (
+          <View>
+                <CommentRow name={this.state.guestName} />
+                <View style={divider} />
+          </View>
+        );
+      }
+    }
+  }
 
   render() {
     const { subHeaderContainer, profileContainer, walletContainer, imgContainer, profileImg, profileText, firstRow, 
@@ -230,17 +264,18 @@ this.setState({ error: true });
             </View>
 
             <View style={contentBody}>
-              <View>
+              {this.renderComments()}
+              {/* <View>
                 <CommentRow name="Joshua Nwabogor" />
                 <View style={divider}></View>
-              </View>
-              <View>
+              </View> */}
+              {/* <View>
                 <CommentRow name="Ashley Cole" />
                 <View style={divider}></View>
               </View>
               <View>
                 <CommentRow name="Banabas Kaviar" />
-              </View>
+              </View> */}
             </View>
           </View>
 
@@ -314,10 +349,10 @@ const styles = StyleSheet.create({
     marginBottom: 30, justifyContent: 'space-between', alignItems: 'flex-end'
   },
   rowContainer: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   divider: {
-    height: 1, width: '100%', backgroundColor: colors.lightGrey
+    height: 1, width: '100%', backgroundColor: colors.lightGrey,
   },
   noBorderBottom: {
     borderBottomWidth: 0, 
