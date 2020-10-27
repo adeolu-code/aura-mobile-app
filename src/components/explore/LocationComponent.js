@@ -56,7 +56,7 @@ class LocationComponent extends Component {
     const { region, markers } = this.state;
     const { mapContainer } = styles;
     const { imgStyle } = GStyles
-    if(region) {
+    if(region && region.latitude !== null && region.longitude !== null) {
       return (
         <View style={[mapContainer]}>
           <MapView region={this.state.region} onRegionChange={this.onRegionChange} minZoomLevel={15}

@@ -2,13 +2,12 @@
 import React, { Component } from 'react';
 import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, TextInput, checkBox } from 'react-native';
 import {Icon, Picker} from 'native-base';
-import { CustomButton, MyText, Loading, Error } from '../../utils/Index';
+import { CustomButton, MyText, Loading, Error, CheckBox } from '../../utils/Index';
 import {Input} from '../../components/auth/Input';
 import colors from '../../colors';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { CheckBox } from '../../components/auth/CheckBox';
 import { AppContext } from '../../../AppProvider';
 
 import { GetRequest, Request, errorMessage, urls } from '../../utils';
@@ -96,7 +95,7 @@ class AmenitiesScreen extends Component {
     if(amenities.length !== 0) {
       return amenities.map((item, i) => {
         return (
-          <CheckBox title={item.name} key={i} item={item} onPress={this.onCheckAmmenity}  />
+          <CheckBox title={item.name} key={i} item={item} onPress={this.onCheckAmmenity} value={this.getAmmenityValue(item.id)}  />
         )
       })
     }
@@ -117,6 +116,11 @@ class AmenitiesScreen extends Component {
       }
     }
   }
+  getSafetyValue = (id) => {
+    const { safetyAmenitiesValues } = this.state;
+    const found = safetyAmenitiesValues.find(item => item === id)
+    return found ? true : false
+  }
   onCheckAmmenity = (arg) => {
     const { amenitiesValues } = this.state
     const item = arg.item;
@@ -132,7 +136,11 @@ class AmenitiesScreen extends Component {
         this.setState({ amenitiesValues: arr})
       }
     }
-    
+  }
+  getAmmenityValue = (id) => {
+    const { amenitiesValues } = this.state;
+    const found = amenitiesValues.find(item => item === id)
+    return found ? true : false
   }
   renderSafetyAmmenities = () => {
     const { safetyAmenities } = this.state;
@@ -142,7 +150,7 @@ class AmenitiesScreen extends Component {
       return safetyAmenities.map((item, i) => {
         return (
           <View style={tiles} key={item.id}>
-            <CheckBox title={item.name} item={item} subtitle={item.description} onPress={this.onCheckPress} />
+            <CheckBox title={item.name} item={item} subtitle={item.description} onPress={this.onCheckPress} value={this.getSafetyValue(item.id)} />
           </View>
         )
       })
@@ -160,11 +168,6 @@ class AmenitiesScreen extends Component {
             <View>
                 <View style={{marginTop: 20}}>
                   {this.renderAmmenities()}
-                    {/* <CheckBox title="Kitchen" />
-                    <CheckBox title="WiFi" />
-                    <CheckBox title="Parking Space" />
-                    <CheckBox title="Closet/Drawers" />
-                    <CheckBox title="Private Entrance" /> */}
                     {/* <MyText style={[textOrange, textH5Style, textBold,textUnderline]}>
                         Add Additional Amenities
                     </MyText> */}
@@ -174,13 +177,6 @@ class AmenitiesScreen extends Component {
                         <MyText style={[textExtraBold, textH2Style, textDarkBlue]}>Safety Amenities</MyText>
                     </View>
                     {this.renderSafetyAmmenities()}
-                    {/* <View style={tiles}>
-                        <CheckBox title="Smoke Detector" subtitle="Check your local laws, which may require a working Smoke detector in every room"/>
-                    </View>
-                    
-                    <View style={tiles}>
-                        <CheckBox title="Lock On Bedroom Door" subtitle="Private room can be locked For Safety & Privacy"/>
-                    </View> */}
                 </View>
                 
                 <View style={button}>

@@ -40,11 +40,19 @@ export const amenityIcons = [
 export const rulesIcons = [
     { name: 'suitable for children', iconName: 'child-friendly', type: 'MaterialIcons'},
     { name: 'suitable for infants', iconName: 'child-friendly', type: 'MaterialIcons'},
-    { name: 'pets allowed', iconName: 'pets', type: 'MaterialIcons'},
+    { name: 'suitable for pets', iconName: 'pets', type: 'MaterialIcons'},
     { name: 'events or parties allowed', iconName: 'local-bar', type: 'MaterialIcons'},
     { name: 'no smoking allowed', iconName: 'smoke-free', type: 'MaterialIcons'},
     { name: 'default', iconName: 'check-circle', type: 'MaterialIcons'}
 ]
+export const clearData = async () => {
+    try {
+        const keys = ['userData', 'token'];
+        await AsyncStorage.multiRemove(keys);
+    } catch (error) {
+        return error;
+    }
+}
 
 export const getUser = async () => {
     try {
@@ -86,6 +94,7 @@ export const formatAmount = (amount) => {
 export const setToken = async (data) => {
     try {
         const token = data;
+        console.log('Toke obj from set token ', data)
         await AsyncStorage.setItem("token", JSON.stringify(token));
     } catch (error) {
         console.log("Could not set user Data ", error.message);

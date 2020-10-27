@@ -46,7 +46,7 @@ class ScrollContent extends Component {
     getPhotographers = async (st, country) => {
         const res = await GetRequest(urls.photographyBase, 
         `api/v1/photographer/?country=${country}&state=${st}&Size=4&Page=1`);
-        console.log('Photographers ', res)
+        // console.log('Photographers ', res)
         this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;
