@@ -25,9 +25,9 @@ class ScrollContentPlaces extends Component {
     
     getPlaces = async (long, lat) => {
         this.setState({ loading: true })
-        const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
+        const res = await GetRequest(urls.listingBase, 
         `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
-        console.log('Res places', res)
+        // console.log('Res places', res)
         this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;
@@ -66,15 +66,11 @@ class ScrollContentPlaces extends Component {
     const { location } = this.context.state;
     const { places, loading } = this.state
     const { scrollItemContainer, emptyStyles, locationContainer } = styles;
-    // console.log('Places render places ', places)
-    // console.log('Places length ', places.length)
-    
     if(places.length !== 0) {
         return (
             places.map((item, i) => {
                 const formattedAmount = formatAmount(item.pricePerNight)
                 let title = item.title ? item.title : 'no title'
-                // console.log('Title ', title)
                 title = shortenXterLength(title, 18)
                 return (
                     <View style={scrollItemContainer} key={item.id}>

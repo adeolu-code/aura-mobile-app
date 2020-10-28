@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import { setContext, Request, GetRequest, urls } from "./src/utils";
 
-import { setUser } from './src/helpers';
+import { setUser, clearData } from './src/helpers';
 
 const AppContext = React.createContext({});
 
@@ -24,16 +24,21 @@ class AppProvider extends Component {
   state = defaultContext;
   
   set = (value) => {
-    this.setState(value);
-    setTimeout(() => {
+    // this.setState(value);
+    this.setState(()=>(value), () => {
       setContext({state: this.state});
-    }, 1000);
+    })
+    // setTimeout(() => {
+    //   setContext({state: this.state});
+    // }, 1000);
   };
 
   getUserProfile = (token) => {
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.identityBase, 'api/v1/user/me', token);
-      if (res.isError) {
+      if (res.IsError || res.isError) {
+        await clearData()
+        this.set({ userData: undefined, isLoggedIn: false })
         reject(res.message)
       } else {
         await setUser(res.data)

@@ -50,11 +50,6 @@ class HostComponent extends Component {
                     <View style={thumbContainer}>
                         <Image source={imgUrl} resizeMode="cover" style={thumbStyle} />
                         {this.renderVerified()}
-                        {/* <View style={{ position: 'absolute', right: 0, top: -5}}>
-                            <View style={iconVerifiedContainer}>
-                                <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
-                            </View>
-                        </View> */}
                     </View>
                     <MyText style={[textH3Style]}>{house ? house.hostName : '***'}</MyText>
                 </View>

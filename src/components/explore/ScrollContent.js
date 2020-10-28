@@ -6,7 +6,7 @@ import ScrollHeader from './ScrollHeader';
 
 import HouseComponent from './HouseComponent';
 
-import { GetRequest, GOOGLE_API_KEY } from '../../utils';
+import { GetRequest, GOOGLE_API_KEY, urls } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 
@@ -51,7 +51,7 @@ class ScrollContent extends Component {
         this.getPlaces(stateObj.long_name)
     }
     getPlaces = async (st) => {
-        const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
+        const res = await GetRequest(urls.listingBase, 
         `api/v1/listing/property/search/available/?State=${st}&Size=4&Page=1`);
         // console.log('Res ', res)
         this.setState({ loading: false })

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Container, Content, View, Separator } from "native-base";
+import { TouchableOpacity } from 'react-native'
+import { Container, Content, View, Separator, Text, Icon } from "native-base";
 import { Styles } from "./profile.style";
 import ProfileComponent from "./../../components/profile_item/profileItem.component";
 import { Image } from "react-native";
@@ -7,12 +8,18 @@ import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { AppContext } from "../../../AppProvider";
 
+import { clearData } from '../../helpers';
+
 export default class ProfileScreen extends Component {
     static contextType = AppContext;
     constructor() {
         super();
-
         this.state = {};
+    }
+    onSignOut = async () => {
+        await clearData()
+        this.context.set({ userData: null, isLoggedIn: false})
+        // this.props.navigation.navigate('Tabs')
     }
 
     render() {
@@ -125,7 +132,10 @@ export default class ProfileScreen extends Component {
                     <View style={[Styles.parentView]}>
                         <Image style={[Styles.image]} source={require("./../../assets/images/profile/stand_by/stand-by.png")} resizeMode="center" />
                         <View style={[Styles.contentView]}>
-                            <MyText style={[textH3Style, textOrange]}>Log Out</MyText>
+                            <TouchableOpacity onPress={this.onSignOut}>
+                                <MyText style={[textH3Style, textOrange]}>Log Out</MyText>
+                            </TouchableOpacity>
+                            
                             <MyText style={[textH6Style]}>Tap to sign out of account</MyText>
                         </View>
                         

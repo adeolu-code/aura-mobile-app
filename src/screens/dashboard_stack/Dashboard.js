@@ -19,16 +19,50 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      earnings: [],
+      weeklyEarnings: 0,
+      totalEarnings: 0,
+      error: false,
+      reservation:  null,
+      reservations: [],
+      name: null,
+      image: null,
     };
   }
 
-  // componentDidMount() {
-    
-  // }
+  componentDidMount() {
+    this.renderWeeklyEarnings();
+    this.renderTotalEarnings();
+    this.getReservations();
+  }
+
+  renderWeeklyEarnings = async () => {
+    try {
+      const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/earnings');
+      if (response) {
+          const data = await response.data;
+          const earning = data.weeklyEarnings;
+          this.setState({ weeklyEarnings: earning});
+      } else { this.setState({ error: true }) }
+  } catch (e) {
+this.setState({ error: true });
+}
+  }
+
+renderTotalEarnings = async () => {
+    try {
+      const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/earnings');
+      if (response) {
+          const data = await response.data;
+          const earnings = data.totalEarnings;
+          this.setState({ totalEarnings: earnings});
+      } else { this.setState({ error: true }) }
+  } catch (e) {
+this.setState({ error: true });
+}
+  }
 
   linkToReservations = () => {
-    this.props.navigation.navigate('Reservations')
+    this.props.navigation.navigate('Reservations');
   }
 
   renderName = () => {
@@ -46,21 +80,84 @@ class Dashboard extends Component {
     }
   }
 
-// weeklyEarnings = async () => {
-//     this.setState({ earnings: [] });
-//     const res = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/earnings');
-//     console.log(res);
-//     if (res.data) {
-//       const earnings = res.data.weeklyEarnings;
-//       const earning = [earnings];
-//       this.setState({earnings: earning});
-//       // return (
-//       //   <View style={{ flex: 1 }}>
-//       //     <MyText style={[textH4Style, textBold]}>{earnings}</MyText>
-//       //   </View>
-//       // );
-//     }
-// }
+  renderProfilePhoto = () => {
+    if (this.context.state.isLoggedIn) {
+      const {userData} = this.context.state;
+      const photo = userData.profilePicture;
+      const { imgStyle } = GStyles;
+      const { imgContainer, profileImg} = styles;
+      if (photo === null) {
+        return (
+            <View style={profileImg}>
+              <View style={imgContainer}>
+                <Image source={require('../../assets/images/photo/profile.png')} resizeMode="cover" style={imgStyle} />
+              </View>
+            </View>
+        );
+      }
+    } else {
+      const {userData} = this.context.state;
+      const photo = userData.profilePicture;
+      const { imgStyle } = GStyles;
+      const {profileImg, imgContainer} = styles;
+      return (
+          <View style={profileImg}>
+            <View style={imgContainer}>
+              <Image source={{uri:photo}} style={imgStyle} />
+            </View>
+          </View>
+      );
+    }
+  }
+
+  getReservations = async () => {
+    try {
+      const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/reservation/overview');
+      if (!response.isError) {
+          const data = response.data;
+          this.setState({ reservations: data });
+          console.log(data);
+      } else { this.setState({ error: true }); }
+  } catch (e) {
+    console.log(e);
+this.setState({ error: true });
+}
+  }
+
+  renderReservations = () => {
+    const { reservations } = this.state;
+    if (reservations.length !== 0) {
+      // display the reservations
+      const {rowContainer} = styles;
+      if (this.state.reservations.data.propertyTitle !== undefined) {
+        const name = this.state.reservations.data.propertyTitle;
+        const image = this.state.reservations.data.propertyMainImage;
+        const reserve = this.state.reservations.data.total + ' ' + 'Reservation';
+        this.setState({name: name, image: image, reservation: reserve });
+        if (reserve > 1 ) {
+          this.setState({reservation: reserve + 's'});
+        }
+      }
+      return (
+        <View style={rowContainer}>
+            <ReservationRow title={this.state.name} img={{uri: this.state.image}}
+                location="Lagos" reserve={this.state.reservation} calendar />
+        </View>
+      )
+    } else {
+      const { reservation} = styles;
+        const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
+      return (
+        <View style={{alignContent: 'center'}}>
+          <View style={reservation}>
+            <Image source={require('../../assets/images/photo/undraw.png')} style={imgStyle}/>
+          </View>
+          <MyText style={[ textH5Style, textCenter, textBold, textOrange]}>No Reservations Yet</MyText>
+        </View>
+      )
+    }
+  }
+
 
   render() {
     const { subHeaderContainer, profileContainer, walletContainer, imgContainer, profileImg, profileText, firstRow, 
@@ -75,11 +172,7 @@ class Dashboard extends Component {
         <ScrollView>
           <View style={subHeaderContainer}>
             <View style={[flexRow, profileContainer]}>
-              <View style={profileImg}>
-                <View style={imgContainer}>
-                  <Image source={require('../../assets/images/photo/photo.png')} resizeMode="cover" style={imgStyle} />
-                </View>
-              </View>
+                {this.renderProfilePhoto()}
               <View style={profileText}>
                 {this.renderName()}
                 <MyText style={[textGrey, textH4Style]}>You are now A Host on Aura</MyText>
@@ -97,17 +190,15 @@ class Dashboard extends Component {
               </View>
               <View style={[flexRow, secondRow]}>
                 <View>
-                  <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Weekly Earnings</MyText>                
-                  <MyText style={[textH2Style, textWhite, textExtraBold]}>$ 32,000</MyText>
+                  <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Weekly Earnings</MyText>
+                  <MyText style={[textH2Style, textWhite, textExtraBold]}>$ {this.state.weeklyEarnings}</MyText>
                 </View>
                 <View>
                   <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Total Earnings</MyText>
-                  <MyText style={[textH2Style, textWhite, textExtraBold]}>$ 32,000</MyText>
+                <MyText style={[textH2Style, textWhite, textExtraBold]}>$ {this.state.totalEarnings}</MyText>
                 </View>
               </View>
-            </View>
-
-            
+            </View>   
           </View>
 
           <View style={contentContainer}>
@@ -119,18 +210,19 @@ class Dashboard extends Component {
             </View>
 
             <View style={contentBody}>
-              <View style={rowContainer}>
-                <ReservationRow title="Umbaka Homes" img={require('../../assets/images/places/bed.png')}
-                location="Lagos" reserve="2 Reservations" calendar />
-              </View>
-              <View style={rowContainer}>
+              {/* <View style={rowContainer}>
+                <ReservationRow title={this.state.name} img={{uri: this.state.image}}
+                location="Lagos" reserve={this.state.reservation} calendar />
+              </View> */}
+              {this.renderReservations()}
+              {/* <View style={rowContainer}>
                 <ReservationRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed1.png')}
                 location="Lagos" reserve="5 Reservations" />
               </View>
               <View style={rowContainer}>
                 <ReservationRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed2.png')}
                 location="Lagos" reserve="5 Reservations" />
-              </View>
+              </View> */}
             </View>
           </View>
 
@@ -220,8 +312,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.green, paddingHorizontal: 25, paddingVertical: 10, borderRadius: 6
   },
   contentContainer: {
-    paddingHorizontal: 20, paddingVertical: 25, backgroundColor: colors.white,
-    paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey
+    paddingHorizontal: 20, paddingVertical: 25, backgroundColor: colors.white, borderBottomWidth: 4, borderBottomColor: colors.lightGrey
 
   },
   contentHeader: {
@@ -236,7 +327,15 @@ const styles = StyleSheet.create({
   noBorderBottom: {
     borderBottomWidth: 0, 
     // borderBottomColor: colors.lightGrey
-  }
+  },
+  reservation: {
+    width: '90%',
+    paddingHorizontal: 20,
+    height: 150,
+    marginBottom: 20,
+    marginTop: 20,
+    flex: 1,
+  },
 });
 
 export default Dashboard;
