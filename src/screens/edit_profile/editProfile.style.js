@@ -23,6 +23,11 @@ export const Styles = StyleSheet.create({
         backgroundColor: colors.orange,
         alignItems: "center",
     },
+    transparentFooter: {
+        backgroundColor: 'transparent', 
+        elevation: 0, 
+        shadowOffset:{height: 0, width: 0}
+    },
     label: {
         color: colors.greyWhite,
         marginBottom: 5,

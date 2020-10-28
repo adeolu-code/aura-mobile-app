@@ -69,7 +69,7 @@ export default class HouseRules extends Component {
                                 <MyText style={[textUnderline,textOrange]}>Add Additional Requirement</MyText>
                             </TouchableOpacity>
                         </Content>
-                        <Footer style={[Styles.footer, {borderRadius: 5,}]}>
+                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
                             <TouchableOpacity 
                                 style={[Styles.nextButton, {marginTop: 10}]}
                                 onPress={() => this.props.navigation.navigate('BookingPreview')}

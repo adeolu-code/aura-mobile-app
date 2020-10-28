@@ -6,13 +6,13 @@ import ProfileComponent from "./../../components/profile_item/profileItem.compon
 import { Image } from "react-native";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
+import { AppContext } from "../../../AppProvider";
 
-import { AppContext } from '../../../AppProvider';
 import { clearData } from '../../helpers';
 
 export default class ProfileScreen extends Component {
     static contextType = AppContext;
-    constructor(props) {
+    constructor() {
         super();
         this.state = {};
     }

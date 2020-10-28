@@ -1,27 +1,29 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from "react";
-import { StatusBar, ScrollView, Pressable, TouchableOpacity } from "react-native";
+import { StatusBar, Pressable, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 import colors from "../../colors";
 import { Styles } from "./editProfile.style";
-import { Form, Item, Label, Input, Container, Content, Footer, View, Picker, DatePicker, Left, Right, Text, Icon } from "native-base";
+import { Container, Content, Footer, View, Left, Right, Icon } from "native-base";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
-import IntlPhoneInput from 'react-native-intl-phone-input';
 import {LabelInput as EditInput} from "./../../components/label_input/labelInput.component";
+import { AppContext } from "../../../AppProvider";
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import  from "@react-native-community/picker";
 
 export default class EditProfile extends Component {
-    constructor(props) {
+    static contextType = AppContext;
+    constructor() {
         super();
 
         this.state = {}
     }
 
     render() {
+        console.log("user", this.context.state.userData);
         const {textCenter, textH3Style, textWhite, textBold,textGreen} = GStyles;
         return (
             <>
@@ -30,9 +32,21 @@ export default class EditProfile extends Component {
                     <Header {...this.props} title="Edit Personal Info" />
                     <Container style={[Styles.container]}>
                         <Content scrollEnabled={true}>
-                            <EditInput label={"First Name"} placeholder={"Joshua"} />
-                            <EditInput label={"Last Name"} placeholder={"Nwagbo"} />
-                            <EditInput label={"Email"} placeholder={"ode@g.com"} />
+                            <EditInput 
+                                label={"First Name"} 
+                                placeholder={"Joshua"} 
+                                onChangeText={(e) => this.setState({firstName: e})}
+                            />
+                            <EditInput 
+                                label={"Last Name"} 
+                                placeholder={"Nwagbo"} 
+                                onChangeText={(e) => this.setState({lastName: e})}
+                            />
+                            <EditInput 
+                                label={"Email"} 
+                                placeholder={"ode@g.com"} 
+                                onChangeText={(e) => this.setState({email: e})}
+                            />
                             <EditInput 
                                 phone 
                                 label={"Phone Number"} 
@@ -52,8 +66,8 @@ export default class EditProfile extends Component {
                                 </Right>
                             </Pressable>
                         </Content>
-                        <Footer style={[Styles.footer]}>
-                            <TouchableOpacity>
+                        <Footer style={[Styles.footer, Styles.transparentFooter]}>
+                            <TouchableOpacity style={[Styles.nextButton, {height: 40}]}>
                                 <MyText style={[textH3Style, textCenter, textWhite, textBold]}>Save Changes</MyText>
                             </TouchableOpacity>
                             

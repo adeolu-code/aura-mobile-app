@@ -90,22 +90,29 @@ export default class HostSteps extends Component {
                                 title={"Facilities And Location"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                 completed={false}
-                                step={1} getStarted
-                                onEditPress={() => this.set({step: 1})} onGetStartedPress={this.getStarted}
+                                step={1} 
+                                getStarted
+                                onEditPress={() => this.set({step: 1})} 
+                                onGetStartedPress={this.getStarted}
                             />
                             <Card 
                                 title={"Upload Picture And Short Description Of Your Place"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                 completed={false}
                                 step={2} 
+                                getStarted
                                 onEditPress={() => this.set({step: 2})}
+                                onGetStartedPress={this.getStarted}
                             />
                             <Card 
                                 title={"Welcome Your First Guest"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                 completed={false}
                                 step={3}
+                                getStarted
+                                edit
                                 onEditPress={() => this.set({step: 3})}
+                                onGetStartedPress={this.getStarted}
                             />
                         </Content>
                         {/* {

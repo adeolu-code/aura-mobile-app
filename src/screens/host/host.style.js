@@ -35,6 +35,11 @@ export const Styles = StyleSheet.create({
     rowView: {
         flexDirection: "row", 
     },
+    transparentFooter: {
+        backgroundColor: 'transparent', 
+        elevation: 0, 
+        shadowOffset:{height: 0, width: 0}
+    },
 
     //amenities
     checkBox: {
@@ -258,6 +263,39 @@ export const Styles = StyleSheet.create({
     },
     content: {
         marginTop: 5,
+    },
+
+    //set pricing
+    averageItem: {
+        marginTop: 10, 
+        paddingBottom: 3, 
+        borderBottomWidth: 1, 
+        borderBottomColor: colors.lightGrey
+    },
+    averageItemParent: {
+        borderBottomColor: colors.lightGreyOne,
+        borderBottomWidth: 1,
+        paddingBottom: 20,
+        height: 150,
+    },
+    pricingInput: {
+        height: 40,
+        width: '60%'
+    },
+    pricingPicker: {
+        height: 40,
+        width: '40%'
+    },
+    pricingInputParent: {
+        borderColor: colors.lightGrey,
+        borderWidth: 1,
+        marginTop: 10,
+        borderRadius: 5,
+    },
+    currencyPicker: {
+        borderWidth: 1, 
+        borderColor: colors.lightGrey,
+        borderRadius: 5,
     }
 
 });

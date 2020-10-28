@@ -26,7 +26,6 @@ export const Styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 0,
         fontSize: 18,
-        
     },
     iconParent: {
         flex: 0.1,
@@ -43,5 +42,7 @@ export const Styles = StyleSheet.create({
     },
     content: {
         marginTop: 5,
-    }
+    },
+
+    
 });

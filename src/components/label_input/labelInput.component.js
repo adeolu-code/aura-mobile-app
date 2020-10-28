@@ -3,7 +3,15 @@ import React from "react";
 import { Styles } from "./labelInput.style";
 import IntlPhoneInput from 'react-native-intl-phone-input';
 import { Item, Label, Input, View, Picker, DatePicker, Right, Left, Icon, Textarea } from "native-base";
-
+/**
+ * 
+ * @param {*} props
+ * 
+ *  dateTime | picker | phone | icon | textarea [bool]
+ * 
+ * label [string]
+ * 
+ */
 export const LabelInput = (props) => {
     const dateTime = (props.dateTime == undefined) ? false : ((props.dateTime) ? true : false);
     const picker = (props.picker == undefined) ? false : ((props.picker) ? true : false);
@@ -64,7 +72,10 @@ export const LabelInput = (props) => {
                 <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <IntlPhoneInput
-                        onChangeText={props.onChangeText} 
+                        onChangeText={({dialCode, unmaskedPhoneNumber, phoneNumber, isVerified}) => {
+                            console.log(dialCode, unmaskedPhoneNumber, phoneNumber, isVerified);
+                            // props.onChangeText(e);
+                        }} 
                         defaultCountry="NG" 
                         containerStyle={{height: 45}}
                         phoneInputStyle={{color: "black"}}
@@ -90,6 +101,7 @@ export const LabelInput = (props) => {
                         style={[Styles.input, {height: 150, backgroundColor: "red"}]} 
                         maxLength={props.maxLength} 
                         multiline={true}
+                        onChangeText={(e) => props.onChangeText(e)}
                     />
                 </View>
                 

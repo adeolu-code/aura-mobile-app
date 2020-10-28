@@ -7,12 +7,18 @@ import { Styles } from "./host.style";
 import { MyText } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import LabelCheckbox from "../../components/label_checkbox/labelCheckbox.component";
+import DateTimePickerComponent from "../../components/date_time_picker/dateTimePicker.component";
+
+// const DP = require("react-native-zdatepicker");
 
 export default class NotifyHost extends Component {
     constructor() {
         super();
 
-        this.state = {};
+        this.state = {
+            time: new Date(),
+            date: new Date(),
+        };
     }
 
     days = [
@@ -48,7 +54,7 @@ export default class NotifyHost extends Component {
                     />
                     <Container style={[Styles.container, {marginTop: 180}]}>
                         <Content scrollEnabled>
-                            <View style={[Styles.rowView]}>
+                            <View style={[Styles.rowView, {}]}>
                                 <MyText style={[textGreen, textBold]}>Tips: </MyText>
                                 <MyText style={[textBold]}>
                                   At least 2 days’ notice can help you plan for a guest’s arrival, but you might miss out on last minutes trips.
@@ -71,12 +77,34 @@ export default class NotifyHost extends Component {
                                 }
                             </View>
                             
-                            <MyText style={[textBold, {marginTop: 20}]}>When Can Guests Check In?</MyText>
+                            <MyText style={[textBold, {marginTop: 20, }]}>When Can Guests Check In?</MyText>
+                            <View style={[Styles.rowView]}>
+                                <MyText style={[textlightGreyTwo, {marginTop: 5, flex: 1}]}>From</MyText>
+                                <MyText style={[textlightGreyTwo, {marginTop: 5, flex: 1}]}>To</MyText>
+                            </View>
+                            <View style={[Styles.rowView]}>                            
+                                <DateTimePickerComponent 
+                                    mode={"time"}
+                                    onChange={(e) => this.setState({time: e})}
+                                    value={new Date()}
+                                    display="spinner"
+                                    format="HH:MM A"
+                                    style={{flex: 1, marginRight: 10}}
+                                />
+                                <DateTimePickerComponent 
+                                    mode={"time"}
+                                    onChange={(e) => this.setState({date: e})}
+                                    value={new Date()}
+                                    display="spinner"
+                                    format="HH:MM A"
+                                    style={{flex: 1, marginRight: 10}}
+                                />
+                            </View>
                         </Content>
-                        <Footer style={[Styles.footer, {borderRadius: 5,}]}>
+                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, }]}>
                             <TouchableOpacity 
                                 style={[Styles.nextButton, {marginTop: 10}]}
-                                onPress={() => this.props.navigation.navigate('BookingPreview')}
+                                onPress={() => this.props.navigation.navigate('BookingDuration')}
                             >
                                 <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Next</MyText>
                             </TouchableOpacity>
