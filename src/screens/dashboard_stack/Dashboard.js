@@ -178,17 +178,38 @@ this.setState({ error: true });
   renderComments = () => {
     const { comments } = this.state;
     if (comments.length !== 0) {
-      const {divider} = styles;
+      const {textDarkGrey, flexRow, textExtraBold, textH2Style, textH4Style, textBold, textUnderline, textGreen} = GStyles;
+      const {divider, contentHeader, contentBody} = styles;
       if (this.state.comments.data.guestName !== undefined){
         const name = this.comments.data.guestName;
         this.setState({guestName: name });
         return (
           <View>
+            <View style={[flexRow, contentHeader]}>
+              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Comments</MyText>
+              <TouchableOpacity>
+                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
+              </TouchableOpacity>
+            </View>
+
+            <View style={contentBody}>
                 <CommentRow name={this.state.guestName} />
                 <View style={divider} />
+            </View>
           </View>
         );
       }
+    } else {
+      const { reservation} = styles;
+        const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
+      return (
+        <View style={{alignContent: 'center'}}>
+          <View style={reservation}>
+            <Image source={require('../../assets/images/photo/comment.png')} style={imgStyle}/>
+          </View>
+          <MyText style={[ textH5Style, textCenter, textBold, textOrange]}>No Comments Yet</MyText>
+        </View>
+      )
     }
   }
 
@@ -256,14 +277,14 @@ this.setState({ error: true });
           </View>
 
           <View style={contentContainer}>
-            <View style={[flexRow, contentHeader]}>
+            {/* <View style={[flexRow, contentHeader]}>
               <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Comments</MyText>
               <TouchableOpacity>
                 <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
               </TouchableOpacity>
             </View>
 
-            <View style={contentBody}>
+            <View style={contentBody}> */}
               {this.renderComments()}
               {/* <View>
                 <CommentRow name="Joshua Nwabogor" />
@@ -276,7 +297,7 @@ this.setState({ error: true });
               <View>
                 <CommentRow name="Banabas Kaviar" />
               </View> */}
-            </View>
+            {/* </View> */}
           </View>
 
 
