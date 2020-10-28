@@ -23,6 +23,11 @@ class OtpScreen extends Component {
     this.num5 = React.createRef();
     this.num6 = React.createRef();
   }
+  
+  componentDidMount() {
+    setContext(this.context);
+  }
+
   renderLoading = () => {
       const { loading } = this.state;
       if(loading) { return (<Loading />) }
@@ -116,7 +121,7 @@ class OtpScreen extends Component {
             const obj = { ...state.userData, isPhoneVerified: true }
             set({ userData: obj })
             this.checkEmailVerification()
-            await setUser(obj)
+            await setUser(obj);
           }
       }
   }

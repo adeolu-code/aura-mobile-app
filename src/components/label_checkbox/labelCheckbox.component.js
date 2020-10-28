@@ -5,6 +5,17 @@ import { Styles } from "./labelComponent.style";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { MyText } from "../../utils/Index";
 
+/**
+ * #props
+ * 
+ * onPress [function]
+ * 
+ * checked [bool || false]
+ * 
+ * label [string]
+ * 
+ * description [string]
+ */
 export default class LabelCheckbox extends Component {
     constructor() {
         super();
@@ -20,7 +31,7 @@ export default class LabelCheckbox extends Component {
                 onPress={() => props.onPress && props.onPress()} 
             >
                 <CheckBox 
-                    checked={props.checked} 
+                    checked={props.checked || false} 
                     style={[Styles.checkBox]}
                 />
                 <View style={[]}>

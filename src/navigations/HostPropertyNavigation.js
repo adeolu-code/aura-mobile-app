@@ -16,6 +16,11 @@ import BookingInformationRequirements from '../screens/host/bookingInformationRe
 import HouseRules from '../screens/host/houseRules.screen';
 import BookingPreview from '../screens/host/bookingPreview.screen';
 import NotifyHost from '../screens/host/notifyHost.screen';
+import BookingDuration from '../screens/host/bookingDuration.screen';
+import BookInAdvance from '../screens/host/bookInAdvance.screen';
+import PropertyAvailability from '../screens/host/propertyAvailabilty.screen';
+import SetPricing from '../screens/host/setPricing.screen';
+import GuestPolicy from '../screens/host/guestPolicy.screen';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +41,11 @@ export default function HostPropertyStack() {
             <Stack.Screen name="HouseRules" component={HouseRules} options={{ headerShown: false }} />
             <Stack.Screen name="BookingPreview" component={BookingPreview} options={{ headerShown: false }} />
             <Stack.Screen name="NotifyHost" component={NotifyHost} options={{ headerShown: false }} />
+            <Stack.Screen name="BookingDuration" component={BookingDuration} options={{ headerShown: false }} />
+            <Stack.Screen name="BookInAdvance" component={BookInAdvance} options={{ headerShown: false }} />
+            <Stack.Screen name="PropertyAvailability" component={PropertyAvailability} options={{ headerShown: false }} />
+            <Stack.Screen name="SetPricing" component={SetPricing} options={{ headerShown: false }} />
+            <Stack.Screen name="GuestPolicy" component={GuestPolicy} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

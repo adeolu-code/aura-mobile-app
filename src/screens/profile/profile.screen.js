@@ -1,13 +1,15 @@
 import React, { Component } from "react";
-import { Container, Content, View, Separator, Text, Icon } from "native-base";
+import { Container, Content, View, Separator } from "native-base";
 import { Styles } from "./profile.style";
 import ProfileComponent from "./../../components/profile_item/profileItem.component";
 import { Image } from "react-native";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
+import { AppContext } from "../../../AppProvider";
 
 export default class ProfileScreen extends Component {
-    constructor(props) {
+    static contextType = AppContext;
+    constructor() {
         super();
 
         this.state = {};

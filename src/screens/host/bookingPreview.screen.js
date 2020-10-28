@@ -34,10 +34,9 @@ export default class BookingPreview extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header 
                         {...this.props} 
-                        title="House Rules Of Need To Know" 
-                        sub={"Inform your guests about rules they need to follow if you are hosting them"}
+                        title="Here’s How Guests Will Book With You" 
                     />
-                    <Container style={[Styles.container, {marginTop: 190}]}>
+                    <Container style={[Styles.container, {marginTop: 140}]}>
                         <Content scrollEnabled>
                             <Item 
                                 title={"Qualified Guests Find Your Listing"}
@@ -57,7 +56,7 @@ export default class BookingPreview extends Component {
                                 image
                             />
                         </Content>
-                        <Footer style={[Styles.footer, {borderRadius: 5,}]}>
+                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
                             <TouchableOpacity 
                                 style={[Styles.nextButton, {marginTop: 10}]}
                                 onPress={() => this.props.navigation.navigate('NotifyHost')}

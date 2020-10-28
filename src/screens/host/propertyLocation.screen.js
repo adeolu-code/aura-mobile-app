@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import Header from "../../components/Header";
-import { Container, Content, Footer, View } from "native-base";
+import { Container, Content, View } from "native-base";
 import { SafeAreaView, TouchableOpacity, StatusBar } from "react-native";
 import colors from "../../colors";
 import { Styles } from "./host.style";
 import { MyText } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { LabelInput } from "../../components/label_input/labelInput.component";
-import IncrementingInput from "../../components/incrementing_input/incrementingInput.component";
 
 export default class PropertyLocation extends Component {
     constructor() {
@@ -23,7 +22,6 @@ export default class PropertyLocation extends Component {
             textWhite,
             textOrange,
             textBold,
-            textH6Style,
             textH4Style,
             textCenter,
             textUnderline,
