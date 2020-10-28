@@ -131,7 +131,8 @@ this.setState({ error: true });
   renderReservations = () => {
     const { reservations } = this.state;
     if (reservations.length !== 0) {
-      const {rowContainer} = styles;
+      const {flexRow, textExtraBold, textBold, textH2Style, textDarkGrey, textH4Style, textUnderline, textGreen} = GStyles;
+      const {rowContainer, contentHeader, contentBody} = styles;
       if (this.state.reservations.data.propertyTitle !== undefined) {
         const name = this.state.reservations.data.propertyTitle;
         const image = this.state.reservations.data.propertyMainImage;
@@ -142,9 +143,20 @@ this.setState({ error: true });
         }
       }
       return (
-        <View style={rowContainer}>
+        <View>
+          <View style={[flexRow, contentHeader]}>
+              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Reservations</MyText>
+              <TouchableOpacity onPress={this.linkToReservations}>
+                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
+              </TouchableOpacity>
+            </View>
+
+            <View style={contentBody}>
+            <View style={rowContainer}>
             <ReservationRow title={this.state.name} img={{uri: this.state.image}}
                 location="Lagos" reserve={this.state.reservation} calendar />
+          </View>
+          </View>
         </View>
       )
     } else {
@@ -209,7 +221,7 @@ this.setState({ error: true });
           </View>
           <MyText style={[ textH5Style, textCenter, textBold, textOrange]}>No Comments Yet</MyText>
         </View>
-      )
+      );
     }
   }
 
@@ -256,48 +268,11 @@ this.setState({ error: true });
           </View>
 
           <View style={contentContainer}>
-            <View style={[flexRow, contentHeader]}>
-              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Reservations</MyText>
-              <TouchableOpacity onPress={this.linkToReservations}>
-                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
-              </TouchableOpacity>
-            </View>
-
-            <View style={contentBody}>
-              {this.renderReservations()}
-              {/* <View style={rowContainer}>
-                <ReservationRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed1.png')}
-                location="Lagos" reserve="5 Reservations" />
-              </View>
-              <View style={rowContainer}>
-                <ReservationRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed2.png')}
-                location="Lagos" reserve="5 Reservations" />
-              </View> */}
-            </View>
+            {this.renderReservations()}
           </View>
 
           <View style={contentContainer}>
-            {/* <View style={[flexRow, contentHeader]}>
-              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Comments</MyText>
-              <TouchableOpacity>
-                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
-              </TouchableOpacity>
-            </View>
-
-            <View style={contentBody}> */}
               {this.renderComments()}
-              {/* <View>
-                <CommentRow name="Joshua Nwabogor" />
-                <View style={divider}></View>
-              </View> */}
-              {/* <View>
-                <CommentRow name="Ashley Cole" />
-                <View style={divider}></View>
-              </View>
-              <View>
-                <CommentRow name="Banabas Kaviar" />
-              </View> */}
-            {/* </View> */}
           </View>
 
 
