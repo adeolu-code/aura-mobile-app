@@ -19,7 +19,13 @@ export default class EditProfile extends Component {
     constructor() {
         super();
 
-        this.state = {}
+        this.state = {
+            email: "",
+            dob: new Date("2002-10-31"),
+            firstName: "",
+            lastName: "",
+            phone: "",
+        }
     }
 
     render() {
@@ -36,35 +42,55 @@ export default class EditProfile extends Component {
                                 label={"First Name"} 
                                 placeholder={"Joshua"} 
                                 onChangeText={(e) => this.setState({firstName: e})}
+                                value={this.state.firstName || this.context.state.userData.firstName}
+                                onChangeText={(e) => this.setState({firstName: e})}
                             />
                             <EditInput 
                                 label={"Last Name"} 
                                 placeholder={"Nwagbo"} 
+                                onChangeText={(e) => this.setState({lastName: e})}
+                                value={this.state.lastName || this.context.state.userData.lastName}
                                 onChangeText={(e) => this.setState({lastName: e})}
                             />
                             <EditInput 
                                 label={"Email"} 
                                 placeholder={"ode@g.com"} 
                                 onChangeText={(e) => this.setState({email: e})}
+                                value={this.state.email || this.context.state.userData.email}
+                                onChangeText={(e) => this.setState({email: e})}
                             />
                             <EditInput 
                                 phone 
                                 label={"Phone Number"} 
-                                placeholder={"812345678"} 
+                                placeholder={this.state.phone || this.context.state.userData.phoneNumber.replace("+234","")} 
                                 itemStyle={Styles.phoneItem} 
+                                onChangeText={(e) => this.setState({phone: e})}
                             />
                             <View style={[Styles.personalInfo]}>
-                                <EditInput dateTime label={"Date of Birth"} placeholder={"812345678"} itemStyle={{flex: 0.5, marginLeft: 5}} />
-                                <EditInput picker label={"Gender"} itemStyle={{flex: 0.5}} />
+                                <EditInput 
+                                    dateTime 
+                                    label={"Date of Birth"} 
+                                    defaultDate={this.state.dob || new Date()}
+                                    maximumDate={new Date()}
+                                    itemStyle={{flex: 0.5, marginLeft: 5}} 
+                                    onChange={(e) => this.setState({dob: new Date(e)})}
+                                />
+                                <EditInput 
+                                    picker 
+                                    label={"Gender"} 
+                                    itemStyle={{flex: 0.5}} 
+                                    onPickerChange={(e) => this.setState({gender: e})}
+                                    selectedOption={this.state.gender}
+                                />
                             </View>
-                            <Pressable style={[Styles.nextOfKinView]}>
+                            <TouchableOpacity style={[Styles.nextOfKinView]}>
                                 <Left>
                                     <MyText style={[textGreen]}>Add next of Kin</MyText>
                                 </Left>
                                 <Right>
                                     <Icon name={"ios-add-circle-sharp"} style={[Styles.icon]} />
                                 </Right>
-                            </Pressable>
+                            </TouchableOpacity>
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter]}>
                             <TouchableOpacity style={[Styles.nextButton, {height: 40}]}>

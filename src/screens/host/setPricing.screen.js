@@ -7,7 +7,6 @@ import { TouchableOpacity, StatusBar, SafeAreaView, StyleSheet } from "react-nat
 import Header from "../../components/Header";
 import colors from "../../colors"; 
 import TipViewComponent from "../../components/tip_view/tipView.component";
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import { GLOBAL_PADDING } from "../../utils";
 
 export default class SetPricing extends Component {

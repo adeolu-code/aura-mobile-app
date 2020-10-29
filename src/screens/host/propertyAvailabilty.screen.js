@@ -7,7 +7,7 @@ import { TouchableOpacity, StatusBar, SafeAreaView } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
 import TipViewComponent from "../../components/tip_view/tipView.component";
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import {Calendar} from 'react-native-calendars';
 
 export default class PropertyAvailability extends Component {
     constructor(props) {
