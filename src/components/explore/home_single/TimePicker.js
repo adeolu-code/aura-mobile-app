@@ -27,17 +27,19 @@ class TimePicker extends Component {
         }
     }
     renderTimeValue = () => {
-        const {textH4Style, textBold, textOrange, textDarkBlue } = GStyles
-        const { timeValue } = this.state
+        const {textH4Style, textBold, textOrange, textDarkBlue } = GStyles;
+        const { alignRight } = styles
+        const { timeValue } = this.state;
+        const { right } = this.props
         if(timeValue) {
             return (
-                <MyText style={[textH4Style, textDarkBlue, textBold]}>
+                <MyText style={[textH4Style, textDarkBlue, textBold, right ? alignRight : '']}>
                     {timeValue}
                 </MyText>
             )
         }
         return (
-            <MyText style={[textH4Style, { color: colors.grey}]}>
+            <MyText style={[textH4Style, right ? alignRight : '', { color: colors.grey }]}>
                 12:00 am
             </MyText>
         )
@@ -60,12 +62,12 @@ class TimePicker extends Component {
     }
 
   render() {
-    const { container } = styles
-    const { title } = this.props;
+    const { container, alignRight } = styles
+    const { title, right } = this.props;
     const { textH6Style, textGrey } = GStyles
     return (
       <View style={container}>
-        <MyText style={[textH6Style, textGrey]}>{title}</MyText>
+        <MyText style={[textH6Style, textGrey, right ? alignRight : '']}>{title}</MyText>
         {this.renderTime()}
         {this.renderTimePicker()}
       </View>
@@ -83,6 +85,9 @@ const styles = StyleSheet.create({
         // alignItems: 'center', 
         elevation: 1,
         backgroundColor:'white',  paddingHorizontal:15, marginTop: 10,
+   },
+   alignRight: {
+       textAlign: 'right'
    }
 });
 
