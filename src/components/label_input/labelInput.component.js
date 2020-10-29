@@ -24,9 +24,15 @@ export const LabelInput = (props) => {
                 <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <DatePicker
-                        defaultDate={new Date()}
-                        maximumDate={new Date()}
+                        defaultDate={props.defaultDate || new Date()}
+                        maximumDate={props.maximumDate || new Date()}
                         style={[Styles.input, Styles.datePicker]}
+                        onChange={(e, selectedDate) => {
+                            console.log("e", selectedDate);
+                            if (e != undefined) {
+                                props.onChange(selectedDate);
+                            }
+                        }}
                     />
                 </View>
                 
@@ -73,8 +79,8 @@ export const LabelInput = (props) => {
                 <View style={[Styles.personalContentView]}>
                     <IntlPhoneInput
                         onChangeText={({dialCode, unmaskedPhoneNumber, phoneNumber, isVerified}) => {
-                            console.log(dialCode, unmaskedPhoneNumber, phoneNumber, isVerified);
-                            // props.onChangeText(e);
+                            if (unmaskedPhoneNumber.startsWith("0")) unmaskedPhoneNumber = unmaskedPhoneNumber.substring(1)
+                            props.onChangeText && props.onChangeText(`${dialCode}${unmaskedPhoneNumber}`);
                         }} 
                         defaultCountry="NG" 
                         containerStyle={{height: 45}}
@@ -119,6 +125,7 @@ export const LabelInput = (props) => {
                             placeholder={props.placeholder} 
                             style={[Styles.input]} 
                             maxLength={props.maxLength} 
+                            value={props.value}
                         />
                     </View>
                     {
