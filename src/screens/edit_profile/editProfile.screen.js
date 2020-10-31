@@ -6,10 +6,11 @@ import Header from "../../components/Header";
 import colors from "../../colors";
 import { Styles } from "./editProfile.style";
 import { Container, Content, Footer, View, Left, Right, Icon } from "native-base";
-import { MyText } from "../../utils/Index";
+import { MyText, Loading } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import {LabelInput as EditInput} from "./../../components/label_input/labelInput.component";
 import { AppContext } from "../../../AppProvider";
+import { editProfileApi } from "../../components/api/profile.api";
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import  from "@react-native-community/picker";
@@ -24,18 +25,47 @@ export default class EditProfile extends Component {
             dob: new Date("2002-10-31"),
             firstName: "",
             lastName: "",
-            phone: "",
+            phoneNumber: "",
+            loading: false,
         }
     }
 
+    onUpdateUser = async () => {
+        let data = {
+            "firstName": this.state.firstName || this.context.state.userData.firstName,
+            "lastName": this.state.lastName || this.context.state.userData.lastName,
+            "phoneNumber": this.state.phoneNumber || this.context.state.userData.phoneNumber,
+            "dateofBirth": this.state.dob || this.context.state.userData.dateofBirth,
+            "country": this.state.country || this.context.state.userData.country,
+            "gender": this.state.gender || this.context.state.userData.gender,
+            "address": this.state.address || this.context.state.userData.address,
+            "emergencyContact": this.state.emergencyContact || this.context.state.userData.emergencyContact,
+            "otherVerifiedPhoneNumbers": this.state.otherVerifiedPhoneNumbers || this.context.state.userData.otherVerifiedPhoneNumbers,
+            "city": this.state.city || this.context.state.userData.city,
+            "state": this.state.state || this.context.state.userData.state,
+            "zipCode": this.state.zipCode || this.context.state.userData.zipCode,
+          }
+          console.log("data", data);
+          this.setState({loading: true});
+          data.otherVerifiedPhoneNumbers = JSON.stringify(data.otherVerifiedPhoneNumbers);
+        //   if (data.otherVerifiedPhoneNumbers.length == 0) delete data.otherVerifiedPhoneNumbers;
+          await editProfileApi(data, this.context);
+          this.setState({loading: false});
+    }
+
+    renderLoading = () => {
+        const { loading } = this.state;
+        if (loading) { return (<Loading />); }
+    }
+
     render() {
-        console.log("user", this.context.state.userData);
         const {textCenter, textH3Style, textWhite, textBold,textGreen} = GStyles;
         return (
             <>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Edit Personal Info" />
+                    {this.renderLoading()}
                     <Container style={[Styles.container]}>
                         <Content scrollEnabled={true}>
                             <EditInput 
@@ -43,28 +73,25 @@ export default class EditProfile extends Component {
                                 placeholder={"Joshua"} 
                                 onChangeText={(e) => this.setState({firstName: e})}
                                 value={this.state.firstName || this.context.state.userData.firstName}
-                                onChangeText={(e) => this.setState({firstName: e})}
                             />
                             <EditInput 
                                 label={"Last Name"} 
                                 placeholder={"Nwagbo"} 
                                 onChangeText={(e) => this.setState({lastName: e})}
                                 value={this.state.lastName || this.context.state.userData.lastName}
-                                onChangeText={(e) => this.setState({lastName: e})}
                             />
                             <EditInput 
                                 label={"Email"} 
                                 placeholder={"ode@g.com"} 
                                 onChangeText={(e) => this.setState({email: e})}
                                 value={this.state.email || this.context.state.userData.email}
-                                onChangeText={(e) => this.setState({email: e})}
                             />
                             <EditInput 
                                 phone 
                                 label={"Phone Number"} 
-                                placeholder={this.state.phone || this.context.state.userData.phoneNumber.replace("+234","")} 
+                                placeholder={this.state.phoneNumber || this.context.state.userData.phoneNumber.replace("+234","")} 
                                 itemStyle={Styles.phoneItem} 
-                                onChangeText={(e) => this.setState({phone: e})}
+                                onChangeText={(e) => this.setState({phoneNumber: e})}
                             />
                             <View style={[Styles.personalInfo]}>
                                 <EditInput 
@@ -93,7 +120,10 @@ export default class EditProfile extends Component {
                             </TouchableOpacity>
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter]}>
-                            <TouchableOpacity style={[Styles.nextButton, {height: 40}]}>
+                            <TouchableOpacity 
+                                style={[Styles.nextButton, {height: 40, borderRadius: 5}]}
+                                onPress={() => this.onUpdateUser()}
+                            >
                                 <MyText style={[textH3Style, textCenter, textWhite, textBold]}>Save Changes</MyText>
                             </TouchableOpacity>
                             

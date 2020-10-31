@@ -74,5 +74,24 @@ export const Styles = StyleSheet.create({
     },
     deviceHistoryScrollView: {
         marginTop: 20,
-    }
+    },
+    loginSignupBtn: {
+        alignSelf: "center",
+        width: "100%",
+        justifyContent: "center",
+        marginTop: 20,
+        marginBottom: 5,
+        height: 40,
+        borderRadius: 5,
+    },
+    transparentFooter: {
+        backgroundColor: 'transparent', 
+        elevation: 0, 
+        shadowOffset:{height: 0, width: 0}
+    },
+    footer: {
+        justifyContent: "center",
+        height: 130,
+        backgroundColor: colors.white,
+    },
 });

@@ -17,15 +17,17 @@ export const urls = {
     bookingBase: "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     listingBase: "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     messagingBase: "http://aura-messaging.d6f993e093904834a7f1.eastus.aksapp.io/",
-    paymentBase: "http://aura-payment-service.d6f993e093904834a7f1.eastus.aksapp.io/",
+    paymentBase: "http://aura-payment-service.d6f993e093904834a7f1.eastus.aksapp.io/payment/",
     photographyBase: "http://aura-photography-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     supportBase: "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/",
     promotionBase: "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/",
     storageBase: "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/",
-    v1: "/api/v1/",
+    v1: "api/v1/",
     auth: "auth/",
     user: "user/",
-    login: "login/"
+    login: "login/",
+    update: "update/",
+    payMethods: "pay/methods/",
 }
 const getUserToken = async () => {
 	try {
@@ -91,6 +93,7 @@ export async function Request(
   //also change content type
   const token = await getUserToken();
   let headers = {}
+  console.log("url", Base+Url, PrepareData(Data));
   
   if (!PreparedData) {
      headers["Content-Type"] = "application/json"
