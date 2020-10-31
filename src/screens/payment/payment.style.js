@@ -20,6 +20,7 @@ export const Styles = StyleSheet.create({
         backgroundColor: colors.orange, 
         elevation: 2,
         marginTop: 20,
+        height: 40,
     },
     customTextStyle:{color: colors.white },
     cardView: {

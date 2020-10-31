@@ -2,7 +2,7 @@
 import React from "react";
 import { Styles } from "./labelInput.style";
 import IntlPhoneInput from 'react-native-intl-phone-input';
-import { Item, Label, Input, View, Picker, DatePicker, Right, Left, Icon, Textarea } from "native-base";
+import { Item, Label, Input, View, Picker, DatePicker, Icon } from "native-base";
 /**
  * 
  * @param {*} props
@@ -78,7 +78,7 @@ export const LabelInput = (props) => {
                 <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <IntlPhoneInput
-                        onChangeText={({dialCode, unmaskedPhoneNumber, phoneNumber, isVerified}) => {
+                        onChangeText={({dialCode, unmaskedPhoneNumber}) => {
                             if (unmaskedPhoneNumber.startsWith("0")) unmaskedPhoneNumber = unmaskedPhoneNumber.substring(1)
                             props.onChangeText && props.onChangeText(`${dialCode}${unmaskedPhoneNumber}`);
                         }} 
@@ -107,7 +107,7 @@ export const LabelInput = (props) => {
                         style={[Styles.input, {height: 150, backgroundColor: "red"}]} 
                         maxLength={props.maxLength} 
                         multiline={true}
-                        onChangeText={(e) => props.onChangeText(e)}
+                        onChangeText={(e) => { console.log("val", e); props.onChangeText(e);}}
                     />
                 </View>
                 
@@ -126,6 +126,7 @@ export const LabelInput = (props) => {
                             style={[Styles.input]} 
                             maxLength={props.maxLength} 
                             value={props.value}
+                            onChangeText={(e) => { console.log("val", e); props.onChangeText(e);}}
                         />
                     </View>
                     {

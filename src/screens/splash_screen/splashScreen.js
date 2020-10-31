@@ -98,7 +98,7 @@ const SplashScreen = (props) => {
     const checkLogin = async () => {
         const userData = await getUser()
         const token = await getToken()
-        // console.log('User await ', userData, token)
+        console.log('User await ', userData, token)
         if(userData && token) {
             context.set({ userData, token, isLoggedIn: true })
             context.getUserProfile(token.access_token)

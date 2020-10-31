@@ -22,7 +22,6 @@ export default class AddPayment extends Component {
     }
 
     render() {
-        const { textGrey, textH2Style, textH1Style, textExtraBold, textDarkBlue, textH4Style, imgContainer, imgStyle, textCenter } = GStyles;
         return(
             <>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />

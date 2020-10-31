@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, ScrollView, Image, Pressable } from "react-native";
+import { StatusBar, SafeAreaView, ScrollView, Image, TouchableOpacity,   } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
 import { View, Icon } from "native-base";
 import { Styles } from "./referral.style";
 import GeneralStyles from "./../../assets/styles/GeneralStyles";
+import Clipboard from "@react-native-community/clipboard";
+import { successMessage, urls } from "../../utils";
+import Share from 'react-native-share';
 
 export default class Referrals extends Component {
     constructor() {
@@ -14,6 +17,33 @@ export default class Referrals extends Component {
         this.state = {
             referralCode: "ahdjw02",
         };
+        
+        this.shareOptions = {
+            title: 'Share via',
+            message: 'send refferal code',
+            social: Share.Social.WHATSAPP,
+            message: 'Sign up on Aura using my refferral code ' + this.state.referralCode.toUpperCase(),
+            url: urls.identityBase,
+        };
+    }
+
+    shareToFB = () => {
+        this.shareOptions.social = Share.Social.FACEBOOK;
+        this.share();
+    }
+
+    shareToIG = () => {
+        this.shareOptions.social = Share.Social.INSTAGRAM;
+        this.share();
+    }
+
+    shareToBirdApp = () => {
+        this.shareOptions.social = Share.Social.TWITTER;
+        this.share();
+    }
+
+    share = async () => {
+        const shareResponse = await Share.shareSingle(this.shareOptions);
     }
 
     render() {
@@ -29,33 +59,39 @@ export default class Referrals extends Component {
                             <MyText style={[textH5Style, textOrange]}>30% discount</MyText>
                         </View>
                         <View style={[Styles.referalView]}>
-                            <Pressable style={[Styles.copyView]}>
+                            <TouchableOpacity 
+                                style={[Styles.copyView]}
+                                onPress={() => {
+                                    Clipboard.setString(this.state.referralCode.toUpperCase());
+                                    successMessage("Referral Code copied successfully");
+                                }}
+                            >
                                 <MyText style={[textOrange, textH5Style]}>Copy</MyText>
                                 <Icon name={"copy-outline"} style={[Styles.copyIcon]} />
-                            </Pressable>
+                            </TouchableOpacity>
                             <MyText style={[textBold, textCenter,textH1Style]}>{this.state.referralCode.toUpperCase()}</MyText>
                         </View>
                         <View>
                             <MyText>Share on:</MyText>
                             <View style={[Styles.socialView]}>
-                            <Pressable onPress={() => alert("")}>
+                            <TouchableOpacity onPress={() => this.shareToBirdApp()}>
                                     <Image source={require("./../../assets/images/profile/twitter/twitter.png")} />
-                                </Pressable>
-                                <Pressable 
+                                </TouchableOpacity>
+                                <TouchableOpacity 
                                     style={[Styles.facebookImageView]}
-                                    onPress={() => alert("")}
+                                    onPress={() => this.shareToFB()}
                                 >
                                     <Image source={require("./../../assets/images/profile/facebook/facebook.png")} />
-                                </Pressable>
-                                <Pressable 
+                                </TouchableOpacity>
+                                <TouchableOpacity 
                                     style={[Styles.instagramImageView]}
-                                    onPress={() => alert("")}
+                                    onPress={() => this.shareToIG()}
                                 >
                                     <Image 
                                         style={[Styles.instagramImage]} 
                                         source={require("./../../assets/images/profile/instagram/instagram.png")} 
                                     />
-                                </Pressable>
+                                </TouchableOpacity>
                                 
                             </View>
                         </View>
