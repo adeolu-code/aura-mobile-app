@@ -79,7 +79,6 @@ class Index extends Component {
       }
   }
   linkHouse = (house) => {
-    console.log('House from explore ', house)
     this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
   }
   onEndReached = () => {
@@ -175,7 +174,6 @@ class Index extends Component {
     keys.filter((item) => {
       
       const values = filter[item].toString()
-      console.log('query values ',values, item)
       if(values.length !== 0 && values !== "0") {
         const string = `${item}=${values}`;
         url += `${string}&`
