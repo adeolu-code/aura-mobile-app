@@ -35,7 +35,7 @@ class AppProvider extends Component {
 
   getUserProfile = (token) => {
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.identityBase, 'api/v1/user/me', token);
+      const res = await GetRequest(urls.identityBase, `${urls.v}user/me`, token);
       if (res.IsError || res.isError) {
         await clearData()
         this.set({ userData: undefined, isLoggedIn: false })
@@ -51,7 +51,7 @@ class AppProvider extends Component {
   getPropertyTypes = () => {
     this.set({ gettingPropertyTypes: true})
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.listingBase, 'api/v1/listing/propertytype');
+      const res = await GetRequest(urls.listingBase, `${urls.v}listing/propertytype`);
       if (res.isError) {
         this.set({ gettingPropertyTypes: false})
         reject(res.message)
@@ -66,7 +66,7 @@ class AppProvider extends Component {
   getRoomTypes = (type) => {
     this.set({ gettingRoomTypes: true})
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.listingBase, `api/v1/listing/roomtype/${type}`);
+      const res = await GetRequest(urls.listingBase, `${urls.v}listing/roomtype/${type}`);
       if (res.isError) {
         this.set({ gettingRoomTypes: false})
         reject(res.message)

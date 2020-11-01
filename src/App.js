@@ -8,6 +8,7 @@ import reducers from './redux/reducers/Index';
 import ReduxThunk from 'redux-thunk';
 import {createStore, applyMiddleware} from 'redux';
 import { AppProvider } from '../AppProvider';
+import { ManagePropertyProvider } from '../ManagePropertyProvider';
 import { Root } from 'native-base';
 
 import FlashMessage from "react-native-flash-message";
@@ -21,15 +22,17 @@ export class App extends Component {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
       <AppProvider>
-        <Fragment>
-          <Provider store={store}>
-            <Root>
-              <AppNavigation />
-            </Root>
-          </Provider>
+        <ManagePropertyProvider>
+          <Fragment>
+            <Provider store={store}>
+              <Root>
+                <AppNavigation />
+              </Root>
+            </Provider>
 
-          <FlashMessage position="bottom" />
-        </Fragment>
+            <FlashMessage position="bottom" />
+          </Fragment>
+        </ManagePropertyProvider>
       </AppProvider>
       
     );
