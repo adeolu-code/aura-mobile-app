@@ -2,7 +2,7 @@ import { urls, Request, successMessage, errorMessage, GetRequest } from "../../u
 
 export async function getPayMethodsApi() {
     
-    let res = await GetRequest(urls.paymentBase + urls.v1 , urls.payMethods);
+    let res = await GetRequest(urls.paymentBase + urls.v , urls.payMethods);
     console.log('result', res);
 
     if (res.isError) {

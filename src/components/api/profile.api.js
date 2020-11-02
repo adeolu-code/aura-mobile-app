@@ -3,7 +3,7 @@ import { urls, Request, successMessage, errorMessage } from "../../utils";
 
 export async function editProfileApi(data, context) {
     
-    let res = await Request(urls.identityBase + urls.v1 , urls.user + urls.update, data);
+    let res = await Request(urls.identityBase + urls.v , urls.user + urls.update, data);
 
     if (res.isError) {
         errorMessage(res.message);
