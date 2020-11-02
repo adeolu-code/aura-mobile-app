@@ -12,35 +12,36 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 class CheckOutModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { check_Out_Date: '', day: '', markedDates: {} };
   }
   next = () => {
+    const { check_Out_Date } = this.state
     this.props.onDecline();
-    this.props.next()
-    // setTimeout(() => {
-    //     this.props.next()
-    // }, 10);
+    this.props.next(check_Out_Date)
+  }
+  selectDate = (day) => {
+    const date = `${day.month}/${day.day}/${day.year}`;
+    const obj = {[day.dateString]: {selected: true, selectedColor: colors.orange}}
+    this.setState({ check_Out_Date: date, day, markedDates: obj })
   }
   back = () => {
     this.props.onDecline();
     this.props.back()
-    // setTimeout(() => {
-    //     this.props.back()
-    // }, 10);
   }
 
   render() {
-    const { visible, onDecline } = this.props;
+    const { visible, onDecline, checkInDate } = this.props;
     const { modalContainer, buttonContainer, modalHeader, lineStyle, closeStyle, buttomStyle, 
         headerStyle, calendarContainer, daysStyles, dayStyle } = styles;
     const { flexRow, textH2Style, textExtraBold, textDarkGrey, textCenter, textH5Style, 
         textH4Style, textGrey, textH3Style } = GStyles
+    const minDate = checkInDate ? new Date(checkInDate) : new Date()
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
             <View style={{ flex: 1}}>
                 <View style={buttomStyle}>
                     <View style={buttonContainer}>
-                        <CustomButton buttonText="Next" onPress={this.next} />
+                        <CustomButton buttonText="Next" onPress={this.next} disabled={!this.state.check_Out_Date} />
                     </View>
                 </View>
                 <View style={modalContainer}>
@@ -89,6 +90,9 @@ class CheckOutModal extends Component {
                             // Callback which gets executed when visible months change in scroll view. Default = undefined
                             onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
                             // Max amount of months allowed to scroll to the past. Default = 50
+                            markedDates={this.state.markedDates}
+
+                            onDayPress={this.selectDate}
                             pastScrollRange={50}
                             // Max amount of months allowed to scroll to the future. Default = 50
                             futureScrollRange={50}
@@ -97,7 +101,7 @@ class CheckOutModal extends Component {
                             // Enable or disable vertical scroll indicator. Default = false
                             showScrollIndicator={true}
                             hideDayNames={true}
-                            minDate={'2020-09-18'}
+                            minDate={minDate}
                             // ...calendarParams
                             theme={{ 
                                 textDayFontFamily: 'Nunito-Regular',

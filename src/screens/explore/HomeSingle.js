@@ -24,8 +24,9 @@ import CheckOutModal from '../../components/explore/home_single/CheckOutModal';
 import ReserveModal from '../../components/explore/home_single/ReserveModal';
 import MorePlaces from '../../components/explore/MorePlaces';
 
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, Request, urls, GetRequest, successMessage, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
+import { v4 as uuidv4 } from 'uuid';
 
 import LoginModal from '../../components/auth/LoginModal';
 import SignUpModal from '../../components/auth/SignUpModal';
@@ -38,6 +39,18 @@ class HomeSingle extends Component {
     this.state = { showCheckInModal: false, showCheckOutModal: false, showReserveModal: false, house: null, loadingImages: false, photos: [], gettingHouse: false, gettingHouseRules: false,
         houseId: '', houseRules: [], location: null, gettingReviews: false, reviews: [], 
         gettingComments: false, comments: [], gettingCalendar: false, calendar: null, showLoginModal: false, showRegisterModal: false, 
+        formData: {
+          Arrival_Time_From: '',
+          Arrival_Time_To: '',
+          check_In_Date: '',
+          check_Out_Date: '',
+          is_Policy_Accepted: true,
+          no_Of_Guest: 0,
+          noofAvailableRooms: 1,
+          property_Id: '',
+          requestId: ''
+        },
+        loading: false
     };
     const { house } = props.route.params;
     this.state.house = house;
@@ -73,26 +86,54 @@ class HomeSingle extends Component {
   closeCheckInModal = () => {
     this.setState({ showCheckInModal: false })
   }
-  openCheckOutModal = () => {
+  openCheckOutModal = (value) => {
+    const { formData } = this.state
+    if(value) {
+      const obj = { ...formData, check_In_Date: value }
+      this.setState({ formData: obj })
+    }
     this.setState({ showCheckOutModal: true})
   }
   closeCheckOutModal = () => {
     this.setState({ showCheckOutModal: false })
   }
-  openReserveModal = () => {
+  openReserveModal = (value) => {
+    const { formData } = this.state
+    if(value) {
+      const obj = { ...formData, check_Out_Date: value }
+      this.setState({ formData: obj })
+    }
     this.setState({ showReserveModal: true })
   }
   closeReserveModal = () => {
     this.setState({ showReserveModal: false })
   }
+  reserveSpace = async (formObj) => {
+    this.setState({ loading: true })
+    const { formData, house } = this.state;
+    const requestId = uuidv4()
+    const obj = { ...formData, requestId, property_Id: house.id, noofAvailableRooms: house.noofAvailableRooms, ...formObj }
+    
+    const res = await Request(urls.bookingBase, `${urls.v}bookings/property`, obj);
+    console.log('Reserve space ', res)
+    this.setState({ loading: false })
+    if(res.isError) {
+      const message = res.Message;
+      errorMessage(message)
+    } else {
+      this.getCalendar()
+      successMessage('Space booked successfully!!')
+    }
+  }
   getPhotos = async () => {
     const { house } = this.state
     this.setState({ loadingImages: true })
     const res = await GetRequest(urls.listingBase, 
-    `api/v1/listing/photo/property/?PropertyId=${house.id}&Size=6&Page=1`);
+    `${urls.v}listing/photo/property/?PropertyId=${house.id}&Size=6&Page=1`);
     this.setState({ loadingImages: false })
     if(res.isError) {
         const message = res.Message;
+        errorMessage(message)
     } else {
         const imgData = res.data;
         const arr = []
@@ -104,7 +145,7 @@ class HomeSingle extends Component {
     }
   }
   getAmenity = async () => {
-    const res = await GetRequest(urls.listingBase,  `api/v1/listing/houserule`);
+    const res = await GetRequest(urls.listingBase,  `${urls.v}listing/houserule`);
     
     if(res.isError) {
         const message = res.Message;
@@ -116,7 +157,7 @@ class HomeSingle extends Component {
   getHouse = async () => {
     const { house } = this.state
     this.setState({ gettingHouse: true })
-    const res = await GetRequest(urls.listingBase, `api/v1/listing/property/${house.id}`);
+    const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${house.id}`);
     // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', `api/v1/listing/property/${house.id}`);
     console.log('House Details ', res)
     this.setState({ gettingHouse: false })
@@ -132,7 +173,7 @@ class HomeSingle extends Component {
   getHouseRules = async () => {
     const { house } = this.state
     this.setState({ gettingHouseRules: true })
-    const res = await GetRequest(urls.listingBase, `api/v1/listing/property/houserules/?propertyid=${house.id}`);
+    const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/houserules/?propertyid=${house.id}`);
     console.log('House Rules ', res)
     this.setState({ gettingHouseRules: false })
     if(res.isError) {
@@ -146,7 +187,7 @@ class HomeSingle extends Component {
   getReviews = async () => {
     const { house } = this.state
     this.setState({ gettingReviews: true })
-    const res = await GetRequest(urls.listingBase, `api/v1/listing/review/property/?PropertyId=${house.id}`);
+    const res = await GetRequest(urls.listingBase, `${urls.v}listing/review/property/?PropertyId=${house.id}`);
     console.log('House Reviews ', res)
     this.setState({ gettingReviews: false })
     if(res.isError) {
@@ -172,8 +213,8 @@ class HomeSingle extends Component {
 //     }
 //   }
   renderLoading = () => {
-      const { gettingHouse } = this.state;
-      if (gettingHouse) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+      const { gettingHouse, loading } = this.state;
+      if (gettingHouse || loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
   }
 
   componentDidMount = () => {
@@ -241,9 +282,15 @@ class HomeSingle extends Component {
             <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
         </View>
         <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} next={this.openCheckOutModal} />
-        <CheckOutModal visible={this.state.showCheckOutModal} onDecline={this.closeCheckOutModal} next={this.openReserveModal} back={this.openCheckInModal} />
-        <ReserveModal visible={this.state.showReserveModal} onDecline={this.closeReserveModal} back={this.openCheckOutModal} />
+
+        <CheckOutModal visible={this.state.showCheckOutModal} onDecline={this.closeCheckOutModal} next={this.openReserveModal} 
+        back={this.openCheckInModal} checkInDate={this.state.formData.check_In_Date} />
+
+        <ReserveModal visible={this.state.showReserveModal} onDecline={this.closeReserveModal} back={this.openCheckOutModal} 
+        formData={this.state.formData} submit={this.reserveSpace} />
+
         <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
+
         <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
       </SafeAreaView>
     );

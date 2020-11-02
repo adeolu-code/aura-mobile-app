@@ -26,6 +26,10 @@ class Dashboard extends Component {
       reservations: [],
       name: null,
       image: null,
+      comment: null,
+      comments: [],
+      guestName: null,
+      ratings: [],
     };
   }
 
@@ -33,6 +37,8 @@ class Dashboard extends Component {
     this.renderWeeklyEarnings();
     this.renderTotalEarnings();
     this.getReservations();
+    this.getComments();
+    this.getRatings();
   }
 
   renderWeeklyEarnings = async () => {
@@ -127,8 +133,8 @@ this.setState({ error: true });
   renderReservations = () => {
     const { reservations } = this.state;
     if (reservations.length !== 0) {
-      // display the reservations
-      const {rowContainer} = styles;
+      const {flexRow, textExtraBold, textBold, textH2Style, textDarkGrey, textH4Style, textUnderline, textGreen} = GStyles;
+      const {rowContainer, contentHeader, contentBody} = styles;
       if (this.state.reservations.data.propertyTitle !== undefined) {
         const name = this.state.reservations.data.propertyTitle;
         const image = this.state.reservations.data.propertyMainImage;
@@ -139,9 +145,20 @@ this.setState({ error: true });
         }
       }
       return (
-        <View style={rowContainer}>
+        <View>
+          <View style={[flexRow, contentHeader]}>
+              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Reservations</MyText>
+              <TouchableOpacity onPress={this.linkToReservations}>
+                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
+              </TouchableOpacity>
+            </View>
+
+            <View style={contentBody}>
+            <View style={rowContainer}>
             <ReservationRow title={this.state.name} img={{uri: this.state.image}}
                 location="Lagos" reserve={this.state.reservation} calendar />
+          </View>
+          </View>
         </View>
       )
     } else {
@@ -155,6 +172,116 @@ this.setState({ error: true });
           <MyText style={[ textH5Style, textCenter, textBold, textOrange]}>No Reservations Yet</MyText>
         </View>
       )
+    }
+  }
+
+  getComments = async () => {
+    try {
+      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/comment/host');
+      if (!response.isError) {
+          const data = response.data;
+          this.setState({ comments: data });
+          console.log(data);
+      } else { this.setState({ error: true }); }
+  } catch (e) {
+    console.log(e);
+this.setState({ error: true });
+}
+  }
+
+  renderComments = () => {
+    const { comments } = this.state;
+    if (comments.length !== 0) {
+      const {textDarkGrey, flexRow, textExtraBold, textH2Style, textH4Style, textBold, textUnderline, textGreen} = GStyles;
+      const {divider, contentHeader, contentBody} = styles;
+      if (this.state.comments.data.guestName !== undefined){
+        const name = this.comments.data.guestName;
+        this.setState({guestName: name });
+        return (
+          <View>
+            <View style={[flexRow, contentHeader]}>
+              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Comments</MyText>
+              <TouchableOpacity>
+                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
+              </TouchableOpacity>
+            </View>
+
+            <View style={contentBody}>
+                <CommentRow name={this.state.guestName} />
+                <View style={divider} />
+            </View>
+          </View>
+        );
+      }
+    } else {
+      const { reservation} = styles;
+        const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
+      return (
+        <View style={{alignContent: 'center'}}>
+          <View style={reservation}>
+            <Image source={require('../../assets/images/photo/comment.png')} style={imgStyle}/>
+          </View>
+          <MyText style={[ textH5Style, textCenter, textBold, textOrange]}>No Comments Yet</MyText>
+        </View>
+      );
+    }
+  }
+
+  getRatings = async () => {
+    try {
+      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
+      if (!response.isError) {
+          const data = response.data;
+          this.setState({ ratingss: data });
+          console.log(data);
+      } else { this.setState({ error: true }); }
+  } catch (e) {
+    console.log(e);
+this.setState({ error: true });
+}
+  }
+
+  renderRatings = () => {
+    const { ratings } = this.state;
+    if (ratings.length !== 0) {
+      const {textDarkGrey, flexRow, textExtraBold, textH2Style, textH4Style, textBold, textUnderline, textGreen} = GStyles;
+      const {divider, contentHeader, contentBody} = styles;
+      if (this.state.ratings.data.guestName !== undefined){
+        const name = this.ratings.data.guestName;
+        const image = this.ratings.data.profilePicture;
+        // this.setState({guestName: name });
+        return (
+          <View>
+              <View style={[flexRow, contentHeader]}>
+                <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Ratings</MyText>
+                <TouchableOpacity>
+                  <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
+                </TouchableOpacity>
+              </View>
+
+              <View style={contentBody}>
+                <View>
+                  <RatingRow name={name}
+                   img={{uri: image}}
+                  //  location="Lagos"
+                   />
+                  <View style={divider} />
+                </View>
+              </View>
+          </View>
+        );
+      }
+    } else {
+      const { reservation} = styles;
+        const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
+      return (
+        <View style={{alignContent: 'center'}}>
+          <View style={reservation}>
+            <Image source={require('../../assets/images/photo/ratings.png')} style={imgStyle}/>
+          </View>
+          <MyText style={[ textH5Style, textCenter, textBold, textOrange]}>No Ratings Yet</MyText>
+        </View>
+      );
     }
   }
 
@@ -202,56 +329,17 @@ this.setState({ error: true });
           </View>
 
           <View style={contentContainer}>
-            <View style={[flexRow, contentHeader]}>
-              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Reservations</MyText>
-              <TouchableOpacity onPress={this.linkToReservations}>
-                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
-              </TouchableOpacity>
-            </View>
-
-            <View style={contentBody}>
-              {/* <View style={rowContainer}>
-                <ReservationRow title={this.state.name} img={{uri: this.state.image}}
-                location="Lagos" reserve={this.state.reservation} calendar />
-              </View> */}
-              {this.renderReservations()}
-              {/* <View style={rowContainer}>
-                <ReservationRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed1.png')}
-                location="Lagos" reserve="5 Reservations" />
-              </View>
-              <View style={rowContainer}>
-                <ReservationRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed2.png')}
-                location="Lagos" reserve="5 Reservations" />
-              </View> */}
-            </View>
+            {this.renderReservations()}
           </View>
 
           <View style={contentContainer}>
-            <View style={[flexRow, contentHeader]}>
-              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Comments</MyText>
-              <TouchableOpacity>
-                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
-              </TouchableOpacity>
-            </View>
-
-            <View style={contentBody}>
-              <View>
-                <CommentRow name="Joshua Nwabogor" />
-                <View style={divider}></View>
-              </View>
-              <View>
-                <CommentRow name="Ashley Cole" />
-                <View style={divider}></View>
-              </View>
-              <View>
-                <CommentRow name="Banabas Kaviar" />
-              </View>
-            </View>
+              {this.renderComments()}
           </View>
 
 
           <View style={[contentContainer, noBorderBottom]}>
-            <View style={[flexRow, contentHeader]}>
+            {this.renderRatings()}
+            {/* <View style={[flexRow, contentHeader]}>
               <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Ratings</MyText>
               <TouchableOpacity>
                 <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
@@ -270,7 +358,7 @@ this.setState({ error: true });
               <View>
                 <RatingRow name="Banabas Kaviar" img={require('../../assets/images/photo/photo3.png')} location="Lagos" />
               </View>
-            </View>
+            </View> */}
           </View>
 
         </ScrollView>
@@ -319,17 +407,17 @@ const styles = StyleSheet.create({
     marginBottom: 30, justifyContent: 'space-between', alignItems: 'flex-end'
   },
   rowContainer: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   divider: {
-    height: 1, width: '100%', backgroundColor: colors.lightGrey
+    height: 1, width: '100%', backgroundColor: colors.lightGrey,
   },
   noBorderBottom: {
     borderBottomWidth: 0, 
     // borderBottomColor: colors.lightGrey
   },
   reservation: {
-    width: '90%',
+    width: '100%',
     paddingHorizontal: 20,
     height: 150,
     marginBottom: 20,

@@ -17,7 +17,8 @@ class ExploreLocation extends Component {
         {name: 'Rivers', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
         {name: 'Oyo', imgUrl: 'https://images.pexels.com/photos/3172830/pexels-photo-3172830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
         {name: 'Kaduna', imgUrl: 'https://images.pexels.com/photos/823696/pexels-photo-823696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
-        {name: 'Ogun', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
+        {name: 'Ogun', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+        {name: 'Ondo', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
     ], selected: ''};
   }
 
@@ -45,7 +46,7 @@ class ExploreLocation extends Component {
       const { statesArr } = this.state;
       const { width } = Dimensions.get('window')
     //   const percent = ((statesArr.length * width)/statesArr.length)/(statesArr.length * width) * 100;
-    const percent = 9.5
+    const percent = 7
       const { textContainer, imgContainer, closeContainer, scrollItemContainer, overlayStyles, locationStyle, 
         locationContainer, iconStyle } = styles;
       const { imgStyle, flexRow, textWhite, textH5Style, textBold, textH6Style } = GStyles
@@ -84,32 +85,6 @@ class ExploreLocation extends Component {
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: statesArr.length * width }}>
             <View style={[flexRow, scrollContainer]}>
                 {this.renderLocation()}
-                {/* <View style={scrollItemContainer}>
-                    <View style={imgContainer}>
-                        <Image source={require('../../../assets/images/places/bed1.png')} resizeMode="cover" style={imgStyle} />
-                        <View style={overlayStyles}>
-                            <View style={[flexRow, locationContainer]}>
-                                <Icon name="location-sharp" style={locationStyle} />
-                                <MyText style={[textH5Style, textWhite, textBold]}>Ibadan</MyText>
-                            </View>
-                        </View>
-                    </View>
-
-                </View>
-                
-                
-                <View style={scrollItemContainer}>
-                    <View style={imgContainer}>
-                        <Image source={require('../../../assets/images/places/bed.png')} resizeMode="cover" style={imgStyle} />
-                        <View style={overlayStyles}>
-                            <View style={[flexRow, locationContainer]}>
-                                <Icon name="location-sharp" style={locationStyle} />
-                                <MyText style={[textH5Style, textWhite, textBold]}>Ibadan</MyText>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-                */}
             </View>
         </ScrollView>
       </View>
