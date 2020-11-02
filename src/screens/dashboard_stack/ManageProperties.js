@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { MyText } from '../../utils/Index';
+import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 import {Fab, Icon} from 'native-base';
 
@@ -10,11 +10,56 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 import ManagePropertyRow from '../../components/dashboard/ManagePropertyRow';
 import FilterModal from '../../components/dashboard/FilterModal';
+import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
+import { getUser, getToken } from '../../helpers';
+import { AppContext } from '../../../AppProvider';
+import { ManagePropertyContext, ManagePropertyConsumer } from '../../../ManagePropertyProvider';
+
+import AllPropertiesTab from '../../components/dashboard/AllPropertiesTab';
+import HotelsTab from '../../components/dashboard/HotelsTab';
+import ApartmentsTab from '../../components/dashboard/ApartmentsTab';
+
 
 class ManageProperties extends Component {
+  static contextType = ManagePropertyContext;
   constructor(props) {
     super(props);
-    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false  };
+    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false, 
+      loading: false, properties: [], totalItems: 0, activePage: 1, perPage: 10, pageCount: 0,  };
+  }
+
+  getProperties = async () => {
+    const { userData } = this.context.state
+    const { activePage, perPage, totalItems } = this.state
+    this.setState({ loading: true })
+    const res = await GetRequest(urls.listingBase,  `${urls.v}listing/me/?UserId=${userData.id}&Page=${activePage}&Size=${perPage}`);
+    this.setState({ loading: false })
+    if(res.isError) {
+        const message = res.Message;
+        errorMessage(message)
+    } else {
+      const data = res.data;
+      console.log('Data ', res)
+    }
+  }
+  renderLoading = () => {
+      const { loading } = this.state;
+      if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
+  }
+
+  componentDidMount = () => {
+    console.log(this.context)
+  }
+
+  renderTabs = () => {
+    const { tabOneSelected, tabTwoSelected, tabThreeSelected } = this.state;
+    if(tabOneSelected) {
+        return <AllPropertiesTab {...this.props} />
+    } else if(tabTwoSelected) {
+        return <HotelsTab {...this.props} />
+    } else if (tabThreeSelected) {
+        return <ApartmentsTab {...this.props} />
+    } 
   }
   
 
@@ -40,50 +85,56 @@ class ManageProperties extends Component {
     const { manageHeader, container, imgContainer, rightContainer, typeStyle, iconStyle, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
     const { tabOneSelected, tabTwoSelected, tabThreeSelected, showFilterModal } = this.state;
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-        <Header {...this.props} title="Manage Properties" wrapperStyles={{ paddingBottom: 5}} />
-        <View style={manageHeader}>
-            <View style={tabsContainer}>
-                <TouchableOpacity style={[tabStyle, tabOneSelected ? activeTab : '']} onPress={this.selectTabOne}>
-                    <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>All Properties</MyText>
-                </TouchableOpacity>
-                <TouchableOpacity style={[tabStyle, tabTwoSelected ? activeTab : '']} onPress={this.selectTabTwo}>
-                    <MyText style={[textH5Style, textBold, tabTwoSelected ? textWhite : textSuccess]}>Hotels</MyText>
-                </TouchableOpacity>
-                <TouchableOpacity style={[tabStyle,  tabThreeSelected ? activeTab : '']} onPress={this.selectTabThree}>
-                    <MyText style={[textH5Style, textBold, tabThreeSelected ? textWhite : textSuccess]}>Apartments</MyText>
-                </TouchableOpacity>
+      <ManagePropertyConsumer>
+        {(values) => (
+          <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
+            <Header {...this.props} title="Manage Properties" wrapperStyles={{ paddingBottom: 5}} />
+            <View style={manageHeader}>
+                <View style={tabsContainer}>
+                    <TouchableOpacity style={[tabStyle, tabOneSelected ? activeTab : '']} onPress={this.selectTabOne}>
+                        <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>All Properties</MyText>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[tabStyle, tabTwoSelected ? activeTab : '']} onPress={this.selectTabTwo}>
+                        <MyText style={[textH5Style, textBold, tabTwoSelected ? textWhite : textSuccess]}>Hotels</MyText>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[tabStyle,  tabThreeSelected ? activeTab : '']} onPress={this.selectTabThree}>
+                        <MyText style={[textH5Style, textBold, tabThreeSelected ? textWhite : textSuccess]}>Apartments</MyText>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
-        <ScrollView>
-            <View style={contentContainer}>
-              <View style={rowContainer}>
-                <ManagePropertyRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')} 
-                location="Transcorp Hilton Abuja" status="Pending" {...this.props} openModal={this.openFilterModal} />
-              </View>
-              <View style={rowContainer}>
-                <ManagePropertyRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')} openModal={this.openFilterModal}
-                location="Transcorp Hilton Abuja" status="Online" {...this.props} />
-              </View>
-              <View style={rowContainer}>
-                <ManagePropertyRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')} 
-                location="Transcorp Hilton Abuja" status="Online" {...this.props} openModal={this.openFilterModal} />
-              </View>
-              <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} img={require('../../assets/images/places/bed.png')}  title='Umbaka Homes' {...this.props} />
+            <ScrollView>
+              <AllPropertiesTab />
+                {/* <View style={contentContainer}>
+                  <View style={rowContainer}>
+                    <ManagePropertyRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')} 
+                    location="Transcorp Hilton Abuja" status="Pending" {...this.props} openModal={this.openFilterModal} />
+                  </View>
+                  <View style={rowContainer}>
+                    <ManagePropertyRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')} openModal={this.openFilterModal}
+                    location="Transcorp Hilton Abuja" status="Online" {...this.props} />
+                  </View>
+                  <View style={rowContainer}>
+                    <ManagePropertyRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')} 
+                    location="Transcorp Hilton Abuja" status="Online" {...this.props} openModal={this.openFilterModal} />
+                  </View>
+                  <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} img={require('../../assets/images/places/bed.png')}  title='Umbaka Homes' {...this.props} />
+                </View> */}
+            </ScrollView>
+            <View>
+              <Fab
+                active={this.state.active}
+                direction="up"
+                containerStyle={{ }}
+                style={{ backgroundColor: '#FD8323' }}
+                position="bottomRight"
+                onPress={() => this.setState({ active: !this.state.active })}>
+                <Icon name="home" />
+              </Fab>
             </View>
-        </ScrollView>
-        <View>
-          <Fab
-            active={this.state.active}
-            direction="up"
-            containerStyle={{ }}
-            style={{ backgroundColor: '#FD8323' }}
-            position="bottomRight"
-            onPress={() => this.setState({ active: !this.state.active })}>
-            <Icon name="home" />
-          </Fab>
-        </View>
-      </SafeAreaView>
+          </SafeAreaView>
+        )}
+        
+      </ManagePropertyConsumer>
     );
   }
 }
@@ -118,25 +169,31 @@ const styles = StyleSheet.create({
     textAlignVertical: "bottom",
     height: 30,
     marginTop: 5,
-    color: colors.green,
-},
-icon: {
-  flex: 0.1,
-  color: colors.grey,
-},
-container: {
-  width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8
-},
-imgContainer: {
-  width: 120, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
-  borderWidth: 1
-},
-typeStyle: {
-  marginBottom: 20, alignItems: 'center'
-},
-iconStyle: {
-  fontSize: 6, marginHorizontal: 6
-},
+      color: colors.green,
+  },
+  icon: {
+    flex: 0.1,
+    color: colors.grey,
+  },
+  container: {
+    width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8
+  },
+  imgContainer: {
+    width: 120, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
+    borderWidth: 1
+  },
+  typeStyle: {
+    marginBottom: 20, alignItems: 'center'
+  },
+  iconStyle: {
+    fontSize: 6, marginHorizontal: 6
+  },
+  hideTab: {
+    opacity: 0
+  },
+  showTab: {
+    opacity: 1
+  }
 
 });
 

@@ -17,9 +17,10 @@ export default class ProfileScreen extends Component {
         this.state = {};
     }
     onSignOut = async () => {
+        
         await clearData()
         this.context.set({ userData: null, isLoggedIn: false})
-        // this.props.navigation.navigate('Tabs')
+        this.props.navigation.navigate('Tabs', {screen: 'Dashboard'})
     }
 
     render() {

@@ -163,6 +163,10 @@ class LoginModal extends Component {
     this.setState({ loading: false })
   }
 
+  onDecline = () => {
+    this.props.onDecline(false)
+  }
+
   render() {
     const { visible, onDecline } = this.props;
     const { textWhite, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, 
@@ -179,7 +183,7 @@ class LoginModal extends Component {
                 <Image resizeMode="contain" style={imgStyle} source={require("../../assets/images/icons/aura/aura.png")} />
               </View>
 
-              <TouchableOpacity onPress={onDecline} style={closeContainer}>
+              <TouchableOpacity onPress={this.onDecline} style={closeContainer}>
                 <Icon type="Feather" name="x" />
               </TouchableOpacity>
             </View>
