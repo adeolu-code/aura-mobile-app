@@ -24,41 +24,31 @@ class ManageProperties extends Component {
   static contextType = ManagePropertyContext;
   constructor(props) {
     super(props);
-    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false, 
-      loading: false, properties: [], totalItems: 0, activePage: 1, perPage: 10, pageCount: 0,  };
+    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false,  };
   }
 
-  getProperties = async () => {
-    const { userData } = this.context.state
-    const { activePage, perPage, totalItems } = this.state
-    this.setState({ loading: true })
-    const res = await GetRequest(urls.listingBase,  `${urls.v}listing/me/?UserId=${userData.id}&Page=${activePage}&Size=${perPage}`);
-    this.setState({ loading: false })
-    if(res.isError) {
-        const message = res.Message;
-        errorMessage(message)
-    } else {
-      const data = res.data;
-      console.log('Data ', res)
-    }
-  }
   renderLoading = () => {
       const { loading } = this.state;
       if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
   }
 
   componentDidMount = () => {
-    console.log(this.context)
+    const { appContext, propertyContext } = this.props
+    console.log('Property context ', propertyContext)
+    propertyContext.getAllProperties()
+    propertyContext.getHotels()
+    propertyContext.getApartments()
+
   }
 
   renderTabs = () => {
     const { tabOneSelected, tabTwoSelected, tabThreeSelected } = this.state;
     if(tabOneSelected) {
-        return <AllPropertiesTab {...this.props} />
+        return <AllPropertiesTab {...this.props} {...this.props} />
     } else if(tabTwoSelected) {
-        return <HotelsTab {...this.props} />
+        return <HotelsTab {...this.props} {...this.props} />
     } else if (tabThreeSelected) {
-        return <ApartmentsTab {...this.props} />
+        return <ApartmentsTab {...this.props} {...this.props} />
     } 
   }
   
@@ -102,9 +92,9 @@ class ManageProperties extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
-            <ScrollView>
-              <AllPropertiesTab />
-                {/* <View style={contentContainer}>
+            {this.renderTabs()}
+            {/* <ScrollView>
+                <View style={contentContainer}>
                   <View style={rowContainer}>
                     <ManagePropertyRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')} 
                     location="Transcorp Hilton Abuja" status="Pending" {...this.props} openModal={this.openFilterModal} />
@@ -118,12 +108,10 @@ class ManageProperties extends Component {
                     location="Transcorp Hilton Abuja" status="Online" {...this.props} openModal={this.openFilterModal} />
                   </View>
                   <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} img={require('../../assets/images/places/bed.png')}  title='Umbaka Homes' {...this.props} />
-                </View> */}
-            </ScrollView>
-            <View>
-              <Fab
-                active={this.state.active}
-                direction="up"
+                </View>
+            </ScrollView> */}
+            <View style={{ flex: 1 }}>
+              <Fab active={this.state.active} direction="up"
                 containerStyle={{ }}
                 style={{ backgroundColor: '#FD8323' }}
                 position="bottomRight"

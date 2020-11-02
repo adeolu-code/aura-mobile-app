@@ -23,7 +23,7 @@ class ManagePropertyRow extends Component {
         const { container, imgContainer, rightContainer, typeStyle, iconStyle } = styles
         const { flexRow, imgStyle, textBold, textH4Style, textH5Style, textGrey, textFadedBlack,
             textDarkGrey, textExtraBold, textH1Style, textSuccess, textOrange, textH6Style } = GStyles;
-        const { title, location, status, img } = this.props
+        const { title, location, status, img, roomType, propertyType } = this.props
         return (
             <View style={{ width: '100%' }}>
                 <TouchableOpacity style={[flexRow, container]} onPress={this.linkToHome}>
@@ -36,9 +36,9 @@ class ManagePropertyRow extends Component {
                                 <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>{title}</MyText>
                                 <MyText style={[textH5Style, textGrey, { marginVertical: 6 }]}>{location}</MyText>
                                 <View style={[flexRow, typeStyle]}>
-                                    <MyText style={[textH5Style, textGrey]}>Platinum Room</MyText>
+                                    <MyText style={[textH5Style, textGrey]}>{roomType}</MyText>
                                     <Icon name="ellipse" style={iconStyle} />
-                                    <MyText style={[textH5Style, textGrey]}>Hotel</MyText>
+                                    <MyText style={[textH5Style, textGrey]}>{propertyType}</MyText>
                                 </View>
                                 <View style={[flexRow, { alignItems: 'center' }]}>
                                     <MyText style={[textH5Style, textExtraBold, status.toLowerCase() === 'pending' ? textOrange : textSuccess]}>
