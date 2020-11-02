@@ -84,7 +84,6 @@ class Index extends Component {
   onEndReached = () => {
     const { pageCount, activePage, loadMore } = this.state
     if(activePage < pageCount && !loadMore) {
-      console.log('Got here')
       this.setState(()=>({ activePage: this.state.activePage + 1}), 
       () => {
         this.getPlaces(true)
