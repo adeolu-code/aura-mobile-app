@@ -29,6 +29,7 @@ class Dashboard extends Component {
       comment: null,
       comments: [],
       guestName: null,
+      ratings: [],
     };
   }
 
@@ -37,6 +38,7 @@ class Dashboard extends Component {
     this.renderTotalEarnings();
     this.getReservations();
     this.getComments();
+    this.getRatings();
   }
 
   renderWeeklyEarnings = async () => {
@@ -225,6 +227,65 @@ this.setState({ error: true });
     }
   }
 
+  getRatings = async () => {
+    try {
+      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
+      if (!response.isError) {
+          const data = response.data;
+          this.setState({ ratingss: data });
+          console.log(data);
+      } else { this.setState({ error: true }); }
+  } catch (e) {
+    console.log(e);
+this.setState({ error: true });
+}
+  }
+
+  renderRatings = () => {
+    const { ratings } = this.state;
+    if (ratings.length !== 0) {
+      const {textDarkGrey, flexRow, textExtraBold, textH2Style, textH4Style, textBold, textUnderline, textGreen} = GStyles;
+      const {divider, contentHeader, contentBody} = styles;
+      if (this.state.ratings.data.guestName !== undefined){
+        const name = this.ratings.data.guestName;
+        const image = this.ratings.data.profilePicture;
+        // this.setState({guestName: name });
+        return (
+          <View>
+              <View style={[flexRow, contentHeader]}>
+                <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Ratings</MyText>
+                <TouchableOpacity>
+                  <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
+                </TouchableOpacity>
+              </View>
+
+              <View style={contentBody}>
+                <View>
+                  <RatingRow name={name}
+                   img={{uri: image}}
+                  //  location="Lagos"
+                   />
+                  <View style={divider} />
+                </View>
+              </View>
+          </View>
+        );
+      }
+    } else {
+      const { reservation} = styles;
+        const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
+      return (
+        <View style={{alignContent: 'center'}}>
+          <View style={reservation}>
+            <Image source={require('../../assets/images/photo/ratings.png')} style={imgStyle}/>
+          </View>
+          <MyText style={[ textH5Style, textCenter, textBold, textOrange]}>No Ratings Yet</MyText>
+        </View>
+      );
+    }
+  }
+
+
   render() {
     const { subHeaderContainer, profileContainer, walletContainer, imgContainer, profileImg, profileText, firstRow, 
       secondRow, viewContainer, walletImgContainer, contentContainer, contentHeader,
@@ -277,7 +338,8 @@ this.setState({ error: true });
 
 
           <View style={[contentContainer, noBorderBottom]}>
-            <View style={[flexRow, contentHeader]}>
+            {this.renderRatings()}
+            {/* <View style={[flexRow, contentHeader]}>
               <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Ratings</MyText>
               <TouchableOpacity>
                 <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
@@ -296,7 +358,7 @@ this.setState({ error: true });
               <View>
                 <RatingRow name="Banabas Kaviar" img={require('../../assets/images/photo/photo3.png')} location="Lagos" />
               </View>
-            </View>
+            </View> */}
           </View>
 
         </ScrollView>
