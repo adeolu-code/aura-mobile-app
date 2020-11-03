@@ -40,6 +40,27 @@ export const Styles = StyleSheet.create({
     },
     contentView: {
         padding: GLOBAL_PADDING,
-    }
+    },
+    transparentFooter: {
+        backgroundColor: 'transparent', 
+        elevation: 0, 
+        shadowOffset:{height: 0, width: 0}
+    },
+    footer: {
+        justifyContent: "center",
+        backgroundColor: colors.white,
+        paddingLeft: GLOBAL_PADDING,
+        paddingRight: GLOBAL_PADDING,
+    },
+    nextButton: {
+        backgroundColor: colors.orange,
+        alignSelf: "center",
+        width: "100%",
+        justifyContent: "center",
+        marginTop: 20,
+        marginBottom: 5,
+        height: 40,
+        borderRadius: 5,
+    },
     
 });

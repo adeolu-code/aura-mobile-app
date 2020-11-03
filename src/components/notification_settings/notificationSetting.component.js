@@ -7,11 +7,7 @@ import GeneralStyles from "./../../assets/styles/GeneralStyles";
 
 export default class NotificationSettingsItem extends Component {
     constructor(props) {
-        super();
-
-        this.state = {
-            active: props.initialState
-        };
+        super();        
     }
 
     render() {
@@ -23,8 +19,8 @@ export default class NotificationSettingsItem extends Component {
                     style={[Styles.switch]} 
                     trackColor={colors.white} 
                     thumbColor={colors.green} 
-                    onValueChange={(v) => {this.setState({active: v}); this.props.onValueChange(v)}}
-                    value={this.state.active}
+                    onValueChange={(v) => {this.props.onValueChange(v)}}
+                    value={this.props.initialState}
                 />
             </View>
         );

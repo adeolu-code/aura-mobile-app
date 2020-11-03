@@ -4,6 +4,7 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from './colors'
 
 let context = undefined;
+export let debug = false;
 export const GLOBAL_PADDING = 20;
 
 const CLIENT_ID = '0987654321'
@@ -28,6 +29,7 @@ export const urls = {
     login: "login/",
     update: "update/",
     payMethods: "pay/methods/",
+    notificationSettings: "notification/settings/",
 }
 const getUserToken = async () => {
 	try {
@@ -93,7 +95,7 @@ export async function Request(
   //also change content type
   const token = await getUserToken();
   let headers = {}
-  console.log("url", Base+Url, PrepareData(Data));
+//   if (debug) console.log("url", Base+Url, PrepareData(Data));
   
   if (!PreparedData) {
      headers["Content-Type"] = "application/json"
@@ -133,6 +135,9 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
    } else {
       token = await getUserToken();
    }
+
+   if (debug) console.log("url", Base+Url);
+
    let headers = {
      Accept: "application/json",
      "Content-Type": "application/json",
@@ -155,6 +160,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
      })
      .catch((error) => {
        let data = {error: error, type: "error"}
+       if (debug) console.log("error", error);
         return data
      })
 }

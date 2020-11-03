@@ -16,7 +16,8 @@ const defaultContext = {
   roomTypes: [],
   gettingRoomTypes: false,
   propertyFormData: null,
-  location: null
+  location: null,
+  notificationSettings: {messages: {}, policy: {}, reminders: {}},
 };
 
 
