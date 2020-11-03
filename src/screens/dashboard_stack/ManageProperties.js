@@ -27,6 +27,10 @@ class ManageProperties extends Component {
     this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false,  };
   }
 
+  linkToHost = () => {
+    this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+  }
+
   renderLoading = () => {
       const { loading } = this.state;
       if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
@@ -93,29 +97,11 @@ class ManageProperties extends Component {
                 </View>
             </View>
             {this.renderTabs()}
-            {/* <ScrollView>
-                <View style={contentContainer}>
-                  <View style={rowContainer}>
-                    <ManagePropertyRow title="Umbaka Homes" img={require('../../assets/images/places/bed2.png')} 
-                    location="Transcorp Hilton Abuja" status="Pending" {...this.props} openModal={this.openFilterModal} />
-                  </View>
-                  <View style={rowContainer}>
-                    <ManagePropertyRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')} openModal={this.openFilterModal}
-                    location="Transcorp Hilton Abuja" status="Online" {...this.props} />
-                  </View>
-                  <View style={rowContainer}>
-                    <ManagePropertyRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')} 
-                    location="Transcorp Hilton Abuja" status="Online" {...this.props} openModal={this.openFilterModal} />
-                  </View>
-                  <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} img={require('../../assets/images/places/bed.png')}  title='Umbaka Homes' {...this.props} />
-                </View>
-            </ScrollView> */}
             <View style={{ flex: 1 }}>
-              <Fab active={this.state.active} direction="up"
-                containerStyle={{ }}
-                style={{ backgroundColor: '#FD8323' }}
+              <Fab active={this.state.active} direction="up" containerStyle={{ }}
+                style={{ backgroundColor: colors.orange }}
                 position="bottomRight"
-                onPress={() => this.setState({ active: !this.state.active })}>
+                onPress={this.linkToHost}>
                 <Icon name="home" />
               </Fab>
             </View>

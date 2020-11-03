@@ -17,7 +17,7 @@ class ApartmentsTab extends Component {
     this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png') };
   }
   openFilterModal = (item) => {
-    const modalImg = item.mainImage ? item.modalImg.assetPath : require('../../assets/images/no_house1.png')
+    const modalImg = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
     this.setState({ modalImg, property: item, showFilterModal: true });
   }
   closeFilterModal = () => {
@@ -29,17 +29,25 @@ class ApartmentsTab extends Component {
       const { state } = this.props.propertyContext
       if (loading || state.loadingApartments) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
   }
+  onEndReached = () => {
+    const { set, state, getApartments } = this.props.propertyContext
+    if(state.activeApartmentsPage < state.pageApartmentCount && !state.loadMoreApartments) {
+      set({ activeApartmentsPage: state.activeApartmentsPage + 1 })
+      getApartments(true)
+    }
+    // console.log('End reached')
+  }
   renderLoadMore = () => {
-      const { loadMore } = this.state;
-      const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
-      if(loadMore) {
-          return (
-            <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
-                <Spinner size={20} color={colors.orange} />
-                <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
-            </View>
-          )
-      }
+    const { state } = this.props.propertyContext
+    const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
+    if(state.loadMoreApartments) {
+        return (
+          <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
+              <Spinner size={20} color={colors.orange} />
+              <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
+          </View>
+        )
+    }
   }
 
   renderItem = ({item}) => {
@@ -47,7 +55,7 @@ class ApartmentsTab extends Component {
     let title = item.title ? item.title : 'No title'
     title = shortenXterLength(title, 18)
     const location = `${item.address} ${item.state}`
-    const imgUrl = item.mainImage ? {uri: mainImage.assetPath} : require('../../assets/images/no_house.png')
+    const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house.png')
     return (
         <View style={rowContainer}>
             <ManagePropertyRow title={title} img={imgUrl} openModal={this.openFilterModal.bind(this, item)} location={location} 
@@ -113,7 +121,8 @@ const styles = StyleSheet.create({
         paddingTop: 210, paddingHorizontal: 20, paddingBottom:30,
     },
     rowContainer: {
-        marginBottom: 20,
+      marginBottom: 20,
+      paddingHorizontal: 1, paddingVertical: 1
     },
 });
 

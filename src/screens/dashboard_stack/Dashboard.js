@@ -119,15 +119,15 @@ this.setState({ error: true });
   getReservations = async () => {
     try {
       const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/reservation/overview');
-      if (!response.isError) {
-          const data = response.data;
-          this.setState({ reservations: data });
-          console.log(data);
-      } else { this.setState({ error: true }); }
-  } catch (e) {
-    console.log(e);
-this.setState({ error: true });
-}
+          if (!response.isError) {
+              const data = response.data;
+              this.setState({ reservations: data });
+              console.log(data);
+          } else { this.setState({ error: true }); }
+      } catch (e) {
+        console.log(e);
+        this.setState({ error: true });
+    }
   }
 
   renderReservations = () => {
@@ -135,7 +135,7 @@ this.setState({ error: true });
     if (reservations.length !== 0) {
       const {flexRow, textExtraBold, textBold, textH2Style, textDarkGrey, textH4Style, textUnderline, textGreen} = GStyles;
       const {rowContainer, contentHeader, contentBody} = styles;
-      if (this.state.reservations.data.propertyTitle !== undefined) {
+      if (reservations.data.propertyTitle !== undefined) {
         const name = this.state.reservations.data.propertyTitle;
         const image = this.state.reservations.data.propertyMainImage;
         const reserve = this.state.reservations.data.total + ' ' + 'Reservation';
@@ -146,7 +146,7 @@ this.setState({ error: true });
       }
       return (
         <View>
-          <View style={[flexRow, contentHeader]}>
+            <View style={[flexRow, contentHeader]}>
               <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Reservations</MyText>
               <TouchableOpacity onPress={this.linkToReservations}>
                 <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
@@ -154,11 +154,11 @@ this.setState({ error: true });
             </View>
 
             <View style={contentBody}>
-            <View style={rowContainer}>
-            <ReservationRow title={this.state.name} img={{uri: this.state.image}}
-                location="Lagos" reserve={this.state.reservation} calendar />
-          </View>
-          </View>
+              <View style={rowContainer}>
+                <ReservationRow title={this.state.name} img={{uri: this.state.image}}
+                    location="Lagos" reserve={this.state.reservation} calendar />
+              </View>
+            </View>
         </View>
       )
     } else {
@@ -229,16 +229,16 @@ this.setState({ error: true });
 
   getRatings = async () => {
     try {
-      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
-      if (!response.isError) {
-          const data = response.data;
-          this.setState({ ratingss: data });
-          console.log(data);
-      } else { this.setState({ error: true }); }
-  } catch (e) {
-    console.log(e);
-this.setState({ error: true });
-}
+          const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
+          if (!response.isError) {
+              const data = response.data;
+              this.setState({ ratings: data });
+              console.log(data);
+          } else { this.setState({ error: true }); }
+      } catch (e) {
+        console.log(e);
+      this.setState({ error: true });
+    }
   }
 
   renderRatings = () => {

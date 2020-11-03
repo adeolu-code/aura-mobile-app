@@ -65,7 +65,7 @@ class ManagePropertyRow extends Component {
 const styles = StyleSheet.create({
     container: {
         width: '100%', paddingVertical: 15, paddingLeft: 15, paddingRight: 8, 
-        backgroundColor: colors.white, elevation: 3, borderRadius: 8
+        backgroundColor: colors.white, elevation: 2, borderRadius: 8
     },
     imgContainer: {
         width: 120, height: 100, borderRadius: 6, overflow: 'hidden', marginRight: 20,

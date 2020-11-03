@@ -84,7 +84,7 @@ class OtpScreen extends Component {
   }
   resendCode = async () => {
       this.setState({ loading: true, errors: [] })
-      const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
+      const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
       console.log('Resend ',res)
       this.setState({ loading: false })
       if(res.IsError) {
@@ -110,7 +110,7 @@ class OtpScreen extends Component {
           numbers.map((item, i) => {
               numberString = numberString+item
           })
-          const res = await GetRequest(urls.identityBase, `api/v1/user/otp/verify?Otp=${numberString}`);
+          const res = await GetRequest(urls.identityBase, `${urls.v}user/otp/verify?Otp=${numberString}`);
           console.log(res)
           if(res.isError) {
               const message = res.message;
@@ -127,7 +127,7 @@ class OtpScreen extends Component {
   }
   sendMail = async () => {
     const { userData } = this.context.state
-    const res = await GetRequest(urls.identityBase, `api/v1/user/email/verification/resend/${userData.username}`);
+    const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
   }
   checkEmailVerification = () => {
     this.sendMail()

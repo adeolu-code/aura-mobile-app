@@ -17,7 +17,7 @@ class AllPropertiesTab extends Component {
         this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png') };
     }
     openFilterModal = (item) => {
-        const modalImg = item.mainImage ? item.modalImg.assetPath : require('../../assets/images/no_house1.png')
+        const modalImg = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
         this.setState({ modalImg, property: item, showFilterModal: true  });
     }
     closeFilterModal = () => {
@@ -29,19 +29,18 @@ class AllPropertiesTab extends Component {
         if (loading || state.loadingAllProperties) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
     }
     onEndReached = () => {
-        const { pageCount, activePage, loadMore } = this.state
-        if(activePage < pageCount && !loadMore) {
-            this.setState(()=>({ activePage: this.state.activePage + 1}), 
-            () => {
-                // this.getPlaces(true)
-            })
+        const { set, state, getAllProperties } = this.props.propertyContext
+        if(state.activePropertiesPage < state.pagePropertiesCount && !state.loadMoreProperties) {
+            set({ activePropertiesPage: state.activePropertiesPage + 1 })
+            console.log('Got here ', state)
+            getAllProperties(true)
         }
         console.log('End reached')
     }
     renderLoadMore = () => {
-        const { loadMore } = this.state;
+        const { state } = this.props.propertyContext
         const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
-        if(loadMore) {
+        if(state.loadMoreProperties) {
             return (
             <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
                 <Spinner size={20} color={colors.orange} />
@@ -55,16 +54,14 @@ class AllPropertiesTab extends Component {
         let title = item.title ? item.title : 'No title'
         title = shortenXterLength(title, 18)
         const location = `${item.address} ${item.state}`
-        const imgUrl = item.mainImage ? {uri: mainImage.assetPath} : require('../../assets/images/no_house.png')
-        const type = item.propertyType?.name;
+        const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house.png')
         return (
             <View style={rowContainer}>
                 <ManagePropertyRow title={title} img={imgUrl} openModal={this.openFilterModal.bind(this, item)} location={location} 
                 status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} />
             </View>
         )
-        
-      }
+    }
     renderProperties = () => {
         const { properties } = this.props.propertyContext.state
         return (
@@ -122,7 +119,9 @@ const styles = StyleSheet.create({
         paddingTop: 210, paddingHorizontal: 20, paddingBottom:30,
     },
     rowContainer: {
-        marginBottom: 20, elevation: 2, borderRadius: 6,
+        marginBottom: 20, borderRadius: 6, 
+        // borderWidth: 1, 
+        paddingHorizontal: 1, paddingVertical: 1
     },
     emptyContainerStyle: {
         height: 200, width: '100%', marginBottom: 20

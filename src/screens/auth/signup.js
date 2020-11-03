@@ -109,7 +109,7 @@ class signUp extends Component {
     this.setState({ loading: true, formErrors: [] });
     const number = this.formatNumber();
     const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms, dateOfBirth };
-    const res = await Request(urls.identityBase, 'api/v1/user/signup', obj);
+    const res = await Request(urls.identityBase, `${urls.v}user/signup`, obj);
     console.log(res);
     if (res.isError) {
       this.setState({ formErrors: res.data, loading: false });
@@ -129,7 +129,7 @@ class signUp extends Component {
     })
   }
   generateOtp = async () => {
-    const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
+    const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
     this.setState({ loading: false })
     if(res.IsError) {
         const message = res.Message;

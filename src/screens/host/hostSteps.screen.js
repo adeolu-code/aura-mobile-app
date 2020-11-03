@@ -22,7 +22,8 @@ export default class HostSteps extends Component {
     getStarted = () => {
         
         if (this.state.step == 1) {
-            this.props.navigation.navigate("HostProperty");
+            // this.props.navigation.navigate("HostProperty");
+            this.props.navigation.navigate('Auth', {screen: "List"});
         }
         else if (this.state.step == 2) {
             this.props.navigation.navigate("UploadPropertyImage");
