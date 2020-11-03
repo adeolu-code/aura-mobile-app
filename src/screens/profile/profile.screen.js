@@ -7,14 +7,15 @@ import { Image } from "react-native";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { AppContext } from "../../../AppProvider";
-
 import { clearData } from '../../helpers';
 import colors from "../../colors";
-import { GLOBAL_PADDING } from "../../utils";
+import { GLOBAL_PADDING, setContext, debug } from "../../utils";
 import LoginModal from "../../components/auth/LoginModal";
 import SignUpModal from "../../components/auth/SignUpModal";
+import { getNotificationSettingsApi } from "../../components/api/notifications.api";
+import { useNavigation } from "@react-navigation/native";
 
-export default class ProfileScreen extends Component {
+class ProfileScreenClass extends Component {
     static contextType = AppContext;
     constructor() {
         super();
@@ -22,6 +23,30 @@ export default class ProfileScreen extends Component {
             showLoginModal: false,
             showRegisterModal: false,
         };
+    }
+
+    componentDidMount() {
+        setContext(this.context);
+        this._focus = this.props.navigation.addListener('focus', () => {
+            // focused
+            this.init();
+          });
+        
+    }
+
+    componentWillUnmount() {
+        this._focus = this.props.navigation.addListener('focus', () => {
+            // do nothing
+          });
+    }
+
+    init = () => {
+        if (Object.keys(this.context.state.notificationSettings.messages).length == 0 && this.context.state.isLoggedIn) {
+            // get notification settings, default length of notificationsettings.messages = 0
+            //if (debug) console.log("focused")
+            getNotificationSettingsApi(this.context);
+        }
+        
     }
 
     openLoginModal = () => {
@@ -233,3 +258,9 @@ export default class ProfileScreen extends Component {
         );
     }
 }
+
+const ProfileScreen = (props) => {
+    return (<ProfileScreenClass navigation={useNavigation()} {...props} />)
+}
+
+export default ProfileScreen;
