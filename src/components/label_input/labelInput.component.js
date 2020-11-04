@@ -27,9 +27,10 @@ export const LabelInput = (props) => {
                         defaultDate={props.defaultDate || new Date()}
                         maximumDate={props.maximumDate || new Date()}
                         style={[Styles.input, Styles.datePicker]}
-                        onChange={(e, selectedDate) => {
+                        
+                        onDateChange={(selectedDate) => {
                             console.log("e", selectedDate);
-                            if (e != undefined) {
+                            if (selectedDate != undefined) {
                                 props.onChange(selectedDate);
                             }
                         }}

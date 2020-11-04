@@ -25,10 +25,16 @@ export const Styles = StyleSheet.create({
         justifyContent: "center",
         marginTop: 5,
         marginBottom: 5,
+        borderRadius: 5,
     },
     footer: {
         backgroundColor: colors.orange,
         justifyContent: "center"
+    },
+    transparentFooter: {
+        backgroundColor: 'transparent', 
+        elevation: 0, 
+        shadowOffset:{height: 0, width: 0}
     },
     lowerView: {
         flexDirection: "row",
