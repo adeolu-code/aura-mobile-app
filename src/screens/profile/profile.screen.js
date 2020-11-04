@@ -12,7 +12,7 @@ import colors from "../../colors";
 import { GLOBAL_PADDING, setContext, debug } from "../../utils";
 import LoginModal from "../../components/auth/LoginModal";
 import SignUpModal from "../../components/auth/SignUpModal";
-import { getNotificationSettingsApi } from "../../components/api/notifications.api";
+import { getNotificationSettingsApi } from "../../api/notifications.api";
 import { useNavigation } from "@react-navigation/native";
 
 class ProfileScreenClass extends Component {

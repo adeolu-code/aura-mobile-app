@@ -4,18 +4,17 @@ import Header from "../../components/Header";
 import { Container, View, Content, Footer, Button, Toast, Icon } from "native-base";
 import { Styles } from "./accountVerification.style";
 import colors from "../../colors";
-import { LabelInput } from "../../components/label_input/labelInput.component";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { MyText } from "../../utils/Index";
+import ImagePicker from 'react-native-image-crop-picker';
 // import ImagePicker from 'react-native-image-picker';
-import { prepareMedia } from "./../../utils";
 
 export default class UploadVerification extends Component {
-    constructor() {
+    constructor(props) {
         super();
-
         this.state = {
             isCaptured: false,
+            selectedId: props.route.params.selectedId,
         };
     }
 
@@ -28,18 +27,25 @@ export default class UploadVerification extends Component {
             return;
         }
     }
+
+    selectImage = () => {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true
+          }).then(image => {
+            console.log(image);
+          });
+    }
     
 
     render() {
         const {
             textWhite,
             textBold,
-            textH5Style,
             textCenter,
-            textDarkBlue,
             textOrange,
             textH4Style,
-            imgStyle,
             textUnderline,
           } = GStyles;
         return (
@@ -54,7 +60,7 @@ export default class UploadVerification extends Component {
                                         !this.state.isCaptured ?
                                             <> 
                                                 <Icon name={"md-image"} style={[Styles.galleryIcon]} />
-                                                <TouchableOpacity onPress={() => this.setState({isCaptured: true})}>
+                                                <TouchableOpacity onPress={() => this.selectImage()}>
                                                     <MyText style={[textUnderline, textOrange]}>Tap to Upload Picture of ID</MyText>
                                                 </TouchableOpacity>
                                             </>   
@@ -70,7 +76,7 @@ export default class UploadVerification extends Component {
                                     </TouchableOpacity>
                                 }
                         </Content>
-                        <Footer style={[Styles.footer, {backgroundColor: (!this.state.isCaptured ? colors.lightOrange : colors.orange)}]}>
+                        <Footer style={[Styles.footer, Styles.transparentFooter, {backgroundColor: (!this.state.isCaptured ? colors.lightOrange : colors.orange)}]}>
                             <Button
                                 transparent 
                                 style={[Styles.nextButton, {backgroundColor: (!this.state.isCaptured ? colors.lightOrange : colors.orange)}]}

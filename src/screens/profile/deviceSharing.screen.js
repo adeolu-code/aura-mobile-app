@@ -6,12 +6,25 @@ import { Styles } from "./profile.style";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
+import { getDeviceInfoApi } from "../../api/users.api";
+import NoContentComponent from "../../components/no_content/noContent.component";
+import moment from 'moment';
 
 export default class DeviceSharing extends Component {
     constructor() {
         super();
 
-        this.state = {};
+        this.state = {
+            devices: [],
+        };
+    }
+
+    componentDidMount() {
+        this.init();
+    }
+
+    init = () => {
+        getDeviceInfoApi().then(result => result != undefined && this.setState({devices: result}));
     }
 
     render() {
@@ -23,7 +36,23 @@ export default class DeviceSharing extends Component {
                     <View style={[Styles.container]}>
                         <MyText>Device History</MyText>
                         <ScrollView style={[Styles.deviceHistoryScrollView]}>
-                            <DeviceItem 
+                            {
+                                this.state.devices.length > 0 ?
+                                this.state.devices.map((device, index) => {
+                                    return (
+                                        <DeviceItem 
+                                            key={index}
+                                            device={device.deviceInfo}
+                                            location={"Lagos, Lagos"}
+                                            date={moment(device.dateCreated).format("MMMM, DD YYYY")}
+                                            time={moment(device.dateCreated).format("hh:mm")}
+                                        />
+                                    );
+                                })
+                                :
+                                    <NoContentComponent />
+                            }
+                            {/* <DeviceItem 
                                 device={"OS X 10.15.3 Chrome"}
                                 location={"Lagos, Lagos"}
                                 date={"March 4, 2020"}
@@ -34,7 +63,7 @@ export default class DeviceSharing extends Component {
                                 location={"Abuja, Nigeria"}
                                 date={"March 4, 2020"}
                                 time={"08:35am"}
-                            />
+                            /> */}
                         </ScrollView>
                     </View>
                 </SafeAreaView>

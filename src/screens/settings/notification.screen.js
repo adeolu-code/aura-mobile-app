@@ -8,7 +8,7 @@ import { MyText, Loading } from "../../utils/Index";
 import GeneralStyles from "./../../assets/styles/GeneralStyles";
 import colors from "../../colors";
 import NotificationSettingsItem from "../../components/notification_settings/notificationSetting.component";
-import { setNotificationSettingsApi } from "../../components/api/notifications.api";
+import { setNotificationSettingsApi } from "../../api/notifications.api";
 import { AppContext } from "../../../AppProvider";
 import { setContext } from "../../utils";
 

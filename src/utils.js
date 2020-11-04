@@ -23,6 +23,7 @@ export const urls = {
     supportBase: "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/",
     promotionBase: "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/",
     storageBase: "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/",
+    v1: "api/v1/",
     v: "api/v1/",
     auth: "auth/",
     user: "user/",
@@ -30,6 +31,8 @@ export const urls = {
     update: "update/",
     payMethods: "pay/methods/",
     notificationSettings: "notification/settings/",
+    deviceInformation: "deviceinformation/",
+    identityType: "identitytype/",
 }
 const getUserToken = async () => {
 	try {
