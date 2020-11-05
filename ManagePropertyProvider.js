@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component, useState } from "react";
 import { setContext, Request, GetRequest, urls } from "./src/utils";
 
@@ -39,8 +40,8 @@ class ManagePropertyProvider extends Component {
     })
   }
   getHotels = async () => {
-    const { userData, propertyTypes } = this.context.state
-    const { activeHotelsPage, perPage } = this.state
+    const { userData, propertyTypes } = this.context.state;
+    const { activeHotelsPage, perPage } = this.state;
     const type = propertyTypes.find(item => item.name.toLowerCase() === 'hotel')
 
     return new Promise( async (resolve, reject) => {
