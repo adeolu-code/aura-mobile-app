@@ -27,7 +27,6 @@ class ManageProperties extends Component {
 
   linkToHost = () => {
     const { appContext } = this.props
-    appContext.set({ isInApp: true })
     this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
   }
 

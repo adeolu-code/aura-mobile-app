@@ -8,19 +8,34 @@ import colors from '../../colors';
 
 import GStyles from '../../assets/styles/GeneralStyles';
 
+import { AppContext } from '../../../AppProvider';
+
 
 class SavedScreen extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
+  //TODO prevent people from using the back button to go back
+  
   onPress = () => {
-    this.props.navigation.navigate('Tabs', { screen: 'Dashboard'})
+    const { state } = this.context
+    if(state.isInApp) {
+      this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+    } else {
+      this.props.navigation.navigate('Tabs', { screen: 'Dashboard'})
+    }
   }
 //   ListScreen = () => {
 //     this.props.navigation.navigate('List');
 //   }
+  componentDidMount = () => {
+    const { set, state } = this.context
+    if(state.isInApp) {
+      set({ step: state.step + 1 })
+    }
+  }
   render() {
     const {container, middleRow } = styles
     const {  textExtraBold, textLgStyle, textDarkBlue} = GStyles

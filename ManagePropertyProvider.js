@@ -10,7 +10,8 @@ const defaultContext = {
   loadingAllProperties: false, loadingHotels: false, loadingApartments: false,
   properties: [], hotels: [], apartments: [], totalProperties: 0, totalHotels: 0, totalApartments: 0, 
   activePropertiesPage: 1, activeHotelsPage:1, activeApartmentsPage: 1, perPage: 10, pagePropertiesCount: 0, 
-  pageHotelsCount: 0, pageApartmentsCount: 0, loadMoreProperties: false, loadMoreHotels: false, loadMoreApartments: false
+  pageHotelsCount: 0, pageApartmentsCount: 0, loadMoreProperties: false, loadMoreHotels: false, loadMoreApartments: false,
+  
 };
 
 
