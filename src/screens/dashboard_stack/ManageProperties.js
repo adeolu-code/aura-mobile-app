@@ -8,8 +8,6 @@ import {Fab, Icon} from 'native-base';
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 
-import ManagePropertyRow from '../../components/dashboard/ManagePropertyRow';
-import FilterModal from '../../components/dashboard/FilterModal';
 import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
 import { getUser, getToken } from '../../helpers';
 import { AppContext } from '../../../AppProvider';
@@ -28,6 +26,8 @@ class ManageProperties extends Component {
   }
 
   linkToHost = () => {
+    const { appContext } = this.props
+    appContext.set({ isInApp: true })
     this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
   }
 
@@ -38,7 +38,6 @@ class ManageProperties extends Component {
 
   componentDidMount = () => {
     const { appContext, propertyContext } = this.props
-    console.log('Property context ', propertyContext)
     propertyContext.getAllProperties()
     propertyContext.getHotels()
     propertyContext.getApartments()
@@ -75,40 +74,33 @@ class ManageProperties extends Component {
     this.setState({ showFilterModal: false });
   }
   render() {
-    const { flexRow, textGrey, textH3Style, textH4Style, textSuccess, textWhite, textH5Style,imgStyle,textExtraBold, textDarkGrey, textBold, } = GStyles;
-    const { manageHeader, container, imgContainer, rightContainer, typeStyle, iconStyle, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
+    const { textSuccess, textWhite, textH5Style, imgStyle,textExtraBold, textDarkGrey, textBold, } = GStyles;
+    const { manageHeader, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
     const { tabOneSelected, tabTwoSelected, tabThreeSelected, showFilterModal } = this.state;
     return (
-      <ManagePropertyConsumer>
-        {(values) => (
-          <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-            <Header {...this.props} title="Manage Properties" wrapperStyles={{ paddingBottom: 5}} />
-            <View style={manageHeader}>
-                <View style={tabsContainer}>
-                    <TouchableOpacity style={[tabStyle, tabOneSelected ? activeTab : '']} onPress={this.selectTabOne}>
-                        <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>All Properties</MyText>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[tabStyle, tabTwoSelected ? activeTab : '']} onPress={this.selectTabTwo}>
-                        <MyText style={[textH5Style, textBold, tabTwoSelected ? textWhite : textSuccess]}>Hotels</MyText>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[tabStyle,  tabThreeSelected ? activeTab : '']} onPress={this.selectTabThree}>
-                        <MyText style={[textH5Style, textBold, tabThreeSelected ? textWhite : textSuccess]}>Apartments</MyText>
-                    </TouchableOpacity>
-                </View>
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
+        <Header {...this.props} title="Manage Properties" wrapperStyles={{ paddingBottom: 5}} />
+        <View style={manageHeader}>
+            <View style={tabsContainer}>
+                <TouchableOpacity style={[tabStyle, tabOneSelected ? activeTab : '']} onPress={this.selectTabOne}>
+                    <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>All Properties</MyText>
+                </TouchableOpacity>
+                <TouchableOpacity style={[tabStyle, tabTwoSelected ? activeTab : '']} onPress={this.selectTabTwo}>
+                    <MyText style={[textH5Style, textBold, tabTwoSelected ? textWhite : textSuccess]}>Hotels</MyText>
+                </TouchableOpacity>
+                <TouchableOpacity style={[tabStyle,  tabThreeSelected ? activeTab : '']} onPress={this.selectTabThree}>
+                    <MyText style={[textH5Style, textBold, tabThreeSelected ? textWhite : textSuccess]}>Apartments</MyText>
+                </TouchableOpacity>
             </View>
-            {this.renderTabs()}
-            <View style={{ flex: 1 }}>
-              <Fab active={this.state.active} direction="up" containerStyle={{ }}
-                style={{ backgroundColor: colors.orange }}
-                position="bottomRight"
-                onPress={this.linkToHost}>
-                <Icon name="home" />
-              </Fab>
-            </View>
-          </SafeAreaView>
-        )}
-        
-      </ManagePropertyConsumer>
+        </View>
+        {this.renderTabs()}
+        <View style={{ flex: 1 }}>
+          <Fab active={this.state.active} direction="up" containerStyle={{ }} style={{ backgroundColor: colors.orange }} 
+            position="bottomRight" onPress={this.linkToHost}>
+            <Icon name="home" />
+          </Fab>
+        </View>
+      </SafeAreaView>
     );
   }
 }

@@ -17,7 +17,7 @@ const defaultContext = {
   gettingRoomTypes: false,
   propertyFormData: null,
   location: null,
-  authenticating: false
+  isInApp: false
 };
 
 

@@ -124,6 +124,9 @@ const styles = StyleSheet.create({
       marginBottom: 20,
       paddingHorizontal: 1, paddingVertical: 1
     },
+    emptyContainerStyle: {
+        height: 200, width: '100%', marginBottom: 20
+    }
 });
 
 export default ApartmentsTab;
