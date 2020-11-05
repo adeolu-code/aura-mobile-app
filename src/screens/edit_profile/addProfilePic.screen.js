@@ -8,6 +8,7 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import { MyText } from "../../utils/Index";
 import ImagePicker from 'react-native-image-crop-picker';
 import { prepareMedia, uploadImageApi } from "../../utils";
+import RNFetchBlob from "rn-fetch-blob";
 // - use fb photos
 export default class AddProfilePicture extends Component {
     constructor() {
