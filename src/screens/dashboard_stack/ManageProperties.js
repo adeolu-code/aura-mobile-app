@@ -22,7 +22,7 @@ class ManageProperties extends Component {
   static contextType = ManagePropertyContext;
   constructor(props) {
     super(props);
-    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false,  };
+    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false };
   }
 
   linkToHost = () => {
@@ -54,7 +54,6 @@ class ManageProperties extends Component {
         return <ApartmentsTab {...this.props} {...this.props} />
     } 
   }
-  
 
   selectTabOne = () => {
     this.setState({ tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false });
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
       textAlignVertical: "bottom",
       height: 30,
       marginTop: 5,
-      color: colors.orange
+      color: colors.orange,
   },
   statusOnline: {
     textAlignVertical: "bottom",

@@ -44,7 +44,7 @@ class ReservationRow extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8
+        width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8, marginBottom: 10,
     },
     imgContainer: {
         width: 130, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,

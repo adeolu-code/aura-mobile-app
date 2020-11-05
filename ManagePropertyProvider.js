@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component, useState } from "react";
 import { setContext, Request, GetRequest, urls } from "./src/utils";
 
