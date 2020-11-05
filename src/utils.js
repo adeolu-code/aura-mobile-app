@@ -4,6 +4,7 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from './colors'
 
 let context = undefined;
+export let debug = false;
 export const GLOBAL_PADDING = 20;
 
 const CLIENT_ID = '0987654321'
@@ -22,12 +23,16 @@ export const urls = {
     supportBase: "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/",
     promotionBase: "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/",
     storageBase: "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/",
+    v1: "api/v1/",
     v: "api/v1/",
     auth: "auth/",
     user: "user/",
     login: "login/",
     update: "update/",
     payMethods: "pay/methods/",
+    notificationSettings: "notification/settings/",
+    deviceInformation: "deviceinformation/",
+    identityType: "identitytype/",
 }
 const getUserToken = async () => {
 	try {
@@ -93,7 +98,7 @@ export async function Request(
   //also change content type
   const token = await getUserToken();
   let headers = {}
-  console.log("url", Base+Url, PrepareData(Data));
+//   if (debug) console.log("url", Base+Url, PrepareData(Data));
   
   if (!PreparedData) {
      headers["Content-Type"] = "application/json"
@@ -133,6 +138,9 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
    } else {
       token = await getUserToken();
    }
+
+   if (debug) console.log("url", Base+Url);
+
    let headers = {
      Accept: "application/json",
      "Content-Type": "application/json",
@@ -155,6 +163,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
      })
      .catch((error) => {
        let data = {error: error, type: "error"}
+       if (debug) console.log("error", error);
         return data
      })
 }
