@@ -32,7 +32,7 @@ export default class AddProfilePicture extends Component {
         data.append("FileName", this.state.imageFile.name);
         uploadImageApi([
             { 
-                name : 'attachments', filename : this.state.imageFile.fileName, type:this.state.imageFile.mime, data: RNFetchBlob.wrap(this.state.imageFile.path)
+                name : 'attachments', filename : this.state.imageFile.fileName, type:this.state.imageFile.mime, data: RNFetchBlob.wrap(this.state.imageFile.uri)
             },
             {
                 name: 'FileName', 
