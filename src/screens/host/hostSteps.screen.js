@@ -24,6 +24,7 @@ export default class HostSteps extends Component {
     }
 
     getStarted = () => {
+        // this.props.navigation.navigate("UploadPropertyImage");
         const { set, state } = this.context
         set({ isInApp: true })
         if (state.step === 1) {

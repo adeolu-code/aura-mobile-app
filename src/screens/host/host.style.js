@@ -4,7 +4,7 @@ import { GLOBAL_PADDING } from "../../utils";
 
 export const Styles = StyleSheet.create({
     container: {
-        marginTop: 120,
+        marginTop: 140,
         padding: GLOBAL_PADDING,
         paddingBottom: 10,
     },
@@ -123,17 +123,17 @@ export const Styles = StyleSheet.create({
 
     //Upload
     sectionView: {
-        height: 200,
+        height: 210,
         width: "100%",
         flexDirection: "row",
         marginBottom: 20,
-        borderRadius: 5,
+        borderRadius: 5, elevation: 2
     },
     imageView: {
         flex: 0.4,
-        alignItems: "center",
+        alignItems: "flex-start",
         paddingTop: 30,
-        paddingRight: 20,
+        justifyContent: 'flex-end'
         
     },
     contentView: {
@@ -141,20 +141,16 @@ export const Styles = StyleSheet.create({
         
     },
     cameraImage: {
-        width: 115,
-        height: 200,
+        width: 130, height: 180,marginBottom: -30
     },
     hireView: {
-        
-        height: 40,
-        width: 100,
-        marginTop: 10,
+        height: 40,width: 100,
+        marginTop: 20,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5
     },
     lowerTextView: {
-        paddingTop: 10,
-        padding: 10,
+        paddingTop: 15, paddingLeft: 25, 
     },
 
     //pick image
@@ -164,18 +160,19 @@ export const Styles = StyleSheet.create({
     },
     galleryIcon: {
         color: colors.orange,
-        fontSize: 120,
+        fontSize: 100,
     },
     miniGalleryIcon: {
         color: colors.orange,
         fontSize: 40,
     },
     pickImageImageView: {
-        height: 250,
+        minHeight: 280,
         width: "100%",
         backgroundColor: colors.lightOrange,
-        marginBottom: 5,
-        marginLeft: 5,
+        marginBottom: 80, borderRadius: 8,
+        // marginLeft: 5, 
+        // borderWidth: 1
     },
     miniPickImageImageView: {
         height: 120,
@@ -185,32 +182,33 @@ export const Styles = StyleSheet.create({
         
     },
     picturesRowView: {
-        flexDirection: "row",
-        flexWrap: "wrap",
+        flexDirection: "row", justifyContent: 'space-between', width: '100%', 
+        // borderWidth: 1,
+        flexWrap: "wrap", 
     },
     miniSelectedImage: {
-        height: 120,
-        width: 120,
-        marginLeft: 5,
-        borderRadius: 5,
+        height: 150, flex: 0.9, 
+        // width: 120,
+        // marginLeft: 5, marginRight: 5,
+        borderRadius: 10,
         marginTop: 5,
-        marginBottom: 5,
+        marginBottom: 20,
     },
     miniSelectedImageView: {
-        justifyContent: "flex-end",
+        // justifyContent: "flex-end",
     },
     trashIcon: {
         backgroundColor: colors.white,
-        width: 25,
-        height: 25,
+        width: 30,
+        height: 30,
         borderRadius: 50,
         color: colors.black,
-        padding: 5,
+        padding: 5, 
         position: "absolute",
         alignSelf: "flex-end",
-        fontSize: 16,
-        right: 5,
-        bottom: 10,
+        fontSize: 20,
+        right: 15,
+        bottom: 35,
     },
 
     //booking information requirements

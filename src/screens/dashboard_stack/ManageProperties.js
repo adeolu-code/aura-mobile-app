@@ -105,7 +105,7 @@ class ManageProperties extends Component {
 
 const styles = StyleSheet.create({
     manageHeader: {
-        position: 'absolute', backgroundColor: colors.white, paddingTop: 100, width: '100%', paddingHorizontal: 20, zIndex: 1,
+        position: 'absolute', backgroundColor: colors.white, paddingTop: 110, width: '100%', paddingHorizontal: 20, zIndex: 1,
     }, 
     tabsContainer: {
         display: 'flex', flexDirection: 'row', backgroundColor: colors.lighterGreen, borderRadius: 6, padding: 4,
