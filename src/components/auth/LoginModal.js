@@ -25,7 +25,12 @@ class LoginModal extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '', loading: false, formErrors: [] };
+    this.state = { 
+      email: "odenigbo67@gmail.com", 
+      password: "Qwerty123!", 
+      loading: false, 
+      formErrors: [] 
+    };
   }
   
   componentDidMount() {

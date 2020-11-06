@@ -69,6 +69,8 @@ export const Styles = StyleSheet.create({
         justifyContent: "center",
         marginTop: 5,
         marginBottom: 5,
+        borderRadius: 5,
+        height: 40,
     },
     roundedUser: {
         height: 120,

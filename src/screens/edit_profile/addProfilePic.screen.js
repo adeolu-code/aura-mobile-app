@@ -6,7 +6,10 @@ import colors from "../../colors";
 import Header from "../../components/Header";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { MyText } from "../../utils/Index";
-
+import ImagePicker from 'react-native-image-crop-picker';
+import { prepareMedia, uploadImageApi } from "../../utils";
+import RNFetchBlob from "rn-fetch-blob";
+// - use fb photos
 export default class AddProfilePicture extends Component {
     constructor() {
         super();
@@ -25,19 +28,71 @@ export default class AddProfilePicture extends Component {
             return;
         }
 
-        this.props.navigation.navigate('VerifyPhoneNumber');
+        let data = new FormData();
+        data.append("File", this.state.imageFile);
+        data.append("FileName", this.state.imageFile.name);
+        uploadImageApi([
+            { 
+                name : 'attachments', filename : this.state.imageFile.name, type:this.state.imageFile.mime, data: RNFetchBlob.wrap(this.state.imageFile.uri)
+            },
+            {
+                name: 'FileName', 
+                data: 1
+             }
+        ]).then(result => console.log("res", result));
+
+        /**
+         * [
+      // element with property `filename` will be transformed into `file` in form data
+      { 
+          name : this.state.type, filename : this.state.video.fileName, type:this.state.video.type, data: RNFetchBlob.wrap(this.state.video.path)
+      },
+      {
+         name: 'glam_id', 
+         data: this.context.state.user_data.id.toString()
+      }
+      
+    ]
+         */
+
+        // this.props.navigation.navigate('VerifyPhoneNumber');
+    }
+
+    selectImage = () => {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true,
+            writeTempFile: true,
+            
+          }).then(image => {
+              console.log("file", prepareMedia(
+                {
+                    ...image,
+                    ...{
+                        fileName: image.path.substr(image.path.lastIndexOf("/")).replace("/","")
+                    }
+                }));
+            this.setState({
+                imageFile: prepareMedia(
+                    {
+                        ...image,
+                        ...{
+                            fileName: image.path.substr(image.path.lastIndexOf("/")).replace("/","")
+                        }
+                    }),
+            isCaptured: true,
+            })
+          }).catch(err => console.log(err));
     }
 
     render() {
         const {
             textWhite,
             textBold,
-            textH5Style,
             textCenter,
-            textDarkBlue,
             textOrange,
             textH4Style,
-            imgStyle,
             textUnderline,
           } = GStyles;
         return (
@@ -55,14 +110,14 @@ export default class AddProfilePicture extends Component {
                                 {
                                     this.state.isCaptured ? 
                                     <Image 
-                                        source={require("./../../assets/images/photo/photo.png")} 
+                                        source={this.state.imageFile} 
                                         style={[Styles.userImage]}
                                     />
                                     :
                                         <Icon name={"ios-person"} style={[Styles.userIcon]} />
                                 }
                             </View>
-                            <TouchableOpacity onPress={() =>this.setState({isCaptured: true})}>
+                            <TouchableOpacity onPress={() => this.selectImage()}>
                                 <MyText style={[textCenter, textOrange, textUnderline, {marginTop: 10}]}>
                                     {
                                         this.state.isCaptured ?
@@ -77,18 +132,17 @@ export default class AddProfilePicture extends Component {
                                 <MyText style={[textUnderline, {marginTop: 5, marginLeft: 5}]}>Use Facebook Photo</MyText>
                             </View>
                         </Content>
-                        <Footer style={[Styles.footer, {backgroundColor: (!this.state.isCaptured ? colors.lightOrange : colors.orange)}]}>
-                            <Button
-                                transparent 
+                        <Footer style={[Styles.footer, Styles.transparentFooter]}>
+                            <TouchableOpacity
                                 style={[Styles.nextButton, {backgroundColor: (!this.state.isCaptured ? colors.lightOrange : colors.orange)}]}
                                 onPress={() => this.onSave()}
                             >
                                 <MyText
-                                    style={[textWhite, textH4Style, textBold]}
+                                    style={[textWhite, textH4Style, textBold, textCenter]}
                                 >
                                     Next
                                 </MyText>
-                            </Button>
+                            </TouchableOpacity>
                         </Footer>
                     </Container>
                 </SafeAreaView>

@@ -7,14 +7,17 @@ import colors from "../../colors";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { MyText } from "../../utils/Index";
 import ImagePicker from 'react-native-image-crop-picker';
+import { prepareMedia } from "../../utils";
 // import ImagePicker from 'react-native-image-picker';
 
+//upload photo
 export default class UploadVerification extends Component {
     constructor(props) {
         super();
         this.state = {
             isCaptured: false,
             selectedId: props.route.params.selectedId,
+            imageFile: undefined,
         };
     }
 
@@ -32,10 +35,24 @@ export default class UploadVerification extends Component {
         ImagePicker.openPicker({
             width: 300,
             height: 400,
-            cropping: true
+            cropping: true,
+            writeTempFile: true,
+            includeBase64: true,
+            
           }).then(image => {
-            console.log(image);
-          });
+            //   console.log("image", image)
+              const source = {uri: image.path, width: image.width, height: image.height, mime: image.mime};
+            this.setState({
+                imageOriginal: source,
+                imageFile: prepareMedia({
+                fileName: image.path.substr(image.path.lastIndexOf("/")).replace("/",""),
+                mime: image.mime,
+                path: image.path,
+                size: image.size,
+            }),
+            isCaptured: true,
+            })
+          }).catch(err => console.log(err));
     }
     
 
@@ -65,14 +82,17 @@ export default class UploadVerification extends Component {
                                                 </TouchableOpacity>
                                             </>   
                                         :
-                                            <Image source={require("./../../assets/images/photo/photo.png")} />
+                                            <Image source={this.state.imageOriginal} />
                                     }
                                     
                                 </View>
                                 {
                                     this.state.isCaptured && 
-                                    <TouchableOpacity>
-                                        <MyText style={[textUnderline, textOrange, textCenter]}>Change Picture</MyText>
+                                    <TouchableOpacity 
+                                        onPress={() => this.selectImage()}
+                                        style={{marginTop: 30}}
+                                    >
+                                        <MyText style={[textUnderline, textOrange, textCenter, textBold]}>Change Picture</MyText>
                                     </TouchableOpacity>
                                 }
                         </Content>

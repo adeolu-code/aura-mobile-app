@@ -91,11 +91,14 @@ class ProfileScreenClass extends Component {
                         this.context.state.isLoggedIn &&
                     
                         <>
-                            <View style={[Styles.imageView]}>
+                            <TouchableOpacity 
+                                onPress={() => this.props.navigation.navigate('AddProfilePicture')}
+                                style={[Styles.imageView]}
+                            >
                                 {/* image section */}
                                 <Image source={require("./../../assets/images/photo/photo1.png")} style={[Styles.userImageStyle]} />
                                 <MyText style={[textH2Style, textCenter, textBold]}>{`${this.context.state.userData.firstName} ${this.context.state.userData.lastName}`}</MyText>
-                            </View>
+                            </TouchableOpacity>
                             <Separator style={[Styles.separator]}>
                                 <MyText style={[Styles.separatorText]}>Account settings</MyText>
                             </Separator>
