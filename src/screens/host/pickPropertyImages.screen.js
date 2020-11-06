@@ -2,21 +2,29 @@ import React, { Component } from "react";
 import { StatusBar, SafeAreaView, TouchableOpacity, Image  } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon } from "native-base";
-import { MyText, CustomButton } from "../../utils/Index";
+import { MyText, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { Styles } from "./host.style";
 import colors from "../../colors";
 import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
 
+import { urls, Request, UploadRequest } from '../../utils';
+import { AppContext } from '../../../AppProvider';
+
 
 export default class PickPropertyImage extends Component {
+    static contextType = AppContext
     constructor() {
         super();
         
         this.state = {
-            isCaptured: false, images: [], selectModal: false
+            isCaptured: false, images: [], selectModal: false, errors: '', imgUrls: [], loading: false
         };
+    }
+    renderLoading = () => {
+        const { loading } = this.state;
+        if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
     }
     openSelectModal = () => {
         this.setState({ selectModal: true })
@@ -24,21 +32,109 @@ export default class PickPropertyImage extends Component {
     closeSelectModal = () => {
         this.setState({ selectModal: false })
     }
+    removeImg = (index) => {
+        const { images } = this.state
+        const arrImgs = images
+        arrImgs.splice(index, 1)
+        this.setState({ images: arrImgs })
+    }
     renderImages = () => {
         const { images } = this.state
         return images.map((item, index) => {
             return (
                 <View style={[Styles.miniSelectedImageView]} key={index}>
-                    <Image 
-                        style={[Styles.miniSelectedImage]}
-                        source={{ uri: item.path }} 
-                    />
-                    <Icon name={"trash-sharp"} style={[Styles.trashIcon]} />
+                    <Image style={[Styles.miniSelectedImage]} source={{ uri: item.path }} resizeMode="cover" />
+                    <TouchableOpacity style={{ position: "absolute", alignSelf: "flex-end", right: 15, bottom: 10 }} onPress={this.removeImg.bind(this, index)}>
+                        <Icon name={"trash-sharp"} style={[Styles.trashIcon]} />
+                    </TouchableOpacity>
                 </View>
             )
         })
     }
-    selectImage = () => {
+    uploadMultiple = async () => {
+        const { images } = this.state
+        // this.setState({ loading: true })
+        const formData = new FormData();
+        images.forEach((item, i) => {
+            formData.append("model[]", {
+                uri: item.path,
+                name: Date.now() + '_property.jpg',
+                type: item.mime
+            });
+        });
+        const res = await UploadRequest(urls.storageBase, `${urls.v}upload/multiple`, formData);
+        console.log(res)
+        if(res.isError) {
+            const message = res.message;
+            const error = [message]
+            this.setState({ errors: error, loading: false })
+        } else {
+            this.setState({ imgUrls: res.data, loading: false })
+        }
+        // images.filter((item, i) => {
+        //     let file = {
+        //         uri: item.path,
+        //         name: Date.now() + '_property.jpg',
+        //         type: item.mime
+        //     };
+        //     Object.entries({file}).forEach(([key, value]) =>
+        //         formData.append(key, value)
+        //     );
+        // })
+        // let file = {
+        //     uri: images[0].path,
+        //     name: Date.now() + '_advert.jpg',
+        //     type: images[0].mime
+        // };
+        // const formData = new FormData();
+        // Object.entries({file}).forEach(([key, value]) =>
+        //     formData.append(key, value)
+        // );
+        console.log(formData)
+        // const res = await Request(urls.storageBase, `${urls.v}upload/multiple`);
+        // // console.log(res)
+        // if(res.isError) {
+        //     const message = res.message;
+        //     const error = [message]
+        //     this.setState({ errors: error, loading: false })
+        // } else {
+        //     this.setState({ imgUrls: res.data, loading: false })
+        // }
+    }
+    submit = () => {
+        this.setState({ loading: true })
+        this.uploadImg()
+    }
+    uploadImg = (i=0) => {
+        const { images, imgUrls } = this.state
+        const image = images[i];
+        const fileName = Date.now() + '_property.jpg'
+        let file = {
+            uri: image.path,
+            name: fileName,
+            type: image.mime
+        };
+        const formData = new FormData();
+        formData.append('File', file)
+        formData.append('FileName', fileName)
+        UploadRequest(urls.storageBase, `${urls.v}upload`, formData)
+        .then((response) => {
+            const arrUrls = [...imgUrls, response.data]
+            this.setState({ imgUrls: arrUrls })
+            // this.otherImagesArr.push(response.data)
+            i = i + 1;
+            if(i < images.length) {
+                this.uploadImg(i)
+            } else {
+                this.setState({ loading: false })
+            }
+        })
+        .catch((error) => {
+            this.setState({ error, loading: false })
+            console.log('Other images Error ', error)
+        })
+    }
+    uploadImage = async () => {
 
     }
     cameraSelected = () => {
@@ -94,13 +190,14 @@ export default class PickPropertyImage extends Component {
             <>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
+                    {this.renderLoading()}
                     <Header 
                         {...this.props} title="Upload Your Pictures" 
                         sub={"Lorem Ipsum Text Lorenzo"}
                     />
                     <Container style={[Styles.container]}>
                         <Content>
-                            <MyText style={[textGreen, textUnderline, {marginBottom: 40}]}>See Photography Tips</MyText>
+                            <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40}]}>See Photography Tips</MyText>
                                 <View style={[Styles.pickImageImageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent", justifyContent: 'flex-start'})]}>
                                     {
                                         !this.state.isCaptured ?
@@ -118,21 +215,14 @@ export default class PickPropertyImage extends Component {
                                                     </TouchableOpacity>
                                                 </TouchableOpacity>
                                                 {this.renderImages()}
-                                                {/* <View style={[Styles.miniSelectedImageView]}>
-                                                    <Image 
-                                                        style={[Styles.miniSelectedImage]}
-                                                        source={require("./../../assets/images/photo/photo.png")} 
-                                                    />
-                                                    <Icon name={"trash-sharp"} style={[Styles.trashIcon]} />
-                                                </View>
+                                                {/* 
                                                 <View style={[Styles.miniSelectedImageView]}>
-                                                    <Image 
-                                                        style={[Styles.miniSelectedImage]}
-                                                        source={require("./../../assets/images/photo/photo.png")} 
-                                                    />
-                                                    <Icon name={"trash-sharp"} style={[Styles.trashIcon]} />
+                                                    <Image style={[Styles.miniSelectedImage]} source={require("./../../assets/images/photo/photo.png")} />
+                                                    <TouchableOpacity style={{ position: "absolute", alignSelf: "flex-end", right: 15, bottom: 10,}}>
+                                                        <Icon name={"trash-sharp"} style={[Styles.trashIcon]} />
+                                                    </TouchableOpacity>
                                                 </View>
-                                                <View style={[Styles.miniSelectedImageView]}>
+                                                 <View style={[Styles.miniSelectedImageView]}>
                                                     <Image 
                                                         style={[Styles.miniSelectedImage]}
                                                         source={require("./../../assets/images/photo/photo.png")} 
@@ -150,7 +240,8 @@ export default class PickPropertyImage extends Component {
                                     !this.state.isCaptured ?
                                         <CustomButton buttonText="Choose A Picture" onPress={() => this.setState({isCaptured: true})} buttonStyle={{elevation: 2}} />
                                     :
-                                    <CustomButton buttonText="Next" onPress={() => this.props.navigation.navigate('AddProfilePicture')} buttonStyle={{elevation: 2}} />
+                                    // <CustomButton buttonText="Next" onPress={() => this.props.navigation.navigate('AddProfilePicture')} buttonStyle={{elevation: 2}} />
+                                    <CustomButton buttonText="Next" onPress={this.submit} buttonStyle={{elevation: 2}} />
                                 }
                         </Content>
                         <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />

@@ -106,9 +106,7 @@ export const Styles = StyleSheet.create({
         marginTop: 10
     },
     dot: {
-        height: 10,
-        width: 10,
-        borderRadius: 50,
+        height: 10, width: 10, borderRadius: 50,
         marginRight: 5,
     },
     activeDot: {
@@ -123,8 +121,7 @@ export const Styles = StyleSheet.create({
 
     //Upload
     sectionView: {
-        height: 210,
-        width: "100%",
+        height: 210, width: "100%",
         flexDirection: "row",
         marginBottom: 20,
         borderRadius: 5, elevation: 2
@@ -141,10 +138,10 @@ export const Styles = StyleSheet.create({
         
     },
     cameraImage: {
-        width: 130, height: 180,marginBottom: -30
+        width: 130, height: 180, marginBottom: -30
     },
     hireView: {
-        height: 40,width: 100,
+        height: 40, width: 100,
         marginTop: 20,
         alignItems: "center",
         justifyContent: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5
@@ -187,28 +184,23 @@ export const Styles = StyleSheet.create({
         flexWrap: "wrap", 
     },
     miniSelectedImage: {
-        height: 150, flex: 0.9, 
+         width: '100%', height: '100%',
         // width: 120,
         // marginLeft: 5, marginRight: 5,
         borderRadius: 10,
         marginTop: 5,
-        marginBottom: 20,
+        // marginBottom: 20,
     },
     miniSelectedImageView: {
+        width: '46.5%', height: 150, marginBottom: 30
+        // flex: 0.9,  
         // justifyContent: "flex-end",
     },
     trashIcon: {
-        backgroundColor: colors.white,
-        width: 30,
-        height: 30,
-        borderRadius: 50,
-        color: colors.black,
-        padding: 5, 
-        position: "absolute",
-        alignSelf: "flex-end",
-        fontSize: 20,
-        right: 15,
-        bottom: 35,
+        backgroundColor: colors.white, width: 30,
+        height: 30, borderRadius: 50, color: colors.black,
+        padding: 5, fontSize: 20, 
+        // position: "absolute", alignSelf: "flex-end", right: 15, bottom: 10,
     },
 
     //booking information requirements

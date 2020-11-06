@@ -64,7 +64,7 @@ class LoginModal extends Component {
         this.context.set({ token: res.data })
         await setToken(res.data);
         // login succesfull close modal
-        this.props.onDecline();
+        // this.props.onDecline();
       } else {
         const message = res.message;
         const error = [message]

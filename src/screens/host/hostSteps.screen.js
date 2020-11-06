@@ -24,19 +24,19 @@ export default class HostSteps extends Component {
     }
 
     getStarted = () => {
-        // this.props.navigation.navigate("UploadPropertyImage");
-        const { set, state } = this.context
-        set({ isInApp: true })
-        if (state.step === 1) {
-            // this.props.navigation.navigate("HostProperty");
-            this.props.navigation.navigate('Auth', {screen: "List"});
-        }
-        else if (state.step === 2) {
-            this.props.navigation.navigate("UploadPropertyImage");
-        }
-        else if (state.step === 3) {
-            this.props.navigation.navigate("BookingInformationRequirements");   
-        }
+        this.props.navigation.navigate("UploadPropertyImage");
+        // const { set, state } = this.context
+        // set({ isInApp: true })
+        // if (state.step === 1) {
+        //     // this.props.navigation.navigate("HostProperty");
+        //     this.props.navigation.navigate('Auth', {screen: "List"});
+        // }
+        // else if (state.step === 2) {
+        //     this.props.navigation.navigate("UploadPropertyImage");
+        // }
+        // else if (state.step === 3) {
+        //     this.props.navigation.navigate("BookingInformationRequirements");   
+        // }
         // if (this.state.step == 1) {
         //     // this.props.navigation.navigate("HostProperty");
         //     this.props.navigation.navigate('Auth', {screen: "List"});
