@@ -9,7 +9,7 @@ import colors from "../../colors";
 import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import { urls, Request, UploadRequest } from '../../utils';
+import { urls, Request, UploadRequest, uploadMultipleFile } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 
 
@@ -51,87 +51,19 @@ export default class PickPropertyImage extends Component {
             )
         })
     }
-    uploadMultiple = async () => {
-        const { images } = this.state
-        // this.setState({ loading: true })
-        const formData = new FormData();
-        images.forEach((item, i) => {
-            formData.append("model[]", {
-                uri: item.path,
-                name: Date.now() + '_property.jpg',
-                type: item.mime
-            });
-        });
-        const res = await UploadRequest(urls.storageBase, `${urls.v}upload/multiple`, formData);
-        console.log(res)
-        if(res.isError) {
-            const message = res.message;
-            const error = [message]
-            this.setState({ errors: error, loading: false })
-        } else {
-            this.setState({ imgUrls: res.data, loading: false })
-        }
-        // images.filter((item, i) => {
-        //     let file = {
-        //         uri: item.path,
-        //         name: Date.now() + '_property.jpg',
-        //         type: item.mime
-        //     };
-        //     Object.entries({file}).forEach(([key, value]) =>
-        //         formData.append(key, value)
-        //     );
-        // })
-        // let file = {
-        //     uri: images[0].path,
-        //     name: Date.now() + '_advert.jpg',
-        //     type: images[0].mime
-        // };
-        // const formData = new FormData();
-        // Object.entries({file}).forEach(([key, value]) =>
-        //     formData.append(key, value)
-        // );
-        console.log(formData)
-        // const res = await Request(urls.storageBase, `${urls.v}upload/multiple`);
-        // // console.log(res)
-        // if(res.isError) {
-        //     const message = res.message;
-        //     const error = [message]
-        //     this.setState({ errors: error, loading: false })
-        // } else {
-        //     this.setState({ imgUrls: res.data, loading: false })
-        // }
-    }
+    
     submit = () => {
         this.setState({ loading: true })
-        this.uploadImg()
-    }
-    uploadImg = (i=0) => {
-        const { images, imgUrls } = this.state
-        const image = images[i];
-        const fileName = Date.now() + '_property.jpg'
-        let file = {
-            uri: image.path,
-            name: fileName,
-            type: image.mime
-        };
-        const formData = new FormData();
-        formData.append('File', file)
-        formData.append('FileName', fileName)
-        UploadRequest(urls.storageBase, `${urls.v}upload`, formData)
-        .then((response) => {
-            const arrUrls = [...imgUrls, response.data]
-            this.setState({ imgUrls: arrUrls })
-            // this.otherImagesArr.push(response.data)
-            i = i + 1;
-            if(i < images.length) {
-                this.uploadImg(i)
-            } else {
-                this.setState({ loading: false })
-            }
+        const { images } = this.state
+        uploadMultipleFile(images)
+        .then((res) => {
+            console.log('Res ', res)
         })
-        .catch((error) => {
-            this.setState({ error, loading: false })
-            console.log('Other images Error ', error)
+        .catch(error => {
+            console.log(error)
+        })
+        .finally(() => {
+            this.setState({ loading: false})
         })
     }
     uploadImage = async () => {
@@ -168,7 +100,7 @@ export default class PickPropertyImage extends Component {
             const arr = [...images, image]
             // arr.push(image)
             this.setState({ images: arr })
-            console.log(arr)
+            console.log(arr, arr[0].path.substring(arr[0].path.lastIndexOf('/') + 1))
         }).catch(error => {
             console.log("Error from camera ", error);
         }).finally(() => {
@@ -210,9 +142,9 @@ export default class PickPropertyImage extends Component {
                                                     {backgroundColor: colors.lightOrange, width: '46.5%', borderRadius: 10, height: 150, marginTop: 5, marginBottom: 20}]}
                                                     onPress={this.openSelectModal}>
                                                     <Icon name={"add-circle-sharp"} style={[Styles.miniGalleryIcon]} />
-                                                    <TouchableOpacity onPress={() => this.setState({isCaptured: true})}>
+                                                    <View>
                                                         <MyText style={[textUnderline, textOrange]}>Add Photo</MyText>
-                                                    </TouchableOpacity>
+                                                    </View>
                                                 </TouchableOpacity>
                                                 {this.renderImages()}
                                                 {/* 

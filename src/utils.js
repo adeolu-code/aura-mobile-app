@@ -63,12 +63,6 @@ export function prepareMedia(data) {
     uri: data.uri,
     size: data.fileSize,
   };
-//   return {
-//    name: data.fileName,
-//    type: data.mime,
-//    uri: data.path,
-//    size: data.size,
-//  };
   //photo picked
   // return {
   //   name: data.name,
@@ -145,8 +139,6 @@ export async function UploadRequest(
    method = "POST",
    
  ) {
-   //if PreparedData then no need to convert the data to json or multi part e.g is data being passed is already a form data
-   //also change content type
    const token = await getUserToken();
    let headers = {}
    
@@ -177,6 +169,48 @@ export async function UploadRequest(
          return error
       })
  }
+
+export const uploadMultipleFile = async (images) => {
+   return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      images.forEach((item, i) => {
+         const filename = item.path.substring(item.path.lastIndexOf('/') + 1)
+         formData.append("model", {
+            uri: item.path,
+            name: `${Date.now()}_${filename}`,
+            type: item.mime
+         });
+      });
+      UploadRequest(urls.storageBase, `storage/${urls.v}upload/multiple`, formData)
+      .then((response) => {
+         resolve(response);
+      })
+      .catch((error) => {
+         reject(error)
+      })
+   })
+   
+}
+export const uploadFile = async (image, fname) => {
+   return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      const filename = fname ? fname : image.path.substring(image.path.lastIndexOf('/') + 1)
+      formData.append("file", {
+         uri: image.path,
+         name: `${Date.now()}_${filename}`,
+         type: image.mime
+      });
+      formData.append('FileName', filename)
+      UploadRequest(urls.storageBase, `storage/${urls.v}upload`, formData)
+      .then((response) => {
+         resolve(response)
+      })
+      .catch((error) => {
+         reject(error)
+      })
+   })
+   
+}
 
 export async function GetRequest(Base, Url, accessToken, type = "GET") {
    let token = '';
