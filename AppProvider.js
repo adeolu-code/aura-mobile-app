@@ -17,8 +17,11 @@ const defaultContext = {
   gettingRoomTypes: false,
   propertyFormData: null,
   location: null,
+  isInApp: false,
+  step: 1,
   notificationSettings: {messages: {}, policy: {}, reminders: {}},
 };
+
 
 
 class AppProvider extends Component {

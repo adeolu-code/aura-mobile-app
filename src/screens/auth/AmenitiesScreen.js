@@ -36,7 +36,7 @@ class AmenitiesScreen extends Component {
   
   getAmmenities = async () => {
     this.setState({ loadingAmenities: true })
-    const res = await GetRequest(urls.listingBase, `api/v1/listing/ammenity`);
+    const res = await GetRequest(urls.listingBase, `${urls.v}listing/ammenity`);
     // console.log(res)
     if(res.isError) {
         const message = res.message;
@@ -48,7 +48,7 @@ class AmenitiesScreen extends Component {
   }
   getSafetyAmmenities = async () => {
     this.setState({ loadingSafetyAmenities: true })
-    const res = await GetRequest(urls.listingBase, `api/v1/listing/safetyamenity`);
+    const res = await GetRequest(urls.listingBase, `${urls.v}listing/safetyamenity`);
     // console.log(res)
     if(res.isError) {
         const message = res.message;
@@ -72,7 +72,7 @@ class AmenitiesScreen extends Component {
     // console.log(propertyFormData)
     const { set, state, getUserProfile } = this.context
     this.setState({ saving: true })
-    const res = await Request(urls.listingBase, `api/v1/listing/property`, propertyFormData);
+    const res = await Request(urls.listingBase, `${urls.v}listing/property`, propertyFormData);
     console.log(res)
     if(res.isError) {
         const message = res.message;
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 120,
+    marginTop: 140,
     flex: 1,
   },
 //   picker: {

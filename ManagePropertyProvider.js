@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component, useState } from "react";
 import { setContext, Request, GetRequest, urls } from "./src/utils";
 
@@ -7,8 +8,10 @@ const ManagePropertyContext = React.createContext({});
 
 const defaultContext = {
   loadingAllProperties: false, loadingHotels: false, loadingApartments: false,
-  properties: [], hotels: [], apartments: [], totalAllProperties: 0, totalHotels: 0, totalApartments: 0, 
-  activePropertiesPage: 1, activeHotelsPage:1, activeApartmentsPage: 1, perPage: 10, pageCount: 0,
+  properties: [], hotels: [], apartments: [], totalProperties: 0, totalHotels: 0, totalApartments: 0, 
+  activePropertiesPage: 1, activeHotelsPage:1, activeApartmentsPage: 1, perPage: 10, pagePropertiesCount: 0, 
+  pageHotelsCount: 0, pageApartmentsCount: 0, loadMoreProperties: false, loadMoreHotels: false, loadMoreApartments: false,
+  
 };
 
 
@@ -21,58 +24,82 @@ class ManagePropertyProvider extends Component {
       setContext({state: this.state});
     })
   };
-  getAllProperties = async () => {
+  getAllProperties = async (more) => {
     const { userData } = this.context.state
-    const { activePropertiesPage, perPage } = this.state
+    const { activePropertiesPage, perPage, properties } = this.state
+    more ? this.set({ loadMoreProperties: true }) : this.set({ loadingAllProperties: true })
     return new Promise( async (resolve, reject) => {
-      this.set({ loadingAllProperties: true })
       const res = await GetRequest(urls.listingBase,  `${urls.v}listing/property/me/?UserId=${userData.id}&Page=${activePropertiesPage}&Size=${perPage}`);
-      this.set({ loadingAllProperties: false })
+      more ? this.set({ loadMoreProperties: false }) : this.set({ loadingAllProperties: false })
       if(res.isError) {
         reject(res.message)
       } else {
-        const data = res.data
-        resolve(data)
+        const response = res.data
+        resolve(response)
+        const dataResult = response.data
+        let data = []
+        if(more) {
+          data = [...properties, ...dataResult]
+        } else {
+          data = dataResult
+        }
         console.log('All properties ', res.data)
-        this.set({ properties: data.data, activePropertiesPage: data.page, totalAllProperties: data.totalItems })
+        const pagePropertiesCount =  Math.ceil(response.totalItems / perPage)
+        this.set({ properties: data, activePropertiesPage: response.page, totalProperties: response.totalItems, pagePropertiesCount })
       }
     })
   }
-  getHotels = async () => {
+  getHotels = async (more) => {
     const { userData, propertyTypes } = this.context.state
-    const { activeHotelsPage, perPage } = this.state
+    const { activeHotelsPage, perPage, hotels } = this.state
+    more ? this.set({ loadMoreHotels: true }) : this.set({ loadingHotels: true })
     const type = propertyTypes.find(item => item.name.toLowerCase() === 'hotel')
 
     return new Promise( async (resolve, reject) => {
-      this.set({ loadingHotels: true })
       const res = await GetRequest(urls.listingBase, 
       `${urls.v}listing/property/me/?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeHotelsPage}&Size=${perPage}`);
-      this.set({ loadingHotels: false })
+      more ? this.set({ loadMoreHotels: false }) : this.set({ loadingHotels: false })
       if(res.isError) {
         reject(res.message)
       } else {
-        const data = res.data
-        resolve(data)
-        this.set({ hotels: data.data, activeHotelsPage: data.page, totalHotels: data.totalItems })
+        const response = res.data
+        resolve(response)
+        const dataResult = response.data
+        let data = []
+        if(more) {
+          data = [ ...hotels, ...dataResult ]
+        } else {
+          data = dataResult
+        }
+        const pageHotelsCount =  Math.ceil(response.totalItems / perPage)
+        this.set({ hotels: data, activeHotelsPage: response.page, totalHotels: response.totalItems, pageHotelsCount })
       }
     })
   }
-  getApartments = async () => {
+  getApartments = async (more) => {
     const { userData, propertyTypes } = this.context.state
-    const { activeApartmentsPage, perPage } = this.state
-    const type = propertyTypes.find(item => item.name.toLowerCase() === 'apartment')
+    const { activeApartmentsPage, perPage, apartments } = this.state
+    more ? this.set({ loadMoreApartments: true }) : this.set({ loadingApartments: true })
 
+    const type = propertyTypes.find(item => item.name.toLowerCase() === 'apartment')
     return new Promise( async (resolve, reject) => {
-      this.set({ loadingApartments: true })
       const res = await GetRequest(urls.listingBase, 
       `${urls.v}listing/property/me/?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeApartmentsPage}&Size=${perPage}`);
-      this.set({ loadingApartments: false })
+      more ? this.set({ loadMoreApartments: false }) : this.set({ loadingApartments: false })
       if(res.isError) {
         reject(res.message)
       } else {
-        const data = res.data
-        resolve(data)
-        this.set({ apartments: data.data, activeApartmentsPage: data.page, totalApartments: data.totalItems })
+        const response = res.data
+        resolve(response)
+        const dataResult = response.data
+        let data = []
+        if(more) {
+          data = [ ...apartments, ...dataResult ]
+        } else {
+          data = dataResult
+        }
+        const pageApartmentsCount =  Math.ceil(response.totalItems / perPage)
+        this.set({ apartments: response.data, activeApartmentsPage: response.page, totalApartments: response.totalItems, pageApartmentsCount })
       }
     })
   }
@@ -91,14 +118,14 @@ class ManagePropertyProvider extends Component {
             return this.set(value);
           },
           getState: (key)=> this.state[key],
-          getAllProperties: () => {
-            return this.getAllProperties()
+          getAllProperties: (more=false) => {
+            return this.getAllProperties(more)
           },
-          getApartments: () => {
-            return this.getApartments()
+          getApartments: (more=false) => {
+            return this.getApartments(more)
           },
-          getHotels: () => {
-            return this.getHotels()
+          getHotels: (more=false) => {
+            return this.getHotels(more)
           },
           reset: () => {
             console.log("resetting context", this.state);

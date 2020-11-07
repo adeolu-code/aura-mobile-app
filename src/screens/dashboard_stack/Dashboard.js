@@ -22,7 +22,6 @@ class Dashboard extends Component {
       weeklyEarnings: 0,
       totalEarnings: 0,
       error: false,
-      reservation:  null,
       reservations: [],
       name: null,
       image: null,
@@ -121,8 +120,8 @@ this.setState({ error: true });
       const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/reservation/overview');
       if (!response.isError) {
           const data = response.data;
-          this.setState({ reservations: data });
-          console.log(data);
+          this.setState({ reservations: data});
+          console.log(data, 'reservation');
       } else { this.setState({ error: true }); }
   } catch (e) {
     console.log(e);
@@ -135,28 +134,23 @@ this.setState({ error: true });
     if (reservations.length !== 0) {
       const {flexRow, textExtraBold, textBold, textH2Style, textDarkGrey, textH4Style, textUnderline, textGreen} = GStyles;
       const {rowContainer, contentHeader, contentBody} = styles;
-      if (this.state.reservations.data.propertyTitle !== undefined) {
-        const name = this.state.reservations.data.propertyTitle;
-        const image = this.state.reservations.data.propertyMainImage;
-        const reserve = this.state.reservations.data.total + ' ' + 'Reservation';
-        this.setState({name: name, image: image, reservation: reserve });
-        if (reserve > 1 ) {
-          this.setState({reservation: reserve + 's'});
-        }
-      }
+      const reservation = reservations.map((reservation, i) => {
+        return (
+          <ReservationRow title={reservations[i].propertyTitle} img={{uri: reservations[i].propertyMainImage }}
+          location="Lagos" reserve={reservations[i].total + ' Reservations'} calendar />
+        )
+      })
       return (
         <View>
-          <View style={[flexRow, contentHeader]}>
+            <View style={[flexRow, contentHeader]}>
               <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Reservations</MyText>
               <TouchableOpacity onPress={this.linkToReservations}>
                 <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
               </TouchableOpacity>
             </View>
-
             <View style={contentBody}>
             <View style={rowContainer}>
-            <ReservationRow title={this.state.name} img={{uri: this.state.image}}
-                location="Lagos" reserve={this.state.reservation} calendar />
+            {reservation}
           </View>
           </View>
         </View>
@@ -181,7 +175,7 @@ this.setState({ error: true });
       if (!response.isError) {
           const data = response.data;
           this.setState({ comments: data });
-          console.log(data);
+           console.log(data);
       } else { this.setState({ error: true }); }
   } catch (e) {
     console.log(e);
@@ -194,25 +188,28 @@ this.setState({ error: true });
     if (comments.length !== 0) {
       const {textDarkGrey, flexRow, textExtraBold, textH2Style, textH4Style, textBold, textUnderline, textGreen} = GStyles;
       const {divider, contentHeader, contentBody} = styles;
-      if (this.state.comments.data.guestName !== undefined){
-        const name = this.comments.data.guestName;
-        this.setState({guestName: name });
+      const comment = comments.map((comment, i) => {
         return (
-          <View>
-            <View style={[flexRow, contentHeader]}>
-              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Comments</MyText>
-              <TouchableOpacity>
-                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
-              </TouchableOpacity>
-            </View>
-
-            <View style={contentBody}>
-                <CommentRow name={this.state.guestName} />
+            <View>
+                <CommentRow name={comments[i].guestName} />
                 <View style={divider} />
             </View>
+        )
+      })
+      return (
+        <View>
+          <View style={[flexRow, contentHeader]}>
+            <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Comments</MyText>
+            <TouchableOpacity>
+              <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
+            </TouchableOpacity>
           </View>
-        );
-      }
+
+          <View style={contentBody}>
+            {comment}
+          </View>
+        </View>
+         );
     } else {
       const { reservation} = styles;
         const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
@@ -232,8 +229,8 @@ this.setState({ error: true });
       const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
       if (!response.isError) {
           const data = response.data;
-          this.setState({ ratingss: data });
-          console.log(data);
+          this.setState({ ratings: data });
+           console.log(data);
       } else { this.setState({ error: true }); }
   } catch (e) {
     console.log(e);
@@ -246,31 +243,35 @@ this.setState({ error: true });
     if (ratings.length !== 0) {
       const {textDarkGrey, flexRow, textExtraBold, textH2Style, textH4Style, textBold, textUnderline, textGreen} = GStyles;
       const {divider, contentHeader, contentBody} = styles;
-      if (this.state.ratings.data.guestName !== undefined){
-        const name = this.ratings.data.guestName;
-        const image = this.ratings.data.profilePicture;
-        // this.setState({guestName: name });
-        return (
-          <View>
-              <View style={[flexRow, contentHeader]}>
-                <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Ratings</MyText>
-                <TouchableOpacity>
-                  <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
-                </TouchableOpacity>
-              </View>
 
-              <View style={contentBody}>
-                <View>
-                  <RatingRow name={name}
-                   img={{uri: image}}
-                  //  location="Lagos"
-                   />
-                  <View style={divider} />
-                </View>
+        const rating = ratings.map((rating, i) => {
+          return (
+              <View>
+              <RatingRow
+                  name={ratings[i].guestName}
+                  img={{uri: ratings[i].profilePicture}}
+                  location="Lagos"
+              />
+              <View style={divider} />
               </View>
-          </View>
-        );
-      }
+          );
+        });
+      return (
+        <View>
+            <View style={[flexRow, contentHeader]}>
+              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Ratings</MyText>
+              <TouchableOpacity>
+                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
+              </TouchableOpacity>
+            </View>
+
+            <View style={contentBody}>
+              <View>
+                {rating}
+              </View>
+            </View>
+        </View>
+      );
     } else {
       const { reservation} = styles;
         const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
@@ -290,8 +291,8 @@ this.setState({ error: true });
     const { subHeaderContainer, profileContainer, walletContainer, imgContainer, profileImg, profileText, firstRow, 
       secondRow, viewContainer, walletImgContainer, contentContainer, contentHeader,
       contentBody, rowContainer, divider, noBorderBottom } = styles;
-    const { textBold, textH4Style, flexRow, imgStyle, textH3Style, textGrey, textWhite, 
-      textH5Style, textFadedGreen, textDarkGreen, textH2Style, textExtraBold, textGreen, 
+    const { textBold, textH4Style, flexRow, imgStyle, textH3Style, textGrey, textWhite,
+      textH5Style, textFadedGreen, textDarkGreen, textH2Style, textExtraBold, textGreen,
       textUnderline, textDarkGrey } = GStyles;
     return (
       <SafeAreaView style={{ flex: 1}}>
@@ -302,7 +303,7 @@ this.setState({ error: true });
                 {this.renderProfilePhoto()}
               <View style={profileText}>
                 {this.renderName()}
-                <MyText style={[textGrey, textH4Style]}>You are now A Host on Aura</MyText>
+                <MyText style={[textGrey, textH4Style]}>You are now a host on Aura</MyText>
               </View>
             </View>
 
@@ -318,11 +319,11 @@ this.setState({ error: true });
               <View style={[flexRow, secondRow]}>
                 <View>
                   <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Weekly Earnings</MyText>
-                  <MyText style={[textH2Style, textWhite, textExtraBold]}>$ {this.state.weeklyEarnings}</MyText>
+                  <MyText style={[textH2Style, textWhite, textExtraBold]}>₦ {this.state.weeklyEarnings}</MyText>
                 </View>
                 <View>
                   <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Total Earnings</MyText>
-                <MyText style={[textH2Style, textWhite, textExtraBold]}>$ {this.state.totalEarnings}</MyText>
+                <MyText style={[textH2Style, textWhite, textExtraBold]}>₦ {this.state.totalEarnings}</MyText>
                 </View>
               </View>
             </View>   
@@ -413,8 +414,7 @@ const styles = StyleSheet.create({
     height: 1, width: '100%', backgroundColor: colors.lightGrey,
   },
   noBorderBottom: {
-    borderBottomWidth: 0, 
-    // borderBottomColor: colors.lightGrey
+    borderBottomWidth: 0,
   },
   reservation: {
     width: '100%',

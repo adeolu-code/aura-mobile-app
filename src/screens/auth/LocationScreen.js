@@ -154,6 +154,12 @@ class LocationScreen extends Component {
         }
     }
 
+    // componentDidMount = () => {
+    //     setTimeout(() => {
+    //         this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+    //       }, 3000);
+    // }
+
   render() {
     const { container, picker, button, imageView, iconStyle, input } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH4Style, textH5Style, textH6Style} = GStyles;
@@ -237,7 +243,7 @@ const styles = StyleSheet.create({
       marginTop: 10,
   },
   button: {
-      marginTop: 140, flex: 1,
+      marginTop: 140, flex: 1, marginBottom: 40
     },
     imageView: {
         justifyContent: 'center',

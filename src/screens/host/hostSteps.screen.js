@@ -9,7 +9,11 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import { GLOBAL_PADDING } from "../../utils";
 import { RenderStars } from "../../components/render_stars/renderStars";
 
+import { AppContext } from '../../../AppProvider';
+import { ManagePropertyContext } from '../../../ManagePropertyProvider'
+
 export default class HostSteps extends Component {
+    static contextType = AppContext;
     constructor() {
         super();
         this.state = { step: 1, isComplete: false }
@@ -20,32 +24,41 @@ export default class HostSteps extends Component {
     }
 
     getStarted = () => {
-        
-        if (this.state.step == 1) {
-            this.props.navigation.navigate("HostProperty");
-        }
-        else if (this.state.step == 2) {
-            this.props.navigation.navigate("UploadPropertyImage");
-        }
-        else if (this.state.step == 3) {
-            this.props.navigation.navigate("BookingInformationRequirements");   
-        }
+        this.props.navigation.navigate("UploadPropertyImage");
+        // const { set, state } = this.context
+        // set({ isInApp: true })
+        // if (state.step === 1) {
+        //     // this.props.navigation.navigate("HostProperty");
+        //     this.props.navigation.navigate('Auth', {screen: "List"});
+        // }
+        // else if (state.step === 2) {
+        //     this.props.navigation.navigate("UploadPropertyImage");
+        // }
+        // else if (state.step === 3) {
+        //     this.props.navigation.navigate("BookingInformationRequirements");   
+        // }
+        // if (this.state.step == 1) {
+        //     // this.props.navigation.navigate("HostProperty");
+        //     this.props.navigation.navigate('Auth', {screen: "List"});
+        // }
+        // else if (this.state.step == 2) {
+        //     this.props.navigation.navigate("UploadPropertyImage");
+        // }
+        // else if (this.state.step == 3) {
+        //     this.props.navigation.navigate("BookingInformationRequirements");   
+        // }
+    }
+    edit = () => {
+
     }
 
     render() {
-        const {
-            textWhite,
-            textBold,
-            flexRow,
-            textH4Style,
-            textCenter,
-            imgStyle,
-            textExtraBold,
-            textH5Style, 
-            textGrey,
-            textGreen,
-            textDarkGrey,
+        const { textWhite, textBold, flexRow, textH4Style, textCenter, imgStyle,
+            textExtraBold, textH5Style, textGrey, textGreen, textDarkGrey,
           } = GStyles;
+
+        const { step } = this.context.state
+
         return (
             <>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
@@ -64,54 +77,41 @@ export default class HostSteps extends Component {
                                             </View>
                                             <View style={Styles.rightContainer}>
                                                 <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>Umbaka Homes</MyText>
-                                                <RenderStars 
-                                                    stars={4} 
-                                                    style={{marginTop: 10}}
-                                                    starActive={{fontSize: 16}}
-                                                    starInactive={{fontSize: 16}}
-                                                    
-                                                />
+                                                <RenderStars stars={4} style={{marginTop: 10}} starActive={{fontSize: 16}} 
+                                                    starInactive={{fontSize: 16}} />
                                                 <MyText style={[textH5Style, textGrey, { marginVertical: 6}]}>Lagos</MyText>
                                                 <MyText style={[textH5Style, textGreen]}>NGN 200340</MyText>
                                             </View>
-                                            
                                         </TouchableOpacity>
                                     </View>
 
-                                    <TouchableOpacity 
-                                        style={[Styles.nextButton, {marginTop: 10}]}
-                                        onPress={() => alert("")}
-                                    >
+                                    <TouchableOpacity style={[Styles.nextButton, {marginTop: 10}]} onPress={() => alert("")}>
                                         <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Publish For Review</MyText>
                                     </TouchableOpacity>
                                 </View>
                             }
-                            <Card 
-                                title={"Facilities And Location"}
+                            <Card title={"Facilities And Location"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
-                                completed={false}
-                                step={1} 
-                                getStarted
-                                onEditPress={() => this.set({step: 1})} 
+                                completed={step > 1 ? true : false} edit={step > 1 ? true : false} step={1} 
+                                getStarted={step === 1 ? true : false}
+                                onEditPress={this.edit} 
                                 onGetStartedPress={this.getStarted}
                             />
-                            <Card 
-                                title={"Upload Picture And Short Description Of Your Place"}
+                            <Card title={"Upload Picture And Short Description Of Your Place"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
-                                completed={false}
-                                step={2} 
-                                getStarted
-                                onEditPress={() => this.set({step: 2})}
+                                completed={step > 2 ? true : false} 
+                                edit={step > 2 ? true : false}
+                                getStarted={step === 2 ? true : false}
+                                step={2} onEditPress={this.edit} 
                                 onGetStartedPress={this.getStarted}
                             />
-                            <Card 
-                                title={"Welcome Your First Guest"}
+                            <Card title={"Welcome Your First Guest"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
-                                completed={false}
                                 step={3}
-                                getStarted
-                                edit
-                                onEditPress={() => this.set({step: 3})}
+                                completed={step > 3 ? true : false} 
+                                edit={step > 3 ? true : false}
+                                getStarted={step === 3 ? true : false}
+                                onEditPress={this.edit} 
                                 onGetStartedPress={this.getStarted}
                             />
                         </Content>

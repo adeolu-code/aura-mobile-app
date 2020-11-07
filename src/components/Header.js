@@ -48,7 +48,7 @@ class Header extends Component {
 const styles = StyleSheet.create({
     container: {
         width: '100%', paddingVertical: 20, backgroundColor: colors.white, paddingHorizontal: 20,
-        position: 'absolute', top: 0, zIndex: 100
+        position: 'absolute', top: 0, zIndex: 100, marginTop: 10
     },
     iconContainer:{
         marginBottom: 10, 

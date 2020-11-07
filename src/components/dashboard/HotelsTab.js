@@ -18,7 +18,7 @@ class HotelsTab extends Component {
     this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png') };
   }
   openFilterModal = (item) => {
-    const modalImg = item.mainImage ? item.modalImg.assetPath : require('../../assets/images/no_house1.png')
+    const modalImg = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
     this.setState({ modalImg, property: item, showFilterModal: true });
   }
   closeFilterModal = () => {
@@ -30,23 +30,31 @@ class HotelsTab extends Component {
       if (loading || state.loadingHotels) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
   }
   renderLoadMore = () => {
-      const { loadMore } = this.state;
-      const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
-      if(loadMore) {
-          return (
-          <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
-              <Spinner size={20} color={colors.orange} />
-              <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
-          </View>
-          )
-      }
+    const { state } = this.props.propertyContext
+    const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
+    if(state.loadMoreHotels) {
+        return (
+        <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
+            <Spinner size={20} color={colors.orange} />
+            <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
+        </View>
+        )
+    }
+  }
+  onEndReached = () => {
+    const { set, state, getHotels } = this.props.propertyContext
+    if(state.activeHotelsPage < state.pageHotelsCount && !state.loadMoreHotels) {
+      set({ activeHotelsPage: state.activeHotelsPage + 1 })
+      getHotels(true)
+    }
+    // console.log('End reached')
   }
   renderItem = ({item}) => {
     const { rowContainer } = styles
     let title = item.title ? item.title : 'No title'
     title = shortenXterLength(title, 18)
     const location = `${item.address} ${item.state}`
-    const imgUrl = item.mainImage ? {uri: mainImage.assetPath} : require('../../assets/images/no_house.png')
+    const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house.png')
     const type = item.propertyType?.name;
     return (
         <View style={rowContainer}>
@@ -114,6 +122,7 @@ const styles = StyleSheet.create({
     },
     rowContainer: {
         marginBottom: 20,
+        paddingHorizontal: 1, paddingVertical: 1
     },
     emptyContainerStyle: {
         height: 200, width: '100%', marginBottom: 20

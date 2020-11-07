@@ -146,6 +146,87 @@ export async function Request(
      })
 }
 
+/* POST Request fetch function **/
+export async function UploadRequest(
+   Base,
+   Url,
+   Data,
+   method = "POST",
+   
+ ) {
+   const token = await getUserToken();
+   let headers = {}
+   
+   headers["Content-Type"] = "multipart/form-data"
+   headers["Access-Control-Allow-Origin"] = "*"  
+   headers["ClientId"] = CLIENT_ID
+   headers["ClientSecret"] = CLIENT_SECRET
+   
+   if (typeof token === "boolean" && token) {
+      headers["Authorization"] = "Bearer " + token
+   } else if (token != undefined && token !== null) {
+      headers["Authorization"] = "Bearer " + token
+   }   
+   
+   return fetch(Base + Url, {
+      method: method,
+      headers: headers,
+      body: Data,
+   })
+      .then((response) => {
+         return response.json();
+      })
+      .then((data) => {
+         let keys = Object.keys(data);
+         return data
+      })
+      .catch((error) => {
+         return error
+      })
+ }
+
+export const uploadMultipleFile = async (images) => {
+   return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      images.forEach((item, i) => {
+         const filename = item.path.substring(item.path.lastIndexOf('/') + 1)
+         formData.append("model", {
+            uri: item.path,
+            name: `${Date.now()}_${filename}`,
+            type: item.mime
+         });
+      });
+      UploadRequest(urls.storageBase, `storage/${urls.v}upload/multiple`, formData)
+      .then((response) => {
+         resolve(response);
+      })
+      .catch((error) => {
+         reject(error)
+      })
+   })
+   
+}
+export const uploadFile = async (image, fname) => {
+   return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      const filename = fname ? fname : image.path.substring(image.path.lastIndexOf('/') + 1)
+      formData.append("file", {
+         uri: image.path,
+         name: `${Date.now()}_${filename}`,
+         type: image.mime
+      });
+      formData.append('FileName', filename)
+      UploadRequest(urls.storageBase, `storage/${urls.v}upload`, formData)
+      .then((response) => {
+         resolve(response)
+      })
+      .catch((error) => {
+         reject(error)
+      })
+   })
+   
+}
+
 export async function GetRequest(Base, Url, accessToken, type = "GET") {
    let token = '';
    if(accessToken) {
