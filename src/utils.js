@@ -110,7 +110,7 @@ export async function Request(
   //also change content type
   const token = await getUserToken();
   let headers = {}
-  if (debug) console.log("url", Base+Url, Data);
+//   if (debug) console.log("url", Base+Url, Data);
   
   if (!PreparedData) {
      headers["Content-Type"] = "application/json"
@@ -216,7 +216,7 @@ export const uploadFile = async (image, fname) => {
          type: image.mime
       });
       formData.append('FileName', filename)
-      UploadRequest(urls.storageBase, `storage/${urls.v}upload`, formData)
+      UploadRequest(urls.storageBase, `${urls.v}upload`, formData)
       .then((response) => {
          resolve(response)
       })
@@ -235,7 +235,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
       token = await getUserToken();
    }
 
-   if (debug) console.log("url", Base+Url);
+   // if (debug) console.log("url", Base+Url);
 
    let headers = {
      Accept: "application/json",

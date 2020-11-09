@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Image  } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, Image, ScrollView  } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon } from "native-base";
-import { MyText, CustomButton, Loading } from "../../utils/Index";
+import { MyText, CustomButton, Loading, CustomInput } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { Styles } from "./host.style";
 import colors from "../../colors";
 import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import { urls, Request, UploadRequest, uploadMultipleFile } from '../../utils';
+import { urls, Request, UploadRequest, uploadMultipleFile, uploadFile, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 
 
@@ -19,14 +19,20 @@ export default class PickPropertyImage extends Component {
         super();
         
         this.state = {
-            isCaptured: false, images: [], selectModal: false, errors: '', imgUrls: [], loading: false
+            isCaptured: false, selectModal: false, errors: '', images: [], imgUrls: [], loading: false, coverImage: '', coverImgUrl: '',
+            cover: false, additionalInformation: ''
         };
     }
     renderLoading = () => {
         const { loading } = this.state;
         if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
     }
-    openSelectModal = () => {
+    openSelectModal = (cover=false) => {
+        if(cover) {
+            this.setState({ cover: true })
+        } else {
+            this.setState({ cover: false })
+        }
         this.setState({ selectModal: true })
     }
     closeSelectModal = () => {
@@ -51,26 +57,100 @@ export default class PickPropertyImage extends Component {
             )
         })
     }
+
+    submitCover = () => {
+        const { coverImage } = this.state;
+        if(!coverImage) {
+            this.openSelectModal(true)
+        } else {
+            // this.setState({ isCaptured: true })
+            this.uploadCover()
+        }
+    }
+    uploadCover = () => {
+        const { coverImage } = this.state;
+        this.setState({ loading: true })
+        uploadFile(coverImage)
+        .then((res) => {
+            console.log('Res ', res)
+            if(!res.isError) {
+                const data = res.data;
+                this.updateCoverPhoto(data.displayUrl)
+            } else {
+                errorMessage('Failed to upload Cover Image, try again else contact support')
+                this.setState({ loading: false })
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            this.setState({ loading: false })
+            errorMessage(error)
+        })
+    }
+    updateCoverPhoto = (url) => {
+        const { additionalInformation } = this.state
+        const { propertyFormData } = this.context.state
+        const { set } = this.context
+
+        const obj = {
+            propertyId: propertyFormData.id, additionalInformation, isMain: true, imageName: url
+        }
+        Request(urls.listingBase, `${urls.v}listing/photo`, obj )
+        .then((res) => {
+            this.setState({ isCaptured: true, cover: false })
+            console.log('Res ', res)
+            const mainImage = res.data
+            set({ propertyFormData: {...propertyFormData, mainImage }})
+        })
+        .catch(error => {
+            console.log('Error ', error)
+            errorMessage('Failed to update cover image, try again else contact support')
+        })
+        .finally(() => {
+            this.setState({ loading: false})
+        })
+    }
     
     submit = () => {
         this.setState({ loading: true })
         const { images } = this.state
         uploadMultipleFile(images)
         .then((res) => {
-            console.log('Res ', res)
+            if(!res.isError) {
+                const data = res.data;
+                const urls = data.map(item => item.displayUrl)
+                this.updateOtherImages(urls)
+            } else {
+                errorMessage('Failed to upload images, try again else contact support')
+                this.setState({ loading: false })
+            }
         })
         .catch(error => {
             console.log(error)
+            this.setState({ loading: false })
+            errorMessage('Failed to upload images, try again else contact support')
+        })
+    }
+    updateOtherImages = (imageUrls) => {
+        const { propertyFormData } = this.context.state
+        const obj = {
+            propertyId: propertyFormData.id, imageNames: imageUrls
+        }
+        Request(urls.listingBase, `${urls.v}listing/photo/multiplephoto`, obj )
+        .then((res) => {
+            console.log('Res ', res)
+            this.props.navigation.navigate("PropertyDescription");
+        })
+        .catch(error => {
+            console.log('Error ', error)
         })
         .finally(() => {
             this.setState({ loading: false})
         })
     }
-    uploadImage = async () => {
-
-    }
+    
     cameraSelected = () => {
-        const { images } = this.state
+        const { images, cover } = this.state
         ImagePicker.openCamera({
             // width: 300,
             // height: 400,
@@ -78,10 +158,13 @@ export default class PickPropertyImage extends Component {
             compressImageQuality: 0.8,
             cropping: true
         }).then((image) => {
-            const arr = [...images, image]
-            // arr.push(image)
-            this.setState({ images: arr })
-            console.log(arr)
+            if(cover) {
+                this.setState({ coverImage: image })
+            } else {
+                const arr = [...images, image]
+                this.setState({ images: arr })
+                console.log(arr)
+            }
         }).catch(error => {
             console.log("Error from camera ", error);
         }).finally(() => {
@@ -89,18 +172,22 @@ export default class PickPropertyImage extends Component {
         })
     }
     gallerySelected = () => {
-        const { images } = this.state
+        const { images, cover } = this.state
         ImagePicker.openPicker({
             // width: 300,
             // height: 400,
             freeStyleCropEnabled: true,
             compressImageQuality: 0.8,
-            cropping: true
-        }).then((image) => {
-            const arr = [...images, image]
-            // arr.push(image)
-            this.setState({ images: arr })
-            console.log(arr, arr[0].path.substring(arr[0].path.lastIndexOf('/') + 1))
+            cropping: true,
+            multiple: cover ? false : true
+        }).then((imgs) => {
+            if(cover) {
+                this.setState({ coverImage: imgs })
+            } else {
+                const arr = [...images, ...imgs]
+                this.setState({ images: arr })
+                console.log(arr)
+            }
         }).catch(error => {
             console.log("Error from camera ", error);
         }).finally(() => {
@@ -108,16 +195,38 @@ export default class PickPropertyImage extends Component {
         })
     }
 
+    renderCoverImage = () => {
+        const { coverImage } = this.state;
+        const { imgStyle, textBold, textH4Style, textOrange, textUnderline} = GStyles
+        if(coverImage) {
+            return (
+                <>
+                    <TouchableOpacity style={{ width: '100%', height: 290, borderRadius: 10, overflow: 'hidden'}} onPress={this.openSelectModal}>
+                        <Image style={[imgStyle]} source={{ uri: coverImage.path }} resizeMode="cover" />
+                    </TouchableOpacity>
+                </>
+            )
+        }
+        return (
+            <>
+                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center'}} onPress={this.openSelectModal}>
+                    <Icon name={"md-image"} style={[Styles.galleryIcon]} />
+                    <MyText style={[textBold, textH4Style, textOrange, textUnderline]}>Add Cover Image</MyText>
+                </TouchableOpacity>
+            </>
+        )
+    }
+
     render() {
         const {
-            textWhite,
-            textBold,
+            textWhite, textBold,
             textCenter,
             textOrange,
             textH4Style,
             textGreen,
             textUnderline,
           } = GStyles;
+        const { coverImage, isCaptured, additionalInformation } = this.state
         return (
             <>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
@@ -125,16 +234,17 @@ export default class PickPropertyImage extends Component {
                     {this.renderLoading()}
                     <Header 
                         {...this.props} title="Upload Your Pictures" 
-                        sub={"Lorem Ipsum Text Lorenzo"}
+                        sub={!isCaptured ? "Upload cover image" : "Upload other images of property"}
                     />
+                    <ScrollView>
                     <Container style={[Styles.container]}>
                         <Content>
                             <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40}]}>See Photography Tips</MyText>
                                 <View style={[Styles.pickImageImageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent", justifyContent: 'flex-start'})]}>
                                     {
-                                        !this.state.isCaptured ?
+                                        !isCaptured ?
                                             <> 
-                                                <Icon name={"md-image"} style={[Styles.galleryIcon]} />
+                                                {this.renderCoverImage()}
                                             </>   
                                         :
                                             <View style={[Styles.picturesRowView]}>
@@ -148,12 +258,6 @@ export default class PickPropertyImage extends Component {
                                                 </TouchableOpacity>
                                                 {this.renderImages()}
                                                 {/* 
-                                                <View style={[Styles.miniSelectedImageView]}>
-                                                    <Image style={[Styles.miniSelectedImage]} source={require("./../../assets/images/photo/photo.png")} />
-                                                    <TouchableOpacity style={{ position: "absolute", alignSelf: "flex-end", right: 15, bottom: 10,}}>
-                                                        <Icon name={"trash-sharp"} style={[Styles.trashIcon]} />
-                                                    </TouchableOpacity>
-                                                </View>
                                                  <View style={[Styles.miniSelectedImageView]}>
                                                     <Image 
                                                         style={[Styles.miniSelectedImage]}
@@ -168,16 +272,23 @@ export default class PickPropertyImage extends Component {
                                     }
                                     
                                 </View>
-                                {
-                                    !this.state.isCaptured ?
-                                        <CustomButton buttonText="Choose A Picture" onPress={() => this.setState({isCaptured: true})} buttonStyle={{elevation: 2}} />
-                                    :
-                                    // <CustomButton buttonText="Next" onPress={() => this.props.navigation.navigate('AddProfilePicture')} buttonStyle={{elevation: 2}} />
-                                    <CustomButton buttonText="Next" onPress={this.submit} buttonStyle={{elevation: 2}} />
-                                }
+                                {!isCaptured ? <View style={{ marginTop: 20}}>
+                                    <CustomInput label="Cover Image description (optional)" placeholder=" " 
+                                    value={additionalInformation} onChangeText={(text) => { this.setState({ additionalInformation: text })}} />
+                                </View> : <></>}
+                                <View style={{ marginTop: 60}}>
+                                    {
+                                        !isCaptured ?
+                                            <CustomButton buttonText={coverImage ? "Next" : "Choose A Cover Picture"} onPress={this.submitCover} buttonStyle={{elevation: 2}} />
+                                        :
+                                        // <CustomButton buttonText="Next" onPress={() => this.props.navigation.navigate('AddProfilePicture')} buttonStyle={{elevation: 2}} />
+                                        <CustomButton buttonText="Next" onPress={this.submit} buttonStyle={{elevation: 2}} />
+                                    }
+                                </View>
                         </Content>
                         <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />
                     </Container>
+                    </ScrollView>
                 </SafeAreaView>
             </>
         );

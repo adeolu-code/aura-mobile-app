@@ -232,7 +232,7 @@ class LocationScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    paddingHorizontal: 24, marginTop: 120,
+    paddingHorizontal: 24, marginTop: 160,
     flex: 1, flexGrow: 1
   },
   picker: {

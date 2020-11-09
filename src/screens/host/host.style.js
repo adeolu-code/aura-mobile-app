@@ -167,7 +167,7 @@ export const Styles = StyleSheet.create({
         minHeight: 280,
         width: "100%",
         backgroundColor: colors.lightOrange,
-        marginBottom: 80, borderRadius: 8,
+        borderRadius: 8, flex: 1
         // marginLeft: 5, 
         // borderWidth: 1
     },
