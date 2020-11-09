@@ -196,7 +196,7 @@ export const uploadMultipleFile = async (images) => {
             type: item.mime
          });
       });
-      UploadRequest(urls.storageBase, `storage/${urls.v}upload/multiple`, formData)
+      UploadRequest(urls.storageBase, `${urls.v}upload/multiple`, formData)
       .then((response) => {
          resolve(response);
       })

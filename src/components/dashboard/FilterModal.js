@@ -38,9 +38,9 @@ class FilterModal extends Component {
         const { state, set } = this.context;
         if(property.pricePerNight) {
             set({ step: 4})
-        } else if(property.mainImage && (property.longitude || property.latitude) && !property.pricePerNight) {
+        } else if(property.mainImage && property.title && (property.longitude || property.latitude) && !property.pricePerNight) {
             set({ step: 3})
-        } else if ((property.longitude || property.latitude) && !property.mainImage) {
+        } else if ((property.longitude || property.latitude) && (!property.mainImage || !property.title)) {
             set({ step: 2})
         }
     }

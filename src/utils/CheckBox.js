@@ -55,14 +55,14 @@ class CheckBox extends Component {
       lTextStyles,
     } = styles;
     const {textH4Style, textH6Style, textGrey, textBold, flexRow, textH5Style} = GStyles;
-    const {title, subtitle} = this.props;
+    const {title, subtitle, labelTextStyles} = this.props;
     return (
       <View style={[flexRow, {flex: 1, marginVertical: 8, alignItems: 'center'}]}>
         <View style={{flex: 1}}>
             {this.renderCheck()}
         </View>
         <View style={{flex: 8, justifyContent: 'center'}}>
-            <MyText style={[textBold, textH4Style, { marginBottom: 4}]}>{title}</MyText>
+            <MyText style={[textBold, textH4Style, labelTextStyles, { marginBottom: 4}]}>{title}</MyText>
             {subtitle ? (
                 <MyText style={[textGrey, lStyles,textH5Style]}>{subtitle}</MyText>
             ) : (<Fragment></Fragment>)}

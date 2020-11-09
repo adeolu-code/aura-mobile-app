@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
-import {Fab, Icon} from 'native-base';
 
 import GStyles from '../../assets/styles/GeneralStyles';
 
@@ -21,14 +20,8 @@ class ManagePropertiesContainer extends Component {
     super(props);
     this.state = { tabOneSelected: true };
   }
-  componentDidMount = () => {
-    
-    
-  }
-
   
   render() {
-    const { tabOneSelected, tabTwoSelected, tabThreeSelected, showFilterModal } = this.state;
     return (
       <AppConsumer>
         {(appContext) => (
@@ -42,12 +35,5 @@ class ManagePropertiesContainer extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  manageHeader: {
-    position: 'absolute', backgroundColor: colors.white, paddingTop: 100, width: '100%', paddingHorizontal: 20, zIndex: 1,
-  }, 
-
-});
 
 export default ManagePropertiesContainer;

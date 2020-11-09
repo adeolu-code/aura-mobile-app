@@ -27,7 +27,8 @@ export default class PickPropertyImage extends Component {
         const { loading } = this.state;
         if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
     }
-    openSelectModal = (cover=false) => {
+    openSelectModal = (cover) => {
+        
         if(cover) {
             this.setState({ cover: true })
         } else {
@@ -97,7 +98,7 @@ export default class PickPropertyImage extends Component {
         }
         Request(urls.listingBase, `${urls.v}listing/photo`, obj )
         .then((res) => {
-            this.setState({ isCaptured: true, cover: false })
+            this.setState({ isCaptured: true,  })
             console.log('Res ', res)
             const mainImage = res.data
             set({ propertyFormData: {...propertyFormData, mainImage }})
@@ -107,7 +108,7 @@ export default class PickPropertyImage extends Component {
             errorMessage('Failed to update cover image, try again else contact support')
         })
         .finally(() => {
-            this.setState({ loading: false})
+            this.setState({ loading: false, cover: false })
         })
     }
     
@@ -201,7 +202,7 @@ export default class PickPropertyImage extends Component {
         if(coverImage) {
             return (
                 <>
-                    <TouchableOpacity style={{ width: '100%', height: 290, borderRadius: 10, overflow: 'hidden'}} onPress={this.openSelectModal}>
+                    <TouchableOpacity style={{ width: '100%', height: 290, borderRadius: 10, overflow: 'hidden'}} onPress={this.openSelectModal.bind(this, true)}>
                         <Image style={[imgStyle]} source={{ uri: coverImage.path }} resizeMode="cover" />
                     </TouchableOpacity>
                 </>
@@ -209,7 +210,7 @@ export default class PickPropertyImage extends Component {
         }
         return (
             <>
-                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center'}} onPress={this.openSelectModal}>
+                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center'}} onPress={this.openSelectModal.bind(this, true)}>
                     <Icon name={"md-image"} style={[Styles.galleryIcon]} />
                     <MyText style={[textBold, textH4Style, textOrange, textUnderline]}>Add Cover Image</MyText>
                 </TouchableOpacity>
@@ -250,7 +251,7 @@ export default class PickPropertyImage extends Component {
                                             <View style={[Styles.picturesRowView]}>
                                                 <TouchableOpacity style={[ Styles.centerItems, 
                                                     {backgroundColor: colors.lightOrange, width: '46.5%', borderRadius: 10, height: 150, marginTop: 5, marginBottom: 20}]}
-                                                    onPress={this.openSelectModal}>
+                                                    onPress={this.openSelectModal.bind(this, false)}>
                                                     <Icon name={"add-circle-sharp"} style={[Styles.miniGalleryIcon]} />
                                                     <View>
                                                         <MyText style={[textUnderline, textOrange]}>Add Photo</MyText>

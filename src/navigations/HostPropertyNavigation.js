@@ -11,7 +11,7 @@ import HostSteps from '../screens/host/hostSteps.screen';
 import HostSlider from '../screens/host/slider.screen';
 import UploadPropertyImage from '../screens/host/uploadPropertyImage.screen';
 import PickPropertyImage from '../screens/host/pickPropertyImages.screen';
-import PropertyDescription from '../screens/host/propertyDescription.screen';
+import PropertyDescription from '../screens/host/propertyDescriptionHOC.screen';
 import BookingInformationRequirements from '../screens/host/bookingInformationRequirements.screen';
 import HouseRules from '../screens/host/houseRules.screen';
 import BookingPreview from '../screens/host/bookingPreview.screen';

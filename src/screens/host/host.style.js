@@ -4,7 +4,7 @@ import { GLOBAL_PADDING } from "../../utils";
 
 export const Styles = StyleSheet.create({
     container: {
-        marginTop: 140,
+        marginTop: 160,
         padding: GLOBAL_PADDING,
         paddingBottom: 10,
     },
@@ -33,7 +33,7 @@ export const Styles = StyleSheet.create({
         marginBottom: 20,
     },
     rowView: {
-        flexDirection: "row", 
+        flexDirection: "row", marginBottom: 10
     },
     transparentFooter: {
         backgroundColor: 'transparent', 
@@ -214,15 +214,20 @@ export const Styles = StyleSheet.create({
     shieldView: {
         backgroundColor: colors.orange,
         borderRadius: 50,
-        height: 20, 
-        width:20,
-        alignItems: "center",
-        marginRight: 5,
+        height: 27, 
+        width:27,
+        alignItems: "center", justifyContent: 'center',
+        borderWidth: 2, borderColor: colors.lightOrange
+    },
+    checkContainer: {
+        backgroundColor: colors.orange,
+        borderRadius: 50, height: 27, width:27,
+        alignItems: "center", justifyContent: 'center', borderWidth: 2, borderColor: colors.lightOrange
     },
     imageShield: {
-        height: 10, 
-        width:10,
-        marginTop: 5,
+        height: 15, 
+        width:15,
+        // marginTop: 5,
     },
     previewParentView: {
         padding: 10,
@@ -246,13 +251,12 @@ export const Styles = StyleSheet.create({
         flex: 0.85
     },
     previewTitle: {
-        marginTop: 0,
-        marginLeft: 0,
+        marginTop: 0,marginLeft: 0,marginBottom: 5,
         width: "100%",
         textAlign: "left",
     },
     content: {
-        marginTop: 5,
+        marginTop: 5, lineHeight: 22
     },
 
     //set pricing

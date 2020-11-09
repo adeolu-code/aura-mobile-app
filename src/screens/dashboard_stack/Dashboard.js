@@ -226,16 +226,16 @@ this.setState({ error: true });
 
   getRatings = async () => {
     try {
-      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
-      if (!response.isError) {
-          const data = response.data;
-          this.setState({ ratings: data });
-           console.log(data);
-      } else { this.setState({ error: true }); }
-  } catch (e) {
-    console.log(e);
-this.setState({ error: true });
-}
+          const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
+          if (!response.isError) {
+              const data = response.data;
+              this.setState({ ratings: data });
+              console.log(data);
+          } else { this.setState({ error: true }); }
+      } catch (e) {
+        console.log(e);
+      this.setState({ error: true });
+    }
   }
 
   renderRatings = () => {
