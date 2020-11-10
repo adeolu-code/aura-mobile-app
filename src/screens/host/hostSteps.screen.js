@@ -92,11 +92,7 @@ export default class HostSteps extends Component {
     }
 
     render() {
-        const { textWhite, textBold, flexRow, textH4Style, textCenter, imgStyle,
-            textExtraBold, textH5Style, textGrey, textGreen, textDarkGrey,
-          } = GStyles;
-
-        const { step } = this.context.state
+        const { step } = this.context.state;
 
         return (
             <>
@@ -105,7 +101,7 @@ export default class HostSteps extends Component {
                     <Header 
                         {...this.props} 
                         title="Host A Home Or Hotel" 
-                        goBackTo={this.props.route.params.force ? "Profile" : undefined} 
+                        goBackTo={(this.props.route.params && this.props.route.params.force) ? "Profile" : undefined} 
                     />
                     <Container style={[Styles.container, {padding: 0}]}>
                         <Content>

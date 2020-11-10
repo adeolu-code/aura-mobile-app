@@ -56,6 +56,7 @@ class AppProvider extends Component {
     this.set({ gettingPropertyTypes: true})
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.listingBase, `${urls.v}listing/propertytype`);
+      console.log("property types", res);
       if (res.isError) {
         this.set({ gettingPropertyTypes: false})
         reject(res.message)
@@ -102,9 +103,7 @@ class AppProvider extends Component {
             return this.getPropertyTypes()
           },
           reset: () => {
-            console.log("resetting context", this.state);
             this.set(defaultContext);
-            console.log("resetting context", this.state);
           },
           
         }}

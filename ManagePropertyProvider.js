@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from "react";
-import { setContext, Request, GetRequest, urls } from "./src/utils";
+import { setContext, Request, GetRequest, urls, consoleLog } from "./src/utils";
 
 import { AppContext } from './AppProvider';
 
@@ -31,6 +31,7 @@ class ManagePropertyProvider extends Component {
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.listingBase,  `${urls.v}listing/property/me/?UserId=${userData.id}&Page=${activePropertiesPage}&Size=${perPage}`);
       more ? this.set({ loadMoreProperties: false }) : this.set({ loadingAllProperties: false })
+      consoleLog("Properties", res);
       if(res.isError) {
         reject(res.message)
       } else {
