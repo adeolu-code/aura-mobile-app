@@ -37,3 +37,32 @@ export async function getIdentityTypesApi() {
     
     return;
 }
+
+export async function generateOTPApi() {
+    
+    let res = await Request(urls.identityBase + urls.v, urls.user + urls.otp + urls.generate);
+    //console.log("this.context.state.idTypes", res, res.isError);
+    if (res.isError == false ) {
+        successMessage(res.message);
+    }
+    else {
+        errorMessage(res.Message);
+    }
+    
+    return res;
+}
+
+export async function verifyOTPApi() {
+    
+    let res = await GetRequest(urls.identityBase + urls.v, urls.user + urls.otp + urls.verify);
+    //console.log("this.context.state.idTypes", res, res.isError);
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        successMessage(res.message);
+        return res.data;
+    }
+    
+    return;
+}

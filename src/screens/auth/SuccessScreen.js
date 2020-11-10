@@ -15,7 +15,12 @@ class SuccessScreen extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { loading: false, formErrors: [] };
+    this.state = { 
+      loading: false, 
+      formErrors: [], 
+      parentScreen: props.route.params.parentScreen,
+      finalScreen: props.route.params.finalScreen,
+    };
   }
   listScreen = () => {
     this.props.navigation.navigate('List');
@@ -42,9 +47,25 @@ class SuccessScreen extends Component {
       }
   }
   skip = async () => {
-    this.props.navigation.navigate('List');
+    if (this.state.finalScreen) {
+      this.props.navigation.navigate(this.state.parentScreen, {
+        screen: this.state.finalScreen,
+        params: { force:true },
+      });
+    }
+    else {
+      this.props.navigation.navigate('List');
+    }
+    
   }
   checkVerified = () => {
+    if (this.state.finalScreen) {
+      this.props.navigation.navigate(this.state.parentScreen, {
+        screen: this.state.finalScreen,
+        params: { force:true },
+      });
+    }
+    else {
       this.setState({ loading: true, formErrors: [] })
       this.context.getUserProfile(this.context.state.token)
       .then((res) => {
@@ -58,6 +79,7 @@ class SuccessScreen extends Component {
       .catch((error) => {
           this.setState({ formErrors: ['Something went wrong please try again'], loading: false })
       })
+    }
   }
   resendMail = async () => {
       const { userData } = this.context.state
@@ -85,13 +107,24 @@ class SuccessScreen extends Component {
       <SafeAreaView style={{ flex: 1}}>
         {this.renderLoading()}
         <View style={header}>
-            <MyText style={[textLgStyle, textExtraBold]}>Account Successfully Created</MyText>
+            <MyText style={[textLgStyle, textExtraBold]}>
+              {
+                this.state.finalScreen ?
+                "OTP verified."
+                :
+                "Account Successfully Created"
+              }  
+              
+            </MyText>
         </View>
           <View style={container}>
             <View>
-              <MyText style={[textH5Style, textGrey, { lineHeight: 25}]}>
-                A verification link has been sent to <MyText style={[textBold]}>{userData.email} </MyText>
-              </MyText>
+              {
+                !this.state.finalScreen &&
+                <MyText style={[textH5Style, textGrey, { lineHeight: 25}]}>
+                  A verification link has been sent to <MyText style={[textBold]}>{userData.email} </MyText>
+                </MyText>
+              }
             </View>
             <View style={middleRow}>
                 <View style={iconContainer}>
@@ -105,14 +138,21 @@ class SuccessScreen extends Component {
                     <CustomButton onPress={this.SuccessScreen} buttonText="I have Verified my account" buttonStyle={{ elevation: 2}}
                       onPress={this.checkVerified} />
                 </View>
-                <CustomButton onPress={this.resendMail} buttonText='Resend Mail' 
-                buttonStyle={{borderColor: '#000', borderWidth: 1,borderRadius: 8, backgroundColor: '#fff', elevation: 1}} textStyle={{color: '#222222'}}/>
+                {
+                  !this.state.finalScreen &&
+                  <CustomButton onPress={this.resendMail} buttonText='Resend Mail' 
+                  buttonStyle={{borderColor: '#000', borderWidth: 1,borderRadius: 8, backgroundColor: '#fff', elevation: 1}} textStyle={{color: '#222222'}}/>
+                }
             </View>
             <View style={bottomRow}>
-              <TouchableOpacity><MyText style={[textGrey, textH5Style]} onPress={this.listScreen}>Don’t have access to your mail?{' '}
-                <MyText style={[textSuccess, textBold, textUnderline]}>Skip This</MyText></MyText>
-              </TouchableOpacity>
+                {
+                  !this.state.finalScreen &&
+                  <TouchableOpacity><MyText style={[textGrey, textH5Style]} onPress={this.listScreen}>Don’t have access to your mail?{' '}
+                    <MyText style={[textSuccess, textBold, textUnderline]}>Skip This</MyText></MyText>
+                  </TouchableOpacity>
+                }
             </View>
+            
           </View>
       </SafeAreaView>
     );

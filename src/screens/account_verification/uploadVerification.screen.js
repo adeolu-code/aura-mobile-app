@@ -5,9 +5,13 @@ import { Container, View, Content, Footer, Button, Toast, Icon } from "native-ba
 import { Styles } from "./accountVerification.style";
 import colors from "../../colors";
 import GStyles from "./../../assets/styles/GeneralStyles";
-import { MyText } from "../../utils/Index";
+import { MyText, Loading } from "../../utils/Index";
 import ImagePicker from 'react-native-image-crop-picker';
-import { prepareMedia } from "../../utils";
+import { prepareMedia, uploadImageApi } from "../../utils";
+import RNFetchBlob from "rn-fetch-blob";
+import { uploadIdentityImageApi } from "../../api/profile.api";
+import { LabelInput } from "../../components/label_input/labelInput.component";
+import { FILE_NOT_UPLOADED } from "../../strings";
 // import ImagePicker from 'react-native-image-picker';
 
 //upload photo
@@ -18,6 +22,7 @@ export default class UploadVerification extends Component {
             isCaptured: false,
             selectedId: props.route.params.selectedId,
             imageFile: undefined,
+            loading: false,
         };
     }
 
@@ -29,6 +34,46 @@ export default class UploadVerification extends Component {
             });
             return;
         }
+        if (!this.state.identityNumber) {
+            Toast.show({
+                text: "Please enter ID Number.",
+                type: "warning",
+            });
+            return;
+        }
+
+        this.setState({loading: true});
+        
+        uploadImageApi([
+            { 
+                name : 'File', filename : this.state.imageFile.name, type:this.state.imageFile.mime, data: RNFetchBlob.wrap(decodeURIComponent(Platform.OS == "ios" ? String(this.state.imageFile.uri).replace("file://","") : String(this.state.imageFile.uri)))
+            },
+            {
+                name: 'FileName', 
+                data: String(this.state.imageFile.name),
+             }
+        ]).then(result => {
+            result = JSON.parse(result.data);
+            
+            if (result.isError == false) {
+                // successMessage(result.message || "Picture uploaded");
+                uploadIdentityImageApi({
+                    "identityTypeId": this.state.selectedId,
+                    "identityNumber": this.state.identityNumber,
+                    "imageName": this.state.imageFile.name,
+                  })
+                
+                this.setState({loading: false});
+                
+                setTimeout(() => {
+                    this.props.navigation.navigate("Profile")
+                }, 1500);
+               
+            }
+            else {
+                errorMessage(result.message || FILE_NOT_UPLOADED);
+            }
+        });
     }
 
     selectImage = () => {
@@ -44,17 +89,22 @@ export default class UploadVerification extends Component {
               const source = {uri: image.path, width: image.width, height: image.height, mime: image.mime};
             this.setState({
                 imageOriginal: source,
-                imageFile: prepareMedia({
-                fileName: image.path.substr(image.path.lastIndexOf("/")).replace("/",""),
-                mime: image.mime,
-                path: image.path,
-                size: image.size,
-            }),
+                imageFile: prepareMedia(
+                    {
+                        ...image,
+                        ...{
+                            fileName: image.path.substr(image.path.lastIndexOf("/")).replace("/","")
+                        }
+                    }),
             isCaptured: true,
             })
           }).catch(err => console.log(err));
     }
     
+    renderLoading = () => {
+        const { loading } = this.state;
+        if (loading) { return (<Loading />); }
+    }
 
     render() {
         const {
@@ -70,8 +120,9 @@ export default class UploadVerification extends Component {
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Upload Your Means Of Identification" />
+                    {this.renderLoading()}
                     <Container style={[Styles.selectVerificationContainer]}>
-                        <Content>
+                        <Content scrollEnabled>
                                 <View style={[Styles.imageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent"})]}>
                                     {
                                         !this.state.isCaptured ?
@@ -82,7 +133,7 @@ export default class UploadVerification extends Component {
                                                 </TouchableOpacity>
                                             </>   
                                         :
-                                            <Image source={this.state.imageOriginal} />
+                                            <Image source={this.state.imageOriginal} style={[Styles.imageView]} />
                                     }
                                     
                                 </View>
@@ -90,13 +141,16 @@ export default class UploadVerification extends Component {
                                     this.state.isCaptured && 
                                     <TouchableOpacity 
                                         onPress={() => this.selectImage()}
-                                        style={{marginTop: 30}}
                                     >
                                         <MyText style={[textUnderline, textOrange, textCenter, textBold]}>Change Picture</MyText>
                                     </TouchableOpacity>
                                 }
+                                <LabelInput
+                                    label={"Enter Id Number"}
+                                    onChangeText={(e) => this.setState({identityNumber: e})}
+                                 />
                         </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter, {backgroundColor: (!this.state.isCaptured ? colors.lightOrange : colors.orange)}]}>
+                        <Footer style={[Styles.footer, Styles.transparentFooter,]}>
                             <Button
                                 transparent 
                                 style={[Styles.nextButton, {backgroundColor: (!this.state.isCaptured ? colors.lightOrange : colors.orange)}]}

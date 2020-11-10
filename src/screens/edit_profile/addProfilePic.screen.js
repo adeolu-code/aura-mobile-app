@@ -1,21 +1,27 @@
 import React,{ Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Image  } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, Image, Platform  } from "react-native";
 import { Styles } from "./editProfile.style";
 import { Container, Content, View, Icon, Footer, Toast, Button } from "native-base";
 import colors from "../../colors";
 import Header from "../../components/Header";
 import GStyles from "./../../assets/styles/GeneralStyles";
-import { MyText } from "../../utils/Index";
+import { MyText, Loading } from "../../utils/Index";
 import ImagePicker from 'react-native-image-crop-picker';
-import { prepareMedia, uploadImageApi } from "../../utils";
+import { prepareMedia, uploadImageApi, uploadFile, successMessage, errorMessage } from "../../utils";
 import RNFetchBlob from "rn-fetch-blob";
+import { uploadProfileImageApi } from "../../api/profile.api";
+import { AppContext } from "../../../AppProvider";
+import { FILE_NOT_UPLOADED } from "../../strings";
+
 // - use fb photos
 export default class AddProfilePicture extends Component {
+    static contextType = AppContext;
     constructor() {
         super();
 
         this.state = {
             isCaptured: false,
+            loading: false,
         };
     }
 
@@ -27,35 +33,40 @@ export default class AddProfilePicture extends Component {
             });
             return;
         }
-
-        let data = new FormData();
-        data.append("File", this.state.imageFile);
-        data.append("FileName", this.state.imageFile.name);
+        this.setState({loading: true});
+        
         uploadImageApi([
             { 
-                name : 'attachments', filename : this.state.imageFile.name, type:this.state.imageFile.mime, data: RNFetchBlob.wrap(this.state.imageFile.uri)
+                name : 'File', filename : this.state.imageFile.name, type:this.state.imageFile.mime, data: RNFetchBlob.wrap(decodeURIComponent(Platform.OS == "ios" ? String(this.state.imageFile.uri).replace("file://","") : String(this.state.imageFile.uri)))
             },
             {
                 name: 'FileName', 
-                data: 1
+                data: String(this.state.imageFile.name),
              }
-        ]).then(result => console.log("res", result));
-
-        /**
-         * [
-      // element with property `filename` will be transformed into `file` in form data
-      { 
-          name : this.state.type, filename : this.state.video.fileName, type:this.state.video.type, data: RNFetchBlob.wrap(this.state.video.path)
-      },
-      {
-         name: 'glam_id', 
-         data: this.context.state.user_data.id.toString()
-      }
-      
-    ]
-         */
-
-        // this.props.navigation.navigate('VerifyPhoneNumber');
+        ]).then(result => {
+            result = JSON.parse(result.data);
+            
+            if (result.isError == false) {
+                uploadProfileImageApi({
+                    "imageName": result.data.fileName,
+                    "profilePicture": result.data.displayUrl,
+                }, this.context);
+                this.setState({loading: false});
+                
+                setTimeout(() => {
+                    if (this.context.state.userData.isPhoneVerified) {
+                        this.props.navigation.navigate("Profile")
+                    }
+                    else {
+                        this.props.navigation.navigate('VerifyPhoneNumber');
+                    }
+                }, 1500);
+               
+            }
+               else {
+                errorMessage(result.message || FILE_NOT_UPLOADED);
+               }
+        });
     }
 
     selectImage = () => {
@@ -66,13 +77,6 @@ export default class AddProfilePicture extends Component {
             writeTempFile: true,
             
           }).then(image => {
-              console.log("file", prepareMedia(
-                {
-                    ...image,
-                    ...{
-                        fileName: image.path.substr(image.path.lastIndexOf("/")).replace("/","")
-                    }
-                }));
             this.setState({
                 imageFile: prepareMedia(
                     {
@@ -84,6 +88,11 @@ export default class AddProfilePicture extends Component {
             isCaptured: true,
             })
           }).catch(err => console.log(err));
+    }
+
+    renderLoading = () => {
+        const { loading } = this.state;
+        if (loading) { return (<Loading />); }
     }
 
     render() {
@@ -104,13 +113,14 @@ export default class AddProfilePicture extends Component {
                         title="Add A Profile Picture" 
                         sub={"Make sure the photo clearly shows your face"}
                     />
+                    {this.renderLoading()}
                     <Container style={[Styles.container, {marginTop: 150}]}>
                         <Content>
                             <View style={[Styles.roundedUser]}>
                                 {
-                                    this.state.isCaptured ? 
+                                    this.state.isCaptured || this.context.state.userData.profilePicture ? 
                                     <Image 
-                                        source={this.state.imageFile} 
+                                        source={this.state.imageFile || {uri: this.context.state.userData.profilePicture}} 
                                         style={[Styles.userImage]}
                                     />
                                     :
@@ -120,7 +130,7 @@ export default class AddProfilePicture extends Component {
                             <TouchableOpacity onPress={() => this.selectImage()}>
                                 <MyText style={[textCenter, textOrange, textUnderline, {marginTop: 10}]}>
                                     {
-                                        this.state.isCaptured ?
+                                        this.state.isCaptured || this.context.state.userData.profilePicture  ?
                                             "Change Profile Picture"
                                         : 
                                             "Add A Profile Picture"

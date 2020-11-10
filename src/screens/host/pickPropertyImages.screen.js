@@ -9,7 +9,7 @@ import colors from "../../colors";
 import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import { urls, Request, UploadRequest, uploadMultipleFile } from '../../utils';
+import { uploadMultipleFile } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 
 
@@ -110,11 +110,8 @@ export default class PickPropertyImage extends Component {
 
     render() {
         const {
-            textWhite,
             textBold,
-            textCenter,
             textOrange,
-            textH4Style,
             textGreen,
             textUnderline,
           } = GStyles;

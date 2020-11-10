@@ -78,6 +78,7 @@ class ProfileScreenClass extends Component {
             textH6Style, textOrange, textH1Style,
             textWhite, textH4Style
         } = GStyles;
+        console.log("user", this.context.state.userData)
         return (
             <Container>
                 <Content style={{flexGrow: 1}} scrollEnabled>
@@ -93,11 +94,12 @@ class ProfileScreenClass extends Component {
                         <>
                             <TouchableOpacity 
                                 onPress={() => this.props.navigation.navigate('AddProfilePicture')}
-                                style={[Styles.imageView]}
+                                style={[Styles.imageView, {paddingTop: 30,}]}
                             >
                                 {/* image section */}
-                                <Image source={require("./../../assets/images/photo/photo1.png")} style={[Styles.userImageStyle]} />
+                                <Image source={this.context.state.userData.profilePicture ? {uri: this.context.state.userData.profilePicture} :require("./../../assets/images/photo/photo1.png")} style={[Styles.userImageStyle]} />
                                 <MyText style={[textH2Style, textCenter, textBold]}>{`${this.context.state.userData.firstName} ${this.context.state.userData.lastName}`}</MyText>
+                                <MyText style={[textH6Style, textCenter, textOrange]}>Tap to Change</MyText>
                             </TouchableOpacity>
                             <Separator style={[Styles.separator]}>
                                 <MyText style={[Styles.separatorText]}>Account settings</MyText>
@@ -249,7 +251,8 @@ class ProfileScreenClass extends Component {
                 <LoginModal 
                     visible={this.state.showLoginModal} 
                     onDecline={this.closeLoginModal} 
-                    openSignUp={this.openSignUpModal} 
+                    openSignUp={this.openSignUpModal}
+                    onSuccess={() => this.setState({showLoginModal: false})}
                 />
                 <SignUpModal 
                     visible={this.state.showRegisterModal} 
