@@ -4,8 +4,8 @@ import colors from "../../colors";
 export const Styles = StyleSheet.create({
     parent: {
         width: 100, 
-        padding: 5, 
+        padding: 10, 
         borderColor: colors.lightGreyOne, 
-        borderWidth: 1,
+        borderWidth: 1, borderRadius: 5
     }
 });

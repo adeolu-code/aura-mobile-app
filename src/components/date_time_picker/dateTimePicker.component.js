@@ -6,6 +6,7 @@ import colors from '../../colors';
 import { MyText } from '../../utils/Index';
 import Moment from 'moment';
 import { Styles } from "./dateTimePicker.style";
+import GStyles from '../../assets/styles/GeneralStyles';
 
 export default class DateTimePickerComponent extends Component {
     constructor(props) {
@@ -20,31 +21,29 @@ export default class DateTimePickerComponent extends Component {
 
 
     render() {//HH:MM A
+        const { textH4Style } = GStyles
         return (
             <>        
-            <TouchableOpacity 
-                style={[Styles.parent, this.props.style]}
-                onPress={() => this.setState({showPicker: true})}
-            >
-                <MyText>{Moment(this.state.date).format(this.props.format || "YYYY-MM-DD")}</MyText>
-            </TouchableOpacity>
-            {
-                this.state.showPicker &&
-                <DateTimePicker
-                    mode={this.props.mode || "datetime"}
-                    onChange={(e, selectedDate) => {
-                        console.log("e", selectedDate);
-                        this.setState({showPicker: false})
-                        if (e != undefined) {
-                            this.props.onChange(selectedDate);
-                            this.setState({date: selectedDate})
-                        }
-                    }}
-                    value={this.state.date|| this.props.value}
-                    display={this.props.display || "calendar"}
-                    
-                />
-            }
+                <TouchableOpacity  style={[Styles.parent, this.props.style]} onPress={() => this.setState({showPicker: true})}>
+                    <MyText style={[textH4Style]}>{Moment(this.state.date).format(this.props.format || "YYYY-MM-DD")}</MyText>
+                </TouchableOpacity>
+                {
+                    this.state.showPicker &&
+                    <DateTimePicker
+                        mode={this.props.mode || "datetime"}
+                        onChange={(e, selectedDate) => {
+                            console.log("e", selectedDate);
+                            this.setState({showPicker: false})
+                            if (e != undefined) {
+                                this.props.onChange(selectedDate);
+                                this.setState({date: selectedDate})
+                            }
+                        }}
+                        value={this.state.date|| this.props.value}
+                        display={this.props.display || "calendar"}
+                        
+                    />
+                }
             </>
         );
     }

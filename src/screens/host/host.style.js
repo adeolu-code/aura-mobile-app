@@ -40,6 +40,10 @@ export const Styles = StyleSheet.create({
         elevation: 0, 
         shadowOffset:{height: 0, width: 0}
     },
+    calendarContainer: {
+        borderRadius: 10, elevation: 3, backgroundColor: colors.white, marginVertical: 10,
+        overflow: 'hidden', paddingHorizontal: 2, paddingVertical: 10
+    },
 
     //amenities
     checkBox: {
@@ -262,23 +266,25 @@ export const Styles = StyleSheet.create({
     //set pricing
     averageItem: {
         marginTop: 10, 
-        paddingBottom: 3, 
+        paddingBottom: 10, paddingTop: 5, 
+        // borderWidth: 1,
         borderBottomWidth: 1, 
         borderBottomColor: colors.lightGrey
     },
     averageItemParent: {
-        borderBottomColor: colors.lightGreyOne,
-        borderBottomWidth: 1,
-        paddingBottom: 20,
-        height: 150,
+        borderBottomColor: colors.veryLightGrey,
+        borderBottomWidth: 5,
+        paddingBottom: 40,
+        paddingHorizontal: 22
+        // height: 150,
     },
     pricingInput: {
         height: 40,
-        width: '60%'
+        width: '60%', 
     },
     pricingPicker: {
-        height: 40,
-        width: '40%'
+        // height: 40,
+        width: '32%', paddingLeft: 10
     },
     pricingInputParent: {
         borderColor: colors.lightGrey,

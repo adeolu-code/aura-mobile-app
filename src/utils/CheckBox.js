@@ -6,7 +6,7 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  TouchableOpacity,
+  TouchableOpacity, TouchableWithoutFeedback,
 } from 'react-native';
 import {Icon} from 'native-base';
 import {MyText} from './MyText';
@@ -19,12 +19,7 @@ class CheckBox extends Component {
     super(props);
     this.state = {isCheck: false};
   }
-  // checkItem = () => {
-  //   const { item } = this.props
-  //   this.setState(() => ({ isCheck: !this.state.isCheck }), () => {
-  //     this.props.onPress({ item, value: this.state.isCheck })
-  //   })
-  // }
+  
   checkItem = () => {
     const { item, value } = this.props
     this.props.onPress({ item, value: !value })
@@ -35,15 +30,17 @@ class CheckBox extends Component {
     const { boxStyle, checkedStyle } = styles;
     if (value) {
       return (
-        <TouchableOpacity style={[boxStyle, checkedStyle]} onPress={this.checkItem}>
-          <View>
+        <TouchableWithoutFeedback onPress={this.checkItem}>
+          <View style={[boxStyle, checkedStyle]} >
             <Icon name="md-checkmark" style={{ color: colors.white, fontSize: 20}} />
           </View>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       );
     } else {
       return (
-        <TouchableOpacity style={[boxStyle]} onPress={this.checkItem}></TouchableOpacity>
+        <TouchableWithoutFeedback onPress={this.checkItem}>
+          <View style={[boxStyle]}></View>
+        </TouchableWithoutFeedback>
       );
     }
   }
@@ -57,7 +54,7 @@ class CheckBox extends Component {
     const {textH4Style, textH6Style, textGrey, textBold, flexRow, textH5Style} = GStyles;
     const {title, subtitle, labelTextStyles} = this.props;
     return (
-      <View style={[flexRow, {flex: 1, marginVertical: 8, alignItems: 'center'}]}>
+      <View style={[flexRow, {flex: 1, marginVertical: 8, }]}>
         <View style={{flex: 1}}>
             {this.renderCheck()}
         </View>
