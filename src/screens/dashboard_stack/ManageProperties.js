@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 import {Fab, Icon} from 'native-base';
@@ -8,10 +8,7 @@ import {Fab, Icon} from 'native-base';
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 
-import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
-import { getUser, getToken } from '../../helpers';
-import { AppContext } from '../../../AppProvider';
-import { ManagePropertyContext, ManagePropertyConsumer } from '../../../ManagePropertyProvider';
+import { ManagePropertyContext } from '../../../ManagePropertyProvider';
 
 import AllPropertiesTab from '../../components/dashboard/AllPropertiesTab';
 import HotelsTab from '../../components/dashboard/HotelsTab';
@@ -37,7 +34,7 @@ class ManageProperties extends Component {
   }
 
   componentDidMount = () => {
-    const { appContext, propertyContext } = this.props
+    const { propertyContext } = this.props
     propertyContext.getAllProperties()
     propertyContext.getHotels()
     propertyContext.getApartments()
@@ -73,9 +70,9 @@ class ManageProperties extends Component {
     this.setState({ showFilterModal: false });
   }
   render() {
-    const { textSuccess, textWhite, textH5Style, imgStyle,textExtraBold, textDarkGrey, textBold, } = GStyles;
-    const { manageHeader, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
-    const { tabOneSelected, tabTwoSelected, tabThreeSelected, showFilterModal } = this.state;
+    const { textSuccess, textWhite, textH5Style, textBold, } = GStyles;
+    const { manageHeader, tabsContainer, tabStyle, activeTab } = styles;
+    const { tabOneSelected, tabTwoSelected, tabThreeSelected } = this.state;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         <Header {...this.props} title="Manage Properties" wrapperStyles={{ paddingBottom: 5}} />

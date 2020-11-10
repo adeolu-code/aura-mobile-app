@@ -9,7 +9,7 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import { AppContext } from "../../../AppProvider";
 import { clearData } from '../../helpers';
 import colors from "../../colors";
-import { GLOBAL_PADDING, setContext, debug } from "../../utils";
+import { GLOBAL_PADDING, setContext, debug, consoleLog } from "../../utils";
 import LoginModal from "../../components/auth/LoginModal";
 import SignUpModal from "../../components/auth/SignUpModal";
 import { getNotificationSettingsApi } from "../../api/notifications.api";
@@ -78,7 +78,7 @@ class ProfileScreenClass extends Component {
             textH6Style, textOrange, textH1Style,
             textWhite, textH4Style
         } = GStyles;
-        console.log("user", this.context.state.userData)
+        consoleLog("user", this.context.state.userData)
         return (
             <Container>
                 <Content style={{flexGrow: 1}} scrollEnabled>
