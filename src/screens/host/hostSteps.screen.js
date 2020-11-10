@@ -24,19 +24,20 @@ export default class HostSteps extends Component {
     }
 
     getStarted = () => {
-        this.props.navigation.navigate("UploadPropertyImage");
-        // const { set, state } = this.context
-        // set({ isInApp: true })
-        // if (state.step === 1) {
-        //     // this.props.navigation.navigate("HostProperty");
-        //     this.props.navigation.navigate('Auth', {screen: "List"});
-        // }
-        // else if (state.step === 2) {
-        //     this.props.navigation.navigate("UploadPropertyImage");
-        // }
-        // else if (state.step === 3) {
-        //     this.props.navigation.navigate("BookingInformationRequirements");   
-        // }
+        // this.props.navigation.navigate("UploadPropertyImage");
+        const { set, state } = this.context
+        set({ isInApp: true })
+        if (state.step === 1) {
+            // this.props.navigation.navigate("HostProperty");
+            this.props.navigation.navigate('Auth', {screen: "List"});
+        }
+        else if (state.step === 2) {
+            this.props.navigation.navigate("UploadPropertyImage");
+        }
+        else if (state.step === 3) {
+            this.props.navigation.navigate("BookingInformationRequirements");   
+        }
+
         // if (this.state.step == 1) {
         //     // this.props.navigation.navigate("HostProperty");
         //     this.props.navigation.navigate('Auth', {screen: "List"});
@@ -50,6 +51,44 @@ export default class HostSteps extends Component {
     }
     edit = () => {
 
+    }
+    
+
+    renderProperty = () => {
+        const { textWhite, textBold, flexRow, textH4Style, textCenter, imgStyle,
+            textExtraBold, textH5Style, textGrey, textGreen, textDarkGrey,
+          } = GStyles;
+        const { set, state } = this.context
+        if(state.propertyFormData) {
+            const imgUrl = state.propertyFormData.mainImage ? 
+            {uri: state.propertyFormData.mainImage.assetPath} : require('../../assets/images/no_house1.png')
+
+            const title = state.propertyFormData.title ? state.propertyFormData.title : 'No title';
+            const price = state.propertyFormData.pricePerNight ? state.propertyFormData.pricePerNight : '***'
+            return (
+                <View style={[Styles.reviewView]}>
+
+                    <View style={{ width: '100%'}}>
+                        <TouchableOpacity style={[flexRow, Styles.propertyContainer]} >
+                            <View style={Styles.imgContainer}>
+                                <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
+                            </View>
+                            <View style={Styles.rightContainer}>
+                                <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>{title}</MyText>
+                                <RenderStars stars={4} style={{marginTop: 10}} starActive={{fontSize: 16}} 
+                                    starInactive={{fontSize: 16}} />
+                                <MyText style={[textH5Style, textGrey, { marginVertical: 6}]}>{state.propertyFormData.state}</MyText>
+                                <MyText style={[textH5Style, textGreen]}>NGN {price}</MyText>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
+                    <TouchableOpacity style={[Styles.nextButton, {marginTop: 10}]} onPress={() => alert("")}>
+                        <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Publish For Review</MyText>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
     }
 
     render() {
@@ -70,30 +109,8 @@ export default class HostSteps extends Component {
                     />
                     <Container style={[Styles.container, {padding: 0}]}>
                         <Content>
-                            {
-                                this.state.isComplete && 
-                                <View style={[Styles.reviewView]}>
-
-                                    <View style={{ width: '100%'}}>
-                                        <TouchableOpacity style={[flexRow, Styles.propertyContainer]} >
-                                            <View style={Styles.imgContainer}>
-                                                <Image source={require("./../../assets/images/places/bed.png")} resizeMode="cover" style={imgStyle} />
-                                            </View>
-                                            <View style={Styles.rightContainer}>
-                                                <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>Umbaka Homes</MyText>
-                                                <RenderStars stars={4} style={{marginTop: 10}} starActive={{fontSize: 16}} 
-                                                    starInactive={{fontSize: 16}} />
-                                                <MyText style={[textH5Style, textGrey, { marginVertical: 6}]}>Lagos</MyText>
-                                                <MyText style={[textH5Style, textGreen]}>NGN 200340</MyText>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-
-                                    <TouchableOpacity style={[Styles.nextButton, {marginTop: 10}]} onPress={() => alert("")}>
-                                        <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Publish For Review</MyText>
-                                    </TouchableOpacity>
-                                </View>
-                            }
+                            {this.renderProperty()}
+                            
                             <Card title={"Facilities And Location"}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                 completed={step > 1 ? true : false} edit={step > 1 ? true : false} step={1} 

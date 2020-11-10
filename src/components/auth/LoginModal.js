@@ -26,8 +26,8 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      email: "emmyalexjnr@gmail.com", 
-      password: "Ugochukwu_1", 
+      email: "", 
+      password: "", 
       loading: false, 
       formErrors: [] 
     };

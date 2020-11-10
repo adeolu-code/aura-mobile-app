@@ -107,10 +107,12 @@ export const LabelInput = (props) => {
                     /> */}
                     <Input 
                         placeholder={props.placeholder} 
-                        style={[Styles.input, {height: 150, backgroundColor: "red"}]} 
+                        style={[Styles.input, {height: 150}, props.textInputStyles]} 
                         maxLength={props.maxLength} 
                         multiline={true}
-                        onChangeText={(e) => { console.log("val", e); props.onChangeText(e);}}
+                        value={props.value}
+                        textAlignVertical="top"
+                        onChangeText={props.onChangeText}
                     />
                 </View>
                 

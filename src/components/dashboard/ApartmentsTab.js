@@ -55,7 +55,7 @@ class ApartmentsTab extends Component {
     let title = item.title ? item.title : 'No title'
     title = shortenXterLength(title, 18)
     const location = `${item.address} ${item.state}`
-    const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house.png')
+    const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
     return (
         <View style={rowContainer}>
             <ManagePropertyRow title={title} img={imgUrl} openModal={this.openFilterModal.bind(this, item)} location={location} 
@@ -108,7 +108,7 @@ class ApartmentsTab extends Component {
       {this.renderLoading()}
         <View style={contentContainer}>
             {this.renderApartments()}
-            <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} 
+            <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} property={property}
             img={this.state.modalImg}  title={property && property.title ? property.title : 'No title'} {...this.props} />
         </View>
       </>

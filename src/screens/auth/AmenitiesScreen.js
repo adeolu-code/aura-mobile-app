@@ -79,7 +79,11 @@ class AmenitiesScreen extends Component {
         const error = [message]
         this.setState({ errors: error, saving: false })
     } else {
-      set({ propertyFormData: null })
+      if(state.isInApp) {
+        set({ propertyFormData: res.data })
+      } else {
+        set({ propertyFormData: null })
+      }
       await getUserProfile()
       this.setState({ saving: false })
       this.props.navigation.navigate('Saved');
@@ -194,7 +198,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 140,
+    marginTop: 150,
     flex: 1,
   },
 //   picker: {

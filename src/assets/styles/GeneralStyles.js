@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline'
   },
   textNormal: {
-    fontFamily: 'Nunito-Light',
+    fontFamily: 'Nunito-Regular',
     fontWeight: '300'
   },
   textBold: {

@@ -206,7 +206,7 @@ export const uploadMultipleFile = async (images) => {
             type: item.mime
          });
       });
-      UploadRequest(urls.storageBase, `storage/${urls.v}upload/multiple`, formData)
+      UploadRequest(urls.storageBase, `${urls.v}upload/multiple`, formData)
       .then((response) => {
          resolve(response);
       })
@@ -227,7 +227,7 @@ export const uploadFile = async (image, fname) => {
          type: image.mime || image.type
       });
       formData.append('FileName', filename)
-      UploadRequest(urls.storageBase, `storage/${urls.v}upload`, formData)
+      UploadRequest(urls.storageBase, `${urls.v}upload`, formData)
       .then((response) => {
          resolve(response)
       })
@@ -245,7 +245,6 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
    } else {
       token = await getUserToken();
    }
-
    consoleLog("url", Base+Url)
 
    let headers = {

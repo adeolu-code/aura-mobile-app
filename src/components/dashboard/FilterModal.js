@@ -14,9 +14,10 @@ import colors from "../../colors";
 import { MyText, CustomButton } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
-
+import { AppContext } from '../../../AppProvider'
 
 class FilterModal extends Component {
+    static contextType = AppContext;
     constructor(props) {
         super(props);
         this.state = {};
@@ -24,6 +25,25 @@ class FilterModal extends Component {
     closeFilterModal = () => {
         this.props.onDecline();
        }
+    onEdit = () => {
+        const { property, navigation, onDecline } = this.props
+        const { state, set } = this.context;
+        this.checkStep()
+        set({ propertyFormData: property })
+        onDecline()
+        navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+    }
+    checkStep = () => {
+        const { property } = this.props;
+        const { state, set } = this.context;
+        if(property.pricePerNight) {
+            set({ step: 4})
+        } else if(property.mainImage && property.title && (property.longitude || property.latitude) && !property.pricePerNight) {
+            set({ step: 3})
+        } else if ((property.longitude || property.latitude) && (!property.mainImage || !property.title)) {
+            set({ step: 2})
+        }
+    }
 
     render() {
         const { visible, onDecline, title, img } = this.props;
@@ -43,7 +63,7 @@ class FilterModal extends Component {
                                 <MyText style={[textDarkGrey, textBold]}>{title}</MyText>
                                 </View>
                             </View>
-                            <TouchableOpacity style={tabTwo}>
+                            <TouchableOpacity style={tabTwo} onPress={this.onEdit}>
                                 <MyText style={[textDarkBlue, textBold]}>
                                     Edit Property
                             </MyText>

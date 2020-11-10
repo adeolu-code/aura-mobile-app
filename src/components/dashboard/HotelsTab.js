@@ -54,7 +54,7 @@ class HotelsTab extends Component {
     let title = item.title ? item.title : 'No title'
     title = shortenXterLength(title, 18)
     const location = `${item.address} ${item.state}`
-    const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house.png')
+    const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
     const type = item.propertyType?.name;
     return (
         <View style={rowContainer}>
@@ -108,7 +108,8 @@ class HotelsTab extends Component {
         {this.renderLoading()}
         <View style={contentContainer}>
             {this.renderHotels()}
-            <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} img={this.state.modalImg}  
+            <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} 
+            img={this.state.modalImg} property={property}
             title={property && property.title ? property.title : 'No title'} {...this.props} />
         </View>
       </>
