@@ -12,7 +12,15 @@ class Header extends Component {
     };
   }
   goBack = () => {
-    this.props.navigation.goBack();
+    
+    if (this.props.goBackTo) {
+      console.log("this.props.goBackTo", this.props.goBackTo)
+      this.props.navigation.navigate(this.props.goBackTo);
+    }
+    else {
+      this.props.navigation.goBack();
+    }
+    
   }
 
   renderSubTitle = () => {

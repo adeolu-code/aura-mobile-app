@@ -37,6 +37,11 @@ export const urls = {
     singleUpload: "upload/",
     multiUpload: "upload/multiple/",
     deleteUpload: "upload/delete/",
+    profilePictureUpload: "profilepicture/upload/",
+    otp: "otp/",
+    generate: "generate/",
+    verify: "verify/",
+    identity: "identity/"
 }
 const getUserToken = async () => {
 	try {
@@ -97,6 +102,10 @@ function PrepareData(Data, type = "json") {
   }
 }
 
+export function consoleLog(message, ...optionalParams) {
+   if (debug) console.log(message, JSON.stringify(optionalParams));
+}
+
 /* POST Request fetch function **/
 export async function Request(
   Base,
@@ -110,7 +119,7 @@ export async function Request(
   //also change content type
   const token = await getUserToken();
   let headers = {}
-//   if (debug) console.log("url", Base+Url, Data);
+  consoleLog("url", Base+Url, Data)
   
   if (!PreparedData) {
      headers["Content-Type"] = "application/json"
@@ -127,7 +136,7 @@ export async function Request(
      headers["Authorization"] = "Bearer " + token
   } else if (token != undefined && token !== null) {
      headers["Authorization"] = "Bearer " + token
-  }   
+  } 
   
   return fetch(Base + Url, {
      method: method,
@@ -138,7 +147,8 @@ export async function Request(
         return response.json();
      })
      .then((data) => {
-        let keys = Object.keys(data);
+        
+        consoleLog("returned data", data)
         return data
      })
      .catch((error) => {
@@ -207,13 +217,14 @@ export const uploadMultipleFile = async (images) => {
    
 }
 export const uploadFile = async (image, fname) => {
+   
    return new Promise((resolve, reject) => {
       const formData = new FormData();
       const filename = fname ? fname : image.path.substring(image.path.lastIndexOf('/') + 1)
-      formData.append("file", {
-         uri: image.path,
+      formData.append("File", {
+         uri: image.path || image.uri,
          name: `${Date.now()}_${filename}`,
-         type: image.mime
+         type: image.mime || image.type
       });
       formData.append('FileName', filename)
       UploadRequest(urls.storageBase, `${urls.v}upload`, formData)
@@ -234,8 +245,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
    } else {
       token = await getUserToken();
    }
-
-   // if (debug) console.log("url", Base+Url);
+   consoleLog("url", Base+Url)
 
    let headers = {
      Accept: "application/json",
@@ -255,6 +265,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
         return response.json()
      })
      .then((data) => {
+      consoleLog("returned data", data)
         return data
      })
      .catch((error) => {
@@ -280,31 +291,23 @@ export const successMessage = (message) => {
 
 export async function uploadImageApi(data, single=true) {
 
-   // let res = await Request(urls.storageBase + urls.v , single ? urls.singleUpload : urls.multiUpload, data, true, "POST");
-
    const token = await getUserToken();
-   
-
-   // let res = await Request("http://192.168.43.111:8000" , "/farm/upload/", data, true, "POST");
-
-   RNFetchBlob.fetch('POST', "http://192.168.43.111:8000/farm/upload/", {
+   let url = urls.storageBase + urls.v;
+   url += (single ? urls.singleUpload : urls.multiUpload);
+   // url = "http://192.168.43.111:8000/api/farm/upload/";
+ 
+   let res =  RNFetchBlob.fetch('POST', url, {
       'Content-Type' : 'multipart/form-data',
       ClientId: CLIENT_ID,
       ClientSecret: CLIENT_SECRET,
       "Authorization": "Bearer " + token,
     }, data)
-    .then((resp) => {
-        console.log("resp",resp);
+    .then((resp) => {  
+        return resp;
     }).catch((err) => {
-        console.log("err", err);
+        errorMessage(err);
+        return err;
     });
-   
-   if (res.isError == false) {
-       successMessage(res.message);
-   }
-   else  {
-      errorMessage(res.message);
-   }
-   
-   return res;
+
+    return res;
 }

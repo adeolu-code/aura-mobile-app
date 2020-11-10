@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
-import colors from "../../../colors";
 import { MyText } from "../../../utils/Index";
 import GStyles from "../../../assets/styles/GeneralStyles";
 
@@ -12,12 +11,11 @@ export default class RadioButton extends Component {
 	};
 
 	render() {
-		const { options } = this.props;
+		const { options, selectedOption } = this.props;
         const { value } = this.state;
         
-        const { textWhite, textH2Style, textExtraBold, textDarkBlue,textH3Style, textH6Style, textGrey, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, 
-            textGreen, textBold, flexRow } = GStyles;
-          const { radio, circle, checkedCircle, checkedCircleOne } = styles
+        const { flexRow } = GStyles;
+          const { radio, circle, checkedCircle } = styles
 
 		return (
 			<View>
@@ -34,7 +32,7 @@ export default class RadioButton extends Component {
 									this.props.onPress && this.props.onPress(index);
 								}}
 							>
-								{value === item.key && <View style={checkedCircle} />}
+								{value === item.key || selectedOption == item.key && <View style={checkedCircle} />}
 							</TouchableOpacity>
                             <View style={{flex: 9, marginLeft: 20}}>
                                 <MyText>{item.text}</MyText>

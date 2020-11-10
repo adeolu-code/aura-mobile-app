@@ -13,9 +13,16 @@ import { setUser } from '../../helpers'
 
 class OtpScreen extends Component {
   static contextType = AppContext;
+  /** final screen being screen to be navigated if supplied post verification */
   constructor(props) {
     super(props);
-    this.state = { numbers: [], errors: [], message: ''};
+    this.state = { 
+      numbers: [], 
+      errors: [], 
+      message: '', 
+      parentScreen: props.route.params.parentScreen,
+      finalScreen: props.route.params.finalScreen,
+    };
     this.num1 = React.createRef();
     this.num2 = React.createRef();
     this.num3 = React.createRef();
@@ -80,7 +87,10 @@ class OtpScreen extends Component {
       })
   }
   successScreen = () => {
-    this.props.navigation.navigate('Success');
+    this.props.navigation.navigate('Success', {
+      parentScreen: this.state.parentScreen, 
+      finalScreen: this.state.finalScreen,
+    });
   }
   resendCode = async () => {
       this.setState({ loading: true, errors: [] })
@@ -120,7 +130,14 @@ class OtpScreen extends Component {
           } else {
             const obj = { ...state.userData, isPhoneVerified: true }
             set({ userData: obj })
-            this.checkEmailVerification()
+            if (this.state.finalScreen == undefined) {
+              /** only do emailc check if next screen is specified */
+              this.checkEmailVerification();
+            }
+            else {
+              this.successScreen();
+            }
+            
             await setUser(obj);
           }
       }

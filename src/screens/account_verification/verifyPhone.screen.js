@@ -1,20 +1,26 @@
 import React, { Component } from "react";
 import { StatusBar, SafeAreaView, TouchableOpacity } from "react-native";
 import Header from "../../components/Header";
-import { Container, Content, Footer, Button, Toast } from "native-base";
+import { Container, Content, Footer, Toast } from "native-base";
 import { Styles } from "./accountVerification.style";
 import colors from "../../colors";
-import { MyText } from "../../utils/Index";
+import { MyText, Loading } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import RadioButton from "../../components/explore/tour_single/RadioButton";
 import { LabelInput } from "../../components/label_input/labelInput.component";
+import { AppContext } from "../../../AppProvider";
+import { generateOTPApi } from "../../api/users.api";
+import { errorMessage } from "../../utils";
 
 export default class VerifyPhoneNumber extends Component {
+    static contextType = AppContext;
     constructor() {
         super();
 
         this.state = {
-            newNumber: -1,
+            newNumber: 0,
+            phone: undefined,
+            loading: false,
         };
     }
 
@@ -35,24 +41,41 @@ export default class VerifyPhoneNumber extends Component {
             });
             return;
         }
+        this.setState({loading: true});
+        generateOTPApi().then(result => {
+            if (result.isError == false) {
+                this.props.navigation.navigate('Auth', {
+                    screen: "Otp", 
+                    params: { 
+                        parentScreen: "HostPropertyStack",
+                        finalScreen: "HostSteps"
+                    }
+                });
+            }
+            else {
+                errorMessage(res.Message)
+                
+            }
+        }).finally(() => {
+            this.setState({loading: false});
+        })
+    }
 
-        this.props.navigation.navigate('HostSteps');
+    renderLoading = () => {
+        const { loading } = this.state;
+        if (loading) { return (<Loading />); }
     }
 
     render() {
         const {
             textWhite,
             textBold,
-            textH5Style,
             textCenter,
-            textDarkBlue,
-            textOrange,
             textH4Style,
-            imgStyle,
             textUnderline,
           } = GStyles;
           
-        const phone = "+234812345678";
+        const phone = this.state.phone;
         return (
             <>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
@@ -62,15 +85,18 @@ export default class VerifyPhoneNumber extends Component {
                         title="Verify Phone Number" 
                         sub={"Can your guests reach you on the number below?"}
                     />
-                    <Container style={[Styles.container, {marginTop: 145}]}>
+                    {this.renderLoading()}
+                    <Container style={[Styles.container, {marginTop: 160}]}>
                         <Content>
-                            <MyText style={[textBold, textUnderline]}>{phone}</MyText>
+                            <MyText style={[textBold, textUnderline]}>{phone || this.context.state.userData.phoneNumber}</MyText>
+                            {/* {key: "no", text: "No, I want to add another number for my guests"}, */}
                             <RadioButton 
                                 style={[{marginTop: 30}]}
                                 options={[
                                     {key: "yes", text: "Yes, my guests can contact me on this number"},
-                                    {key: "no", text: "No, I want to add another number for my guests"},
+                                    
                                 ]} 
+                                selectedOption={"yes"}
                                 onPress={(e) => this.onSelectionChanged(e)}
                             />
                             {

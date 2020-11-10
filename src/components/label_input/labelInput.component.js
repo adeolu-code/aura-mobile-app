@@ -7,9 +7,11 @@ import { Item, Label, Input, View, Picker, DatePicker, Icon } from "native-base"
  * 
  * @param {*} props
  * 
- *  dateTime | picker | phone | icon | textarea [bool]
+ *  default input else | dateTime | picker | phone | icon | textarea [bool]
  * 
  * label [string]
+ * 
+ * onChange | onPickerChange | onChangeText [function]
  * 
  */
 export const LabelInput = (props) => {

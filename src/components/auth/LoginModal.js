@@ -26,8 +26,6 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      // email: "odenigbo67@gmail.com", 
-      // password: "Qwerty123!", 
       email: "", 
       password: "", 
       loading: false, 
@@ -71,7 +69,7 @@ class LoginModal extends Component {
         this.context.set({ token: res.data })
         await setToken(res.data);
         // login succesfull close modal
-        // this.props.onDecline();
+        this.props.onSuccess && this.props.onSuccess();
       } else {
         const message = res.message;
         const error = [message]
