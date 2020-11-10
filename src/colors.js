@@ -2,6 +2,7 @@ const colors = {
     lightOrange: '#FFF2E5',
     orange:'#FD8323',
     darkBlue:'#1E2B37',
+    veryLightGrey: '#F8F8F8',
     lightGrey: '#E5E5E5',
     lightGreyOne: '#EAEAEA',
     lightGreyTwo: '#3B3B3B',

@@ -49,7 +49,7 @@ handleSwitchToggle = () => {
               marginRight: 2,
               }}
               >
-              <Icon type={active ? 'AntDesign' : 'Feather'} name={active ? 'check' : 'x' } style={{color: active ? colors.green : colors.lightGrey,
+              <Icon type='Feather' name={active ? 'check' : 'x' } style={{color: active ? colors.green : colors.lightGrey,
               fontSize: 14}}/>
           </View>
         </TouchableOpacity>

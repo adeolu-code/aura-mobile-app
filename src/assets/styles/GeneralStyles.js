@@ -125,6 +125,9 @@ const styles = StyleSheet.create({
   textlightGreyTwo: {
     color: colors.lightGreyTwo
   },
+  textVeryLightGrey: {
+    color: colors.veryLightGrey
+  },
   lineHeightTextSmall: {
     lineHeight: 20,
   },

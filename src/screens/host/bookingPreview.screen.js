@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
 import { Styles } from "./host.style";
-import { MyText } from "../../utils/Index";
+import { MyText, CustomButton } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 
 export default class BookingPreview extends Component {
@@ -57,12 +57,9 @@ export default class BookingPreview extends Component {
                             />
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
-                            <TouchableOpacity 
-                                style={[Styles.nextButton, {marginTop: 10}]}
-                                onPress={() => this.props.navigation.navigate('NotifyHost')}
-                            >
-                                <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Next</MyText>
-                            </TouchableOpacity>
+                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
+                                onPress={() => this.props.navigation.navigate('NotifyHost')} />
+                            
                         </Footer>
                     </Container>
                 </SafeAreaView>
