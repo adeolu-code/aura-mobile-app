@@ -13,7 +13,7 @@ export default class GuestPolicy extends Component {
     }
 
     submit = () => {
-        this.props.navigation.navigate('HostSteps')
+        this.props.navigation.navigate('Success')
     }
 
     render() {

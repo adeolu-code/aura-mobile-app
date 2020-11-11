@@ -52,7 +52,7 @@ export default class BookingDuration extends Component {
                     <Container style={[Styles.container, {marginTop: 200}]}>
                         <Content scrollEnabled>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
-                                <MyText style={[textH4Style]}><MyText style={[textGreen]}>Tips: </MyText>
+                                <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
                                     <MyText style={[textGrey]}>
                                     Shorter trips can mean more reservations, but you Might have to turn over your space often.
                                     </MyText>

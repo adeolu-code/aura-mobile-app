@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
@@ -45,7 +45,7 @@ export default class BookingInformationRequirements extends Component {
         } else {
             const data = res.data;
             this.setState({ bookingReqs: data });
-            console.log(data);
+            // console.log(data);
         }
     }
     getBookingValue = (id) => {
@@ -75,18 +75,17 @@ export default class BookingInformationRequirements extends Component {
     saveNewReq = async () => {
         this.setState({ addingInfo: true })
         const obj = { requirement: this.state.addInfoValue }
-        console.log('Obj ', obj)
+        // console.log('Obj ', obj)
         const res = await Request(urls.listingBase, `${urls.v}listing/bookingrequirement`, obj);
         this.setState({ addingInfo: false})
         console.log(res)
         if(res.IsError || res.isError) {
-            console.log(res.error)
+            // console.log(res.error)
             errorMessage(res.message)
         } else {
             const data = res.data;
             this.setState({ addInfoValue: ''})
             this.getBookingReq()
-            console.log('New ',data);
         }
     }
 

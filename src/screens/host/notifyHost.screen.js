@@ -18,16 +18,49 @@ export default class NotifyHost extends Component {
     static contextType = AppContext
     constructor() {
         super();
-        this.state = { time: new Date(), date: new Date(), values: [] };
+        this.state = { fromValue: '', toValue: '', values: [] };
+    }
+    componentDidMount = () => {
+        const obj = {
+            hours: new Date().getHours(),
+            minutes: new Date().getMinutes(),
+            totalSeconds: new Date().getTime()
+        }
+        this.setState({ toValue: obj, fromValue: obj })
+    }
+    extractDateTime = (timeObj) => {
+        if(timeObj && timeObj.hours) {
+            const newDate = new Date(timeObj.totalSeconds)
+            return newDate
+        }
+        return new Date()
     }
 
     days = [
-        { name: 'Same day', value: 0 },
+        // { name: 'Same day', value: 0 },
         { name: '1 day before', value: 1 },
         { name: '2 days before', value: 2 },
         { name: '3 days before', value: 3 },
         { name: '7 days before', value: 7 }
     ];
+    toValue = (date) => {
+        // console.log(date)
+        const obj = {
+            hours: new Date(date).getHours(),
+            minutes: new Date(date).getMinutes(),
+            totalSeconds: new Date(date).getTime()
+        }
+        this.setState({ toValue: obj })
+    }
+    fromValue = (date) => {
+        // console.log(date)
+        const obj = {
+            hours: new Date(date).getHours(),
+            minutes: new Date(date).getMinutes(),
+            totalSeconds: new Date(date).getTime()
+        }
+        this.setState({ fromValue: obj })
+    }
     getDay = (value) => {
         const { values } = this.state
         const found = values.find(item => item.value === value)
@@ -63,11 +96,12 @@ export default class NotifyHost extends Component {
     }
     submit = () => {
         const { state, set } = this.context
-        const { values, time, date } = this.state
+        const { values, toValue, fromValue } = this.state
         const propertyFormData = state.propertyFormData
-        const obj = { ...propertyFormData, daysToNotifyHost: values[0].value, 
-            checkInTimeFrom: new Date().getTime(time), checkInTimeTo: new Date().getTime(date) }
-        // console.log(obj)
+        const obj = { ...propertyFormData, daysToNotifyHost: values[0].value}
+        // const obj = { ...propertyFormData, daysToNotifyHost: values[0].value, 
+        //     checkInTimeFrom: fromValue, checkInTimeTo: toValue }
+        console.log(obj)
         set({ propertyFormData: obj })
         this.props.navigation.navigate('BookingDuration')
     }
@@ -86,7 +120,7 @@ export default class NotifyHost extends Component {
                         <Content scrollEnabled>
                             <View style={[Styles.rowView, {}]}>
 
-                                <MyText style={[textH4Style]}><MyText style={[textGreen]}>Tips: </MyText>
+                                <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
                                     <MyText style={[textGrey]}>
                                     At least 2 days’ notice can help you plan for a guest’s arrival, but you might miss out on last minutes trips.
                                     </MyText>
@@ -94,45 +128,31 @@ export default class NotifyHost extends Component {
                             </View>
                             <View style={[{marginTop: 20}]}>
                                 {this.renderDays()}
-                                {/* {
-                                    this.days.map((option, index) => 
-                                    {
-                                        let key = "D_"+index;
-                                        return (
-                                            <LabelCheckbox 
-                                                key={index}
-                                                label={option.name}
-                                                checked={this.state[key]}
-                                                onPress={() => this.setState({[key]: !this.state[key]})}
-                                            />
-                                        );
-                                    })
-                                } */}
                             </View>
                             
-                            <MyText style={[textBold, textH4Style, {marginTop: 20, marginBottom: 10 }]}>When Can Guests Check In?</MyText>
+                            {/* <MyText style={[textBold, textH4Style, {marginTop: 20, marginBottom: 10 }]}>When Can Guests Check In?</MyText>
                             <View style={[Styles.rowView]}>
-                                <MyText style={[textlightGreyTwo, {marginTop: 5, flex: 1}]}>From</MyText>
-                                <MyText style={[textlightGreyTwo, {marginTop: 5, flex: 1}]}>To</MyText>
+                                <MyText style={[textlightGreyTwo, textH4Style, {marginTop: 5, flex: 1}]}>From</MyText>
+                                <MyText style={[textlightGreyTwo, textH4Style, {marginTop: 5, flex: 1}]}>To</MyText>
                             </View>
                             <View style={[Styles.rowView]}>                            
                                 <DateTimePickerComponent 
                                     mode={"time"}
-                                    onChange={(e) => this.setState({time: e})}
-                                    value={new Date()}
+                                    onChange={this.fromValue}
+                                    value={this.extractDateTime(this.state.fromValue)}
                                     display="spinner"
-                                    format="HH:MM A"
+                                    format="hh:mm a"
                                     style={{flex: 1, marginRight: 10}}
                                 />
                                 <DateTimePickerComponent 
                                     mode={"time"}
-                                    onChange={(e) => this.setState({date: e})}
-                                    value={new Date()}
+                                    onChange={this.toValue}
+                                    value={this.extractDateTime(this.state.toValue)}
                                     display="spinner"
-                                    format="HH:MM A"
+                                    format="hh:mm a"
                                     style={{flex: 1}}
                                 />
-                            </View>
+                            </View> */}
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, }]}>
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} disabled={this.state.values.length === 0} />

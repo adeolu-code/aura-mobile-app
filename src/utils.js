@@ -64,7 +64,7 @@ export function setContext(appContext) {
 }
 
 export function prepareMedia(image) {
-  console.log("Media", JSON.stringify(image));
+//   console.log("Media", JSON.stringify(image));
   // image crop picker
   return {
       uri: image.path,
@@ -103,7 +103,7 @@ function PrepareData(Data, type = "json") {
 }
 
 export function consoleLog(message, ...optionalParams) {
-   if (debug) console.log(message, JSON.stringify(optionalParams));
+   // if (debug) console.log(message, JSON.stringify(optionalParams));
 }
 
 /* POST Request fetch function **/
@@ -119,7 +119,6 @@ export async function Request(
   //also change content type
   const token = await getUserToken();
   let headers = {}
-  consoleLog("url", Base+Url, Data)
   
   if (!PreparedData) {
      headers["Content-Type"] = "application/json"
@@ -147,8 +146,6 @@ export async function Request(
         return response.json();
      })
      .then((data) => {
-        
-        consoleLog("returned data", data)
         return data
      })
      .catch((error) => {
@@ -245,7 +242,6 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
    } else {
       token = await getUserToken();
    }
-   consoleLog("url", Base+Url)
 
    let headers = {
      Accept: "application/json",
@@ -265,12 +261,11 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
         return response.json()
      })
      .then((data) => {
-      consoleLog("returned data", data)
         return data
      })
      .catch((error) => {
        let data = {error: error, type: "error"}
-       if (debug) console.log("error", error);
+      //  if (debug) console.log("error", error);
         return data
      })
 }

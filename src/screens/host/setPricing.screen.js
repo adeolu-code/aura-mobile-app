@@ -3,7 +3,7 @@ import { Styles } from "./host.style";
 import { Footer, Container, Content, View, Switch, Input, Picker } from "native-base";
 import { MyText, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
-import { TouchableOpacity, StatusBar, SafeAreaView, StyleSheet } from "react-native";
+import { TouchableOpacity, StatusBar, SafeAreaView, StyleSheet, Keyboard } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors"; 
 import TipViewComponent from "../../components/tip_view/tipView.component";
@@ -11,6 +11,7 @@ import { GLOBAL_PADDING } from "../../utils";
 
 import { AppContext } from '../../../AppProvider';
 import { urls, Request, GetRequest, errorMessage } from '../../utils';
+import { formatAmount } from '../../helpers'
 
 export default class SetPricing extends Component {
     static contextType = AppContext
@@ -32,7 +33,7 @@ export default class SetPricing extends Component {
         const res = await GetRequest(urls.paymentBase, `${urls.v}deduction/commissioning/retrieve?partner=host&country=${propertyFormData.country}`);
         this.setState({ gettingCommissions: false })
         if(res.IsError || res.isError) {
-
+            errorMessage('something is not right')
         } else {
             this.setState({ commissions: res.data })
         }
@@ -45,7 +46,7 @@ export default class SetPricing extends Component {
         this.setState({ gettingAveragePrice: false })
         console.log(res)
         if(res.IsError || res.isError) {
-
+            errorMessage('something is not right')
         } else {
             this.setState({ averagePrice: res.data })
         }
@@ -76,10 +77,10 @@ export default class SetPricing extends Component {
         return (
             <View style={[Styles.averageItemParent, {marginTop: 20}]}>
                 <View>
-                    <AverageItem title={"Apartments"} average={averagePrice ? `₦ ${averagePrice}/night` : `₦ 0 /night` } />
+                    <AverageItem title={"Apartments"} average={averagePrice ? `₦ ${formatAmount(averagePrice)} / night` : `₦ 0 / night` } />
                 </View>
                 <View>
-                    <AverageItem title={"Hotels"} average={averagePrice ? `₦ ${averagePrice}/night` : `₦ 0 /night` } />    
+                    <AverageItem title={"Hotels"} average={averagePrice ? `₦ ${formatAmount(averagePrice)} / night` : `₦ 0 / night` } />    
                 </View>
             </View>
         )
@@ -93,22 +94,31 @@ export default class SetPricing extends Component {
         const obj = {
             pricePerNight: price,
             currency,
-            checkInTimeFrom: propertyFormData.checkInTimeFrom,
-            checkInTimeTo: propertyFormData.checkInTimeTo,
+            // checkInTimeFrom: propertyFormData.checkInTimeFrom,
+            // checkInTimeTo: propertyFormData.checkInTimeTo,
             daysToNotifyHost: propertyFormData.daysToNotifyHost,
             bookingRequirements: propertyFormData.bookingRequirements,
             minimumDaysUsable: propertyFormData.minimumDaysUsable,
             maximumDaysUsable: propertyFormData.maximumDaysUsable,
             houseRules: propertyFormData.houseRules,
+            maxPreBokingDays: propertyFormData.maxPreBokingDays,
             id: propertyFormData.id
         }
         this.setState({ submitting: true })
         const res = await Request(urls.listingBase, `${urls.v}listing/property/update`, obj);
         this.setState({ submitting: false })
         console.log('Res ',res)
+        if(res.isError || res.IsError) {
+            errorMessage(res.message)
+        } else {
+            const newObj = { ...propertyFormData, ...res.data, mainImage: propertyFormData.mainImage }
+            set({ propertyFormData: newObj, step: state.step + 1 })
+            this.props.navigation.navigate('GuestPolicy')
+        }
     }
 
     submit = () => {
+        Keyboard.dismiss()
         this.submitOtherInformation()
         // this.props.navigation.navigate('GuestPolicy')
     }
@@ -167,8 +177,8 @@ export default class SetPricing extends Component {
                                 </View>
                                     
                                 <View style={{marginBottom: 40}}>
-                                    <MyText style={[textOrange, textH4Style, textBold, { marginBottom: 5}]}>Aura Commission + VAT : ₦ {this.state.commissionAndVAT}</MyText>
-                                    <MyText style={[textOrange, textH4Style, textBold]}>Your Estimated Earning : ₦ {this.state.estEarning}</MyText>
+                                    <MyText style={[textOrange, textH4Style, textBold, { marginBottom: 5}]}>Aura Commission + VAT : ₦ {formatAmount(this.state.commissionAndVAT)}</MyText>
+                                    <MyText style={[textOrange, textH4Style, textBold]}>Your Estimated Earning : ₦ {formatAmount(this.state.estEarning)}</MyText>
                                 </View>
                                 <MyText style={[textH4Style, textlightGreyTwo, {marginTop: 10, marginBottom: 8}]}>Based Currency</MyText>
                                 <View style={[Styles.currencyPicker]}>

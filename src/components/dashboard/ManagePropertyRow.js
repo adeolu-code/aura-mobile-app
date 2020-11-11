@@ -13,7 +13,9 @@ class ManagePropertyRow extends Component {
         };
     }
     linkToHome = () => {
-        this.props.navigation.navigate('HomeDetails')
+        // this.props.navigation.navigate('HomeDetails')
+        this.props.onPress()
+
     }
     openFilterModal = () => {
         const { openModal } = this.props

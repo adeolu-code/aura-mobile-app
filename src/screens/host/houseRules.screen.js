@@ -30,7 +30,7 @@ export default class HouseRules extends Component {
         } else {
             const data = res.data;
             this.setState({ houseRules: data });
-            console.log(data);
+            // console.log(data);
         }
     }
     getHouseRule = (id) => {
@@ -62,7 +62,6 @@ export default class HouseRules extends Component {
         const obj = { rule: this.state.addInfoValue }
         const res = await Request(urls.listingBase, `${urls.v}listing/houserule`, obj);
         this.setState({ addingInfo: false})
-        console.log(res)
         if(res.IsError || res.isError) {
             console.log(res.error)
             errorMessage(res.message)
@@ -70,7 +69,6 @@ export default class HouseRules extends Component {
             const data = res.data;
             this.setState({ addInfoValue: ''})
             this.getHouseRules()
-            console.log('New ',data);
         }
     }
     renderHouseRules = () => {

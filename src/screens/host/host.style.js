@@ -80,7 +80,7 @@ export const Styles = StyleSheet.create({
     },
     imgContainer: {
         width: 120, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
-        borderWidth: 1
+        // borderWidth: 1
     },
     buttonStyle: {
 
@@ -279,8 +279,8 @@ export const Styles = StyleSheet.create({
         // height: 150,
     },
     pricingInput: {
-        height: 40,
-        width: '60%', 
+        // height: 40,
+        width: '68%',alignItems: 'center', paddingLeft: 10, paddingRight: 10
     },
     pricingPicker: {
         // height: 40,

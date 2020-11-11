@@ -21,6 +21,7 @@ import BookInAdvance from '../screens/host/bookInAdvance.screen';
 import PropertyAvailability from '../screens/host/propertyAvailabilty.screen';
 import SetPricing from '../screens/host/setPricing.screen';
 import GuestPolicy from '../screens/host/guestPolicy.screen';
+import SavedSuccessScreen from '../screens/host/SavedScreen';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ export default function HostPropertyStack() {
             <Stack.Screen name="PropertyAvailability" component={PropertyAvailability} options={{ headerShown: false }} />
             <Stack.Screen name="SetPricing" component={SetPricing} options={{ headerShown: false }} />
             <Stack.Screen name="GuestPolicy" component={GuestPolicy} options={{ headerShown: false }} />
+            <Stack.Screen name="Success" component={SavedSuccessScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

@@ -94,7 +94,7 @@ class ImageAndDetails extends Component {
                 <View style={{flex: 6 }}>
                     <MyText style={[textExtraBold, textLgStyle]}>{title}</MyText>
                     <View style={starContainer}>
-                        <StarComponent style={iconStyle} grey />
+                        <StarComponent style={iconStyle} grey rating={house.rating} />
                     </View>
                     <MyText style={[textH4Style, textGrey]}>{house ? house.state : '**'}</MyText>
                     {time ? <MyText style={[textGrey, { paddingVertical: 8}]}>

@@ -25,7 +25,7 @@ export default class DateTimePickerComponent extends Component {
         return (
             <>        
                 <TouchableOpacity  style={[Styles.parent, this.props.style]} onPress={() => this.setState({showPicker: true})}>
-                    <MyText style={[textH4Style]}>{Moment(this.state.date).format(this.props.format || "YYYY-MM-DD")}</MyText>
+                    <MyText style={[textH4Style]}>{Moment(this.props.value).format(this.props.format || "YYYY-MM-DD")}</MyText>
                 </TouchableOpacity>
                 {
                     this.state.showPicker &&

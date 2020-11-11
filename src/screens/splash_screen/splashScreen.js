@@ -102,6 +102,9 @@ const SplashScreen = (props) => {
         if(userData && token) {
             context.set({ userData, token, isLoggedIn: true })
             context.getUserProfile(token.access_token)
+            .catch((error) => {
+                console.log('Error caught ', error)
+            })
             // console.log('check login userData ', userData, token)
             // if(expired) {
             //     this.props.signOut()

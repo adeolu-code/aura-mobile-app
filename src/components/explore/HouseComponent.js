@@ -46,7 +46,7 @@ class HouseComponent extends Component {
       textGrey,
       textH4Style,
     } = GStyles;
-    const {title, img, location, price, onPress } = this.props;
+    const {title, img, location, price, onPress, rating } = this.props;
     return (
       <View>
         <TouchableOpacity style={scrollItemContainer} onPress={onPress}>
@@ -67,7 +67,7 @@ class HouseComponent extends Component {
             <MyText style={[textDarkGrey, textH4Style, marginBottomSmall]}>
               {title}
             </MyText>
-            <StarComponent grey />
+            <StarComponent grey rating={rating} />
             <MyText style={[textGrey, textH4Style]}>{location}</MyText>
           </View>
         </TouchableOpacity>

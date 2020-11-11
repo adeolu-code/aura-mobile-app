@@ -17,6 +17,9 @@ class HotelsTab extends Component {
     super(props);
     this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png') };
   }
+  linkToSingleHome = (house) => {
+      this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
+  }
   openFilterModal = (item) => {
     const modalImg = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
     this.setState({ modalImg, property: item, showFilterModal: true });
@@ -59,7 +62,8 @@ class HotelsTab extends Component {
     return (
         <View style={rowContainer}>
             <ManagePropertyRow title={title} img={imgUrl} openModal={this.openFilterModal.bind(this, item)} location={location} 
-            status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} />
+            status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} 
+            onPress={this.linkToSingleHome.bind(this, item)} />
         </View>
     )
     
