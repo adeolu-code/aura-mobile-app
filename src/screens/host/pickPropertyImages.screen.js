@@ -22,6 +22,13 @@ export default class PickPropertyImage extends Component {
             cover: false, additionalInformation: ''
         };
     }
+    componentDidMount = () => {
+        const { propertyFormData } = this.context.state
+        console.log(propertyFormData)
+        if(propertyFormData.mainImage) {
+            this.setState({ coverImage: { path: propertyFormData.mainImage.assetPath } })
+        }
+    }
     renderLoading = () => {
         const { loading } = this.state;
         if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
@@ -58,18 +65,35 @@ export default class PickPropertyImage extends Component {
         })
     }
 
+    deleteImgFromStorage = (fileName) => {
+        Request(urls.storageBase, `${urls.v}upload/delete?fileName=${fileName}`)
+        .then((res) => {
+            console.log('Res ', res)
+        })
+        .catch(error => { console.log(error) })
+    }
+
     submitCover = () => {
         const { coverImage } = this.state;
         if(!coverImage) {
             this.openSelectModal(true)
         } else {
             // this.setState({ isCaptured: true })
-            this.uploadCover()
+            if(coverImage.size && coverImage.mime) {
+                this.uploadCover()
+            } else {
+                this.setState({ loading: true })
+                this.updateCoverPhoto(coverImage.path)
+            }
         }
     }
     uploadCover = () => {
         const { coverImage } = this.state;
         this.setState({ loading: true })
+        const { propertyFormData } = this.context.state
+        if(propertyFormData.mainImage) {
+            this.deleteImgFromStorage(propertyFormData.mainImage.assetPath)
+        }
         uploadFile(coverImage)
         .then((res) => {
             console.log('Res ', res)
@@ -87,27 +111,32 @@ export default class PickPropertyImage extends Component {
             errorMessage(error)
         })
     }
-    updateCoverPhoto = (url) => {
+    updateCoverPhoto = (imgUrl) => {
         const { additionalInformation } = this.state
         const { propertyFormData } = this.context.state
         const { set } = this.context
 
         const obj = {
-            propertyId: propertyFormData.id, additionalInformation, isMain: true, imageName: url
+            propertyId: propertyFormData.id, additionalInformation, isMain: true, imageName: imgUrl
         }
-        Request(urls.listingBase, `${urls.v}listing/photo`, obj )
+        // if(propertyFormData.mainImage) {
+        //     obj.id = propertyFormData.mainImage.id
+        // }
+        // const url = propertyFormData.mainImage ? `${urls.v}listing/photo/update` : `${urls.v}listing/photo`
+        Request(urls.listingBase,`${urls.v}listing/photo`, obj )
         .then((res) => {
-            this.setState({ isCaptured: true,  })
             console.log('Res ', res)
-            const mainImage = res.data
-            set({ propertyFormData: {...propertyFormData, mainImage }})
-        })
-        .catch(error => {
-            console.log('Error ', error)
-            errorMessage('Failed to update cover image, try again else contact support')
+            if(res.isError || res.IsError) {
+                errorMessage('Failed to update cover image, try again else contact support')
+            } else {
+                this.setState({ isCaptured: true,  })
+                const mainImage = res.data
+                set({ propertyFormData: {...propertyFormData, mainImage }})
+                this.setState({ cover: false })
+            }
         })
         .finally(() => {
-            this.setState({ loading: false, cover: false })
+            this.setState({ loading: false })
         })
     }
     
@@ -193,6 +222,10 @@ export default class PickPropertyImage extends Component {
         }).finally(() => {
             this.closeSelectModal()
         })
+    }
+
+    getPropertyPhotos = () => {
+        
     }
 
     renderCoverImage = () => {

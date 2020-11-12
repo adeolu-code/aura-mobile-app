@@ -42,13 +42,20 @@ export default class PropertyDescription extends Component {
                 appContext.set({ step: appContext.state.step + 1 })
 
                 const properties = [ ...propertyContext.state.properties ]
-                properties.filter(item => { 
-                    if(item.id === propertyData.id) {
-                        item = { ...item, title: data.title, description: data.description, mainImage: propertyData.mainImage  }
-                    }
-                })
+                const pptyArr = this.filterSetProperty(properties, data, propertyData)
+                
                 console.log('Other ', properties)
-                appContext.set({ properties })
+                propertyContext.set({ properties: pptyArr })
+                if(data.propertyType.name === 'Apartment') {
+                    const apartments = [ ...propertyContext.state.apartments ]
+                    const apsArr = this.filterSetProperty(apartments, data, propertyData)
+                    propertyContext.set({ apartments: apsArr })
+                } else {
+                    const hotels = [ ...propertyContext.state.hotels ]
+                    const hotelsArr = this.filterSetProperty(hotels, data, propertyData)
+                    propertyContext.set({ hotels: hotelsArr })
+                }
+                
                 this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
             }
             
@@ -57,9 +64,20 @@ export default class PropertyDescription extends Component {
             this.setState({ loading: false })
         })
     }
+    filterSetProperty = (properties, data, propertyData) => {
+        const elementsIndex = properties.findIndex(element => element.id == propertyData.id )
+        let newArray = [...properties]
+        newArray[elementsIndex] = { ...newArray[elementsIndex], title: data.title, description: data.description, mainImage: propertyData.mainImage}
+        return newArray
+    }
 
     componentDidMount = () => {
-        console.log(this.props)
+        const { state } = this.context
+        const ppty = state.propertyFormData;
+        console.log(ppty)
+        if(ppty) {
+            this.setState({ title: ppty.title, description: ppty.description })
+        }
     }
 
 
@@ -85,6 +103,7 @@ export default class PropertyDescription extends Component {
                                         label={"Catch guests' attention with a listing title that highlights what makes your place special"}
                                         labelStyle={[textGrey, {marginBottom: 20}]} 
                                         textarea icon 
+                                        value={this.state.title}
                                         textInputStyles={{ height: 100}}
                                     />
                                 </Content>
@@ -100,6 +119,7 @@ export default class PropertyDescription extends Component {
                                         label={"Let guests know how available you'll be during their stay. For your safety , don't share your phone number or email until you have confirmed reservation."}
                                         labelStyle={[textGrey, {marginBottom: 20}]}
                                         textarea icon 
+                                        value={this.state.description}
                                         textInputStyles={{ height: 100}}
                                     />
                                 </Content>

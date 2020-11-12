@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Container, Header, Content } from "native-base";
-import { Image, TouchableOpacity, PermissionsAndroid, Platform } from "react-native";
+import { Image, TouchableOpacity, PermissionsAndroid, Platform, StatusBar } from "react-native";
 import { Styles } from "./splashScreenStyle";
 
 import Geolocation from 'react-native-geolocation-service';
@@ -131,7 +131,7 @@ const SplashScreen = (props) => {
 
     return (
         <Container>
-            <Header androidStatusBarColor={"black"} style={{backgroundColor: "black"}} />
+            <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
             <Content style={Styles.contentStyle} contentContainerStyle={Styles.contentContainerStyle}>
                 <TouchableOpacity style={{width: "100%", height: "100%", alignItems: "center", justifyContent: "center", alignSelf: "stretch"}} onPress={() => navigateToTab(props)}>
                     {

@@ -49,7 +49,7 @@ export default class SelectVerification extends Component {
           } = GStyles;
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+                <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Choose Your Means Of Identification" />
                     <Container style={[Styles.selectVerificationContainer]}>

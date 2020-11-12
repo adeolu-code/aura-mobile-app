@@ -19,13 +19,13 @@ class AmenitiesScreen extends Component {
     super(props);
     this.state = {
       amenities: [], safetyAmenities: [], loadingAmenities: false, loadingSafetyAmenities: false,
-      amenitiesValues: [], safetyAmenitiesValues: [], saving: false, errors: []
+      amenitiesValues: [], safetyAmenitiesValues: [], saving: false, errors: [], gettingHouse: false
     };
   }
 
   renderLoading = () => {
-      const { loadingAmenities, loadingSafetyAmenities, saving } = this.state;
-      if(loadingAmenities || loadingSafetyAmenities || saving) { return (<Loading />) }
+      const { loadingAmenities, loadingSafetyAmenities, saving, gettingHouse } = this.state;
+      if(loadingAmenities || loadingSafetyAmenities || saving || gettingHouse) { return (<Loading />) }
   }
   renderError = () => {
     const { errors } = this.state
@@ -33,11 +33,29 @@ class AmenitiesScreen extends Component {
         return (<Error errors={errors} />)
     }
   }
+  getHouse = async () => {
+    const { state, set } = this.context
+    const ppty = state.propertyFormData;
+    this.setState({ gettingHouse: true })
+    const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${ppty.id}`);
+    this.setState({ gettingHouse: false })
+    if(res.isError) {
+        const message = res.Message;
+    } else {
+        const data = res.data;
+        if(data !== null) {
+          
+          const amenitiesValues = data.amenity.map(item => item.id)
+          const safetyAmenitiesValues = data.safetyAmenity.map(item => item.id)
+          this.setState({ amenitiesValues, safetyAmenitiesValues })
+          set({ propertyFormData: { ...ppty, amenity: amenitiesValues, safetyAmenity: safetyAmenitiesValues } })
+        }
+    }
+  }
   
   getAmmenities = async () => {
     this.setState({ loadingAmenities: true })
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/ammenity`);
-    // console.log(res)
     if(res.isError) {
         const message = res.message;
         const error = [message]
@@ -66,32 +84,78 @@ class AmenitiesScreen extends Component {
       const obj = { ...state.propertyFormData, ...amenityObj }
       this.saveProperty(obj)
     } 
-    
+  }
+  updateObj = (ppty) => {
+    const {noofBathrooms, noofBeds, noofGuest, noofRooms, latitude, longitude, address, district, state, propertyTypeId, roomTypeId,
+      isCompanyListing, companyName, dedicatedGuestSpace, zipCode, country, amenity, safetyAmenity } = ppty
+    const obj = { 
+      id: ppty.id,
+      noofBathrooms, noofBeds,
+      noofGuest,
+      noofRooms,
+      longitude,
+      latitude, 
+      address,
+      district,
+      propertyTypeId, state, zipCode, country,
+      roomTypeId, isCompanyListing, companyName, dedicatedGuestSpace, amenity, safetyAmenity
+    }
+    return obj
   }
   saveProperty = async (propertyFormData) => {
-    // console.log(propertyFormData)
     const { set, state, getUserProfile } = this.context
     this.setState({ saving: true })
-    const res = await Request(urls.listingBase, `${urls.v}listing/property`, propertyFormData);
-    console.log(res)
+    const url = state.isInApp ? `${urls.v}listing/property/update` : `${urls.v}listing/property`
+    const payload = state.isInApp ? this.updateObj(propertyFormData) : propertyFormData;
+    const res = await Request(urls.listingBase, url, payload);
+    console.log('Amenities updated ',res)
     if(res.isError) {
         const message = res.message;
         const error = [message]
         this.setState({ errors: error, saving: false })
     } else {
       if(state.isInApp) {
-        set({ propertyFormData: res.data })
+        const data = res.data
+        set({ propertyFormData: data })
+        const { propertyContext, appContext } = this.props
+        const properties = [ ...propertyContext.state.properties ]
+        const pptyArr = this.filterSetProperty(properties, data, propertyFormData)
+        propertyContext.set({ properties: pptyArr })
+        if(data.propertyType.name === 'Apartment') {
+            const apartments = [ ...propertyContext.state.apartments ]
+            const apsArr = this.filterSetProperty(apartments, data, propertyFormData)
+            console.log('App ',apsArr)
+            propertyContext.set({ apartments: apsArr })
+        } else {
+            const hotels = [ ...propertyContext.state.hotels ]
+            const hotelsArr = this.filterSetProperty(hotels, data, propertyFormData)
+            propertyContext.set({ hotels: hotelsArr })
+        }
       } else {
         set({ propertyFormData: null })
+        await getUserProfile()
       }
-      await getUserProfile()
       this.setState({ saving: false })
       this.props.navigation.navigate('Saved');
     }
   }
+  filterSetProperty = (properties, data, propertyData) => {
+
+    const elementsIndex = properties.findIndex(element => element.id == propertyData.id )
+    let newArray = [...properties]
+    // newArray[elementsIndex] = {...newArray[elementsIndex], completed: !newArray[elementsIndex].completed}
+    newArray[elementsIndex] = data
+    return newArray
+
+}
   componentDidMount = () => {
     this.getAmmenities()
     this.getSafetyAmmenities()
+    const { state } = this.context
+    const ppty = state.propertyFormData;
+    if(ppty) {
+      this.getHouse()
+    }
   }
 
   renderAmmenities = () => {
@@ -148,7 +212,6 @@ class AmenitiesScreen extends Component {
   }
   renderSafetyAmmenities = () => {
     const { safetyAmenities } = this.state;
-    console.log(safetyAmenities)
     const { tiles } = styles
     if(safetyAmenities.length !== 0) {
       return safetyAmenities.map((item, i) => {

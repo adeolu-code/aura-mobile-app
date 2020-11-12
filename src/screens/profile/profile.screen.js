@@ -97,7 +97,7 @@ class ProfileScreenClass extends Component {
                                 style={[Styles.imageView, {paddingTop: 30,}]}
                             >
                                 {/* image section */}
-                                <Image source={this.context.state.userData.profilePicture ? {uri: this.context.state.userData.profilePicture} :require("./../../assets/images/photo/photo1.png")} style={[Styles.userImageStyle]} />
+                                <Image source={this.context.state.userData && this.context.state.userData.profilePicture ? {uri: this.context.state.userData.profilePicture} :require("./../../assets/images/photo/photo1.png")} style={[Styles.userImageStyle]} />
                                 <MyText style={[textH2Style, textCenter, textBold]}>{`${this.context.state.userData.firstName} ${this.context.state.userData.lastName}`}</MyText>
                                 <MyText style={[textH6Style, textCenter, textOrange]}>Tap to Change</MyText>
                             </TouchableOpacity>

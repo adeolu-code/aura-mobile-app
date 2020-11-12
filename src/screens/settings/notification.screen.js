@@ -68,7 +68,6 @@ export default class NotificationSettings extends Component {
         const {textH4Style, textWhite, textBold, textCenter} = GeneralStyles;
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Notifications" />
                     {this.renderLoading()}

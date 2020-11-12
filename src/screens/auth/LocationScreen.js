@@ -13,12 +13,14 @@ import GStyles from '../../assets/styles/GeneralStyles';
 import { GOOGLE_API_KEY, GetRequest, errorMessage } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
+import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
+
 
 class LocationScreen extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { country: null, st: '', city: '', zipCode:'', address: '', loading: false };
+        this.state = { country: null, st: '', city: '', zipCode:'', address: '', loading: false, defaultCountry: '' };
     }
     
     renderLoading = () => {
@@ -142,10 +144,10 @@ class LocationScreen extends Component {
             }
         })
         const { set, state } = this.context
-        const { zipCode, city } = this.state
+        const { zipCode, city, address } = this.state
         if(state.propertyFormData) {
             const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, 
-                country: countryObj.long_name, district: city, zipCode }
+                country: countryObj.long_name, district: city, zipCode, address }
             const obj = { ...state.propertyFormData, ...locationObj }
             set({ propertyFormData: obj })
             this.props.navigation.navigate('LocationMap');
@@ -154,11 +156,21 @@ class LocationScreen extends Component {
         }
     }
 
-    // componentDidMount = () => {
-    //     setTimeout(() => {
-    //         this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
-    //       }, 3000);
-    // }
+    componentDidMount = async () => {
+        const { state } = this.context
+        const ppty = state.propertyFormData;
+        if(ppty) {
+            if(ppty.longitude || ppty.latitude) {
+                this.setState({ st: ppty.state, city: ppty.district, address: ppty.address, zipCode: ppty.zipCode})
+            }
+            const countries = await getAllCountries()
+            const country = countries.find(item => item.name.toLowerCase() === ppty.country.toLowerCase())
+            if(country) {
+                this.setState({ defaultCountry: country, country })
+            }
+        }
+        
+    }
 
   render() {
     const { container, picker, button, imageView, iconStyle, input } = styles;
@@ -198,7 +210,7 @@ class LocationScreen extends Component {
                         </View>
                         <View style={[flexRow, {flex: 1, marginBottom: 30}]}>
                             <View style={{flex: 1, marginRight: 10}}>
-                                <CountryPickerComponent getCountry={this.getCountry} />
+                                <CountryPickerComponent getCountry={this.getCountry} defaultCountry={this.state.defaultCountry} />
                             </View>
                             <View style={{flex: 1, marginLeft: 10}}>
                                 <CustomInput label="State" placeholder=" " attrName="st"

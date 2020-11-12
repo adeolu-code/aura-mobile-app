@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import {Icon, Picker} from 'native-base';
-import { CustomButton, MyText, CustomInput } from '../../utils/Index';
+import { CustomButton, MyText, CustomInput, ItemCountPicker } from '../../utils/Index';
 import colors from '../../colors';
 
 import Header from '../../components/Header';
@@ -21,7 +21,7 @@ class ListPropertyScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { propertyTypeId: '', roomTypeId: '', isCompanyListing: null, companyName: '', dedicatedGuestSpace: null,
-    noOfBathrooms: 0, noOfRooms: 0, noOfBeds: 0, noOfAvailableRooms: 0 };
+    noofBathrooms: 0, noofRooms: 0, noofBeds: 0, noofAvailableRooms: 0 };
     this.categories = [
       { name: 'Yes, I am listing as a company', value: true },
       { name: 'No, I am a private individual', value: false }
@@ -34,9 +34,21 @@ class ListPropertyScreen extends Component {
 
   componentDidMount = () => {
     const { propertyTypes } = this.context.state
+    const { state, getRoomTypes } = this.context
+    const ppty = state.propertyFormData
     if(propertyTypes.length > 0) {
       const ppty = propertyTypes[0];
       this.setState({ propertyTypeId: ppty.id })
+    }
+    if(ppty) {
+      this.setState({ noofAvailableRooms: +ppty.noofAvailableRooms, noofBeds: +ppty.noofBeds, noofBathrooms: +ppty.noofBathrooms, 
+        noofRooms: +ppty.noofRooms, dedicatedGuestSpace: ppty.dedicatedGuestSpace, isCompanyListing: ppty.isCompanyListing, 
+        companyName: ppty.companyName,
+        propertyTypeId: ppty.propertyType.id  })
+      getRoomTypes(ppty.propertyType.name.toLowerCase())
+      .then(() => {
+        this.setState({ roomTypeId: ppty.roomType.id})
+      })
     }
   }
   
@@ -116,26 +128,26 @@ class ListPropertyScreen extends Component {
     this.setState({ roomTypeId: value });
   }
   setNoOfBathroom = (value) => {
-    this.setState({ noOfBathrooms: value })
+    this.setState({ noofBathrooms: value })
   }
   setNoOfBedroom = (value) => {
-    this.setState({ noOfRooms: value })
+    this.setState({ noofRooms: value })
   }
-  setNoOfGuests = (value) => {
-    this.setState({ noOfAvailableRooms: value })
+  setNoOfAvailableRooms = (value) => {
+    this.setState({ noofAvailableRooms: value })
   }
-  setNoOfBeds = (value) => {
-    this.setState({ noOfBeds: value })
+  setNoofBeds = (value) => {
+    this.setState({ noofBeds: value })
   }
   LocationScreen = () => {
     this.props.navigation.navigate('Location');
   }
 
   validate = () => {
-    const { propertyTypeId, roomTypeId, noOfBathrooms, noOfRooms, noOfBeds, noOfAvailableRooms, isCompanyListing, 
+    const { propertyTypeId, roomTypeId, noofBathrooms, noofRooms, noofBeds, noofAvailableRooms, isCompanyListing, 
       companyName, dedicatedGuestSpace } = this.state
-    if(propertyTypeId === '' || roomTypeId === '' || noOfAvailableRooms === 0 || noOfRooms === 0 || noOfBathrooms === 0 
-    || noOfBeds === 0 || dedicatedGuestSpace === null) {
+    if(propertyTypeId === '' || roomTypeId === '' || noofAvailableRooms === 0 || noofRooms === 0 || noofBathrooms === 0 
+    || noofBeds === 0 || dedicatedGuestSpace === null) {
       return true
     }
     if(isCompanyListing && companyName === '') {
@@ -162,9 +174,12 @@ class ListPropertyScreen extends Component {
     this.props.navigation.navigate('Location');
   }
 
+  
+
   render() {
     const { container, picker, button } = styles;
     const { textGrey, textH5Style, textH4Style, lineHeightText} = GStyles;
+    const { noofAvailableRooms, noofBeds, noofRooms, noofBathrooms } = this.state
     return (
       <SafeAreaView style={{ flex: 1}}>
         <Header {...this.props} title={"List A Property In Minutes"} />
@@ -185,10 +200,10 @@ class ListPropertyScreen extends Component {
                 </MyText>
                 </View>
                 <View>
-                    <ListProperty title="Guest" countValue={this.setNoOfGuests} />
-                    <ListProperty title="Beds" countValue={this.setNoOfBeds} />
-                    <ListProperty title="Bedroom" countValue={this.setNoOfBedroom} />
-                    <ListProperty title="Bathroom" countValue={this.setNoOfBathroom} />
+                  <ItemCountPicker title="Guest" value={noofAvailableRooms} countValue={this.setNoOfAvailableRooms} />
+                  <ItemCountPicker title="Beds" value={noofBeds} countValue={this.setNoofBeds} />
+                  <ItemCountPicker title="Bedroom" value={noofRooms} countValue={this.setNoOfBedroom} />
+                  <ItemCountPicker title="Bathroom" value={noofBathrooms} countValue={this.setNoOfBathroom} />
                 </View>
 
                 <View style={{marginTop: 45}}>

@@ -56,7 +56,7 @@ class AppProvider extends Component {
     this.set({ gettingPropertyTypes: true})
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.listingBase, `${urls.v}listing/propertytype`);
-      console.log("property types", res);
+      // console.log("property types", res);
       if (res.isError) {
         this.set({ gettingPropertyTypes: false})
         reject(res.message)

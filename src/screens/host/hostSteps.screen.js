@@ -51,18 +51,20 @@ export default class HostSteps extends Component {
         //     this.props.navigation.navigate("BookingInformationRequirements");   
         // }
     }
-    edit = () => {
-        const { set, state } = this.context
+    editLocation = () => {
+        const { set } = this.context
         set({ isInApp: true })
-        if (state.step === 1) {
-            this.props.navigation.navigate('Auth', {screen: "List"});
-        }
-        else if (state.step === 2) {
-            this.props.navigation.navigate("UploadPropertyImage");
-        }
-        else if (state.step === 3) {
-            this.props.navigation.navigate("BookingInformationRequirements");   
-        }
+        this.props.navigation.navigate('Auth', {screen: "List"});
+    }
+    editUpload = () => {
+        const { set } = this.context
+        set({ isInApp: true })
+        this.props.navigation.navigate("UploadPropertyImage");
+    }
+    editOther = () => {
+        const { set } = this.context
+        set({ isInApp: true })
+        this.props.navigation.navigate("BookingInformationRequirements");
     }
     renderVerified = () => {
         const { state } = this.context
@@ -157,7 +159,7 @@ export default class HostSteps extends Component {
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                 completed={step > 1 ? true : false} edit={step > 1 ? true : false} step={1} 
                                 getStarted={step === 1 ? true : false}
-                                onEditPress={this.edit} 
+                                onEditPress={this.editLocation} 
                                 onGetStartedPress={this.getStarted}
                             />
                             <Card title={"Upload Picture And Short Description Of Your Place"}
@@ -165,7 +167,7 @@ export default class HostSteps extends Component {
                                 completed={step > 2 ? true : false} 
                                 edit={step > 2 ? true : false}
                                 getStarted={step === 2 ? true : false}
-                                step={2} onEditPress={this.edit} 
+                                step={2} onEditPress={this.editUpload} 
                                 onGetStartedPress={this.getStarted}
                             />
                             <Card title={"Welcome Your First Guest"}
@@ -174,7 +176,7 @@ export default class HostSteps extends Component {
                                 completed={step > 3 ? true : false} 
                                 edit={step > 3 ? true : false}
                                 getStarted={step === 3 ? true : false}
-                                onEditPress={this.edit} 
+                                onEditPress={this.editOther} 
                                 onGetStartedPress={this.getStarted}
                             />
                         </Content>

@@ -295,7 +295,7 @@ this.setState({ error: true });
     return (
       <SafeAreaView style={{ flex: 1}}>
         <Header {...this.props} title="Dashboard" />
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="always">
           <View style={subHeaderContainer}>
             <View style={[flexRow, profileContainer]}>
                 {this.renderProfilePhoto()}

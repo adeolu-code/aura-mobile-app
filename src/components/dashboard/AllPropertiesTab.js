@@ -56,7 +56,7 @@ class AllPropertiesTab extends Component {
         const { rowContainer } = styles
         let title = item.title ? item.title : 'No title'
         title = shortenXterLength(title, 18)
-        const location = `${item.address} ${item.state}`
+        const location = `${item.address}, ${item.state}`
         const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
         return (
             <View style={rowContainer}>
