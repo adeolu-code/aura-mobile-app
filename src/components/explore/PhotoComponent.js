@@ -31,9 +31,9 @@ class PhotoComponent extends Component {
             <View style={contentContainer}>
                 <MyText style={[textDarkGrey, textExtraBold, textH3Style, marginBottomSmall]}>{title1}</MyText>
                 <MyText style={[textDarkGrey, textH3Style, marginBottomSmall]}>{title2}</MyText>
-                <StarComponent grey />
+                {/* <StarComponent grey /> */}
                 
-                <MyText style={[textGrey, textH4Style]}>{location}</MyText>
+                {/* <MyText style={[textGrey, textH4Style]}>{location}</MyText> */}
             </View>
         </TouchableOpacity>
       </View>

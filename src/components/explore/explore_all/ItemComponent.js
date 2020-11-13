@@ -59,15 +59,15 @@ class ItemComponent extends Component {
             {this.renderType()}
           </View>
           <View style={contentContainer}>
-            <MyText
+            {/* <MyText
               style={[textSuccess,textExtraBold,textH4Style,{marginBottom: 5}]}>
               {price}
-            </MyText>
+            </MyText> */}
             <MyText style={[textDarkGrey, textH4Style, marginBottomSmall]}>
               {title}
             </MyText>
-            <StarComponent grey rating={rating} />
-            <MyText style={[textGrey, textH5Style]}>{location}</MyText>
+            {/* <StarComponent grey rating={rating} /> */}
+            {/* <MyText style={[textGrey, textH5Style]}>{location}</MyText> */}
           </View>
         </TouchableOpacity>
       </View>
