@@ -267,7 +267,7 @@ class HomeSingle extends Component {
                 {houseRules.length !== 0 ?<RulesComponent title="House Rules" rules={houseRules} /> : <Fragment />}
                 <LocationComponent house={house} address={house.address} location={location} />
                 <HostComponent house={house} />
-                <DetailsComponent />
+                <DetailsComponent house={house} />
                 <ReviewsComponent reviews={reviews} loading={gettingReviews} />
                 <CommentComponent comments={comments} loading={gettingReviews} />
 

@@ -16,6 +16,22 @@ class DetailsComponent extends Component {
     this.state = {
     };
   }
+  renderNotes = () => {
+      const { house } = this.props
+      const { flexRow, textH2Style, textExtraBold, textBold, textGrey, textH4Style, 
+        imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
+      const notes = house.notes;
+      if(notes.length !== 0) {
+          return notes.map((item, index) => {
+              return (
+                <MyText style={[textH4Style, textGrey]} key={index}>- {item}</MyText>
+              )
+          })
+      }
+      return (<MyText style={[textH4Style, textGrey]} >
+        Great choice
+      </MyText>)
+  }
 
   render() {
     const {  contentContainer, divider, container, iconStyle, rowStyle, headerStyle } = styles;
@@ -28,9 +44,7 @@ class DetailsComponent extends Component {
             </View>
             <View style={contentContainer}>
                 <MyText style={[textH4Style, textGrey]}>
-                Quisque suscipit ipsum est, eu venenatis leo ornare eget. 
-                Ut porta facilisis elementum. Sed condimentum sed massa quis ullamcorper. Donec at scelerisque neque. Pellentesque sagittis, 
-                massa sodales sodales finibus, felis ligula tempus lorem, eu porttitor ex lacus vel felis.
+                {this.renderNotes()}
                 </MyText>
             </View>
             <View style={divider}></View>

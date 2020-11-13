@@ -57,7 +57,7 @@ class HostComponent extends Component {
                     <MyText style={[textGrey, textH4Style]}>{ house ? house.description : '***'}</MyText>
                 </View>
                 <View style={buttonContainer}>
-                    <CustomButton buttonText="Contact Host" buttonStyle={buttonStyle} textStyle={{color: colors.black}} />
+                    {/* <CustomButton buttonText="Contact Host" buttonStyle={buttonStyle} textStyle={{color: colors.black}} /> */}
                 </View>
                 <View style={[flexRow, lowerContainer]}>
                     <View style={shieldContainer}>

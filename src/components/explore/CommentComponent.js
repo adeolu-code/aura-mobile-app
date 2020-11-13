@@ -80,10 +80,10 @@ class CommentComponent extends Component {
                 {/* <View style={divider}></View> */}
 
                 
-                <TouchableOpacity style={[flexRow, reportContainer]}>
+                {/* <TouchableOpacity style={[flexRow, reportContainer]}>
                     <Icon type="MaterialIcons" name="flag" style={iconStyle} />
                     <MyText style={[textH4Style, textSuccess, textUnderline]}>Report This Listing</MyText>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             
         </View>
