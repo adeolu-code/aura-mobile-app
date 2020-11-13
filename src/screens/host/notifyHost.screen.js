@@ -105,6 +105,14 @@ export default class NotifyHost extends Component {
         set({ propertyFormData: obj })
         this.props.navigation.navigate('BookingDuration')
     }
+    componentDidMount = () => {
+        const { state } = this.context
+        const ppty = state.propertyFormData;
+        const day = this.days.find(item => item.value === ppty.daysToNotifyHost)
+        if(day) {
+            this.setState({ values: [day] })
+        }
+    }
 
     render() {
         const {

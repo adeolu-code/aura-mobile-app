@@ -36,7 +36,6 @@ export default class PropertyDescription extends Component {
             if(res.IsError || res.isError) {
                 errorMessage('Something went wrong, please try again')
             } else {
-                console.log('Got here')
                 const data = res.data
                 appContext.set({ propertyFormData: { ...propertyData, title: data.title, description: data.description }})
                 appContext.set({ step: appContext.state.step + 1 })
@@ -54,6 +53,11 @@ export default class PropertyDescription extends Component {
                     const hotels = [ ...propertyContext.state.hotels ]
                     const hotelsArr = this.filterSetProperty(hotels, data, propertyData)
                     propertyContext.set({ hotels: hotelsArr })
+                }
+                if(!appContext.state.edit) {
+                    propertyContext.getAllProperties();
+                    propertyContext.getHotels();
+                    propertyContext.getApartments();
                 }
                 
                 this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })

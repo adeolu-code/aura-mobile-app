@@ -70,6 +70,14 @@ export default class BookInAdvance extends Component {
         set({ propertyFormData: obj })
         this.props.navigation.navigate('PropertyAvailability')
     }
+    componentDidMount = () => {
+        const { state } = this.context
+        const ppty = state.propertyFormData;
+        const duration = this.durations.find(item => item.value === ppty.maxPreBokingDays)
+        if(duration) {
+            this.setState({ values: [duration] })
+        }
+    }
 
     render() {
         const {
@@ -77,12 +85,6 @@ export default class BookInAdvance extends Component {
             textBold,
             flexRow,
             textH4Style,
-            textH3Style,
-            textCenter,
-            imgStyle,
-            textWhite,
-            textH5Style, 
-            textlightGreyTwo,
             textGreen,
           } = GStyles;
         return (

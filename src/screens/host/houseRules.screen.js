@@ -30,6 +30,7 @@ export default class HouseRules extends Component {
         } else {
             const data = res.data;
             this.setState({ houseRules: data });
+
             // console.log(data);
         }
     }
@@ -92,7 +93,10 @@ export default class HouseRules extends Component {
     }
 
     componentDidMount = () => {
+        const { state } = this.context
+        const ppty = state.propertyFormData;
         this.getHouseRules()
+        this.setState({ houseRuleValues: ppty.houseRules })
     }
     renderAddInfo = () => {
         const { toggleAddHouseRule, addingInfo } = this.state
@@ -104,7 +108,7 @@ export default class HouseRules extends Component {
         }
         if(toggleAddHouseRule) {
             return (
-                <View style={[flexRow, { flex: 1, alignItems: 'flex-end', marginTop: 10}]}>
+                <View style={[flexRow, { flex: 1, alignItems: 'flex-end', marginTop: 5}]}>
                     <View style={{ flex: 8, paddingRight: 20}}>
                         <CustomInput placeholder=" " value={this.state.addInfoValue} attrName="addInfo" onChangeText={this.onChangeText} />
                     </View>
@@ -146,14 +150,16 @@ export default class HouseRules extends Component {
                     />
                     <Container style={[Styles.container]}>
                         <Content scrollEnabled>
-                            <View style={[{marginTop: 50}]}>
-                                {this.renderHouseRules()}
-                            </View>
-                            <TouchableOpacity onPress={this.toggleHouseRule}>
-                                <MyText style={[textUnderline,textOrange, textUnderline, textBold, { marginTop: 20}]}>Add Additional Requirement</MyText>
-                            </TouchableOpacity>
+                            <View style={{ paddingBottom: 100}}>
+                                <View style={[{marginTop: 50}]}>
+                                    {this.renderHouseRules()}
+                                </View>
+                                <TouchableOpacity onPress={this.toggleHouseRule}>
+                                    <MyText style={[textUnderline,textOrange, textUnderline, textBold, { marginTop: 20}]}>Add Additional Requirement</MyText>
+                                </TouchableOpacity>
 
-                            {this.renderAddInfo()}
+                                {this.renderAddInfo()}
+                            </View>
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 

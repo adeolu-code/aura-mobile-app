@@ -159,7 +159,7 @@ class LocationScreen extends Component {
     componentDidMount = async () => {
         const { state } = this.context
         const ppty = state.propertyFormData;
-        if(ppty) {
+        if(ppty && state.edit) {
             if(ppty.longitude || ppty.latitude) {
                 this.setState({ st: ppty.state, city: ppty.district, address: ppty.address, zipCode: ppty.zipCode})
             }

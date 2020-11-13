@@ -5,7 +5,7 @@ import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
 
 let context = undefined;
-export let debug = true;
+export let debug = false;
 export const GLOBAL_PADDING = 20;
 
 const CLIENT_ID = '0987654321'

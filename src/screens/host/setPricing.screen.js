@@ -36,6 +36,11 @@ export default class SetPricing extends Component {
             errorMessage('something is not right')
         } else {
             this.setState({ commissions: res.data })
+            const { state } = this.context
+            const ppty = state.propertyFormData;
+            if(ppty && state.edit) {
+                this.onPriceChange(""+ppty.pricePerNight)
+            }
         }
     }
     getAveragePrice = async () => {
@@ -54,14 +59,15 @@ export default class SetPricing extends Component {
 
     onPriceChange = (text) => {
         const { commissions } = this.state;
-        const vat = text * (commissions.total/100)
-        const estEarning = text - vat
+        const vat = +text * (commissions.total/100)
+        const estEarning = +text - vat
         this.setState({ price: text, commissionAndVAT: vat, estEarning })
     }
 
     componentDidMount = () => {
         this.getAveragePrice();
         this.getCommissions()
+        
     }
 
     renderAveragePrice = () => {
@@ -88,9 +94,9 @@ export default class SetPricing extends Component {
 
     submitOtherInformation = async () => {
         const { price, currency  } = this.state
-        const { state, set } = this.context
-        const propertyFormData = state.propertyFormData;
-        console.log(propertyFormData)
+        const { propertyContext, appContext } = this.props
+        const propertyFormData = appContext.state.propertyFormData
+
         const obj = {
             pricePerNight: price,
             currency,
@@ -111,8 +117,28 @@ export default class SetPricing extends Component {
         if(res.isError || res.IsError) {
             errorMessage(res.message)
         } else {
-            const newObj = { ...propertyFormData, ...res.data, mainImage: propertyFormData.mainImage }
-            set({ propertyFormData: newObj, step: state.step + 1 })
+            const data = res.data
+            const newObj = { ...propertyFormData, ...data, mainImage: propertyFormData.mainImage }
+            appContext.set({ propertyFormData: newObj, step: appContext.state.step + 1 })
+
+            const properties = [ ...propertyContext.state.properties ]
+            const pptyArr = this.filterSetProperty(properties, data, propertyFormData)
+            
+            propertyContext.set({ properties: pptyArr })
+            if(data.propertyType.name === 'Apartment') {
+                const apartments = [ ...propertyContext.state.apartments ]
+                const apsArr = this.filterSetProperty(apartments, data, propertyFormData)
+                propertyContext.set({ apartments: apsArr })
+            } else {
+                const hotels = [ ...propertyContext.state.hotels ]
+                const hotelsArr = this.filterSetProperty(hotels, data, propertyFormData)
+                propertyContext.set({ hotels: hotelsArr })
+            }
+            if(!appContext.state.edit) {
+                propertyContext.getAllProperties();
+                propertyContext.getHotels();
+                propertyContext.getApartments();
+            }
             this.props.navigation.navigate('GuestPolicy')
         }
     }
@@ -124,6 +150,13 @@ export default class SetPricing extends Component {
     }
     onCurrencyValueChange = (value) => {
         this.setState({ currency: value })
+    }
+
+    filterSetProperty = (properties, data, propertyData) => {
+        const elementsIndex = properties.findIndex(element => element.id == propertyData.id )
+        let newArray = [...properties]
+        newArray[elementsIndex] = { ...newArray[elementsIndex], title: data.title, description: data.description, mainImage: propertyData.mainImage}
+        return newArray
     }
 
 

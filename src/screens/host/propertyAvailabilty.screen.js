@@ -20,12 +20,12 @@ export default class PropertyAvailability extends Component {
         super(props);
         this.state = {
             selectedDays: {}, available: true, markedDates: {}, blockedMonths: [], currentMonth: new Date().getMonth() + 1, 
-            currentYear: new Date().getFullYear(), loading: false
+            currentYear: new Date().getFullYear(), loading: false, gettingCalendar: false
         }
     }
     renderLoading = () => {
-        const { loading } = this.state;
-        if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+        const { loading, gettingCalendar } = this.state;
+        if (loading || gettingCalendar) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
     }
     getDaysInMonth = (month, year) => {
         return new Date(year,month,0).getDate()
@@ -60,12 +60,12 @@ export default class PropertyAvailability extends Component {
     }
 
     toggleSelectedDate = (date) => {
+        console.log(date)
         const getYr = new Date(date).getFullYear()
         const getMonth = new Date(date).getMonth() + 1
         const monthObj = { month: getMonth, year: getYr }
         let selectedDatesKey = Object.keys(this.state.selectedDays);
         
-        // console.log("keys ", selectedDatesKey)
         
         if (selectedDatesKey.includes(date)) {
             let selectedDates = this.state.selectedDays;
@@ -138,6 +138,37 @@ export default class PropertyAvailability extends Component {
         } else {
             this.props.navigation.navigate('SetPricing')
         }
+    }
+
+    getCalendar = async () => {
+        const { state, set } = this.context
+        const ppty = state.propertyFormData;
+        this.setState({ gettingCalendar: true })
+        const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/calendar/?propertyId=${ppty.id}`);
+        this.setState({ gettingCalendar: false })
+        if(res.isError) {
+            const message = res.Message;
+        } else {
+            const data = res.data;
+            if(data !== null) {
+                const bookedDays = data.bookedDays
+                console.log(bookedDays)
+                bookedDays.filter(item => {
+                    const newDate = new Date(item)
+                    const yr = newDate.getFullYear()
+                    const month = newDate.getMonth() + 1
+                    const day = newDate.getDate()
+                    const date = `${yr}-${month}-${day < 10 ? "0"+day : day}`
+                    this.toggleSelectedDate(date)
+                })
+            }
+        }
+      }
+
+    componentDidMount = () => {
+        const { state } = this.context
+        const ppty = state.propertyFormData;
+        this.getCalendar()
     }
 
     render() {

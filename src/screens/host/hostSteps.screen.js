@@ -11,7 +11,7 @@ import { RenderStars } from "../../components/render_stars/renderStars";
 
 import { AppContext } from '../../../AppProvider';
 import { ManagePropertyContext } from '../../../ManagePropertyProvider';
-import { formatAmount } from '../../helpers'
+import { formatAmount, shortenXterLength } from '../../helpers'
 import StarComponent from '../../components/StarComponent';
 
 export default class HostSteps extends Component {
@@ -28,7 +28,7 @@ export default class HostSteps extends Component {
     getStarted = () => {
         // this.props.navigation.navigate("UploadPropertyImage");
         const { set, state } = this.context
-        set({ isInApp: true })
+        set({ isInApp: true, edit: false })
         if (state.step === 1) {
             // this.props.navigation.navigate("HostProperty");
             this.props.navigation.navigate('Auth', {screen: "List"});
@@ -53,17 +53,17 @@ export default class HostSteps extends Component {
     }
     editLocation = () => {
         const { set } = this.context
-        set({ isInApp: true })
+        set({ isInApp: true, edit: true })
         this.props.navigation.navigate('Auth', {screen: "List"});
     }
     editUpload = () => {
         const { set } = this.context
-        set({ isInApp: true })
+        set({ isInApp: true, edit: true })
         this.props.navigation.navigate("UploadPropertyImage");
     }
     editOther = () => {
         const { set } = this.context
-        set({ isInApp: true })
+        set({ isInApp: true, edit: true })
         this.props.navigation.navigate("BookingInformationRequirements");
     }
     renderVerified = () => {
@@ -78,6 +78,17 @@ export default class HostSteps extends Component {
             )
         } 
     }
+
+    renderPublish = () => {
+        const { propertyFormData } = this.context.state;
+        if(propertyFormData.status && propertyFormData.status.toLowerCase() === 'saved') {
+            return (
+                <View style={{ marginBottom: 40}}>
+                    <CustomButton buttonText="Publish For Review" buttonStyle={{ elevation: 2}} />
+                </View>
+            )
+        }
+    }
     
 
     renderProperty = () => {
@@ -86,11 +97,11 @@ export default class HostSteps extends Component {
           } = GStyles;
         const { propertyTypeContainer, bgOrange, bgLightOrange } = styles
         const { set, state } = this.context
-        if(state.propertyFormData) {
+        if(state.propertyFormData && state.propertyFormData.propertyType) {
             const imgUrl = state.propertyFormData.mainImage ? 
             {uri: state.propertyFormData.mainImage.assetPath} : require('../../assets/images/no_house1.png')
 
-            const title = state.propertyFormData.title ? state.propertyFormData.title : 'No title';
+            const title = state.propertyFormData.title ? shortenXterLength(state.propertyFormData.title, 22) : 'No title';
             const price = state.propertyFormData.pricePerNight ? formatAmount(state.propertyFormData.pricePerNight) : '***'
             const bgColor = state.propertyFormData.propertyType.name !== 'Apartment' ? bgOrange : bgLightOrange
             const txtColor = state.propertyFormData.propertyType.name !== 'Apartment' ? textWhite : textOrange
@@ -99,7 +110,7 @@ export default class HostSteps extends Component {
             return (
                 <View style={[Styles.reviewView, { paddingTop: 1, paddingBottom: 10}]}>
 
-                    <View style={{ width: '100%'}}>
+                    <View style={{ width: '100%', marginBottom: 40}}>
                         <TouchableOpacity style={[flexRow, Styles.propertyContainer]} >
                             <View style={Styles.imgContainer}>
                                 <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
@@ -128,24 +139,20 @@ export default class HostSteps extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ marginTop: 40}}>
-                        <CustomButton buttonText="Publish For Review" buttonStyle={{ elevation: 2}} />
-                    </View>
-                    {/* <TouchableOpacity style={[Styles.nextButton, {marginTop: 10}]} onPress={() => alert("")}>
-                        <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Publish For Review</MyText>
-                    </TouchableOpacity> */}
+                    {this.renderPublish()}
                 </View>
             )
         }
     }
 
     render() {
-        const { step } = this.context.state;
+        const { step, edit } = this.context.state;
 
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+                {/* <StatusBar backgroundColor={colors.white} barStyle="dark-content" /> */}
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
+                    
                     <Header 
                         {...this.props} 
                         title="Host A Home Or Hotel" 
@@ -155,7 +162,7 @@ export default class HostSteps extends Component {
                         <Content>
                             {this.renderProperty()}
                             
-                            <Card title={"Facilities And Location"}
+                            <Card title={"Facilities And Location"} cardStyles={{ paddingTop: 0, marginTop: -20}}
                                 description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
                                 completed={step > 1 ? true : false} edit={step > 1 ? true : false} step={1} 
                                 getStarted={step === 1 ? true : false}
@@ -224,7 +231,7 @@ const Card = (props) => {
         }
     }
     return (
-        <View style={[Styles.cardView]}>
+        <View style={[Styles.cardView, props.cardStyles]}>
             <View style={[Styles.topView]}>
                 <MyText style={[textH5Style, textGrey, {flex: 0.6}]}>Step {props.step}</MyText>
                 {

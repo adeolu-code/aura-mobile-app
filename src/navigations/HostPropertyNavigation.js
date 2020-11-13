@@ -19,7 +19,7 @@ import NotifyHost from '../screens/host/notifyHost.screen';
 import BookingDuration from '../screens/host/bookingDuration.screen';
 import BookInAdvance from '../screens/host/bookInAdvance.screen';
 import PropertyAvailability from '../screens/host/propertyAvailabilty.screen';
-import SetPricing from '../screens/host/setPricing.screen';
+import SetPricing from '../screens/host/setPricingHOC';
 import GuestPolicy from '../screens/host/guestPolicy.screen';
 import SavedSuccessScreen from '../screens/host/SavedScreen';
 
