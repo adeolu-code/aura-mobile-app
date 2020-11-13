@@ -1,5 +1,8 @@
 
 import React, {Component, Fragment} from 'react';
+if (__DEV__) {
+  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
+}
 import {Text, View, Platform} from 'react-native';
 import 'react-native-gesture-handler';
 import AppNavigation from './navigations/AppNavigation';

@@ -125,6 +125,9 @@ const styles = StyleSheet.create({
   textlightGreyTwo: {
     color: colors.lightGreyTwo
   },
+  textVeryLightGrey: {
+    color: colors.veryLightGrey
+  },
   lineHeightTextSmall: {
     lineHeight: 20,
   },
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline'
   },
   textNormal: {
-    fontFamily: 'Nunito-Light',
+    fontFamily: 'Nunito-Regular',
     fontWeight: '300'
   },
   textBold: {

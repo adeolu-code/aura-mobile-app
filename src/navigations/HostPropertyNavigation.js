@@ -11,7 +11,7 @@ import HostSteps from '../screens/host/hostSteps.screen';
 import HostSlider from '../screens/host/slider.screen';
 import UploadPropertyImage from '../screens/host/uploadPropertyImage.screen';
 import PickPropertyImage from '../screens/host/pickPropertyImages.screen';
-import PropertyDescription from '../screens/host/propertyDescription.screen';
+import PropertyDescription from '../screens/host/propertyDescriptionHOC.screen';
 import BookingInformationRequirements from '../screens/host/bookingInformationRequirements.screen';
 import HouseRules from '../screens/host/houseRules.screen';
 import BookingPreview from '../screens/host/bookingPreview.screen';
@@ -21,6 +21,7 @@ import BookInAdvance from '../screens/host/bookInAdvance.screen';
 import PropertyAvailability from '../screens/host/propertyAvailabilty.screen';
 import SetPricing from '../screens/host/setPricing.screen';
 import GuestPolicy from '../screens/host/guestPolicy.screen';
+import SavedSuccessScreen from '../screens/host/SavedScreen';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ export default function HostPropertyStack() {
             <Stack.Screen name="PropertyAvailability" component={PropertyAvailability} options={{ headerShown: false }} />
             <Stack.Screen name="SetPricing" component={SetPricing} options={{ headerShown: false }} />
             <Stack.Screen name="GuestPolicy" component={GuestPolicy} options={{ headerShown: false }} />
+            <Stack.Screen name="Success" component={SavedSuccessScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

@@ -72,10 +72,10 @@ class ScrollContentPlaces extends Component {
                 const formattedAmount = formatAmount(item.pricePerNight)
                 let title = item.title ? item.title : 'no title'
                 title = shortenXterLength(title, 18)
-                const imgUrl = item.mainImage && item.mainImage.assetPath ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house.png')
+                const imgUrl = item.mainImage && item.mainImage.assetPath ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
                 return (
                     <View style={scrollItemContainer} key={item.id}>
-                        <HouseComponent img={imgUrl} onPress={this.linkToHouse.bind(this, item)}
+                        <HouseComponent img={imgUrl} onPress={this.linkToHouse.bind(this, item)} rating={item.rating}
                         title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
                     </View>
                 )

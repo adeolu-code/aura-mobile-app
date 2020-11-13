@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   SafeAreaView,
-  StatusBar,
   View,
   Image,
   ScrollView,
@@ -25,8 +24,20 @@ class LoginModal extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '', loading: false, formErrors: [] };
+    this.state = { 
+      // email: "ferume@tapi.re", 
+      // password: "123999_@ABCabc", 
+      email: '',
+      password: '',
+      loading: false, 
+      formErrors: [] 
+    };
   }
+  
+  componentDidMount() {
+    setContext(this.context);
+  }
+
   renderLoading = () => {
     const { loading } = this.state;
     if (loading) { return (<Loading />); }
@@ -57,7 +68,9 @@ class LoginModal extends Component {
       if(!res.isError) {
         this.getUserDetails(res.data.access_token);
         this.context.set({ token: res.data })
-        await setToken(res.data)
+        await setToken(res.data);
+        // login succesfull close modal
+        this.props.onSuccess && this.props.onSuccess();
       } else {
         const message = res.message;
         const error = [message]

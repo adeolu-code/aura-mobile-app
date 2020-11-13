@@ -12,7 +12,15 @@ class Header extends Component {
     };
   }
   goBack = () => {
-    this.props.navigation.goBack();
+    
+    if (this.props.goBackTo) {
+      console.log("this.props.goBackTo", this.props.goBackTo)
+      this.props.navigation.navigate(this.props.goBackTo);
+    }
+    else {
+      this.props.navigation.goBack();
+    }
+    
   }
 
   renderSubTitle = () => {
@@ -48,7 +56,7 @@ class Header extends Component {
 const styles = StyleSheet.create({
     container: {
         width: '100%', paddingVertical: 20, backgroundColor: colors.white, paddingHorizontal: 20,
-        position: 'absolute', top: 0, zIndex: 100
+        position: 'absolute', top: 0, zIndex: 100, marginTop: 10
     },
     iconContainer:{
         marginBottom: 10, 

@@ -47,7 +47,6 @@ class Location extends Component {
   onMapPress = (e) => {
     const coordinate = e.nativeEvent.coordinate
     const region = { ...this.state.region, ...coordinate }
-    // console.log('coordinate ', coordinate, r)
     this.setState({
       markers: [
         ...this.state.markers,
@@ -59,9 +58,6 @@ class Location extends Component {
       ],
       region
     });
-    // setTimeout(() => {
-    //   console.log('Markers ', this.state.markers, this.state.region)
-    // }, 1000);
   }
   componentDidMount = () => {
     const { location, propertyFormData } = this.context.state;
@@ -83,7 +79,7 @@ class Location extends Component {
   }
   onRegionChange = (region) => {
     // this.setState({ region })
-    console.log('Region ', region)
+    // console.log('Region ', region)
   }
   getGeolocation = async () => {
     const { region } = this.state
@@ -91,32 +87,41 @@ class Location extends Component {
     const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${region.latitude},${region.longitude}&key=${GOOGLE_API_KEY}`)
     this.setState({ loading: false })
     this.getAddressDetails(res.results[0])
-    console.log('Res ', res)
+    // console.log('Res ', res)
   }
   getAddressDetails = (res) => {
     const geometryloc = res.geometry.location
     const addressComponents = res.address_components
+    const formatted_address = res.formatted_address
     // const addressArr = addressComponents.map(item => item.long_name)
     // const arr = addressArr.splice(addressArr.length - 2, 2)
 
-    let countryObj = null;
-    let stateObj = null
+    let countryObj = {};
+    let stateObj = {};
+    let localityObj = {};
     addressComponents.filter(item => {
         const types = item.types
         const foundCountry = types.find(item => item === 'country')
         const foundState = types.find(item => item === 'administrative_area_level_1')
+        const foundLocality = types.find(item => item === 'locality')
         if(foundCountry) {
             countryObj = item
         }
         if(foundState) {
             stateObj = item
         }
+        if(foundLocality) {
+          localityObj = item
+        }
     })
 
     const { set, state } = this.context
-    // console.log('Context State ', state)
     if(state.propertyFormData) {
-      const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, country: countryObj.long_name}
+      const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, 
+        country: countryObj.long_name, 
+        address: state.propertyFormData.address ? state.propertyFormData.address : formatted_address, 
+        district: localityObj.long_name}
+
       const obj = { ...state.propertyFormData, ...locationObj }
       set({ propertyFormData: obj })
       this.props.navigation.navigate('Amenities');
@@ -181,7 +186,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 140,
+    marginTop: 160,
     flex: 1, 
     // borderWidth: 1, borderColor: 'red',
   },

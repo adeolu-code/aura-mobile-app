@@ -22,7 +22,6 @@ class CountryPickerComponent extends Component {
     this.setState({ showCountryPicker: true });
   }
   closeModal = () => {
-    console.log('closed')
     this.setState({ showCountryPicker: false });
   }
   onSelect = (country) => {
@@ -42,6 +41,15 @@ class CountryPickerComponent extends Component {
       )
     }
     return (<MyText style={[textH4Style, textGrey]}>Select Country</MyText>)
+  }
+
+  componentDidMount = () => {
+    
+  }
+  componentDidUpdate = (prevProps, prevState) => {
+    if(prevProps.defaultCountry !== this.props.defaultCountry) {
+      this.setState({ country: this.props.defaultCountry })
+    }
   }
 
   render() {

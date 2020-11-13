@@ -7,14 +7,15 @@ import { Image } from "react-native";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { AppContext } from "../../../AppProvider";
-
 import { clearData } from '../../helpers';
 import colors from "../../colors";
-import { GLOBAL_PADDING } from "../../utils";
+import { GLOBAL_PADDING, setContext, debug, consoleLog } from "../../utils";
 import LoginModal from "../../components/auth/LoginModal";
 import SignUpModal from "../../components/auth/SignUpModal";
+import { getNotificationSettingsApi } from "../../api/notifications.api";
+import { useNavigation } from "@react-navigation/native";
 
-export default class ProfileScreen extends Component {
+class ProfileScreenClass extends Component {
     static contextType = AppContext;
     constructor() {
         super();
@@ -22,6 +23,30 @@ export default class ProfileScreen extends Component {
             showLoginModal: false,
             showRegisterModal: false,
         };
+    }
+
+    componentDidMount() {
+        setContext(this.context);
+        this._focus = this.props.navigation.addListener('focus', () => {
+            // focused
+            this.init();
+          });
+        
+    }
+
+    componentWillUnmount() {
+        this._focus = this.props.navigation.addListener('focus', () => {
+            // do nothing
+          });
+    }
+
+    init = () => {
+        if (Object.keys(this.context.state.notificationSettings.messages).length == 0 && this.context.state.isLoggedIn) {
+            // get notification settings, default length of notificationsettings.messages = 0
+            //if (debug) console.log("focused")
+            getNotificationSettingsApi(this.context);
+        }
+        
     }
 
     openLoginModal = () => {
@@ -53,6 +78,7 @@ export default class ProfileScreen extends Component {
             textH6Style, textOrange, textH1Style,
             textWhite, textH4Style
         } = GStyles;
+        consoleLog("user", this.context.state.userData)
         return (
             <Container>
                 <Content style={{flexGrow: 1}} scrollEnabled>
@@ -66,11 +92,15 @@ export default class ProfileScreen extends Component {
                         this.context.state.isLoggedIn &&
                     
                         <>
-                            <View style={[Styles.imageView]}>
+                            <TouchableOpacity 
+                                onPress={() => this.props.navigation.navigate('AddProfilePicture')}
+                                style={[Styles.imageView, {paddingTop: 30,}]}
+                            >
                                 {/* image section */}
-                                <Image source={require("./../../assets/images/photo/photo1.png")} style={[Styles.userImageStyle]} />
+                                <Image source={this.context.state.userData && this.context.state.userData.profilePicture ? {uri: this.context.state.userData.profilePicture} :require("./../../assets/images/photo/photo1.png")} style={[Styles.userImageStyle]} />
                                 <MyText style={[textH2Style, textCenter, textBold]}>{`${this.context.state.userData.firstName} ${this.context.state.userData.lastName}`}</MyText>
-                            </View>
+                                <MyText style={[textH6Style, textCenter, textOrange]}>Tap to Change</MyText>
+                            </TouchableOpacity>
                             <Separator style={[Styles.separator]}>
                                 <MyText style={[Styles.separatorText]}>Account settings</MyText>
                             </Separator>
@@ -221,7 +251,8 @@ export default class ProfileScreen extends Component {
                 <LoginModal 
                     visible={this.state.showLoginModal} 
                     onDecline={this.closeLoginModal} 
-                    openSignUp={this.openSignUpModal} 
+                    openSignUp={this.openSignUpModal}
+                    onSuccess={() => this.setState({showLoginModal: false})}
                 />
                 <SignUpModal 
                     visible={this.state.showRegisterModal} 
@@ -233,3 +264,9 @@ export default class ProfileScreen extends Component {
         );
     }
 }
+
+const ProfileScreen = (props) => {
+    return (<ProfileScreenClass navigation={useNavigation()} {...props} />)
+}
+
+export default ProfileScreen;

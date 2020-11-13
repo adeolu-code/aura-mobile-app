@@ -99,7 +99,6 @@ class BookingsScreen extends Component {
   render() {
     return (
       <>
-        <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
             {

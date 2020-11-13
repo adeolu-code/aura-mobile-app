@@ -7,9 +7,11 @@ import { Item, Label, Input, View, Picker, DatePicker, Icon } from "native-base"
  * 
  * @param {*} props
  * 
- *  dateTime | picker | phone | icon | textarea [bool]
+ *  default input else | dateTime | picker | phone | icon | textarea [bool]
  * 
  * label [string]
+ * 
+ * onChange | onPickerChange | onChangeText [function]
  * 
  */
 export const LabelInput = (props) => {
@@ -27,9 +29,10 @@ export const LabelInput = (props) => {
                         defaultDate={props.defaultDate || new Date()}
                         maximumDate={props.maximumDate || new Date()}
                         style={[Styles.input, Styles.datePicker]}
-                        onChange={(e, selectedDate) => {
+                        
+                        onDateChange={(selectedDate) => {
                             console.log("e", selectedDate);
-                            if (e != undefined) {
+                            if (selectedDate != undefined) {
                                 props.onChange(selectedDate);
                             }
                         }}
@@ -104,10 +107,12 @@ export const LabelInput = (props) => {
                     /> */}
                     <Input 
                         placeholder={props.placeholder} 
-                        style={[Styles.input, {height: 150, backgroundColor: "red"}]} 
+                        style={[Styles.input, {height: 150}, props.textInputStyles]} 
                         maxLength={props.maxLength} 
                         multiline={true}
-                        onChangeText={(e) => { console.log("val", e); props.onChangeText(e);}}
+                        value={props.value}
+                        textAlignVertical="top"
+                        onChangeText={props.onChangeText}
                     />
                 </View>
                 

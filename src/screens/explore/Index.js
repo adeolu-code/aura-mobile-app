@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import {
-  View,SafeAreaView,ScrollView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform,
+  View,SafeAreaView,ScrollView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform, StatusBar,
 } from 'react-native';
 import {
   MyText,
@@ -151,6 +151,7 @@ class Index extends Component {
     } = GStyles;
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: 'white' }}>
+        <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
         {this.state.active ? <SearchToggle close={this.closeSearch} /> : <Fragment />}
         <ScrollView style={{position: 'relative', backgroundColor: colors.white}}>
           <ImageBackground
@@ -265,7 +266,7 @@ class Index extends Component {
 const styles = StyleSheet.create({
   headerBg: {
     width: '100%',
-    height: 350,
+    height: 370,
     paddingHorizontal: 20,
     display: 'flex',
     justifyContent: 'center',

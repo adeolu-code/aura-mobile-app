@@ -1,25 +1,135 @@
 import React, { Component } from "react";
 import { Styles } from "./host.style";
 import { Footer, Container, Content, View, Switch, Input, Picker } from "native-base";
-import { MyText } from "../../utils/Index";
+import { MyText, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
-import { TouchableOpacity, StatusBar, SafeAreaView, StyleSheet } from "react-native";
+import { TouchableOpacity, StatusBar, SafeAreaView, StyleSheet, Keyboard } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors"; 
 import TipViewComponent from "../../components/tip_view/tipView.component";
 import { GLOBAL_PADDING } from "../../utils";
 
+import { AppContext } from '../../../AppProvider';
+import { urls, Request, GetRequest, errorMessage } from '../../utils';
+import { formatAmount } from '../../helpers'
+
 export default class SetPricing extends Component {
+    static contextType = AppContext
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { gettingCommissions: false, commissions: '', gettingAveragePrice: false, averagePrice: '', price: '', 
+        estEarning: 0, commissionAndVAT: 0, submitting: false, loading: false, currency: 'Naira' }
+    }
+
+    renderLoading = () => {
+        const { loading, submitting } = this.state;
+        if (loading || submitting) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+    }
+
+    getCommissions = async () => {
+        const { state } = this.context
+        const propertyFormData = state.propertyFormData
+        this.setState({ gettingCommissions: true })
+        const res = await GetRequest(urls.paymentBase, `${urls.v}deduction/commissioning/retrieve?partner=host&country=${propertyFormData.country}`);
+        this.setState({ gettingCommissions: false })
+        if(res.IsError || res.isError) {
+            errorMessage('something is not right')
+        } else {
+            this.setState({ commissions: res.data })
         }
+    }
+    getAveragePrice = async () => {
+        const { state } = this.context
+        const propertyFormData = state.propertyFormData
+        this.setState({ gettingAveragePrice: true })
+        const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/averagePrice/?propertyId=${propertyFormData.id}`);
+        this.setState({ gettingAveragePrice: false })
+        console.log(res)
+        if(res.IsError || res.isError) {
+            errorMessage('something is not right')
+        } else {
+            this.setState({ averagePrice: res.data })
+        }
+    }
+
+    onPriceChange = (text) => {
+        const { commissions } = this.state;
+        const vat = text * (commissions.total/100)
+        const estEarning = text - vat
+        this.setState({ price: text, commissionAndVAT: vat, estEarning })
+    }
+
+    componentDidMount = () => {
+        this.getAveragePrice();
+        this.getCommissions()
+    }
+
+    renderAveragePrice = () => {
+        const { gettingAveragePrice, averagePrice } = this.state
+        const { textH4Style, textBold, textOrange } = GStyles
+        if(gettingAveragePrice) {
+            return (
+                <View style={{paddingHorizontal: 21}}>
+                    <MyText style={[textBold, textOrange, textH4Style]}>Loading...</MyText>
+                </View>
+            )
+        }
+        return (
+            <View style={[Styles.averageItemParent, {marginTop: 20}]}>
+                <View>
+                    <AverageItem title={"Apartments"} average={averagePrice ? `₦ ${formatAmount(averagePrice)} / night` : `₦ 0 / night` } />
+                </View>
+                <View>
+                    <AverageItem title={"Hotels"} average={averagePrice ? `₦ ${formatAmount(averagePrice)} / night` : `₦ 0 / night` } />    
+                </View>
+            </View>
+        )
+    }
+
+    submitOtherInformation = async () => {
+        const { price, currency  } = this.state
+        const { state, set } = this.context
+        const propertyFormData = state.propertyFormData;
+        console.log(propertyFormData)
+        const obj = {
+            pricePerNight: price,
+            currency,
+            // checkInTimeFrom: propertyFormData.checkInTimeFrom,
+            // checkInTimeTo: propertyFormData.checkInTimeTo,
+            daysToNotifyHost: propertyFormData.daysToNotifyHost,
+            bookingRequirements: propertyFormData.bookingRequirements,
+            minimumDaysUsable: propertyFormData.minimumDaysUsable,
+            maximumDaysUsable: propertyFormData.maximumDaysUsable,
+            houseRules: propertyFormData.houseRules,
+            maxPreBokingDays: propertyFormData.maxPreBokingDays,
+            id: propertyFormData.id
+        }
+        this.setState({ submitting: true })
+        const res = await Request(urls.listingBase, `${urls.v}listing/property/update`, obj);
+        this.setState({ submitting: false })
+        console.log('Res ',res)
+        if(res.isError || res.IsError) {
+            errorMessage(res.message)
+        } else {
+            const newObj = { ...propertyFormData, ...res.data, mainImage: propertyFormData.mainImage }
+            set({ propertyFormData: newObj, step: state.step + 1 })
+            this.props.navigation.navigate('GuestPolicy')
+        }
+    }
+
+    submit = () => {
+        Keyboard.dismiss()
+        this.submitOtherInformation()
+        // this.props.navigation.navigate('GuestPolicy')
+    }
+    onCurrencyValueChange = (value) => {
+        this.setState({ currency: value })
     }
 
 
     render() {
         const {
-            textBold,
+            textBold, textGrey, textGreen, textOrange,
             textH4Style,
             textCenter,
             textWhite,
@@ -30,47 +140,34 @@ export default class SetPricing extends Component {
         const markedDates = Object.assign({}, this.state.selectedDays)
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+                {/* <StatusBar backgroundColor={colors.white} barStyle="dark-content" /> */}
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header 
-                        {...this.props} 
-                        title="Set Your Pricing" 
-                    />
+                    {this.renderLoading()}
+                    <Header {...this.props}  title="Set Your Pricing"  />
                     <Container style={[Styles.container, {marginTop: 130, padding: 0, paddingBottom: 10}]}>
                         <Content scrollEnabled>
-                            <View style={[InternalStyles.pad]}>
-                                <TipViewComponent 
-                                    text={"Based on your location the average price here is:"} 
-                                />
+                            <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start", paddingHorizontal: 20, paddingTop: 20}]}>
+                                <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
+                                    <MyText style={[textGrey]}>
+                                        Based on your location the average price here is:
+                                    </MyText>
+                                </MyText>
                             </View>
                             
-                            <View style={[Styles.averageItemParent, {marginTop: 20}]}>
-                                <View style={[InternalStyles.pad]}>
-                                    <AverageItem
-                                        title={"Apartments"}
-                                        average={"N 200,341/night"}
-                                    />
-                                </View>
-                                <View style={[InternalStyles.pad]}>
-                                    <AverageItem
-                                        title={"Hotels"}
-                                        average={"N 200,341/night"}
-                                    />    
-                                </View>
-                            </View>
-                            <View style={[InternalStyles.pad, {marginTop: 10}]}>
-                                <MyText style={[textBold, textH3Style, ]}>
+                            {this.renderAveragePrice()}
+                            <View style={[InternalStyles.pad, {marginTop: 10, paddingTop: 30}]}>
+                                <MyText style={[textBold, textH3Style, { marginBottom: 5} ]}>
                                     Set Your Base Price
                                 </MyText>
-                                <MyText style={[textH5Style, textlightGreyTwo]}>
+                                <MyText style={[textH4Style, textlightGreyTwo, { marginBottom: 10}]}>
                                     This is the default price you will charge guests for your property
                                 </MyText>
                                 <View style={[Styles.rowView, Styles.pricingInputParent]}>
-                                    <Input style={[Styles.pricingInput]} />
+                                    <Input style={[Styles.pricingInput]} value={this.state.price} onChangeText={this.onPriceChange} />
                                     <View style={[Styles.pricingPicker, {backgroundColor: colors.lightGrey}]}>
                                         <Picker
                                             mode="dropdown"
-                                            textStyle={{color: colors.black, }}
+                                            textStyle={{color: colors.black }}
                                             selectedValue={"night"}
                                             onValueChange={() => this.onValueChange()}
                                         >
@@ -78,28 +175,35 @@ export default class SetPricing extends Component {
                                         </Picker>
                                     </View>
                                 </View>
-                                <MyText style={[textH5Style, textlightGreyTwo, {marginTop: 10}]}>Based Currency</MyText>
+                                    
+                                <View style={{marginBottom: 40}}>
+                                    <MyText style={[textOrange, textH4Style, textBold, { marginBottom: 5}]}>Aura Commission + VAT : ₦ {formatAmount(this.state.commissionAndVAT)}</MyText>
+                                    <MyText style={[textOrange, textH4Style, textBold]}>Your Estimated Earning : ₦ {formatAmount(this.state.estEarning)}</MyText>
+                                </View>
+                                <MyText style={[textH4Style, textlightGreyTwo, {marginTop: 10, marginBottom: 8}]}>Based Currency</MyText>
                                 <View style={[Styles.currencyPicker]}>
                                     <Picker
                                         mode="dropdown"
-                                        textStyle={{color: colors.black, }}
-                                        selectedValue={"usd"}
-                                        onValueChange={() => this.onCurrencyValueChange()}
+                                        textStyle={{color: colors.black }}
+                                        selectedValue={this.state.currency}
+                                        onValueChange={this.onCurrencyValueChange}
                                     >
-                                        <Picker.Item label="American Dollars" value="usd" />
+                                        <Picker.Item label="Nigerian Naira" value="Naira" />
                                     </Picker>
                                 </View>
                             </View>
-                            
+                            <View style={{marginBottom: 20, marginTop: 40, paddingHorizontal: 21}}>
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} disabled={this.state.price === ''} />
+                            </View>
                         </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter, InternalStyles.pad]}>
+                        {/* <Footer style={[Styles.footer, Styles.transparentFooter, InternalStyles.pad]}>
                             <TouchableOpacity
                                 style={[Styles.nextButton, {marginTop: 10}]}
                                 onPress={() => this.props.navigation.navigate('GuestPolicy')}
                             >
                                 <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Next</MyText>
                             </TouchableOpacity>
-                        </Footer>
+                        </Footer> */}
                     </Container>
                 </SafeAreaView>
             </>
@@ -115,13 +219,14 @@ const InternalStyles = StyleSheet.create({
 })
 
 const AverageItem = (props) => {
+    const { textH4Style, textBold } = GStyles
     return (
         <View style={[Styles.rowView, Styles.averageItem, props.style]}>
             <View style={{flex: 1}}>
-                <MyText>{props.title}</MyText>
+                <MyText style={[textH4Style, textBold]}>{props.title}</MyText>
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
-                <MyText>{props.average}</MyText>
+                <MyText style={[textH4Style, textBold]}>{props.average}</MyText>
             </View>
         </View>
     );

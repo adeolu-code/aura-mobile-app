@@ -18,8 +18,11 @@ class HotelsTab extends Component {
     super(props);
     this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png') };
   }
+  linkToSingleHome = (house) => {
+      this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
+  }
   openFilterModal = (item) => {
-    const modalImg = item.mainImage ? item.modalImg.assetPath : require('../../assets/images/no_house1.png')
+    const modalImg = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
     this.setState({ modalImg, property: item, showFilterModal: true });
   }
   closeFilterModal = () => {
@@ -31,28 +34,37 @@ class HotelsTab extends Component {
       if (loading || state.loadingHotels) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
   }
   renderLoadMore = () => {
-      const { loadMore } = this.state;
-      const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
-      if(loadMore) {
-          return (
-          <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
-              <Spinner size={20} color={colors.orange} />
-              <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
-          </View>
-          )
-      }
+    const { state } = this.props.propertyContext
+    const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
+    if(state.loadMoreHotels) {
+        return (
+        <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
+            <Spinner size={20} color={colors.orange} />
+            <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
+        </View>
+        )
+    }
+  }
+  onEndReached = () => {
+    const { set, state, getHotels } = this.props.propertyContext
+    if(state.activeHotelsPage < state.pageHotelsCount && !state.loadMoreHotels) {
+      set({ activeHotelsPage: state.activeHotelsPage + 1 })
+      getHotels(true)
+    }
+    // console.log('End reached')
   }
   renderItem = ({item}) => {
     const { rowContainer } = styles
     let title = item.title ? item.title : 'No title'
     title = shortenXterLength(title, 18)
     const location = `${item.address} ${item.state}`
-    const imgUrl = item.mainImage ? {uri: mainImage.assetPath} : require('../../assets/images/no_house.png')
+    const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
     const type = item.propertyType?.name;
     return (
         <View style={rowContainer}>
             <ManagePropertyRow title={title} img={imgUrl} openModal={this.openFilterModal.bind(this, item)} location={location} 
-            status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} />
+            status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} 
+            onPress={this.linkToSingleHome.bind(this, item)} />
         </View>
     )
     
@@ -101,7 +113,8 @@ class HotelsTab extends Component {
         {this.renderLoading()}
         <View style={contentContainer}>
             {this.renderHotels()}
-            <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} img={this.state.modalImg}  
+            <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} 
+            img={this.state.modalImg} property={property}
             title={property && property.title ? property.title : 'No title'} {...this.props} />
         </View>
       </>
@@ -115,6 +128,7 @@ const styles = StyleSheet.create({
     },
     rowContainer: {
         marginBottom: 20,
+        paddingHorizontal: 1, paddingVertical: 1
     },
     emptyContainerStyle: {
         height: 200, width: '100%', marginBottom: 20

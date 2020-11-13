@@ -4,7 +4,7 @@ import { GLOBAL_PADDING } from "../../utils";
 
 export const Styles = StyleSheet.create({
     container: {
-        marginTop: 120,
+        marginTop: 160,
         padding: GLOBAL_PADDING,
         paddingBottom: 10,
     },
@@ -33,12 +33,16 @@ export const Styles = StyleSheet.create({
         marginBottom: 20,
     },
     rowView: {
-        flexDirection: "row", 
+        flexDirection: "row", marginBottom: 10
     },
     transparentFooter: {
         backgroundColor: 'transparent', 
         elevation: 0, 
         shadowOffset:{height: 0, width: 0}
+    },
+    calendarContainer: {
+        borderRadius: 10, elevation: 3, backgroundColor: colors.white, marginVertical: 10,
+        overflow: 'hidden', paddingHorizontal: 2, paddingVertical: 10
     },
 
     //amenities
@@ -76,7 +80,7 @@ export const Styles = StyleSheet.create({
     },
     imgContainer: {
         width: 120, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
-        borderWidth: 1
+        // borderWidth: 1
     },
     buttonStyle: {
 
@@ -106,9 +110,7 @@ export const Styles = StyleSheet.create({
         marginTop: 10
     },
     dot: {
-        height: 10,
-        width: 10,
-        borderRadius: 50,
+        height: 10, width: 10, borderRadius: 50,
         marginRight: 5,
     },
     activeDot: {
@@ -123,17 +125,16 @@ export const Styles = StyleSheet.create({
 
     //Upload
     sectionView: {
-        height: 200,
-        width: "100%",
+        height: 210, width: "100%",
         flexDirection: "row",
         marginBottom: 20,
-        borderRadius: 5,
+        borderRadius: 5, elevation: 2
     },
     imageView: {
         flex: 0.4,
-        alignItems: "center",
+        alignItems: "flex-start",
         paddingTop: 30,
-        paddingRight: 20,
+        justifyContent: 'flex-end'
         
     },
     contentView: {
@@ -141,20 +142,16 @@ export const Styles = StyleSheet.create({
         
     },
     cameraImage: {
-        width: 115,
-        height: 200,
+        width: 130, height: 180, marginBottom: -30
     },
     hireView: {
-        
-        height: 40,
-        width: 100,
-        marginTop: 10,
+        height: 40, width: 100,
+        marginTop: 20,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5
     },
     lowerTextView: {
-        paddingTop: 10,
-        padding: 10,
+        paddingTop: 15, paddingLeft: 25, 
     },
 
     //pick image
@@ -164,18 +161,19 @@ export const Styles = StyleSheet.create({
     },
     galleryIcon: {
         color: colors.orange,
-        fontSize: 120,
+        fontSize: 100,
     },
     miniGalleryIcon: {
         color: colors.orange,
         fontSize: 40,
     },
     pickImageImageView: {
-        height: 250,
+        minHeight: 280,
         width: "100%",
         backgroundColor: colors.lightOrange,
-        marginBottom: 5,
-        marginLeft: 5,
+        borderRadius: 8, flex: 1
+        // marginLeft: 5, 
+        // borderWidth: 1
     },
     miniPickImageImageView: {
         height: 120,
@@ -185,32 +183,28 @@ export const Styles = StyleSheet.create({
         
     },
     picturesRowView: {
-        flexDirection: "row",
-        flexWrap: "wrap",
+        flexDirection: "row", justifyContent: 'space-between', width: '100%', 
+        // borderWidth: 1,
+        flexWrap: "wrap", 
     },
     miniSelectedImage: {
-        height: 120,
-        width: 120,
-        marginLeft: 5,
-        borderRadius: 5,
+         width: '100%', height: '100%',
+        // width: 120,
+        // marginLeft: 5, marginRight: 5,
+        borderRadius: 10,
         marginTop: 5,
-        marginBottom: 5,
+        // marginBottom: 20,
     },
     miniSelectedImageView: {
-        justifyContent: "flex-end",
+        width: '46.5%', height: 150, marginBottom: 30
+        // flex: 0.9,  
+        // justifyContent: "flex-end",
     },
     trashIcon: {
-        backgroundColor: colors.white,
-        width: 25,
-        height: 25,
-        borderRadius: 50,
-        color: colors.black,
-        padding: 5,
-        position: "absolute",
-        alignSelf: "flex-end",
-        fontSize: 16,
-        right: 5,
-        bottom: 10,
+        backgroundColor: colors.white, width: 30,
+        height: 30, borderRadius: 50, color: colors.black,
+        padding: 5, fontSize: 20, 
+        // position: "absolute", alignSelf: "flex-end", right: 15, bottom: 10,
     },
 
     //booking information requirements
@@ -224,15 +218,20 @@ export const Styles = StyleSheet.create({
     shieldView: {
         backgroundColor: colors.orange,
         borderRadius: 50,
-        height: 20, 
-        width:20,
-        alignItems: "center",
-        marginRight: 5,
+        height: 27, 
+        width:27,
+        alignItems: "center", justifyContent: 'center',
+        borderWidth: 2, borderColor: colors.lightOrange
+    },
+    checkContainer: {
+        backgroundColor: colors.orange,
+        borderRadius: 50, height: 27, width:27,
+        alignItems: "center", justifyContent: 'center', borderWidth: 2, borderColor: colors.lightOrange
     },
     imageShield: {
-        height: 10, 
-        width:10,
-        marginTop: 5,
+        height: 15, 
+        width:15,
+        // marginTop: 5,
     },
     previewParentView: {
         padding: 10,
@@ -256,35 +255,36 @@ export const Styles = StyleSheet.create({
         flex: 0.85
     },
     previewTitle: {
-        marginTop: 0,
-        marginLeft: 0,
+        marginTop: 0,marginLeft: 0,marginBottom: 5,
         width: "100%",
         textAlign: "left",
     },
     content: {
-        marginTop: 5,
+        marginTop: 5, lineHeight: 22
     },
 
     //set pricing
     averageItem: {
         marginTop: 10, 
-        paddingBottom: 3, 
+        paddingBottom: 10, paddingTop: 5, 
+        // borderWidth: 1,
         borderBottomWidth: 1, 
         borderBottomColor: colors.lightGrey
     },
     averageItemParent: {
-        borderBottomColor: colors.lightGreyOne,
-        borderBottomWidth: 1,
-        paddingBottom: 20,
-        height: 150,
+        borderBottomColor: colors.veryLightGrey,
+        borderBottomWidth: 5,
+        paddingBottom: 40,
+        paddingHorizontal: 22
+        // height: 150,
     },
     pricingInput: {
-        height: 40,
-        width: '60%'
+        // height: 40,
+        width: '68%',alignItems: 'center', paddingLeft: 10, paddingRight: 10
     },
     pricingPicker: {
-        height: 40,
-        width: '40%'
+        // height: 40,
+        width: '32%', paddingLeft: 10
     },
     pricingInputParent: {
         borderColor: colors.lightGrey,

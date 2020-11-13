@@ -49,7 +49,7 @@ class ItemComponent extends Component {
     const { imgStyle, textDarkGrey, textSuccess, textExtraBold, textH4Style,marginBottomSmall, textGrey, 
         textH3Style, textH5Style, textOrange, textWhite } = GStyles;
     const { imgContainer, scrollItemContainer, contentContainer, typeContainer, bgLightOrange, bgOrange } = styles;
-    const { onPress, img, location, title, price, type } = this.props
+    const { onPress, img, location, title, price, type, rating } = this.props
     return (
       <View>
         <TouchableOpacity style={scrollItemContainer} onPress={onPress}>
@@ -66,7 +66,7 @@ class ItemComponent extends Component {
             <MyText style={[textDarkGrey, textH4Style, marginBottomSmall]}>
               {title}
             </MyText>
-            <StarComponent grey />
+            <StarComponent grey rating={rating} />
             <MyText style={[textGrey, textH5Style]}>{location}</MyText>
           </View>
         </TouchableOpacity>

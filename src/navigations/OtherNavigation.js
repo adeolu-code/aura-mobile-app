@@ -13,7 +13,7 @@ import OtpScreen from '../screens/auth/OtpScreen';
 import SuccessScreen from '../screens/auth/SuccessScreen';
 import ListPropertyScreen from '../screens/auth/ListPropertyScreen';
 import LocationScreen from '../screens/auth/LocationScreen';
-import AmenitiesScreen from '../screens/auth/AmenitiesScreen';
+import AmenitiesScreen from '../screens/auth/AmenitiesHOC';
 import SavedScreen from '../screens/auth/SavedScreen';
 import Location from '../screens/auth/Location';
 

@@ -13,9 +13,16 @@ import { setUser } from '../../helpers'
 
 class OtpScreen extends Component {
   static contextType = AppContext;
+  /** final screen being screen to be navigated if supplied post verification */
   constructor(props) {
     super(props);
-    this.state = { numbers: [], errors: [], message: ''};
+    this.state = { 
+      numbers: [], 
+      errors: [], 
+      message: '', 
+      parentScreen: props.route.params.parentScreen,
+      finalScreen: props.route.params.finalScreen,
+    };
     this.num1 = React.createRef();
     this.num2 = React.createRef();
     this.num3 = React.createRef();
@@ -80,11 +87,14 @@ class OtpScreen extends Component {
       })
   }
   successScreen = () => {
-    this.props.navigation.navigate('Success');
+    this.props.navigation.navigate('Success', {
+      parentScreen: this.state.parentScreen, 
+      finalScreen: this.state.finalScreen,
+    });
   }
   resendCode = async () => {
       this.setState({ loading: true, errors: [] })
-      const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
+      const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
       console.log('Resend ',res)
       this.setState({ loading: false })
       if(res.IsError) {
@@ -110,7 +120,7 @@ class OtpScreen extends Component {
           numbers.map((item, i) => {
               numberString = numberString+item
           })
-          const res = await GetRequest(urls.identityBase, `api/v1/user/otp/verify?Otp=${numberString}`);
+          const res = await GetRequest(urls.identityBase, `${urls.v}user/otp/verify?Otp=${numberString}`);
           console.log(res)
           if(res.isError) {
               const message = res.message;
@@ -120,14 +130,21 @@ class OtpScreen extends Component {
           } else {
             const obj = { ...state.userData, isPhoneVerified: true }
             set({ userData: obj })
-            this.checkEmailVerification()
+            if (this.state.finalScreen == undefined) {
+              /** only do emailc check if next screen is specified */
+              this.checkEmailVerification();
+            }
+            else {
+              this.successScreen();
+            }
+            
             await setUser(obj);
           }
       }
   }
   sendMail = async () => {
     const { userData } = this.context.state
-    const res = await GetRequest(urls.identityBase, `api/v1/user/email/verification/resend/${userData.username}`);
+    const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
   }
   checkEmailVerification = () => {
     this.sendMail()

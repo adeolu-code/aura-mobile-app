@@ -2,8 +2,10 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from './colors'
+import RNFetchBlob from 'rn-fetch-blob';
 
 let context = undefined;
+export let debug = true;
 export const GLOBAL_PADDING = 20;
 
 const CLIENT_ID = '0987654321'
@@ -21,13 +23,25 @@ export const urls = {
     photographyBase: "http://aura-photography-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     supportBase: "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/",
     promotionBase: "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/",
-    storageBase: "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/",
+    storageBase: "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/storage/",
+    v1: "api/v1/",
     v: "api/v1/",
     auth: "auth/",
     user: "user/",
     login: "login/",
     update: "update/",
     payMethods: "pay/methods/",
+    notificationSettings: "notification/settings/",
+    deviceInformation: "deviceinformation/",
+    identityType: "identitytype/",
+    singleUpload: "upload/",
+    multiUpload: "upload/multiple/",
+    deleteUpload: "upload/delete/",
+    profilePictureUpload: "profilepicture/upload/",
+    otp: "otp/",
+    generate: "generate/",
+    verify: "verify/",
+    identity: "identity/"
 }
 const getUserToken = async () => {
 	try {
@@ -49,15 +63,23 @@ export function setContext(appContext) {
     }
 }
 
-export function prepareMedia(data) {
-  console.log("Media", JSON.stringify(data));
-  //camera
+export function prepareMedia(image) {
+//   console.log("Media", JSON.stringify(image));
+  // image crop picker
   return {
-    name: data.fileName,
-    type: data.type,
-    uri: data.uri,
-    size: data.fileSize,
-  };
+      uri: image.path,
+      width: image.width,
+      height: image.height, 
+      mime: image.mime,
+      name: image.fileName || image.modificationDate,
+   };
+  //camera
+//   return {
+//     name: data.fileName || data.modificationDate,
+//     type: data.mime,
+//     uri: data.path,
+//     size: data.size,
+//   };
   //photo picked
   // return {
   //   name: data.name,
@@ -80,6 +102,10 @@ function PrepareData(Data, type = "json") {
   }
 }
 
+export function consoleLog(message, ...optionalParams) {
+   // if (debug) console.log(message, JSON.stringify(optionalParams));
+}
+
 /* POST Request fetch function **/
 export async function Request(
   Base,
@@ -93,10 +119,12 @@ export async function Request(
   //also change content type
   const token = await getUserToken();
   let headers = {}
-  console.log("url", Base+Url, PrepareData(Data));
   
   if (!PreparedData) {
      headers["Content-Type"] = "application/json"
+  }
+  else {
+   headers["Content-Type"] = "multipart/form-data"
   }
 
   headers["Access-Control-Allow-Origin"] = "*"  
@@ -107,7 +135,7 @@ export async function Request(
      headers["Authorization"] = "Bearer " + token
   } else if (token != undefined && token !== null) {
      headers["Authorization"] = "Bearer " + token
-  }   
+  } 
   
   return fetch(Base + Url, {
      method: method,
@@ -118,12 +146,93 @@ export async function Request(
         return response.json();
      })
      .then((data) => {
-        let keys = Object.keys(data);
         return data
      })
      .catch((error) => {
         return error
      })
+}
+
+/* POST Request fetch function **/
+export async function UploadRequest(
+   Base,
+   Url,
+   Data,
+   method = "POST",
+   
+ ) {
+   const token = await getUserToken();
+   let headers = {}
+   
+   headers["Content-Type"] = "multipart/form-data"
+   headers["Access-Control-Allow-Origin"] = "*"  
+   headers["ClientId"] = CLIENT_ID
+   headers["ClientSecret"] = CLIENT_SECRET
+   
+   if (typeof token === "boolean" && token) {
+      headers["Authorization"] = "Bearer " + token
+   } else if (token != undefined && token !== null) {
+      headers["Authorization"] = "Bearer " + token
+   }   
+   
+   return fetch(Base + Url, {
+      method: method,
+      headers: headers,
+      body: Data,
+   })
+      .then((response) => {
+         return response.json();
+      })
+      .then((data) => {
+         let keys = Object.keys(data);
+         return data
+      })
+      .catch((error) => {
+         return error
+      })
+ }
+
+export const uploadMultipleFile = async (images) => {
+   return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      images.forEach((item, i) => {
+         const filename = item.path.substring(item.path.lastIndexOf('/') + 1)
+         formData.append("model", {
+            uri: item.path,
+            name: `${Date.now()}_${filename}`,
+            type: item.mime
+         });
+      });
+      UploadRequest(urls.storageBase, `${urls.v}upload/multiple`, formData)
+      .then((response) => {
+         resolve(response);
+      })
+      .catch((error) => {
+         reject(error)
+      })
+   })
+   
+}
+export const uploadFile = async (image, fname) => {
+   
+   return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      const filename = fname ? fname : image.path.substring(image.path.lastIndexOf('/') + 1)
+      formData.append("File", {
+         uri: image.path || image.uri,
+         name: `${Date.now()}_${filename}`,
+         type: image.mime || image.type
+      });
+      formData.append('FileName', filename)
+      UploadRequest(urls.storageBase, `${urls.v}upload`, formData)
+      .then((response) => {
+         resolve(response)
+      })
+      .catch((error) => {
+         reject(error)
+      })
+   })
+   
 }
 
 export async function GetRequest(Base, Url, accessToken, type = "GET") {
@@ -133,6 +242,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
    } else {
       token = await getUserToken();
    }
+
    let headers = {
      Accept: "application/json",
      "Content-Type": "application/json",
@@ -155,6 +265,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
      })
      .catch((error) => {
        let data = {error: error, type: "error"}
+      //  if (debug) console.log("error", error);
         return data
      })
 }
@@ -171,4 +282,27 @@ export const successMessage = (message) => {
    showMessage({
       message, type: "success", floating: true
     });
+}
+
+export async function uploadImageApi(data, single=true) {
+
+   const token = await getUserToken();
+   let url = urls.storageBase + urls.v;
+   url += (single ? urls.singleUpload : urls.multiUpload);
+   // url = "http://192.168.43.111:8000/api/farm/upload/";
+ 
+   let res =  RNFetchBlob.fetch('POST', url, {
+      'Content-Type' : 'multipart/form-data',
+      ClientId: CLIENT_ID,
+      ClientSecret: CLIENT_SECRET,
+      "Authorization": "Bearer " + token,
+    }, data)
+    .then((resp) => {  
+        return resp;
+    }).catch((err) => {
+        errorMessage(err);
+        return err;
+    });
+
+    return res;
 }

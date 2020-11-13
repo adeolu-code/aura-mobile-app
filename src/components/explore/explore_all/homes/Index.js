@@ -104,7 +104,7 @@ class Index extends Component {
     return (
       <View style={{paddingHorizontal: 20}}>
         <ItemComponent title={item.title} price={`₦ ${formattedAmount} / night`} location={item.state} verified={item.isVerified}
-            img={{uri:item.mainImage.assetPath}} type={type} onPress={this.linkHouse.bind(this, item)} />
+            img={{uri:item.mainImage.assetPath}} type={type} onPress={this.linkHouse.bind(this, item)} rating={item.rating} />
       </View>
     )
     

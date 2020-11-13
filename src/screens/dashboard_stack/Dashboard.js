@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MyText } from '../../utils/Index';
 import colors from '../../colors';
 
@@ -12,7 +12,7 @@ import CommentRow from '../../components/CommentRow';
 import RatingRow from '../../components/dashboard/RatingRow';
 
 import { AppContext } from '../../../AppProvider';
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { urls, GetRequest } from '../../utils';
 
 class Dashboard extends Component {
   static contextType = AppContext;
@@ -142,7 +142,7 @@ this.setState({ error: true });
       })
       return (
         <View>
-          <View style={[flexRow, contentHeader]}>
+            <View style={[flexRow, contentHeader]}>
               <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Reservations</MyText>
               <TouchableOpacity onPress={this.linkToReservations}>
                 <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
@@ -226,16 +226,16 @@ this.setState({ error: true });
 
   getRatings = async () => {
     try {
-      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
-      if (!response.isError) {
-          const data = response.data;
-          this.setState({ ratings: data });
-           console.log(data);
-      } else { this.setState({ error: true }); }
-  } catch (e) {
-    console.log(e);
-this.setState({ error: true });
-}
+          const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
+          if (!response.isError) {
+              const data = response.data;
+              this.setState({ ratings: data });
+              console.log(data);
+          } else { this.setState({ error: true }); }
+      } catch (e) {
+        console.log(e);
+      this.setState({ error: true });
+    }
   }
 
   renderRatings = () => {
@@ -291,16 +291,14 @@ this.setState({ error: true });
 
 
   render() {
-    const { subHeaderContainer, profileContainer, walletContainer, imgContainer, profileImg, profileText, firstRow, 
-      secondRow, viewContainer, walletImgContainer, contentContainer, contentHeader,
-      contentBody, rowContainer, divider, noBorderBottom } = styles;
-    const { textBold, textH4Style, flexRow, imgStyle, textH3Style, textGrey, textWhite,
-      textH5Style, textFadedGreen, textDarkGreen, textH2Style, textExtraBold, textGreen,
-      textUnderline, textDarkGrey } = GStyles;
+    const { subHeaderContainer, profileContainer, walletContainer, profileText, firstRow, 
+      secondRow, viewContainer, walletImgContainer, contentContainer, noBorderBottom } = styles;
+    const { textBold, textH4Style, flexRow, imgStyle, textGrey, textWhite,
+      textH5Style, textDarkGreen, textH2Style, textExtraBold } = GStyles;
     return (
       <SafeAreaView style={{ flex: 1}}>
         <Header {...this.props} title="Dashboard" />
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="always">
           <View style={subHeaderContainer}>
             <View style={[flexRow, profileContainer]}>
                 {this.renderProfilePhoto()}

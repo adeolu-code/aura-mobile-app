@@ -24,29 +24,31 @@ export default class UploadPropertyImage extends Component {
             <>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="Upload Quality Photos" sub={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."} />
+                    
+                    <Header {...this.props} title="Upload Quality Photos" sub={"Catch guests’ attention with a listing title that highlights what makes your place special."} />
+                    
                     <Container style={[Styles.container, {marginTop: 180}]}>
                         <Content scrollEnabled>
                             <Section 
-                                style={{backgroundColor: colors.lightGreen}} 
+                                style={{backgroundColor: colors.lightGreen, marginBottom: 40}} 
                                 label={"Hire A"}
                                 title={"Photographer"}
                                 desciption={"Lorem ipsum dolor sit amet, consectetur adipiscing."}
                                 hireStyle={{backgroundColor: colors.fadedGreen,}}
                                 titleStyle={textWhite}
                                 desciptionStyle={textWhite}
-                                image={require("./../../assets/images/profile/Group3990/Group3990_2x.png")}
+                                image={require("./../../assets/images/img_upload/photograph.png")}
                                 onPress={() => this.props.navigation.navigate('PickPropertyImage')}
                             />
                             <Section 
-                                style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, overflow: "hidden"}} 
+                                style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, borderColor: colors.grey, overflow: "hidden"}} 
                                 label={"I Can"}
                                 title={"Take My Own Pictures"}
                                 desciption={"Lorem ipsum dolor sit amet, consectetur adipiscing."}
                                 hireStyle={{backgroundColor: colors.black,}}
                                 titleStyle={textBlack}
                                 desciptionStyle={textBlack}
-                                image={require("./../../assets/images/profile/Component125-1/Component125–1_2x.png")}
+                                image={require("./../../assets/images/img_upload/take_photo.png")}
                                 onPress={() => this.props.navigation.navigate('PickPropertyImage')}
                             />
 
@@ -60,7 +62,7 @@ export default class UploadPropertyImage extends Component {
 
 const Section = (props) => {
     const {
-        textWhite,
+        textWhite, textH3Style,
         textBold,
         textH2Style,
         textExtraBold,
@@ -75,7 +77,7 @@ const Section = (props) => {
                     </MyText>
                 </View>
                 <View style={[Styles.lowerTextView]}>
-                    <MyText style={[textExtraBold,textH2Style,props.titleStyle]}>{props.title}</MyText>
+                    <MyText style={[textExtraBold,textH3Style,{ marginBottom: 10}, props.titleStyle ]}>{props.title}</MyText>
                     <MyText style={[textH5Style,props.desciptionStyle]}>
                     {props.desciption}
                     </MyText>
@@ -84,7 +86,7 @@ const Section = (props) => {
             <View style={[Styles.imageView]}>
                 <Image 
                     source={props.image} 
-                    resizeMode={"center"}
+                    resizeMode={"contain"}
                     style={[Styles.cameraImage]}
                 />
             </View>

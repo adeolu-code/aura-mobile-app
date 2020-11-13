@@ -10,7 +10,7 @@ import { MyText, Loading } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import {LabelInput as EditInput} from "./../../components/label_input/labelInput.component";
 import { AppContext } from "../../../AppProvider";
-import { editProfileApi } from "../../components/api/profile.api";
+import { editProfileApi } from "../../api/profile.api";
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import  from "@react-native-community/picker";
@@ -59,6 +59,7 @@ export default class EditProfile extends Component {
     }
 
     render() {
+        console.log("this.context.state.dateofBirth", this.context.state.userData.dateofBirth);
         const {textCenter, textH3Style, textWhite, textBold,textGreen} = GStyles;
         return (
             <>
@@ -97,10 +98,13 @@ export default class EditProfile extends Component {
                                 <EditInput 
                                     dateTime 
                                     label={"Date of Birth"} 
-                                    defaultDate={this.state.dob || new Date()}
+                                    defaultDate={new Date(this.context.state.userData.dateofBirth) || new Date()}
                                     maximumDate={new Date()}
                                     itemStyle={{flex: 0.5, marginLeft: 5}} 
-                                    onChange={(e) => this.setState({dob: new Date(e)})}
+                                    onChange={(e) => {
+                                        this.setState({dob: new Date(e)});
+                                        console.log("selected ", e)
+                                    }}
                                 />
                                 <EditInput 
                                     picker 

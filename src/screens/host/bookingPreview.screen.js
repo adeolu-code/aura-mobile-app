@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
 import { Styles } from "./host.style";
-import { MyText } from "../../utils/Index";
+import { MyText, CustomButton } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 
 export default class BookingPreview extends Component {
@@ -36,7 +36,7 @@ export default class BookingPreview extends Component {
                         {...this.props} 
                         title="Here’s How Guests Will Book With You" 
                     />
-                    <Container style={[Styles.container, {marginTop: 140}]}>
+                    <Container style={[Styles.container, {marginTop: 160}]}>
                         <Content scrollEnabled>
                             <Item 
                                 title={"Qualified Guests Find Your Listing"}
@@ -57,12 +57,9 @@ export default class BookingPreview extends Component {
                             />
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
-                            <TouchableOpacity 
-                                style={[Styles.nextButton, {marginTop: 10}]}
-                                onPress={() => this.props.navigation.navigate('NotifyHost')}
-                            >
-                                <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Next</MyText>
-                            </TouchableOpacity>
+                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
+                                onPress={() => this.props.navigation.navigate('NotifyHost')} />
+                            
                         </Footer>
                     </Container>
                 </SafeAreaView>
@@ -73,32 +70,30 @@ export default class BookingPreview extends Component {
 
 const Item = (props) => {
     const {
-        textBold,
+        textBold, textH4Style, textExtraBold, textH5Style, textGrey
       } = GStyles;
 
     const image = (props.image == undefined) ? false : ((props.image) ? true : false);
     return (
-        <View
-            style={[Styles.previewParentView]}
-        >
+        <View style={[Styles.previewParentView, { paddingHorizontal: 0}]}>
             <View style={[Styles.previewIconParent ]}>
                 {
                     image ?
                     <View style={[Styles.shieldView]}>
-                        <Image  
-                        source={require("./../../assets/images/account_verification/shield_2x.png")} 
-                        style={[Styles.imageShield]}
-                        resizeMode={"contain"}
-                    />
+                        <Image source={require("./../../assets/images/account_verification/shield_2x.png")} 
+                        style={[Styles.imageShield]} resizeMode={"contain"} />
                     </View>
                     :
-                        <Icon name={'ios-checkmark-circle-sharp'} style={[Styles.alertIcon]} />
+                    <View style={[Styles.checkContainer]}>
+                        {/* <Icon name={'check'} type="Feather" style={[Styles.alertIcon]} /> */}
+                        <Icon name={'check'} type="Feather" style={{ color: colors.white, fontSize: 16}} />
+                    </View>
                 }
             </View>
             
             <View style={[Styles.middleSection]}>
-                <MyText style={[textBold, Styles.previewTitle]}>{props.title}</MyText>
-                <MyText style={[Styles.content]}>
+                <MyText style={[textBold, textH4Style, Styles.previewTitle]}>{props.title}</MyText>
+                <MyText style={[textH5Style, textGrey, Styles.content]}>
                     {props.content}
                 </MyText>
             </View>

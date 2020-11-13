@@ -14,6 +14,7 @@ export const Styles = StyleSheet.create({
     label: {
         color: colors.greyWhite,
         marginBottom: 5,
+        fontFamily: 'Nunito-Regular'
     },
     personalInfo: {
         flexDirection: "row",
