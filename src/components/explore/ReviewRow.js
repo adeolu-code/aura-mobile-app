@@ -16,15 +16,16 @@ class ReviewRow extends Component {
     const {  container, reviewRow,
         progressContainer, progressStyle } = styles;
     const { flexRow, textDarkGrey, textH5Style, textLightGrey } = GStyles
-    const { title } = this.props
+    const { title, value } = this.props
+    const percent = ((value/5) * 100)
     return (
         <View style={[flexRow, reviewRow]}>
             <MyText style={[textH5Style, textDarkGrey, { flex: 1}]}>{title}</MyText>
             <View style={[flexRow, { alignItems: 'center',justifyContent: 'flex-end', flex: 1.5}]}>
                 <View style={progressContainer}>
-                    <View style={progressStyle}></View>
+                    <View style={[progressStyle, { width: `${percent}%`}]}></View>
                 </View>
-                <MyText style={[textH5Style, textDarkGrey]}>4.8</MyText>
+                <MyText style={[textH5Style, textDarkGrey]}>{value}</MyText>
             </View>
         </View>
     );
@@ -40,7 +41,8 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     progressStyle: {
-        width: '80%', height: '100%', backgroundColor: colors.darkGrey, position: 'absolute', borderRadius: 10
+        // width: '80%', 
+        height: '100%', backgroundColor: colors.darkGrey, position: 'absolute', borderRadius: 10
     }
 });
 

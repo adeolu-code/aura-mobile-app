@@ -252,7 +252,7 @@ class Index extends Component {
               <TourImgComponent {...this.props} />
             </View>
             <View>
-              <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToTour} />
+              <CustomButton buttonText="Find More Tour" iconName="arrow-right" onPress={this.linkToTour} />
             </View>
           </View>
 

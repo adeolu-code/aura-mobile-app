@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, MyText } from '../utils/Index';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../assets/styles/GeneralStyles';
+import moment from 'moment'
 
 class CommentRow extends Component {
   constructor(props) {
@@ -13,22 +14,23 @@ class CommentRow extends Component {
   render() {
     const { container, rightContainer, imgContainer, leftContainer, dateContainer } = styles;
     const { flexRow, textGrey, textH4Style, imgStyle, textBold, textH5Style, textWhite } = GStyles;
-    const { name, white } = this.props;
+    const { name, white, date, imgUrl, comment } = this.props;
+    const formattedDate = moment(date).format('MMM DD, YYYY')
     return (
       <View style={[flexRow, container]}>
         <View style={leftContainer}>
             <View style={imgContainer}>
-                <Image source={require('../assets/images/photo/photo6.png')} resizeMode="cover" style={imgStyle} />
+                <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
             </View>
         </View>
         <View style={rightContainer}>
             <View style={[flexRow, dateContainer]}>
                 <MyText style={[textBold, textH4Style, white ? textWhite : '']}>{name}</MyText>
-                <MyText style={[ textH5Style, white ? textWhite : textGrey]}>Sept 12, 2019</MyText>
+                <MyText style={[ textH5Style, white ? textWhite : textGrey]}>{formattedDate}</MyText>
             </View>
             <View>
                 <MyText style={[textH4Style, white ? textWhite : textGrey]}>
-                Lorem ipsum dolor sit amet, veullri ma conset sadipscing elitr, sed diam nonumy eirmod tempor invidunt.
+                {comment} 
                 </MyText>
             </View>
         </View>
