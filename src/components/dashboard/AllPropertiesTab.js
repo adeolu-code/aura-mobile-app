@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText, Loading, Spinner} from '../../utils/Index';
 import { View, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';

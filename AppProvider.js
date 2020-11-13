@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component, useState } from "react";
 import { setContext, Request, GetRequest, urls } from "./src/utils";
 
@@ -16,7 +17,7 @@ const defaultContext = {
   roomTypes: [],
   gettingRoomTypes: false,
   propertyFormData: null,
-  location: null
+  location: null,
 };
 
 
@@ -89,10 +90,10 @@ class AppProvider extends Component {
           },
           getState: (key)=> this.state[key],
           getUserProfile: (token) => {
-            return this.getUserProfile(token)
+            return this.getUserProfile(token);
           },
           getRoomTypes: (value) => {
-            return this.getRoomTypes(value)
+            return this.getRoomTypes(value);
           },
           getPropertyTypes: () => {
             return this.getPropertyTypes()

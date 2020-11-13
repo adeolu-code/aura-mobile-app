@@ -90,28 +90,28 @@ this.setState({ error: true });
       const {userData} = this.context.state;
       const photo = userData.profilePicture;
       const { imgStyle } = GStyles;
-      const { imgContainer, profileImg} = styles;
-      if (photo === null) {
+      const {profileImg, imgContainer} = styles;
+      if (photo !== null) {
         return (
-            <View style={profileImg}>
-              <View style={imgContainer}>
-                <Image source={require('../../assets/images/photo/profile.png')} resizeMode="cover" style={imgStyle} />
-              </View>
+          <View style={profileImg}>
+            <View style={imgContainer}>
+              <Image source={{uri: photo}} style={imgStyle} />
             </View>
+          </View>
         );
       }
     } else {
       const {userData} = this.context.state;
-      const photo = userData.profilePicture;
       const { imgStyle } = GStyles;
-      const {profileImg, imgContainer} = styles;
+      const { imgContainer, profileImg} = styles;
+      console.log(userData.firstName);
       return (
-          <View style={profileImg}>
-            <View style={imgContainer}>
-              <Image source={{uri:photo}} style={imgStyle} />
-            </View>
-          </View>
-      );
+        <View style={profileImg}>
+              <View style={imgContainer}>
+                <Image source={require('../../assets/images/photo/profile.png')} resizeMode="cover" style={imgStyle} />
+              </View>
+        </View>
+     );
     }
   }
 
@@ -171,7 +171,7 @@ this.setState({ error: true });
 
   getComments = async () => {
     try {
-      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/comment/host');
+      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/comment/host/overview');
       if (!response.isError) {
           const data = response.data;
           this.setState({ comments: data });
@@ -191,7 +191,7 @@ this.setState({ error: true });
       const comment = comments.map((comment, i) => {
         return (
             <View>
-                <CommentRow name={comments[i].guestName} />
+                <CommentRow name={comments[i].guestName} text={comments[i].comment} review={comments[i].reviewedOn}  image={{uri: comments[i].profilePicture}} />
                 <View style={divider} />
             </View>
         )
@@ -251,6 +251,9 @@ this.setState({ error: true });
                   name={ratings[i].guestName}
                   img={{uri: ratings[i].profilePicture}}
                   location="Lagos"
+                  date={ratings[i].reviewedOn}
+                  reviewAction={ratings[i].reviewAction + 'Reviews'}
+                  commentAction={ratings[i].commentAction + 'Comments'}
               />
               <View style={divider} />
               </View>

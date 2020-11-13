@@ -1,7 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { MyText } from '../../utils/Index';
+import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 
 import Header from '../../components/Header';
@@ -11,13 +12,25 @@ import ReservationMainRow from '../../components/dashboard/ReservationMainRow';
 import { AppContext } from '../../../AppProvider';
 import { setContext, Request, urls, GetRequest } from '../../utils';
 
+
+import { ReservationsContext, ReservationsConsumer } from '../../../ReservationsProvider';
+
 class Reservations extends Component {
-  static contextType = AppContext;
+  static contextType = ReservationsContext;
   constructor(props) {
     super(props);
     this.state = { tabOneSelected: true, error : false };
   }
+  renderLoading = () => {
+    const { loading } = this.state;
+    if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
+}
   componentDidMount () {
+    const { appContext, propertyContext } = this.props;
+    console.log('Property context ', propertyContext)
+    propertyContext.getReservations();
+     propertyContext.getRecentReservations();
+    propertyContext.getConcludedReservations();
   }
   selectTabOne = () => {
     this.setState({ tabOneSelected: true })
@@ -28,45 +41,72 @@ class Reservations extends Component {
   }
 
 
+//   getRecentReservations = async () => {
+//     // const { userData, propertyTypes } = this.context.state;
+//     // const { activeRecentReservationsPage, perPage } = this.state;
+//     //  const type = propertyTypes.find(item => item.name.toLowerCase() === 'recent');
+
+//     return new Promise( async (resolve, reject) => {
+//      // this.set({ loadingRecentReservations: true });
+//       const res = await GetRequest(urls.bookingBase,
+//       `${urls.v}bookings/property/host/recent/reservations`);
+//       console.log(res.data)
+//      // /?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeRecentReservationsPage}&Size=${perPage}
+//       //this.set({ loadingRecentReservations: false });
+//       if (res.isError) {
+//         reject(res.message);
+//       } else {
+//         const data = res.data;
+//         resolve(data);
+//         //this.set({ recentReservations: data.data, activeRecentReservationsPage: data.page, totalRecentReservations: data.totalItems });
+//       }
+//     });
+//   }
+
   render() {
-    const { textGrey, textH3Style, textH4Style, textSuccess, textWhite, textH5Style, textBold, } = GStyles;
+    const { textGrey, textH3Style, textH4Style, textSuccess, textWhite, textH5Style, textH6Style, textBold, } = GStyles;
     const { reservationHeader, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
     const { tabOneSelected } = this.state;
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-        <Header {...this.props} title="Reservations" wrapperStyles={{ paddingBottom: 5}} 
-        sub="Bookings Made By Clients For Apartments And Hotels" />
-        <View style={reservationHeader}>
-            <View style={tabsContainer}>
-                <TouchableOpacity style={[tabStyle, tabOneSelected ? activeTab : '']} onPress={this.selectTabOne}>
-                    <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>Reservations</MyText>
-                </TouchableOpacity>
-                <TouchableOpacity style={[tabStyle, !tabOneSelected ? activeTab : '']} onPress={this.selectTabTwo}>
-                    <MyText style={[textH5Style, textBold, !tabOneSelected ? textWhite : textSuccess]}>Concluded Reservations</MyText>
-                </TouchableOpacity>
-            </View>
-        </View>
-        <ScrollView>
-            <View style={contentContainer}>
-                <View style={rowContainer}>
-                    <ReservationMainRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed2.png')}
-                    location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
-                </View>
-                <View style={rowContainer}>
-                    <ReservationMainRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')}
-                    location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
-                </View>
-                <View style={rowContainer}>
-                    <ReservationMainRow title="Masaka Homes" img={require('../../assets/images/places/bed3.png')}
-                    location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
-                </View>
-                <View style={rowContainer}>
-                    <ReservationMainRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')}
-                    location="Transcorp Hilton Abuja" reserve="1 Active Reservations" {...this.props} />
-                </View>
-            </View>
-        </ScrollView>
-      </SafeAreaView>
+      <ReservationsConsumer>
+          {(values) => (
+              <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
+              <Header {...this.props} title="Reservations" wrapperStyles={{ paddingBottom: 5}} 
+              sub="Bookings Made By Clients For Apartments And Hotels" />
+              <View style={reservationHeader}>
+                  <View style={tabsContainer}>
+                      <TouchableOpacity style={[tabStyle, tabOneSelected ? activeTab : '']} onPress={this.selectTabOne}>
+                          <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>Reservations</MyText>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={[tabStyle, !tabOneSelected ? activeTab : '']} onPress={this.selectTabTwo}>
+                          <MyText style={[textH6Style, textBold, !tabOneSelected ? textWhite : textSuccess]}>Concluded Reservations</MyText>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+              <ScrollView>
+                  <View style={contentContainer}>
+                      <View style={rowContainer}>
+                          <ReservationMainRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed2.png')}
+                          location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
+                      </View>
+                      <View style={rowContainer}>
+                          <ReservationMainRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')}
+                          location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
+                      </View>
+                      <View style={rowContainer}>
+                          <ReservationMainRow title="Masaka Homes" img={require('../../assets/images/places/bed3.png')}
+                          location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
+                      </View>
+                      <View style={rowContainer}>
+                          <ReservationMainRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')}
+                          location="Transcorp Hilton Abuja" reserve="1 Active Reservations" {...this.props} />
+                      </View>
+                      {/* {this.getRecentReservations()} */}
+                  </View>
+              </ScrollView>
+            </SafeAreaView>
+          )}
+      </ReservationsConsumer>
     );
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText, Spinner, Loading } from '../../utils/Index';
 import { View, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
@@ -26,7 +27,7 @@ class HotelsTab extends Component {
   }
   renderLoading = () => {
       const { loading } = this.state;
-      const { state } = this.props.propertyContext
+      const { state } = this.props.propertyContext;
       if (loading || state.loadingHotels) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
   }
   renderLoadMore = () => {

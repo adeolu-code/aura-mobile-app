@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText } from '../../utils/Index';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
@@ -15,7 +16,7 @@ class ReservationRow extends Component {
   render() {
     const { container, starContainer, imgContainer, rightContainer, iconStyle, orangeIcon, dateStyle } = styles
     const { flexRow, imgStyle, textBold, textH4Style, textH5Style, textGrey, textExtraBold, textFadedBlack } = GStyles;
-    const { title, location, reserve, calendar, img } = this.props
+    const { title, location, reserve, calendar, img } = this.props;
     return (
       <View style={[flexRow, container]}>
         <View style={imgContainer}>
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     },
     imgContainer: {
         width: 130, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
-        borderWidth: 1,
+        borderWidth: 1, borderColor: colors.lightGrey,
     },
     starContainer: {
         marginVertical: 8,

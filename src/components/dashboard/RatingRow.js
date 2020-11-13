@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText } from '../../utils/Index';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
@@ -17,7 +18,7 @@ class RatingRow extends Component {
     const { container, rightContainer, imgContainer, leftContainer, dateContainer, iconStyle, orangeIcon,
         starContainer } = styles;
     const { flexRow, textGrey, textH4Style, imgStyle, textBold, textH5Style, textDarkGrey } = GStyles;
-    const { name, location, img } = this.props;
+    const { name, location, img, reviewAction, commentAction, date } = this.props;
     return (
       <View style={[flexRow, container]}>
         <View style={leftContainer}>
@@ -28,7 +29,7 @@ class RatingRow extends Component {
         <View style={rightContainer}>
             <View style={[flexRow, dateContainer]}>
                 <MyText style={[textBold, textH4Style, textDarkGrey]}>{name}</MyText>
-                <MyText style={[textGrey, textH5Style]}>Sept 12, 2019</MyText>
+    <MyText style={[textGrey, textH5Style]}>{date}</MyText>
             </View>
             <View style={[flexRow, starContainer]}>
                 <Icon name="star" style={[iconStyle, orangeIcon]} />
@@ -39,8 +40,8 @@ class RatingRow extends Component {
             </View>
             <MyText style={[textH5Style, textGrey, { marginBottom: 18}]}>{location}</MyText>
             <View style={[flexRow]}>
-                <MyText style={[textGrey, textH5Style, { marginRight: 20}]}>1 Review</MyText>
-                <MyText style={[textGrey, textH5Style]}>1 Comment</MyText>
+    <MyText style={[textGrey, textH5Style, { marginRight: 20}]}>{reviewAction}</MyText>
+    <MyText style={[textGrey, textH5Style]}>{commentAction}</MyText>
             </View>
         </View>
         

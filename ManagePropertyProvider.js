@@ -23,19 +23,19 @@ class ManagePropertyProvider extends Component {
     })
   };
   getAllProperties = async () => {
-    const { userData } = this.context.state
-    const { activePropertiesPage, perPage } = this.state
+    const { userData } = this.context.state;
+    const { activePropertiesPage, perPage } = this.state;
     return new Promise( async (resolve, reject) => {
       this.set({ loadingAllProperties: true })
       const res = await GetRequest(urls.listingBase,  `${urls.v}listing/property/me/?UserId=${userData.id}&Page=${activePropertiesPage}&Size=${perPage}`);
       this.set({ loadingAllProperties: false })
-      if(res.isError) {
-        reject(res.message)
+      if (res.isError) {
+        reject(res.message);
       } else {
-        const data = res.data
+        const data = res.data;
         resolve(data)
         console.log('All properties ', res.data)
-        this.set({ properties: data.data, activePropertiesPage: data.page, totalAllProperties: data.totalItems })
+        this.set({ properties: data.data, activePropertiesPage: data.page, totalAllProperties: data.totalItems });
       }
     })
   }
@@ -52,23 +52,23 @@ class ManagePropertyProvider extends Component {
       if(res.isError) {
         reject(res.message)
       } else {
-        const data = res.data
-        resolve(data)
-        this.set({ hotels: data.data, activeHotelsPage: data.page, totalHotels: data.totalItems })
+        const data = res.data;
+        resolve(data);
+        this.set({ hotels: data.data, activeHotelsPage: data.page, totalHotels: data.totalItems });
       }
     })
   }
   getApartments = async () => {
-    const { userData, propertyTypes } = this.context.state
-    const { activeApartmentsPage, perPage } = this.state
-    const type = propertyTypes.find(item => item.name.toLowerCase() === 'apartment')
+    const { userData, propertyTypes } = this.context.state;
+    const { activeApartmentsPage, perPage } = this.state;
+    const type = propertyTypes.find(item => item.name.toLowerCase() === 'apartment');
 
     return new Promise( async (resolve, reject) => {
       this.set({ loadingApartments: true })
       const res = await GetRequest(urls.listingBase, 
       `${urls.v}listing/property/me/?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeApartmentsPage}&Size=${perPage}`);
       this.set({ loadingApartments: false })
-      if(res.isError) {
+      if (res.isError) {
         reject(res.message)
       } else {
         const data = res.data
