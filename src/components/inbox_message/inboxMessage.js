@@ -40,7 +40,9 @@ export default class InboxMessage extends Component {
                         <MyText style={[Styles.timeContent]}>{this.props.time}</MyText>
                         {
                             (this.props.newMessageCount != undefined && this.props.newMessageCount > 0 ) &&
-                            <MyText style={[Styles.newMessageCount]}>{this.props.newMessageCount}</MyText>
+                            <MyText style={[Styles.newMessageCount]}>
+                                {/* {this.props.newMessageCount} */}
+                            </MyText>
                         }
                     </View>
                 </View>

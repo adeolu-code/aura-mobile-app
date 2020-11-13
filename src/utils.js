@@ -51,6 +51,11 @@ export const urls = {
     conversation: "conversation/",
     host: "host/",
     user: "user/",
+    notification: "notification/",
+    unread: "unread/",
+    read: "read/",
+    count: "count/",
+    propertyById: "listing/property/",
 }
 const getUserToken = async () => {
 	try {
@@ -73,7 +78,6 @@ export function setContext(appContext) {
 }
 
 export function prepareMedia(image) {
-//   console.log("Media", JSON.stringify(image));
   // image crop picker
   return {
       uri: image.path,
@@ -82,20 +86,6 @@ export function prepareMedia(image) {
       mime: image.mime,
       name: image.fileName || image.modificationDate,
    };
-  //camera
-//   return {
-//     name: data.fileName || data.modificationDate,
-//     type: data.mime,
-//     uri: data.path,
-//     size: data.size,
-//   };
-  //photo picked
-  // return {
-  //   name: data.name,
-  //   type: data.type,
-  //   uri: data.uri,
-  //   size: data.size
-  // };
 }
 
 function PrepareData(Data, type = "json") {
@@ -112,55 +102,61 @@ function PrepareData(Data, type = "json") {
 }
 
 export function consoleLog(message, ...optionalParams) {
-   // if (debug) console.log(message, JSON.stringify(optionalParams));
+   if (debug) console.log(message, JSON.stringify(optionalParams));
 }
 
 /* POST Request fetch function **/
+/* POST Request fetch function **/
 export async function Request(
-  Base,
-  Url,
-  Data,
-  PreparedData = false,
-  method = "POST",
-  
-) {
-  //if PreparedData then no need to convert the data to json or multi part e.g is data being passed is already a form data
-  //also change content type
-  const token = await getUserToken();
-  let headers = {}
-  
-  if (!PreparedData) {
-     headers["Content-Type"] = "application/json"
-  }
-  else {
-   headers["Content-Type"] = "multipart/form-data"
-  }
-
-  headers["Access-Control-Allow-Origin"] = "*"  
-  headers["ClientId"] = CLIENT_ID
-  headers["ClientSecret"] = CLIENT_SECRET
-  
-  if (typeof token === "boolean" && token) {
-     headers["Authorization"] = "Bearer " + token
-  } else if (token != undefined && token !== null) {
-     headers["Authorization"] = "Bearer " + token
-  } 
-  
-  return fetch(Base + Url, {
-     method: method,
-     headers: headers,
-     body: !PreparedData ? PrepareData(Data) : Data,
-  })
-     .then((response) => {
-        return response.json();
-     })
-     .then((data) => {
-        return data
-     })
-     .catch((error) => {
-        return error
-     })
-}
+   Base,
+   Url,
+   Data,
+   PreparedData = false,
+   method = "POST",
+   
+ ) {
+   //if PreparedData then no need to convert the data to json or multi part e.g is data being passed is already a form data
+   //also change content type
+   const token = await getUserToken();
+   let headers = {}
+   consoleLog("url", Base+Url, Data)
+   
+   if (!PreparedData) {
+      headers["Content-Type"] = "application/json"
+   }
+   else {
+    headers["Content-Type"] = "multipart/form-data"
+   }
+ 
+   headers["Access-Control-Allow-Origin"] = "*"  
+   headers["ClientId"] = CLIENT_ID
+   headers["ClientSecret"] = CLIENT_SECRET
+   
+   if (typeof token === "boolean" && token) {
+      headers["Authorization"] = "Bearer " + token
+   } else if (token != undefined && token !== null) {
+      headers["Authorization"] = "Bearer " + token
+   } 
+   
+   return fetch(Base + Url, {
+      method: method,
+      headers: headers,
+      body: !PreparedData ? PrepareData(Data) : Data,
+   })
+      .then((response) => {
+         return response.json();
+      })
+      .then((data) => {
+         
+         consoleLog("returned data", data)
+         return data
+      })
+      .catch((error) => {
+         return error
+      })
+ }
+ 
+ 
 
 /* POST Request fetch function **/
 export async function UploadRequest(
@@ -271,7 +267,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
       
       url = url+"?"+search;
       
-      consoleLog("data,sett", data, url);
+      consoleLog("get data", data, url);
     }
     
     return fetch(url, {

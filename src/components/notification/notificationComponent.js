@@ -1,6 +1,6 @@
 import { Icon, View } from "native-base";
 import React, { Component } from "react"
-import { Pressable } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { AppContext } from "../../../AppProvider";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
@@ -9,7 +9,7 @@ import { Styles } from "./notification.style";
 export default class NotificationComponent extends Component {
     static contextType = AppContext;
     
-    constructor(props) {
+    constructor() {
         super();
         
         this.state = {
@@ -18,10 +18,10 @@ export default class NotificationComponent extends Component {
     }
 
     render() {
-        const {textBold, textCenter } = GStyles;
+        const {textBold } = GStyles;
         const alert = (this.props.alert == undefined) ? false : ((this.props.alert) ? true : false);
         return (
-            <Pressable
+            <TouchableOpacity
                 style={[Styles.parentView, (alert ? Styles.alertView: undefined)]}
                 onPress={() => this.props.onPress()}
             >
@@ -33,14 +33,20 @@ export default class NotificationComponent extends Component {
                 </View>
                 
                 <View style={[Styles.middleSection]}>
-                    <MyText style={[textBold, Styles.title]}>{this.props.title}</MyText>
+                    {
+                        this.props.title &&
+                        <MyText style={[textBold, Styles.title]}>{this.props.title}</MyText>
+                    }
                     <MyText style={[Styles.content]}>
                         {this.props.content.substring(0, 95) + "..."}
                     </MyText>
                 </View>
-                <MyText style={[Styles.time]}>{this.props.time}</MyText>
+                {
+                    this.props.time &&
+                    <MyText style={[Styles.time]}>{this.props.time}</MyText>
+                }
                 
-            </Pressable>
+            </TouchableOpacity>
         );
     }
 }
