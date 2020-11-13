@@ -41,7 +41,16 @@ export const urls = {
     otp: "otp/",
     generate: "generate/",
     verify: "verify/",
-    identity: "identity/"
+    identity: "identity/",
+    property: "property/",
+    booking: "bookings/",
+    messaging: "messaging/",
+    messageHeadline: "messaging/headline/",
+    guestMessageHeadline: "messaging/guest/headlinemessages",
+    hostMessageHeadline: "messaging/host/headlinemessages",
+    conversation: "conversation/",
+    host: "host/",
+    user: "user/",
 }
 const getUserToken = async () => {
 	try {
@@ -235,7 +244,7 @@ export const uploadFile = async (image, fname) => {
    
 }
 
-export async function GetRequest(Base, Url, accessToken, type = "GET") {
+export async function GetRequest(Base, Url, accessToken, type = "GET", data=undefined) {
    let token = '';
    if(accessToken) {
       token = accessToken;
@@ -253,7 +262,19 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
     } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
     }   
-    return fetch(Base + Url, {
+
+    let url = Base + Url;
+    if (data != undefined) {
+       
+      url = new URL(Base + Url);
+      let search = new URLSearchParams(data).toString();
+      
+      url = url+"?"+search;
+      
+      consoleLog("data,sett", data, url);
+    }
+    
+    return fetch(url, {
       method: type,
       headers: headers,
     })

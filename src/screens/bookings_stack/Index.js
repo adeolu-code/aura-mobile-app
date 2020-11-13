@@ -22,7 +22,7 @@ class Index extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
             {
-              !this.context.state.isLoggedIn ?
+              !this.context.state.isLoggedIn || !this.context.state.userData ?
               <PlaceHolderComponent title="Bookings" description={description} img={require('../../assets/images/booking/booking.png')} {...this.props} />
               :
               <BookingsScreen {...this.props} />

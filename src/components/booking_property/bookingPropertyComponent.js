@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { View, Icon, Text } from "native-base";
+import { View, Icon } from "native-base";
 import { Image, Pressable } from "react-native";
 import { Styles } from "./bookingProperty.style";
-import colors from "../../colors";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 
@@ -16,7 +15,15 @@ export default class BookingPropertyComponent extends Component {
     }
 
     render() {
-        const { textGrey, textH2Style, textH3Style, textBold, textDarkBlue, textH4Style, imgContainer, imgStyle, textCenter } = GStyles;
+        const { textBold, textH4Style } = GStyles;
+        let daysLeft = this.props.dayLeft;
+        if ((this.props.dayLeft < 1 && this.props.dayLeft > 0)) {
+            daysLeft = "< 1 day left";
+        }
+        else if (this.props.dayLeft == 0) {
+            daysLeft =  "Checked in";
+        }
+
         return (
             <>
                 <Pressable style={[Styles.parentView]} onPress={() => this.props.onClick && this.props.onClick()}>
@@ -39,7 +46,7 @@ export default class BookingPropertyComponent extends Component {
                                 {this.props.type}
                             </MyText>
                             <MyText style={[Styles.properyCheckinDays, textBold]}>
-                                {this.props.dayLeft} days to Check-in
+                                {daysLeft}
                             </MyText>
                         </View>
                         <Icon style={[Styles.iconSection]} name={"ios-ellipsis-vertical-sharp"} style={[Styles.icon]} />
