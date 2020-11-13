@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { urls, Request, successMessage, errorMessage, GetRequest } from "../utils";
+import { urls, Request, successMessage, errorMessage, GetRequest, consoleLog } from "../utils";
 
 export async function setNotificationSettingsApi(data, context) {
     
-    let res = await Request(urls.identityBase + urls.v1 , urls.user + urls.notificationSettings, data);
+    let res = await Request(urls.identityBase + urls.v , urls.user + urls.notificationSettings, data);
     if (res.isError) {
         errorMessage(res.message);
     }
@@ -34,7 +34,7 @@ export async function setNotificationSettingsApi(data, context) {
 
 export async function getNotificationSettingsApi(context) {
     
-    let res = await GetRequest(urls.identityBase + urls.v1 , urls.user + urls.notificationSettings);
+    let res = await GetRequest(urls.identityBase + urls.v , urls.user + urls.notificationSettings);
     
 // console.log("res.data.userId != undefinedl", (res.data.userId != undefined && res.data.userId != null))
     if (res.isError == true) {
@@ -45,6 +45,39 @@ export async function getNotificationSettingsApi(context) {
         if (res.data != undefined && res.data != null) {
             delete res.data.userId;
             context.set({notificationSettings: res.data});
+        }
+    }
+    
+    return res;
+}
+
+export async function getNotificationsApi() {
+    
+    let res = await GetRequest(urls.messagingBase + urls.messaging + urls.v, urls.notification + urls.unread);
+
+    if (res.isError == true) {
+        errorMessage(res.message);
+    }
+    else if (res.isError == false) {
+        if (res.data != undefined && res.data != null) {
+            return res.data;
+        }
+    }
+    
+    return res;
+}
+
+export async function markNotificationApi(notificationId) {
+    
+    let res = await Request(urls.messagingBase + urls.messaging + urls.v, urls.notification + urls.read + notificationId, {});
+    consoleLog("res", res);
+
+    if (res.isError == true) {
+        errorMessage(res.message);
+    }
+    else if (res.isError == false) {
+        if (res != undefined && res != null) {
+            return res;
         }
     }
     
