@@ -19,7 +19,7 @@ export default class InboxMessage extends Component {
     }
 
     render() {
-        const { textH1Style, textExtraBold, textDarkBlue, textBold } = GStyles;
+        const { textBold } = GStyles;
         return (
             <Pressable 
                 style={[Styles.parentView, this.props.parentStyle]}

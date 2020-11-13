@@ -4,6 +4,11 @@ import { Styles } from "./inbox.style";
 import { AppContext } from "../../../AppProvider";
 import InboxMessage from "../../components/inbox_message/inboxMessage";
 import { ScrollView } from "react-native";
+import { getChatListApi } from "../../api/chat.api";
+import { consoleLog } from "../../utils";
+import { INBOX_NO_UNREAD_MESSAGES } from "../../strings";
+import RenderNoRecord from "../../components/render_no_record/renderNoRecord";
+import moment from "moment";
 
 export default class InboxContent extends Component {
     static contextType = AppContext;
@@ -12,8 +17,33 @@ export default class InboxContent extends Component {
     super(props);
 
     this.state = {
-        
+      chatList: [],
+      page: 1,
+      pageSize: 10,
     };
+  }
+
+  componentDidMount() {
+    this.init();
+  }
+
+  init = () => {
+    this.getChatList();
+  }
+
+  getChatList = () => {
+    if (!this.context.state.userData) {
+      return;
+    }
+    
+    const roleHost = this.context.state.userData.roles.find(item => item === 'Host');
+    this.setState({roleHost: roleHost});
+    getChatListApi(roleHost, {
+      page: this.state.page,
+      pageSize: this.state.pageSize,
+    }).then(result => {
+      result !=undefined && this.setState({chatList: result.data});
+    })
   }
 
 
@@ -26,32 +56,40 @@ export default class InboxContent extends Component {
                 <Icon name={"search"} style={[Styles.icon]} />
             </Item>
             <ScrollView contentContainerStyle={[Styles.scrollView]}>
-                <InboxMessage 
-                    {...this.props}
-                    imageSource={require("./../../assets/images/photo/photo.png")} 
-                    messageContent={"It’s kind of common on the Internet where – if we fail"}
-                    messageSender={"Joseph Slane"}
-                    time={"13:39"}
-                    newMessageCount={1}
-                    onPress={() => this.props.navigation.navigate("InboxChat", {
-                      name: "Jospeh Slane",
-                      status: "Online",
-                      userImage: require("./../../assets/images/photo/photo.png"),
-                    })}
-                />
-                <InboxMessage 
-                    {...this.props}
-                    imageSource={require("./../../assets/images/photo/photo.png")} 
-                    messageContent={"It’s kind of common on the Internet where – if we fail"}
-                    messageSender={"Joseph Slane"}
-                    time={"13:39"}
-                    newMessageCount={0}
-                    onPress={() => this.props.navigation.navigate("InboxChat", {
-                      name: "Mike Ade",
-                      status: "Offline",
-                      userImage: require("./../../assets/images/photo/photo1.png"),
-                    })}
-                />
+                {
+                  this.state.chatList.length > 0 
+                  ?
+                    this.state.chatList.map((chat, index) => {
+                      const uri = ( !this.state.roleHost ? chat.host_Picture : chat.guest_Photo);
+                      const userNname = !this.state.roleHost ? chat.host_Name : chat.guest_Name;
+                      consoleLog("uri", uri);
+                      return (
+                        <InboxMessage 
+                            {...this.props}
+                            key={index}
+                            imageSource={uri ? {uri: uri} : undefined}
+                            messageContent={chat.message_Body}
+                            messageSender={userNname}
+                            time={moment(chat.dateSent).fromNow()}
+                            newMessageCount={!chat.is_Read ? 1 : 0}
+                            onPress={() => this.props.navigation.navigate("InboxChat", {
+                              name: chat.host_Name || chat.guest_Name,
+                              status: "Online",
+                              userImage: uri ? {uri: uri} : undefined,
+                              chatId: chat.id,
+                              propertyId: chat.property_Id,
+                              userId: chat.user_Id,
+                              roleHost: this.state.roleHost,
+                            })}
+                        />
+                      );
+                    })
+                  :
+                    <RenderNoRecord
+                        descriptionOnly={true}
+                        description={INBOX_NO_UNREAD_MESSAGES}
+                    />
+                }
             </ScrollView>
             
         </View>

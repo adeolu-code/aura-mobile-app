@@ -78,18 +78,20 @@ class ProfileScreenClass extends Component {
             textH6Style, textOrange, textH1Style,
             textWhite, textH4Style
         } = GStyles;
-        consoleLog("user", this.context.state.userData)
+        consoleLog("user", this.context.state.userData,this.context.state.isLoggedIn, this.context.state.token)
+        const userIsLoggedIn = this.context.state.isLoggedIn && this.context.state.userData;
+        const userIsNotLoggedIn = !this.context.state.isLoggedIn || !this.context.state.userData;
         return (
             <Container>
                 <Content style={{flexGrow: 1}} scrollEnabled>
                     {
-                        !this.context.state.isLoggedIn &&
+                        userIsNotLoggedIn &&
                         <View style={[{paddingBottom: 30, paddingTop: 15, borderBottomColor: colors.lightGrey, borderBottomWidth: 1, paddingLeft: GLOBAL_PADDING, paddingRight: GLOBAL_PADDING}]}>
                             <MyText style={[textH1Style, textBold]}>Profile</MyText>
                         </View>
                     }
                     {
-                        this.context.state.isLoggedIn &&
+                        userIsLoggedIn &&
                     
                         <>
                             <TouchableOpacity 
@@ -151,7 +153,7 @@ class ProfileScreenClass extends Component {
                             iconImage={require("./../../assets/images/profile/education/education.png")}
                         />
                         {
-                            this.context.state.isLoggedIn &&
+                            userIsLoggedIn &&
                                 <>
                                 <ProfileComponent 
                                     title={"Host your Home/Hotel"} 
@@ -173,7 +175,7 @@ class ProfileScreenClass extends Component {
                         }
                     </View>
                     {
-                            this.context.state.isLoggedIn &&
+                            userIsLoggedIn &&
                             <Separator style={[Styles.separator]}>
                                 <MyText style={[Styles.separatorText]}>Support</MyText>
                             </Separator>
@@ -187,7 +189,7 @@ class ProfileScreenClass extends Component {
                             iconImage={require("./../../assets/images/profile/question/question.png")}
                         />
                         {
-                            this.context.state.isLoggedIn &&
+                            userIsLoggedIn &&
                             <ProfileComponent 
                                 title={"Give us Feedback"} 
                                 description={"Drop suggestions on how we can serve you better"} 
@@ -196,7 +198,7 @@ class ProfileScreenClass extends Component {
                         }
                     </View>
                     {
-                            this.context.state.isLoggedIn &&
+                            userIsLoggedIn &&
                             <>
                             <Separator style={[Styles.separator]}>
                                 <MyText style={[Styles.separatorText]}>Legal</MyText>
@@ -230,7 +232,7 @@ class ProfileScreenClass extends Component {
                     }
                 </Content>
                 {
-                        !this.context.state.isLoggedIn &&
+                        userIsNotLoggedIn &&
                         <Footer style={[Styles.transparentFooter, Styles.footer]}>
                             <View style={{flex: 1, padding: GLOBAL_PADDING}}>
                                 <TouchableOpacity

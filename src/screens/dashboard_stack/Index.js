@@ -18,7 +18,7 @@ class Index extends Component {
   renderLoginOrDashboard = () => {
     const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`;
     const { userData, isLoggedIn } = this.context.state;
-    if (isLoggedIn) {
+    if (isLoggedIn && userData) {
         const roleHost = userData.roles.find(item => item === 'Host')
         if (roleHost) {
           return (

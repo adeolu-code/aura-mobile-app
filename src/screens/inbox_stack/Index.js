@@ -21,7 +21,7 @@ class Index extends Component {
           <ScrollView>
             
             {
-              !this.context.state.isLoggedIn ?
+              !this.context.state.isLoggedIn || !this.context.state.userData ?
               <PlaceHolderComponent title="Inbox" description={description} img={require('../../assets/images/inbox/inbox.png')} />
               :
               <InboxScreen />
