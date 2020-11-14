@@ -47,7 +47,6 @@ class ScrollContent extends Component {
         this.setState({ loading: true })
         const res = await GetRequest(urls.photographyBase, 
             `${urls.v}photographer/all?Size=4&Page=1`);
-        console.log('Photographers ', res)
         this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;
@@ -70,7 +69,6 @@ class ScrollContent extends Component {
 
     renderPhotographers = () => {
         const { photographers } = this.state
-        console.log(photographers)
         const { scrollItemContainer } = styles;
         if(photographers.length !== 0) {
             return (

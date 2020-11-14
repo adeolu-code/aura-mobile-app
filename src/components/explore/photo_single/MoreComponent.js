@@ -27,7 +27,6 @@ class MoreComponent extends Component {
         const { photo } = this.props
         this.setState({ loading: true })
         const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/all?Size=5&Page=1`);
-        console.log('Photographers ', res)
         this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;
@@ -35,7 +34,6 @@ class MoreComponent extends Component {
             const data = res.data.data
 
             const photographers = data.filter(item => item.id !== photo.id)
-            console.log(data, photographers)
             this.setState({ photographers })
         }
     }

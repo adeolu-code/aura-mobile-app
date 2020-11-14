@@ -2,26 +2,30 @@ import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MyText, CustomButton } from '../../utils/Index';
 import colors from '../../colors';
-
+import moment from 'moment';
 import { Icon } from 'native-base'
 
 import GuestHeader from '../../components/dashboard/GuestHeader';
 import GStyles from '../../assets/styles/GeneralStyles';
 
+import { formatAmount } from '../../helpers'
+
 class GuestProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = { reservation: '' };
+    const { reservation } = props.route.params;
+    this.state.reservation = reservation
   }
 
   render() {
     const { contentContainer, titleStyle, rowContainer, detailsContainer, downloadContainer, lowerContainer, buttonContainer } = styles;
     const { flexRow, upperCase, textH5Style, textH4Style, textBold, textGrey, textRight, textH6Style, 
         textSuccess, textUnderline } = GStyles
+    const { reservation } = this.state
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-        <GuestHeader {...this.props} />
+        <GuestHeader {...this.props} reservation={reservation} />
         <ScrollView>
             <View>
                 <View style={contentContainer}>
@@ -34,39 +38,41 @@ class GuestProfile extends Component {
                         <View style={[flexRow, rowContainer]}>
                             <View>
                                 <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Check-In</MyText>
-                                <MyText  style={[textH4Style, textBold]}>24/06/2020</MyText>
+                                <MyText  style={[textH4Style, textBold]}>{moment(reservation.check_In_Date).format('DD/MM/YYYY')}</MyText>
                             </View>
                             <View>
                                 <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Check-out</MyText>
-                                <MyText style={[textH4Style, textBold]}>24/06/2020</MyText>
+                                <MyText style={[textH4Style, textBold]}>{moment(reservation.check_Out_Date).format('DD/MM/YYYY')}</MyText>
                             </View>
                         </View>
 
                         <View style={[flexRow, rowContainer]}>
                             <View>
                                 <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Check-In Time</MyText>
-                                <MyText  style={[textH4Style, textBold]}>3:00am</MyText>
+                                <MyText  style={[textH4Style, textBold]}>
+                                    {moment(reservation.arrival_Time_From, "hh:mm:ss").format('hh:mm a')}</MyText>
                             </View>
                             <View>
                                 <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Check-Out Time</MyText>
-                                <MyText style={[textH4Style, textBold, textRight]}>3:00am</MyText>
+                                <MyText style={[textH4Style, textBold, textRight]}>
+                                    {moment(reservation.arrival_Time_To, "hh:mm:ss").format('hh:mm a')}</MyText>
                             </View>
                         </View>
 
                         <View style={[flexRow, rowContainer]}>
                             <View>
                                 <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>No. of Rooms</MyText>
-                                <MyText  style={[textH4Style, textBold]}>3 Rooms</MyText>
+                                <MyText  style={[textH4Style, textBold]}>{reservation.no_Of_Rooms} Rooms</MyText>
                             </View>
                             <View>
                                 <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Amount Paid</MyText>
-                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>$</MyText>300/night</MyText>
+                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>₦</MyText> {formatAmount(reservation.total_Cost)} / night</MyText>
                             </View>
                         </View>
                         <View style={[flexRow, rowContainer]}>
                             <View>
-                                <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Date Blocked</MyText>
-                                <MyText style={[textH4Style, textBold]}>13/05/2020</MyText>
+                                <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Date Booked</MyText>
+                                <MyText style={[textH4Style, textBold]}>{moment(reservation.date_Booked).format('DD/MM/YYYY')}</MyText>
                             </View>
                         </View>
                     </View>
@@ -76,14 +82,14 @@ class GuestProfile extends Component {
                         <MyText style={[textH4Style, textSuccess, textUnderline, { marginLeft: 5}]}>Tap here to Download Invoice</MyText>
                     </View>
                 </View>
-                <View style={lowerContainer}>
+                {/* <View style={lowerContainer}>
                     <View style={buttonContainer}>
                         <CustomButton buttonText="View Booking Information" buttonStyle={{elevation: 2}} />
                     </View>
                     <View style={buttonContainer}>
                         <CustomButton buttonText="Decline Booking" buttonStyle={{backgroundColor: colors.darkGrey, elevation: 2}} />
                     </View>
-                </View>
+                </View> */}
             </View>
         </ScrollView>
       </SafeAreaView>

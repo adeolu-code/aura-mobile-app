@@ -7,7 +7,7 @@ import ExploreAllScreen from '../screens/explore/ExploreAll';
 
 import DashboardViewScreen from '../screens/dashboard_stack/Index';
 import DashboardScreen from '../screens/dashboard_stack/Dashboard';
-import ReservationsScreen from '../screens/dashboard_stack/Reservations';
+import ReservationsScreen from '../screens/dashboard_stack/ReservationsContainerProvider';
 import HomeDetailsScreen from '../screens/dashboard_stack/HomeDetails';
 import GuestProfileScreen from '../screens/dashboard_stack/GuestProfile';
 import ManagePropertiesScreen from '../screens/dashboard_stack/ManageProperties';

@@ -200,7 +200,7 @@ class Index extends Component {
             </MyText>
             <View style={searchContainer}>
               <SearchInput onFocus={this.openSearch} placeholder="Location, landmark, address" />
-              <AutoCompleteComponent />
+              {/* <AutoCompleteComponent /> */}
             </View>
           </ImageBackground>
 

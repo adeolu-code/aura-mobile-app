@@ -14,6 +14,8 @@ import RatingRow from '../../components/dashboard/RatingRow';
 import { AppContext } from '../../../AppProvider';
 import { urls, GetRequest } from '../../utils';
 
+import { formatAmount } from '../../helpers'
+
 class Dashboard extends Component {
   static contextType = AppContext;
   constructor(props) {
@@ -64,6 +66,11 @@ renderTotalEarnings = async () => {
   } catch (e) {
 this.setState({ error: true });
 }
+  }
+
+  linkToReservation = (item) => {
+    console.log(item)
+    this.props.navigation.navigate('HomeDetails', { propertyId: item.property_Id } )
   }
 
   linkToReservations = () => {
@@ -136,8 +143,8 @@ this.setState({ error: true });
       const {rowContainer, contentHeader, contentBody} = styles;
       const reservation = reservations.map((reservation, i) => {
         return (
-          <ReservationRow title={reservations[i].propertyTitle} img={{uri: reservations[i].propertyMainImage }}
-          location="Lagos" reserve={reservations[i].total + ' Reservations'} calendar />
+          <ReservationRow title={reservation.propertyTitle} img={{uri: reservation.propertyMainImage }}
+           reserve={reservation.total + ' Reservations'} calendar onPress={this.linkToReservation.bind(this, reservation)} />
         )
       })
       return (
@@ -320,11 +327,11 @@ this.setState({ error: true });
               <View style={[flexRow, secondRow]}>
                 <View>
                   <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Weekly Earnings</MyText>
-                  <MyText style={[textH2Style, textWhite, textExtraBold]}>₦ {this.state.weeklyEarnings}</MyText>
+                  <MyText style={[textH2Style, textWhite, textExtraBold]}>₦ {formatAmount(this.state.weeklyEarnings)}</MyText>
                 </View>
                 <View>
                   <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Total Earnings</MyText>
-                <MyText style={[textH2Style, textWhite, textExtraBold]}>₦ {this.state.totalEarnings}</MyText>
+                <MyText style={[textH2Style, textWhite, textExtraBold]}>₦ {formatAmount(this.state.totalEarnings)}</MyText>
                 </View>
               </View>
             </View>   
@@ -371,7 +378,7 @@ this.setState({ error: true });
 
 const styles = StyleSheet.create({
   subHeaderContainer: {
-    paddingTop: 130, backgroundColor: colors.white, paddingBottom: 30,
+    paddingTop: 140, backgroundColor: colors.white, paddingBottom: 30,
     paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey
   },
   imgContainer: {

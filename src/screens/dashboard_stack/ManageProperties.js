@@ -44,11 +44,11 @@ class ManageProperties extends Component {
   renderTabs = () => {
     const { tabOneSelected, tabTwoSelected, tabThreeSelected } = this.state;
     if(tabOneSelected) {
-        return <AllPropertiesTab {...this.props} {...this.props} />
+        return <AllPropertiesTab {...this.props}  />
     } else if(tabTwoSelected) {
-        return <HotelsTab {...this.props} {...this.props} />
+        return <HotelsTab {...this.props}  />
     } else if (tabThreeSelected) {
-        return <ApartmentsTab {...this.props} {...this.props} />
+        return <ApartmentsTab {...this.props} />
     } 
   }
 

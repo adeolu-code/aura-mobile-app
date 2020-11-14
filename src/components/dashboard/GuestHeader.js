@@ -17,6 +17,8 @@ class GuestHeader extends Component {
   render() {
     const { iconContainer, iconStyle, headerContainer, imgContainer, imgContainer1, infoContainer, imgTextContainer, container } = styles;
     const { imgStyle, flexRow, textH2Style, textH4Style, textExtraBold, textBold, textSuccess, textLgStyle, textDarkGrey } = GStyles
+    const { reservation } = this.props
+    const imgUrl = reservation.userIdentityUrl ? {uri: reservation.userIdentityUrl} : require('../../assets/images/profile.png')
     return (
       <View style={container}>
         <TouchableOpacity style={iconContainer} onPress={this.goBack}>
@@ -24,11 +26,11 @@ class GuestHeader extends Component {
         </TouchableOpacity>
         <View style={headerContainer}>
             <View style={imgContainer}>
-                <Image source={require('../../assets/images/photo/photo4.png')} style={imgStyle} resizeMode="cover" />
+                <Image source={imgUrl} style={imgStyle} resizeMode="cover" />
             </View>
-            <MyText style={[textExtraBold, textLgStyle, textDarkGrey]}>Nwabogor Joshua</MyText>
+            <MyText style={[textExtraBold, textLgStyle, textDarkGrey]}>{reservation.guest_Name}</MyText>
             <View style={[flexRow, infoContainer]}>
-                <TouchableOpacity style={imgTextContainer}>
+                {/* <TouchableOpacity style={imgTextContainer}>
                     <View style={imgContainer1}>
                         <Image source={require('../../assets/images/icons/phone.png')} resizeMode="contain"  />
                     </View>
@@ -39,7 +41,7 @@ class GuestHeader extends Component {
                         <Image source={require('../../assets/images/icons/envelope.png')} resizeMode="contain" />
                     </View>
                     <MyText style={[textH4Style, textSuccess, textBold]}>Message</MyText>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
       </View>

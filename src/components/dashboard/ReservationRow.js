@@ -16,9 +16,9 @@ class ReservationRow extends Component {
   render() {
     const { container, starContainer, imgContainer, rightContainer, iconStyle, orangeIcon, dateStyle } = styles
     const { flexRow, imgStyle, textBold, textH4Style, textH5Style, textGrey, textExtraBold, textFadedBlack } = GStyles;
-    const { title, location, reserve, calendar, img } = this.props;
+    const { title, location, reserve, calendar, img, onPress } = this.props;
     return (
-      <View style={[flexRow, container]}>
+      <TouchableOpacity style={[flexRow, container]} onPress={onPress}>
         <View style={imgContainer}>
             <Image source={img} resizeMode="cover" style={imgStyle} />
         </View>
@@ -38,7 +38,7 @@ class ReservationRow extends Component {
         {calendar ? <View style={dateStyle}>
             <Image source={require('../../assets/images/icons/date_add/date-add.png')} resizeMode="contain" style={{ width: 15, height: 15 }} />
         </View>: <View></View>}
-      </View>
+      </TouchableOpacity>
     );
   }
 }

@@ -13,15 +13,15 @@ import colors from '../../colors';
 class ConcludedReservationsTab extends Component {
     constructor(props) {
       super(props);
-      this.state = { loadMore: false };
+      this.state = { loadMore: false, loading: false };
     }
     renderLoading = () => {
         const { loading } = this.state;
-        const { state } = this.props.propertyContext;
-        if (loading || state.loadingConcludedReservations) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
+        const { state } = this.props.reservationsContext;
+        if (loading || state.loadingConReservations) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
     }
     renderLoadMore = () => {
-        const { state } = this.props.propertyContext
+        const { state } = this.props.reservationsContext
         const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
         if (state.loadMoreConcluded) {
             return (
@@ -32,42 +32,45 @@ class ConcludedReservationsTab extends Component {
             )
         }
     }
+    linkToReserve = (reservation) => {
+      this.props.navigation.navigate('HomeDetails', { propertyId: reservation.propertyId } )
+    }
     onEndReached = () => {
-        const { set, state, getConcludedReservations } = this.props.propertyContext;
-        if (state.activeConcludedReservationsPage < state.pageConcludedCount && !state.loadMoreConcluded) {
-          set({ activeConcludedReservationsPage: state.activeConcludedReservationsPage + 1 });
-          getConcludedReservations(true);
-        }
+        // const { set, state, getConcludedReservations } = this.props.reservationsContext;
+        // if (state.concludedReservationsPage < state.pageConcludedCount && !state.loadMoreConcluded) {
+        //   set({ concludedReservationsPage: state.concludedReservationsPage + 1 });
+        //   getConcludedReservations(true);
+        // }
         // console.log('End reached')
       }
     renderItem = ({item}) => {
       const { rowContainer } = styles
-      let title = item.title ? item.title : 'No title'
+      let title = item.title ? item.title : 'No title';
       title = shortenXterLength(title, 18)
-      const location = `${item.address} ${item.state}`
-      const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house.png')
-      const type = item.propertyType?.name;
+      const imgUrl = item.propertyImage ? {uri: item.propertyImage} : require('../../assets/images/no_house1.png')
+      const reserve = `${item.reservations} reservation(s)`
+      const payment = item.payment ? formatAmount(item.payment) : 0.00
       return (
           <View style={rowContainer}>
-              <ReservationMainRow title={title} img={imgUrl}  location={location} 
-              status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} />
+              <ReservationMainRow title={title} img={imgUrl} {...this.props} payment={payment}
+              propertyType={item.propertyType} reserve={reserve} onPress={this.linkToReserve.bind(this, item)} />
           </View>
       )
       
     }
     renderConcludedReservations = () => {
-        const { concludedReservations } = this.props.propertyContext.state;
+        const { concludedReservations } = this.props.reservationsContext.state;
         return (
             <FlatList
-              ListFooterComponent={
-                <>
-                  {this.renderLoadMore()}
-                </>
-              }
+              // ListFooterComponent={
+              //   <>
+              //     {this.renderLoadMore()}
+              //   </>
+              // }
               ListEmptyComponent={this.renderEmptyContainer()}
               data={concludedReservations}
               renderItem={this.renderItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.propertyId}
               onEndReached={this.onEndReached}
               onEndReachedThreshold={0.8}
               // extraData={selectedId}
@@ -78,8 +81,8 @@ class ConcludedReservationsTab extends Component {
     renderEmptyContainer = () => {
         const { emptyContainerStyle } = styles;
         const { imgStyle, textCenter, textOrange, textBold, textH4Style } = GStyles;
-        const { state } = this.props.propertyContext;
-        if (state.concludedReservations.length === 0 && !state.loadingConcludedReservations) {
+        const { state } = this.props.reservationsContext;
+        if (state.concludedReservations.length === 0 && !state.loadingConReservations) {
             return (
             <View style={{ flex: 1, paddingVertical: 60}}>
                 <View style={emptyContainerStyle}>
@@ -94,26 +97,22 @@ class ConcludedReservationsTab extends Component {
     render() {
       const { contentContainer, rowContainer } = styles;
       return (
-        // <>
-        //   {this.renderLoading()}
-        //   <View style={contentContainer}>
-        //       {this.renderConcludedReservations()}
-        //   </View>
-        // </>
-        <View style={rowContainer}>
-            <ReservationMainRow title="Paradise Havens" img={require('../../assets/images/places/bed2.png')}
-            location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
-        </View>
+        <>
+          {this.renderLoading()}
+          <View style={contentContainer}>
+              {this.renderConcludedReservations()}
+          </View>
+        </>
       );
     }
   }
   
   const styles = StyleSheet.create({
       contentContainer: {
-          paddingTop: 210, paddingHorizontal: 20, paddingBottom:30,
+        paddingTop: 250, paddingHorizontal: 20, paddingBottom:30,
       },
       rowContainer: {
-          marginBottom: 20,
+          marginBottom: 20, paddingHorizontal: 1, paddingVertical: 1
       },
       emptyContainerStyle: {
           height: 200, width: '100%', marginBottom: 20

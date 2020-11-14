@@ -7,9 +7,13 @@ import { AppContext } from './AppProvider';
 const ReservationsContext = React.createContext({});
 
 const defaultContext = {
-  loadingReservations: false, loadingRecentReservations: false, loadingConcludedReservations: false,
-  reservations: [], recentReservations: [], concludedReservations: [], totalReservations: 0, totalRecentReservations: [], totalConcludedReservations: 0,
-  activeReservationsPage: 1, activeRecentReservationsPage: 1, activeConcludedReservationsPage: 1, perPage: 10, pageRecentCount: 0, pageConcludedCount: 0, loadMoreConcluded: false, loadMoreRecent: false
+  loadingReservations: false, loadingConReservations: false,
+  reservations: [], concludedReservations: [], 
+  totalReservations: 0, totalConReservations: 0,
+  reservationsPage: 1, concludedReservationsPage: 1, 
+  perPage: 10, pageCountReservations: 0, 
+  pageCountConcluded: 0, 
+  loadMoreConcluded: false, loadMoreReservations: false
 };
 
 
@@ -24,55 +28,55 @@ class ReservationsProvider extends Component {
   };
   getRecentReservations = async (more) => {
     const { userData } = this.context.state;
-    const { activeRecentReservationsPage, perPage, recentReservations } = this.state;
-    more ? this.set({ loadMoreRecent: true }) : this.set({ loadingRecentReservations: true })
+    const { reservationsPage, perPage, reservations } = this.state;
+    more ? this.set({ loadMoreReservations: true }) : this.set({ loadingReservations: true })
 
     return new Promise( async (resolve, reject) => {
-      this.set({ loadingRecentReservations: true });
+      this.set({ loadingReservations: true });
+
       const res = await GetRequest(urls.bookingBase,
-      `${urls.v}bookings/property/host/recent/reservations/?UserId=${userData.id}&Page=${activeRecentReservationsPage}&Size=${perPage}`);
-      more ? this.set({ loadMoreRecent: false }) : this.set({ loadingRecentReservations: false });
-      console.log(res.data)
+      `${urls.v}bookings/property/host/recent/reservations/?Page=${reservationsPage}&Size=${perPage}`);
+
+      more ? this.set({ loadMoreReservations: false }) : this.set({ loadingReservations: false });
+      console.log('Recent reservations ',res)
       if (res.isError) {
         reject(res.message);
       } else {
-        const response = res.data;
-        resolve(response);
-        const dataResult = response.data;
+        resolve(res);
+        const dataResult = res.data;
         let data = [];
         if (more) {
-          data = [ ...recentReservations, ...dataResult ]
+          data = [ ...reservations, ...dataResult ]
         } else {
           data = dataResult;
         }
-        const pageRecentCount =  Math.ceil(response.totalItems / perPage)
-        this.set({ recentReservations: data.data, activeRecentReservationsPage: data.page, totalRecentReservations: data.totalItems, pageRecentCount });
+        const pageCountReservations =  Math.ceil(res.totalItems / perPage)
+        this.set({ reservations: data, reservationsPage: res.page, totalReservations: res.totalItems, pageCountReservations });
       }
     });
   }
   getConcludedReservations = async (more) => {
     const { userData} = this.context.state;
-    const { activeConcludedReservationsPage, perPage, concludedReservations } = this.state;
+    const { concludedReservationsPage, perPage, concludedReservations } = this.state;
 
     return new Promise( async (resolve, reject) => {
-      this.set({ loadingConcludedReservations: true });
+      this.set({ loadingConReservations: true });
       const res = await GetRequest(urls.bookingBase,
-      `${urls.v}bookings/property/host/concluded/reservations/?UserId=${userData.id}&Page=${activeConcludedReservationsPage}&Size=${perPage}`);
-      more ? this.set({ loadMoreConcluded: false }) : this.set({ loadingConcludedReservations: false });
+      `${urls.v}bookings/property/host/concluded/reservations/?Page=${concludedReservationsPage}&Size=${perPage}`);
+      more ? this.set({ loadMoreConcluded: false }) : this.set({ loadingConReservations: false });
       if (res.isError) {
         reject(res.message);
       } else {
-        const response = res.data;
-        resolve(response);
-        const dataResult = response.data;
+        resolve(res);
+        const dataResult = res.data;
         let data = [];
         if (more) {
           data = [ ...concludedReservations, ...dataResult ]
         } else {
           data = dataResult;
         }
-        const pageConcludedCount =  Math.ceil(response.totalItems / perPage)
-        this.set({ concludedReservations: data.data, activeConcludedReservationsPage: data.page, totalConcludedReservations: data.totalItems, pageConcludedCount});
+        const pageConcludedCount =  Math.ceil(res.totalItems / perPage)
+        this.set({ concludedReservations: data, concludedReservationsPage: res.page, totalConReservations: res.totalItems, pageConcludedCount});
     }
     });
   }

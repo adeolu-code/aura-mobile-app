@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { MyText } from '../../utils/Index';
+import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 
 import { Icon } from 'native-base'
@@ -9,24 +9,100 @@ import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 import GuestRow from '../../components/dashboard/GuestsRow';
 
+import { GetRequest, urls } from '../../utils'
+import { formatAmount } from '../../helpers'
+
 class HomeDetails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = { reservations: [], gettingReservations: false, propertyId: '', house: '', gettingHouse: false };
+        const { propertyId } = props.route.params;
+        this.state.propertyId = propertyId;
+    }
+    renderLoading = () => {
+        const { loading, gettingReservations, gettingHouse } = this.state;
+        if (gettingReservations || gettingHouse ) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
+    }
+    linkToGuest = (reservation) => {
+        this.props.navigation.navigate('GuestProfile', { reservation })
+    }
+    getReservation = async () => {
+        const { propertyId } = this.state
+        this.setState({ gettingReservations: true })
+        const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/ByProperty/?propertyId=${propertyId}`);
+        console.log('Reserve details ', res)
+        this.setState({ gettingReservations: false })
+        if(res.isError) {
+            const message = res.Message;
+        } else {
+            const data = res.data;
+            if(data !== null) {
+              this.setState({ reservations: data })
+            }
+        }
+    }
+    getHouse = async () => {
+        const { propertyId } = this.state
+        this.setState({ gettingHouse: true })
+        const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${propertyId}`);
+        console.log('House Details ', res)
+        this.setState({ gettingHouse: false })
+        if(res.isError) {
+            const message = res.Message;
+        } else {
+            const data = res.data;
+            if(data !== null) {
+              this.setState({ house: data })
+            }
+        }
+      }
+
+    renderGuests = () => {
+        const { reservations } = this.state
+        if(reservations.length !== 0) {
+            return reservations.map((item, index) => {
+                const imgUrl = item.userIdentityUrl ? {uri: item.userIdentityUrl} : require('../../assets/images/profile.png')
+                return (
+                    <View key={index}>
+                        <GuestRow name={item.guest_Name} img={imgUrl} {...this.props} onPress={this.linkToGuest.bind(this, item)} />
+                        <View style={styles.divider}></View>
+                    </View>
+                )
+            })
+        }
+    }
+    displayAmount = () => {
+        const { reservations } = this.state
+        if(reservations.length !== 0) {
+            return formatAmount(reservations.reduce((sum, current) => sum + current.total_Cost, 0))
+        }
+        return 0
+    }
+    componentDidMount = () => {
+        this.getReservation()
+        this.getHouse()
+    }
+
 
   render() {
     const { contentContainer, imgContainer, titleStyle, detailsContainer,rowContainer, lowerContainer, divider } = styles;
     const { imgStyle, flexRow,upperCase, textH5Style, textLightGrey, textGrey, textH4Style, textBold, textDarkGrey,
         textRight, textH6Style, textExtraBold, textH3Style, textH2Style } = GStyles
+    const { reservations, house } = this.state
+    const title = house ? house.title : ''
+    const address = house ? house.address : '';
+    const imgUrl = house && house.mainImage ? {uri: house.mainImage.assetPath} : require('../../assets/images/no_house1.png')
+    const propertyType = house ? house.propertyType.name : ''
+    const roomType = house ? house.roomType.name : ''
+    const reservationsCount = reservations;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-        <Header {...this.props} title="Umbaka Homes" wrapperStyles={{ paddingBottom: 5}} sub="Transcorp Hilton Abuja" />
+        {this.renderLoading()}
+        <Header {...this.props} title={title} wrapperStyles={{ paddingBottom: 5}} sub={address} />
         <ScrollView>
             <View style={contentContainer}>
                 <View style={imgContainer}>
-                    <Image source={require('../../assets/images/places/bed2.png')} resizeMode="cover" style={imgStyle} />
+                    <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
                 </View>
                 <View style={[flexRow, titleStyle]}>
                     <Icon name="information-circle" style={{ marginRight: 5, color: colors.grey, fontSize: 20}} />
@@ -37,7 +113,7 @@ class HomeDetails extends Component {
                     <View style={[flexRow, rowContainer]}>
                         <View>
                             <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Property Category</MyText>
-                            <MyText  style={[textH4Style, textBold]}>Hotel</MyText>
+                            <MyText  style={[textH4Style, textBold]}>{propertyType}</MyText>
                         </View>
                         <View>
                             <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Start Date</MyText>
@@ -48,7 +124,7 @@ class HomeDetails extends Component {
                     <View style={[flexRow, rowContainer]}>
                         <View>
                             <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Property Type</MyText>
-                            <MyText  style={[textH4Style, textBold]}>Platinum Room</MyText>
+                            <MyText  style={[textH4Style, textBold]}>{roomType}</MyText>
                         </View>
                         <View>
                             <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Time</MyText>
@@ -59,11 +135,11 @@ class HomeDetails extends Component {
                     <View style={[flexRow, rowContainer]}>
                         <View>
                             <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Reservation</MyText>
-                            <MyText  style={[textH4Style, textBold]}>3 Reservations</MyText>
+                            <MyText  style={[textH4Style, textBold]}>{reservations.length} Reservations</MyText>
                         </View>
                         <View>
                             <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Amount Paid</MyText>
-                            <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>$</MyText>300</MyText>
+                            <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>₦ </MyText>{this.displayAmount()}</MyText>
                         </View>
                     </View>
                 </View>
@@ -71,17 +147,11 @@ class HomeDetails extends Component {
 
             <View style={lowerContainer}>
                 <MyText style={[textH2Style, textExtraBold, textDarkGrey, { marginBottom: 25}]}>Guests</MyText>
-                <View>
-                    <GuestRow name="Nwabogor Joshua" img={require('../../assets/images/photo/photo.png')} {...this.props} />
-                    <View style={divider}></View>
-                </View>
-                <View>
-                    <GuestRow name="Cypril Hill" img={require('../../assets/images/photo/photo1.png')} {...this.props} />
-                    <View style={divider}></View>
-                </View>
+                {this.renderGuests()}
+                {/* 
                 <View>
                     <GuestRow name="Cypril Hill" img={require('../../assets/images/photo/photo4.png')} {...this.props} />
-                </View>
+                </View> */}
             </View>
         </ScrollView>
       </SafeAreaView>

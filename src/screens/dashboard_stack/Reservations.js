@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 
@@ -29,18 +29,17 @@ class Reservations extends Component {
     if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
 }
   componentDidMount () {
-    const {  propertyContext } = this.props;
-    console.log('Property context ', propertyContext)
-    // propertyContext.getReservations();
-    propertyContext.getRecentReservations();
-    propertyContext.getConcludedReservations();
+    const { reservationsContext } = this.props;
+    
+    reservationsContext.getRecentReservations();
+    reservationsContext.getConcludedReservations();
   }
   renderTabs = () => {
     const { tabOneSelected } = this.state;
     if (tabOneSelected) {
-        return <RecentReservationsTab {...this.props} {...this.props} />
+        return <RecentReservationsTab {...this.props} />
     } else {
-        return <ConcludedReservationsTab {...this.props} {...this.props} />
+        return <ConcludedReservationsTab {...this.props} />
     }
   }
   selectTabOne = () => {
@@ -52,34 +51,12 @@ class Reservations extends Component {
   }
 
 
-//   getRecentReservations = async () => {
-//     // const { userData, propertyTypes } = this.context.state;
-//     // const { activeRecentReservationsPage, perPage } = this.state;
-//     //  const type = propertyTypes.find(item => item.name.toLowerCase() === 'recent');
-
-//     return new Promise( async (resolve, reject) => {
-//      // this.set({ loadingRecentReservations: true });
-//       const res = await GetRequest(urls.bookingBase,
-//       `${urls.v}bookings/property`);
-//       console.log(res.data)
-//      // /?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeRecentReservationsPage}&Size=${perPage}
-//       //this.set({ loadingRecentReservations: false });
-//       if (res.isError) {
-//         reject(res.message);
-//       } else {
-//         const data = res.data;
-//         resolve(data);
-//         this.set({ recentReservations: data.data, activeRecentReservationsPage: data.page, totalRecentReservations: data.totalItems });
-//       }
-//     });
-//   }
-
   render() {
     const { textGrey, textH3Style, textH4Style, textSuccess, textWhite, textH5Style, textH6Style, textBold, } = GStyles;
     const { reservationHeader, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
     const { tabOneSelected } = this.state;
     return (
-              <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
               <Header {...this.props} title="Reservations" wrapperStyles={{ paddingBottom: 5}} 
               sub="Bookings Made By Clients For Apartments And Hotels" />
               <View style={reservationHeader}>
@@ -92,12 +69,8 @@ class Reservations extends Component {
                       </TouchableOpacity>
                   </View>
               </View>
-              <ScrollView>
-                  <View style={contentContainer}>
-                        {this.renderTabs()}
-                      {/* {this.getRecentReservations()} */}
-                  </View>
-              </ScrollView>
+              
+              {this.renderTabs()}
             </SafeAreaView>
     );
   }
@@ -118,7 +91,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.green, borderRadius: 6
     },
     contentContainer: {
-        paddingTop: 250, paddingHorizontal: 20, paddingBottom:30
+        paddingTop: 250,
     },
     rowContainer: {
         marginBottom: 20

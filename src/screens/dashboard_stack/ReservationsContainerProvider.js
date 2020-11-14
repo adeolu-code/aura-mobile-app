@@ -9,10 +9,11 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 import { AppContext, AppConsumer } from '../../../AppProvider';
 import { ReservationsContext, ReservationsConsumer } from '../../../ReservationsProvider';
+import { ReservationsProvider } from '../../../ReservationsProvider'
 
 
 
-import Reservations from './Reservations';
+import ReservationsHOC from './ReservationsContainer';
 
 
 class ReservationsContainer extends Component {
@@ -23,19 +24,11 @@ class ReservationsContainer extends Component {
   }
 
   
-
-  
   render() {
     return (
-      <AppConsumer>
-        {(appContext) => (
-          <ReservationsConsumer>
-            {(values) => (
-              <Reservations appContext={appContext} reservationsContext={values} {...this.props} />
-            )}
-          </ReservationsConsumer>
-        )}
-      </AppConsumer>
+      <ReservationsProvider>
+        <ReservationsHOC {...this.props} />
+      </ReservationsProvider>
     );
   }
 }

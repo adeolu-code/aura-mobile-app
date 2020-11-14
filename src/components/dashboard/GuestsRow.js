@@ -19,10 +19,10 @@ class GuestsRow extends Component {
   render() {
     const { flexRow, imgStyle, textH4Style,textDarkGrey, textBold } = GStyles;
     const { imgContainer, nameContainer, iconContainer, leftContainer, container } = styles
-    const { name, img } = this.props
+    const { name, img, onPress } = this.props
     return (
         <View>
-            <TouchableOpacity style={[flexRow, container]} onPress={this.linkToProfile}>
+            <TouchableOpacity style={[flexRow, container]} onPress={onPress}>
                 <View style={leftContainer}>
                     <View style={imgContainer}>
                         <Image source={img} resizeMode="cover"
