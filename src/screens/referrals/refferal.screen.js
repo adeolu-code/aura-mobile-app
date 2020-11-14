@@ -50,7 +50,7 @@ export default class Referrals extends Component {
         const { textOrange, textH5Style, textBold, textCenter, textH1Style} = GeneralStyles;
         return(
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+                {/* <StatusBar backgroundColor={colors.white} barStyle="dark-content" /> */}
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Referrals" />
                     <ScrollView style={[Styles.container]} horizontal={false}>

@@ -44,6 +44,26 @@ class ItemComponent extends Component {
       )
     }
   }
+  renderPrice = () => {
+    const { price } = this.props;
+    const { textSuccess, textExtraBold, textH4Style } = GStyles;
+    if(price) {
+      return (
+        <MyText style={[textSuccess,textExtraBold,textH4Style,{marginBottom: 5}]}>
+          {price}
+        </MyText>
+      )
+    }
+  }
+  renderLocation = () => {
+    const { location } = this.props;
+    const { textSuccess, textExtraBold, textH4Style, textGrey, textH5Style } = GStyles;
+    if(location) {
+      return (
+        <MyText style={[textGrey, textH5Style]}>{location}</MyText>
+      )
+    }
+  }
 
   render() {
     const { imgStyle, textDarkGrey, textSuccess, textExtraBold, textH4Style,marginBottomSmall, textGrey, 
@@ -59,15 +79,12 @@ class ItemComponent extends Component {
             {this.renderType()}
           </View>
           <View style={contentContainer}>
-            <MyText
-              style={[textSuccess,textExtraBold,textH4Style,{marginBottom: 5}]}>
-              {price}
-            </MyText>
+            {this.renderPrice()}
             <MyText style={[textDarkGrey, textH4Style, marginBottomSmall]}>
               {title}
             </MyText>
             <StarComponent grey rating={rating} />
-            <MyText style={[textGrey, textH5Style]}>{location}</MyText>
+            {this.renderLocation()}
           </View>
         </TouchableOpacity>
       </View>

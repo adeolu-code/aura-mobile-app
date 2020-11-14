@@ -16,6 +16,9 @@ class Index extends Component {
       photographers: [], totalItems: 0, activePage: 1, perPage: 10, pageCount: 0, loading: false, loadMore: false,
     };
   }
+  linkToPhoto = (photo) => {
+    this.props.navigation.navigate('Other', { screen: 'PhotoSingle', params: { photo } })
+  }
   renderLoading = () => {
       const { loading } = this.state;
       if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
@@ -25,7 +28,7 @@ class Index extends Component {
     const coverPhoto = item.coverPhoto ? {uri: item.coverPhoto} : require('../../../../assets/images/no_photo_img.png')
     return (
       <View style={{paddingHorizontal: 20}}>
-        <ItemComponent title={fullName} price="₦ 3,000" location="Lagos" verified={item.isVerified}
+        <ItemComponent title={fullName} verified={item.isVerified} onPress={this.linkToPhoto.bind(this, item)}
             img={coverPhoto} />
       </View>
     )
@@ -62,9 +65,25 @@ class Index extends Component {
         const message = res.Message;
       } else {
         const dataResult = res.data.data
+        let data = []
+        if(more) {
+          data = [...places, ...dataResult]
+        } else {
+          data = dataResult
+        }
         const pageCount =  Math.ceil(res.data.totalItems / perPage)
-        this.setState({ photographers: dataResult, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
+        this.setState({ photographers: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
       }
+  }
+  onEndReached = () => {
+    const { pageCount, activePage, loadMore } = this.state
+    if(activePage < pageCount && !loadMore) {
+      this.setState(()=>({ activePage: this.state.activePage + 1}), 
+      () => {
+        this.getPhotographers(true)
+      })
+    }
+    console.log('End reached')
   }
   renderLoadMore = () => {
     const { loadMore } = this.state;

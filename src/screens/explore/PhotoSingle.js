@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
-import { MyText } from '../../utils/Index';
+import { MyText, Loading } from '../../utils/Index';
 
 import colors from '../../colors';
 
@@ -20,11 +20,16 @@ import MoreComponent from '../../components/explore/photo_single/MoreComponent';
 import BottomMenuComponent from '../../components/explore/photo_single/BottomMenuComponent';
 import ContactModal from '../../components/explore/photo_single/ContactModal';
 
+import { setContext, Request, urls, GetRequest, successMessage, errorMessage } from '../../utils';
+import { AppContext } from '../../../AppProvider';
+
 
 class PhotoSingle extends Component {
   constructor(props) {
     super(props);
-    this.state = { showModal: false };
+    this.state = { showModal: false, photo: '', portofilo: [], gettingPhotographer: false, gettingPortofolio: false, loading: false };
+    const { photo } = props.route.params;
+    this.state.photo = photo
   }
   openModal = () => {
     this.setState({ showModal: true })
@@ -32,33 +37,79 @@ class PhotoSingle extends Component {
   closeModal = () => {
     this.setState({ showModal: false })
   }
+    renderLoading = () => {
+        const { gettingPhotographer, gettingPortofolio, loading } = this.state;
+        if (gettingPhotographer || gettingPortofolio || loading) { 
+            return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); 
+        }
+    }
+
+  getPhotographer = async () => {
+    const { photo } = this.state
+    this.setState({ gettingPhotographer: true })
+    const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/${photo.id}`);
+    console.log('Photographer ', res)
+    this.setState({ gettingPhotographer: false })
+    if(res.isError) {
+        const message = res.Message;
+    } else {
+        const data = res.data;
+        if(data !== null) {
+          this.setState({ photo: data })
+        }
+    }
+  }
+  getPortolio = async () => {
+    const { photo } = this.state
+    this.setState({ gettingPortofolio: true })
+    const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/photo/portfolio/${photo.id}`);
+    console.log('Photographer portofilo', res)
+    this.setState({ gettingPortofolio: false })
+    if(res.isError) {
+        const message = res.Message;
+    } else {
+        const data = res.data;
+        if(data !== null) {
+          this.setState({ portofilo: data })
+        }
+    }
+  }
+
+  componentDidMount = () => {
+    this.getPhotographer()
+    this.getPortolio()
+  }
 
   render() {
     const { contentStyles, contentWhiteStyles, buttomContainer } = styles
+    const { photo, portofilo } = this.state
+    const title = photo && photo.title ? photo.title : '****';
+    const location = photo && photo.address ? `${photo.address.state} photoshot` : ''
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
+            {this.renderLoading()}
             <BackHeader {...this.props} />
             <ScrollView>
                 <View>
-                    <Header title="Soulful Travel Memories Photos" />
-                    <ImagesComponent />
-                    <PhotographerDetails />
+                    <Header title={title} location={location} />
+                    <ImagesComponent portofilo={portofilo} />
+                    <PhotographerDetails photo={photo} />
 
                     <View style={contentStyles}>
-                        <HostComponent />
-                        <MorePhotosComponent />
-                        <EquipmentComponent />
-                        <CommentComponent />
+                        <HostComponent photo={photo} />
+                        {portofilo && portofilo.length > 5 ? <MorePhotosComponent portofilo={portofilo.slice(5)} /> : <></> }
+                        {photo ? <EquipmentComponent photo={photo} /> : <></>}
+                        {/* <CommentComponent /> */}
                     </View>
                     <View style={contentWhiteStyles}>
-                        <MoreComponent />
+                        {photo ? <MoreComponent photo={photo} {...this.props} /> : <></>}
                     </View>
                 </View>
             </ScrollView>
             <View style={buttomContainer}>
-                <BottomMenuComponent onPress={this.openModal} />
+                <BottomMenuComponent onPress={this.openModal}  />
             </View>
-            <ContactModal visible={this.state.showModal} onDecline={this.closeModal} />
+            {photo && photo.address ? <ContactModal visible={this.state.showModal} onDecline={this.closeModal} photo={photo} /> : <></>}
         </SafeAreaView>
     );
   }

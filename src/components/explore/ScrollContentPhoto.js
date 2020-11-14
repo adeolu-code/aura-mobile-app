@@ -80,20 +80,10 @@ class ScrollContent extends Component {
                     const coverPhoto = item.coverPhoto ? {uri: item.coverPhoto} : require('../../assets/images/no_photo_img.png')
                     return (
                         <View style={scrollItemContainer} key={key}>
-                            <PhotoComponent img={coverPhoto} 
+                            <PhotoComponent img={coverPhoto} photo={item}
                             title2="Photographer" location="Lagos" title1={fullName} {...this.props} />
                         </View>
                     )
-                    // const formattedAmount = formatAmount(item.pricePerNight)
-                    // let title = item.title ? item.title : 'no title'
-                    // title = shortenXterLength(title, 18)
-                    // const imgUrl = item.mainImage && item.mainImage.assetPath ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
-                    // return (
-                    //     <View style={scrollItemContainer} key={item.id}>
-                    //         <HouseComponent img={imgUrl} onPress={this.linkToHouse.bind(this, item)}
-                    //         title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} rating={item.rating} />
-                    //     </View>
-                    // )
                 })
             )
         }
@@ -116,7 +106,7 @@ class ScrollContent extends Component {
                 </View>
             )
         }
-      }
+    }
 
 
   render() {
@@ -129,7 +119,6 @@ class ScrollContent extends Component {
 
     const { photo } = this.props
 
-    // const actualWidth = (20/width) * 100
     return (
         <Fragment>
             <View style={photoContainer}>
@@ -148,25 +137,8 @@ class ScrollContent extends Component {
                         <View style={[scrollContainer, { width: '100%' }]}>
                             {this.renderPhotographers()}
                             {this.renderEmpty()}
-                            {/* <View style={scrollItemContainer}>
-                                <PhotoComponent img={require('../../assets/images/photo/photo.png')} 
-                                title2="Photographer" location="Lagos" title1="Daniel Ubake" {...this.props} />
-                            </View>
-                            <View style={scrollItemContainer}>
-                                <PhotoComponent img={require('../../assets/images/photo/photo1.png')} 
-                                title2="Photographer" location="Lagos" title1="Daniel Ubake" {...this.props} />
-                            </View>
-                            <View style={scrollItemContainer}>
-                                <PhotoComponent img={require('../../assets/images/photo/photo3.png')} 
-                                    title2="Photographer" location="Lagos" title1="Daniel Ubake" {...this.props} />
-                            </View>
-                            <View style={scrollItemContainer}>
-                                <PhotoComponent img={require('../../assets/images/photo/photo4.png')} 
-                                    title2="Photographer" location="Lagos" title1="Daniel Ubake" {...this.props} />
-                            </View> */}
                         </View>
                     </ScrollView>
-                    {/* <ScrollContentPhoto {...this.props} /> */}
                 </View>
                 {!loading && photographers.length !== 0 ? <View style={buttonContainer}>
                     <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToPhotograph} />
@@ -197,6 +169,7 @@ class ScrollContent extends Component {
     );
   }
 }
+const { width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
     scrollMainContainer: {
@@ -207,7 +180,9 @@ const styles = StyleSheet.create({
         // borderWidth: 1
     }, 
     scrollItemContainer: { 
-        marginRight: '1.8%', width: '21.5%'
+        marginRight: '1.8%', 
+        // width: '21.5%',
+        width: 0.42 * `${width}`,
     },
     photoContainer: {
         paddingVertical: 20,

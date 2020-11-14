@@ -31,7 +31,7 @@ class CommentComponent extends Component {
         if(comments.length !== 0 && !loading) {
             return comments.map((item, index) => {
                 const key = `CM_${index}`;
-                const imgUrl = item.profilePicture ? {uri: item.profilePicture} : require('../../assets/images/photo/profile.png')
+                const imgUrl = item.profilePicture ? {uri: item.profilePicture} : require('../../assets/images/profile.png')
                 return (
                     <Fragment key={key}>
                         <CommentRow name={item.name} imgUrl={imgUrl} comment={item.comment} date={item.date} />

@@ -2,21 +2,32 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList } from 'react-native';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton, Loading, Spinner } from '../../../../utils/Index';
+import { MyText, CustomButton, Loading } from '../../../../utils/Index';
 
 import { Icon } from 'native-base';
 import colors from '../../../../colors'
-import HouseComponent from '../../../../components/explore/HouseComponent'
+import HouseComponent from '../../HouseComponent'
 import { color } from 'react-native-reanimated';
 import { urls, GetRequest } from '../../../../utils';
-import { formatAmount, shortenXterLength } from '../../../../helpers';
-
 
 class ScrollContent extends Component {
     constructor(props) {
         super(props);
         this.state = { places: [], totalItems: 0, activePage: 1, perPage: 10, pageCount: 0, loading: false, loadMore: false };
     }
+    renderFoodComingSoon = () => {
+        const { comingSoonContainer, comingSoonImg } = styles
+        const { imgStyle, textH3Style, textExtraBold, textOrange, textCenter } = GStyles
+        return (
+          <View style={comingSoonContainer}>
+            <View style={comingSoonImg}>
+              <Image source={require('../../../../assets/images/food/food.png')} style={imgStyle} />
+            </View>
+            <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
+          </View>
+        )
+      }
+      
     renderLoading = () => {
         const { loading } = this.state;
         if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
@@ -31,7 +42,7 @@ class ScrollContent extends Component {
                 <View style={emptyContainerStyle}>
                 <Image source={require('../../../../assets/images/no_house1.png')} style={imgStyle} resizeMode="contain" />
                 </View>
-                <MyText style={[textBold, textCenter, textOrange]}>No Apartments and Hotels Found</MyText>
+                <MyText style={[textBold, textCenter, textOrange]}>No Photographer Found</MyText>
             </View>
             )
         }
@@ -58,103 +69,55 @@ class ScrollContent extends Component {
             this.setState({ places: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
         }
     }
-    onEndReached = () => {
-        const { pageCount, activePage, loadMore } = this.state
-        if(activePage < pageCount && !loadMore) {
-            this.setState(()=>({ activePage: this.state.activePage + 1}), 
-            () => {
-                this.getTopRatedPlaces(true)
-            })
-        }
-        console.log('End reached')
-    }
 
-    renderItem = ({item}) => {
-        const { scrollItemContainer } = styles
-        const formattedAmount = formatAmount(item.pricePerNight)
-        let title = item.title ? item.title : 'no title'
-        title = shortenXterLength(title, 18)
-        const type = item.propertyType?.name;
-        const imgUrl = item.mainImage ? { uri: item.mainImage.assetPath } : require('../../../../assets/images/no_house1.png')
-        return (
-            <View style={scrollItemContainer}>
-                <HouseComponent img={imgUrl} verified={item.isVerified} title={title} location={item.state} 
-                price={`₦ ${formattedAmount} / night`} {...this.props} rating={item.rating} />
-            </View>
-        )
+    renderItem = () => {
+
     }
 
     componentDidMount = () => {
-        this.getTopRatedPlaces()
+
     }
     renderLoadMore = () => {
         const { loadMore } = this.state;
         const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
         if(loadMore) {
             return (
-                <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
-                    <Spinner size={20} color={colors.orange} />
-                    <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
-                </View>
+            <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
+                <Spinner size={20} color={colors.orange} />
+                <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
+            </View>
             )
         }
     }
 
   render() {
-    const { heading, noDivider, onPress } = this.props
+    const { heading, noDivider, onPress, places } = this.props
     const { textH3Style, textExtraBold } = GStyles;
     const { scrollItemContainer, scrollContainer, headerContainer, buttonStyle, buttonContainer, dividerContainer, divider } = styles;
     const { width } = Dimensions.get('window')
-
-    const { places, loading } = this.state
 
     return (
       <View>
         <View style={headerContainer}>
             <MyText style={[textH3Style, textExtraBold]}>{heading}</MyText>
         </View>
-        {this.renderLoading()}
-        <FlatList
-            horizontal={true}
+        {/* <FlatList
             ListFooterComponent={
                 <>
                     {this.renderLoadMore()}
                 </>
             }
             ListEmptyComponent={this.renderEmptyContainer()}
-            ListFooterComponentStyle={{ marginBottom: 60, marginRight: 80}}
-            ListHeaderComponentStyle={{ marginBottom: 20, marginRight: 20}}
+            ListFooterComponentStyle={{ marginBottom: 40}}
+            ListHeaderComponentStyle={{ marginBottom: 20}}
             data={places}
             renderItem={this.renderItem}
             keyExtractor={(item) => item.id}
             onEndReached={this.onEndReached}
             onEndReachedThreshold={0.8}
             // extraData={selectedId}
-        />
-        {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
-            <View style={[scrollContainer, { width: '100%' }]}>
-                <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../../../assets/images/places/bed.png')} verified
-                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
-                </View>
-                <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../../../assets/images/places/bed1.png')} verified
-                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
-                </View>
-                <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../../../assets/images/places/bed2.png')} 
-                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
-                </View>
-                <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../../../assets/images/places/bed3.png')} 
-                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
-                </View>
-            </View>
-        </ScrollView> */}
-        {places.length !== 0 && !loading ? <View style={buttonContainer}>
-            <CustomButton buttonText="View more place" iconName="arrow-right"
-                buttonStyle={buttonStyle} onPress={onPress} />
-        </View> : <></>}
+        /> */}
+        {this.renderFoodComingSoon()}
         {!noDivider ? <View style={dividerContainer}>
             <View style={divider}></View>
         </View> : <View></View>}
@@ -162,7 +125,6 @@ class ScrollContent extends Component {
     );
   }
 }
-const { width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
     scrollContainer: {
@@ -170,13 +132,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
         // borderWidth: 1
     }, 
-    scrollItemContainer: {
-        paddingLeft: 20, 
-        marginRight: 10,
-        width: 0.45 * `${width}`
+    scrollItemContainer: { 
+        marginRight: '1.8%', width: '21.5%'
     },
     headerContainer: {
-        paddingHorizontal: 20, marginTop: 30, marginBottom: 30
+        paddingHorizontal: 20, marginTop: 30
     },
     buttonContainer: {
         paddingHorizontal: 20, marginTop: 20, marginBottom: 40
@@ -190,9 +150,12 @@ const styles = StyleSheet.create({
     divider: {
         height: 1, backgroundColor: colors.lightGrey, width: '100%'
     },
-    emptyContainerStyle: {
-        height: 160, width: '100%', marginBottom: 20, marginTop: 20
-    }
+    comingSoonContainer: {
+        padding: 20
+      },
+      comingSoonImg: {
+        height: 240, width: '100%', marginBottom: 20, borderRadius: 10, overflow: 'hidden'
+      }
 });
 
 export default ScrollContent;

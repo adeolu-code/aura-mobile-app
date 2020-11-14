@@ -21,37 +21,48 @@ class PhotographerDetails extends Component {
     };
   }
 
+  renderVerified = () => {
+      const { photo } = this.props;
+      if(photo && photo.isVerified) {
+          return (
+            <View style={{ position: 'absolute', right: 0, top: -5}}>
+                <View style={styles.iconVerifiedContainer}>
+                    <Icon name="check" type="FontAwesome5" style={styles.verifiedStyle} />
+                </View>
+            </View>
+          )
+      }
+  }
+
   render() {
     const { container, thumbContainer, thumbTxtContainer, divider, iconVerifiedContainer, 
         verifiedStyle, thumbStyle, iconStyle, contentContainer } = styles;
     const { flexRow, imgStyle, textExtraBold, textH3Style, textH4Style, textGrey, textH5Style, 
         textBold } = GStyles
+    const { photo } = this.props
+    const fullName = photo ? `${photo.firstName} ${photo.lastName}` : '****'
+    const imgUrl = photo && photo.coverPhoto ? {uri: photo.coverPhoto} : require('../../../assets/images/profile.png');
+    const description = photo ? photo.description : '****'
     return (
       <View style={container}>
         
         
         <View style={[flexRow, thumbTxtContainer]}>
             <View style={thumbContainer}>
-                <Image source={require('../../../assets/images/photo/photo3.png')} resizeMode="cover" style={thumbStyle} />
-                <View style={{ position: 'absolute', right: 0, top: -5}}>
-                    <View style={iconVerifiedContainer}>
-                        <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
-                    </View>
-                </View>
+                <Image source={imgUrl} resizeMode="cover" style={thumbStyle} />
+                {this.renderVerified()}
             </View>
             <View>
-                <MyText style={[textH3Style, { marginBottom: 5}]}>Kelechi Amadi</MyText>
+                <MyText style={[textH3Style, { marginBottom: 5}]}>{fullName}</MyText>
                 <StarComponent />
             </View>
         </View>
 
         <View>
-            <MyText style={[textGrey, textH4Style]}>
-            Quisque suscipit ipsum est, eu venenatis leo ornare eget. Ut porta facilisis elementum.
-            </MyText>
+            <MyText style={[textGrey, textH4Style]}>{description}</MyText>
         </View>
 
-        <View style={[flexRow, contentContainer]}>
+        {/* <View style={[flexRow, contentContainer]}>
             <View>
                 <Icon type="MaterialIcons" name="schedule" style={iconStyle} />
                 <MyText style={[textGrey, textH5Style, { marginBottom:5}]}>Duration Of Tour</MyText>
@@ -67,10 +78,10 @@ class PhotographerDetails extends Component {
                 <MyText style={[textGrey, textH5Style, { marginBottom:5}]}>Equipment</MyText>
                 <MyText style={[textH4Style]}>Camera</MyText>
             </View>
-        </View>
+        </View> */}
         
         
-        <View style={divider}></View>
+        {/* <View style={divider}></View> */}
       </View>
     );
   }

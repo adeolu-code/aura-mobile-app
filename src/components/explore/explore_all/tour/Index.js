@@ -14,26 +14,36 @@ class Index extends Component {
     this.state = {
     };
   }
+  renderTourComingSoon = () => {
+    const { comingSoonContainer, comingSoonImg } = styles
+    const { imgStyle, textH3Style, textExtraBold, textOrange, textCenter } = GStyles
+    return (
+      <View style={comingSoonContainer}>
+        <View style={comingSoonImg}>
+          <Image source={require('../../../../assets/images/photo/pic3.png')} style={imgStyle} />
+        </View>
+        <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
+      </View>
+    )
+  }
 
   render() {
-    const {filterContainer, container, contentContainer } = styles
+    const {filterContainer, container, contentContainer, contentMainContainer } = styles
     const { textH3Style, textExtraBold, textH4Style, textDarkGrey } = GStyles
     return (
       <View style={container}>
-        <TouchableOpacity style={filterContainer}>
+        <View style={contentMainContainer}>
+          <MyText style={[textH3Style, textExtraBold, { marginTop:30}]}>Tour Guides & Experiences On Aura</MyText>
+          {this.renderTourComingSoon()}
+        </View>
+        {/* <TouchableOpacity style={filterContainer}>
           <MyText style={[textH4Style, textDarkGrey]}>Filters</MyText>
         </TouchableOpacity>
         <MyText style={[textH3Style, textExtraBold, { marginTop:30}]}>Tour Guides & Experiences On Aura</MyText>
         <View style={contentContainer}>
-          <ItemComponent title="Kongo Mountains" price="₦ 10, 000 / person" location="Jos" verified
-          img={require('../../../../assets/images/photo/pic.png')} />
           <ItemComponent title="LaCampagne Tropicana" price="₦ 5,000 / person" location="Lagos" 
           img={require('../../../../assets/images/photo/pic3.png')} />
-          <ItemComponent title="Sea World" price="₦ 7,000 / person" location="Abuja" verified
-          img={require('../../../../assets/images/photo/pic4.png')} />
-          <ItemComponent title="Sea World" price="₦ 9,000" location="Lagos" 
-          img={require('../../../../assets/images/photo/pic5.png')} />
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -50,6 +60,15 @@ const styles = StyleSheet.create({
   filterContainer: {
     borderRadius: 30, borderWidth:1, borderColor: colors.darkGrey, paddingHorizontal: 20, paddingTop: 4, paddingBottom:6, 
     flexDirection: 'row', alignSelf: 'flex-start', marginTop: 20
+  },
+  contentMainContainer: {
+      marginTop:180,
+  },
+  comingSoonContainer: {
+    paddingVertical: 20
+  },
+  comingSoonImg: {
+    height: 240, width: '100%', marginBottom: 20, borderRadius: 10, overflow: 'hidden'
   }
 });
 

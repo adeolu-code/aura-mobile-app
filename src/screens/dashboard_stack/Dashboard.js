@@ -95,7 +95,7 @@ this.setState({ error: true });
         return (
             <View style={profileImg}>
               <View style={imgContainer}>
-                <Image source={require('../../assets/images/photo/profile.png')} resizeMode="cover" style={imgStyle} />
+                <Image source={require('../../assets/images/profile.png')} resizeMode="cover" style={imgStyle} />
               </View>
             </View>
         );

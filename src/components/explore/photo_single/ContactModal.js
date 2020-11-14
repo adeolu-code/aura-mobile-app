@@ -1,26 +1,78 @@
 import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, Image, ScrollView, Linking, Platform } from 'react-native';
 import { Icon } from 'native-base';
 import colors from '../../../colors';
 import GStyles from '../../../assets/styles/GeneralStyles';
 import { MyText, CustomButton } from '../../../utils/Index';
 import LocationComponent from '../LocationComponent';
 
+import { GOOGLE_API_KEY, GetRequest } from '../../../utils'
+
+
 
 
 class ContactModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loading: false, location: '' };
   }
+    renderVerified = () => {
+        const { photo } = this.props;
+        if(photo && photo.isVerified) {
+            return (
+                <View style={{ position: 'absolute', right: 0, top: -5}}>
+                    <View style={styles.iconVerifiedContainer}>
+                        <Icon name="check" type="FontAwesome5" style={styles.verifiedStyle} />
+                    </View>
+                </View>
+            )
+        }
+    }
+    getGeolocation = async () => {
+        const { photo } = this.props
+        this.setState({ loading: true })
+        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?address=${photo.address.street}&key=${GOOGLE_API_KEY}`)
+        this.setState({ loading: false })
+        this.setLocation(res.results[0])
+    }
+
+    setLocation = (result) => {
+        const geometry = result.geometry
+        const latitude = geometry.location.lat
+        const longitude = geometry.location.lng
+        this.setState({ location: { latitude, longitude }})
+    }
+
+    componentDidMount = () => {
+        this.getGeolocation()
+    }
+    call = () => {
+        const { photo } = this.props
+        const number = photo.phoneNumber
+        let phoneNumber = '';
+        if (Platform.OS === 'android') {
+            phoneNumber = `tel:${number}`;
+        } else {
+            phoneNumber = `telprompt:${number}`;
+        }
+        Linking.openURL(phoneNumber);
+    }
+    message = () => {
+        const { photo } = this.props
+        const number = photo.phoneNumber
+        const phoneNumber = `sms:${number}`;
+        Linking.openURL(phoneNumber);
+    }
 
   render() {
-    const { visible, onDecline } = this.props;
+    const { visible, onDecline, photo } = this.props;
     const { modalContainer, container, modalHeader, closeStyle,headerStyle, profileContainer, profileStyles, 
-        imgTextContainer, imgContainer, infoContainer, imgContainer1, iconVerifiedContainer, verifiedStyle, 
+        imgTextContainer, imgContainer, infoContainer, imgContainer1,  
         thumbStyle, divider, locationContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textDarkGrey, textCenter, textH5Style, 
         textH4Style, textGrey, textH3Style, textSuccess, textLgStyle, imgStyle, textBold } = GStyles
+    const fullName = photo ? `${photo.firstName} ${photo.lastName}` : '****';
+    const imgUrl = photo && photo.coverPhoto ? {uri: photo.coverPhoto} : require('../../../assets/images/profile.png');
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
             
@@ -39,22 +91,18 @@ class ContactModal extends Component {
                         <View style={[profileContainer]}>
                             <View style={profileStyles}>
                                 <View style={imgContainer}>
-                                    <Image source={require('../../../assets/images/photo/photo1.png')} style={thumbStyle} resizeMode="cover" />
-                                    <View style={{ position: 'absolute', right: 0, top: -5}}>
-                                        <View style={iconVerifiedContainer}>
-                                            <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
-                                        </View>
-                                    </View>
+                                    <Image source={imgUrl} style={thumbStyle} resizeMode="cover" />
+                                    {this.renderVerified()}
                                 </View>
-                                <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>Kelechi Amadi</MyText>
+                                <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>{fullName}</MyText>
                                 <View style={[flexRow, infoContainer]}>
-                                    <TouchableOpacity style={imgTextContainer}>
+                                    <TouchableOpacity style={imgTextContainer} onPress={this.call}>
                                         <View style={imgContainer1}>
                                             <Image source={require('../../../assets/images/icons/phone.png')} resizeMode="contain"  />
                                         </View>
                                         <MyText style={[textH4Style, textSuccess, textBold]}>Phone Call</MyText>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={imgTextContainer}>
+                                    <TouchableOpacity style={imgTextContainer} onPress={this.message}>
                                         <View style={imgContainer1}>
                                             <Image source={require('../../../assets/images/icons/envelope.png')} resizeMode="contain" />
                                         </View>
@@ -65,7 +113,8 @@ class ContactModal extends Component {
                         </View>
                         <View style={divider}></View>
                         <View style={locationContainer}>
-                            <LocationComponent noDivider wrapper={{paddingHorizontal: 0}} />
+                            {photo ? <LocationComponent noDivider wrapper={{paddingHorizontal: 0}} 
+                            address={photo ? photo.address.street : '***'} location={this.state.location ? this.state.location : false} /> : <></>}
                         </View>
                     </ScrollView>
 

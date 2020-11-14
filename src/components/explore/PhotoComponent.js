@@ -14,7 +14,8 @@ class PhotoComponent extends Component {
     this.state = {};
   }
   linkToPhoto = () => {
-    this.props.navigation.navigate('Other', { screen: 'PhotoSingle'})
+    const { photo } = this.props
+    this.props.navigation.navigate('Other', { screen: 'PhotoSingle', params: { photo } })
   }
 
   render() {

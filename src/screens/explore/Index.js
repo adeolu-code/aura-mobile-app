@@ -20,6 +20,8 @@ import ScrollContentPlaces from '../../components/explore/ScrollContentPlaces';
 import TourImgComponent from '../../components/explore/TourImgComponent';
 import SearchToggle from '../../components/explore/SearchToggle';
 
+import AutoCompleteComponent from '../../components/explore/AutoCompleteComponent';
+
 import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import Geolocation from 'react-native-geolocation-service';
@@ -198,6 +200,7 @@ class Index extends Component {
             </MyText>
             <View style={searchContainer}>
               <SearchInput onFocus={this.openSearch} placeholder="Location, landmark, address" />
+              <AutoCompleteComponent />
             </View>
           </ImageBackground>
 

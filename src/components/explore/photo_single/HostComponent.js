@@ -15,34 +15,54 @@ class HostComponent extends Component {
     this.state = {};
   }
 
+    renderVerified = () => {
+        const { photo } = this.props;
+        if(photo && photo.isVerified) {
+            return (
+                <View style={{ position: 'absolute', right: 0, top: -5}}>
+                    <View style={styles.iconVerifiedContainer}>
+                        <Icon name="check" type="FontAwesome5" style={styles.verifiedStyle} />
+                    </View>
+                </View>
+            )
+        }
+    }
+
   render() {
     const {  contentContainer, divider, container, headerStyle, thumbTxtContainer, thumbContainer, verifiedStyle, 
         iconVerifiedContainer, thumbStyle, buttonContainer, buttonStyle, shieldContainer, textStyle, lowerContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textGrey, textH4Style, textH5Style, 
             imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
+    const { photo } = this.props;
+    const fullName = photo ? `${photo.firstName} ${photo.lastName}` : '****'
+    const info = photo ? photo.additionalInformation : '****'
     return (
         <View style={container}>
-            <View style={headerStyle}>
+            <View style={contentContainer}>
+                <View style={[flexRow, lowerContainer]}>
+                    <View style={shieldContainer}>
+                        <Image source={require('../../../assets/images/icons/shield/shield.png')} resizeMode="contain" style={imgStyle} />
+                    </View>
+                    <View style={textStyle}>
+                        <MyText style={[textH5Style, textWhite]}>
+                        Do not make any payment to photographers outside of the Aura app or website to protect against scam.
+                        </MyText>
+                    </View>
+                </View>
+            </View>
+            {/* <View style={headerStyle}>
                 <MyText style={[textH2Style, textExtraBold, textWhite]}>Host Note</MyText>
             </View>
             <View style={contentContainer}>
                 <View style={[flexRow, thumbTxtContainer]}>
                     <View style={thumbContainer}>
                         <Image source={require('../../../assets/images/photo/photo5.png')} resizeMode="cover" style={thumbStyle} />
-                        <View style={{ position: 'absolute', right: 0, top: -5}}>
-                            <View style={iconVerifiedContainer}>
-                                <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
-                            </View>
-                        </View>
+                        {this.renderVerified()}
                     </View>
-                    <MyText style={[textH3Style, textWhite]}>Yuko Ono</MyText>
+                    <MyText style={[textH3Style, textWhite]}>{fullName}</MyText>
                 </View>
                 <View>
-                    <MyText style={[textWhite, textH4Style]}>Quisque suscipit ipsum est, eu venenatis leo ornare eget. 
-                        Ut porta facilisis elementum. Sed condimentum sed massa quis ullamcorper. 
-                        Donec at scelerisque neque. Pellentesque sagittis, 
-                        massa sodales sodales finibus, felis ligula tempus lorem, 
-                        eu porttitor ex lacus vel felis.</MyText>
+                    <MyText style={[textWhite, textH4Style]}>{info}</MyText>
                 </View>
                 <View style={buttonContainer}>
                     <CustomButton buttonText="Ask Question" buttonStyle={buttonStyle} textStyle={{color: colors.orange}} />
@@ -58,7 +78,7 @@ class HostComponent extends Component {
                     </View>
                 </View>
             </View>
-            <View style={divider}></View>
+            <View style={divider}></View> */}
         </View>
     );
   }
