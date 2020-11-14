@@ -15,6 +15,9 @@ import { setContext, Request, urls, GetRequest } from '../../utils';
 
 import { ReservationsContext, ReservationsConsumer } from '../../../ReservationsProvider';
 
+import ConcludedReservationsTab from '../../components/dashboard/ConcludedReservationsTab';
+import RecentReservationsTab from '../../components/dashboard/RecentReservationsTab';
+
 class Reservations extends Component {
   static contextType = ReservationsContext;
   constructor(props) {
@@ -26,11 +29,19 @@ class Reservations extends Component {
     if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
 }
   componentDidMount () {
-    const { appContext, propertyContext } = this.props;
+    const {  propertyContext } = this.props;
     console.log('Property context ', propertyContext)
-    propertyContext.getReservations();
-     propertyContext.getRecentReservations();
+    // propertyContext.getReservations();
+    propertyContext.getRecentReservations();
     propertyContext.getConcludedReservations();
+  }
+  renderTabs = () => {
+    const { tabOneSelected } = this.state;
+    if (tabOneSelected) {
+        return <RecentReservationsTab {...this.props} {...this.props} />
+    } else {
+        return <ConcludedReservationsTab {...this.props} {...this.props} />
+    }
   }
   selectTabOne = () => {
     this.setState({ tabOneSelected: true })
@@ -49,7 +60,7 @@ class Reservations extends Component {
 //     return new Promise( async (resolve, reject) => {
 //      // this.set({ loadingRecentReservations: true });
 //       const res = await GetRequest(urls.bookingBase,
-//       `${urls.v}bookings/property/host/recent/reservations`);
+//       `${urls.v}bookings/property`);
 //       console.log(res.data)
 //      // /?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeRecentReservationsPage}&Size=${perPage}
 //       //this.set({ loadingRecentReservations: false });
@@ -58,7 +69,7 @@ class Reservations extends Component {
 //       } else {
 //         const data = res.data;
 //         resolve(data);
-//         //this.set({ recentReservations: data.data, activeRecentReservationsPage: data.page, totalRecentReservations: data.totalItems });
+//         this.set({ recentReservations: data.data, activeRecentReservationsPage: data.page, totalRecentReservations: data.totalItems });
 //       }
 //     });
 //   }
@@ -68,8 +79,6 @@ class Reservations extends Component {
     const { reservationHeader, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
     const { tabOneSelected } = this.state;
     return (
-      <ReservationsConsumer>
-          {(values) => (
               <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
               <Header {...this.props} title="Reservations" wrapperStyles={{ paddingBottom: 5}} 
               sub="Bookings Made By Clients For Apartments And Hotels" />
@@ -85,28 +94,11 @@ class Reservations extends Component {
               </View>
               <ScrollView>
                   <View style={contentContainer}>
-                      <View style={rowContainer}>
-                          <ReservationMainRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed2.png')}
-                          location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
-                      </View>
-                      <View style={rowContainer}>
-                          <ReservationMainRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')}
-                          location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
-                      </View>
-                      <View style={rowContainer}>
-                          <ReservationMainRow title="Masaka Homes" img={require('../../assets/images/places/bed3.png')}
-                          location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
-                      </View>
-                      <View style={rowContainer}>
-                          <ReservationMainRow title="Westgate Suites" img={require('../../assets/images/places/bed.png')}
-                          location="Transcorp Hilton Abuja" reserve="1 Active Reservations" {...this.props} />
-                      </View>
+                        {this.renderTabs()}
                       {/* {this.getRecentReservations()} */}
                   </View>
               </ScrollView>
             </SafeAreaView>
-          )}
-      </ReservationsConsumer>
     );
   }
 }
@@ -117,7 +109,7 @@ const styles = StyleSheet.create({
     }, 
     tabsContainer: {
         display: 'flex', flexDirection: 'row', backgroundColor: colors.lighterGreen, borderRadius: 6, padding: 4,
-        marginTop: 20
+        marginTop: 30
     },
     tabStyle: {
         flex: 1, paddingVertical: 12, justifyContent: 'center', alignItems: 'center'

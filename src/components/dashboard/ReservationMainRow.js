@@ -20,7 +20,7 @@ class ReservationMainRow extends Component {
     const { container, imgContainer, rightContainer, typeStyle, iconStyle } = styles
     const { flexRow, imgStyle, textBold, textH4Style, textH5Style, textGrey, textFadedBlack, 
         textDarkGrey, textExtraBold, textH1Style, textSuccess } = GStyles;
-    const { title, location, reserve, img, propertyType } = this.props
+    const { title, location, reserve, img, propertyType, roomType } = this.props
     return (
         <View style={{ width: '100%'}}>
             <TouchableOpacity style={[flexRow, container]} onPress={this.linkToHome}>
@@ -31,7 +31,7 @@ class ReservationMainRow extends Component {
                     <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>{title}</MyText>
                     <MyText style={[textH5Style, textGrey, { marginVertical: 6}]}>{location}</MyText>
                     <View style={[flexRow, typeStyle]}>
-                        <MyText style={[textH5Style, textBold, textSuccess]}>Platinum Room</MyText>
+                        <MyText style={[textH5Style, textBold, textSuccess]}>{roomType}</MyText>
                         <Icon name="ellipse" style={iconStyle} />
                         <MyText style={[textH5Style, textBold, textDarkGrey]}>{propertyType}</MyText>
                     </View>

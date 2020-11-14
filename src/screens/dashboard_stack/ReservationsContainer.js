@@ -24,7 +24,6 @@ class ReservationsContainer extends Component {
 
   
   render() {
-    const { tabOneSelected, tabTwoSelected, tabThreeSelected, showFilterModal } = this.state;
     return (
       <AppConsumer>
         {(appContext) => (
