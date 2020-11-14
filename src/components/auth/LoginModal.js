@@ -81,6 +81,9 @@ class LoginModal extends Component {
       console.log('Catched error ', error)
       this.setState({ formErrors: error, loading: false})
     }
+    finally{
+      this.setState({loading: false})
+    }
   }
   disabled = () => {
     const { email, password } = this.state

@@ -2,7 +2,6 @@
 import React, { Component, Fragment } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../../../assets/styles/GeneralStyles';
-import MasonryList from "react-native-masonry-list";
 
 import { MyText } from '../../../utils/Index';
 
@@ -17,18 +16,6 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        images: [{ source: require('../../../assets/images/photo/pic.png'),
-            dimensions: { width: 120, height: 150 }
-        },  { source: require('../../../assets/images/photo/pic5.png'),
-            dimensions: { width: 200, height: 510 }
-        }, 
-        { source: require('../../../assets/images/photo/pic1.png'),
-                dimensions: { width: 120, height: 150 }
-            },{ source: require('../../../assets/images/photo/pic2.png'),
-            dimensions: { width: 110, height: 150 }
-        }, { source: require('../../../assets/images/photo/pic3.png'),
-            dimensions: { width: 108, height: 150 }
-        }]
     };
   }
 

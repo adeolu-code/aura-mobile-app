@@ -60,8 +60,8 @@ class Index extends Component {
         }
       }
       console.log('FilterUrl ', filterUrl, 'queryUrl ', queryUrl)
-      const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-      `api/v1/listing/property/search/available/?${queryUrl}Size=${perPage}&Page=${activePage}`);
+      const res = await GetRequest(urls.listingBase, 
+      `${urls.v}listing/property/search/available/?${queryUrl}Size=${perPage}&Page=${activePage}`);
       console.log('Res places', res)
       more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
       if(res.isError) {
@@ -206,7 +206,7 @@ class Index extends Component {
   render() {
     const {filterContainer, container, contentContainer, contentMainContainer } = styles
     const { textH3Style, textExtraBold, textH4Style, textDarkGrey, textCenter, textOrange } = GStyles;
-    const { places, loadMore } = this.state
+    const { places } = this.state
     return (
       <Fragment>
         <View style={contentMainContainer}>

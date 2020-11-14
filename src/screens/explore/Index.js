@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import {
-  View,SafeAreaView,ScrollView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform, StatusBar,
+  View,SafeAreaView,ScrollView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform, StatusBar, Image
 } from 'react-native';
 import {
   MyText,
@@ -19,6 +19,8 @@ import ScrollContentPhoto from '../../components/explore/ScrollContentPhoto';
 import ScrollContentPlaces from '../../components/explore/ScrollContentPlaces';
 import TourImgComponent from '../../components/explore/TourImgComponent';
 import SearchToggle from '../../components/explore/SearchToggle';
+
+import AutoCompleteComponent from '../../components/explore/AutoCompleteComponent';
 
 import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
@@ -42,6 +44,31 @@ class Index extends Component {
   }
   linkToTour = () => {
     this.props.navigation.navigate('ExploreAll', { tab: 'five' })
+  }
+
+  renderFoodComingSoon = () => {
+    const { comingSoonContainer, comingSoonImg } = styles
+    const { imgStyle, textH3Style, textExtraBold, textOrange, textCenter } = GStyles
+    return (
+      <View style={comingSoonContainer}>
+        <View style={comingSoonImg}>
+          <Image source={require('../../assets/images/food/food.png')} style={imgStyle} />
+        </View>
+        <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
+      </View>
+    )
+  }
+  renderTourComingSoon = () => {
+    const { comingSoonContainer, comingSoonImg } = styles
+    const { imgStyle, textH3Style, textExtraBold, textOrange, textCenter } = GStyles
+    return (
+      <View style={comingSoonContainer}>
+        <View style={comingSoonImg}>
+          <Image source={require('../../assets/images/photo/photo2.png')} style={imgStyle} />
+        </View>
+        <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
+      </View>
+    )
   }
 
   requestLocationPermission = async () => {
@@ -173,6 +200,7 @@ class Index extends Component {
             </MyText>
             <View style={searchContainer}>
               <SearchInput onFocus={this.openSearch} placeholder="Location, landmark, address" />
+              <AutoCompleteComponent />
             </View>
           </ImageBackground>
 
@@ -182,9 +210,10 @@ class Index extends Component {
             style={foodBgStyles}>
             <View style={foodContainer}>
               <View style={headerContainer}>
-                <ScrollHeader title="Good food & restaurants" white />
+                <ScrollHeader title="Good food & restaurants" white noDot />
               </View>
-              <View style={textContainer}>
+              {this.renderFoodComingSoon()}
+              {/* <View style={textContainer}>
                 <MyText style={[textWhite, textH4Style, lineHeightText]}>
                   Curabitur vulputate arcu odio, ac facilisis diam accumsan ut.
                   Ut imperdiet et leo in vulputate.
@@ -196,7 +225,7 @@ class Index extends Component {
               </View>
               <View style={buttonContainer}>
                 <CustomButton buttonText="Find More Restaurants" iconName="arrow-right" onPress={this.linkToFood} />
-              </View>
+              </View> */}
             </View>
           </ImageBackground>
 
@@ -245,15 +274,16 @@ class Index extends Component {
           <View style={tourContainer}>
             <MyText style={[textWhite, textExtraBold, textH2Style, textCenter, { marginBottom: 15 }]}>Are you New in a city ?</MyText>
             <MyText style={[textWhite, textH4Style, textCenter, lineHeightText, { marginBottom: 25 }]}>Book a Tour Guide Today</MyText>
-            <MyText style={[textWhite, textH4Style, textCenter, { lineHeight: 30 }]}>
+            {this.renderTourComingSoon()}
+            {/* <MyText style={[textWhite, textH4Style, textCenter, { lineHeight: 30 }]}>
               Curabitur vulputate arcu odio, ac facilisis diam accumsan ut. Ut imperdiet et leo in vulputate.
               </MyText>
             <View style={tourContentStyle}>
               <TourImgComponent {...this.props} />
             </View>
             <View>
-              <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToTour} />
-            </View>
+              <CustomButton buttonText="Find More Tour" iconName="arrow-right" onPress={this.linkToTour} />
+            </View> */}
           </View>
 
 
@@ -362,6 +392,13 @@ const styles = StyleSheet.create({
      marginBottom: 10,
     //  justifyContent: 'center',
    },
+
+   comingSoonContainer: {
+     padding: 20
+   },
+   comingSoonImg: {
+     height: 240, width: '100%', marginBottom: 20, borderRadius: 10, overflow: 'hidden'
+   }
 });
 
 export default Index;

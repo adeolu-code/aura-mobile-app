@@ -20,19 +20,19 @@ class Header extends Component {
     const { headerStyle, shareStyle, shareContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textLgStyle, textH5Style, textGrey, textH4Style, textSuccess, textH6Style, 
         textDarkGrey } = GStyles;
-    const { title } = this.props
+    const { title, location } = this.props
     return (
       <View>
         <View style={[flexRow, headerStyle]}>
             <View style={{ flex: 6}}>
                 <MyText style={[textExtraBold, textLgStyle]}>{title}</MyText>
-                <MyText style={[textH4Style, textGrey]}>Lagos Photoshot</MyText>
+                <MyText style={[textH4Style, textGrey]}>{location}</MyText>
                 
             </View>
             <View style={{flex: 1,alignItems: 'flex-end' }}>
-                <TouchableOpacity style={shareContainer}>
+                {/* <TouchableOpacity style={shareContainer}>
                     <Icon name="share-social" style={shareStyle} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
       </View>

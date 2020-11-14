@@ -111,38 +111,38 @@ class FilterModal extends Component {
 
             <Modal visible={visible} onRequestClose={() => { }} transparent animationType="slide">
                 <TouchableWithoutFeedback onPress={onDecline}>
-                    <>
-                    {this.renderLoading()}
-                    <View style={container2}>
-                        <View style={container}>
-                            <View style={tabOne}>
-                                <View style={imgStyle}>
-                                <Image source={img} style={{width: '100%', height: '100%'}} />
+                    <View>
+                        {this.renderLoading()}
+                        <View style={container2}>
+                            <View style={container}>
+                                <View style={tabOne}>
+                                    <View style={imgStyle}>
+                                    <Image source={img} style={{width: '100%', height: '100%'}} />
+                                    </View>
+                                    <View style={{marginTop: 20}}>
+                                    <MyText style={[textDarkGrey, textBold]}>{title}</MyText>
+                                    </View>
                                 </View>
-                                <View style={{marginTop: 20}}>
-                                <MyText style={[textDarkGrey, textBold]}>{title}</MyText>
-                                </View>
+                                <TouchableOpacity style={tabTwo} onPress={this.onEdit}>
+                                    <MyText style={[textDarkBlue, textBold]}>
+                                            Edit Property
+                                    </MyText>
+                                </TouchableOpacity>
+                                <View style={[dash]}></View>
+                                <TouchableOpacity style={tabThree}>
+                                    <MyText style={[textDarkBlue, textBold]}>
+                                            Go Offline
+                                    </MyText>
+                                </TouchableOpacity>
+                                <View style={[dash]}></View>
+                                <TouchableOpacity style={tabFour} onPress={this.onDelete}>
+                                    <MyText style={[textDanger, textBold]}>
+                                        Delete
+                                </MyText>
+                                </TouchableOpacity>
                             </View>
-                            <TouchableOpacity style={tabTwo} onPress={this.onEdit}>
-                                <MyText style={[textDarkBlue, textBold]}>
-                                        Edit Property
-                                </MyText>
-                            </TouchableOpacity>
-                            <View style={[dash]}></View>
-                            <TouchableOpacity style={tabThree}>
-                                <MyText style={[textDarkBlue, textBold]}>
-                                        Go Offline
-                                </MyText>
-                            </TouchableOpacity>
-                            <View style={[dash]}></View>
-                            <TouchableOpacity style={tabFour} onPress={this.onDelete}>
-                                <MyText style={[textDanger, textBold]}>
-                                    Delete
-                            </MyText>
-                            </TouchableOpacity>
                         </View>
                     </View>
-                    </>
                 </TouchableWithoutFeedback>
             </Modal>
 

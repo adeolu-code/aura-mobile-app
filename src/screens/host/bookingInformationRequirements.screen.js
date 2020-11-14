@@ -17,7 +17,7 @@ export default class BookingInformationRequirements extends Component {
         super();
 
         this.state = { bookingReqValues: [], bookingReqs: [], gettingBookingReq: false, toggleAddBookingReq: false,
-        addInfoValue: '', addingInfo: false, loading: false };
+        addInfoValue: '', addingInfo: false, loading: false, gettingHouse: false };
     }
     guestProvisionList = [
         "Agree to your House Rules",
@@ -31,8 +31,8 @@ export default class BookingInformationRequirements extends Component {
         "Recommendation by other host with no negative feedbacks",
     ];
     renderLoading = () => {
-        const { loading } = this.state;
-        if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+        const { loading, gettingHouse } = this.state;
+        if (loading || gettingHouse) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
     }
 
     getBookingReq = async () => {
@@ -162,9 +162,29 @@ export default class BookingInformationRequirements extends Component {
         set({ propertyFormData: obj })
         this.props.navigation.navigate('HouseRules')
     }
+    getHouse = async () => {
+        const { state, set } = this.context
+        const ppty = state.propertyFormData;
+        this.setState({ gettingHouse: true })
+        const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${ppty.id}`);
+        this.setState({ gettingHouse: false })
+        // console.log('Get house ', res)
+        if(res.isError) {
+            const message = res.Message;
+        } else {
+            const data = res.data;
+            if(data !== null) {
+              const bookingReqValues = data.bookingRequirements ? data.bookingRequirements.map(item => item.id) : []
+              const houseRules = data.houseRules ? data.houseRules.map(item => item.id) : []
+              this.setState({ bookingReqValues })
+              set({ propertyFormData: { ...ppty, houseRules, bookingRequirements: bookingReqValues } })
+            }
+        }
+      }
 
     componentDidMount = () => {
         this.getBookingReq()
+        this.getHouse()
     }
     toggleAddBookingReq = () => {
         const { toggleAddBookingReq } = this.state
@@ -205,32 +225,6 @@ export default class BookingInformationRequirements extends Component {
                             </TouchableOpacity>
 
                             {this.renderAddInfo()}
-
-
-                            {/* <MyText style={[textBold, textH3Style, {marginTop: 20, marginBottom: 5}]}>Aura Must Provide</MyText>
-                            <MyText style={[textH5Style, textlightGreyTwo, { marginBottom: 20}]}>
-                                All Aura guests provide
-                            </MyText>
-                            <View style={{ marginBottom: 10}}>
-                                <LockItem label={"Email Address"} />
-                                <LockItem label={"Payment Information"} />
-                                <LockItem label={"Confirm Payment"} />
-                            </View>
-                            <TouchableOpacity>
-                                <MyText style={[textUnderline,textOrange]}>Add Additional Requirement</MyText>
-                            </TouchableOpacity>
-                            <View style={[{marginTop: 20}]}>
-                                {
-                                    this.auraProvisionList.map((option, index) => 
-                                    {
-                                        let key = "AL_"+index;
-                                        return (
-                                            <CheckBox title={option} key={key} item={option} onPress={this.onCheckBookingReq} 
-                                            value={this.getBookingValue(option)} labelTextStyles={[textNormal, textH5Style]}  />
-                                        );
-                                    })
-                                }
-                            </View> */}
 
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>

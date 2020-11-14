@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, ImageBackground, ScrollView, StatusBar } from "react-native";
+import { Image, ImageBackground, ScrollView, StatusBar, TouchableOpacity } from "react-native";
 import { AppContext } from "../../../AppProvider";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
@@ -7,6 +7,9 @@ const { Container, Content, Header, Footer, Icon, Item, Input, Text, Left, Butto
 import { Styles } from "./inbox.style";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import SingleMessage from "../../components/inbox_message/singleMessage";
+import { getChatConvoApi, messageHostApi, messageUserApi } from "../../api/chat.api";
+import { consoleLog } from "../../utils";
+import moment from "moment";
 
 export default class InboxChat extends Component {
     static contextType = AppContext;
@@ -15,17 +18,59 @@ export default class InboxChat extends Component {
         super(props);
     
         this.state = {
-            
+            convo: [],
+            message: "",
+            lastMessageId: props.route.params.chatId,
         };
+    }
+
+    interval=undefined
+
+    componentDidMount() {
+        this.init();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+        this.interval = undefined;
+    }
+
+    init = () => {
+        this.getChatConvo();
+        this.interval = setInterval(() => {
+            this.getChatConvo();
+        }, 60000);
+    }
+      
+    getChatConvo = () => {
+        getChatConvoApi({
+        propertyId: this.props.route.params.propertyId,
+        userId: this.props.route.params.userId,
+        }).then(result => {
+            this.setState({convo: result,});
+        })
+    };
+
+    sendMessage = () => {
+        messageUserApi({
+            "message_to_Host_Id": this.state.lastMessageId,
+            "message_Body": this.state.message
+        }).then(result => {
+            if (result.isError == false) {
+                this.getChatConvo();
+                this.setState({message: ""});
+            }
+        });
     }
 
     render() {
         const {textBold, textH4Style } = GStyles;
+        const defaultImage = require("./../../assets/images/photo/photo1.png");
         return (
             <>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
            
-                <Container>
+                <Container style={{marginTop: 25}}>
                     <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"}  androidStatusBarColor={"white"}>
                         <Left>
                             <Button icon transparent onPress={() => this.props.navigation.goBack()}>
@@ -35,7 +80,7 @@ export default class InboxChat extends Component {
                         <Body style={[Styles.headerBody]}>
                             <View style={[Styles.userImageView]}>
                                 <Image 
-                                    source={this.props.route.params.userImage} 
+                                    source={this.props.route.params.userImage || defaultImage} 
                                     style={[Styles.userImage]}
                                 />
                                 <View style={[Styles.userOnline]}></View>
@@ -52,36 +97,58 @@ export default class InboxChat extends Component {
                             </Button>
                         </Right>
                     </Header>
-                    <Content scrollEnabled={false}>
+                    <Content 
+                        scrollEnabled={true}
+                    >
                         <ImageBackground style={[Styles.chatBackground]} source={require("./../../assets/images/inbox/pattern_3x.png")}>
-                            <ScrollView contentContainerStyle={[Styles.chatScrollView]}>
-                                <SingleMessage 
-                                    message={"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
-                                    time={"12:00"}
-                                    type={"left"}
-                                    source={this.props.route.params.userImage} 
-                                />
-                                <SingleMessage 
-                                    message={"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
-                                    time={"12:05"}
-                                    type={"right"}
-                                    source={this.props.route.params.userImage} 
-                                />
+                            <ScrollView 
+                                ref={(c) => {this.scroll = c}}
+                                contentContainerStyle={[Styles.chatScrollView]}
+                                onContentSizeChange={() => {
+                                    this.scroll.scrollToEnd({x: 0, y: 0, animated: true});
+                                }}
+                            >
+                                {
+                                    this.state.convo.map((convo, index) => {
+                                        return (
+                                            <SingleMessage 
+                                                key={index}
+                                                message={convo.message_Body}
+                                                time={moment(convo.dateSent, "MM/DD/YYYY HH:mm:ss").fromNow()}
+                                                type={convo.from == this.context.state.userData.id ? "right" : "left"}
+                                                source={this.props.route.params.userImage || defaultImage} 
+                                                isRead={convo.is_Read}
+                                            />
+                                        );
+                                    })
+                                }
                             </ScrollView>
                         </ImageBackground>
                     </Content>
                     <Footer style={[Styles.footer]}>
-                        <Image 
+                        {/* <Image 
                             source={require("./../../../assets/aura_attachment_2x.png")} 
                             style={[Styles.attachmentImage]} 
                             resizeMode={"center"}
                         />
-                        <Icon style={[Styles.icon]} name={"ios-mic"} />
+                        <Icon style={[Styles.icon]} name={"ios-mic"} /> */}
                         <Item style={[Styles.chatInputItem]}>
-                            <Input style={[Styles.chatInput]} placeholder={"Start a message"} />
-                            <Icon name={"ios-happy-outline"} />
+                            <Input 
+                                style={[Styles.chatInput]} 
+                                placeholder={"Start a message"} 
+                                onChangeText={(e) => this.setState({message: e})}
+                                value={this.state.message}
+                            />
+                            {/* <Icon name={"ios-happy-outline"} /> */}
                         </Item>
-                        <Icon style={[Styles.icon]} name={"ios-send-sharp"} />
+                        <TouchableOpacity
+                            onPress={() => this.sendMessage()}
+                        >
+                            <Icon 
+                                style={[Styles.icon]} 
+                                name={"ios-send-sharp"} 
+                            />
+                        </TouchableOpacity>
                     </Footer>
                 </Container>
             </>

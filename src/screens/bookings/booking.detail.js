@@ -9,7 +9,7 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import colors from "../../colors";
 
 export default class BookingsDetail extends Component {
-    constructor(props) {
+    constructor() {
         super();
 
         this.state = {
@@ -18,12 +18,11 @@ export default class BookingsDetail extends Component {
     }
 
     render() {
-        const { contentContainer, imgContainer, titleStyle, detailsContainer,rowContainer, lowerContainer, divider } = Styles;
-        const { imgStyle, flexRow,upperCase, textH5Style, textLightGrey, textGrey, textH4Style, textBold, textDarkGrey,
-        textRight, textH6Style, textExtraBold, textCenter, textGreen, textUnderline,  } = GStyles
+        const { contentContainer, imgContainer, titleStyle, detailsContainer,rowContainer } = Styles;
+        const { imgStyle, flexRow,upperCase, textH5Style, textGrey, textH4Style, textBold, textRight, textH6Style, textGreen, textUnderline,  } = GStyles
         return(
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-            <Header {...this.props} title="Umbaka Homes" wrapperStyles={{ paddingBottom: 5}} sub="Transcorp Hilton Abuja" />
+            <Header {...this.props} title={this.props.route.params.title} wrapperStyles={{ paddingBottom: 5}} sub="Transcorp Hilton Abuja" />
             <ScrollView>
                 <View style={contentContainer}>
                     <View style={imgContainer}>

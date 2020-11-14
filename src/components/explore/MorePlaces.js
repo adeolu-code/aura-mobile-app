@@ -28,8 +28,8 @@ class MorePlaces extends Component {
         const { house } = this.props
         // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
         // `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
-        const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-        `api/v1/listing/property/closeby/?propertyid=${house.id}`);
+        const res = await GetRequest(urls.listingBase, 
+        `${urls.v}listing/property/closeby/?propertyid=${house.id}`);
         console.log('Places around ', res)
         this.setState({ loading: false })
         if(res.isError) {

@@ -105,8 +105,8 @@ class AmenitiesScreen extends Component {
   saveProperty = async (propertyFormData) => {
     const { set, state, getUserProfile } = this.context
     this.setState({ saving: true })
-    const url = state.isInApp ? `${urls.v}listing/property/update` : `${urls.v}listing/property`
-    const payload = state.isInApp ? this.updateObj(propertyFormData) : propertyFormData;
+    const url = state.edit ? `${urls.v}listing/property/update` : `${urls.v}listing/property`
+    const payload = state.edit ? this.updateObj(propertyFormData) : propertyFormData;
     const res = await Request(urls.listingBase, url, payload);
     console.log('Amenities updated ',res)
     if(res.isError) {
@@ -116,7 +116,7 @@ class AmenitiesScreen extends Component {
     } else {
       if(state.isInApp) {
         const data = res.data
-        set({ propertyFormData: data })
+        set({ propertyFormData: {...data, mainImage: propertyFormData.mainImage} })
         const { propertyContext, appContext } = this.props
         const properties = [ ...propertyContext.state.properties ]
         const pptyArr = this.filterSetProperty(properties, data, propertyFormData)
@@ -131,6 +131,11 @@ class AmenitiesScreen extends Component {
             const hotelsArr = this.filterSetProperty(hotels, data, propertyFormData)
             propertyContext.set({ hotels: hotelsArr })
         }
+        if(!appContext.state.edit) {
+            propertyContext.getAllProperties();
+            propertyContext.getHotels();
+            propertyContext.getApartments();
+        }
       } else {
         set({ propertyFormData: null })
         await getUserProfile()
@@ -144,7 +149,7 @@ class AmenitiesScreen extends Component {
     const elementsIndex = properties.findIndex(element => element.id == propertyData.id )
     let newArray = [...properties]
     // newArray[elementsIndex] = {...newArray[elementsIndex], completed: !newArray[elementsIndex].completed}
-    newArray[elementsIndex] = data
+    newArray[elementsIndex] = {...data, mainImage: propertyData.mainImage }
     return newArray
 
 }
@@ -153,7 +158,7 @@ class AmenitiesScreen extends Component {
     this.getSafetyAmmenities()
     const { state } = this.context
     const ppty = state.propertyFormData;
-    if(ppty) {
+    if(ppty && state.edit) {
       this.getHouse()
     }
   }

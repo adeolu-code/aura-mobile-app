@@ -187,14 +187,18 @@ class HomeSingle extends Component {
   getReviews = async () => {
     const { house } = this.state
     this.setState({ gettingReviews: true })
-    const res = await GetRequest(urls.listingBase, `${urls.v}listing/review/property/?PropertyId=${house.id}`);
+    const res = await GetRequest(urls.listingBase, `${urls.v}listing/review/property/?propertyid=${house.id}`);
     console.log('House Reviews ', res)
     this.setState({ gettingReviews: false })
     if(res.isError) {
         const message = res.Message;
     } else {
         const data = res.data;
-        this.setState({ reviews: data })
+        if(Array.isArray(data) && data.length !== 0) {
+          const reviews = data.map(item => item.rating)
+          this.setState({ reviews })
+        }
+        this.setState({ comments: data })
     }
   }
 
@@ -250,7 +254,7 @@ class HomeSingle extends Component {
     const { buttomContainer, placeAroundContainer, headerStyle, scrollContainer } = styles;
     const { imgStyle, textWhite, textH3Style, textDarkGrey, textExtraBold, textH2Style } = GStyles
 
-    const { house, houseRules, location, reviews } = this.state
+    const { house, houseRules, location, reviews, gettingReviews, comments } = this.state
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
@@ -263,9 +267,9 @@ class HomeSingle extends Component {
                 {houseRules.length !== 0 ?<RulesComponent title="House Rules" rules={houseRules} /> : <Fragment />}
                 <LocationComponent house={house} address={house.address} location={location} />
                 <HostComponent house={house} />
-                <DetailsComponent />
-                <ReviewsComponent reviews={reviews} />
-                <CommentComponent />
+                <DetailsComponent house={house} />
+                <ReviewsComponent reviews={reviews} loading={gettingReviews} />
+                <CommentComponent comments={comments} loading={gettingReviews} />
 
                 {house ? <MorePlaces {...this.props} house={house}  /> : <Fragment />}
                 {/* <View style={placeAroundContainer}>

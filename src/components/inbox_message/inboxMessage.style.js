@@ -21,10 +21,10 @@ export const Styles = StyleSheet.create({
         marginLeft: 5,
     },
     textSection: {
-        width: "70%",
+        width: "60%",
     },
     infoSection: {
-        width: "20%",
+        width: "30%",
     },
     messageContent: {
         color: colors.grey,
@@ -38,11 +38,11 @@ export const Styles = StyleSheet.create({
         backgroundColor: colors.orange,
         color: colors.white,
         borderRadius: 50,
-        height: 25,
-        width: 25,
+        height: 20,
+        width: 20,
         textAlign: 'center',
         alignSelf: "center",
-        marginTop: 10,
+        marginTop: 7,
     },
     messageView: {
         backgroundColor: colors.darkBlue,

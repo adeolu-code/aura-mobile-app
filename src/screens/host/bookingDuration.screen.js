@@ -34,6 +34,12 @@ export default class BookingDuration extends Component {
         this.props.navigation.navigate('BookInAdvance')
     }
 
+    componentDidMount = () => {
+        const { state } = this.context
+        const ppty = state.propertyFormData;
+        this.setState({ maxNoOfNights: ppty.maximumDaysUsable , minNoOfNights: ppty.minimumDaysUsable })
+    }
+
 
     render() {
         const {

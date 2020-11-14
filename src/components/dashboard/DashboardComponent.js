@@ -29,7 +29,11 @@ class DashboardComponent extends Component {
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
     const { container, headerStyle, sectionStyle,contentStyle } = styles;
-    const dasboardDescription = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.`
+    const dasboardDescription = `View summary of your reservations, comments, properties and ratings`
+    const reservations = `All your reservations and their details`;
+    const properties = `Create property, edit your properties and view your properties`;
+    const reviews = `See all your ratings and reviews`;
+    const earning = `View your details of your transactions and how much you have made in the app`
     return (
       <View style={container}>
         <View style={headerStyle}>
@@ -44,20 +48,20 @@ class DashboardComponent extends Component {
                 </View>
 
                 <View style={sectionStyle}>
-                    <DashboardCardComponent title="Reservations" description={dasboardDescription}
+                    <DashboardCardComponent title="Reservations" description={reservations}
                     img={require('../../assets/images/dashboard_icons/reservation.png')} onPress={this.onPressReservations} />
                 </View>
 
                 <View style={sectionStyle}>
-                    <DashboardCardComponent title="Manage Properties" description={dasboardDescription}
+                    <DashboardCardComponent title="Manage Properties" description={properties}
                     img={require('../../assets/images/dashboard_icons/reservation.png')} onPress={this.onPressProperties} />
                 </View>
                 <View style={sectionStyle}>
-                    <DashboardCardComponent title="Reviews and Ratings" description={dasboardDescription}
+                    <DashboardCardComponent title="Reviews and Ratings" description={reviews}
                     img={require('../../assets/images/dashboard_icons/review.png')} onPress={this.onPressRR} />
                 </View>
                 <View style={sectionStyle}>
-                    <DashboardCardComponent title="My Earnings" description={dasboardDescription} iconX
+                    <DashboardCardComponent title="My Earnings" description={earning} iconX
                     img={require('../../assets/images/dashboard_icons/pay.png')} />
                 </View>
                 

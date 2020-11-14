@@ -5,7 +5,7 @@ import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
 
 let context = undefined;
-export let debug = true;
+export let debug = false;
 export const GLOBAL_PADDING = 20;
 
 const CLIENT_ID = '0987654321'
@@ -41,7 +41,21 @@ export const urls = {
     otp: "otp/",
     generate: "generate/",
     verify: "verify/",
-    identity: "identity/"
+    identity: "identity/",
+    property: "property/",
+    booking: "bookings/",
+    messaging: "messaging/",
+    messageHeadline: "messaging/headline/",
+    guestMessageHeadline: "messaging/guest/headlinemessages",
+    hostMessageHeadline: "messaging/host/headlinemessages",
+    conversation: "conversation/",
+    host: "host/",
+    user: "user/",
+    notification: "notification/",
+    unread: "unread/",
+    read: "read/",
+    count: "count/",
+    propertyById: "listing/property/",
 }
 const getUserToken = async () => {
 	try {
@@ -64,7 +78,6 @@ export function setContext(appContext) {
 }
 
 export function prepareMedia(image) {
-//   console.log("Media", JSON.stringify(image));
   // image crop picker
   return {
       uri: image.path,
@@ -73,20 +86,6 @@ export function prepareMedia(image) {
       mime: image.mime,
       name: image.fileName || image.modificationDate,
    };
-  //camera
-//   return {
-//     name: data.fileName || data.modificationDate,
-//     type: data.mime,
-//     uri: data.path,
-//     size: data.size,
-//   };
-  //photo picked
-  // return {
-  //   name: data.name,
-  //   type: data.type,
-  //   uri: data.uri,
-  //   size: data.size
-  // };
 }
 
 function PrepareData(Data, type = "json") {
@@ -103,55 +102,61 @@ function PrepareData(Data, type = "json") {
 }
 
 export function consoleLog(message, ...optionalParams) {
-   // if (debug) console.log(message, JSON.stringify(optionalParams));
+   if (debug) console.log(message, JSON.stringify(optionalParams));
 }
 
 /* POST Request fetch function **/
+/* POST Request fetch function **/
 export async function Request(
-  Base,
-  Url,
-  Data,
-  PreparedData = false,
-  method = "POST",
-  
-) {
-  //if PreparedData then no need to convert the data to json or multi part e.g is data being passed is already a form data
-  //also change content type
-  const token = await getUserToken();
-  let headers = {}
-  
-  if (!PreparedData) {
-     headers["Content-Type"] = "application/json"
-  }
-  else {
-   headers["Content-Type"] = "multipart/form-data"
-  }
-
-  headers["Access-Control-Allow-Origin"] = "*"  
-  headers["ClientId"] = CLIENT_ID
-  headers["ClientSecret"] = CLIENT_SECRET
-  
-  if (typeof token === "boolean" && token) {
-     headers["Authorization"] = "Bearer " + token
-  } else if (token != undefined && token !== null) {
-     headers["Authorization"] = "Bearer " + token
-  } 
-  
-  return fetch(Base + Url, {
-     method: method,
-     headers: headers,
-     body: !PreparedData ? PrepareData(Data) : Data,
-  })
-     .then((response) => {
-        return response.json();
-     })
-     .then((data) => {
-        return data
-     })
-     .catch((error) => {
-        return error
-     })
-}
+   Base,
+   Url,
+   Data,
+   PreparedData = false,
+   method = "POST",
+   
+ ) {
+   //if PreparedData then no need to convert the data to json or multi part e.g is data being passed is already a form data
+   //also change content type
+   const token = await getUserToken();
+   let headers = {}
+   consoleLog("url", Base+Url, Data)
+   
+   if (!PreparedData) {
+      headers["Content-Type"] = "application/json"
+   }
+   else {
+    headers["Content-Type"] = "multipart/form-data"
+   }
+ 
+   headers["Access-Control-Allow-Origin"] = "*"  
+   headers["ClientId"] = CLIENT_ID
+   headers["ClientSecret"] = CLIENT_SECRET
+   
+   if (typeof token === "boolean" && token) {
+      headers["Authorization"] = "Bearer " + token
+   } else if (token != undefined && token !== null) {
+      headers["Authorization"] = "Bearer " + token
+   } 
+   
+   return fetch(Base + Url, {
+      method: method,
+      headers: headers,
+      body: !PreparedData ? PrepareData(Data) : Data,
+   })
+      .then((response) => {
+         return response.json();
+      })
+      .then((data) => {
+         
+         consoleLog("returned data", data)
+         return data
+      })
+      .catch((error) => {
+         return error
+      })
+ }
+ 
+ 
 
 /* POST Request fetch function **/
 export async function UploadRequest(
@@ -235,7 +240,7 @@ export const uploadFile = async (image, fname) => {
    
 }
 
-export async function GetRequest(Base, Url, accessToken, type = "GET") {
+export async function GetRequest(Base, Url, accessToken, type = "GET", data=undefined) {
    let token = '';
    if(accessToken) {
       token = accessToken;
@@ -253,7 +258,19 @@ export async function GetRequest(Base, Url, accessToken, type = "GET") {
     } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
     }   
-    return fetch(Base + Url, {
+
+    let url = Base + Url;
+    if (data != undefined) {
+       
+      url = new URL(Base + Url);
+      let search = new URLSearchParams(data).toString();
+      
+      url = url+"?"+search;
+      
+      consoleLog("get data", data, url);
+    }
+    
+    return fetch(url, {
       method: type,
       headers: headers,
     })

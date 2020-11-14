@@ -25,8 +25,10 @@ class ScrollContentPlaces extends Component {
     
     getPlaces = async (long, lat) => {
         this.setState({ loading: true })
+        // const res = await GetRequest(urls.listingBase, 
+        // `${urls.v}listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
         const res = await GetRequest(urls.listingBase, 
-        `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
+            `${urls.v}listing/property/search/available/?Size=4&Page=1`);
         // console.log('Res places', res)
         this.setState({ loading: false })
         if(res.isError) {
@@ -46,19 +48,20 @@ class ScrollContentPlaces extends Component {
     }
 
     componentDidMount = () => {
-        const { location } = this.context.state;
-        if(location) {
-            this.getPlaces(location.longitude, location.latitude)
-        } 
+        this.getPlaces()
+        // const { location } = this.context.state;
+        // if(location) {
+        //     this.getPlaces(location.longitude, location.latitude)
+        // } 
         
     }
     componentDidUpdate = (prevProps, prevState) => {
-        if(prevProps.refresh !== this.props.refresh) {
-            const { location } = this.context.state;
-            if(location) {
-                this.getPlaces(location.longitude, location.latitude)
-            }
-        }
+        // if(prevProps.refresh !== this.props.refresh) {
+        //     const { location } = this.context.state;
+        //     if(location) {
+        //         this.getPlaces(location.longitude, location.latitude)
+        //     }
+        // }
     }
 
 
@@ -145,12 +148,14 @@ class ScrollContentPlaces extends Component {
     const { photo } = this.props
 
     // const actualWidth = (20/width) * 100
+    // const headerTitle = "Places to stay around you"
+    const headerTitle = "Places to stay"
     return (
         <Fragment>
             <View style={placeAroundContainer}>
                 {this.renderLoading()}
                 <View style={headerContainer}>
-                    <ScrollHeader title="Places to stay around you" noDot={this.state.noDot} first={this.state.first} />
+                    <ScrollHeader title={headerTitle} noDot={this.state.noDot} first={this.state.first} />
                 </View>
                 <View style={scrollMainContainer}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}>
@@ -160,7 +165,7 @@ class ScrollContentPlaces extends Component {
                     </ScrollView>
                 </View>
                 {this.renderButton()}
-                {this.renderEmptyLocation()}
+                {/* {this.renderEmptyLocation()} */}
                 {this.renderEmptyProperty()}
             </View>
         </Fragment>

@@ -15,6 +15,21 @@ class MorePhotosComponent extends Component {
     this.state = {};
   }
 
+  renderImages = () => {
+    const { portofilo } = this.props;
+    const { imgStyle } = GStyles
+    if(portofilo && portofilo.length !== 0) {
+        return portofilo.map((item, i) => {
+            const key = `MORE_${i}`
+            return (
+                <View style={styles.imgContainer} key={key}>
+                    <Image source={{uri: item.assetPath}} resizeMode="cover" style={imgStyle} />
+                </View>
+            )
+        })
+    }
+  }
+
   render() {
     const {  contentContainer, divider, container, headerStyle, photosContainer, imgContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textGrey, textH4Style, textH5Style, 
@@ -26,25 +41,7 @@ class MorePhotosComponent extends Component {
             </View>
             <View style={contentContainer}>
                 <View style={[flexRow, photosContainer]}>
-                    
-                    <View style={imgContainer}>
-                        <Image source={require('../../../assets/images/photo/pic8.png')} resizeMode="cover" style={imgStyle} />
-                    </View>
-                    <View style={imgContainer}>
-                        <Image source={require('../../../assets/images/photo/pic6.png')} resizeMode="cover" style={imgStyle} />
-                    </View>
-                    <View style={imgContainer}>
-                        <Image source={require('../../../assets/images/photo/pic3.png')} resizeMode="cover" style={imgStyle} />
-                    </View>
-                    <View style={imgContainer}>
-                        <Image source={require('../../../assets/images/photo/pic2.png')} resizeMode="cover" style={imgStyle} />
-                    </View>
-                    <View style={imgContainer}>
-                        <Image source={require('../../../assets/images/photo/pic4.png')} resizeMode="cover" style={imgStyle} />
-                    </View>
-                    <View style={imgContainer}>
-                        <Image source={require('../../../assets/images/photo/pic5.png')} resizeMode="cover" style={imgStyle} />
-                    </View>
+                    {this.renderImages()}
                 </View>
                 
             </View>

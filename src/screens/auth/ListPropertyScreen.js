@@ -40,7 +40,7 @@ class ListPropertyScreen extends Component {
       const ppty = propertyTypes[0];
       this.setState({ propertyTypeId: ppty.id })
     }
-    if(ppty) {
+    if(ppty && state.edit) {
       this.setState({ noofAvailableRooms: +ppty.noofAvailableRooms, noofBeds: +ppty.noofBeds, noofBathrooms: +ppty.noofBathrooms, 
         noofRooms: +ppty.noofRooms, dedicatedGuestSpace: ppty.dedicatedGuestSpace, isCompanyListing: ppty.isCompanyListing, 
         companyName: ppty.companyName,

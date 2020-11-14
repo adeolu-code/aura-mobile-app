@@ -19,6 +19,7 @@ const defaultContext = {
   propertyFormData: null,
   location: null,
   isInApp: false,
+  edit: false,
   step: 1,
   notificationSettings: {messages: {}, policy: {}, reminders: {}},
 };

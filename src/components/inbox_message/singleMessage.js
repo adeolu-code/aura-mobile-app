@@ -4,6 +4,7 @@ import { MyText } from "../../utils/Index";
 import { Styles } from "./inboxMessage.style";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { Image } from "react-native";
+import colors from "../../colors";
 
 export default class SingleMessage extends Component {
     constructor(props) {
@@ -34,7 +35,11 @@ const Left = (props) => {
                 </MyText>
                 <View style={[Styles.messageInfo]}>
                     <MyText style={[textWhite, textRight, textH6Style]}>{props.time}</MyText>
-                    <Icon name={"ios-checkmark-done"} style={[Styles.icon]} />
+                    {
+                        props.isRead &&
+                        <Icon name={"ios-checkmark-done"} style={[Styles.icon]} />
+                    }
+                    
                 </View>
                 
             </View>
@@ -56,6 +61,10 @@ const Right = (props) => {
                 </MyText>
                 <View style={[Styles.messageInfoRight]}>
                     <MyText style={[textDarkGrey, textRight, textH6Style]}>{props.time}</MyText>
+                    {
+                        props.isRead &&
+                        <Icon name={"ios-checkmark-done"} style={[Styles.icon, {color: colors.black}]} />
+                    }
                 </View>
                 
             </View>

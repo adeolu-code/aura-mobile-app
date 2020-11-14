@@ -15,28 +15,45 @@ class EquipmentComponent extends Component {
     this.state = {};
   }
 
+    renderEquipments = () => {
+        const { photo } = this.props
+        const { iconStyle, iconContainer, itemRow, } = styles;
+        const { flexRow, textH4Style, imgStyle, textWhite } = GStyles
+        if(photo.equipments && photo.equipments.length !== 0) {
+            return photo.equipments.map((item, index) => {
+                const key = `EQ_${index}`
+                return (
+                <View style={[flexRow, itemRow]} key={key}>
+                    <View style={iconContainer}>
+                        <Icon type="MaterialIcons" name="local-see" style={iconStyle} />
+                    </View>
+                    <MyText style={[textWhite, textH4Style]}>{item.name}</MyText>
+                </View>
+                )
+            })
+        }
+    }
+
   render() {
     const {  contentContainer, divider, container, headerStyle, iconStyle, iconContainer, itemRow, textContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textGrey, textH4Style, textH5Style, 
             imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
+    const { photo } = this.props;
+    const info = photo ? photo.additionalInformation : ''
+
     return (
         <View style={container}>
             <View style={headerStyle}>
                 <MyText style={[textH2Style, textExtraBold, textWhite]}>Included Equipments</MyText>
             </View>
             <View style={contentContainer}>
-                <View style={[flexRow, itemRow]}>
+                {/* <View style={[flexRow, itemRow]}>
                     <View style={iconContainer}>
                         <Icon type="MaterialIcons" name="map" style={iconStyle} />
                     </View>
                     <MyText style={[textWhite, textH4Style]}>Map</MyText>
-                </View>
-                <View style={[flexRow, itemRow]}>
-                    <View style={iconContainer}>
-                        <Icon type="MaterialIcons" name="local-see" style={iconStyle} />
-                    </View>
-                    <MyText style={[textWhite, textH4Style]}>Camera</MyText>
-                </View>
+                </View> */}
+                {this.renderEquipments()}
                 
             </View>
             <View style={divider}></View>
@@ -44,14 +61,10 @@ class EquipmentComponent extends Component {
                 <MyText style={[textH2Style, textExtraBold, textWhite]}>Things To Keep In Mind</MyText>
             </View>
             <View style={textContainer}>
-                <MyText style={[textWhite, textH4Style]}>
-                Quisque suscipit ipsum est, eu venenatis leo ornare eget. Ut porta facilisis elementum. 
-                Sed condimentum sed massa quis ullamcorper. Donec at scelerisque neque. Pellentesque sagittis, 
-                massa sodales sodales finibus, felis ligula tempus lorem, eu porttitor ex lacus vel felis.
-                </MyText>
+                <MyText style={[textWhite, textH4Style]}>{info}</MyText>
             </View>
             <View style={divider}></View>
-            <View style={headerStyle}>
+            {/* <View style={headerStyle}>
                 <MyText style={[textH2Style, textExtraBold, textWhite]}>Please Read Before Booking</MyText>
             </View>
             <View style={textContainer}>
@@ -61,7 +74,7 @@ class EquipmentComponent extends Component {
                 massa sodales sodales finibus, felis ligula tempus lorem, eu porttitor ex lacus vel felis.
                 </MyText>
             </View>
-            <View style={divider}></View>
+            <View style={divider}></View> */}
         </View>
     );
   }

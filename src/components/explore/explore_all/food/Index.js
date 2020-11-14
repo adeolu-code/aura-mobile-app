@@ -14,26 +14,36 @@ class Index extends Component {
     this.state = {
     };
   }
+  renderFoodComingSoon = () => {
+    const { comingSoonContainer, comingSoonImg } = styles
+    const { imgStyle, textH3Style, textExtraBold, textOrange, textCenter } = GStyles
+    return (
+      <View style={comingSoonContainer}>
+        <View style={comingSoonImg}>
+          <Image source={require('../../../../assets/images/food/food2.png')} style={imgStyle} />
+        </View>
+        <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
+      </View>
+    )
+  }
 
   render() {
-    const {filterContainer, container, contentContainer } = styles
+    const {filterContainer, container, contentContainer, contentMainContainer } = styles
     const { textH3Style, textExtraBold, textH4Style, textDarkGrey } = GStyles
     return (
       <View style={container}>
-        <TouchableOpacity style={filterContainer}>
+        <View style={contentMainContainer}>
+          <MyText style={[textH3Style, textExtraBold, { marginTop:30}]}>Food & Restaurants On Aura</MyText>
+          {this.renderFoodComingSoon()}
+        </View>
+        {/* <TouchableOpacity style={filterContainer}>
           <MyText style={[textH4Style, textDarkGrey]}>Filters</MyText>
         </TouchableOpacity>
         <MyText style={[textH3Style, textExtraBold, { marginTop:30}]}>Food & Restaurants On Aura</MyText>
         <View style={contentContainer}>
-          <ItemComponent title="Bernandines Pancakes" price="₦ 3,000" location="Lagos" verified
-          img={require('../../../../assets/images/food/food.png')} />
-          <ItemComponent title="Debonairs Pizza" price="₦ 3,600" location="Lagos" 
-          img={require('../../../../assets/images/food/food1.png')} />
-          <ItemComponent title="Mega Chops" price="₦ 4,000" location="Lagos" verified
-          img={require('../../../../assets/images/food/food2.png')} />
           <ItemComponent title="Ocean Basket" price="₦ 9,000" location="Lagos" 
           img={require('../../../../assets/images/food/food3.png')} />
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -50,6 +60,15 @@ const styles = StyleSheet.create({
   filterContainer: {
     borderRadius: 30, borderWidth:1, borderColor: colors.darkGrey, paddingHorizontal: 20, paddingTop: 4, paddingBottom:6, 
     flexDirection: 'row', alignSelf: 'flex-start', marginTop: 20
+  },
+  contentMainContainer: {
+      marginTop:180,
+  },
+  comingSoonContainer: {
+    paddingVertical: 20
+  },
+  comingSoonImg: {
+    height: 240, width: '100%', marginBottom: 20, borderRadius: 10, overflow: 'hidden'
   }
 });
 
