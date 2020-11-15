@@ -282,7 +282,8 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
      })
      .catch((error) => {
        let data = {error: error, type: "error"}
-      //  if (debug) console.log("error", error);
+       console.log("Fetch error", error);
+      //  if (debug) console.log("Fetch error", error);
         return data
      })
 }

@@ -16,7 +16,7 @@ class ReservationRow extends Component {
   render() {
     const { container, starContainer, imgContainer, rightContainer, iconStyle, orangeIcon, dateStyle } = styles
     const { flexRow, imgStyle, textBold, textH4Style, textH5Style, textGrey, textExtraBold, textFadedBlack } = GStyles;
-    const { title, location, reserve, calendar, img, onPress } = this.props;
+    const { title, location, reserve, calendar, img, onPress, type } = this.props;
     return (
       <TouchableOpacity style={[flexRow, container]} onPress={onPress}>
         <View style={imgContainer}>
@@ -24,16 +24,18 @@ class ReservationRow extends Component {
         </View>
         <View style={rightContainer}>
             <MyText style={[textExtraBold, textH4Style, textFadedBlack]}>{title}</MyText>
-
-            <View style={[flexRow, starContainer]}>
+            <MyText style={[textH5Style, textGrey, { marginBottom: 18, marginTop: 15}]}>{type}</MyText>
+            {/* <View style={[flexRow, starContainer]}>
                 <Icon name="star" style={[iconStyle, orangeIcon]} />
                 <Icon name="star" style={[iconStyle, orangeIcon]} />
                 <Icon name="star" style={[iconStyle, orangeIcon]} />
                 <Icon name="star-outline" style={[iconStyle]} />
                 <Icon name="star-outline" style={[iconStyle]} />
+            </View> */}
+            {/* <MyText style={[textH5Style, textGrey, { marginBottom: 18}]}>{location}</MyText> */}
+            <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 4}}>
+                <MyText style={[textH5Style, textGrey]}>{reserve}</MyText>
             </View>
-            <MyText style={[textH5Style, textGrey, { marginBottom: 18}]}>{location}</MyText>
-            <MyText style={[textH5Style, textGrey]}>{reserve}</MyText>
         </View>
         {calendar ? <View style={dateStyle}>
             <Image source={require('../../assets/images/icons/date_add/date-add.png')} resizeMode="contain" style={{ width: 15, height: 15 }} />

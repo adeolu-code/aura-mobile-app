@@ -25,10 +25,10 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      // email: "ferume@tapi.re", 
-      // password: "123999_@ABCabc", 
-      email: '',
-      password: '',
+      email: "ferume@tapi.re", 
+      password: "123999_@ABCabc", 
+      // email: '',
+      // password: '',
       loading: false, 
       formErrors: [] 
     };
@@ -63,14 +63,14 @@ class LoginModal extends Component {
     this.setState({ loading: true, formErrors: [] })
     const obj = { username: email, password }
     try {
-      const res = await Request(urls.identityBase, 'api/v1/auth/user/login', obj)
+      const res = await Request(urls.identityBase, `${urls.v}auth/user/login`, obj)
       console.log('Res ',res)
       if(!res.isError) {
         this.getUserDetails(res.data.access_token);
         this.context.set({ token: res.data })
         await setToken(res.data);
         // login succesfull close modal
-        this.props.onSuccess && this.props.onSuccess();
+        // this.props.onSuccess && this.props.onSuccess();
       } else {
         const message = res.message;
         const error = [message]
@@ -81,9 +81,9 @@ class LoginModal extends Component {
       console.log('Catched error ', error)
       this.setState({ formErrors: error, loading: false})
     }
-    finally{
-      this.setState({loading: false})
-    }
+    // finally{
+    //   this.setState({loading: false})
+    // }
   }
   disabled = () => {
     const { email, password } = this.state

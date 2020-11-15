@@ -54,7 +54,7 @@ class PlaceHolderComponent extends Component {
     const { title, description, img } = this.props;
     return (
       <View>
-        <View style={container}>
+        <ScrollView style={container} keyboardShouldPersistTaps="always">
           <View>
             <MyText style={[textExtraBold, textH1Style, textDarkBlue, { marginBottom: 5 }]}>{title}</MyText>
             <MyText style={[textGrey, textH4Style]}>{description}</MyText>
@@ -74,7 +74,7 @@ class PlaceHolderComponent extends Component {
           </View>
           <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} />
           <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
-        </View>
+        </ScrollView>
       </View>
     );
   }

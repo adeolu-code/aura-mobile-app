@@ -62,7 +62,7 @@ class StarComponent extends Component {
       const { grey, style } = this.props;
       if(this.decimal() !== 0 && this.decimal() >= 0.5) {
           return (
-            <Icon name="star-half-outline" style={[iconStyle, grey ? colorGrey : colorGreyWhite, style, orangeIcon]} key={index} />
+            <Icon name="star-half-outline" style={[iconStyle, grey ? colorGrey : colorGreyWhite, style, orangeIcon]} />
           )
       }
   }

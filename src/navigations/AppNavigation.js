@@ -18,6 +18,9 @@ import HostPropertyStack from './HostPropertyNavigation';
 import AddProfilePicture from '../screens/edit_profile/addProfilePic.screen';
 import VerifyPhoneNumber from '../screens/account_verification/verifyPhone.screen';
 
+import { navigationRef, isReadyRef } from '../RootNavigation';
+
+
 const RootStack = createStackNavigator();
 
 //all screens are registered here
@@ -42,7 +45,9 @@ function AppNavigator() {
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef} onReady={() => {
+      isReadyRef.current = true;
+    }} >
       <AppNavigator />
     </NavigationContainer>
   );

@@ -14,6 +14,7 @@ import { AppProvider } from '../AppProvider';
 import { ManagePropertyProvider } from '../ManagePropertyProvider';
 import { Root } from 'native-base';
 
+
 import FlashMessage from "react-native-flash-message";
 
 

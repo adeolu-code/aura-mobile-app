@@ -29,14 +29,20 @@ class RatingsAndReviews extends Component {
   renderTabs = () => {
     const { tabOne, tabTwo, tabThree } = this.state
     if(tabOne) {
-        return <ReviewsComponent />
+        return <ReviewsComponent {...this.props} />
     }
     if(tabTwo) {
-        return <RatingsComponent />
+        return <RatingsComponent {...this.props} />
     }
     if(tabThree) {
-        return <ReportsComponent />
+        return <ReportsComponent {...this.props} />
     }
+  }
+
+  componentDidMount = () => {
+    const { getRatings, getReviews } = this.props.reviewsContext
+    getRatings();
+    getReviews()
   }
 
 
@@ -60,19 +66,12 @@ class RatingsAndReviews extends Component {
                 </TouchableOpacity>
             </View>
         </View>
-        <ScrollView>
+        {this.renderTabs()}
+        {/* <ScrollView>
             <View style={contentContainer}>
                 {this.renderTabs()}
-                {/* <View style={rowContainer}>
-                    <ReservationMainRow title="Paradise Havens Suites" img={require('../../assets/images/places/bed2.png')}
-                    location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
-                </View>
-                <View style={rowContainer}>
-                    <ReservationMainRow title="Umbaka Homes" img={require('../../assets/images/places/bed1.png')}
-                    location="Transcorp Hilton Abuja" reserve="5 Active Reservations" {...this.props} />
-                </View> */}
             </View>
-        </ScrollView>
+        </ScrollView> */}
       </SafeAreaView>
     );
   }

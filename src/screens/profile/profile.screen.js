@@ -253,8 +253,8 @@ class ProfileScreenClass extends Component {
                 <LoginModal 
                     visible={this.state.showLoginModal} 
                     onDecline={this.closeLoginModal} 
-                    openSignUp={this.openSignUpModal}
-                    onSuccess={() => this.setState({showLoginModal: false})}
+                    openSignUp={this.openSignUpModal} close
+                    // onSuccess={() => this.setState({showLoginModal: false})}
                 />
                 <SignUpModal 
                     visible={this.state.showRegisterModal} 

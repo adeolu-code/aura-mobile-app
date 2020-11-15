@@ -4,6 +4,8 @@ import { setContext, Request, GetRequest, urls } from "./src/utils";
 
 import { setUser, clearData } from './src/helpers';
 
+import * as RootNavigation from './src/RootNavigation';
+
 const AppContext = React.createContext({});
 
 const defaultContext = {
@@ -39,6 +41,10 @@ class AppProvider extends Component {
     // }, 1000);
   };
 
+  componentDidMount = () => {
+    
+  }
+
   getUserProfile = (token) => {
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.identityBase, `${urls.v}user/me`, token);
@@ -59,7 +65,7 @@ class AppProvider extends Component {
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.listingBase, `${urls.v}listing/propertytype`);
       // console.log("property types", res);
-      if (res.isError) {
+      if (res.IsError || res.isError) {
         this.set({ gettingPropertyTypes: false})
         reject(res.message)
       } else {
@@ -74,7 +80,7 @@ class AppProvider extends Component {
     this.set({ gettingRoomTypes: true})
     return new Promise( async (resolve, reject) => {
       const res = await GetRequest(urls.listingBase, `${urls.v}listing/roomtype/${type}`);
-      if (res.isError) {
+      if (res.IsError || res.isError) {
         this.set({ gettingRoomTypes: false})
         reject(res.message)
       } else {
@@ -82,6 +88,14 @@ class AppProvider extends Component {
         resolve(res.data)
       }
     })
+  }
+
+  logOut = async () => {
+    await clearData()
+    this.set({ userData: null, isLoggedIn: false })
+    console.log('called logout')
+    // RootNavigation.navigate('Dashboard', { screen: 'Dashboard' });
+    RootNavigation.navigate('Tabs', { screen: 'Dashboard' });
   }
   
 
@@ -103,6 +117,9 @@ class AppProvider extends Component {
           },
           getPropertyTypes: () => {
             return this.getPropertyTypes()
+          },
+          logOut: () => {
+            return this.logOut()
           },
           reset: () => {
             this.set(defaultContext);

@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { MyText } from '../../utils/Index';
+import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 
 import Header from '../../components/Header';
@@ -12,7 +12,7 @@ import CommentRow from '../../components/CommentRow';
 import RatingRow from '../../components/dashboard/RatingRow';
 
 import { AppContext } from '../../../AppProvider';
-import { urls, GetRequest } from '../../utils';
+import { urls, GetRequest, errorMessage } from '../../utils';
 
 import { formatAmount } from '../../helpers'
 
@@ -24,10 +24,13 @@ class Dashboard extends Component {
       weeklyEarnings: 0,
       totalEarnings: 0,
       error: false,
+      gettingReservations: false,
+      gettingEarnings: false,
+      gettingRatings: false,
       reservations: [],
       name: null,
       image: null,
-      comment: null,
+      gettingComments: false,
       comments: [],
       guestName: null,
       ratings: [],
@@ -35,46 +38,55 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.renderWeeklyEarnings();
-    this.renderTotalEarnings();
+    this.getEarnings();
     this.getReservations();
     this.getComments();
     this.getRatings();
   }
-
-  renderWeeklyEarnings = async () => {
-    try {
-      const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/earnings');
-      if (response) {
-          const data = await response.data;
-          const earning = data.weeklyEarnings;
-          this.setState({ weeklyEarnings: earning});
-      } else { this.setState({ error: true }) }
-  } catch (e) {
-this.setState({ error: true });
-}
+  loading = () => {
+    return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />);
   }
+  renderCommentsLoading = () => {
+      const { gettingComments } = this.state;
+      if (gettingComments ) { this.loading() }
+  }
+  renderReservationsLoading = () => {
+      const { gettingReservations } = this.state;
+      if (gettingReservations ) { return this.loading() }
+  }
+  renderRatingsLoading = () => {
+    const { gettingRatings } = this.state;
+      if (gettingRatings ) { this.loading() }
+  }
+  // renderRatingsLoading = () => {
+  //   const { gettingRatings } = this.state;
+  //     if (gettingRatings ) { this.loading() }
+  // }
 
-renderTotalEarnings = async () => {
-    try {
-      const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/earnings');
-      if (response) {
-          const data = await response.data;
-          const earnings = data.totalEarnings;
-          this.setState({ totalEarnings: earnings});
-      } else { this.setState({ error: true }) }
-  } catch (e) {
-this.setState({ error: true });
-}
+
+  getEarnings = async () => {
+    this.setState({ gettingEarnings: true })
+    const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/earnings');
+    this.setState({ gettingEarnings: false })
+    if (response.isError) {
+      errorMessage(response.message)
+    } else {  
+      const data = response.data;
+      const weekly = data.weeklyEarnings;
+      const total = data.totalEarnings;
+      this.setState({ weeklyEarnings: weekly, totalEarnings: total});
+    }
   }
 
   linkToReservation = (item) => {
-    console.log(item)
     this.props.navigation.navigate('HomeDetails', { propertyId: item.property_Id } )
   }
 
   linkToReservations = () => {
     this.props.navigation.navigate('Reservations');
+  }
+  linkToRatings = () => {
+    this.props.navigation.navigate('RatingsReviews');
   }
 
   renderName = () => {
@@ -97,53 +109,42 @@ this.setState({ error: true });
       const {userData} = this.context.state;
       const photo = userData.profilePicture;
       const { imgStyle } = GStyles;
-      const {profileImg, imgContainer} = styles;
-      if (photo !== null) {
+      if (photo) {
         return (
-          <View style={profileImg}>
-            <View style={imgContainer}>
-              <Image source={{uri: photo}} style={imgStyle} />
-            </View>
-          </View>
+            <Image source={{uri: photo}} style={imgStyle} />
+        );
+      } else {
+        const { imgStyle } = GStyles;
+        return (
+            <Image source={require('../../assets/images/profile.png')} resizeMode="cover" style={imgStyle} />  
         );
       }
-    } else {
-      const {userData} = this.context.state;
-      const { imgStyle } = GStyles;
-      const { imgContainer, profileImg} = styles;
-      console.log(userData.firstName);
-      return (
-        <View style={profileImg}>
-              <View style={imgContainer}>
-                <Image source={require('../../assets/images/profile.png')} resizeMode="cover" style={imgStyle} />
-              </View>
-        </View>
-     );
-    }
+    } 
   }
 
   getReservations = async () => {
-    try {
-      const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/reservation/overview');
-      if (!response.isError) {
-          const data = response.data;
-          this.setState({ reservations: data});
-          console.log(data, 'reservation');
-      } else { this.setState({ error: true }); }
-  } catch (e) {
-    console.log(e);
-this.setState({ error: true });
-}
+    this.setState({ gettingReservations: true })
+    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/host/reservation/overview`);
+    this.setState({ gettingReservations: false })
+    if (response.isError) {
+      errorMessage(response.message)
+    } else { 
+      const data = response.data;
+      this.setState({ reservations: data});
+      console.log(data, 'reservation');
+    }
   }
 
   renderReservations = () => {
-    const { reservations } = this.state;
+    const { reservations, gettingReservations } = this.state;
+    
     if (reservations.length !== 0) {
       const {flexRow, textExtraBold, textBold, textH2Style, textDarkGrey, textH4Style, textUnderline, textGreen} = GStyles;
       const {rowContainer, contentHeader, contentBody} = styles;
       const reservation = reservations.map((reservation, i) => {
+        const key = `RE_${i}`
         return (
-          <ReservationRow title={reservation.propertyTitle} img={{uri: reservation.propertyMainImage }}
+          <ReservationRow title={reservation.propertyTitle} img={{uri: reservation.propertyMainImage }} key={key} type={reservation.propertyType}
            reserve={reservation.total + ' Reservations'} calendar onPress={this.linkToReservation.bind(this, reservation)} />
         )
       })
@@ -162,9 +163,10 @@ this.setState({ error: true });
           </View>
         </View>
       )
-    } else {
-      const { reservation} = styles;
-        const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
+    } 
+    if(reservations.length === 0 && !gettingReservations) {
+      const { reservation } = styles;
+      const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
       return (
         <View style={{alignContent: 'center'}}>
           <View style={reservation}>
@@ -177,29 +179,32 @@ this.setState({ error: true });
   }
 
   getComments = async () => {
-    try {
-      const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/comment/host/overview');
-      if (!response.isError) {
-          const data = response.data;
-          this.setState({ comments: data });
-           console.log(data);
-      } else { this.setState({ error: true }); }
-  } catch (e) {
-    console.log(e);
-this.setState({ error: true });
-}
+    this.setState({ gettingComments: true })
+    const response = await GetRequest(urls.listingBase, `${urls.v}listing/review/comment/host/overview`);
+    this.setState({ gettingComments: false})
+    if (response.isError) {
+      errorMessage(response.message)
+    } else { 
+      const data = response.data;
+      this.setState({ comments: data });
+    }
+    
   }
 
   renderComments = () => {
-    const { comments } = this.state;
+    const { comments, gettingComments } = this.state;
+    
     if (comments.length !== 0) {
       const {textDarkGrey, flexRow, textExtraBold, textH2Style, textH4Style, textBold, textUnderline, textGreen} = GStyles;
       const {divider, contentHeader, contentBody} = styles;
       const comment = comments.map((comment, i) => {
+        const key = `CE_${i}`
+        const imgUrl = comment.profilePicture ? {uri: comment.profilePicture} : require('../../assets/images/profile.png')
         return (
-            <View>
-                <CommentRow name={comments[i].guestName} text={comments[i].comment} review={comments[i].reviewedOn}  image={{uri: comments[i].profilePicture}} />
-                <View style={divider} />
+            <View key={key}>
+                <CommentRow name={comment.guestName} comment={comment.comment} 
+                review={comment.reviewedOn}  imgUrl={imgUrl} />
+                {comments.length !== i+1 ? <View style={divider} />: <></>}
             </View>
         )
       })
@@ -207,7 +212,7 @@ this.setState({ error: true });
         <View>
           <View style={[flexRow, contentHeader]}>
             <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Comments</MyText>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.linkToRatings}>
               <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
             </TouchableOpacity>
           </View>
@@ -217,9 +222,11 @@ this.setState({ error: true });
           </View>
         </View>
          );
-    } else {
+    } 
+    
+    if(!gettingComments && comments.length === 0) {
       const { reservation} = styles;
-        const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
+      const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
       return (
         <View style={{alignContent: 'center'}}>
           <View style={reservation}>
@@ -246,23 +253,23 @@ this.setState({ error: true });
   }
 
   renderRatings = () => {
-    const { ratings } = this.state;
+    const { ratings, gettingRatings } = this.state;
     if (ratings.length !== 0) {
       const {textDarkGrey, flexRow, textExtraBold, textH2Style, textH4Style, textBold, textUnderline, textGreen} = GStyles;
       const {divider, contentHeader, contentBody} = styles;
 
         const rating = ratings.map((rating, i) => {
+          const key = `RA_${i}`
           return (
-              <View>
-              <RatingRow
-                  name={ratings[i].guestName}
-                  img={{uri: ratings[i].profilePicture}}
-                  location="Lagos"
-                  date={ratings[i].reviewedOn}
-                  reviewAction={ratings[i].reviewAction + 'Reviews'}
-                  commentAction={ratings[i].commentAction + 'Comments'}
-              />
-              <View style={divider} />
+              <View key={key}>
+                <RatingRow
+                    name={rating.guestName} rating={rating.rating}
+                    img={{uri: rating.profilePicture}}
+                    date={rating.reviewedOn}
+                    reviewAction={rating.reviewAction + ' Review(s)'}
+                    commentAction={rating.commentAction + ' Comment(s)'}
+                />
+                {ratings.length !== i+1 ? <View style={divider} />: <></>}
               </View>
           );
         });
@@ -270,7 +277,7 @@ this.setState({ error: true });
         <View>
             <View style={[flexRow, contentHeader]}>
               <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Ratings</MyText>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={this.linkToRatings}>
                 <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
               </TouchableOpacity>
             </View>
@@ -282,7 +289,8 @@ this.setState({ error: true });
             </View>
         </View>
       );
-    } else {
+    } 
+    if(!gettingRatings && ratings.length === 0) {
       const { reservation} = styles;
         const {imgStyle, textCenter, textH5Style, textBold, textOrange} = GStyles;
       return (
@@ -299,7 +307,7 @@ this.setState({ error: true });
 
   render() {
     const { subHeaderContainer, profileContainer, walletContainer, profileText, firstRow, 
-      secondRow, viewContainer, walletImgContainer, contentContainer, noBorderBottom } = styles;
+      secondRow, viewContainer, walletImgContainer, contentContainer, noBorderBottom, profileImg, imgContainer, wrapper } = styles;
     const { textBold, textH4Style, flexRow, imgStyle, textGrey, textWhite,
       textH5Style, textDarkGreen, textH2Style, textExtraBold } = GStyles;
     return (
@@ -308,7 +316,11 @@ this.setState({ error: true });
         <ScrollView keyboardShouldPersistTaps="always">
           <View style={subHeaderContainer}>
             <View style={[flexRow, profileContainer]}>
-                {this.renderProfilePhoto()}
+              <View style={profileImg}>
+                <View style={imgContainer}>
+                    {this.renderProfilePhoto()}
+                </View>
+              </View>
               <View style={profileText}>
                 {this.renderName()}
                 <MyText style={[textGrey, textH4Style]}>You are now a host on Aura</MyText>
@@ -337,37 +349,36 @@ this.setState({ error: true });
             </View>   
           </View>
 
-          <View style={contentContainer}>
-            {this.renderReservations()}
-          </View>
-
-          <View style={contentContainer}>
-              {this.renderComments()}
-          </View>
-
-
-          <View style={[contentContainer, noBorderBottom]}>
-            {this.renderRatings()}
-            {/* <View style={[flexRow, contentHeader]}>
-              <MyText style={[textExtraBold, textH2Style, textDarkGrey]}>Ratings</MyText>
-              <TouchableOpacity>
-                <MyText style={[textH4Style, textBold, textUnderline, textGreen]}>See All</MyText>
-              </TouchableOpacity>
+          <View style={wrapper}>
+            {this.renderReservationsLoading()}
+            <View style={contentContainer}> 
+              {this.renderReservations()}
             </View>
+          </View>
 
-            <View style={contentBody}>
-              <View>
-                <RatingRow name="Joshua Nwabogor" img={require('../../assets/images/photo/photo6.png')} location="Lagos" />
-                <View style={divider}></View>
-              </View>
-              <View>
-                <RatingRow name="Ashley Cole" img={require('../../assets/images/photo/photo.png')} location="Lagos" />
-                <View style={divider}></View>
-              </View>
-              <View>
-                <RatingRow name="Banabas Kaviar" img={require('../../assets/images/photo/photo3.png')} location="Lagos" />
-              </View>
-            </View> */}
+          <View style={wrapper}>
+            {this.renderCommentsLoading()}
+            <View style={contentContainer}>
+                {this.renderComments()}
+            </View>
+          </View>
+
+          <View style={wrapper}>
+            {this.renderRatingsLoading()}
+            <View style={[contentContainer, noBorderBottom]}>
+              {this.renderRatings()}
+              {/* 
+              <View style={contentBody}>
+                
+                <View>
+                  <RatingRow name="Ashley Cole" img={require('../../assets/images/photo/photo.png')} location="Lagos" />
+                  <View style={divider}></View>
+                </View>
+                <View>
+                  <RatingRow name="Banabas Kaviar" img={require('../../assets/images/photo/photo3.png')} location="Lagos" />
+                </View>
+              </View> */}
+            </View>
           </View>
 
         </ScrollView>
@@ -432,6 +443,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flex: 1,
   },
+  wrapper: {
+    minHeight: 200
+  }
 });
 
 export default Dashboard;
