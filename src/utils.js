@@ -4,6 +4,10 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
 
+
+import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
+
+
 let context = undefined;
 export let debug = false;
 export const GLOBAL_PADDING = 20;
@@ -11,7 +15,9 @@ export const GLOBAL_PADDING = 20;
 const CLIENT_ID = '0987654321'
 const CLIENT_SECRET = '1234567890'
 
-export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs"
+export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs";
+
+const UNAUTHORIZED_MESSAGE = 'user is unauthorised to perform action'
 
 
 export const urls = {
@@ -278,6 +284,10 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
         return response.json()
      })
      .then((data) => {
+        if((data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
+           console.log('Got here utils')
+           context.logOut()
+        }
         return data
      })
      .catch((error) => {

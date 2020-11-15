@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 import {Fab, Icon} from 'native-base';
@@ -78,15 +78,22 @@ class ManageProperties extends Component {
         <Header {...this.props} title="Manage Properties" wrapperStyles={{ paddingBottom: 5}} />
         <View style={manageHeader}>
             <View style={tabsContainer}>
-                <TouchableOpacity style={[tabStyle, tabOneSelected ? activeTab : '']} onPress={this.selectTabOne}>
-                    <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>All Properties</MyText>
-                </TouchableOpacity>
-                <TouchableOpacity style={[tabStyle, tabTwoSelected ? activeTab : '']} onPress={this.selectTabTwo}>
-                    <MyText style={[textH5Style, textBold, tabTwoSelected ? textWhite : textSuccess]}>Hotels</MyText>
-                </TouchableOpacity>
-                <TouchableOpacity style={[tabStyle,  tabThreeSelected ? activeTab : '']} onPress={this.selectTabThree}>
-                    <MyText style={[textH5Style, textBold, tabThreeSelected ? textWhite : textSuccess]}>Apartments</MyText>
-                </TouchableOpacity>
+                <TouchableWithoutFeedback onPress={this.selectTabOne}>
+                  <View style={[tabStyle, tabOneSelected ? activeTab : '']} >
+                      <MyText style={[textH5Style,textBold, tabOneSelected ? textWhite : textSuccess]}>All Properties</MyText>
+                  </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={this.selectTabTwo}>
+                  <View style={[tabStyle, tabTwoSelected ? activeTab : '']} >
+                      <MyText style={[textH5Style, textBold, tabTwoSelected ? textWhite : textSuccess]}>Hotels</MyText>
+                  </View>
+                </TouchableWithoutFeedback>
+
+                <TouchableWithoutFeedback onPress={this.selectTabThree}>
+                  <View style={[tabStyle,  tabThreeSelected ? activeTab : '']} >
+                      <MyText style={[textH5Style, textBold, tabThreeSelected ? textWhite : textSuccess]}>Apartments</MyText>
+                  </View>
+                </TouchableWithoutFeedback>
             </View>
         </View>
         {this.renderTabs()}

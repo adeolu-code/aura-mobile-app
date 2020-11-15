@@ -6,6 +6,7 @@ import { setUser, clearData } from './src/helpers';
 
 import * as RootNavigation from './src/RootNavigation';
 
+
 const AppContext = React.createContext({});
 
 const defaultContext = {
@@ -30,7 +31,6 @@ const defaultContext = {
 
 class AppProvider extends Component {
   state = defaultContext;
-  
   set = (value) => {
     // this.setState(value);
     this.setState(()=>(value), () => {
@@ -42,7 +42,6 @@ class AppProvider extends Component {
   };
 
   componentDidMount = () => {
-    
   }
 
   getUserProfile = (token) => {

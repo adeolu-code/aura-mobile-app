@@ -24,6 +24,8 @@ class ManagePropertyProvider extends Component {
       setContext({state: this.state});
     })
   };
+
+
   getAllProperties = async (more) => {
     const { userData } = this.context.state
     const { activePropertiesPage, perPage, properties } = this.state

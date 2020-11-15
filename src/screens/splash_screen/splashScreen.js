@@ -114,6 +114,7 @@ const SplashScreen = (props) => {
         } 
     }
     useEffect(() => {
+        setContext(context)
         checkLogin()
         requestLocationPermission()
         // setTimeout(() => {

@@ -19,16 +19,16 @@ class ReportsComponent extends Component {
     const { emptyContainerStyle } = styles;
     const { imgStyle, textCenter, textOrange, textBold, textH4Style } = GStyles
     const { state } = this.props.reviewsContext
-    if(state.ratings.length === 0 && !state.loadingRatings) {
-        return (
-            <View style={{ flex: 1, paddingVertical: 60}}>
-                <View style={emptyContainerStyle}>
-                    <Image source={require('../../../assets/images/photo/undraw.png')} style={imgStyle} resizeMode="contain" />
-                </View>
-                <MyText style={[textBold, textCenter, textOrange, textH4Style]}>No reports</MyText>
+    
+    return (
+        <View style={{ flex: 1, paddingVertical: 60}}>
+            <View style={emptyContainerStyle}>
+                <Image source={require('../../../assets/images/photo/undraw.png')} style={imgStyle} resizeMode="contain" />
             </View>
-        )
-    }
+            <MyText style={[textBold, textCenter, textOrange, textH4Style]}>No reports</MyText>
+        </View>
+    )
+    
 }
 
   render() {
