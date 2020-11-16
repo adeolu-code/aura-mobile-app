@@ -24,6 +24,9 @@ class DashboardComponent extends Component {
   onPressRR = () => {
     this.props.navigation.navigate('RatingsReviews')
   }
+  onPressEarning = () => {
+    this.props.navigation.navigate('Earnings')
+  }
   
 
   render() {
@@ -61,7 +64,7 @@ class DashboardComponent extends Component {
                     img={require('../../assets/images/dashboard_icons/review.png')} onPress={this.onPressRR} />
                 </View>
                 <View style={sectionStyle}>
-                    <DashboardCardComponent title="My Earnings" description={earning} iconX
+                    <DashboardCardComponent title="My Earnings" description={earning} iconX onPress={this.onPressEarning}
                     img={require('../../assets/images/dashboard_icons/pay.png')} />
                 </View>
                 

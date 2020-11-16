@@ -12,6 +12,7 @@ import {
   import colors from '../../colors';
 
   import {Icon} from 'native-base';
+import AutoCompleteComponent from '../explore/AutoCompleteComponent';
 
 
   class SearchToggle extends Component {
@@ -36,6 +37,10 @@ import {
     //     active: false,
     // });
     // }
+
+    componentDidMount = () => {
+      
+    }
     render(){
         const { close } = this.props;
         const {
@@ -51,83 +56,61 @@ import {
           } = GStyles;
         return (
             <View style={[search, {zIndex:  10}]}>
-          <View style={[flexRow, searchGroup]}>
-            <TouchableOpacity onPress={close} style={iconStyle}>
-              <Icon type="MaterialIcons" name="keyboard-arrow-left" style={{fontSize: 30}} />
-            </TouchableOpacity>
-            <View style={SearchArea}>
-              <SearchInput placeholder="Where are you going?" />
-            </View>
-          </View>
-          <View style={{marginTop: 20}}>
-            <View style={[flexRow, iconsArea]}>
-              <View style={icons}>
-                <TouchableOpacity>
-                  <Icon type="FontAwesome" name="location-arrow" style={{fontSize: 20, color: colors.white}} />
+              <View style={[flexRow, searchGroup]}>
+                <TouchableOpacity onPress={close} style={iconStyle}>
+                  <Icon type="MaterialIcons" name="keyboard-arrow-left" style={{fontSize: 30}} />
                 </TouchableOpacity>
+                <View style={SearchArea}>
+                  <AutoCompleteComponent />
+                  {/* <SearchInput placeholder="Where are you going?" /> */}
+                </View>
               </View>
-              <View >
-                <MyText style={[textH5Style, {paddingTop: 9}]}>
-                  Nearby Places
+              {/* <View style={{marginTop: 20}}>
+                <View style={[flexRow, iconsArea]}>
+                  <View style={icons}>
+                    <TouchableOpacity>
+                      <Icon type="FontAwesome" name="location-arrow" style={{fontSize: 20, color: colors.white}} />
+                    </TouchableOpacity>
+                  </View>
+                  <View >
+                    <MyText style={[textH5Style, {paddingTop: 9}]}>
+                      Nearby Places
+                    </MyText>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <MyText style={textDarkBlue, textH6Style, textBold}>
+                  POPULAR SEARCHES BY CITY
                 </MyText>
               </View>
-            </View>
-          </View>
-          <View>
-            <MyText style={textDarkBlue, textH6Style, textBold}>
-              POPULAR SEARCHES BY CITY
-            </MyText>
-          </View>
-          <View style={{marginTop: 20}}>
-            <View style={[flexRow, iconsArea]}>
-                <View style={icons}>
-                  <TouchableOpacity>
-                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
-                  </TouchableOpacity>
+              <View style={{marginTop: 20}}>
+                <View style={[flexRow, iconsArea]}>
+                    <View style={icons}>
+                      <TouchableOpacity>
+                        <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity>
+                      <MyText style={[textH5Style, {paddingTop: 9}]}>
+                        Lagos
+                      </MyText>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity>
-                  <MyText style={[textH5Style, {paddingTop: 9}]}>
-                    Lagos
-                  </MyText>
-                </TouchableOpacity>
-            </View>
-            <View style={[flexRow, iconsArea]}>
-                <View style={icons}>
-                  <TouchableOpacity>
-                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
-                  </TouchableOpacity>
+                <View style={[flexRow, iconsArea]}>
+                    <View style={icons}>
+                      <TouchableOpacity>
+                        <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity>
+                      <MyText style={[textH5Style, {paddingTop: 9}]}>
+                        Abuja
+                      </MyText>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity>
-                  <MyText style={[textH5Style, {paddingTop: 9}]}>
-                    Abuja
-                  </MyText>
-                </TouchableOpacity>
-            </View>
-            <View style={[flexRow, iconsArea]}>
-                <View style={icons}>
-                  <TouchableOpacity>
-                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity >
-                  <MyText style={[textH5Style, {paddingTop: 9}]}>
-                    Ibadan
-                  </MyText>
-                </TouchableOpacity>
-            </View>
-            <View style={[flexRow, iconsArea]}>
-                <View style={icons}>
-                  <TouchableOpacity>
-                    <Icon type="Ionicons" name="location-outline" style={{fontSize: 20, color: colors.white}} />
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity>
-                  <MyText style={[textH5Style, {paddingTop: 9}]}>
-                    Calabar
-                  </MyText>
-                </TouchableOpacity>
-            </View>
-          </View>
+                
+              </View> */}
         </View>
         );
     }
@@ -135,7 +118,7 @@ import {
 
 const styles = StyleSheet.create({
     search: {
-      paddingTop: 30,
+      paddingTop: 50,
       paddingHorizontal: 20,
       position: 'absolute',
       top: 0,
@@ -148,13 +131,14 @@ const styles = StyleSheet.create({
     },
     SearchArea: {
       flex: 8,
-      elevation: 5,
-      backgroundColor: colors.orange,
-      borderWidth: 0.01,
-      borderColor: colors.orange,
-      borderRadius: 5,
-      height: 43.7,
+      // elevation: 5,
+      // backgroundColor: colors.orange,
+      // borderWidth: 0.01,
+      // borderColor: colors.orange,
+      // height: 43.7,
       justifyContent: 'center',
+      paddingHorizontal: 4,
+      // borderWidth: 1
      },
      searchGroup: {
       justifyContent: 'center',

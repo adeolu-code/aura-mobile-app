@@ -289,14 +289,6 @@ export default class PickPropertyImage extends Component {
                                                     </View>
                                                 </TouchableOpacity>
                                                 {this.renderImages()}
-                                                {/* 
-                                                 <View style={[Styles.miniSelectedImageView]}>
-                                                    <Image 
-                                                        style={[Styles.miniSelectedImage]}
-                                                        source={require("./../../assets/images/photo/photo.png")} 
-                                                    />
-                                                    <Icon name={"trash-sharp"} style={[Styles.trashIcon]} />
-                                                </View> */}
                                                 
 
                                             </View>

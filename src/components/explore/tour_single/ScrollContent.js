@@ -29,14 +29,6 @@ class ScrollContent extends Component {
                     <PhotoComponent img={require('../../../assets/images/photo/pic2.png')} 
                     title2="Carmen Cooper" location="Lagos" title1="N 3,500/ person" {...this.props} />
                 </View>
-                <View style={scrollItemContainer}>
-                    <PhotoComponent img={require('../../../assets/images/photo/photo1.png')} 
-                        title2="Ikeanyi Dalu" location="Lagos" title1="N 3,500/ person" {...this.props} />
-                </View>
-                <View style={scrollItemContainer}>
-                    <PhotoComponent img={require('../../../assets/images/photo/photo.png')} 
-                        title2="Maxwell Aarons" location="Lagos" title1="N 3,500/ person" {...this.props} />
-                </View>
             </View>
         </ScrollView>
     );

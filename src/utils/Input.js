@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Icon} from 'native-base';
 import {MyText} from './MyText';
+import { Spinner } from './Spinner'
 import GStyles from '../assets/styles/GeneralStyles';
 import colors from '../colors';
 
@@ -39,6 +40,17 @@ class CustomInput extends Component {
       );
     }
   }
+  renderSpinner() {
+    const {password, iconStyle, loading} = this.props;
+    const {showImgContainerStyle, inputIconStyle, showImg} = styles;
+    if (loading) {
+      return (
+        <View style={showImgContainerStyle}>
+          <Spinner color={colors.orange} size={20} />
+        </View>
+      );
+    }
+  }
   render() {
     const {
       InputContainerStyles,
@@ -46,7 +58,7 @@ class CustomInput extends Component {
       InputWithImgStyle,
       inputRightPadding,
       lStyles,
-      lTextStyles,
+      lTextStyles, overlay
     } = styles;
     const {textH4Style} = GStyles;
     const {
@@ -64,7 +76,7 @@ class CustomInput extends Component {
       iconName,
       label,
       sublabel,
-      placeholderColor,
+      placeholderColor, disabled
     } = this.props;
     // const inputImgStyle = imageUrl || iconName ? '' : InputWithImgStyle;
     const paddingRight = password ? '' : inputRightPadding;
@@ -93,8 +105,11 @@ class CustomInput extends Component {
             keyboardType={keyboard}
             placeholderTextColor={placeholderColor || 'rgba(99, 99, 99, 0.7)'}
           />
+          {this.renderSpinner()}
           {this.renderShow()}
+          {disabled ? <View style={overlay}></View> : <></>}
         </View>
+        
       </View>
     );
   }
@@ -144,6 +159,9 @@ const styles = StyleSheet.create({
   showImg: {
     width: 22,
     height: 22,
+  },
+  overlay: {
+      backgroundColor: 'rgba(0,0,0,0.05)', width: '100%', height: '100%', position: 'absolute', borderRadius: 5
   },
 });
 

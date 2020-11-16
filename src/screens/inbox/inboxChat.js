@@ -65,7 +65,7 @@ export default class InboxChat extends Component {
 
     render() {
         const {textBold, textH4Style } = GStyles;
-        const defaultImage = require("./../../assets/images/photo/photo1.png");
+        const defaultImage = require("./../../assets/images/profile.png");
         return (
             <>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />

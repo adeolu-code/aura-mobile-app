@@ -131,26 +131,6 @@ class ScrollContent extends Component {
             onEndReachedThreshold={0.8}
             // extraData={selectedId}
         />
-        {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
-            <View style={[scrollContainer, { width: '100%' }]}>
-                <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../../../assets/images/places/bed.png')} verified
-                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
-                </View>
-                <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../../../assets/images/places/bed1.png')} verified
-                    title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
-                </View>
-                <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../../../assets/images/places/bed2.png')} 
-                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
-                </View>
-                <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../../../assets/images/places/bed3.png')} 
-                        title="Umbaka Home Park" location="Lagos" price="N 200,341/ night" {...this.props} />
-                </View>
-            </View>
-        </ScrollView> */}
         {places.length !== 0 && !loading ? <View style={buttonContainer}>
             <CustomButton buttonText="View more place" iconName="arrow-right"
                 buttonStyle={buttonStyle} onPress={onPress} />

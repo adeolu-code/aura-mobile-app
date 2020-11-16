@@ -13,11 +13,6 @@ class PhotographerDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        images: [{ source: require('../../../assets/images/photo/pic.png'),
-            dimensions: { width: 120, height: 150 }
-        },  { source: require('../../../assets/images/photo/pic5.png'),
-            dimensions: { width: 200, height: 510 }
-        }]
     };
   }
 

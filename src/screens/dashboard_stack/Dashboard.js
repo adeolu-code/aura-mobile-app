@@ -367,17 +367,6 @@ class Dashboard extends Component {
             {this.renderRatingsLoading()}
             <View style={[contentContainer, noBorderBottom]}>
               {this.renderRatings()}
-              {/* 
-              <View style={contentBody}>
-                
-                <View>
-                  <RatingRow name="Ashley Cole" img={require('../../assets/images/photo/photo.png')} location="Lagos" />
-                  <View style={divider}></View>
-                </View>
-                <View>
-                  <RatingRow name="Banabas Kaviar" img={require('../../assets/images/photo/photo3.png')} location="Lagos" />
-                </View>
-              </View> */}
             </View>
           </View>
 

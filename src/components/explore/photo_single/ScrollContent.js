@@ -39,10 +39,7 @@ class ScrollContent extends Component {
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
             <View style={[scrollContainer, { width: '100%' }]}>
                 {this.renderPhotos()}
-                {/* <View style={scrollItemContainer}>
-                    <HouseComponent img={require('../../../assets/images/photo/pic8.png')} 
-                    title="Miguel Davis" location="Lagos" price="₦ 6000" {...this.props} />
-                </View>
+                {/* 
                 <View style={scrollItemContainer}>
                     <HouseComponent img={require('../../../assets/images/photo/pic1.png')} 
                     title="Sussy Sanders" location="Lagos" price="₦ 6000" {...this.props} />
