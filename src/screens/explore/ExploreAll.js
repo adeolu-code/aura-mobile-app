@@ -1,5 +1,5 @@
-/* eslint-disable prettier/prettier */
-import React, { Component } from 'react';
+
+import React, { Component, Fragment } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
@@ -16,15 +16,23 @@ import ToursComponent from '../../components/explore/explore_all/tour/Index';
 import PhotographersComponent from '../../components/explore/explore_all/photograph/Index';
 
 import ExploreLocation from '../../components/explore/explore_all/ExploreLocation';
+import SearchToggle from '../../components/explore/SearchToggle';
+
 
 class ExploreAll extends Component {
   constructor(props) {
     super(props);
-    this.state = { tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, selectedTab: 'one' };
+    this.state = { tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, selectedTab: 'one', active: false };
     this.tabs = {}
     const { tab } = props.route.params;
     this.state.selectedTab = tab
     // this.linkTo(tab)
+  }
+  closeSearch = () => {
+    this.setState({ active: false });
+  }
+  openSearch = () => {
+    this.setState({ active: true });
   }
   componentDidMount = () => {
       const { selectedTab } = this.state
@@ -92,6 +100,7 @@ class ExploreAll extends Component {
     const { tabOne, tabTwo, tabThree, tabFour, tabFive } = this.state;
     return (
         <SafeAreaView style={container}>
+            {this.state.active ? <SearchToggle close={this.closeSearch} {...this.props} /> : <Fragment />}
             <View style={fixedHeaderContainer}>
                 <View style={[flexRow, headerContainer]}>
                     <TouchableOpacity style={leftStyle} onPress={this.goBack}>
@@ -99,7 +108,10 @@ class ExploreAll extends Component {
                     </TouchableOpacity>
                     <View style={rightStyle}>
                         <View style={[flexRow, searchContainer]}>
-                            <TextInput style={[inputStyles]} placeholder="Location, landmark, restaurant" />
+                            <TouchableOpacity style={[inputStyles, { justifyContent: 'center'}]} onPress={this.openSearch}>
+                                <MyText style={[textGrey]}>Search location</MyText>
+                            </TouchableOpacity>
+                            {/* <TextInput style={[inputStyles]} placeholder="search Location" /> */}
                             <Icon name="search" style={searchIconStyle}  />
                         </View>
                     </View>

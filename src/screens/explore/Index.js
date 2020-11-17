@@ -179,7 +179,7 @@ class Index extends Component {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: 'white' }}>
         <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
-        {this.state.active ? <SearchToggle close={this.closeSearch} /> : <Fragment />}
+        
         <ScrollView style={{position: 'relative', backgroundColor: colors.white}}>
           <ImageBackground
             source={require('../../assets/images/mask/mask.png')}
@@ -200,7 +200,7 @@ class Index extends Component {
             </MyText>
             <View style={searchContainer}>
               {/* <SearchInput onFocus={this.openSearch} placeholder="Location, landmark, address" /> */}
-              <SearchInput onFocus={this.openSearch} placeholder="Location" />
+              <SearchInput onPress={this.openSearch} placeholder="Location" />
               {/* <AutoCompleteComponent /> */}
             </View>
           </ImageBackground>
@@ -289,6 +289,7 @@ class Index extends Component {
 
 
         </ScrollView>
+        {this.state.active ? <SearchToggle close={this.closeSearch} {...this.props} /> : <Fragment />}
       </SafeAreaView>
     );
   }

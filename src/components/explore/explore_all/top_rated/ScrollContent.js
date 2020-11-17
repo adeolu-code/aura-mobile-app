@@ -23,13 +23,14 @@ class ScrollContent extends Component {
     }
     renderEmptyContainer = () => {
         const { emptyContainerStyle } = styles;
+        const { width } = Dimensions.get('screen')
         const { imgStyle, textCenter, textOrange, textBold, textH4Style } = GStyles
         const { loading, places } = this.state
         if(places.length === 0 && !loading) {
             return (
-            <View>
+            <View style={{ width, paddingBottom: 30 }}>
                 <View style={emptyContainerStyle}>
-                <Image source={require('../../../../assets/images/no_house1.png')} style={imgStyle} resizeMode="contain" />
+                    <Image source={require('../../../../assets/images/no_house1.png')} style={imgStyle} resizeMode="contain" />
                 </View>
                 <MyText style={[textBold, textCenter, textOrange]}>No Apartments and Hotels Found</MyText>
             </View>
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
         height: 1, backgroundColor: colors.lightGrey, width: '100%'
     },
     emptyContainerStyle: {
-        height: 160, width: '100%', marginBottom: 20, marginTop: 20
+        height: 160, width: '100%', marginBottom: 20, marginTop: 20,
     }
 });
 

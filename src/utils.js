@@ -285,8 +285,9 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
         return response.json()
      })
      .then((data) => {
-        if((data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
-           console.log('Got here utils')
+      //   console.log('Utils ', data)
+        if(data !== undefined && (data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
+         //   console.log('Got here utils')
            context.logOut()
            return;
         }

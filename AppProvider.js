@@ -94,7 +94,7 @@ class AppProvider extends Component {
     this.set({ userData: null, isLoggedIn: false })
     console.log('called logout')
     // RootNavigation.navigate('Dashboard', { screen: 'Dashboard' });
-    RootNavigation.navigate('Tabs', { screen: 'Dashboard' });
+    // RootNavigation.navigate('Tabs', { screen: 'Dashboard' });
   }
   
 

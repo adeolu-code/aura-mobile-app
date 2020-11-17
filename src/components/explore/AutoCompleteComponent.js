@@ -15,14 +15,14 @@ import { GOOGLE_API_KEY, GOOGLE_SEARCH_KEY } from '../../utils'
 class AutoCompleteComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: '' };
+    this.state = { value: '', isFieldActive: true };
   }
 
    locationDetails = (data, details = null) => {
         const obj = { data, details }
-        console.log('Data ', data, details)
-        // this.setState({ value: data.description })
-        // this.props.locationDetails(obj)
+        // console.log('Data ', data, details)
+        this.setState({ value: data.description })
+        this.props.locationDetails(obj)
     }
     onChangeText = (text) => {
         this.setState({ value: text })
@@ -36,7 +36,7 @@ class AutoCompleteComponent extends Component {
     const activeStyles = autoCompleteActiveStyles
 
 
-    const { title, countrySymbol, location } = this.props
+    const { title, countrySymbol, location, placeholder } = this.props
 
     const homePlace = {
         description: location ? location.city : '',
@@ -46,9 +46,9 @@ class AutoCompleteComponent extends Component {
         <View style={[flexRow]}>
             
             <GooglePlacesAutocomplete
-                autoFocus={this.state.isFieldActive}
+                autoFocus={true}
                 ref={ref => this.googleAutoComplete = ref }
-                placeholder=''
+                placeholder={placeholder}
                 minLength={2}
                 returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
                 keyboardAppearance={'light'} 
@@ -60,7 +60,8 @@ class AutoCompleteComponent extends Component {
                 textInputProps={{
                     onBlur:this.handleBlur,
                     onChangeText: this.onChangeText,
-                    value: this.state.value
+                    value: this.state.value,
+                    autoFocus: true
                 }}
                 enablePoweredByContainer={false}
                 query={{
