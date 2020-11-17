@@ -21,10 +21,10 @@ class Index extends Component {
   }
   
   linkToFood = () => {
-    this.props.link('two')
+    this.props.link('three')
   }
   linkToHouse = () => {
-    this.props.link('three')
+    this.props.link('two')
   }
   linkToPhoto = () => {
     this.props.link('four')
@@ -40,10 +40,10 @@ class Index extends Component {
         <ScrollView style={contentMainContainer}>
           {/* <ExploreLocation /> */}
           <View>
-            <ScrollContent heading="Top Apartments & Hotels" onPress={this.linkToHouse} />
-            <ScrollContentFood heading="Top Restaurants" onPress={this.linkToFood} />
-            <ScrollContentPhotograph heading="Top Photographers" onPress={this.linkToPhoto} />
-            <ScrollContentTour heading="Top Tour Guides" noDivider onPress={this.linkToTour} />
+            <ScrollContent heading="Top Apartments & Hotels"  {...this.props} />
+            <ScrollContentFood heading="Top Restaurants" onPress={this.linkToFood} {...this.props} />
+            <ScrollContentPhotograph heading="Top Photographers" onPress={this.linkToPhoto} {...this.props} />
+            <ScrollContentTour heading="Top Tour Guides" noDivider onPress={this.linkToTour} {...this.props} />
           </View>
         </ScrollView>
       </Fragment>

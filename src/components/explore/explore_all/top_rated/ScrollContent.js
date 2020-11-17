@@ -21,6 +21,13 @@ class ScrollContent extends Component {
         const { loading } = this.state;
         if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
     }
+    linkToHouse = (house) => {
+        this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house }})
+      }
+    linkToHouses = () => {
+        console.log(this.props)
+        this.props.link('two')
+    }
     renderEmptyContainer = () => {
         const { emptyContainerStyle } = styles;
         const { width } = Dimensions.get('screen')
@@ -43,7 +50,6 @@ class ScrollContent extends Component {
         
         const res = await GetRequest(urls.listingBase, 
         `${urls.v}listing/property/toprated/?pageSize=${perPage}&Page=${activePage}`);
-        console.log('Res places', res)
         more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;
@@ -79,7 +85,7 @@ class ScrollContent extends Component {
         const imgUrl = item.mainImage ? { uri: item.mainImage.assetPath } : require('../../../../assets/images/no_house1.png')
         return (
             <View style={scrollItemContainer}>
-                <HouseComponent img={imgUrl} verified={item.isVerified} title={title} location={item.state} 
+                <HouseComponent img={imgUrl} verified={item.isVerified} title={title} location={item.state} onPress={this.linkToHouse.bind(this, item)}
                 price={`₦ ${formattedAmount} / night`} {...this.props} rating={item.rating} />
             </View>
         )
@@ -134,7 +140,7 @@ class ScrollContent extends Component {
         />
         {places.length !== 0 && !loading ? <View style={buttonContainer}>
             <CustomButton buttonText="View more place" iconName="arrow-right"
-                buttonStyle={buttonStyle} onPress={onPress} />
+                buttonStyle={buttonStyle} onPress={this.linkToHouses} />
         </View> : <></>}
         {!noDivider ? <View style={dividerContainer}>
             <View style={divider}></View>
