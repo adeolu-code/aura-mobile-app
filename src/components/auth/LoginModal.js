@@ -19,6 +19,7 @@ import { setUser, setToken } from '../../helpers';
 import { setContext, Request, urls } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { GOOGLE_WEB_CLIENTID } from '../../strings'
+import ForgotPassword from "../../screens/auth/ForgotPassword";
 
 class LoginModal extends Component {
   static contextType = AppContext;
@@ -56,6 +57,10 @@ class LoginModal extends Component {
   }
   onChangeValue = (attrName, value) => {
     this.setState({ [attrName]: value });
+  }
+  forgotPassword = () => {
+    const {navigation} = this.props;
+    navigation.navigate('Auth', {screen: 'Password'});
   }
   submit = async () => {
     Keyboard.dismiss()
@@ -171,10 +176,9 @@ class LoginModal extends Component {
       }.bind(this)
     );
   }
-
-  componentDidMount() {
-    // setContext(this.context);
-  }
+  // componentDidMount() {
+  //   // setContext(this.context);
+  // }
   componentWillUnmount = () => {
     this.setState({ loading: false })
   }
@@ -218,7 +222,7 @@ class LoginModal extends Component {
                   <CustomButton buttonText="Log In" onPress={this.submit} disabled={this.disabled()} />
                 </View>
                 <View>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={this.forgotPassword}>
                     <MyText style={[textH5Style, textCenter, textDarkGrey]}>Forgot password?</MyText>
                   </TouchableOpacity>
                 </View>

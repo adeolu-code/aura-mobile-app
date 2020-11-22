@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import React from 'react';
 
