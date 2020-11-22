@@ -47,11 +47,11 @@ class ManagePropertyRow extends Component {
                                         {status}</MyText>
                                 </View>
                             </View>
-                            <View style={{flex: 1 }}>
-                                <TouchableOpacity onPress={this.openFilterModal}>
+                            <TouchableOpacity onPress={this.openFilterModal} style={{flex: 1.4, }}>
+                                <View>
                                     <Icon style={{color: colors.grey, fontSize: 20}} name={"ios-ellipsis-vertical-sharp"} />
-                                </TouchableOpacity>
-                            </View>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                         
                     </View>
@@ -66,7 +66,7 @@ class ManagePropertyRow extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%', paddingVertical: 15, paddingLeft: 15, paddingRight: 8, 
+        width: '100%', paddingVertical: 15, paddingLeft: 15, paddingRight: 0, 
         backgroundColor: colors.white, elevation: 2, borderRadius: 8
     },
     imgContainer: {

@@ -189,7 +189,7 @@ class LoginModal extends Component {
 
   render() {
     const { visible, onDecline } = this.props;
-    const { textWhite, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, 
+    const { textWhite, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, textOrange,
       textGreen, textBold } = GStyles;
     const { modalHeader, closeContainer, logoContainer, container, modalContainer, inputContainer, 
       buttonContainer, modalBodyStyle, dashStyles, dashContainer, socialContainer, buttonStyle, accountStyle } = styles
@@ -223,7 +223,7 @@ class LoginModal extends Component {
                 </View>
                 <View>
                   <TouchableOpacity onPress={this.forgotPassword}>
-                    <MyText style={[textH5Style, textCenter, textDarkGrey]}>Forgot password?</MyText>
+                    <MyText style={[textH4Style, textCenter, textOrange]}>Forgot password?</MyText>
                   </TouchableOpacity>
                 </View>
                 <View style={dashContainer}>

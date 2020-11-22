@@ -72,7 +72,7 @@ class PlaceHolderComponent extends Component {
               <MyText style={[btnText, textH4Style, textUnderline, textBold]}>Sign Up</MyText>
             </TouchableOpacity>
           </View>
-          <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} />
+          <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} {...this.props} openSignUp={this.openSignUpModal} />
           <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
         </ScrollView>
       </View>

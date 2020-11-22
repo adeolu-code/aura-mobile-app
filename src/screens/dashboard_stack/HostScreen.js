@@ -37,6 +37,7 @@ class HostScreen extends Component {
     const { navigation } = this.props;
     // this.openOtpModal()
     // this.generateOtp()
+    this.context.set({ isInApp: true, edit: false, propertyFormData: null })
     if (userData.isPhoneVerified) {
       if (userData.isEmailVerified) {
         navigation.navigate('HostPropertyStack', {screen: 'HostSteps'});

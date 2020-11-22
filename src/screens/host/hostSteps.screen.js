@@ -28,7 +28,7 @@ export default class HostSteps extends Component {
     getStarted = () => {
         // this.props.navigation.navigate("UploadPropertyImage");
         const { set, state } = this.context
-        set({ isInApp: true, edit: false })
+        set({ isInApp: true, edit: false, propertyFormData: null })
         if (state.step === 1) {
             // this.props.navigation.navigate("HostProperty");
             this.props.navigation.navigate('Auth', {screen: "List"});
