@@ -17,6 +17,7 @@ import AmenitiesScreen from '../screens/auth/AmenitiesHOC';
 import SavedScreen from '../screens/auth/SavedScreen';
 import Location from '../screens/auth/Location';
 import ForgotPassword from '../screens/auth/ForgotPassword';
+import ResendScreen from '../screens/auth/Resend';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,7 @@ export function AuthStack() {
             <Stack.Screen name="Amenities" component={AmenitiesScreen} options={{headerShown: false}} />
             <Stack.Screen name="Saved" component={SavedScreen} options={{headerShown: false}} />
             <Stack.Screen name="Password" component={ForgotPassword} options={{headerShown: false}} />
+            <Stack.Screen name="Resend" component={ResendScreen} options={{headerShown: false}} />
         </Stack.Navigator>
     );
 }

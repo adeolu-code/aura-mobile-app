@@ -59,8 +59,11 @@ class LoginModal extends Component {
     this.setState({ [attrName]: value });
   }
   forgotPassword = () => {
-    const {navigation} = this.props;
+    const {navigation, onDecline } = this.props;
     navigation.navigate('Auth', {screen: 'Password'});
+    setTimeout(() => {
+      onDecline();
+    }, 300);
   }
   submit = async () => {
     Keyboard.dismiss()

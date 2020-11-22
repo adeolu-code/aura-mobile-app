@@ -12,8 +12,10 @@ import colors from "../../colors";
 import { CustomInput, MyText, CustomButton, Loading, Error } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
+import Header from '../../components/Header';
+
 // import { setUser, setToken } from '../../helpers';
-import { setContext, Request, urls } from '../../utils';
+import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 // import Dashboard from "../dashboard_stack/Dashboard";
 
@@ -22,7 +24,7 @@ class ForgotPassword extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      email: " ",
+      email: "",
       loading: false, 
       formErrors: [] 
     };
@@ -45,19 +47,16 @@ class ForgotPassword extends Component {
   onChangeValue = (attrName, value) => {
     this.setState({ [attrName]: value });
   }
-  loginPage = ()=> {
-    // const { navigation } = this.props;
-    this.props.navigation.navigate('DashboardStack', {screen: 'DashboardView'})
-  }
   submit = async () => {
     Keyboard.dismiss()
     const { email} = this.state;
     this.setState({ loading: true, formErrors: [] })
     const obj = { username: email }
     try {
-      const res = await Request(urls.identityBase, `${urls.v}user/resetpassword`, obj);
+      const res = await GetRequest(urls.identityBase, `${urls.v}user/forgotpassword/?email=${email}`);
       console.log('Res ',res);
       if (!res.isError) {
+        this.props.navigation.navigate('Resend', { email })
         // this.getUserDetails(res.data.access_token);
         // this.context.set({ token: res.data })
         // await setToken(res.data);
@@ -65,7 +64,6 @@ class ForgotPassword extends Component {
         const message = res.message;
         const error = [message]
         this.setState({ formErrors: error, loading: false});
-        this.loginPage;
       }
     } catch (error) {
       console.log('Catched error ', error)
@@ -86,26 +84,30 @@ class ForgotPassword extends Component {
 
   render() {
     const { visible, onDecline } = this.props;
-    const { textWhite, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, 
+    const { textWhite, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, textOrange, 
       textGreen, textBold } = GStyles;
     const { modalHeader, closeContainer, logoContainer, container, modalContainer, inputContainer, 
-      buttonContainer, modalBodyStyle, dashStyles, dashContainer, socialContainer, buttonStyle, accountStyle } = styles
+      buttonContainer, modalBodyStyle } = styles
     return (
           <View style={modalContainer}>
+            <Header title="Forgot Password" {...this.props} />
             {this.renderLoading()}
-            <View style={modalHeader} >
+            {/* <View style={modalHeader} >
               <View style={logoContainer}>
                 <Image resizeMode="contain" style={imgStyle} source={require("../../assets/images/icons/aura/aura.png")} />
               </View>
 
-              {/* <TouchableOpacity onPress={this.onDecline} style={closeContainer}>
+              <TouchableOpacity onPress={this.onDecline} style={closeContainer}>
                 <Icon type="Feather" name="x" />
-              </TouchableOpacity> */}
-            </View>
-            <ScrollView keyboardShouldPersistTaps="always">
+              </TouchableOpacity>
+            </View> */}
+            <ScrollView keyboardShouldPersistTaps="always" style={{ flex: 1}}>
               <View style={modalBodyStyle}>
+                <View>
+                  <MyText style={[textOrange, textH4Style ]}>A verification Link would be sent to your email address</MyText>
+                </View>
                 <View style={inputContainer}>
-                  <CustomInput placeholder=" " label="Email Address" onChangeText={this.onChangeValue} value={this.state.email}
+                  <CustomInput placeholder="Enter email" label="Email Address" onChangeText={this.onChangeValue} value={this.state.email}
                 attrName="email" />
                 </View>
                 {/* <View style={inputContainer}>
@@ -116,34 +118,8 @@ class ForgotPassword extends Component {
                   {this.renderError()}
                   <CustomButton buttonText="Recover Password" onPress={this.submit} disabled={this.disabled()} />
                 </View>
-                {/* <View>
-                  <TouchableOpacity onPress={{}}> 
-                    <MyText style={[textH5Style, textCenter, textDarkGrey]}>Forgot password?</MyText>
-                  </TouchableOpacity>
-                </View>
-                <View style={dashContainer}>
-                  <View style={dashStyles}></View>
-                  <MyText style={[textH4Style, textDarkGrey, { paddingHorizontal: 20}]}>OR</MyText>
-                  <View style={dashStyles}></View>
-                </View> */}
-                {/* <View style={socialContainer}>
-                  <CustomButton buttonText="Log In With Facebook" buttonStyle={buttonStyle} onPress={this.loginWithFacebook}
-                  socialImg={require('../../assets/images/icons/facebook/Facebook.png')}
-                    textStyle={{ color: colors.darkGrey }}  />
-                  <CustomButton buttonText="Log In With Google" buttonStyle={buttonStyle} onPress={this.loginWithGoogle}
-                  socialImg={require('../../assets/images/icons/google/google.png')}
-                    textStyle={{ color: colors.darkGrey }}
-                  />
-                </View> */}
-    
-                {/* <View>
-                  <TouchableOpacity style={accountStyle} onPress={this.linkToRegister}>
-                    <MyText style={[textH4Style]}>
-                      Don't have an account? {""}
-                      <MyText style={[textUnderline, textGreen, textBold]}>Sign Up </MyText>
-                    </MyText>
-                  </TouchableOpacity>
-                </View> */}
+                
+                
               </View>
             </ScrollView>
           </View>      
@@ -157,7 +133,7 @@ const styles = StyleSheet.create({
   },
   modalHeader: {
     flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20,
-    paddingVertical: 30, position: 'absolute', top: 0,zIndex: 4, width: '100%', backgroundColor: colors.white,
+    paddingVertical: 40, position: 'absolute', top: 0,zIndex: 4, width: '100%', backgroundColor: colors.white,
     // borderWidth: 1
   },
   logoContainer: { width: 70, height: 25 },
@@ -166,20 +142,15 @@ const styles = StyleSheet.create({
   },
   modalBodyStyle: {
     backgroundColor: colors.white, paddingHorizontal: 24,
-    flex: 1, justifyContent: "center", paddingTop: 120,
+    flex: 1, justifyContent: "center", paddingTop: 160,
   },
   inputContainer: {
-    marginBottom: 30,
+    marginBottom: 20, marginTop: 80
   },
   buttonContainer: {
     marginTop: 30, marginBottom: 20,
   },
-  dashContainer: {
-    flexDirection: "row", flex: 1,marginTop: 40, marginBottom: 20, alignItems: "center",justifyContent: "center",
-  },
-  dashStyles: {
-    height: 1, backgroundColor: colors.lightGrey, flex: 1
-  },
+  
   socialContainer: {
 
   },
