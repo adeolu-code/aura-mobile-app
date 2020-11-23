@@ -62,7 +62,7 @@ export default class Referrals extends Component {
                 {/* <StatusBar backgroundColor={colors.white} barStyle="dark-content" /> */}
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Referrals" />
-                    <ScrollView style={[Styles.container]} horizontal={false}>
+                    <ScrollView style={[Styles.container, {marginTop: 140}]} horizontal={false}>
                         <View style={[Styles.upperTextView]}>
                             <MyText style={[textH5Style]}>Share your referral code with friends to get up to </MyText>
                             <MyText style={[textH5Style, textOrange]}>30% discount</MyText>

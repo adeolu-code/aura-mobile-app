@@ -2,7 +2,7 @@
 import React from "react";
 import { Styles } from "./labelInput.style";
 import IntlPhoneInput from 'react-native-intl-phone-input';
-import { Item, Label, Input, View, Picker, DatePicker, Icon } from "native-base";
+import { Item, Label, Input, View, Picker, DatePicker, Icon, Textarea } from "native-base";
 import { consoleLog } from "../../utils";
 /**
  * 
@@ -20,7 +20,7 @@ export const LabelInput = (props) => {
     const picker = (props.picker == undefined) ? false : ((props.picker) ? true : false);
     const phone = (props.phone == undefined) ? false : ((props.phone) ? true : false);
     const icon = (props.icon == undefined) ? false : ((props.icon) ? props.icon : false);
-    const textarea = (props.textarea == undefined) ? false : ((props.icon) ? true : false);
+    const textarea = (props.textarea == undefined) ? false : ((props.textarea) ? true : false);
     if (dateTime) {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
@@ -103,10 +103,14 @@ export const LabelInput = (props) => {
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
                 <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView, props.contentViewStyle]}>
-                    {/* <Textarea 
+                    <Textarea
+                        rowSpan={props.rowSpan || 3}
+                        placeholder={props.placeholder} 
                         style={[Styles.textarea, ]}
-                    /> */}
-                    <Input 
+                        onChangeText={(e) => props.onChangeText && props.onChangeText(e)}
+                    />
+                    
+                    {/* <Input 
                         placeholder={props.placeholder} 
                         style={[Styles.input, {height: 150}, props.textInputStyles]} 
                         maxLength={props.maxLength} 
@@ -114,7 +118,7 @@ export const LabelInput = (props) => {
                         value={props.value}
                         textAlignVertical="top"
                         onChangeText={props.onChangeText}
-                    />
+                    /> */}
                 </View>
                 
             </Item>

@@ -61,7 +61,5 @@ export const Styles = StyleSheet.create({
     },
     textarea: {
         flex: 1,
-        backgroundColor: "red",
-        height: 100,
     }
 });

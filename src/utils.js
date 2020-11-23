@@ -60,9 +60,10 @@ export const urls = {
     read: "read/",
     count: "count/",
     propertyById: "listing/property/",
-    referralCode: "",
+    referralCode: "lead/api/v1/referral",
     changePassword: "changepassword/",
     forgotPassword: "forgotpassword/",
+    complaints: "complaints/",
 }
 const getUserToken = async () => {
 	try {

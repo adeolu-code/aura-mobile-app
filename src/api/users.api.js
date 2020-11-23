@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { urls, Request, GetRequest, errorMessage, successMessage } from "../utils";
+import { urls, Request, GetRequest, errorMessage, successMessage, consoleLog } from "../utils";
 
 export async function loginApi(data) {
     // blueprint of api call function
@@ -71,6 +71,7 @@ export async function getReferralCodeApi() {
     
     let res = await GetRequest(urls.promotionBase , urls.referralCode);
     //console.log("this.context.state.idTypes", res, res.isError);
+    consoleLog("urls", urls.promotionBase , urls.referralCode);
     if (res.isError) {
         errorMessage(res.message);
     }
