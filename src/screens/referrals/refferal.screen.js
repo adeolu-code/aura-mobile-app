@@ -9,6 +9,7 @@ import GeneralStyles from "./../../assets/styles/GeneralStyles";
 import Clipboard from "@react-native-community/clipboard";
 import { successMessage, urls } from "../../utils";
 import Share from 'react-native-share';
+import { getReferralCodeApi } from "../../api/users.api";
 
 export default class Referrals extends Component {
     constructor() {
@@ -25,6 +26,14 @@ export default class Referrals extends Component {
             message: 'Sign up on Aura using my refferral code ' + this.state.referralCode.toUpperCase(),
             url: urls.identityBase,
         };
+    }
+
+    componentDidMount() {
+        this.getReferralCode();
+    }
+
+    getReferralCode = () => {
+        getReferralCodeApi().then(result => result != undefined && this.setState({referralCode: result.referralCode}));
     }
 
     shareToFB = () => {

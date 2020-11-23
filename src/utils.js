@@ -3,13 +3,10 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
-
-
 import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
-
 let context = undefined;
-export let debug = false;
+export let debug = true;
 export const GLOBAL_PADDING = 20;
 
 const CLIENT_ID = '0987654321'
@@ -63,6 +60,9 @@ export const urls = {
     read: "read/",
     count: "count/",
     propertyById: "listing/property/",
+    referralCode: "",
+    changePassword: "changepassword/",
+    forgotPassword: "forgotpassword/",
 }
 const getUserToken = async () => {
 	try {

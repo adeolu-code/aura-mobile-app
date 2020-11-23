@@ -45,6 +45,7 @@ export function AuthStack() {
             <Stack.Screen name="Saved" component={SavedScreen} options={{headerShown: false}} />
             <Stack.Screen name="Password" component={ForgotPassword} options={{headerShown: false}} />
             <Stack.Screen name="Resend" component={ResendScreen} options={{headerShown: false}} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }

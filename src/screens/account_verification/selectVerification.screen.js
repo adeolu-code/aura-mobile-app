@@ -9,6 +9,7 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import { MyText } from "../../utils/Index";
 import { getIdentityTypesApi } from "../../api/users.api";
 import { AppContext } from "../../../AppProvider";
+import { consoleLog } from "../../utils";
 
 export default class SelectVerification extends Component {
     static contextType = AppContext;
@@ -27,17 +28,25 @@ export default class SelectVerification extends Component {
     }
 
     init = () => {
-        console.log("this.context.state.idTypes", this.context.state.idTypes)
-        if (this.context.state.idTypes != undefined) {
-            this.setState({idTypes: this.context.state.idTypes, selectedId: result[0].id});
+        if (this.context.state.userData && this.state.userData.identityDocument) {
+            // id doc approved
+            this.props.navigation.navigate('UploadVerification', {force}) 
+
         }
         else {
-            getIdentityTypesApi().then(result => {
-                if (result != undefined) {
-                    this.setState({idTypes: result, selectedId: result[0].id});
-                    this.context.set({idTypes: result})
-                }
-            });
+
+        
+            if (this.context.state.idTypes != undefined) {
+                this.setState({idTypes: this.context.state.idTypes, selectedId: result[0].id});
+            }
+            else {
+                getIdentityTypesApi().then(result => {
+                    if (result != undefined) {
+                        this.setState({idTypes: result, selectedId: result[0].id});
+                        this.context.set({idTypes: result})
+                    }
+                });
+            }
         }
     }
 
@@ -63,7 +72,8 @@ export default class SelectVerification extends Component {
                                         value: type.id,
                                     }
                                 })}
-                                selectedOption={this.state.idTypes.length > 0 ? this.state.idTypes[0] : ""}
+                                selectedOption={this.state.selectedId || (this.state.idTypes.length > 0 ? this.state.idTypes[0] : "")}
+                                onPickerChange={(e) => this.setState({selectedId: e})}
                             />
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter]}>

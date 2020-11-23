@@ -22,7 +22,7 @@ class Index extends Component {
             
             {
               !this.context.state.isLoggedIn || !this.context.state.userData ?
-              <PlaceHolderComponent title="Inbox" description={description} img={require('../../assets/images/inbox/inbox.png')} />
+              <PlaceHolderComponent {...this.props} title="Inbox" description={description} img={require('../../assets/images/inbox/inbox.png')} />
               :
               <InboxScreen />
             }

@@ -3,6 +3,7 @@ import React from "react";
 import { Styles } from "./labelInput.style";
 import IntlPhoneInput from 'react-native-intl-phone-input';
 import { Item, Label, Input, View, Picker, DatePicker, Icon } from "native-base";
+import { consoleLog } from "../../utils";
 /**
  * 
  * @param {*} props
@@ -31,7 +32,7 @@ export const LabelInput = (props) => {
                         style={[Styles.input, Styles.datePicker]}
                         
                         onDateChange={(selectedDate) => {
-                            console.log("e", selectedDate);
+                            consoleLog("e", selectedDate);
                             if (selectedDate != undefined) {
                                 props.onChange(selectedDate);
                             }
@@ -131,7 +132,8 @@ export const LabelInput = (props) => {
                             style={[Styles.input]} 
                             maxLength={props.maxLength} 
                             value={props.value}
-                            onChangeText={(e) => { console.log("val", e); props.onChangeText(e);}}
+                            onChangeText={(e) => { consoleLog("val", e); props.onChangeText(e);}}
+                            keyboardType={props.keyboardType || "default"}
                         />
                     </View>
                     {

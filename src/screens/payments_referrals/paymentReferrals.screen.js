@@ -36,7 +36,8 @@ export default class PaymentReferral extends Component {
                                 <DashboardCardComponent 
                                     title="Payment Settings" 
                                     description={description}
-                                    img={require('../../assets/images/profile/credit_card/Component64–1_2x.png')} onPress={this.onPressPayment} 
+                                    img={require('../../assets/images/profile/credit_card/Component64–1_2x.png')} 
+                                    onPress={this.onPressPayment} 
                                 />
                             </View>
                             <View style={sectionStyle}>

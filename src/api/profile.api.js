@@ -50,3 +50,16 @@ export async function uploadIdentityImageApi(data) {
     return res;
 }
 
+export async function changePasswordApi(data) {
+    
+    let res = await Request(urls.identityBase + urls.v , urls.user + urls.changePassword, data);
+
+    if (res.isError == true) {
+        errorMessage(res.message);
+    }
+    else {
+        successMessage(res.message);
+    }
+    
+    return res;
+}

@@ -28,7 +28,7 @@ export default class PaymentInitial extends Component {
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title={"Payments Settings"} />
-                    <View style={[Styles.container]}>                    
+                    <View style={[Styles.container, {marginTop: 120}]}>                    
                         <MyText>Add a payment method to easily make purchases on Aura</MyText>
                         
                         <ScrollView>
