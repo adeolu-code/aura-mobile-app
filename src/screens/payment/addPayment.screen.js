@@ -27,7 +27,7 @@ export default class AddPayment extends Component {
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title={ "Add Card Details"} />
-                    <View style={[Styles.container]}>                    
+                    <View style={[Styles.container,]}>                    
                         <ScrollView>
                             <>
                                 <LabelInput 

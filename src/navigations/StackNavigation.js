@@ -35,6 +35,7 @@ import DeviceSharing from '../screens/profile/deviceSharing.screen';
 import HostSteps from '../screens/host/hostSteps.screen';
 import HostSlider from '../screens/host/slider.screen';
 import AddProfilePicture from '../screens/edit_profile/addProfilePic.screen';
+import ChangePassword from '../screens/edit_profile/changePassword.screen';
 
 const Stack = createStackNavigator();
 
@@ -95,6 +96,7 @@ export function ProfileStack() {
             <Stack.Screen name="AddPayment" component={AddPayment} options={{ headerShown: false }} />
             <Stack.Screen name="DeviceSharing" component={DeviceSharing} options={{ headerShown: false }} />
             <Stack.Screen name="AddProfilePicture" component={AddProfilePicture} options={{ headerShown: false }} />
+            <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }} />
             
         </Stack.Navigator>
     );

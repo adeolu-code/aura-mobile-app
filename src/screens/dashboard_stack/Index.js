@@ -36,7 +36,7 @@ class Index extends Component {
     }
     return (
       <ScrollView>
-        <PlaceHolderComponent title="Dashboard" description={description} {...this.props} 
+        <PlaceHolderComponent {...this.props} title="Dashboard" description={description} {...this.props} 
         img={require('../../assets/images/dash/dash.png')} />
       </ScrollView>
     )

@@ -45,7 +45,6 @@ export default class EditProfile extends Component {
             "state": this.state.state || this.context.state.userData.state,
             "zipCode": this.state.zipCode || this.context.state.userData.zipCode,
           }
-          console.log("data", data);
           this.setState({loading: true});
           data.otherVerifiedPhoneNumbers = JSON.stringify(data.otherVerifiedPhoneNumbers);
         //   if (data.otherVerifiedPhoneNumbers.length == 0) delete data.otherVerifiedPhoneNumbers;
@@ -59,7 +58,6 @@ export default class EditProfile extends Component {
     }
 
     render() {
-        console.log("this.context.state.dateofBirth", this.context.state.userData.dateofBirth);
         const {textCenter, textH3Style, textWhite, textBold,textGreen} = GStyles;
         return (
             <>
@@ -103,7 +101,6 @@ export default class EditProfile extends Component {
                                     itemStyle={{flex: 0.5, marginLeft: 5}} 
                                     onChange={(e) => {
                                         this.setState({dob: new Date(e)});
-                                        console.log("selected ", e)
                                     }}
                                 />
                                 <EditInput 

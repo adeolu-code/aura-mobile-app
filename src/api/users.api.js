@@ -66,3 +66,31 @@ export async function verifyOTPApi() {
     
     return;
 }
+
+export async function getReferralCodeApi() {
+    
+    let res = await GetRequest(urls.promotionBase , urls.referralCode);
+    //console.log("this.context.state.idTypes", res, res.isError);
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        return res.data;
+    }
+    
+    return;
+}
+
+export async function forgotPasswordApi(data) {
+    
+    let res = await GetRequest(urls.identityBase + urls.v , urls.user + urls.forgotPassword, undefined, "GET", data);
+
+    if (res.isError == true) {
+        errorMessage(res.message);
+    }
+    else {
+        successMessage(res.message);
+    }
+    
+    return res;
+}

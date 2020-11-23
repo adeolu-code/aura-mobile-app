@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from 'native-base';
 import { MyText } from '../utils/Index';
 import GStyles from '../assets/styles/GeneralStyles';
 import colors from '../colors';
+import { consoleLog } from '../utils';
 
 class Header extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Header extends Component {
   goBack = () => {
     
     if (this.props.goBackTo) {
-      console.log("this.props.goBackTo", this.props.goBackTo)
+      consoleLog("this.props.goBackTo", this.props.goBackTo)
       this.props.navigation.navigate(this.props.goBackTo);
     }
     else {
@@ -25,7 +26,7 @@ class Header extends Component {
 
   renderSubTitle = () => {
     const { sub } = this.props;
-    const { textH4Style, textGrey, textH5Style } = GStyles;
+    const { textGrey, textH5Style } = GStyles;
     if(sub) {
         return (
             <View style={{ marginTop: 3}}>
@@ -37,7 +38,7 @@ class Header extends Component {
 
   render() {
     const { iconStyle, iconContainer, titleContainer, container } = styles;
-    const { textH1Style, textExtraBold, textLgStyle } = GStyles
+    const { textExtraBold, textLgStyle } = GStyles
     const { title, wrapperStyles } = this.props
     return (
       <View style={[container, wrapperStyles]}>

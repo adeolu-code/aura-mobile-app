@@ -12,7 +12,7 @@ import RenderNoRecord from '../../components/render_no_record/renderNoRecord';
 import { BOOKINGS_NO_BOOKINGS, BOOKINGS_SCREEN_DESCRIPTION } from '../../strings';
 import BookingPropertyComponent from '../../components/booking_property/bookingPropertyComponent';
 import { getPropertyBookingsApi } from '../../api/booking.api';
-import { setContext } from '../../utils';
+import { setContext, consoleLog } from '../../utils';
 import moment from "moment";
 
 const illustration = require("./../../../assets/bookings-page-1-illustration.png");
@@ -40,7 +40,7 @@ class BookingsScreen extends Component {
           noRecordText={BOOKINGS_NO_BOOKINGS}
           description={BOOKINGS_SCREEN_DESCRIPTION}
           buttonText={"Explore Aura"}
-          onButtonPress={() => alert("")}            
+          onButtonPress={() => this.props.navigation.navigate('Tabs', {screen: 'Explore'})}            
       />
     </>
     
@@ -65,6 +65,7 @@ class BookingsScreen extends Component {
 
     }).then(result => {
       if (result != undefined) {
+        consoleLog("booked properties", result.data);
           this.setState({properties: result.data});
           this.getActiveRender();
       }
@@ -89,10 +90,12 @@ class BookingsScreen extends Component {
                         <BookingPropertyComponent 
                             key={index}
                             title={property.propertyInfo.title} 
-                            location={"Tanscorp Hotels Abuja"} 
+                            location={property.propertyInfo.location || ""} 
                             type={property.propertyInfo.type}
                             dayLeft={dayLeft > 0 ? dayLeft.toFixed(2) : 0}
                             image={{uri: property.propertyInfo.image}}
+                            isExpired= {property.isBookingExpired}
+                            amount= {property.total_Cost}
                             onClick={() => this.props.navigation.navigate("BookingDetail",{
                               title: property.propertyInfo.title,
                               title: property.propertyInfo.title,
@@ -103,6 +106,7 @@ class BookingsScreen extends Component {
                               checkIn: checkInDate.format("DD/MM/YYYY"),
                               amount: property.total_Cost,
                               image: {uri: property.propertyInfo.image},
+                              isExpired: property.isBookingExpired
                             })}
                             {...this.props}
                         />
@@ -120,7 +124,7 @@ class BookingsScreen extends Component {
                     noRecordText={BOOKINGS_NO_BOOKINGS}
                     description={BOOKINGS_SCREEN_DESCRIPTION}
                     buttonText={"Explore Aura"}
-                    onButtonPress={() => alert("")}            
+                    onButtonPress={() => this.props.navigation.navigate('Tabs', {screen: 'Explore'})}
                 />
             });
       }

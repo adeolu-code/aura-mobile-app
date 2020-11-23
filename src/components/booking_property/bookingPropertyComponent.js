@@ -17,11 +17,18 @@ export default class BookingPropertyComponent extends Component {
     render() {
         const { textBold, textH4Style } = GStyles;
         let daysLeft = this.props.dayLeft;
-        if ((this.props.dayLeft < 1 && this.props.dayLeft > 0)) {
-            daysLeft = "< 1 day left";
+        // if ((this.props.dayLeft < 1 && this.props.dayLeft > 0)) {
+        //     daysLeft = "< 1 day left";
+        // }
+        // else if (this.props.dayLeft == 0) {
+        //     daysLeft =  "Checked in";
+        // }
+
+        if (this.props.isExpired) {
+            daysLeft =  "Expired";
         }
-        else if (this.props.dayLeft == 0) {
-            daysLeft =  "Checked in";
+        else {
+            daysLeft =  "";
         }
 
         return (
@@ -39,9 +46,19 @@ export default class BookingPropertyComponent extends Component {
                             <MyText style={[Styles.properyTitle, textH4Style, textBold]}>
                                 {this.props.title}
                             </MyText>
-                            <MyText style={[Styles.properyLocation]}>
-                                {this.props.location}
-                            </MyText>
+                            {
+                                this.props.location != "" &&
+                                <MyText style={[Styles.properyLocation]}>
+                                    {this.props.location}
+                                </MyText>
+                            }
+                            {
+                                (this.props.location == "" && this.props.amount) &&
+                                <MyText style={[Styles.properyLocation]}>
+                                    NGN {this.props.amount}
+                                </MyText>
+                            }
+                            
                             <MyText style={[Styles.properyType]}>
                                 {this.props.type}
                             </MyText>

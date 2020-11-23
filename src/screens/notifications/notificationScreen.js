@@ -35,11 +35,14 @@ class NotificationScreenClass extends Component {
     }
 
     markNotificationAsRead = (notificationId) => {
-        this.state.notifications.filter(x => {
+        let notifications = this.state.notifications;
+        notifications.filter(x => {
             if (x.id == notificationId) {
                 x.isRead = true;
             }
-        })
+        });
+
+        this.setState({notifications: notifications});
     }
 
     render() {
