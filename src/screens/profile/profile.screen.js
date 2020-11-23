@@ -71,14 +71,18 @@ class ProfileScreenClass extends Component {
         this.context.set({ userData: null, isLoggedIn: false})
         this.props.navigation.navigate('Tabs', {screen: 'Dashboard'})
     }
+    becomeHost = () => {
+        this.context.set({ propertyFormData: null, edit: false, step: 1 })
+        this.props.navigation.navigate("HostPropertyStack")
+    }
 
     render() {
         const {textH2Style, 
             textCenter, textBold, textH3Style, 
             textH6Style, textOrange, textH1Style,
-            textWhite, textH4Style
+            textWhite, textH4Style, textExtraBold
         } = GStyles;
-        consoleLog("user", this.context.state.userData,this.context.state.isLoggedIn, this.context.state.token)
+        // consoleLog("user", this.context.state.userData,this.context.state.isLoggedIn, this.context.state.token)
         const userIsLoggedIn = this.context.state.isLoggedIn && this.context.state.userData;
         const userIsNotLoggedIn = !this.context.state.isLoggedIn || !this.context.state.userData;
         return (
@@ -97,17 +101,17 @@ class ProfileScreenClass extends Component {
                         <>
                             <TouchableOpacity 
                                 onPress={() => this.props.navigation.navigate('AddProfilePicture')}
-                                style={[Styles.imageView, {paddingTop: 30,}]}
+                                style={[Styles.imageView, {paddingTop: 50,}]}
                             >
                                 {/* image section */}
                                 <Image source={this.context.state.userData && this.context.state.userData.profilePicture ? {uri: this.context.state.userData.profilePicture} :require("./../../assets/images/profile.png")} style={[Styles.userImageStyle]} />
-                                <MyText style={[textH2Style, textCenter, textBold]}>{`${this.context.state.userData.firstName} ${this.context.state.userData.lastName}`}</MyText>
-                                <MyText style={[textH6Style, textCenter, textOrange]}>Tap to Change</MyText>
+                                <MyText style={[textH2Style, textCenter, textExtraBold, { marginTop: 10}]}>{`${this.context.state.userData.firstName} ${this.context.state.userData.lastName}`}</MyText>
+                                <MyText style={[textH6Style, textCenter, textOrange, { marginBottom: 10, marginTop: 6}]}>Tap to Change</MyText>
                             </TouchableOpacity>
                             <Separator style={[Styles.separator]}>
-                                <MyText style={[Styles.separatorText]}>Account settings</MyText>
+                                <MyText style={[Styles.separatorText, textBold, textH4Style]}>Account Settings</MyText>
                             </Separator>
-                            <View>
+                            <View style={{ paddingHorizontal: 20 }}>
                                 {/* Account settings */}
                                 <ProfileComponent 
                                     title={"Personal Information"} 
@@ -134,7 +138,7 @@ class ProfileScreenClass extends Component {
                                     iconImage={require("./../../assets/images/profile/notification/notificatio.png")}
                                     onPress={() => this.props.navigation.navigate("NotificationSettings")}
                                 />
-                                <ProfileComponent 
+                                <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                     title={"Account Verifications"} 
                                     description={"How we confirm your identity"} 
                                     iconImage={require("./../../assets/images/profile/document/document.png")}
@@ -142,7 +146,7 @@ class ProfileScreenClass extends Component {
                                 />
                             </View>
                             <Separator style={[Styles.separator]}>
-                                <MyText style={[Styles.separatorText]}>Hosting</MyText>
+                                <MyText style={[Styles.separatorText, textBold, textH4Style]}>Hosting</MyText>
                             </Separator>
                         </>
                     }
@@ -153,7 +157,7 @@ class ProfileScreenClass extends Component {
                             description={"Credit Cards, Coupons and more"} 
                             iconImage={require("./../../assets/images/profile/education/education.png")}
                         /> */}
-                        <View>
+                        <View style={{ paddingHorizontal: 20 }}>
                             {/* Hosting */}
                             <ProfileComponent 
                                 title={"Learn about Hosting"} 
@@ -167,14 +171,14 @@ class ProfileScreenClass extends Component {
                                         title={"Host your Home/Hotel"} 
                                         description={"Credit Cards, Coupons and more"} 
                                         iconImage={require("./../../assets/images/profile/location_hotel/location-hotel.png")}
-                                        onPress={() => this.props.navigation.navigate("HostPropertyStack")}
+                                        onPress={this.becomeHost}
                                     />
                                     <ProfileComponent 
                                         title={"Host your Resturant"} 
                                         description={"Credit Cards, Coupons and more"} 
                                         iconImage={require("./../../assets/images/profile/location_food/location-food.png")}
                                     />
-                                    <ProfileComponent 
+                                    <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                         title={"Become a Photographer"} 
                                         description={"Credit Cards, Coupons and more"} 
                                         iconImage={require("./../../assets/images/profile/camera/camera.png")}
@@ -185,11 +189,11 @@ class ProfileScreenClass extends Component {
                         {
                                 userIsLoggedIn &&
                                 <Separator style={[Styles.separator]}>
-                                    <MyText style={[Styles.separatorText]}>Support</MyText>
+                                    <MyText style={[Styles.separatorText, textBold, textH4Style]}>Support</MyText>
                                 </Separator>
                         }
                         
-                        <View>
+                        <View style={{ paddingHorizontal: 20 }}>
                             {/* Hosting */}
                             <ProfileComponent 
                                 title={"Get Help"} 
@@ -198,7 +202,7 @@ class ProfileScreenClass extends Component {
                             />
                             {
                                 userIsLoggedIn &&
-                                <ProfileComponent 
+                                <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                     title={"Give us Feedback"} 
                                     description={"Drop suggestions on how we can serve you better"} 
                                     iconImage={require("./../../assets/images/profile/thumbs_up/thumbs-up.png")}
@@ -212,7 +216,7 @@ class ProfileScreenClass extends Component {
                                 <Separator style={[Styles.separator]}>
                                     <MyText style={[Styles.separatorText]}>Legal</MyText>
                                 </Separator>
-                                <View>
+                                <View style={{ paddingHorizontal: 20 }}>
                                     {/* Hosting */}
                                     <ProfileComponent 
                                         title={"Privacy and Security"} 
@@ -220,7 +224,7 @@ class ProfileScreenClass extends Component {
                                         iconImage={require("./../../assets/images/profile/lock_closed/lock-closed.png")}
                                         onPress={() => this.props.navigation.navigate('ChangePassword')}
                                     />
-                                    <ProfileComponent 
+                                    <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                         title={"Terms of Service"} 
                                         description={"Credit cards, coupons and more"} 
                                         iconImage={require("./../../assets/images/profile/new_paper/news-paper.png")}

@@ -136,7 +136,7 @@ class HostScreen extends Component {
 const styles = StyleSheet.create({
     contentContainer: {
          paddingHorizontal: 24,
-         paddingVertical: 20,
+         paddingVertical: 20, paddingTop: 40,
          flex: 1,
          backgroundColor: colors.white,
     },
