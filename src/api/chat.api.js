@@ -68,3 +68,17 @@ export async function messageUserApi(data) {
     
     return;
 }
+
+export async function makeComplaintApi(data) {
+
+    let res = await Request(urls.messagingBase + urls.messaging + urls.v, urls.complaints, data);
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        successMessage(res.message);
+        return res;
+    }
+    
+    return;
+}

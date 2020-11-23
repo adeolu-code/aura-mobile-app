@@ -2,20 +2,17 @@
 import React, { Component } from "react";
 import {
   StyleSheet,
-  SafeAreaView,
   View,
-  Image,
   ScrollView,
-  TouchableOpacity, Keyboard,
+  Keyboard,
 } from "react-native";
 import colors from "../../colors";
 import { CustomInput, MyText, CustomButton, Loading, Error } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
-import { Icon } from 'native-base';
 import Header from '../../components/Header';
 
 // import { setUser, setToken } from '../../helpers';
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 // import Dashboard from "../dashboard_stack/Dashboard";
 
@@ -51,7 +48,6 @@ class ForgotPassword extends Component {
     Keyboard.dismiss()
     const { email} = this.state;
     this.setState({ loading: true, formErrors: [] })
-    const obj = { username: email }
     try {
       const res = await GetRequest(urls.identityBase, `${urls.v}user/forgotpassword/?email=${email}`);
       console.log('Res ',res);
@@ -83,10 +79,8 @@ class ForgotPassword extends Component {
   }
 
   render() {
-    const { visible, onDecline } = this.props;
-    const { textWhite, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, textOrange, 
-      textGreen, textBold } = GStyles;
-    const { modalHeader, closeContainer, logoContainer, container, modalContainer, inputContainer, 
+    const { textH4Style, textOrange } = GStyles;
+    const { modalContainer, inputContainer, 
       buttonContainer, modalBodyStyle } = styles
     return (
           <View style={modalContainer}>

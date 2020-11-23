@@ -202,6 +202,7 @@ class ProfileScreenClass extends Component {
                                     title={"Give us Feedback"} 
                                     description={"Drop suggestions on how we can serve you better"} 
                                     iconImage={require("./../../assets/images/profile/thumbs_up/thumbs-up.png")}
+                                    onPress={() => this.props.navigation.navigate('Complaint')}
                                 />
                             }
                         </View>
