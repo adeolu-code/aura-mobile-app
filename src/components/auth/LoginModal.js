@@ -203,7 +203,7 @@ class LoginModal extends Component {
 
     const { visible, onDecline } = this.props;
     const { textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline,
-      textGreen, textBold } = GStyles;
+      textGreen, textBold, textOrange } = GStyles;
     const { modalHeader, closeContainer, logoContainer, modalContainer, inputContainer, 
       buttonContainer, modalBodyStyle, dashStyles, dashContainer, socialContainer, buttonStyle, accountStyle } = styles
     return (

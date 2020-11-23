@@ -148,72 +148,11 @@ class ProfileScreenClass extends Component {
                     }
                     <View>
                         {/* Hosting */}
-                        <ProfileComponent 
+                        {/* <ProfileComponent 
                             title={"Learn about Hosting"} 
                             description={"Credit Cards, Coupons and more"} 
                             iconImage={require("./../../assets/images/profile/education/education.png")}
-                        />
-                        {
-                            userIsNotLoggedIn &&
-                            <View style={[{paddingBottom: 30, paddingTop: 15, borderBottomColor: colors.lightGrey, borderBottomWidth: 1, paddingLeft: GLOBAL_PADDING, paddingRight: GLOBAL_PADDING}]}>
-                                <MyText style={[textH1Style, textBold]}>Profile</MyText>
-                            </View>
-                        }
-                        {
-                            userIsLoggedIn &&
-                        
-                            <>
-                                <TouchableOpacity 
-                                    onPress={() => this.props.navigation.navigate('AddProfilePicture')}
-                                    style={[Styles.imageView, {paddingTop: 30,}]}
-                                >
-                                    {/* image section */}
-                                    <Image source={this.context.state.userData && this.context.state.userData.profilePicture ? {uri: this.context.state.userData.profilePicture} :require("./../../assets/images/photo/photo1.png")} style={[Styles.userImageStyle]} />
-                                    <MyText style={[textH2Style, textCenter, textBold]}>{`${this.context.state.userData.firstName} ${this.context.state.userData.lastName}`}</MyText>
-                                    <MyText style={[textH6Style, textCenter, textOrange]}>Tap to Change</MyText>
-                                </TouchableOpacity>
-                                <Separator style={[Styles.separator]}>
-                                    <MyText style={[Styles.separatorText]}>Account settings</MyText>
-                                </Separator>
-                                <View>
-                                    {/* Account settings */}
-                                    <ProfileComponent 
-                                        title={"Personal Information"} 
-                                        description={"Biodata and information about you"} 
-                                        iconImage={require("./../../assets/images/profile/user_solid/user-solid-square.png")}
-                                        onPress={() => this.props.navigation.navigate("EditProfile")}
-                                        // onPress={() => this.props.navigation.navigate("VerifyPhoneNumber")}
-                                    />
-                                    <ProfileComponent 
-                                        title={"Payments and Referrals"} 
-                                        description={"Credit Cards, debit cards, referrals and more"} 
-                                        iconImage={require("./../../assets/images/profile/credit_card/credit-card.png")}
-                                        onPress={() => this.props.navigation.navigate("PaymentReferral")}
-                                    />
-                                    <ProfileComponent 
-                                        title={"Device Sharing"} 
-                                        description={"Credit Cards, Coupons and more"} 
-                                        iconImage={require("./../../assets/images/profile/mobile_devices/mobile-devices.png")}
-                                        onPress={() => this.props.navigation.navigate("DeviceSharing")}
-                                    />
-                                    <ProfileComponent 
-                                        title={"Notifications"} 
-                                        description={"How we contact you"} 
-                                        iconImage={require("./../../assets/images/profile/notification/notificatio.png")}
-                                        onPress={() => this.props.navigation.navigate("NotificationSettings")}
-                                    />
-                                    <ProfileComponent 
-                                        title={"Account Verifications"} 
-                                        description={"How we confirm your identity"} 
-                                        iconImage={require("./../../assets/images/profile/document/document.png")}
-                                        onPress={() => this.props.navigation.navigate("AccountVerification")}
-                                    />
-                                </View>
-                                <Separator style={[Styles.separator]}>
-                                    <MyText style={[Styles.separatorText]}>Hosting</MyText>
-                                </Separator>
-                            </>
-                        }
+                        /> */}
                         <View>
                             {/* Hosting */}
                             <ProfileComponent 
@@ -298,8 +237,9 @@ class ProfileScreenClass extends Component {
                                     </View>
                                     
                                 </View>
-                                </>
+                            </>
                         }
+                    </View>
                     </Content>
                     {
                             userIsNotLoggedIn &&
