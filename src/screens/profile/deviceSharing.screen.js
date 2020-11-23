@@ -33,7 +33,7 @@ export default class DeviceSharing extends Component {
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title={ "Device Sharing"} />
-                    <View style={[Styles.container]}>
+                    <View style={[Styles.container, {marginTop: 140}]}>
                         <MyText>Device History</MyText>
                         <ScrollView style={[Styles.deviceHistoryScrollView]}>
                             {
