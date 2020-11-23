@@ -150,7 +150,7 @@ import { AppContext } from '../../../AppProvider';
                   <Icon type="MaterialIcons" name="keyboard-arrow-left" style={{fontSize: 40, marginLeft: -10}} />
                 </TouchableOpacity>
                 <View style={SearchArea}>
-                  <AutoCompleteComponent locationDetails={this.getSelectedLocation} placeholder="Search locations" />
+                  <AutoCompleteComponent locationDetails={this.getSelectedLocation} placeholder="Search locations" autofocus />
                   {/* <SearchInput placeholder="Where are you going?" /> */}
                 </View>
               </View>

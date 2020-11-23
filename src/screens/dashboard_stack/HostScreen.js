@@ -71,7 +71,7 @@ class HostScreen extends Component {
   }
   generateOtp = async () => {
     this.setState({ loading: true, errors: [] });
-    const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
+    const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
     this.setState({ loading: false });
     if (res.IsError) {
         const message = res.Message;
@@ -84,7 +84,7 @@ class HostScreen extends Component {
   sendMail = async () => {
       const { userData } = this.context.state;
       this.setState({ loading: true, errors: [] });
-      const res = await GetRequest(urls.identityBase, `api/v1/user/email/verification/resend/${userData.username}`);
+      const res = await GetRequest(urls.identityBase, `${urls.v}email/verification/resend/${userData.username}`);
       this.setState({ loading: false });
       if (res.isError) {
           const message = res.message;

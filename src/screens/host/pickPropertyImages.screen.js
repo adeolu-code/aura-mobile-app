@@ -25,7 +25,7 @@ export default class PickPropertyImage extends Component {
     componentDidMount = () => {
         const { propertyFormData } = this.context.state
         console.log(propertyFormData)
-        if(propertyFormData.mainImage) {
+        if(propertyFormData && propertyFormData.mainImage) {
             this.setState({ coverImage: { path: propertyFormData.mainImage.assetPath } })
         }
     }
