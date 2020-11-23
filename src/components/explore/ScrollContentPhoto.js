@@ -143,26 +143,6 @@ class ScrollContent extends Component {
                 </View> : <></>}
             </View>
         
-            {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
-                <View style={[scrollContainer, { width: '100%' }]}>
-                    <View style={scrollItemContainer}>
-                        <PhotoComponent img={require('../../assets/images/photo/photo.png')} 
-                        title2="Photographer" location="Lagos" title1="Daniel Ubake" {...this.props} />
-                    </View>
-                    <View style={scrollItemContainer}>
-                        <PhotoComponent img={require('../../assets/images/photo/photo1.png')} 
-                        title2="Photographer" location="Lagos" title1="Daniel Ubake" {...this.props} />
-                    </View>
-                    <View style={scrollItemContainer}>
-                        <PhotoComponent img={require('../../assets/images/photo/photo3.png')} 
-                            title2="Photographer" location="Lagos" title1="Daniel Ubake" {...this.props} />
-                    </View>
-                    <View style={scrollItemContainer}>
-                        <PhotoComponent img={require('../../assets/images/photo/photo4.png')} 
-                            title2="Photographer" location="Lagos" title1="Daniel Ubake" {...this.props} />
-                    </View>
-                </View>
-            </ScrollView> */}
         </Fragment>
     );
   }

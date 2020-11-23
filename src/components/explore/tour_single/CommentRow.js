@@ -19,7 +19,7 @@ class CommentRow extends Component {
       <View style={[flexRow, container]}>
         <View style={leftContainer}>
             <View style={imgContainer}>
-                <Image source={require('../../../assets/images/photo/photo6.png')} resizeMode="cover" style={imgStyle} />
+                <Image source={require('../../../assets/images/profile.png')} resizeMode="cover" style={imgStyle} />
             </View>
         </View>
         <View style={rightContainer}>

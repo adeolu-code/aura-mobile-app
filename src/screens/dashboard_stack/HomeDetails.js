@@ -10,7 +10,8 @@ import GStyles from '../../assets/styles/GeneralStyles';
 import GuestRow from '../../components/dashboard/GuestsRow';
 
 import { GetRequest, urls } from '../../utils'
-import { formatAmount } from '../../helpers'
+import { formatAmount } from '../../helpers';
+import moment from 'moment'
 
 class HomeDetails extends Component {
     constructor(props) {
@@ -55,7 +56,35 @@ class HomeDetails extends Component {
               this.setState({ house: data })
             }
         }
-      }
+    }
+    
+    getEarliestDate = () => {
+        const { reservations } = this.state
+        if(reservations.length !== 0) {
+            const checkInDateArr = reservations.map(item => new Date(item.check_In_Date).getTime())
+            const arr = checkInDateArr.sort(function(a, b){return a-b})
+            const firstItem = moment(new Date(arr[0])).format('DD/MM/YYYY')
+            return firstItem
+        }
+        return '**/**/****'
+    }
+    getEarliestTime = (arrival) => {
+        const { reservations } = this.state
+        if(reservations.length !== 0) {
+            // const hh = moment(reservations[0].arrival_Time_From, 'hh:mm').format('hh')
+            // console.log('Hour ',hh)
+            const arrivalTimeArr = reservations.map(item => moment(item.arrival_Time_From, 'hh:mm').format('hh'))
+            const leaveTimeArr = reservations.map(item => moment(item.arrival_Time_To, 'hh:mm').format('hh'))
+            let arr = []
+            if(arrival) {
+                arr = arrivalTimeArr.sort(function(a, b){return a-b})
+            } else {
+                arr = leaveTimeArr.sort(function(a, b){return b-a})
+            }
+            return moment(`${arr[0]}:00`, 'hh:mm').format('hh:mm a')
+        }
+        return 0
+    }
 
     renderGuests = () => {
         const { reservations } = this.state
@@ -117,7 +146,7 @@ class HomeDetails extends Component {
                         </View>
                         <View>
                             <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Start Date</MyText>
-                            <MyText style={[textH4Style, textBold]}>2/04/2020</MyText>
+                            <MyText style={[textH4Style, textBold]}>{this.getEarliestDate()}</MyText>
                         </View>
                     </View>
 
@@ -128,7 +157,7 @@ class HomeDetails extends Component {
                         </View>
                         <View>
                             <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Time</MyText>
-                            <MyText style={[textH4Style, textBold]}>8:00am - 10:00am</MyText>
+                            <MyText style={[textH4Style, textBold]}>{this.getEarliestTime(true)} - {this.getEarliestTime(false)}</MyText>
                         </View>
                     </View>
 

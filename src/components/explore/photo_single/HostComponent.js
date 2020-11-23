@@ -56,7 +56,7 @@ class HostComponent extends Component {
             <View style={contentContainer}>
                 <View style={[flexRow, thumbTxtContainer]}>
                     <View style={thumbContainer}>
-                        <Image source={require('../../../assets/images/photo/photo5.png')} resizeMode="cover" style={thumbStyle} />
+                        <Image source={require('../../../assets/images/profile.png')} resizeMode="cover" style={thumbStyle} />
                         {this.renderVerified()}
                     </View>
                     <MyText style={[textH3Style, textWhite]}>{fullName}</MyText>

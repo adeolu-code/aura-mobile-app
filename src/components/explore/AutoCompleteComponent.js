@@ -9,30 +9,34 @@ import { MyText, CustomButton } from '../../utils/Index';
 
 import colors from '../../colors';
 
-import { GOOGLE_API_KEY } from '../../utils'
+import { GOOGLE_API_KEY, GOOGLE_SEARCH_KEY } from '../../utils'
 
 
 class AutoCompleteComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = { value: '', isFieldActive: true };
   }
 
    locationDetails = (data, details = null) => {
         const obj = { data, details }
-        console.log('Data ', data, details)
-        // this.setState({ value: data.description })
-        // this.props.locationDetails(obj)
+        // console.log('Data ', data, details)
+        this.setState({ value: data.description })
+        this.props.locationDetails(obj)
+    }
+    onChangeText = (text) => {
+        this.setState({ value: text })
     }
 
   render() {
     const { flexRow, textH6Style, textAccent, textWhite, textH4Style } = GStyles;
     const { container, countryContainer, searchContainer, iconStyle } = styles
     const { autoCompleteStyles, autoCompleteActiveStyles } = autoStyles;
-    const activeStyles = this.props.active ? autoCompleteActiveStyles : autoCompleteStyles
+    // const activeStyles = this.props.active ? autoCompleteActiveStyles : autoCompleteStyles
+    const activeStyles = autoCompleteActiveStyles
 
-    const { title, countrySymbol, location } = this.props
+
+    const { title, countrySymbol, location, placeholder } = this.props
 
     const homePlace = {
         description: location ? location.city : '',
@@ -40,10 +44,11 @@ class AutoCompleteComponent extends Component {
     };
     return (
         <View style={[flexRow]}>
+            
             <GooglePlacesAutocomplete
-                autoFocus={this.state.isFieldActive}
+                autoFocus={true}
                 ref={ref => this.googleAutoComplete = ref }
-                placeholder=''
+                placeholder={placeholder}
                 minLength={2}
                 returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
                 keyboardAppearance={'light'} 
@@ -55,11 +60,12 @@ class AutoCompleteComponent extends Component {
                 textInputProps={{
                     onBlur:this.handleBlur,
                     onChangeText: this.onChangeText,
-                    value: this.state.value
+                    value: this.state.value,
+                    autoFocus: true
                 }}
                 enablePoweredByContainer={false}
                 query={{
-                    key: GOOGLE_API_KEY,
+                    key: GOOGLE_SEARCH_KEY,
                     language: 'en', // language of the results
                     types: '(regions)',
                     // types: '(cities)', // default: 'geocode'
@@ -89,9 +95,9 @@ class AutoCompleteComponent extends Component {
                 // renderLeftButton={()  => <Image source={require('path/custom/left-icon')} />}
                 // renderRightButton={() => <Text>Custom text after the input</Text>}
             />
-            <TouchableOpacity style={searchContainer}>
+            {/* <TouchableOpacity style={searchContainer}>
                 <Icon type="Ionicons" name="search" style={iconStyle} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
       
     );
@@ -99,47 +105,31 @@ class AutoCompleteComponent extends Component {
 }
 
 const autoStyles = {
-    autoCompleteStyles: {
-        textInputContainer: {
-            backgroundColor: 'white',
-            // borderTopWidth: 0,
-            borderBottomWidth: 2,
-            borderColor: colors.accent, 
-            borderWidth: 0, borderTopColor: 'transparent',
-            borderBottomColor: colors.accent, 
-            height: 45, justifyContent: 'flex-start', alignItems: 'flex-end', marginBottom: 0, paddingBottom: 0
-        },
-        textInput: {
-            // color: 'rgba(0,0,0,1)', 
-            color: colors.accent,
-            // borderColor: 'rgb(232,232,232)',
-            fontSize: 14,
-            borderRadius: 0,
-            backgroundColor: 'transparent',
-            paddingLeft: 0, 
-            marginLeft: 0,marginRight: 0, 
-        },
-        row: {
-            backgroundColor: 'white'
-        },
-        predefinedPlacesDescription: {
-            color: 'rgba(0,0,0,1)'
-        },
-    },
+    
     autoCompleteActiveStyles: {
         textInputContainer: {
-            backgroundColor: 'white',
+            // backgroundColor: 'white',
+            // backgroundColor: 'green',
             // borderTopWidth: 0,
-            borderBottomWidth: .8,
-            borderColor: 'rgb(248,106,39)', borderWidth: .8, borderTopColor: 'rgb(248,106,39)',
-            borderBottomColor: 'rgb(248,106,39)',
-            height: 50, justifyContent: 'center', alignItems: 'center',
-            paddingBottom: 5, paddingHorizontal: 10
+            // borderColor: 'rgb(248,106,39)', borderWidth: .8, borderTopColor: 'rgb(248,106,39)',
+            // height: 50, 
+            justifyContent: 'center', alignItems: 'center',
+            paddingBottom: 0, paddingHorizontal: 0,
+            // elevation: 4
         },
+
         textInput: {
-            color: 'rgb(248,106,39)',
+            // color: 'rgb(248,106,39)',
             // borderColor: 'rgb(232,232,232)',
             fontSize: 16,
+            elevation: 4
+        },
+        row: {
+            backgroundColor: 'white', marginVertical: 5, borderRadius: 5, elevation: 2,
+            paddingHorizontal: 10
+        },
+        separator: {
+            backgroundColor: 'white', borderWidth: 0
         },
         predefinedPlacesDescription: {
             color: 'rgba(0,0,0,1)'

@@ -12,20 +12,23 @@ class SearchInput extends Component {
     
     
     render() {
-        const { InputContainerStyles, inputStyle, searchContainer, iconStyle } = styles;
-        const { textH4Style, textBold } = GStyles;
+        const { InputContainerStyles, inputStyle, searchContainer, iconStyle,  } = styles;
+        const { textH4Style, textGrey, textBold, textLightGrey } = GStyles;
         const { placeholder, imageUrl, onChangeText, secureTextEntry, value, onFocus, onBlur, password,
-            autoCapitalize, textInputStyle, onChange, placeholderColor } = this.props;
+            autoCapitalize, textInputStyle, onChange, placeholderColor, onPress } = this.props;
         
         const keyboard = this.props.keyType ? this.props.keyType : 'default'
         return (
               
             <View style={InputContainerStyles}>
-                <TextInput style={[inputStyle, textInputStyle ]} onChangeText={onChangeText}
+                {/* <TextInput style={[inputStyle, textInputStyle ]} onChangeText={onChangeText}
                 secureTextEntry={secureTextEntry && this.state.secure} autoCorrect={false} value={value}
                 onBlur={onBlur} onFocus={onFocus} autoCapitalize={ autoCapitalize || 'none'}
                 placeholder={placeholder || 'Placeholder'} onChange={onChange} keyboardType={keyboard}
-                placeholderTextColor={placeholderColor || "#646464"} />
+                placeholderTextColor={placeholderColor || "#646464"} /> */}
+                <TouchableOpacity style={[inputStyle, textInputStyle, {justifyContent: 'center'} ]} onPress={onPress}>
+                    <MyText style={[textGrey, textH4Style]}>Search locations</MyText>
+                </TouchableOpacity>
 
                 <TouchableOpacity style={searchContainer}>
                     <Icon type="Ionicons" name="search" style={iconStyle} />
@@ -42,7 +45,8 @@ const styles = StyleSheet.create({
     inputStyle: {
         paddingLeft: 15,paddingRight: 20,height: 45, backgroundColor: colors.white,
         fontSize: 14, color: colors.darkGrey, fontFamily: 'Nunito-bold',
-        flex: 4, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderBottomLeftRadius: 5
+        flex: 4, borderTopEndRadius: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5,
+        // borderTopRightRadius: 20
     },
     searchContainer: {
         backgroundColor: colors.orange, flex: 1, justifyContent: 'center', alignItems: 'center',

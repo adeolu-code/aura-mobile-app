@@ -54,7 +54,7 @@ class Header extends Component {
             </View>
             <View style={middleContainer}>
                 <View style={middleImgContainer}>
-                    <Image source={require('../../../assets/images/photo/pic5.png')} resizeMode="cover" style={imgStyle} />
+                    <Image source={require('../../../assets/images/photo/pic1.png')} resizeMode="cover" style={imgStyle} />
                 </View>
             </View>
             <View style={rightContainer}>

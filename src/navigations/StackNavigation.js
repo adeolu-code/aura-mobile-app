@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,6 +13,8 @@ import HomeDetailsScreen from '../screens/dashboard_stack/HomeDetails';
 import GuestProfileScreen from '../screens/dashboard_stack/GuestProfile';
 // import ManagePropertiesScreen from '../screens/dashboard_stack/ManageProperties';
 import ManagePropertiesContainerScreen from '../screens/dashboard_stack/ManagePropertiesContainer';
+import EarningsScreen from '../screens/dashboard_stack/Earnings';
+import TransactionsHistoryScreen from '../screens/dashboard_stack/TransactionsHistory';
 import RatingsAndReviewsScreen from '../screens/dashboard_stack/ReviewsProvider';
 
 
@@ -58,6 +61,8 @@ export function DashboardStack() {
             <Stack.Screen name="GuestProfile" component={GuestProfileScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ManageProperties" component={ManagePropertiesContainerScreen} options={{ headerShown: false }} />
             <Stack.Screen name="RatingsReviews" component={RatingsAndReviewsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Earnings" component={EarningsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TransactionsHistory" component={TransactionsHistoryScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>
     );

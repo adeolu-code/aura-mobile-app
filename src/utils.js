@@ -12,7 +12,8 @@ export const GLOBAL_PADDING = 20;
 const CLIENT_ID = '0987654321'
 const CLIENT_SECRET = '1234567890'
 
-export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs";
+export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs"; 
+export const GOOGLE_SEARCH_KEY = 'AIzaSyDeW1aTWlO-Azt-kFGAIxHsQJflNCY_9mM';
 
 const UNAUTHORIZED_MESSAGE = 'user is unauthorised to perform action'
 
@@ -284,9 +285,11 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
         return response.json()
      })
      .then((data) => {
-        if((data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
-           console.log('Got here utils')
+      //   console.log('Utils ', data)
+        if(data !== undefined && (data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
+         //   console.log('Got here utils')
            context.logOut()
+           return;
         }
         return data
      })
@@ -301,14 +304,15 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
 export const errorMessage = (message, size) => {
    showMessage({
       message, floating: true,
+      duration: 5000,
       position: {bottom: 10, left: size ? size : 50, right: size ? size : 50},
       style: { width: '100%', backgroundColor: 'white', paddingHorizontal: 0, borderWidth: 1, borderColor: colors.secondary },
       titleStyle: { textAlign: 'center', color: colors.secondary }
     });
 }
-export const successMessage = (message) => {
+export const successMessage = (message, duration) => {
    showMessage({
-      message, type: "success", floating: true
+      message, type: "success", floating: true, duration: 5000 || duration
     });
 }
 

@@ -10,10 +10,10 @@ const defaultContext = {
   loadingReservations: false, loadingConReservations: false,
   reservations: [], concludedReservations: [], 
   totalReservations: 0, totalConReservations: 0,
-  reservationsPage: 1, concludedReservationsPage: 1, 
+  reservationsPage: 1, concludedReservationsPage: 1,
   perPage: 10, pageCountReservations: 0, 
   pageCountConcluded: 0, 
-  loadMoreConcluded: false, loadMoreReservations: false
+  loadMoreConcluded: false, loadMoreReservations: false,
 };
 
 
