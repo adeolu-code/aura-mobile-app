@@ -140,6 +140,14 @@ class ScrollContentPlaces extends Component {
         )
     }
   }
+  handleScroll = (e) => {
+    const contentOffset = e.nativeEvent.contentOffset
+    if(contentOffset.x >= 176) {
+        this.setState({ first: false})
+    } else {
+        this.setState({ first: true })
+    }
+  }
   render() {
     const { scrollContainer, scrollMainContainer, placeAroundContainer, 
         headerContainer, buttonContainer, buttonStyle } = styles
@@ -158,7 +166,8 @@ class ScrollContentPlaces extends Component {
                     <ScrollHeader title={headerTitle} noDot={this.state.noDot} first={this.state.first} />
                 </View>
                 <View style={scrollMainContainer}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}
+                    onScroll={this.handleScroll}>
                         <View style={[scrollContainer, { width: '100%' }]}>
                             {this.renderPlaces()}
                         </View>
