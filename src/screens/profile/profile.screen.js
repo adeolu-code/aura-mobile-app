@@ -69,7 +69,7 @@ class ProfileScreenClass extends Component {
         
         await clearData()
         this.context.set({ userData: null, isLoggedIn: false})
-        this.props.navigation.navigate('Tabs', {screen: 'Dashboard'})
+        this.props.navigation.push('Tabs', {screen: 'Dashboard'})
     }
     becomeHost = () => {
         this.context.set({ propertyFormData: null, edit: false, step: 1 })
