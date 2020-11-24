@@ -11,6 +11,7 @@ import colors from '../../colors';
 
 
 
+
 class HostComponent extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +38,7 @@ class HostComponent extends Component {
         iconVerifiedContainer, thumbStyle, buttonContainer, buttonStyle, shieldContainer, textStyle, lowerContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textGrey, textH4Style, textH5Style, 
             imgStyle, textWhite, textH3Style, textDarkGrey } = GStyles
-    const { house } = this.props
+    const { house, onPress } = this.props
     const imgUrl = house.hostPicture ? { uri: house.hostPicture } : require('../../assets/images/profile.png')
 
     return (
@@ -57,7 +58,7 @@ class HostComponent extends Component {
                     <MyText style={[textGrey, textH4Style]}>{ house ? house.description : '***'}</MyText>
                 </View>
                 <View style={buttonContainer}>
-                    {/* <CustomButton buttonText="Contact Host" buttonStyle={buttonStyle} textStyle={{color: colors.black}} /> */}
+                    <CustomButton buttonText="Contact Host" buttonStyle={buttonStyle} textStyle={{color: colors.black}} onPress={onPress} />
                 </View>
                 <View style={[flexRow, lowerContainer]}>
                     <View style={shieldContainer}>

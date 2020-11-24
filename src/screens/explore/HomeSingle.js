@@ -58,6 +58,25 @@ class HomeSingle extends Component {
     console.log('House ', house)
     
   }
+  contactHost = () => {
+    const { state } = this.context
+    const { house } = this.state
+    if(state.isLoggedIn) {
+      this.props.navigation.navigate("InboxChat", {
+        name: house.hostName,
+        status: "Online",
+        userImage: house.hostPicture ? {uri: house.hostPicture} : undefined,
+        // chatId: '',
+        propertyId: house.id,
+        userId: house.hostId,
+        roleHost: 'Host',
+        host: true
+      })
+    } else {
+      this.setState({ showLoginModal: true})
+    }
+  }
+
   openLoginModal = () => {
     this.setState({ showLoginModal: true })
   }
@@ -266,7 +285,7 @@ class HomeSingle extends Component {
                 <AmenitiesComponent house={house} />
                 {houseRules.length !== 0 ?<RulesComponent title="House Rules" rules={houseRules} /> : <Fragment />}
                 <LocationComponent house={house} address={house.address} location={location} />
-                <HostComponent house={house} />
+                <HostComponent house={house} onPress={this.contactHost} />
                 <DetailsComponent house={house} />
                 <ReviewsComponent reviews={reviews} loading={gettingReviews} />
                 <CommentComponent comments={comments} loading={gettingReviews} />

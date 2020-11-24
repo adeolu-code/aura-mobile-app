@@ -21,6 +21,7 @@ export default class InboxChat extends Component {
             convo: [],
             message: "",
             lastMessageId: props.route.params.chatId,
+            host: props.route.params?.host
         };
     }
 
@@ -52,10 +53,16 @@ export default class InboxChat extends Component {
     };
 
     sendMessage = () => {
-        messageUserApi({
+        const { host } = this.state
+        const obj = host ? {
+            message_Body: this.state.message,
+            property_Id: this.props.route.params.propertyId
+        } : {
             "message_to_Host_Id": this.state.lastMessageId,
             "message_Body": this.state.message
-        }).then(result => {
+        }
+        const arg = host ? true : false
+        messageUserApi(obj, arg).then(result => {
             if (result.isError == false) {
                 this.getChatConvo();
                 this.setState({message: ""});
