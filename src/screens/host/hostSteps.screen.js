@@ -11,6 +11,7 @@ import { RenderStars } from "../../components/render_stars/renderStars";
 
 import OtpModal from '../../components/dashboard/OtpModal';
 import EmailVerificationModal from '../../components/dashboard/EmailVerificationModal';
+import ChangeNumberModal from '../../components/dashboard/ChangeNumberModal';
 
 import { AppContext } from '../../../AppProvider';
 import { ManagePropertyContext } from '../../../ManagePropertyProvider';
@@ -21,7 +22,8 @@ export default class HostSteps extends Component {
     static contextType = AppContext;
     constructor() {
         super();
-        this.state = { step: 1, isComplete: false, showOtpModal: false, showEmailModal: false, loading: false, errors: [], close: true, message: '' }
+        this.state = { step: 1, isComplete: false, showOtpModal: false, showEmailModal: false, loading: false, errors: [], close: true, message: '',
+        showPhoneModal: false }
     }
 
     renderLoading = () => {
@@ -90,7 +92,7 @@ export default class HostSteps extends Component {
 
             // If the person has phone number
             if (userData.phoneNumber) {
-                this.generateOtp();
+                this.openPhoneModal();
             } else {
                 if (userData.isEmailVerified) {
                     this.publishProperty()
@@ -99,6 +101,12 @@ export default class HostSteps extends Component {
                 }
             }
         }
+    }
+    openPhoneModal = () => {
+        this.setState({ showPhoneModal: true });
+    }
+    closePhoneModal = () => {
+        this.setState({ showPhoneModal: false });
     }
     openOtpModal = () => {
         this.setState({ showOtpModal: true });
@@ -275,14 +283,14 @@ export default class HostSteps extends Component {
                             {this.renderProperty()}
                             
                             <Card title={"Facilities And Location"} cardStyles={{ paddingTop: 0, marginTop: -20}}
-                                description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
+                                description={"Basic property facilities and location details of property"}
                                 completed={step > 1 ? true : false} edit={step > 1 ? true : false} step={1} 
                                 getStarted={step === 1 ? true : false}
                                 onEditPress={this.editLocation} 
                                 onGetStartedPress={this.getStarted}
                             />
                             <Card title={"Upload Picture And Short Description Of Your Place"}
-                                description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
+                                description={"Upload beautiful pictures of property, write/update property title and also get to describe the property "}
                                 completed={step > 2 ? true : false} 
                                 edit={step > 2 ? true : false}
                                 getStarted={step === 2 ? true : false}
@@ -290,7 +298,7 @@ export default class HostSteps extends Component {
                                 onGetStartedPress={this.getStarted}
                             />
                             <Card title={"Welcome Your First Guest"}
-                                description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
+                                description={"Write/Update property price, schedule the availability the property, give more details about property booking"}
                                 step={3}
                                 completed={step > 3 ? true : false} 
                                 edit={step > 3 ? true : false}
@@ -303,6 +311,7 @@ export default class HostSteps extends Component {
                         <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } close={this.state.close} />
                         <OtpModal visible={this.state.showOtpModal} onDecline={this.closeOtpModal} { ...this.props } close={this.state.close}
                         openEmail={this.openEmailModal} />
+                        <ChangeNumberModal visible={this.state.showPhoneModal} onDecline={this.closePhoneModal} { ...this.props } />
                     </Container>
                 </SafeAreaView>
             </>

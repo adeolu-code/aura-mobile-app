@@ -37,12 +37,12 @@ class PhotoSingle extends Component {
   closeModal = () => {
     this.setState({ showModal: false })
   }
-    renderLoading = () => {
-        const { gettingPhotographer, gettingPortofolio, loading } = this.state;
-        if (gettingPhotographer || gettingPortofolio || loading) { 
-            return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); 
-        }
-    }
+  renderLoading = () => {
+      const { gettingPhotographer, gettingPortofolio, loading } = this.state;
+      if (gettingPhotographer || gettingPortofolio || loading) { 
+          return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); 
+      }
+  }
 
   getPhotographer = async () => {
     const { photo } = this.state
@@ -78,6 +78,7 @@ class PhotoSingle extends Component {
   componentDidMount = () => {
     this.getPhotographer()
     this.getPortolio()
+    console.log('Component mounted ', this.props.route)
   }
 
   render() {

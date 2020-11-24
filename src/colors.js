@@ -17,6 +17,7 @@ const colors = {
     green: '#378904',
     success: '#378915',
     secondary:'#F86792',
+    danger: '#dc3545',
     white:'#ffffff',
     black: '#000000',
     blackClose: '#111111',

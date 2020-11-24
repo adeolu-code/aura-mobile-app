@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText, Loading, Spinner} from '../../utils/Index';
-import { View, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import FilterModal from './FilterModal';
@@ -15,7 +15,7 @@ import { Icon } from 'native-base';
 class AllPropertiesTab extends Component {
     constructor(props) {
         super(props);
-        this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png') };
+        this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png'), refreshing: false };
     }
     linkToSingleHome = (house) => {
         this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
@@ -28,9 +28,9 @@ class AllPropertiesTab extends Component {
         this.setState({ showFilterModal: false });
     }
     renderLoading = () => {
-        const { loading } = this.state;
+        const { loading, refreshing } = this.state;
         const { state } = this.props.propertyContext
-        if (loading || state.loadingAllProperties) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
+        if ((loading || state.loadingAllProperties) && !refreshing) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
     }
     onEndReached = () => {
         const { set, state, getAllProperties } = this.props.propertyContext
@@ -62,15 +62,28 @@ class AllPropertiesTab extends Component {
         return (
             <View style={rowContainer}>
                 <ManagePropertyRow title={title} img={imgUrl} openModal={this.openFilterModal.bind(this, item)} location={location} 
-                status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} 
+                status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} item={item}
                 onPress={this.linkToSingleHome.bind(this, item)} />
             </View>
         )
+    }
+    onRefresh = () => {
+        this.setState({ refreshing: true })
+        this.props.propertyContext.getAllProperties()
+        .finally(() => {
+            this.setState({ refreshing: false })
+        })
     }
     renderProperties = () => {
         const { properties } = this.props.propertyContext.state
         return (
             <FlatList
+                refreshControl={
+                    <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.refreshing}
+                    colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
+                }
+            //   onRefresh={this.onRefresh}
+            //   refreshing={this.state.refreshing}
               ListFooterComponent={
                 <>
                   {this.renderLoadMore()}
