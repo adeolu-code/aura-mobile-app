@@ -143,7 +143,6 @@ export default class HouseRules extends Component {
           } = GStyles;
         return(
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="House Rules Of Need To Know" 
                         sub={"Inform your guests about rules they need to follow if you are hosting them"}

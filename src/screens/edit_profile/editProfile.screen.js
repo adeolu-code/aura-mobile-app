@@ -61,7 +61,6 @@ export default class EditProfile extends Component {
         const {textCenter, textH3Style, textWhite, textBold,textGreen} = GStyles;
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Edit Personal Info" />
                     {this.renderLoading()}

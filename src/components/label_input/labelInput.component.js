@@ -107,6 +107,7 @@ export const LabelInput = (props) => {
                         rowSpan={props.rowSpan || 3}
                         placeholder={props.placeholder} 
                         style={[Styles.textarea, ]}
+                        value={props.value}
                         onChangeText={(e) => props.onChangeText && props.onChangeText(e)}
                     />
                     

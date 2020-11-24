@@ -173,7 +173,6 @@ export default class SetPricing extends Component {
         const markedDates = Object.assign({}, this.state.selectedDays)
         return (
             <>
-                {/* <StatusBar backgroundColor={colors.white} barStyle="dark-content" /> */}
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header {...this.props}  title="Set Your Pricing"  />

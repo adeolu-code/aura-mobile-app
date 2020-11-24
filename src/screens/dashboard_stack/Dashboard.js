@@ -88,6 +88,9 @@ class Dashboard extends Component {
   linkToRatings = () => {
     this.props.navigation.navigate('RatingsReviews');
   }
+  linkToEarning = () => {
+    this.props.navigation.navigate('Earnings')
+  }
 
   renderName = () => {
     if (this.context.state.isLoggedIn) {
@@ -332,7 +335,7 @@ class Dashboard extends Component {
                 <View style={walletImgContainer}>
                   <Image source={require('../../assets/images/icons/wallet/wallet.png')} resizeMode="contain" style={imgStyle} />
                 </View>
-                <TouchableOpacity style={viewContainer}>
+                <TouchableOpacity style={viewContainer} onPress={this.linkToEarning}>
                   <MyText style={[textH5Style, textWhite, textBold]}>View All</MyText>
                 </TouchableOpacity>
               </View>

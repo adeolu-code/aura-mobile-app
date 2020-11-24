@@ -78,7 +78,7 @@ export default class PropertyDescription extends Component {
     componentDidMount = () => {
         const { state } = this.context
         const ppty = state.propertyFormData;
-        console.log(ppty)
+        console.log('Title ',ppty)
         if(ppty) {
             this.setState({ title: ppty.title, description: ppty.description })
         }
@@ -94,7 +94,6 @@ export default class PropertyDescription extends Component {
           } = GStyles;
         return (
             <>
-                {/* <StatusBar backgroundColor={colors.white} barStyle="dark-content" /> */}
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header {...this.props}  title="Create A List Title" />

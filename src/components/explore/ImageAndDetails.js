@@ -102,9 +102,9 @@ class ImageAndDetails extends Component {
                     </MyText>:<Fragment></Fragment>}
                 </View>
                 <View style={{flex: 1,alignItems: 'flex-end' }}>
-                    <TouchableOpacity style={shareContainer}>
+                    {/* <TouchableOpacity style={shareContainer}>
                         <Icon name="share-social" style={shareStyle} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
 
