@@ -50,7 +50,7 @@ class HomeSingle extends Component {
           property_Id: '',
           requestId: ''
         },
-        loading: false
+        loading: false, contact: false
     };
     const { house } = props.route.params;
     this.state.house = house;
@@ -60,21 +60,25 @@ class HomeSingle extends Component {
   }
   contactHost = () => {
     const { state } = this.context
-    const { house } = this.state
+    this.setState({ contact: true })
     if(state.isLoggedIn) {
-      this.props.navigation.navigate("InboxChat", {
-        name: house.hostName,
-        status: "Online",
-        userImage: house.hostPicture ? {uri: house.hostPicture} : undefined,
-        // chatId: '',
-        propertyId: house.id,
-        userId: house.hostId,
-        roleHost: 'Host',
-        host: true
-      })
+      this.linkToChat()
     } else {
       this.setState({ showLoginModal: true})
     }
+  }
+  linkToChat = () => {
+    const { house } = this.state
+    this.props.navigation.navigate("InboxChat", {
+      name: house.hostName,
+      status: "Online",
+      userImage: house.hostPicture ? {uri: house.hostPicture} : undefined,
+      // chatId: '',
+      propertyId: house.id,
+      userId: house.hostId,
+      roleHost: 'Host',
+      host: true
+    })
   }
 
   openLoginModal = () => {
@@ -83,7 +87,11 @@ class HomeSingle extends Component {
   closeLoginModal = (bool) => {
     this.setState(() => ({ showLoginModal: false }), () => {
       if(bool) {
-        this.openCheckInModal();
+        if(this.state.contact) {
+          this.linkToChat()
+        } else {
+          this.openCheckInModal();
+        }
       }
     })
   }
@@ -96,6 +104,7 @@ class HomeSingle extends Component {
   openCheckInModal = () => {
     // this.openReserveModal()
     const { state } = this.context
+    this.setState({ contact: false })
     if(state.isLoggedIn) {
       this.setState({ showCheckInModal: true })
     } else {
