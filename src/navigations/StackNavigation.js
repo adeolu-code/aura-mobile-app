@@ -41,6 +41,7 @@ import AddProfilePicture from '../screens/edit_profile/addProfilePic.screen';
 import ChangePassword from '../screens/edit_profile/changePassword.screen';
 import Complaint from '../screens/profile/complaints.screen';
 
+
 const Stack = createStackNavigator();
 
 export function ExploreStack() {
@@ -74,6 +75,7 @@ export function BookingsStack() {
         <Stack.Navigator initialRouteName="Bookings" options={{ gestureEnabled: true }}>
             <Stack.Screen name="Bookings" component={BookingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="BookingDetail" component={BookingsDetail} options={{ headerShown: false }} />
+            
         </Stack.Navigator>
     );
 }

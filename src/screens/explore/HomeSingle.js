@@ -31,6 +31,11 @@ import { v4 as uuidv4 } from 'uuid';
 import LoginModal from '../../components/auth/LoginModal';
 import SignUpModal from '../../components/auth/SignUpModal';
 
+import IdentityCardModal from '../../components/explore/IdentityCardModal';
+
+import SharedIdModal from '../../components/explore/ShareIdModal';
+
+
 
 class HomeSingle extends Component {
   static contextType = AppContext;
@@ -50,7 +55,8 @@ class HomeSingle extends Component {
           property_Id: '',
           requestId: ''
         },
-        loading: false, contact: false
+        loading: false, contact: false, showIdentityModal: false, shareIdModal: false,
+        booked: ''
     };
     const { house } = props.route.params;
     this.state.house = house;
@@ -80,7 +86,18 @@ class HomeSingle extends Component {
       host: true
     })
   }
-
+  openSharedIdModal = () => {
+    this.setState({ shareIdModal: true })
+  }
+  closeSharedIdModal = () => {
+    this.setState({ shareIdModal: false })
+  }
+  openIdentityModal = () => {
+    this.setState({ showIdentityModal: true })
+  }
+  closeIdentityModal = () => {
+    this.setState({ showIdentityModal: false })
+  }
   openLoginModal = () => {
     this.setState({ showLoginModal: true })
   }
@@ -102,6 +119,7 @@ class HomeSingle extends Component {
     this.setState({ showRegisterModal: false })
   }
   openCheckInModal = () => {
+    // this.openSharedIdModal()
     // this.openReserveModal()
     const { state } = this.context
     this.setState({ contact: false })
@@ -146,11 +164,15 @@ class HomeSingle extends Component {
     console.log('Reserve space ', res)
     this.setState({ loading: false })
     if(res.isError) {
-      const message = res.Message;
+      const message = res.message;
       errorMessage(message)
     } else {
       this.getCalendar()
       successMessage('Space booked successfully!!')
+      this.setState({ booked: res.data })
+      setTimeout(() => {
+        this.checkVerification()
+      }, 50);
     }
   }
   getPhotos = async () => {
@@ -186,7 +208,6 @@ class HomeSingle extends Component {
     const { house } = this.state
     this.setState({ gettingHouse: true })
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${house.id}`);
-    // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', `api/v1/listing/property/${house.id}`);
     console.log('House Details ', res)
     this.setState({ gettingHouse: false })
     if(res.isError) {
@@ -230,6 +251,15 @@ class HomeSingle extends Component {
     }
   }
 
+  checkVerification = () => {
+    const { userData } = this.context.state
+    if(userData.identificationDocument) {
+      this.openSharedIdModal()
+    } else {
+      this.openIdentityModal()
+    }
+  }
+
 //   getComments = async () => {
 //     const { house } = this.state
 //     this.setState({ gettingComments: true })
@@ -256,12 +286,13 @@ class HomeSingle extends Component {
     this.getReviews()
     this.getCalendar()
     // this.getAmenity()
+    console.log(this.context.state.userData)
   }
 
   getCalendar = async () => {
     const { house } = this.state
     this.setState({ gettingCalendar: true })
-    const res = await GetRequest(urls.listingBase, `api/v1/listing/property/calendar?PropertyId=${house.id}`);
+    const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/calendar?PropertyId=${house.id}`);
     console.log('House calendar ', res)
     this.setState({ gettingCalendar: false })
     if(res.isError) {
@@ -324,6 +355,11 @@ class HomeSingle extends Component {
         <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
 
         <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
+
+        <IdentityCardModal visible={this.state.showIdentityModal} onDecline={this.closeIdentityModal} { ...this.props} />
+
+        <SharedIdModal visible={this.state.shareIdModal} onDecline={this.closeSharedIdModal} {...this.props} 
+        booked={this.state.booked} house={this.state.house} />
       </SafeAreaView>
     );
   }

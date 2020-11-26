@@ -17,7 +17,7 @@ class ReserveModal extends Component {
         this.state = { formData: {
                 Arrival_Time_From: '',
                 Arrival_Time_To: '',
-                no_Of_Guest: 1,
+                no_Of_Guest: 1, no_Of_Rooms: 1,
             }, errors: []
         };
     }
@@ -76,6 +76,11 @@ class ReserveModal extends Component {
     setCountValue = (value) => {
         const { formData } = this.state;
         const obj = { ...formData, no_Of_Guest: value }
+        this.setState({ formData: obj })
+    }
+    setRoomsValue = (value) => {
+        const { formData } = this.state;
+        const obj = { ...formData, no_Of_Rooms: value }
         this.setState({ formData: obj })
     }
     onDecline = () => {
@@ -160,6 +165,9 @@ class ReserveModal extends Component {
                         <View style={itemCountContainer}>
                             <View>
                                 <ItemCountPicker title="Guest" value={this.state.formData.no_Of_Guest} countValue={this.setCountValue} />
+                            </View>
+                            <View>
+                                <ItemCountPicker title="No of rooms" value={this.state.formData.no_Of_Rooms} countValue={this.setRoomsValue} />
                             </View>
                             {/* <View>
                                 <ItemCountPicker title="Children" value={10} />
