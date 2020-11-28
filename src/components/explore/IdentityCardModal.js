@@ -89,6 +89,13 @@ class IdentityCardModal extends Component {
                 "identityNumber": this.state.identityNumber,
                 "imageName": this.state.imageFile.name,
               })
+              .then((res) => {
+                if(res.isError || res.IsError) {
+                  this.setState({ formErrors: [res.message]})
+                } else {
+                  this.props.onDecline(true)
+                }
+              })
               .finally(() => {
                 this.setState({loading: false });
               })

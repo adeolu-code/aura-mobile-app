@@ -56,7 +56,7 @@ class HomeSingle extends Component {
           requestId: ''
         },
         loading: false, contact: false, showIdentityModal: false, shareIdModal: false,
-        booked: '', bookedDays: [], back: true
+        booked: '', bookedDays: [], 
     };
     const { house } = props.route.params;
     this.state.house = house;
@@ -99,6 +99,10 @@ class HomeSingle extends Component {
     this.setState({ showIdentityModal: false })
     if(bool) {
       this.setState({ shareIdModal: true })
+      const { state, getUserProfile } = this.context;
+      if(state.token) {
+        getUserProfile(state.token)
+      }
     }
   }
   openLoginModal = () => {
@@ -289,6 +293,7 @@ class HomeSingle extends Component {
     this.getReviews()
     this.getCalendar()
     // this.getAmenity()
+    console.log(this.context.state.userData)
   }
 
   getCalendar = async () => {

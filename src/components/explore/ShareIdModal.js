@@ -220,7 +220,8 @@ const styles = StyleSheet.create({
     marginVertical:50, paddingHorizontal: 20, justifyContent: 'center', alignItems: 'center'
   },
   imgInfoContainer: {
-    width: '100%', borderRadius: 10, overflow:'hidden', marginTop: 20
+    width: '100%', borderRadius: 10, overflow:'hidden', marginTop: 20,
+    borderWidth: 1, borderColor: colors.orange
   }
 });
 
