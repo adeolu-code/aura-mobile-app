@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import colors from "../../colors";
 import { Styles } from "../payment/payment.style";
 import { MyText, CustomButton, Loading, Error } from "../../utils/Index";
-import { View } from "native-base";
+import { View, Icon } from "native-base";
 import GStyles from "../../assets/styles/GeneralStyles";
 import StarComponent from '../../components/StarComponent';
 import { LabelInput } from "../../components/label_input/labelInput.component";
@@ -19,7 +19,7 @@ class ConfirmAndPay extends Component {
   constructor(props) {
     super(props);
     this.state = { paymentTypes: [], selectedId: '', loading: false, booked: '', bookedId: '', gettingPayments: false, 
-    gettingDeductions: false, deductions: '', house: '' };
+    gettingDeductions: false, deductions: '', house: '', formErrors: [] };
     this.state.bookedId = props.route.params?.bookedId;
     this.state.house = props.route.params?.house
   }
@@ -38,6 +38,26 @@ class ConfirmAndPay extends Component {
     this.getBooked();
     this.getDeductions();
     this.getPaymentMethods();
+  }
+  makePayment = async () => {
+    this.setState({ loading: true })
+    const { booked, selectedId, house } = this.state
+    const amount = booked.cost_Per_Night * booked.no_Of_Days
+    const obj = {
+      reference: booked.id, amount,
+      currency: 'NGN',
+      paymentMethod: selectedId,
+      transactionType: "BOOKING",
+      payee: booked.user_Id
+    }
+    const res = await Request(urls.paymentBase,  `${urls.v}pay`, obj);
+    console.log('confirm pay ', res)
+    this.setState({ loading: false })
+    if(res.isError || res.IsError) {
+      this.setState({ formErrors: [res.message] })
+    } else {
+      this.props.navigation.navigate('HostPropertyStack', { screen: 'PaymentWebView', params: { house, booked, url: res.data }})
+    }
   }
   getBooked = async () => {
     const { bookedId } = this.state
@@ -82,14 +102,13 @@ class ConfirmAndPay extends Component {
   }
 
   renderVerified = () => {
-      const { state } = this.context
-      const verified = state.propertyFormData.status === 'verified' ? true : false
+      const { house } = this.state
       const { iconContainer, iconStyle } = styles
-      if(verified) {
+      if(house && house.isVerified) {
           return (
-          <View style={iconContainer}>
-              <Icon type="FontAwesome5" name="check" style={iconStyle} />
-          </View>
+            <View style={iconContainer}>
+                <Icon type="FontAwesome5" name="check" style={iconStyle} />
+            </View>
           )
       } 
   }
@@ -114,7 +133,7 @@ class ConfirmAndPay extends Component {
                 <TouchableOpacity style={[flexRow, styles.propertyContainer]} >
                     <View style={styles.imgContainer}>
                         <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
-                        {/* {this.renderVerified()} */}
+                        {this.renderVerified()}
                     </View>
                     <View style={styles.rightContainer}>
                         <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>{house ? house.title : '****'}</MyText>
@@ -151,7 +170,7 @@ class ConfirmAndPay extends Component {
                 </View>
                 <View style={{ alignItems: 'center'}}>
                   <MyText style={[textH5Style,textGrey, { marginBottom: 30}]}>GUEST(S)</MyText>
-                  <MyText style={[textBold, textH4Style]}>{booked.no_Of_Guest} Guests</MyText>
+                  <MyText style={[textBold, textH4Style]}>{booked.no_Of_Guest} Guest(s)</MyText>
                 </View>
                 <View style={{ alignItems: 'center'}}>
                   <MyText style={[textH5Style,textGrey, { marginBottom: 30}]}>ROOM(S)</MyText>
@@ -194,7 +213,7 @@ class ConfirmAndPay extends Component {
                       pickerOptions={this.state.paymentTypes.map(type => {
                           return {
                               label: type.name,
-                              value: type.id,
+                              value: type.name,
                           }
                       })}
                       selectedOption={this.state.selectedId || (this.state.paymentTypes.length > 0 ? this.state.paymentTypes[0] : "")}
@@ -203,7 +222,8 @@ class ConfirmAndPay extends Component {
             </View>
 
             <View style={{ marginBottom: 40}}>
-              <CustomButton buttonText="Make Payment" buttonStyle={{ elevation: 1}} />
+              {this.renderError()}
+              <CustomButton buttonText="Make Payment" buttonStyle={{ elevation: 1}} onPress={this.makePayment} />
             </View>
         </View>
         </ScrollView>
@@ -238,6 +258,13 @@ const styles = StyleSheet.create({
   },
   amountRow: {
     justifyContent: 'space-between', paddingVertical: 15
+  },
+  iconContainer: {
+      backgroundColor: colors.orange, width: 18, height: 18, borderRadius: 20, justifyContent: 'center', alignItems: 'center',
+      position: 'absolute', right: 10, top: 10
+  },
+  iconStyle: {
+      color: colors.white, fontSize: 10
   }
   
 });

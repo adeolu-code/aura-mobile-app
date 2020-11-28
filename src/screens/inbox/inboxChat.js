@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, ImageBackground, ScrollView, StatusBar, TouchableOpacity, SafeAreaView } from "react-native";
+import { Image, ImageBackground, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
 import { AppContext } from "../../../AppProvider";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
@@ -75,7 +75,6 @@ export default class InboxChat extends Component {
         const defaultImage = require("./../../assets/images/profile.png");
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Container style={{marginTop: 25}}>
                         <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"}  androidStatusBarColor={"white"}>

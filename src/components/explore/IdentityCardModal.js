@@ -84,18 +84,16 @@ class IdentityCardModal extends Component {
           result = JSON.parse(result.data);
           
           if (result.isError == false) {
-              // successMessage(result.message || "Picture uploaded");
               uploadIdentityImageApi({
-                  "identityTypeId": this.state.selectedId,
-                  "identityNumber": this.state.identityNumber,
-                  "imageName": this.state.imageFile.name,
-                })
-              
-              this.setState({loading: false});
-          }
-          else {
-              errorMessage(result.message || FILE_NOT_UPLOADED);
-              this.setState({loading: false});
+                "identityTypeId": this.state.selectedId,
+                "identityNumber": this.state.identityNumber,
+                "imageName": this.state.imageFile.name,
+              })
+              .finally(() => {
+                this.setState({loading: false });
+              })
+          } else {
+            this.setState({ formErrors: [result.message], loading: false })
           }
       });
   }

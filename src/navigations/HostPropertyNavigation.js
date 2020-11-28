@@ -23,7 +23,7 @@ import SetPricing from '../screens/host/setPricingHOC';
 import GuestPolicy from '../screens/host/guestPolicy.screen';
 import SavedSuccessScreen from '../screens/host/SavedScreen';
 import ConfirmAndPayScreen from '../screens/bookings/ConfirmAndPay';
-
+import PaymentWebViewScreen from '../screens/bookings/PaymentWebView';
 
 const Stack = createStackNavigator();
 
@@ -51,6 +51,7 @@ export default function HostPropertyStack() {
             <Stack.Screen name="GuestPolicy" component={GuestPolicy} options={{ headerShown: false }} />
             <Stack.Screen name="Success" component={SavedSuccessScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ConfirmAndPay" component={ConfirmAndPayScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PaymentWebView" component={PaymentWebViewScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

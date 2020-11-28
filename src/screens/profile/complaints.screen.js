@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from "react";
-import { StatusBar, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 import colors from "../../colors";
@@ -56,7 +56,6 @@ export default class Complaint extends Component {
         const {textCenter, textH3Style, textWhite, textBold} = GStyles;
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="SUBMIT COMPLAINT OR GIVE SUGGESTION" />
                     {this.renderLoading()}

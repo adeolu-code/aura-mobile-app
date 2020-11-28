@@ -56,7 +56,7 @@ class HomeSingle extends Component {
           requestId: ''
         },
         loading: false, contact: false, showIdentityModal: false, shareIdModal: false,
-        booked: ''
+        booked: '', bookedDays: [], back: true
     };
     const { house } = props.route.params;
     this.state.house = house;
@@ -95,8 +95,11 @@ class HomeSingle extends Component {
   openIdentityModal = () => {
     this.setState({ showIdentityModal: true })
   }
-  closeIdentityModal = () => {
+  closeIdentityModal = (bool) => {
     this.setState({ showIdentityModal: false })
+    if(bool) {
+      this.setState({ shareIdModal: true })
+    }
   }
   openLoginModal = () => {
     this.setState({ showLoginModal: true })
@@ -286,7 +289,6 @@ class HomeSingle extends Component {
     this.getReviews()
     this.getCalendar()
     // this.getAmenity()
-    console.log(this.context.state.userData)
   }
 
   getCalendar = async () => {
@@ -299,7 +301,7 @@ class HomeSingle extends Component {
         const message = res.Message;
     } else {
         const data = res.data;
-        this.setState({ calendar: data })
+        this.setState({ bookedDays: data.bookedDays })
     }
   }
 
@@ -308,6 +310,7 @@ class HomeSingle extends Component {
     //   this.closeLoginModal()
     // }
   }
+
 
   render() {
     const { buttomContainer, placeAroundContainer, headerStyle, scrollContainer } = styles;
@@ -344,13 +347,14 @@ class HomeSingle extends Component {
         <View style={buttomContainer}>
             <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
         </View>
-        <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} next={this.openCheckOutModal} />
+        <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} next={this.openCheckOutModal} 
+        bookedDays={this.state.bookedDays} />
 
         <CheckOutModal visible={this.state.showCheckOutModal} onDecline={this.closeCheckOutModal} next={this.openReserveModal} 
-        back={this.openCheckInModal} checkInDate={this.state.formData.check_In_Date} />
+        back={this.openCheckInModal} checkInDate={this.state.formData.check_In_Date} bookedDays={this.state.bookedDays} />
 
         <ReserveModal visible={this.state.showReserveModal} onDecline={this.closeReserveModal} back={this.openCheckOutModal} 
-        formData={this.state.formData} submit={this.reserveSpace} />
+        formData={this.state.formData} submit={this.reserveSpace} house={this.state.house} />
 
         <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
 

@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-import { StatusBar, SafeAreaView, ScrollView, Image } from "react-native";
+import { SafeAreaView, ScrollView, Image } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
 import { BOOKINGS_NO_BOOKINGS, BOOKINGS_SCREEN_DESCRIPTION } from "../../strings";
@@ -25,7 +25,6 @@ export default class PaymentInitial extends Component {
         const { textGrey, textH2Style, textH1Style, textExtraBold, textDarkBlue, textH4Style, imgContainer, imgStyle, textCenter } = GStyles;
         return(
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title={"Payments Settings"} />
                     <View style={[Styles.container, {marginTop: 120}]}>                    

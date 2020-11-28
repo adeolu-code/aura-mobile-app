@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 import colors from "../../colors";
@@ -27,7 +27,6 @@ export default class PaymentReferral extends Component {
         const description = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.`
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Payments & Referrals" />
                     <ScrollView>

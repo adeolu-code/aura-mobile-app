@@ -1,6 +1,6 @@
 import { Container, Content, View } from "native-base";
 import React, { Component } from "react";
-import { Image, SafeAreaView, StatusBar, TouchableOpacity } from "react-native";
+import { Image, SafeAreaView, TouchableOpacity } from "react-native";
 import colors from "../../colors";
 import Header from "../../components/Header";
 import { MyText } from "../../utils/Index";
@@ -22,7 +22,6 @@ export default class UploadPropertyImage extends Component {
           } = GStyles;
         return(
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     
                     <Header {...this.props} title="Upload Quality Photos" sub={"Catch guests’ attention with a listing title that highlights what makes your place special."} />

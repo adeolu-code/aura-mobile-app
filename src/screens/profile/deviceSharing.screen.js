@@ -30,7 +30,6 @@ export default class DeviceSharing extends Component {
     render() {
         return(
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title={ "Device Sharing"} />
                     <View style={[Styles.container, {marginTop: 140}]}>

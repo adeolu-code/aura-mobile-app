@@ -23,8 +23,10 @@ import { uploadIdentityImageApi } from "../../api/profile.api";
 import { Container, Content, Footer, Button, Icon, Toast } from "native-base";
 import { LabelInput } from "../label_input/labelInput.component";
 
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, Request, urls, GetRequest, successMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
+import { getIdentityTypesApi } from "../../api/users.api";
+
 
 
 class ShareIdModal extends Component {
@@ -34,13 +36,14 @@ class ShareIdModal extends Component {
     // this.state = { formErrors: [], loading: false };
     this.state = {
       isCaptured: false, selectedId: props.route.params.selectedId, imageFile: undefined, loading: false,  formErrors: [], 
+      identityInfo: '', idTypes: []
     };
   }
   
   
   renderLoading = () => {
     const { loading } = this.state;
-    if(loading) { return (<Loading />) }
+    if(loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />) }
   }
   renderError = () => {
     const { formErrors } = this.state
@@ -64,12 +67,74 @@ class ShareIdModal extends Component {
     } else {
         this.props.onDecline()
         const data = res.data;
+        successMessage('Your Id was shared successfully!!')
         this.props.navigation.navigate('HostPropertyStack', { screen: 'ConfirmAndPay', params: { house, bookedId: booked.id }})
     }
     
   }
+
+  getIdTypes = () => {
+    this.setState({ loading: true })
+    getIdentityTypesApi().then(result => {
+      console.log(result)
+        if (result != undefined) {
+            this.setState({idTypes: result});
+            this.context.set({idTypes: result})
+            this.getIdentityInfo(result)
+        } else {
+          this.setState({ formErrors: ['Something went wrong, try again, if error persists contact support'], loading: false })
+        }
+    });
+  }
+
+  getIdentityInfo = async (types) => {
+    const { userData } = this.context.state
+    const res = await GetRequest(urls.identityBase,  `${urls.v}user/identity/display/${userData.id}`);
+    this.setState({loading: false });
+    console.log('User identity', res)
+    this.setState({ loading: false })
+    if(res.isError) {
+        const message = res.Message;
+        this.setState({ formErrors: [message]})
+    } else {
+        const data = res.data;
+        const idType = types.find((item) => item.id === data.identityTypeId)
+        this.setState({ identityInfo: {...data, idTypeName: idType.name } })
+    }
+  }
   
-  
+  renderViewButton = () => {
+    const { userData } = this.context.state
+    const { identityInfo } = this.state
+    if(userData && userData.identificationDocument) {
+      if(!identityInfo) {
+        return (
+          <CustomButton buttonText="View Settings" textStyle={{ color: colors.orange}} onPress={this.getIdTypes}
+                    buttonStyle={{ elevation: 3, backgroundColor: colors.white,borderWidth: 1, borderColor: colors.orange, marginBottom: 20}} />
+        )
+      }
+      
+    }
+  }
+
+  renderIdentityInfo = () => {
+    const { identityInfo } = this.state
+    const { textH4Style, textBold, imgStyle } = GStyles
+    const { imgInfoContainer } = styles
+    if(identityInfo) {
+      return (
+        <View style={{ flex: 1, paddingHorizontal: 20}}>
+          <View>
+            <MyText style={[textH4Style, { marginBottom: 10 }]}>Identity Type: <MyText style={[textBold]}>{identityInfo.idTypeName}</MyText></MyText>
+            <MyText style={[textH4Style]}>Identity Number: <MyText style={[textBold]}>{identityInfo.identityNumber}</MyText></MyText>
+          </View>
+          <View style={imgInfoContainer}>
+            <Image source={{ uri: identityInfo.assetPath }} resizeMode="cover" style={imgStyle} />
+          </View>
+        </View>
+      )
+    }
+  }
 
   render() {
     const { visible, onDecline, house } = this.props;
@@ -103,12 +168,14 @@ class ShareIdModal extends Component {
                   This Host is requesting that we share your Id with them
                 </MyText>
             </View>
+            
           </View>
+          
+          {this.renderIdentityInfo()}
           <View style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 50}}>
                 {this.renderError()}
                 <View style={{ flex: 1, justifyContent: 'flex-end'}}>
-                  <CustomButton buttonText="View Settings" textStyle={{ color: colors.orange}}
-                  buttonStyle={{ elevation: 3, backgroundColor: colors.white,borderWidth: 1, borderColor: colors.orange, marginBottom: 20}} />
+                  {this.renderViewButton()}
                   <CustomButton buttonText="Share My ID" buttonStyle={{ elevation: 3}}
                   onPress={() => this.onShareId()} />
                 </View>
@@ -151,6 +218,9 @@ const styles = StyleSheet.create({
   },
   hostContainer: {
     marginVertical:50, paddingHorizontal: 20, justifyContent: 'center', alignItems: 'center'
+  },
+  imgInfoContainer: {
+    width: '100%', borderRadius: 10, overflow:'hidden', marginTop: 20
   }
 });
 
