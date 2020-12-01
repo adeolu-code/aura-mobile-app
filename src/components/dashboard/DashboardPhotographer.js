@@ -6,6 +6,10 @@ import DashboardCardComponent from './DashboardCardComponent';
 import Header from './DashboardHeader';
 import colors from '../../colors';
 import { Icon, Fab, Button } from 'native-base';
+import SelectImageModal from '../SelectImageModal';
+import ImagePicker from 'react-native-image-crop-picker';
+import { AppContext } from '../../../AppProvider'
+
 
 import MenuItems from './MenuItems';
 import { GetRequest, Request, urls, errorMessage } from '../../utils';
@@ -18,9 +22,10 @@ if (
 }
 
 class DashboardPhotographer extends Component {
+  static contextType = AppContext
   constructor(props) {
     super(props);
-    this.state = { menuActive: false, loading: false, profile: '' };
+    this.state = { menuActive: false, loading: false, profile: '', selectModal: false };
   }
 
   openMenu = () => {
@@ -39,6 +44,47 @@ class DashboardPhotographer extends Component {
     this.setState({ menuActive: false })
   }
 
+  openSelectModal = () => {
+    this.setState({ selectModal: true })
+  }
+  closeSelectModal = () => {
+    this.setState({ selectModal: false })
+  }
+  cameraSelected = () => {
+      const { images } = this.state
+      ImagePicker.openCamera({
+          // width: 300,
+          // height: 400,
+          freeStyleCropEnabled: true,
+          compressImageQuality: 0.8,
+          cropping: true
+      }).then((image) => {
+          const arr = [...images, image]
+          this.setState({ images: arr })
+          console.log(arr)
+      }).catch(error => {
+          console.log("Error from camera ", error);
+      }).finally(() => {
+          this.closeSelectModal()
+      })
+  }
+  gallerySelected = () => {
+      const { images } = this.state
+      ImagePicker.openPicker({
+          freeStyleCropEnabled: true,
+          compressImageQuality: 0.8,
+          cropping: true,
+          multiple: true
+      }).then((imgs) => {
+          const arr = [...images, ...imgs]
+          this.setState({ images: arr })
+          console.log(arr)
+      }).catch(error => {
+          console.log("Error from camera ", error);
+      }).finally(() => {
+          this.closeSelectModal()
+      })
+  }
   
   onPressPhotographer = () => {
     this.props.navigation.navigate('Other', { screen: 'TermsOfService' })
@@ -60,9 +106,23 @@ class DashboardPhotographer extends Component {
     }
   }
 
+  publishProfile = async () => {
+    const { profile } = this.state
+    this.setState({ loading: true })
+    const res = await Request(urls.photographyBase, `${urls.v}photographer/hostpublish`, { profileId: profile.id })
+    console.log('Res ',res)
+    this.setState({ loading: false })
+    if(res.isError || res.IsError) {
+      errorMessage(res.message)
+    } else {
+      // this.setState({ profile: res.data })
+    }
+  }
+
   getProfile = async () => {
     this.setState({ loading: true })
     const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/profile`)
+    console.log('res ', res)
     this.setState({ loading: false })
     if(res.isError || res.IsError) {
       errorMessage(res.message)
@@ -82,8 +142,9 @@ class DashboardPhotographer extends Component {
   profileEdit = () => {
 
   }
-  publishProfile = () => {
-
+  changeProfilePic = () => {
+    const { profile } = this.state
+    this.props.navigation.navigate('PhotographChangeProfile', { profile })
   }
 
   componentDidMount = () => {
@@ -114,8 +175,9 @@ class DashboardPhotographer extends Component {
     const reviews = `See all your ratings and reviews`;
     const earning = `View your details of your transactions and how much you have made in the app`
     const { profile } = this.state
+    const { userData } = this.context.state
     const fullName = profile ? `${profile.firstName} ${profile.lastName}` : ''
-    const imgUrl = profile ? { uri: profile.coverPhoto } : require('../../assets/images/profile.png')
+    const imgUrl = userData && userData.profilePicture ? { uri: userData.profilePicture } : require('../../assets/images/profile.png')
 
     return (
       <>
@@ -130,7 +192,7 @@ class DashboardPhotographer extends Component {
                   
                   <View style={[flexRow, profileContainer]}>
                     <View style={profileImg}>
-                      <TouchableOpacity style={imgContainer}>
+                      <TouchableOpacity style={imgContainer} onPress={this.changeProfilePic}>
                         <Image source={imgUrl} resizeMode="cover" style={[imgStyle, {borderRadius: 70}]} /> 
                         <View style={iconContainer}>
                           <Icon name="edit" type="MaterialIcons" style={{ fontSize: 18, color: colors.grey }} />
@@ -176,7 +238,7 @@ class DashboardPhotographer extends Component {
                 
             </View>
         </ScrollView>
-        
+        <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />
       </View>
       </>
     );

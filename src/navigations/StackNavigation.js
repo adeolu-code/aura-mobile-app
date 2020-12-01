@@ -49,6 +49,7 @@ import PhotoGraphEquipmentsScreen from '../screens/photograph/Equipments';
 import AdditionalInfoScreen from '../screens/photograph/AdditionalInfo';
 import PhotoUploadImagesScreen from '../screens/photograph/UploadImages';
 import PhotographPolicyScreen from '../screens/photograph/Policy';
+import PhotographChangeProfilePicScreen from '../screens/photograph/AddProfilePic.screen'
 
 import MyPageScreen from '../screens/photograph/MyPage';
 import PortfolioScreen from '../screens/photograph/Portfolio';
@@ -79,6 +80,8 @@ export function DashboardStack() {
             <Stack.Screen name="TransactionsHistory" component={TransactionsHistoryScreen} options={{ headerShown: false }} />
             <Stack.Screen name="MyPage" component={MyPageScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Portfolio" component={PortfolioScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PhotographChangeProfile" component={PhotographChangeProfilePicScreen} options={{ headerShown: false }} />
+
         </Stack.Navigator>
     );
 }
