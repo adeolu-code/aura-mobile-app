@@ -26,7 +26,7 @@ class ImagesComponent extends Component {
                 </View>
             )
         } else if(portofilo && portofilo.length > 1) {
-            <View style={[flexRow, styles.otherContainer]}>
+            return (<View style={[flexRow, styles.otherContainer]}>
                 {portofilo.map((item, index) => {
                     const key = `P_${index}`
                     return (
@@ -35,7 +35,7 @@ class ImagesComponent extends Component {
                         </View>
                     )
                 })}
-            </View>
+            </View>)
         }
     }
 

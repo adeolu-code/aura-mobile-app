@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
-import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
+// import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
 export let debug = false;

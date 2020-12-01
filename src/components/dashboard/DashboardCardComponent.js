@@ -11,20 +11,32 @@ class DashboardCardComponent extends Component {
     this.state = {
     };
   }
+  renderIcon = () => {
+    const { iconName, type, img } = this.props;
+    const { imgStyle } = GStyles
+    if(iconName) {
+        return (
+            <Icon name={iconName || 'home' } type={ type || 'MaterialIcons'} style={{ color: colors.grey }} />
+        )
+    }
+    return (
+        <Image source={img} resizeMode="contain" style={imgStyle} />
+    )
+  }
 
   render() {
     const { cardStyle, imgContainer, leftContainer, rightContainer, iconStyle } = styles
     const { textH4Style, textFadedBlack, textBold, textH3Style, lineHeightText, marginBottomSmall, imgStyle, textH5Style , textGrey} = GStyles;
-    const { title, description, img, iconX, onPressOut, onPressIn, onPress } = this.props
-    const iconName = iconX ? "close" : "add";
+    const { title, description, img, iconX, onPressOut, onPressIn, onPress, iconName } = this.props
+    const iconType = iconX ? "close" : "add";
     return (
       <View>  
-        <TouchableOpacity onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut}>
+        <TouchableOpacity onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut} style={{ width: '100%', backgroundColor: colors.white,}}>
             <Card style={cardStyle}>
                 <View style={leftContainer}>
                     <View style={imgContainer}>
-                        <Image source={img} resizeMode="contain" style={imgStyle} />
-                        <Icon type="Ionicons" name={iconName} style={iconStyle} />
+                        {this.renderIcon()}
+                        <Icon type="Ionicons" name={iconType} style={iconStyle} />
                     </View>
                     
                 </View>

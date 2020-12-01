@@ -42,6 +42,18 @@ import ChangePassword from '../screens/edit_profile/changePassword.screen';
 import Complaint from '../screens/profile/complaints.screen';
 
 
+import TitleDescriptionScreen from '../screens/photograph/TitleDescription';
+import PhotoGraphLocationScreen from '../screens/photograph/Location';
+import PhotoGraphLocationMapScreen from '../screens/photograph/LocationMap';
+import PhotoGraphEquipmentsScreen from '../screens/photograph/Equipments';
+import AdditionalInfoScreen from '../screens/photograph/AdditionalInfo';
+import PhotoUploadImagesScreen from '../screens/photograph/UploadImages';
+import PhotographPolicyScreen from '../screens/photograph/Policy';
+
+import MyPageScreen from '../screens/photograph/MyPage';
+import PortfolioScreen from '../screens/photograph/Portfolio';
+
+
 const Stack = createStackNavigator();
 
 export function ExploreStack() {
@@ -65,7 +77,8 @@ export function DashboardStack() {
             <Stack.Screen name="RatingsReviews" component={RatingsAndReviewsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Earnings" component={EarningsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TransactionsHistory" component={TransactionsHistoryScreen} options={{ headerShown: false }} />
-
+            <Stack.Screen name="MyPage" component={MyPageScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Portfolio" component={PortfolioScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
@@ -109,6 +122,20 @@ export function ProfileStack() {
             
         </Stack.Navigator>
     );
+}
+
+export function PhotographStack() {
+    return (
+        <Stack.Navigator initialRouteName="Profile" options={{ gestureEnabled: true }}>
+            <Stack.Screen name="TitleDescription" component={TitleDescriptionScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PhotographLocation" component={PhotoGraphLocationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PhotographLocationMap" component={PhotoGraphLocationMapScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PhotographEquipments" component={PhotoGraphEquipmentsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PhotographAdditionalInfo" component={AdditionalInfoScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PhotographUploadImages" component={PhotoUploadImagesScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PhotographPolicy" component={PhotographPolicyScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+    )
 }
 
 

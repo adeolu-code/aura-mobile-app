@@ -8,6 +8,8 @@ import FoodSingleScreen from '../screens/explore/FoodSingle';
 import PhotoSingleScreen from '../screens/explore/PhotoSingle';
 import TourSingleScreen from '../screens/explore/TourSingle';
 
+import TermsOfServiceScreen from '../screens/TermsOfService';
+
 import SignUpScreen from '../screens/auth/signup';
 import OtpScreen from '../screens/auth/OtpScreen';
 import SuccessScreen from '../screens/auth/SuccessScreen';
@@ -28,6 +30,7 @@ export function OtherStack() {
             <Stack.Screen name="FoodSingle" component={FoodSingleScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotoSingle" component={PhotoSingleScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourSingle" component={TourSingleScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="TermsOfService" component={TermsOfServiceScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }

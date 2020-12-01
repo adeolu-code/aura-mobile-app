@@ -137,10 +137,7 @@ export default class HouseRules extends Component {
     }
 
     render() {
-        const { textOrange, textBold, flexRow, textH4Style, textH3Style, textNormal, textExtraBold,
-            textCenter, imgStyle, textWhite, textH5Style, textlightGreyTwo,
-            textUnderline, textDarkGrey,
-          } = GStyles;
+        const { textOrange, textBold, textUnderline, textDarkGrey } = GStyles;
         return(
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>

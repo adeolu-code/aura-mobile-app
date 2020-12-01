@@ -19,19 +19,22 @@ class EquipmentComponent extends Component {
         const { photo } = this.props
         const { iconStyle, iconContainer, itemRow, } = styles;
         const { flexRow, textH4Style, imgStyle, textWhite } = GStyles
-        if(photo.equipments && photo.equipments.length !== 0) {
-            return photo.equipments.map((item, index) => {
+        if(photo.equipment && photo.equipment.length !== 0) {
+            return photo.equipment.map((item, index) => {
                 const key = `EQ_${index}`
                 return (
-                <View style={[flexRow, itemRow]} key={key}>
-                    <View style={iconContainer}>
-                        <Icon type="MaterialIcons" name="local-see" style={iconStyle} />
+                    <View style={[flexRow, itemRow]} key={key}>
+                        <View style={iconContainer}>
+                            <Icon type="MaterialIcons" name="local-see" style={iconStyle} />
+                        </View>
+                        <MyText style={[textWhite, textH4Style]}>{item.name}</MyText>
                     </View>
-                    <MyText style={[textWhite, textH4Style]}>{item.name}</MyText>
-                </View>
                 )
             })
         }
+        return (
+            <MyText style={[textH4Style, textWhite, { marginTop: -5, marginBottom: 10}]}>No Equipment Included</MyText>
+        )
     }
 
   render() {
