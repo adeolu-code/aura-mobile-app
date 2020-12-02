@@ -63,7 +63,6 @@ class PhotoSingle extends Component {
     const { photo } = this.state
     this.setState({ gettingPortofolio: true })
     const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/photo/portfolio/${photo.id}`);
-    console.log('Photographer portofilo', res)
     this.setState({ gettingPortofolio: false })
     if(res.isError) {
         const message = res.Message;

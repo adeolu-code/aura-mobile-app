@@ -68,7 +68,7 @@ class ProfileScreenClass extends Component {
     onSignOut = async () => {
         
         await clearData()
-        this.context.set({ userData: null, isLoggedIn: false})
+        this.context.set({ userData: null, isLoggedIn: false, currentDashboard: 1})
         this.props.navigation.push('Tabs', {screen: 'Dashboard'})
     }
     becomeHost = () => {

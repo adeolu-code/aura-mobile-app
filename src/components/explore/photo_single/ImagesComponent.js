@@ -73,7 +73,7 @@ class ImagesComponent extends Component {
         const { imgStyle } = GStyles
         const { portofilo } = this.props;
         if(portofilo && portofilo.length > 3) {
-            const twoItems = portofilo.slice(2, 5)
+            const twoItems = portofilo.slice(3, 5)
             return twoItems.map((item, i) => {
                 const key = `RIGHT_${i}`
                 return (

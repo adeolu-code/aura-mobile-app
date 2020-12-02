@@ -56,12 +56,13 @@ class ScrollContentPlaces extends Component {
         
     }
     componentDidUpdate = (prevProps, prevState) => {
-        // if(prevProps.refresh !== this.props.refresh) {
-        //     const { location } = this.context.state;
-        //     if(location) {
-        //         this.getPlaces(location.longitude, location.latitude)
-        //     }
-        // }
+        if(prevProps.refresh !== this.props.refresh) {
+            this.getPlaces()
+            // const { location } = this.context.state;
+            // if(location) {
+            //     this.getPlaces(location.longitude, location.latitude)
+            // }
+        }
     }
 
 

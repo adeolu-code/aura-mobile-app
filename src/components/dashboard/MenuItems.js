@@ -21,6 +21,8 @@ class MenuItems extends Component {
   }
   linkToPhotographer = () => {
     this.props.onPress()
+    const { set } = this.context
+    set({ edit: false })
     this.props.navigation.navigate('Other', { screen: 'TermsOfService' })
   }
   linkToHost = () => {

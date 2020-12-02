@@ -150,7 +150,6 @@ class DashboardPhotographer extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.props, 'dashboardmounted')
     this.getProfile()
     const unsubscribe = this.props.navigation.addListener('focus', () => {
       if(this.context.state.edit) {
@@ -182,7 +181,7 @@ class DashboardPhotographer extends Component {
     const { bankButtonStyle } = styles;
     const {textOrange, textH4Style } = GStyles
     const { profile } = this.state
-    if(profile && profile.status === null) {
+    if(profile && (profile.status === null || profile.status === "0")) {
       return (
         <TouchableOpacity style={bankButtonStyle} onPress={this.publishProfile}>
           <MyText style={[textOrange, textH4Style]}>Publish Profile</MyText>
@@ -197,8 +196,8 @@ class DashboardPhotographer extends Component {
       textLgStyle, textHStyle, imgStyle, textOrange, flexRow, textH3Style } = GStyles;
     const { container, imageContainer, sectionStyle, contentStyle, bankButtonStyle, profileText, imgContainer, iconContainer,
       profileImg, profileContainer } = styles;
-    const reviews = `See all your ratings and reviews`;
-    const earning = `View your details of your transactions and how much you have made in the app`
+    const reviews = `Setup Page`;
+    const earning = `View all the photos in your portfolio`
     const { profile } = this.state
     const { userData } = this.context.state
     const fullName = profile ? `${profile.firstName} ${profile.lastName}` : ''

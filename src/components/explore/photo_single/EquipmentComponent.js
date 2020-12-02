@@ -92,7 +92,9 @@ const styles = StyleSheet.create({
         marginTop: 25, marginBottom: 25
     },
     contentContainer: {
-        paddingBottom: 10, paddingTop: 10
+        paddingBottom: 10, paddingTop: 10, 
+        // borderWidth: 1, borderColor: 'white',
+        flexDirection: 'row', flexWrap: 'wrap'
     },
     divider: {
         width: '100%', height: 1, backgroundColor: colors.lightGreyTwo,
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
         fontSize: 20, color: colors.white
     },
     itemRow: {
-        marginBottom: 30, alignItems: 'center'
+        marginBottom: 30, alignItems: 'center', width: '50%'
     },
     textContainer: {
         paddingBottom: 30

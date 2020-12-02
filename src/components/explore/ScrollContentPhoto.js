@@ -66,6 +66,11 @@ class ScrollContent extends Component {
         // } 
         
     }
+    componentDidUpdate = (prevProps, prevState) => {
+        if(prevProps.refresh !== this.props.refresh) {
+            this.getPhotographers()
+        }
+    }
 
     renderPhotographers = () => {
         const { photographers } = this.state

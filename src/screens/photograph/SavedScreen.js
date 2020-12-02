@@ -10,6 +10,8 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 import { AppContext } from '../../../AppProvider';
 
+import { getToken } from '../../helpers'
+
 
 class SavedScreen extends Component {
   static contextType = AppContext;
@@ -28,8 +30,10 @@ class SavedScreen extends Component {
   cancel = () => {
     return null
   }
-  onPress = () => {
+  onPress = async () => {
     this.context.set({ currentDashboard: 2 })
+    const token = await getToken()
+    this.context.getUserProfile(token.access_token)
     this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
   }
   componentDidMount = () => {

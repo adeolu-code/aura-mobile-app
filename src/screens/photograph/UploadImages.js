@@ -8,7 +8,7 @@ import { Styles } from "../host/host.style";
 import colors from "../../colors";
 import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
-import { urls, Request, UploadRequest, uploadMultipleFile, uploadFile, errorMessage } from '../../utils';
+import { urls, Request, UploadRequest, uploadMultipleFile, uploadFile, errorMessage, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 
 import PhotographTipsModal from '../../components/PhotographTipsModal';
@@ -21,7 +21,7 @@ export default class UploadImages extends Component {
         
         this.state = {
             isCaptured: false, selectModal: false, errors: '', images: [], imgUrls: [], loading: false, coverImage: '', coverImgUrl: '',
-            cover: false, showTipsModal: false, photographer: ''
+            cover: false, showTipsModal: false, photographer: '', additionalInformation: ''
         };
         this.state.photographer = props.route.params?.photographer
     }
@@ -110,27 +110,57 @@ export default class UploadImages extends Component {
                 this.setState({ loading: false })
             } else {
                 const data = res.data;
-                this.updateCoverPhoto(data.displayUrl)
+                this.updateCoverPhoto(data.fileName)
             }
         })
     }
     updateCoverPhoto = (imgUrl) => {
         const { additionalInformation, photographer } = this.state
+        
+        // const obj = {
+        //     PhotographerProfileId: photographer.id, Description: additionalInformation, IsCoverPhoto: true, photo: imgUrl
+        // }
         const obj = {
-            PhotographerProfileId : photographer.id, Description: additionalInformation, IsCoverPhoto: true, photo: imgUrl
+            PhotographerProfileId : photographer.id, Description: additionalInformation, photos: [imgUrl]
         }
-        Request(urls.photographyBase,`${urls.v}photographer/photo/portfolio`, obj )
+        // const formData = new FormData()
+        // for (const [key, value] of Object.entries(obj)) {
+        //     formData.append(key, value)
+        // }
+        Request(urls.photographyBase,`${urls.v}photographer/photo/portfolio/multiple`, obj )
         .then((res) => {
-            console.log('Res ', res)
             if(res.isError || res.IsError) {
                 errorMessage('Failed to update cover image, try again else contact support')
             } else {
+                this.getPortfolio()
                 this.setState({ isCaptured: true, cover: false  })
             }
         })
         .finally(() => {
             this.setState({ loading: false })
         })
+    }
+    getPortfolio = async () => {
+        this.setState({ loading: true })
+        const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/photo/portfolio/${this.state.photographer.id}`)
+        this.setState({ loading: false })
+        if(res.isError || res.IsError) {
+        //   errorMessage(res.message)
+        } else {
+            this.makeCoverImage(res.data[0])
+        }
+    }
+    makeCoverImage = async (photo) => {
+        const obj = {
+            photoId: photo.id,
+            photographerProfileId: photo.photographerProfileId
+        }
+        await Request(urls.photographyBase, `${urls.v}photographer/photo/portfolio/coverphoto`, obj )
+        // if(res.isError || res.IsError) {
+        //     errorMessage(res.message)
+        // } else {
+        //     this.setState({ loading: false  })
+        // }
     }
     
     submit = () => {
@@ -143,7 +173,7 @@ export default class UploadImages extends Component {
                 this.setState({ loading: false })
             } else {
                 const data = res.data;
-                const urls = data.map(item => item.displayUrl)
+                const urls = data.map(item => item.fileName)
                 this.updateOtherImages(urls)
             }
         })
@@ -161,7 +191,6 @@ export default class UploadImages extends Component {
             } else {
                 this.props.navigation.navigate("PhotographPolicy");
             }
-            console.log('Res ', res)
             
         })
         .finally(() => {
@@ -258,7 +287,7 @@ export default class UploadImages extends Component {
                         <Container style={[Styles.container]}>
                             <Content>
                                 <TouchableOpacity onPress={this.openTipsModal}>
-                                    <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40}]}>See Photography Tips</MyText>
+                                    <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40, marginTop: 20}]}>See Photography Tips</MyText>
                                 </TouchableOpacity>
                                 <View style={[Styles.pickImageImageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent", justifyContent: 'flex-start'})]}>
                                     {
