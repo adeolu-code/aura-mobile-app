@@ -49,7 +49,8 @@ import PhotoGraphEquipmentsScreen from '../screens/photograph/Equipments';
 import AdditionalInfoScreen from '../screens/photograph/AdditionalInfo';
 import PhotoUploadImagesScreen from '../screens/photograph/UploadImages';
 import PhotographPolicyScreen from '../screens/photograph/Policy';
-import PhotographChangeProfilePicScreen from '../screens/photograph/AddProfilePic.screen'
+import PhotographChangeProfilePicScreen from '../screens/photograph/AddProfilePic.screen';
+import PhotographSuccessScreen from '../screens/photograph/SavedScreen';
 
 import MyPageScreen from '../screens/photograph/MyPage';
 import PortfolioScreen from '../screens/photograph/Portfolio';
@@ -137,6 +138,7 @@ export function PhotographStack() {
             <Stack.Screen name="PhotographAdditionalInfo" component={AdditionalInfoScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotographUploadImages" component={PhotoUploadImagesScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotographPolicy" component={PhotographPolicyScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PhotographSuccess" component={PhotographSuccessScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }

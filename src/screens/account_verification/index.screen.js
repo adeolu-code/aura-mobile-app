@@ -28,7 +28,7 @@ export default class AccountVerification extends Component {
           } = GStyles;
         return (
             <>
-                <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
+                <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Account Verification" />
                     <Container style={[Styles.container]}>

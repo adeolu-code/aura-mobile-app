@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, ScrollView, Pressable, Image } from "react-native";
+import { SafeAreaView, ScrollView, Pressable, Image } from "react-native";
 import Header from "../../components/Header";
 import { View } from "native-base";
 import { Styles } from "./profile.style";

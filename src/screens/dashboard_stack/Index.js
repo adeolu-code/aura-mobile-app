@@ -78,7 +78,6 @@ class Index extends Component {
     const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`;
     return (
       <>
-        <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
 
           {this.renderLoginOrDashboard()}

@@ -4,13 +4,16 @@ import Header from "../components/Header";
 import colors from "../colors";
 import GStyles from '../assets/styles/GeneralStyles';
 import { MyText, CustomButton } from '../utils/Index';
+import { AppContext } from '../../AppProvider'
 
 class TermsOfService extends Component {
+    static contextType = AppContext
   constructor(props) {
     super(props);
     this.state = {};
   }
   onAccept = () => {
+    this.context.set({ edit: false })
     this.props.navigation.navigate('PhotographStack', { screen: 'TitleDescription'})
   }
 

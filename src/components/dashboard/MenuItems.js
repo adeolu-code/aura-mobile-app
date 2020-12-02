@@ -109,17 +109,17 @@ class MenuItems extends Component {
 const styles = StyleSheet.create({
     container: {
         width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0)', 
-        paddingTop: 30, alignItems: 'flex-end', paddingHorizontal: 8
+        paddingTop: 40, alignItems: 'flex-end', paddingHorizontal: 8, paddingRight: 20
     },
     contentStyle: {
         backgroundColor: colors.white, padding:10, borderRadius: 8,
-        width: '60%', elevation: 3
+        width: '65%', elevation: 3
     },
     itemRow: {
       alignItems: 'center', paddingVertical: 8, backgroundColor: colors.white
     },
     iconStyle: {
-      fontSize: 25, marginRight: 10
+      fontSize: 25, marginRight: 10, color: colors.grey
     },
     iconContainer: {
       height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',

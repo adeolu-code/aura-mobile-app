@@ -17,8 +17,6 @@ class SavedScreen extends Component {
     super(props);
     this.state = {};
   }
-  //TODO prevent people from using the back button to go back
-  //Implemented the TODO
   
   componentWillUnmount = () => {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
@@ -31,12 +29,14 @@ class SavedScreen extends Component {
     return null
   }
   onPress = () => {
-    this.props.navigation.navigate('HostSteps')
+    this.context.set({ currentDashboard: 2 })
+    this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
   }
   componentDidMount = () => {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     setTimeout(() => {
-      this.props.navigation.navigate('HostSteps')
+      this.context.set({ currentDashboard: 2 })
+      this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
     }, 2000);
   }
   render() {
@@ -49,7 +49,7 @@ class SavedScreen extends Component {
           </TouchableOpacity>
           <View style={middleRow}>
                 <Icon name="checkmark-circle" style={{color:"#FD8323", fontSize: 100, marginTop: -70, marginBottom: 40}} />
-                <MyText style={[textH2Style, textExtraBold, textDarkBlue, textCenter]}>Property Successfully Saved And Ready For Publishing</MyText>
+                <MyText style={[textH2Style, textExtraBold, textDarkBlue, textCenter]}>You are now a Photographer on Aura</MyText>
             </View>
       </SafeAreaView>
     );

@@ -30,6 +30,11 @@ export default class Equipments extends Component {
         } else {
             const data = res.data;
             this.setState({ equipments: data });
+            if(this.context.state.edit && this.context.state.photographOnboard.equipment) {
+                const equip = this.context.state.photographOnboard.equipment;
+                const equipmentValues = equip.map(item => item.id )
+                this.setState({ equipmentValues })
+            }
         }
     }
     getEquipment = (id) => {
@@ -52,6 +57,7 @@ export default class Equipments extends Component {
                 this.setState({ equipmentValues: arr})
             }
         }
+        console.log(this.state.equipmentValues)
     }
     // onChangeText = (text, value) => {
     //     this.setState({ addInfoValue: value })
@@ -98,7 +104,6 @@ export default class Equipments extends Component {
         const { state } = this.context
         const ppty = state.photographOnboard;
         this.getEquipments()
-        // this.setState({ equipmentValues: ppty.equipments })
     }
     renderAddInfo = () => {
         const { toggleAddEquipment, addingInfo } = this.state
@@ -138,10 +143,10 @@ export default class Equipments extends Component {
         const { equipmentValues } = this.state
         const photographOnboard = state.photographOnboard
         const obj = { ...photographOnboard, equipments: equipmentValues }
-        console.log(obj)
+        // console.log(obj)
         set({ photographOnboard: obj })
-        // this.props.navigation.navigate('PhotographStack', { screen: 'PhotographAdditionalInfo'})
-        this.props.navigation.navigate('PhotographStack', { screen: 'PhotographUploadImages' })
+        this.props.navigation.navigate('PhotographStack', { screen: 'PhotographAdditionalInfo'})
+        // this.props.navigation.navigate('PhotographStack', { screen: 'PhotographUploadImages' })
 
     }
 

@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Image, Platform  } from "react-native";
+import { SafeAreaView, TouchableOpacity, Image, Platform  } from "react-native";
 import { Styles } from "../edit_profile/editProfile.style";
 import { Container, Content, View, Icon, Footer, Toast, Button } from "native-base";
 import colors from "../../colors";
@@ -117,7 +117,6 @@ export default class AddProfilePicture extends Component {
           } = GStyles;
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header
                         {...this.props} 

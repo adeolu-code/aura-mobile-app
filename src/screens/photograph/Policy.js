@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity } from "react-native";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, Footer } from "native-base";
 import colors from "../../colors";
@@ -13,7 +13,7 @@ export default class Policy extends Component {
     }
 
     submit = () => {
-        this.props.navigation.navigate('Success')
+        this.props.navigation.navigate('PhotographSuccess')
     }
 
     render() {

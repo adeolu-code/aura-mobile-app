@@ -8,7 +8,7 @@ import { LabelInput } from "../../components/label_input/labelInput.component";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { MyText, CustomButton, Loading } from "../../utils/Index";
 
-import { urls, Request, errorMessage } from '../../utils'
+import { urls, Request, errorMessage, successMessage } from '../../utils'
 import {  AppContext } from '../../../AppProvider'
 
 class AdditionalInfo extends Component {
@@ -36,14 +36,33 @@ class AdditionalInfo extends Component {
         delete obj.longitude; delete obj.latitude
 
         this.setState({ loading: true })
-        const res = await Request(urls.photographyBase, `${urls.v}photographer`, obj)
+        let res;
+        if(state.edit) {
+            delete obj.equipment
+            res = await Request(urls.photographyBase, `${urls.v}photographer`, obj, false, 'PUT')
+        } else {
+            res = await Request(urls.photographyBase, `${urls.v}photographer`, obj)
+        }
+        
         this.setState({ loading: false })
         if(res.isError || res.IsError) {
             errorMessage(res.message)
         } else {
-            this.props.navigation.navigate('PhotographStack', { screen: 'PhotographUploadImages', params: { photographer: res.data }})
+            if(state.edit) {
+                successMessage('Photographer details updated successfully !!')
+                this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
+            } else {
+                this.props.navigation.navigate('PhotographStack', { screen: 'PhotographUploadImages', params: { photographer: res.data }})
+            }
+            
         }
         
+    }
+    componentDidMount = () => {
+        const { edit, photographOnboard } = this.context.state
+        if(edit && photographOnboard) {
+            this.setState({ additionalInformation: photographOnboard.additionalInformation })
+        }
     }
 
   render() {

@@ -77,7 +77,7 @@ export default class InboxChat extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Container style={{marginTop: 25}}>
-                        <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"}  androidStatusBarColor={"white"}>
+                        <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"} >
                             <Left>
                                 <Button icon transparent onPress={() => this.props.navigation.goBack()}>
                                     <Icon name={"ios-chevron-back-sharp"} style={[Styles.headerIcon]} />

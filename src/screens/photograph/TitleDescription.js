@@ -29,9 +29,22 @@ class TitleDescription extends Component {
     submit = () => {
         Keyboard.dismiss()
         const { title, description } = this.state
+        const { edit, photographOnboard } = this.context.state
         const { state, set } = this.context
-        set({ photographOnboard: { title, description } })
+        const obj = { title, description }
+        if(edit) {
+            set({ photographOnboard: { ...photographOnboard, ...obj} })
+        } else {
+            set({ photographOnboard: obj })
+        }
         this.props.navigation.navigate('PhotographStack', { screen: 'PhotographLocation'})
+    }
+
+    componentDidMount = () => {
+        const { edit, photographOnboard } = this.context.state
+        if(edit && photographOnboard) {
+            this.setState({ title: photographOnboard.title, description: photographOnboard.description})
+        }
     }
 
   render() {

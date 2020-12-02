@@ -167,15 +167,13 @@ class Location extends Component {
     }
 
     componentDidMount = async () => {
-        
-        const { state } = this.context
-        const ppty = state.photographOnboard;
-        if(ppty && state.edit) {
-            if(ppty.longitude || ppty.latitude) {
-                this.setState({ st: ppty.state, city: ppty.city, street: ppty.street, zipCode: ppty.zipCode})
-            }
+        const { edit, photographOnboard } = this.context.state
+        if(photographOnboard && edit) {
+            this.setState({ st: photographOnboard.address.state, city: photographOnboard.address.city, 
+                street: photographOnboard.address.street, zipCode: photographOnboard.address.zipCode})
+
             const countries = await getAllCountries()
-            const country = countries.find(item => item.name.toLowerCase() === ppty.country.toLowerCase())
+            const country = countries.find(item => item.name.toLowerCase() === photographOnboard.address.country.toLowerCase())
             if(country) {
                 this.setState({ defaultCountry: country, country })
             }
@@ -218,7 +216,8 @@ class Location extends Component {
                         <View style={[{ marginBottom: 30, paddingHorizontal: 1}]}>
                             <MyText style={[textH4Style, textGrey, { marginBottom: 10}]}>Location/Address</MyText>
                             <AutoCompleteComponent locationDetails={this.getSelectedLocation} type={true} autofocus={false} 
-                            countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} />
+                            countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} 
+                            placeholder={this.state.street} />
                             {/* <CustomInput label="Property Location" placeholder=" " attrName="street"
                             value={this.state.street} onChangeText={this.onChangeValue} /> */}
                         </View>

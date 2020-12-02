@@ -178,7 +178,7 @@ class Index extends Component {
     } = GStyles;
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: 'white' }}>
-        <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
+        <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
         
         <ScrollView style={{position: 'relative', backgroundColor: colors.white}}>
           <ImageBackground

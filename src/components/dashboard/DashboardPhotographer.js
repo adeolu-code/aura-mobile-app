@@ -140,7 +140,9 @@ class DashboardPhotographer extends Component {
     this.props.navigation.navigate('Portfolio', { profile })
   }
   profileEdit = () => {
-
+    const { set } = this.context
+    set({ edit: true, photographOnboard: this.state.profile })
+    this.props.navigation.navigate('PhotographStack', { screen: 'TitleDescription'})
   }
   changeProfilePic = () => {
     const { profile } = this.state
@@ -148,7 +150,17 @@ class DashboardPhotographer extends Component {
   }
 
   componentDidMount = () => {
+    console.log(this.props, 'dashboardmounted')
     this.getProfile()
+    const unsubscribe = this.props.navigation.addListener('focus', () => {
+      if(this.context.state.edit) {
+        this.getProfile()
+        this.context.set({ edit: false })
+      }
+      // console.log('Focused ',this.props)
+      // The screen is focused
+      // Call any action
+    });
   }
   renderStatus = () => {
     const { profile, loading } = this.state
@@ -162,6 +174,19 @@ class DashboardPhotographer extends Component {
       }
       return (
         <MyText style={[textOrange]}>Pending</MyText>
+      )
+    }
+  }
+
+  renderPublishButton = () => {
+    const { bankButtonStyle } = styles;
+    const {textOrange, textH4Style } = GStyles
+    const { profile } = this.state
+    if(profile && profile.status === null) {
+      return (
+        <TouchableOpacity style={bankButtonStyle} onPress={this.publishProfile}>
+          <MyText style={[textOrange, textH4Style]}>Publish Profile</MyText>
+        </TouchableOpacity>
       )
     }
   }
@@ -219,16 +244,14 @@ class DashboardPhotographer extends Component {
                     <TouchableOpacity style={bankButtonStyle} onPress={this.profileEdit}>
                       <MyText style={[textOrange, textH4Style]}>Edit Profile</MyText>
                     </TouchableOpacity>
-                    <TouchableOpacity style={bankButtonStyle} onPress={this.publishProfile}>
-                      <MyText style={[textOrange, textH4Style]}>Publish Profile</MyText>
-                    </TouchableOpacity>
+                    {this.renderPublishButton()}
                   </View>
                 </View>
                 
 
                 <View style={sectionStyle}>
                     <DashboardCardComponent title="Photograph Page Setup" description={reviews} iconName="menu" type="Ionicons"
-                     onPress={this.onPressRR} />
+                     onPress={this.profileEdit} />
                 </View>
                 <View style={sectionStyle}>
                     <DashboardCardComponent title="Portofolio" description={earning} iconX onPress={this.onPressPortolios} iconName="photo" />

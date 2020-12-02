@@ -147,8 +147,10 @@ class Portfolio extends Component {
       uploadMultipleFile(images)
       .then((res) => {
           if(!res.isError) {
+            console.log('Upload ', res.data)
               const data = res.data;
-              const urls = data.map(item => item.displayUrl)
+              // const urls = data.map(item => item.displayUrl)
+              const urls = data.map(item => item.fileName)
               this.updateOtherImages(urls)
           } else {
               errorMessage('Failed to upload images, try again else contact support')
