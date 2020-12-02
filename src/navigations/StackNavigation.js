@@ -52,6 +52,13 @@ import PhotographPolicyScreen from '../screens/photograph/Policy';
 import PhotographChangeProfilePicScreen from '../screens/photograph/AddProfilePic.screen';
 import PhotographSuccessScreen from '../screens/photograph/SavedScreen';
 
+import TourLocationScreen from '../screens/experience/Location';
+import TourThemeScreen from '../screens/experience/Theme';
+import TourStepTwoOverviewScreen from '../screens/experience/StepTwo';
+import TourExpertiseScreen from '../screens/experience/Expertise';
+import TourAccessScreen from '../screens/experience/Access';
+import TourConnectionScreen from '../screens/experience/Connection';
+
 import MyPageScreen from '../screens/photograph/MyPage';
 import PortfolioScreen from '../screens/photograph/Portfolio';
 
@@ -130,7 +137,7 @@ export function ProfileStack() {
 
 export function PhotographStack() {
     return (
-        <Stack.Navigator initialRouteName="Profile" options={{ gestureEnabled: true }}>
+        <Stack.Navigator initialRouteName="TitleDescription" options={{ gestureEnabled: true }}>
             <Stack.Screen name="TitleDescription" component={TitleDescriptionScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotographLocation" component={PhotoGraphLocationScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotographLocationMap" component={PhotoGraphLocationMapScreen} options={{ headerShown: false }} />
@@ -141,6 +148,20 @@ export function PhotographStack() {
             <Stack.Screen name="PhotographSuccess" component={PhotographSuccessScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
+}
+
+export function ExperienceStack() {
+    return (
+        <Stack.Navigator initialRouteName="TourLocation" options={{ gestureEnabled: true }}>
+            <Stack.Screen name="TourLocation" component={TourLocationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourTheme" component={TourThemeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourStepTwo" component={TourStepTwoOverviewScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourExpertise" component={TourExpertiseScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourAccess" component={TourAccessScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourConnection" component={TourConnectionScreen} options={{ headerShown: false }} />
+            
+        </Stack.Navigator>
+    ) 
 }
 
 

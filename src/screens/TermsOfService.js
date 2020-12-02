@@ -4,17 +4,33 @@ import Header from "../components/Header";
 import colors from "../colors";
 import GStyles from '../assets/styles/GeneralStyles';
 import { MyText, CustomButton } from '../utils/Index';
-import { AppContext } from '../../AppProvider'
+import { AppContext } from '../../AppProvider';
+
+import { EXPERIENCE, PHOTOGRAPH, RESTAURANT } from '../utils'
 
 class TermsOfService extends Component {
     static contextType = AppContext
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { type: ''};
+    this.state.type = props.route.params?.type
   }
   onAccept = () => {
     this.context.set({ edit: false })
-    this.props.navigation.navigate('PhotographStack', { screen: 'TitleDescription'})
+    const { type } = this.state
+    switch (type) {
+        case PHOTOGRAPH:
+            this.props.navigation.navigate('PhotographStack', { screen: 'TitleDescription'})
+            return;
+        case RESTAURANT:
+        
+            break;
+        case EXPERIENCE:
+            this.props.navigation.navigate('TourStack', { screen: 'TourLocation'})
+            break;
+        default:
+            break;
+    }
   }
 
   onDecline = () => {

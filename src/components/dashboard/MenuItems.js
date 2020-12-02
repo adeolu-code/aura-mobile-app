@@ -7,6 +7,8 @@ import { Icon, Fab, Button } from 'native-base';
 
 import { AppContext } from '../../../AppProvider';
 
+import { PHOTOGRAPH, EXPERIENCE, RESTAURANT, HOST } from '../../utils'
+
 
 class MenuItems extends Component {
   static contextType = AppContext
@@ -23,7 +25,29 @@ class MenuItems extends Component {
     this.props.onPress()
     const { set } = this.context
     set({ edit: false })
-    this.props.navigation.navigate('Other', { screen: 'TermsOfService' })
+    const { onPressPhoto } = this.props;
+    if(onPressPhoto) {
+      onPressPhoto()
+    } else {
+      this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: PHOTOGRAPH } })
+    }
+  }
+  linkToExperience = () => {
+    this.props.onPress()
+    const { set } = this.context
+    set({ edit: false })
+    const { onPressExperience } = this.props;
+    if(onPressExperience) {
+      onPressExperience()
+    } else {
+      this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
+    }
+  }
+  linkToExperienceDashboard = () => {
+    this.linkToExperience()
+    // const { set } = this.context
+    // set({ currentDashboard: 4 })
+    // this.props.onPress()
   }
   linkToHost = () => {
     const { set } = this.context
@@ -33,7 +57,7 @@ class MenuItems extends Component {
 
   renderPhotograph = () => {
     const { userData, currentDashboard } = this.context.state
-    const rolePhotograph = userData.roles.find(item => item === 'Photographer')
+    const rolePhotograph = userData.roles.find(item => item === PHOTOGRAPH)
     const { flexRow, textH4Style } = GStyles
     const { itemRow, iconStyle } = styles
     if(rolePhotograph && currentDashboard !== 2) {
@@ -60,7 +84,7 @@ class MenuItems extends Component {
   }
   renderHost = () => {
     const { userData, currentDashboard } = this.context.state
-    const roleHost = userData.roles.find(item => item === 'Host')
+    const roleHost = userData.roles.find(item => item === HOST)
     const { flexRow, textH4Style } = GStyles
     const { itemRow, iconStyle } = styles
     if(roleHost && currentDashboard > 1) {
@@ -70,6 +94,33 @@ class MenuItems extends Component {
             <Icon name="home" type="MaterialIcons" style={iconStyle} />
           </View>
           <MyText style={[textH4Style]}>Host Dashboard</MyText>
+        </TouchableOpacity>
+      )
+    }
+  }
+
+  renderExperience = () => {
+    const { userData, currentDashboard } = this.context.state
+    const roleExperience = userData.roles.find(item => item === 'Tour-Guide')
+    const { flexRow, textH4Style } = GStyles
+    const { itemRow, iconStyle } = styles;
+    if(roleExperience && currentDashboard !== 4) {
+      return (
+        <TouchableOpacity style={[flexRow, itemRow]} onPress={this.linkToExperienceDashboard}>
+          <View>
+            <Icon name="directions-subway" type="MaterialIcons" style={iconStyle} />
+          </View>
+          <MyText style={[textH4Style]}>Experience Dashboard</MyText>
+        </TouchableOpacity>
+      )
+    }
+    if(!roleExperience) {
+      return (
+        <TouchableOpacity style={[flexRow, itemRow]} onPress={this.linkToExperience}>
+          <View>
+            <Icon name="directions-subway" type="MaterialIcons" style={iconStyle} />
+          </View>
+          <MyText style={[textH4Style]}>Host an Experience</MyText>
         </TouchableOpacity>
       )
     }
@@ -88,17 +139,12 @@ class MenuItems extends Component {
               <View style={contentStyle}>
                   {this.renderPhotograph()}
                   {this.renderHost()}
+                  {this.renderExperience()}
                   <View style={[flexRow, itemRow]}>
                     <View>
-                      <Icon name="tour" type="MaterialIcons" style={iconStyle} />
+                      <Icon name="fast-food" style={iconStyle}  />
                     </View>
-                    <MyText style={[textH4Style]}>Host an Experience</MyText>
-                  </View>
-                  <View style={[flexRow, itemRow]}>
-                    <View>
-                      <Icon name="restaurant-menu" style={iconStyle} type="MaterialIcons" />
-                    </View>
-                    <MyText style={[textH4Style]}>Host your restaurant</MyText>
+                    <MyText style={[textH4Style]}>Host your Restaurant</MyText>
                   </View>
                   
               </View>
@@ -121,7 +167,9 @@ const styles = StyleSheet.create({
       alignItems: 'center', paddingVertical: 8, backgroundColor: colors.white
     },
     iconStyle: {
-      fontSize: 25, marginRight: 10, color: colors.grey
+      fontSize: 25, marginRight: 10, 
+      // color: colors.grey,
+      color: colors.orange
     },
     iconContainer: {
       height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',

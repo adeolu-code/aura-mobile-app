@@ -10,6 +10,8 @@ import HostScreen from './HostScreen';
 import { AppContext } from '../../../AppProvider';
 import { MyText } from '../../utils/Index';
 
+import { RESTAURANT, HOST, PHOTOGRAPH, EXPERIENCE } from '../../utils'
+
 
 class Index extends Component {
   static contextType = AppContext;
@@ -21,10 +23,10 @@ class Index extends Component {
     const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`;
     const { userData, isLoggedIn, currentDashboard } = this.context.state;
     if (isLoggedIn && userData) {
-        const roleHost = userData.roles.find(item => item === 'Host')
-        const rolePhotograph = userData.roles.find(item => item === 'Photographer')
-        const roleTour = userData.roles.find(item => item === 'Tour')
-        if(!roleHost && !rolePhotograph) {
+        const roleHost = userData.roles.find(item => item === HOST)
+        const rolePhotograph = userData.roles.find(item => item === PHOTOGRAPH)
+        const roleTour = userData.roles.find(item => item === EXPERIENCE)
+        if(!roleHost && !rolePhotograph && !roleTour) {
           return (
             <View style={{ flex: 1 }}>
               <HostScreen {...this.props} />
