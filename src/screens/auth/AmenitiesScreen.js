@@ -114,32 +114,38 @@ class AmenitiesScreen extends Component {
         const error = [message]
         this.setState({ errors: error, saving: false })
     } else {
+      const data = res.data
+      
       if(state.isInApp) {
-        const data = res.data
         set({ propertyFormData: {...data, mainImage: propertyFormData.mainImage} })
         const { propertyContext, appContext } = this.props
-        const properties = [ ...propertyContext.state.properties ]
-        const pptyArr = this.filterSetProperty(properties, data, propertyFormData)
-        propertyContext.set({ properties: pptyArr })
-        if(data.propertyType.name === 'Apartment') {
-            const apartments = [ ...propertyContext.state.apartments ]
-            const apsArr = this.filterSetProperty(apartments, data, propertyFormData)
-            console.log('App ',apsArr)
-            propertyContext.set({ apartments: apsArr })
+        // If you are editing a property
+        if(state.edit) {
+          const properties = [ ...propertyContext.state.properties ]
+          const pptyArr = this.filterSetProperty(properties, data, propertyFormData)
+          propertyContext.set({ properties: pptyArr })
+          if(data.propertyType.name === 'Apartment') {
+              const apartments = [ ...propertyContext.state.apartments ]
+              const apsArr = this.filterSetProperty(apartments, data, propertyFormData)
+              console.log('App ',apsArr)
+              propertyContext.set({ apartments: apsArr })
+          } else {
+              const hotels = [ ...propertyContext.state.hotels ]
+              const hotelsArr = this.filterSetProperty(hotels, data, propertyFormData)
+              propertyContext.set({ hotels: hotelsArr })
+          }
+          
         } else {
-            const hotels = [ ...propertyContext.state.hotels ]
-            const hotelsArr = this.filterSetProperty(hotels, data, propertyFormData)
-            propertyContext.set({ hotels: hotelsArr })
+          propertyContext.getAllProperties();
+          propertyContext.getHotels();
+          propertyContext.getApartments();
         }
-        if(!appContext.state.edit) {
-            propertyContext.getAllProperties();
-            propertyContext.getHotels();
-            propertyContext.getApartments();
-        }
-      } else {
+      }
+      // if you are adding property from sign up
+      if(!state.isInApp) {
         set({ propertyFormData: null })
         await getUserProfile()
-      }
+      } 
       this.setState({ saving: false })
       this.props.navigation.navigate('Saved');
     }
@@ -150,6 +156,7 @@ class AmenitiesScreen extends Component {
     let newArray = [...properties]
     // newArray[elementsIndex] = {...newArray[elementsIndex], completed: !newArray[elementsIndex].completed}
     newArray[elementsIndex] = {...data, mainImage: propertyData.mainImage }
+    console.log('Filter ', newArray)
     return newArray
 
 }

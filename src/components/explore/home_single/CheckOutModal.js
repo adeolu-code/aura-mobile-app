@@ -12,7 +12,7 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 class CheckOutModal extends Component {
   constructor(props) {
     super(props);
-    this.state = { check_Out_Date: '', day: '', markedDates: {} };
+    this.state = { check_Out_Date: '', day: '', markedDates: {}, bookedDates: {}, toggle: true };
   }
   next = () => {
     const { check_Out_Date } = this.state
@@ -22,11 +22,27 @@ class CheckOutModal extends Component {
   selectDate = (day) => {
     const date = `${day.month}/${day.day}/${day.year}`;
     const obj = {[day.dateString]: {selected: true, selectedColor: colors.orange}}
-    this.setState({ check_Out_Date: date, day, markedDates: obj })
+    this.setState({ check_Out_Date: date, day, markedDates: {...this.state.bookedDates, ...obj} })
   }
   back = () => {
     this.props.onDecline();
     this.props.back()
+  }
+  componentDidUpdate = (prevProps, prevState) => {
+    if(this.props.bookedDays.length !== prevProps.bookedDays.length) {
+        let obj = {}
+        this.props.bookedDays.filter(item => {
+            const newDate = new Date(item)
+            const yr = newDate.getFullYear()
+            const month = newDate.getMonth() + 1
+            const day = newDate.getDate()
+            const date = `${yr}-${month}-${day < 10 ? "0"+day : day}`
+            obj[`${date}`] = {selected: true, selectedColor: colors.lightGrey, textColor: colors.darkBlue, disabled: true, disableTouchEvent: true}
+        })
+        this.setState(() => ({ markedDates: { ...obj }, bookedDates: { ...obj }, toggle: false}), ()=>{
+            this.setState({ toggle: true })
+        })
+    }
   }
 
   render() {
@@ -36,6 +52,9 @@ class CheckOutModal extends Component {
     const { flexRow, textH2Style, textExtraBold, textDarkGrey, textCenter, textH5Style, 
         textH4Style, textGrey, textH3Style } = GStyles
     const minDate = checkInDate ? new Date(checkInDate) : new Date()
+
+    const { toggle } = this.state
+
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
             <View style={{ flex: 1}}>
@@ -86,7 +105,7 @@ class CheckOutModal extends Component {
                     </View>
 
                     <View style={calendarContainer}>
-                        <CalendarList
+                        {toggle ? <CalendarList
                             // Callback which gets executed when visible months change in scroll view. Default = undefined
                             onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
                             // Max amount of months allowed to scroll to the past. Default = 50
@@ -111,7 +130,7 @@ class CheckOutModal extends Component {
                                 textMonthFontSize: 16,
                                 textDayHeaderFontSize: 16,
                             }}
-                        />
+                        /> : <></>}
                     </View>
                     
                 </View>

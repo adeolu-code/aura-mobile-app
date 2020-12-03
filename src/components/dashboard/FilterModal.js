@@ -15,7 +15,7 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { AppContext } from '../../../AppProvider'
 
-import { urls, Request, GetRequest } from '../../utils'
+import { urls, Request, GetRequest, successMessage } from '../../utils'
 
 class FilterModal extends Component {
     static contextType = AppContext;
@@ -88,6 +88,9 @@ class FilterModal extends Component {
                 propertyContext.set({ hotels })
             }
             onDecline()
+            setTimeout(() => {
+                successMessage('Property was deleted successfully !!')
+            }, 10);
         })
         .catch((error) => {
             console.log(error)
@@ -97,10 +100,78 @@ class FilterModal extends Component {
         })
     }
     deletePpty = (properties) => {
-        const { property } = this.state
+        const { property } = this.props
         const propertyIndex = properties.findIndex(item => item.id === property.id)
         properties.splice(propertyIndex, 1)
         return properties
+    }
+
+    goOnline = (bool) => {
+        const { property, onDecline, propertyContext } = this.props
+        this.setState({ loading: true })
+        const message = bool ? 'Property is now Online' : 'Property is now Offline' 
+        Request(urls.listingBase, `${urls.v}listing/property/status/?id=${property.id}`,)
+        .then((res) => {
+            console.log('Res ', res)
+            const properties = this.changeActiveState(propertyContext.state.properties, bool)
+            propertyContext.set({ properties })
+            if(property.propertyType.name === 'Apartment') {
+                const apartments = this.changeActiveState(propertyContext.state.apartments, bool)
+                propertyContext.set({ apartments })
+            } else {
+                const hotels = this.changeActiveState(propertyContext.state.hotels, bool)
+                propertyContext.set({ hotels })
+            }
+            onDecline()
+            setTimeout(() => {
+                successMessage(message)
+            }, 10);
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+        .finally(() => {
+            this.setState({ loading: false })
+        })
+    }
+    changeActiveState = (properties, isActive) => {
+        const { property } = this.props
+        const elementsIndex = properties.findIndex(element => element.id == property.id )
+        let newArray = [...properties]
+        newArray[elementsIndex] = { ...property, isActive }
+        return newArray
+    }
+
+    renderOnlineOffline = () => {
+        const { property } = this.props;
+        const { tabThree, activeStyle, bgGreen, bgDanger } = styles
+        const { textDarkBlue, textBold, flexRow } = GStyles
+        if(property) {
+            if(property.status.toLowerCase() === 'published' && !property.isActive) {
+                return (
+                    <TouchableOpacity style={tabThree} onPress={this.goOnline.bind(this, true)}>
+                        <View style={[flexRow, { alignItems: 'center'}]}>
+                            <View style={[activeStyle, bgGreen ]}></View>
+                            <MyText style={[textDarkBlue, textBold]}>
+                                Go Online
+                            </MyText>
+                        </View>
+                    </TouchableOpacity>
+                )
+            }
+            if(property.status.toLowerCase() === 'published' && property.isActive) { 
+                return (
+                    <TouchableOpacity style={tabThree} onPress={this.goOnline.bind(this, false)}>
+                        <View style={[flexRow, { alignItems: 'center'}]}>
+                            <View style={[activeStyle, bgDanger ]}></View>
+                            <MyText style={[textDarkBlue, textBold]}>
+                                Go Offline
+                            </MyText>
+                        </View>
+                    </TouchableOpacity>
+                )
+            }
+        }
     }
 
     render() {
@@ -129,11 +200,7 @@ class FilterModal extends Component {
                                     </MyText>
                                 </TouchableOpacity>
                                 <View style={[dash]}></View>
-                                <TouchableOpacity style={tabThree}>
-                                    <MyText style={[textDarkBlue, textBold]}>
-                                            Go Offline
-                                    </MyText>
-                                </TouchableOpacity>
+                                {this.renderOnlineOffline()}
                                 <View style={[dash]}></View>
                                 <TouchableOpacity style={tabFour} onPress={this.onDelete}>
                                     <MyText style={[textDanger, textBold]}>
@@ -198,6 +265,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 74,
+    },
+    activeStyle: {
+        height: 16, width: 16, marginRight: 10,
+        borderRadius: 14, 
+    },
+    bgGreen: {
+        backgroundColor: colors.success,
+    },
+    bgDanger: {
+        backgroundColor: colors.secondary
     }
 });
 

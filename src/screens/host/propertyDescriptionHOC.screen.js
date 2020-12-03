@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { StatusBar } from "react-native";
 import { AppContext, AppConsumer } from '../../../AppProvider';
 import { ManagePropertyContext, ManagePropertyConsumer } from '../../../ManagePropertyProvider';
 import PropertyDescription from './propertyDescription.screen'

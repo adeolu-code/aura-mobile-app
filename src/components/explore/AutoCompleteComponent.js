@@ -36,7 +36,7 @@ class AutoCompleteComponent extends Component {
     const activeStyles = autoCompleteActiveStyles
 
 
-    const { title, countrySymbol, location, placeholder } = this.props
+    const { title, countrySymbol, location, placeholder, type, autofocus } = this.props
 
     const homePlace = {
         description: location ? location.city : '',
@@ -61,13 +61,15 @@ class AutoCompleteComponent extends Component {
                     onBlur:this.handleBlur,
                     onChangeText: this.onChangeText,
                     value: this.state.value,
-                    autoFocus: true
+                    // autoFocus: true,
+                    autoFocus: autofocus ? true : false
                 }}
                 enablePoweredByContainer={false}
                 query={{
                     key: GOOGLE_SEARCH_KEY,
                     language: 'en', // language of the results
-                    types: '(regions)',
+                    types: type ? '' : '(regions)',
+                    // types: '(regions)',
                     // types: '(cities)', // default: 'geocode'
                     components: `country:${countrySymbol ? countrySymbol : 'ng'}`,
                     

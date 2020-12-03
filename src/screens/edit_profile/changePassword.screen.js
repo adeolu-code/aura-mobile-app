@@ -62,7 +62,6 @@ export default class ChangePassword extends Component {
         consoleLog("user", this.context.state.userData);
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Change Password" />
                     {this.renderLoading()}

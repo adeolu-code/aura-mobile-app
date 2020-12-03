@@ -1,13 +1,17 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { SafeAreaView, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, Footer, View, Icon } from "native-base";
 import { Styles } from "./host.style";
 import colors from "../../colors";
-import { MyText, CustomButton } from "../../utils/Index";
+import { MyText, CustomButton, Loading, Error } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
-import { GLOBAL_PADDING } from "../../utils";
+import { GLOBAL_PADDING, GetRequest, Request, urls } from "../../utils";
 import { RenderStars } from "../../components/render_stars/renderStars";
+
+import OtpModal from '../../components/dashboard/OtpModal';
+import EmailVerificationModal from '../../components/dashboard/EmailVerificationModal';
+import ChangeNumberModal from '../../components/dashboard/ChangeNumberModal';
 
 import { AppContext } from '../../../AppProvider';
 import { ManagePropertyContext } from '../../../ManagePropertyProvider';
@@ -18,17 +22,134 @@ export default class HostSteps extends Component {
     static contextType = AppContext;
     constructor() {
         super();
-        this.state = { step: 1, isComplete: false }
+        this.state = { step: 1, isComplete: false, showOtpModal: false, showEmailModal: false, loading: false, errors: [], close: true, message: '',
+        showPhoneModal: false }
+    }
+
+    renderLoading = () => {
+        const { loading } = this.state;
+        if (loading) { return (<Loading />); }
+    }
+
+    renderError = () => {
+        const { errors } = this.state;
+        if (errors.length !== 0) {
+            return (<Error errors={errors} />);
+        }
+    }
+    renderSuccessMessage = () => {
+        const { message } = this.state;
+        const { textH4Style, textCenter, textSuccess } = GStyles
+        if(message) {
+            return (
+                <View>
+                    <MyText style={[textH4Style, textSuccess, textCenter]}>{message}</MyText>
+                </View>
+            )
+        }
     }
 
     set = (v) => {
         this.setState(v);
     }
 
+    publishProperty = async () => {
+        const { propertyFormData } = this.context.state;
+        this.setState({ loading: true, errors: [] })
+        let res = await Request(urls.listingBase + urls.v, `listing/property/hostpublish?id=${propertyFormData.id}`);
+        this.setState({ loading: false })
+        console.log('publish  ', res)
+        if (res.isError || res.IsError) {
+            const message = res.message;
+            const error = [message]
+            console.log('Error ', error)
+            this.setState({ errors: error})
+        }
+        else {
+            this.setState({ message: 'Property submitted for review successfully!!'})
+            setTimeout(() => {
+                this.setState({ message: ''})
+            }, 5000);
+            this.context.set({ propertyFormData: { ...propertyFormData, status: 'Pending' } })
+            /** update context **/
+            // let userData = this.context.state.userData;
+            // this.context.set({userData: {...userData, ...res.data}});
+        }
+    }
+    
+    publish = () => {
+        const { userData } = this.context.state;
+        // this.openOtpModal()
+        // this.generateOtp()
+        if (userData.isPhoneVerified) {
+            if (userData.isEmailVerified) {
+                this.publishProperty()
+            } else {
+                this.sendMail();
+            }
+        } else {
+            // Got to OTP modal to verify phone
+
+            // If the person has phone number
+            if (userData.phoneNumber) {
+                this.openPhoneModal();
+            } else {
+                if (userData.isEmailVerified) {
+                    this.publishProperty()
+                } else {
+                    this.sendMail();
+                }
+            }
+        }
+    }
+    openPhoneModal = () => {
+        this.setState({ showPhoneModal: true });
+    }
+    closePhoneModal = () => {
+        this.setState({ showPhoneModal: false });
+    }
+    openOtpModal = () => {
+        this.setState({ showOtpModal: true });
+    }
+    closeOtpModal = () => {
+        this.setState({ showOtpModal: false });
+    }
+    openEmailModal = () => {
+        this.setState({ showEmailModal: true });
+    }
+    closeEmailModal = () => {
+        this.setState({ showEmailModal: false });
+    }
+    generateOtp = async () => {
+        this.setState({ loading: true, errors: [] });
+        const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
+        this.setState({ loading: false });
+        if (res.IsError) {
+            const message = res.Message;
+            const error = [message];
+            this.setState({ errors: error});
+        } else {
+            this.openOtpModal()
+        }
+    }
+    sendMail = async () => {
+        const { userData } = this.context.state;
+        this.setState({ loading: true, errors: [] });
+        const res = await GetRequest(urls.identityBase, `${urls.v}email/verification/resend/${userData.username}`);
+        this.setState({ loading: false });
+        if (res.isError) {
+            const message = res.message;
+            const error = [message];
+            this.setState({ errors: error});
+        } else {
+            this.openEmailModal();
+        }
+    }
+
     getStarted = () => {
         // this.props.navigation.navigate("UploadPropertyImage");
         const { set, state } = this.context
-        set({ isInApp: true, edit: false, propertyFormData: null })
+        set({ isInApp: true, edit: false })
         if (state.step === 1) {
             // this.props.navigation.navigate("HostProperty");
             this.props.navigation.navigate('Auth', {screen: "List"});
@@ -80,11 +201,12 @@ export default class HostSteps extends Component {
     }
 
     renderPublish = () => {
-        const { propertyFormData } = this.context.state;
-        if(propertyFormData.status && propertyFormData.status.toLowerCase() === 'saved') {
+        const { propertyFormData, step } = this.context.state;
+        if(propertyFormData.status && propertyFormData.status.toLowerCase() === 'saved' && step > 3) {
             return (
                 <View style={{ marginBottom: 40}}>
-                    <CustomButton buttonText="Publish For Review" buttonStyle={{ elevation: 2}} />
+                    {this.renderError()}
+                    <CustomButton buttonText="Publish For Review" buttonStyle={{ elevation: 2}} onPress={this.publish} />
                 </View>
             )
         }
@@ -121,8 +243,6 @@ export default class HostSteps extends Component {
                                 <View style={{marginTop: 10}}>
                                     <StarComponent grey rating={rating} />
                                 </View>
-                                {/* <RenderStars stars={4} style={{marginTop: 10}} starActive={{fontSize: 16}} 
-                                    starInactive={{fontSize: 16}} /> */}
                                 <MyText style={[textH5Style, textGrey, { marginVertical: 6}]}>{state.propertyFormData.state}</MyText>
                                 <MyText style={[textH5Style, textGreen, textBold]}>NGN {price} / night</MyText>
                             </View>
@@ -139,6 +259,7 @@ export default class HostSteps extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
+                    {this.renderSuccessMessage()}
                     {this.renderPublish()}
                 </View>
             )
@@ -150,27 +271,26 @@ export default class HostSteps extends Component {
 
         return (
             <>
-                {/* <StatusBar backgroundColor={colors.white} barStyle="dark-content" /> */}
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    
+                    {this.renderLoading()}
                     <Header 
                         {...this.props} 
                         title="Host A Home Or Hotel" 
                         goBackTo={(this.props.route.params && this.props.route.params.force) ? "Profile" : undefined} 
                     />
-                    <Container style={[Styles.container, {padding: 0}]}>
+                    <Container style={[Styles.container, {padding: 0 }]}>
                         <Content>
                             {this.renderProperty()}
                             
                             <Card title={"Facilities And Location"} cardStyles={{ paddingTop: 0, marginTop: -20}}
-                                description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
+                                description={"Basic property facilities and location details of property"}
                                 completed={step > 1 ? true : false} edit={step > 1 ? true : false} step={1} 
                                 getStarted={step === 1 ? true : false}
                                 onEditPress={this.editLocation} 
                                 onGetStartedPress={this.getStarted}
                             />
                             <Card title={"Upload Picture And Short Description Of Your Place"}
-                                description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
+                                description={"Upload beautiful pictures of property, write/update property title and also get to describe the property "}
                                 completed={step > 2 ? true : false} 
                                 edit={step > 2 ? true : false}
                                 getStarted={step === 2 ? true : false}
@@ -178,7 +298,7 @@ export default class HostSteps extends Component {
                                 onGetStartedPress={this.getStarted}
                             />
                             <Card title={"Welcome Your First Guest"}
-                                description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"}
+                                description={"Write/Update property price, schedule the availability the property, give more details about property booking"}
                                 step={3}
                                 completed={step > 3 ? true : false} 
                                 edit={step > 3 ? true : false}
@@ -187,17 +307,11 @@ export default class HostSteps extends Component {
                                 onGetStartedPress={this.getStarted}
                             />
                         </Content>
-                        {/* {
-                            !this.state.isComplete &&
                         
-                            <Footer style={[Styles.footer, {backgroundColor: "transparent",padding: GLOBAL_PADDING}]} >
-                                <TouchableOpacity style={[Styles.nextButton, {marginTop: 10}]}
-                                onPress={() => this.getStarted()}
-                                >
-                                    <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Get Started</MyText>
-                                </TouchableOpacity>
-                            </Footer>
-                        } */}
+                        <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } close={this.state.close} />
+                        <OtpModal visible={this.state.showOtpModal} onDecline={this.closeOtpModal} { ...this.props } close={this.state.close}
+                        openEmail={this.openEmailModal} />
+                        <ChangeNumberModal visible={this.state.showPhoneModal} onDecline={this.closePhoneModal} { ...this.props } />
                     </Container>
                 </SafeAreaView>
             </>
@@ -260,7 +374,7 @@ const Card = (props) => {
 }
 const styles = StyleSheet.create({
     propertyTypeContainer: {
-        position: 'absolute', right: 0, top: '48%',
+        position: 'absolute', right: 0, top: '42%',
         // paddingHorizontal: 10, paddingVertical: 10
     },
     bgOrange: {

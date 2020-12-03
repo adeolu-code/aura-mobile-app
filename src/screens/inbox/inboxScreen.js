@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {
   ScrollView,
   SafeAreaView,
-  StatusBar,
 } from 'react-native';
 import colors from '../../colors';
 import { AppContext } from '../../../AppProvider';
@@ -50,7 +49,6 @@ class InboxScreenClass extends Component {
   render() {
     return (
       <>
-        <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
             {

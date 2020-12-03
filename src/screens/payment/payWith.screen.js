@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-import { StatusBar, SafeAreaView, ScrollView, Image, Pressable, TouchableOpacity } from "react-native";
+import { SafeAreaView, ScrollView, Image, Pressable, TouchableOpacity } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
 import { BOOKINGS_NO_BOOKINGS, BOOKINGS_SCREEN_DESCRIPTION } from "../../strings";
@@ -23,7 +23,6 @@ export default class PayWith extends Component {
         const { textGrey, textH2Style, textH1Style, textExtraBold, textDarkBlue, textH6Style, imgContainer, imgStyle, textCenter } = GStyles;
         return(
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title={"Pay With"} />
                     <View style={[Styles.container]}>                    

@@ -31,6 +31,11 @@ import { v4 as uuidv4 } from 'uuid';
 import LoginModal from '../../components/auth/LoginModal';
 import SignUpModal from '../../components/auth/SignUpModal';
 
+import IdentityCardModal from '../../components/explore/IdentityCardModal';
+
+import SharedIdModal from '../../components/explore/ShareIdModal';
+
+
 
 class HomeSingle extends Component {
   static contextType = AppContext;
@@ -50,7 +55,8 @@ class HomeSingle extends Component {
           property_Id: '',
           requestId: ''
         },
-        loading: false
+        loading: false, contact: false, showIdentityModal: false, shareIdModal: false,
+        booked: '', bookedDays: [], 
     };
     const { house } = props.route.params;
     this.state.house = house;
@@ -58,13 +64,58 @@ class HomeSingle extends Component {
     console.log('House ', house)
     
   }
+  contactHost = () => {
+    const { state } = this.context
+    this.setState({ contact: true })
+    if(state.isLoggedIn) {
+      this.linkToChat()
+    } else {
+      this.setState({ showLoginModal: true})
+    }
+  }
+  linkToChat = () => {
+    const { house } = this.state
+    this.props.navigation.navigate("InboxChat", {
+      name: house.hostName,
+      status: "Online",
+      userImage: house.hostPicture ? {uri: house.hostPicture} : undefined,
+      // chatId: '',
+      propertyId: house.id,
+      userId: house.hostId,
+      roleHost: 'Host',
+      host: true
+    })
+  }
+  openSharedIdModal = () => {
+    this.setState({ shareIdModal: true })
+  }
+  closeSharedIdModal = () => {
+    this.setState({ shareIdModal: false })
+  }
+  openIdentityModal = () => {
+    this.setState({ showIdentityModal: true })
+  }
+  closeIdentityModal = (bool) => {
+    this.setState({ showIdentityModal: false })
+    if(bool) {
+      this.setState({ shareIdModal: true })
+      const { state, getUserProfile } = this.context;
+      if(state.token) {
+        getUserProfile(state.token)
+      }
+    }
+  }
   openLoginModal = () => {
     this.setState({ showLoginModal: true })
   }
   closeLoginModal = (bool) => {
     this.setState(() => ({ showLoginModal: false }), () => {
       if(bool) {
-        this.openCheckInModal();
+        if(this.state.contact) {
+          this.linkToChat()
+        } else {
+          this.openCheckInModal();
+        }
       }
     })
   }
@@ -75,8 +126,10 @@ class HomeSingle extends Component {
     this.setState({ showRegisterModal: false })
   }
   openCheckInModal = () => {
+    // this.openSharedIdModal()
     // this.openReserveModal()
     const { state } = this.context
+    this.setState({ contact: false })
     if(state.isLoggedIn) {
       this.setState({ showCheckInModal: true })
     } else {
@@ -118,11 +171,15 @@ class HomeSingle extends Component {
     console.log('Reserve space ', res)
     this.setState({ loading: false })
     if(res.isError) {
-      const message = res.Message;
+      const message = res.message;
       errorMessage(message)
     } else {
       this.getCalendar()
       successMessage('Space booked successfully!!')
+      this.setState({ booked: res.data })
+      setTimeout(() => {
+        this.checkVerification()
+      }, 50);
     }
   }
   getPhotos = async () => {
@@ -158,7 +215,6 @@ class HomeSingle extends Component {
     const { house } = this.state
     this.setState({ gettingHouse: true })
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${house.id}`);
-    // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', `api/v1/listing/property/${house.id}`);
     console.log('House Details ', res)
     this.setState({ gettingHouse: false })
     if(res.isError) {
@@ -202,6 +258,15 @@ class HomeSingle extends Component {
     }
   }
 
+  checkVerification = () => {
+    const { userData } = this.context.state
+    if(userData.identificationDocument) {
+      this.openSharedIdModal()
+    } else {
+      this.openIdentityModal()
+    }
+  }
+
 //   getComments = async () => {
 //     const { house } = this.state
 //     this.setState({ gettingComments: true })
@@ -228,19 +293,20 @@ class HomeSingle extends Component {
     this.getReviews()
     this.getCalendar()
     // this.getAmenity()
+    console.log(this.context.state.userData)
   }
 
   getCalendar = async () => {
     const { house } = this.state
     this.setState({ gettingCalendar: true })
-    const res = await GetRequest(urls.listingBase, `api/v1/listing/property/calendar?PropertyId=${house.id}`);
+    const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/calendar?PropertyId=${house.id}`);
     console.log('House calendar ', res)
     this.setState({ gettingCalendar: false })
     if(res.isError) {
         const message = res.Message;
     } else {
         const data = res.data;
-        this.setState({ calendar: data })
+        this.setState({ bookedDays: data.bookedDays })
     }
   }
 
@@ -249,6 +315,7 @@ class HomeSingle extends Component {
     //   this.closeLoginModal()
     // }
   }
+
 
   render() {
     const { buttomContainer, placeAroundContainer, headerStyle, scrollContainer } = styles;
@@ -266,7 +333,7 @@ class HomeSingle extends Component {
                 <AmenitiesComponent house={house} />
                 {houseRules.length !== 0 ?<RulesComponent title="House Rules" rules={houseRules} /> : <Fragment />}
                 <LocationComponent house={house} address={house.address} location={location} />
-                <HostComponent house={house} />
+                <HostComponent house={house} onPress={this.contactHost} />
                 <DetailsComponent house={house} />
                 <ReviewsComponent reviews={reviews} loading={gettingReviews} />
                 <CommentComponent comments={comments} loading={gettingReviews} />
@@ -285,17 +352,23 @@ class HomeSingle extends Component {
         <View style={buttomContainer}>
             <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
         </View>
-        <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} next={this.openCheckOutModal} />
+        <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} next={this.openCheckOutModal} 
+        bookedDays={this.state.bookedDays} />
 
         <CheckOutModal visible={this.state.showCheckOutModal} onDecline={this.closeCheckOutModal} next={this.openReserveModal} 
-        back={this.openCheckInModal} checkInDate={this.state.formData.check_In_Date} />
+        back={this.openCheckInModal} checkInDate={this.state.formData.check_In_Date} bookedDays={this.state.bookedDays} />
 
         <ReserveModal visible={this.state.showReserveModal} onDecline={this.closeReserveModal} back={this.openCheckOutModal} 
-        formData={this.state.formData} submit={this.reserveSpace} />
+        formData={this.state.formData} submit={this.reserveSpace} house={this.state.house} />
 
         <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
 
         <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
+
+        <IdentityCardModal visible={this.state.showIdentityModal} onDecline={this.closeIdentityModal} { ...this.props} />
+
+        <SharedIdModal visible={this.state.shareIdModal} onDecline={this.closeSharedIdModal} {...this.props} 
+        booked={this.state.booked} house={this.state.house} />
       </SafeAreaView>
     );
   }

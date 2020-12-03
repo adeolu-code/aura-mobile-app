@@ -3,10 +3,10 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
-import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
+// import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
-export let debug = true;
+export let debug = false;
 export const GLOBAL_PADDING = 20;
 
 const CLIENT_ID = '0987654321'
@@ -16,6 +16,11 @@ export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs";
 export const GOOGLE_SEARCH_KEY = 'AIzaSyDeW1aTWlO-Azt-kFGAIxHsQJflNCY_9mM';
 
 const UNAUTHORIZED_MESSAGE = 'user is unauthorised to perform action'
+
+export const PHOTOGRAPH = 'Photographer';
+export const RESTAURANT = 'Restaurant';
+export const EXPERIENCE = 'Tour-Guide';
+export const HOST = 'Host';
 
 
 export const urls = {
@@ -28,6 +33,7 @@ export const urls = {
     supportBase: "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/",
     promotionBase: "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/",
     storageBase: "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/storage/",
+    experienceBase: "http://aura-experience-service.d6f993e093904834a7f1.eastus.aksapp.io/api/v1/experience/",
     v1: "api/v1/",
     v: "api/v1/",
     auth: "auth/",

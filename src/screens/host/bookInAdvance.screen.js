@@ -89,7 +89,6 @@ export default class BookInAdvance extends Component {
           } = GStyles;
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="How Far In Advance Can A Guest Book?" />
                     <Container style={[Styles.container, {marginTop: 160}]}>

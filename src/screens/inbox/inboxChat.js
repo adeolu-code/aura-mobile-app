@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, ImageBackground, ScrollView, StatusBar, TouchableOpacity, SafeAreaView } from "react-native";
+import { Image, ImageBackground, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
 import { AppContext } from "../../../AppProvider";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
@@ -21,6 +21,7 @@ export default class InboxChat extends Component {
             convo: [],
             message: "",
             lastMessageId: props.route.params.chatId,
+            host: props.route.params?.host
         };
     }
 
@@ -52,10 +53,16 @@ export default class InboxChat extends Component {
     };
 
     sendMessage = () => {
-        messageUserApi({
+        const { host } = this.state
+        const obj = host ? {
+            message_Body: this.state.message,
+            property_Id: this.props.route.params.propertyId
+        } : {
             "message_to_Host_Id": this.state.lastMessageId,
             "message_Body": this.state.message
-        }).then(result => {
+        }
+        const arg = host ? true : false
+        messageUserApi(obj, arg).then(result => {
             if (result.isError == false) {
                 this.getChatConvo();
                 this.setState({message: ""});
@@ -68,10 +75,9 @@ export default class InboxChat extends Component {
         const defaultImage = require("./../../assets/images/profile.png");
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Container style={{marginTop: 25}}>
-                        <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"}  androidStatusBarColor={"white"}>
+                        <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"} >
                             <Left>
                                 <Button icon transparent onPress={() => this.props.navigation.goBack()}>
                                     <Icon name={"ios-chevron-back-sharp"} style={[Styles.headerIcon]} />

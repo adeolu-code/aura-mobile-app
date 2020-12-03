@@ -5,7 +5,7 @@ import colors from "../../colors";
 import { Styles } from "./host.style";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { Container, Content, Text, View } from "native-base";
-import { Image, SafeAreaView, StatusBar, TouchableOpacity } from "react-native";
+import { Image, SafeAreaView, TouchableOpacity } from "react-native";
 import Header from "../../components/Header";
 import { MyText } from "../../utils/Index";
 
@@ -89,7 +89,6 @@ export default class HostSlider extends Component{
     render() {
         return (
             <>
-            <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
             <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                 <Header {...this.props} title="" />
                 <Container style={[Styles.sliderContainer]}>

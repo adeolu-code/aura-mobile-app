@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, ScrollView, Image, TouchableOpacity,   } from "react-native";
+import { SafeAreaView, ScrollView, Image, TouchableOpacity,   } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
@@ -59,7 +59,6 @@ export default class Referrals extends Component {
         const { textOrange, textH5Style, textBold, textCenter, textH1Style} = GeneralStyles;
         return(
             <>
-                {/* <StatusBar backgroundColor={colors.white} barStyle="dark-content" /> */}
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Referrals" />
                     <ScrollView style={[Styles.container, {marginTop: 140}]} horizontal={false}>

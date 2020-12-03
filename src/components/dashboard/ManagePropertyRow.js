@@ -21,16 +21,31 @@ class ManagePropertyRow extends Component {
         const { openModal } = this.props
         openModal()
     }
+    textColor = () => {
+        const { status } = this.props
+        const { textOrange, textDarkBlue, textFadedBlack, textGreen, textGrey} = GStyles
+        switch (status.toLowerCase()) {
+            case 'saved':
+                return textOrange;
+            case 'published':
+                return textGreen;
+            case 'pending':
+                return textGrey;
+            default:
+                return textFadedBlack;
+        }
+    }
     render() {
-        const { container, imgContainer, rightContainer, typeStyle, iconStyle } = styles
+        const { container, imgContainer, rightContainer, typeStyle, iconStyle, activeStyle, bgDanger, bgGreen } = styles
         const { flexRow, imgStyle, textBold, textH4Style, textH5Style, textGrey, textFadedBlack,
             textDarkGrey, textExtraBold, textH1Style, textSuccess, textOrange, textH6Style } = GStyles;
-        const { title, location, status, img, roomType, propertyType } = this.props
+        const { title, location, status, img, roomType, propertyType, item } = this.props
         return (
             <View style={{ width: '100%' }}>
                 <TouchableOpacity style={[flexRow, container]} onPress={this.linkToHome}>
                     <View style={imgContainer}>
                         <Image source={img} resizeMode="cover" style={imgStyle} />
+                        <View style={[activeStyle, item.isActive ? bgGreen : bgDanger ]}></View>
                     </View>
                     <View style={[rightContainer]}>
                         <View style={[flexRow]}>
@@ -43,7 +58,7 @@ class ManagePropertyRow extends Component {
                                     <MyText style={[textH5Style, textGrey]}>{propertyType}</MyText>
                                 </View>
                                 <View style={[flexRow, { alignItems: 'center' }]}>
-                                    <MyText style={[textH5Style, textExtraBold, status.toLowerCase() === 'pending' ? textOrange : textSuccess]}>
+                                    <MyText style={[textH5Style, textExtraBold, this.textColor()]}>
                                         {status}</MyText>
                                 </View>
                             </View>
@@ -80,6 +95,16 @@ const styles = StyleSheet.create({
     },
     rightContainer: {
         flex: 1
+    },
+    activeStyle: {
+        height: 20, width: 20, position: 'absolute', right: 5, bottom: 5,
+        borderRadius: 14, elevation: 4
+    },
+    bgGreen: {
+        backgroundColor: colors.success,
+    },
+    bgDanger: {
+        backgroundColor: colors.danger
     }
 });
 

@@ -4,7 +4,7 @@ import { GLOBAL_PADDING } from "../../utils";
 
 export const Styles = StyleSheet.create({
     separator: {
-        backgroundColor: colors.lightGrey,
+        backgroundColor: colors.lightGrey, marginBottom: 10
     },
     separatorText: {
         color: colors.grey,

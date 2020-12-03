@@ -17,7 +17,7 @@ class ReserveModal extends Component {
         this.state = { formData: {
                 Arrival_Time_From: '',
                 Arrival_Time_To: '',
-                no_Of_Guest: 1,
+                no_Of_Guest: 1, no_Of_Rooms: 1,
             }, errors: []
         };
     }
@@ -78,6 +78,11 @@ class ReserveModal extends Component {
         const obj = { ...formData, no_Of_Guest: value }
         this.setState({ formData: obj })
     }
+    setRoomsValue = (value) => {
+        const { formData } = this.state;
+        const obj = { ...formData, no_Of_Rooms: value }
+        this.setState({ formData: obj })
+    }
     onDecline = () => {
         this.props.onDecline();
         this.props.back()
@@ -102,6 +107,10 @@ class ReserveModal extends Component {
     
     submit = () => {
         const { formData } = this.state
+        const { house } = this.props
+        // if(house && house.propertyType.name === 'Hotel') {
+        //     delete 
+        // }
         this.props.onDecline();
         this.props.submit(formData)
     }
@@ -112,7 +121,7 @@ class ReserveModal extends Component {
         headerStyle, mainHeader, checkInStyle, checkOutStyle, buttonStyle, buttonContainerStyle, timeContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textDarkGrey, textCenter, textH5Style, textH6Style,
         textH4Style, textGrey, textH3Style } = GStyles;
-    const { formData } = this.props
+    const { formData, house } = this.props
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
             <View style={container}>
@@ -161,6 +170,9 @@ class ReserveModal extends Component {
                             <View>
                                 <ItemCountPicker title="Guest" value={this.state.formData.no_Of_Guest} countValue={this.setCountValue} />
                             </View>
+                            {house && house.propertyType.name === 'Hotel' ? <View>
+                                <ItemCountPicker title="No of rooms" value={this.state.formData.no_Of_Rooms} countValue={this.setRoomsValue} />
+                            </View> : <></>}
                             {/* <View>
                                 <ItemCountPicker title="Children" value={10} />
                             </View>

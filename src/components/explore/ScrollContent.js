@@ -52,7 +52,7 @@ class ScrollContent extends Component {
     }
     getPlaces = async (st) => {
         const res = await GetRequest(urls.listingBase, 
-        `api/v1/listing/property/search/available/?State=${st}&Size=4&Page=1`);
+        `${urls.v}listing/property/search/available/?State=${st}&Size=4&Page=1`);
         // console.log('Res ', res)
         this.setState({ loading: false })
         if(res.isError) {
@@ -163,6 +163,15 @@ class ScrollContent extends Component {
     }
   }
 
+  handleScroll = (e) => {
+    const contentOffset = e.nativeEvent.contentOffset
+    if(contentOffset.x >= 176) {
+        this.setState({ first: false})
+    } else {
+        this.setState({ first: true })
+    }
+  }
+
   render() {
     const { scrollContainer, scrollMainContainer, placeAroundContainer, placeStayContainer,
         headerContainer, buttonContainer, buttonStyle } = styles
@@ -189,7 +198,8 @@ class ScrollContent extends Component {
                     <ScrollHeader title={`Places to stay around ${this.state.st}`} noDot={this.state.noDot} first={this.state.first} />
                 </View>
                 <View style={scrollMainContainer}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}
+                        onScroll={this.handleScroll} >
                         <View style={[scrollContainer, { width: '100%' }]}>
                             {this.renderPlaces()}
                         </View>

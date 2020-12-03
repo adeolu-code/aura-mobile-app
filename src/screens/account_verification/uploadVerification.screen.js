@@ -118,7 +118,7 @@ export default class UploadVerification extends Component {
           } = GStyles;
         return (
             <>
-                <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
+                <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Upload Your Means Of Identification" />
                     {this.renderLoading()}

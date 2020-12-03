@@ -196,7 +196,7 @@ class signUp extends Component {
     const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors, dobErrors } = this.state;
     return (
       <>
-        <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
+        <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
           <Header title="Sign Up With Email" {...this.props} />
           {this.renderLoading()}

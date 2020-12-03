@@ -183,7 +183,6 @@ export default class PropertyAvailability extends Component {
 
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header {...this.props} title="Property Availability Dates" />

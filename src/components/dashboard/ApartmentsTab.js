@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText, Spinner, Loading } from '../../utils/Index';
-import { View, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import FilterModal from './FilterModal';
@@ -15,7 +15,7 @@ import { Icon } from 'native-base';
 class ApartmentsTab extends Component {
   constructor(props) {
     super(props);
-    this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png') };
+    this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png'), refreshing: false };
   }
   linkToSingleHome = (house) => {
       this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
@@ -29,9 +29,9 @@ class ApartmentsTab extends Component {
   }
 
   renderLoading = () => {
-      const { loading } = this.state;
+      const { loading, refreshing } = this.state;
       const { state } = this.props.propertyContext
-      if (loading || state.loadingApartments) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
+      if ((loading || state.loadingApartments) && !refreshing) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
   }
   onEndReached = () => {
     const { set, state, getApartments } = this.props.propertyContext
@@ -64,15 +64,26 @@ class ApartmentsTab extends Component {
         <View style={rowContainer}>
             <ManagePropertyRow title={title} img={imgUrl} openModal={this.openFilterModal.bind(this, item)} location={location} 
             status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} 
-            onPress={this.linkToSingleHome.bind(this, item)} />
+            onPress={this.linkToSingleHome.bind(this, item)} item={item} />
         </View>
     )
     
+  }
+  onRefresh = () => {
+      this.setState({ refreshing: true })
+      this.props.propertyContext.getApartments()
+      .finally(() => {
+          this.setState({ refreshing: false })
+      })
   }
   renderApartments = () => {
       const { apartments } = this.props.propertyContext.state
       return (
           <FlatList
+            refreshControl={
+                <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.refreshing}
+                colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
+            }
             ListFooterComponent={
               <>
                 {this.renderLoadMore()}

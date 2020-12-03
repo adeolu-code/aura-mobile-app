@@ -15,12 +15,14 @@ import { GOOGLE_API_KEY, GetRequest, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
 
+import AutoCompleteComponent from '../../components/explore/AutoCompleteComponent';
+
 
 class LocationScreen extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { country: null, st: '', city: '', zipCode:'', address: '', loading: false, defaultCountry: '' };
+        this.state = { country: null, st: '', city: '', zipCode:'', address: '', loading: false, defaultCountry: '', toggleAutoComplete:false };
     }
     
     renderLoading = () => {
@@ -90,13 +92,24 @@ class LocationScreen extends Component {
             { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
         );
     }
+    getSelectedLocation = (value) => {
+        const { geometry } = value.details
+        const data = value.data
+        const city = data.terms[data.terms.length - 2].value
+        console.log('Value ', value, city)
+        // console.log(longitude: geometry.location.lng, latitude: geometry.location.lat)
+    
+        this.setState(()=>({ address: data.description, city }), ()=>{
+          
+        })
+    }
     getGeolocation = async (cord) => {
         const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
         this.setState({ loading: false })
         this.getAddressDetails(res.results[0])
     }
     getCountry = (country) => {
-        this.setState({ country })
+        this.setState({ country, toggleAutoComplete: !this.state.toggleAutoComplete, city: '' })
     }
     getPresentLocation = () => {
         this.requestLocationPermission()
@@ -157,6 +170,7 @@ class LocationScreen extends Component {
     }
 
     componentDidMount = async () => {
+        
         const { state } = this.context
         const ppty = state.propertyFormData;
         if(ppty && state.edit) {
@@ -168,6 +182,10 @@ class LocationScreen extends Component {
             if(country) {
                 this.setState({ defaultCountry: country, country })
             }
+        } else {
+            const countries = await getAllCountries()
+            const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
+            this.setState({ defaultCountry: country, country })
         }
         
     }
@@ -175,6 +193,8 @@ class LocationScreen extends Component {
   render() {
     const { container, picker, button, imageView, iconStyle, input } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH4Style, textH5Style, textH6Style} = GStyles;
+    const { country } = this.state
+    const countrySymbol = country ? country.cca2.toLowerCase() : null
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
@@ -204,9 +224,12 @@ class LocationScreen extends Component {
                         <TextInput style={input}/>
                     </View> */}
                     <View style={{marginTop: 50}}>
-                        <View style={[{ marginBottom: 30}]}>
-                            <CustomInput label="Property Location" placeholder=" " attrName="address"
-                            value={this.state.address} onChangeText={this.onChangeValue} />
+                        <View style={[{ marginBottom: 30, paddingHorizontal: 1}]}>
+                            <MyText style={[textH4Style, textGrey, { marginBottom: 10}]}>Property Location</MyText>
+                            <AutoCompleteComponent locationDetails={this.getSelectedLocation} type={true} autofocus={false} 
+                            countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} />
+                            {/* <CustomInput label="Property Location" placeholder=" " attrName="address"
+                            value={this.state.address} onChangeText={this.onChangeValue} /> */}
                         </View>
                         <View style={[flexRow, {flex: 1, marginBottom: 30}]}>
                             <View style={{flex: 1, marginRight: 10}}>

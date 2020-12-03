@@ -17,18 +17,26 @@ import { AppContext } from '../../../AppProvider';
 import { setContext, Request, GetRequest, urls } from '../../utils';
 import { setUser } from '../../helpers';
 
+import ChangeNumberModal from './ChangeNumberModal';
+
 
 class OtpModal extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { numbers: [], loading: false, formErrors: [], message: '' };
+        this.state = { numbers: [], loading: false, formErrors: [], message: '', showModal: false };
         this.num1 = React.createRef();
         this.num2 = React.createRef();
         this.num3 = React.createRef();
         this.num4 = React.createRef();
         this.num5 = React.createRef();
         this.num6 = React.createRef();
+    }
+    openModal = () => {
+        this.setState({ showModal: true })
+    }
+    closeModal = () => {
+        this.setState({ showModal: false })
     }
     renderLoading = () => {
         const { loading } = this.state;
@@ -122,7 +130,7 @@ class OtpModal extends Component {
                 numberString = numberString+item
             })
             const obj = { Otp: numberString }
-            const res = await GetRequest(urls.identityBase, `api/v1/user/otp/verify?Otp=${numberString}`);
+            const res = await GetRequest(urls.identityBase, `${urls.v}user/otp/verify?Otp=${numberString}`);
             console.log(res)
             if(res.isError) {
                 const message = res.message;
@@ -138,10 +146,14 @@ class OtpModal extends Component {
     }
     checkEmailVerification = () => {
         const { userData } = this.context.state;
-        const { navigation, onDecline, openEmail } = this.props
+        const { navigation, onDecline, openEmail, close } = this.props
         if(userData.isEmailVerified) {
             this.setState({ loading: false })
-            navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
+            if(close) {
+                onDecline()
+            } else {
+                navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
+            }
         } else {
             this.sendMail()
             openEmail()
@@ -186,11 +198,11 @@ class OtpModal extends Component {
                                 
                                 <View style={topRow}>
                                     <MyText style={[textH4Style, textGrey, textCenter, { lineHeight: 25}]}>
-                                        An OTP code has been sent to {userData.phoneNumber} Kindly enter below the 6 digit code 
-                                        {/* or {' '}
-                                        <TouchableOpacity >
-                                        <MyText style={[textOrange, textUnderline, textBold, { marginBottom: -4}]}>Change Phone Number</MyText>
-                                        </TouchableOpacity> */}
+                                        An OTP code has been sent to <MyText style={[textBold]}>{userData.phoneNumber}</MyText> Kindly enter below the 6 digit code 
+                                        or {' '}
+                                        <TouchableOpacity onPress={this.openModal}>
+                                            <MyText style={[textOrange, textUnderline, textBold, { marginBottom: -4}]}>Change Phone Number</MyText>
+                                        </TouchableOpacity>
                                     </MyText>
                                 
                                 </View>
@@ -208,9 +220,9 @@ class OtpModal extends Component {
                                         </TouchableOpacity></MyText>
                                     </View>
 
-                                    <View style={{paddingTop: 40}}>
+                                    {/* <View style={{paddingTop: 40}}>
                                         <MyText style={[textUnderline, textGreen, textBold, textH5Style]}>Request Call</MyText>
-                                    </View>
+                                    </View> */}
                                 </View>
                                 <View style={bottomRow}>
                                     {this.renderError()}
@@ -222,6 +234,8 @@ class OtpModal extends Component {
                         </View>
                     
                     </ScrollView>
+
+                    <ChangeNumberModal visible={this.state.showModal} onDecline={this.closeModal} />
                 </View>
                 
             </Modal>

@@ -53,10 +53,10 @@ export async function messageHostApi(data) {
     return;
 }
 
-export async function messageUserApi(data) {
+export async function messageUserApi(data, host) {
     let url = "";
-    
-    url = urls.messaging + urls.user;
+    const typeUrl = host ? urls.host : urls.user 
+    url = urls.messaging + typeUrl;
 
     let res = await Request(urls.messagingBase + urls.messaging + urls.v, url, data);
     if (res.isError) {

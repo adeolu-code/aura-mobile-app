@@ -207,7 +207,6 @@ export default class BookingInformationRequirements extends Component {
         const { gettingBookingReq, addingInfo } = this.state
         return(
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Booking Information Requirements" />
                     <Container style={[Styles.container,]}>

@@ -26,7 +26,7 @@ class ImagesComponent extends Component {
                 </View>
             )
         } else if(portofilo && portofilo.length > 1) {
-            <View style={[flexRow, styles.otherContainer]}>
+            return (<View style={[flexRow, styles.otherContainer]}>
                 {portofilo.map((item, index) => {
                     const key = `P_${index}`
                     return (
@@ -35,7 +35,7 @@ class ImagesComponent extends Component {
                         </View>
                     )
                 })}
-            </View>
+            </View>)
         }
     }
 
@@ -73,7 +73,7 @@ class ImagesComponent extends Component {
         const { imgStyle } = GStyles
         const { portofilo } = this.props;
         if(portofilo && portofilo.length > 3) {
-            const twoItems = portofilo.slice(2, 5)
+            const twoItems = portofilo.slice(3, 5)
             return twoItems.map((item, i) => {
                 const key = `RIGHT_${i}`
                 return (
@@ -147,10 +147,10 @@ const styles = StyleSheet.create({
         height: 1, width: '100%', backgroundColor: colors.lightGrey
     },
     otherContainer: {
-        justifyContent: 'space-between'
+        justifyContent: 'space-between', flexWrap: 'wrap'
     },
     imageTwoContainer: {
-        width: '45%', height: 200, borderRadius: 10, overflow: 'hidden',
+        width: '48%', height: 200, borderRadius: 10, overflow: 'hidden',marginBottom: 15
     },
     imageOneContainer: {
         width: '100%', height: 250, borderRadius: 10, overflow: 'hidden',

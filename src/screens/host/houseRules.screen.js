@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity } from "react-native";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
@@ -137,13 +137,9 @@ export default class HouseRules extends Component {
     }
 
     render() {
-        const { textOrange, textBold, flexRow, textH4Style, textH3Style, textNormal, textExtraBold,
-            textCenter, imgStyle, textWhite, textH5Style, textlightGreyTwo,
-            textUnderline, textDarkGrey,
-          } = GStyles;
+        const { textOrange, textBold, textUnderline, textDarkGrey } = GStyles;
         return(
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="House Rules Of Need To Know" 
                         sub={"Inform your guests about rules they need to follow if you are hosting them"}

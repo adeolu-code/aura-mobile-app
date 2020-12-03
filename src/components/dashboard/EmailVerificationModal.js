@@ -57,7 +57,9 @@ class EmailVerificationModal extends Component {
             this.setState({ loading: false })
             if(res.isEmailVerified) {
                 this.props.onDecline();
-                this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
+                if(!this.props.close) {
+                    this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
+                }
             } else {
                 this.setState({ formErrors: ['Email verification failed']})
             }
@@ -86,7 +88,7 @@ class EmailVerificationModal extends Component {
     
 
     render() {
-        const { visible, onDecline } = this.props;
+        const { visible, onDecline, close } = this.props;
         const { modalContainer, modalHeader, lineStyle, closeStyle, 
             headerStyle, container, middleRow, bottomRow, inputContainer, topRow, buttonStyle } = styles;
         const { textH2Style, textExtraBold, textDarkGrey, textCenter, textH5Style, 
@@ -112,7 +114,7 @@ class EmailVerificationModal extends Component {
                                 To proceed, kindly verify your email
                             </MyText>
                         </View>
-                        <View style={container} >
+                        <View style={container}>
                             
                             <View style={topRow}>
                                 <MyText style={[textH4Style, textGrey, textCenter, { lineHeight: 25}]}>
@@ -132,12 +134,12 @@ class EmailVerificationModal extends Component {
 
                             </View>
                             <View style={bottomRow}>
-                                <MyText style={[textH4Style, textGrey]}>Don't have access to your mail? {' '}<TouchableOpacity onPress={this.skip}>
+                                {!close ? <MyText style={[textH4Style, textGrey]}>Don't have access to your mail? {" "}<TouchableOpacity onPress={this.skip}>
                                     <MyText style={[textUnderline, textOrange, textBold, { marginBottom: -4}]}>Skip this</MyText>
-                                </TouchableOpacity></MyText>
+                                </TouchableOpacity></MyText> : <></>}
                                 <View style={{paddingHorizontal: 20, paddingTop: 20, width: '100%'}}>
                                     {this.renderError()}
-                                    <CustomButton buttonText="I have Verified my account" 
+                                    <CustomButton buttonText="I have verified my account" 
                                     onPress={this.checkVerified} />
                                 </View>
                             </View>

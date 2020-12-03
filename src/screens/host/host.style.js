@@ -4,7 +4,7 @@ import { GLOBAL_PADDING } from "../../utils";
 
 export const Styles = StyleSheet.create({
     container: {
-        marginTop: 160,
+        marginTop: 145,
         padding: GLOBAL_PADDING,
         paddingBottom: 10,
     },

@@ -195,6 +195,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     // ...checkScreen().textH5Style
   },
+  textFont13: {
+    fontSize: 13,
+  },
   textH6Style: {
     fontSize: 12,
     // ...checkScreen().textH6Style

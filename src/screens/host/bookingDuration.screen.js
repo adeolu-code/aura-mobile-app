@@ -52,7 +52,6 @@ export default class BookingDuration extends Component {
         const { maxNoOfNights, minNoOfNights } = this.state
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="When Should We Notify You Before A Guest Shows Up" />
                     <Container style={[Styles.container, {marginTop: 200}]}>

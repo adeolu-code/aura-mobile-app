@@ -28,7 +28,6 @@ export default class HostProperty extends Component {
           } = GStyles;
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="List A Property In Minutes" />
                     <Container style={[Styles.container]}>
