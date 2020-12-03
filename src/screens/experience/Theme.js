@@ -42,7 +42,7 @@ class Theme extends Component {
         const { listValue, subListValue } = themeValues
         return (
             <>
-                <View style={{flex: 1, paddingLeft: 10}}>
+                <View style={{flex: 6, paddingLeft: 10}}>
                     <MyText style={[textH3Style, textGrey, textBold, { marginBottom: 5}]}>{listValue.name}</MyText>
                     <MyText style={[textH4Style]}>{subListValue.name}</MyText>
                 </View>
@@ -70,7 +70,7 @@ class Theme extends Component {
         location: tourOnboard.location,
         themeId: themeValues.subListValue.id
     }
-    const res = await Request(urls.experienceBase, `${urls.v}Experience`, obj );
+    const res = await Request(urls.experienceBase, `Experience`, obj );
     console.log('create experience ', res)
     this.setState({ loading: false });
     if (res.isError || res.IsError) {

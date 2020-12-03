@@ -54,7 +54,7 @@ class Access extends Component {
   
 
   render() {
-    const { container, button, imageContainer, textContainer, divider, radioContainer, activeRadio, selectRow, alertStyle } = styles;
+    const { container, button, imageContainer, textContainer, divider, radioContainer, activeRadio, selectRow, alertStyle, icon } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
         textH4Style, textH5Style, textH6Style} = GStyles;
     const { ansOne, ansThree, ansTwo } = this.state
@@ -82,17 +82,17 @@ class Access extends Component {
                         <MyText style={[textH4Style, textGrey, { marginBottom: 15 }]}>This could include:</MyText>
                         <View style={textContainer}>
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 6, }]}>
-                                <Icon name="ellipse" style={{ fontSize: 12, marginRight: 15}} />
+                                <Icon name="ellipse" style={icon} />
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1}]}>
                                 Places only locals know about</MyText>
                             </View>
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 6}]}>
-                                <Icon name="ellipse" style={{ fontSize: 12, marginRight: 15}} />
+                                <Icon name="ellipse" style={icon} />
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1}]}>
                                 Interesting people</MyText>
                             </View>
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 6}]}>
-                                <Icon name="ellipse" style={{ fontSize: 12, marginRight: 15}} />
+                                <Icon name="ellipse" style={icon} />
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1}]}>
                                 Special items that are hard to find</MyText>
                             </View>
@@ -184,6 +184,9 @@ const styles = StyleSheet.create({
     },
     alertStyle: {
         paddingHorizontal: 15,paddingVertical: 15, backgroundColor: colors.white, borderRadius: 8, elevation: 2, marginTop: 10
+    },
+    icon: {
+        fontSize: 8, marginRight: 15, color: colors.grey
     }
 });
 

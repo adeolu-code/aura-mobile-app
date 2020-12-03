@@ -58,6 +58,9 @@ import TourStepTwoOverviewScreen from '../screens/experience/StepTwo';
 import TourExpertiseScreen from '../screens/experience/Expertise';
 import TourAccessScreen from '../screens/experience/Access';
 import TourConnectionScreen from '../screens/experience/Connection';
+import TourLanguageScreen from '../screens/experience/Language';
+import TourAudienceScreen from '../screens/experience/Audience';
+import TourDescribeActivityScreen from '../screens/experience/DescribeActivity';
 
 import MyPageScreen from '../screens/photograph/MyPage';
 import PortfolioScreen from '../screens/photograph/Portfolio';
@@ -159,6 +162,9 @@ export function ExperienceStack() {
             <Stack.Screen name="TourExpertise" component={TourExpertiseScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourAccess" component={TourAccessScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourConnection" component={TourConnectionScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourLanguage" component={TourLanguageScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourAudience" component={TourAudienceScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourDescribeActivity" component={TourDescribeActivityScreen} options={{ headerShown: false }} />
             
         </Stack.Navigator>
     ) 

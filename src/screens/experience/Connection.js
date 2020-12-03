@@ -7,7 +7,7 @@ import colors from '../../colors';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { GOOGLE_API_KEY, GetRequest, errorMessage, Request } from '../../utils';
+import { GOOGLE_API_KEY, GetRequest, errorMessage, Request, urls } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 
@@ -26,9 +26,6 @@ class Connection extends Component {
     if(loading) { return (<Loading />) }
   }
   
-  next = () => {
-
-  }
 
   updateExperience = async () => {
     const { tourOnboard } = this.context.state
@@ -38,14 +35,14 @@ class Connection extends Component {
         expertise: tourOnboard.expertise,
         id: tourOnboard.id
     }
-    const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
-    console.log('create experience ', res)
+    const res = await Request(urls.experienceBase, `Experience/update`, obj );
+    console.log('update experience ', res)
     this.setState({ loading: false });
     if (res.isError || res.IsError) {
         errorMessage(res.message)
     } else {
         this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-        this.props.navigation.navigate('TourStack', { screen: 'TourStepTwo' })
+        this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' })
     }  
   }
   
@@ -53,13 +50,14 @@ class Connection extends Component {
   
 
   render() {
-    const { container, button, imageContainer, textContainer } = styles;
+    const { container, button, imageContainer, textContainer, icon } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
         textH4Style, textH5Style, textH6Style} = GStyles;
     const { ansOne, ansThree, ansTwo } = this.state
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
+            {this.renderLoading()}
             <Header { ...this.props } title="Connection" />
             <View style={container}>
                 <View style={{ marginTop: 30}}>
@@ -81,17 +79,17 @@ class Connection extends Component {
                         <MyText style={[textH4Style, textGrey, { marginBottom: 15 }]}>This could include:</MyText>
                         <View style={textContainer}>
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 6, }]}>
-                                <Icon name="ellipse" style={{ fontSize: 12, marginRight: 15}} />
+                                <Icon name="ellipse" style={icon} />
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1}]}>
                                 Helping guests get to know each other</MyText>
                             </View>
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 6}]}>
-                                <Icon name="ellipse" style={{ fontSize: 12, marginRight: 15}} />
+                                <Icon name="ellipse" style={icon} />
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1}]}>
                                 Sharing personal stories</MyText>
                             </View>
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 6}]}>
-                                <Icon name="ellipse" style={{ fontSize: 12, marginRight: 15}} />
+                                <Icon name="ellipse" style={icon} />
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1}]}>
                                 Creating magical moments</MyText>
                             </View>
@@ -109,7 +107,7 @@ class Connection extends Component {
                 </View>
                 
                 <View style={button}>
-                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} />
+                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} />
                 </View>
                 </ScrollView>
             </View>
@@ -140,6 +138,9 @@ const styles = StyleSheet.create({
     },
     progress: {
         height: '100%', backgroundColor: colors.orange
+    },
+    icon: {
+        fontSize: 8, marginRight: 15, color: colors.grey
     }
 });
 
