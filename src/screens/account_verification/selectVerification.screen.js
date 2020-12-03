@@ -28,9 +28,9 @@ export default class SelectVerification extends Component {
     }
 
     init = () => {
-        if (this.context.state.userData && this.context.state.userData.identityDocument) {
+        if (this.context.state.userData && this.state.userData.identificationDocument) {
             // id doc approved
-            this.props.navigation.navigate('UploadVerification', {force}) 
+            this.props.navigation.navigate('UploadVerification', {force:true}) 
 
         }
         else {
