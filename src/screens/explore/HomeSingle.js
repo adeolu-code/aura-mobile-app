@@ -293,7 +293,6 @@ class HomeSingle extends Component {
     this.getReviews()
     this.getCalendar()
     // this.getAmenity()
-    console.log(this.context.state.userData)
   }
 
   getCalendar = async () => {
@@ -322,6 +321,7 @@ class HomeSingle extends Component {
     const { imgStyle, textWhite, textH3Style, textDarkGrey, textExtraBold, textH2Style } = GStyles
 
     const { house, houseRules, location, reviews, gettingReviews, comments } = this.state
+    const { isLoggedIn } = this.context.state
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
@@ -365,10 +365,11 @@ class HomeSingle extends Component {
 
         <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
 
-        <IdentityCardModal visible={this.state.showIdentityModal} onDecline={this.closeIdentityModal} { ...this.props} />
+        {isLoggedIn ? <IdentityCardModal visible={this.state.showIdentityModal} onDecline={this.closeIdentityModal} { ...this.props} />
+        :<></>}
 
-        <SharedIdModal visible={this.state.shareIdModal} onDecline={this.closeSharedIdModal} {...this.props} 
-        booked={this.state.booked} house={this.state.house} />
+        {isLoggedIn ? <SharedIdModal visible={this.state.shareIdModal} onDecline={this.closeSharedIdModal} {...this.props} 
+        booked={this.state.booked} house={this.state.house} /> : <></>}
       </SafeAreaView>
     );
   }

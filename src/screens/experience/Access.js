@@ -113,7 +113,7 @@ class Access extends Component {
                                 <View style={radioContainer}>
                                     <View style={[ansOne ? activeRadio : '']}></View>
                                 </View>
-                                <MyText style={[textH4Style, textGrey, { flex: 1}]}>It’s very unique—guests couldn’t do it without me</MyText>
+                                <MyText style={[textH4Style, textGrey, { flex: 1}]}>It’s very unique — guests couldn’t do it without me</MyText>
                             </TouchableOpacity>
                             <TouchableOpacity style={[flexRow, selectRow ]} onPress={this.selectTwo}>
                                 <View style={radioContainer}>

@@ -27,11 +27,13 @@ class Language extends Component {
     }
     getLanguageList = async () => {
         this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.experienceBase, `v1/experience/api/v1/language/list`);
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/language/list`);
+        console.log(res)
         this.setState({ loading: false });
         if (res.isError || res.IsError) {
             errorMessage(res.message);
         } else {
+            
             const obj = { description: '', name: 'Please Select a language', id: null }
             this.setState({ languages: [obj, ...res.data] })
         }

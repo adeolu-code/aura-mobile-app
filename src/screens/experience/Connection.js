@@ -35,11 +35,11 @@ class Connection extends Component {
         expertise: tourOnboard.expertise,
         id: tourOnboard.id
     }
-    const res = await Request(urls.experienceBase, `Experience/update`, obj );
+    const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
     console.log('update experience ', res)
     this.setState({ loading: false });
     if (res.isError || res.IsError) {
-        errorMessage(res.message)
+        errorMessage(res.message || res.Message)
     } else {
         this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
         this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' })

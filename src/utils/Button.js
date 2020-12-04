@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   disabledStyles: {
-    opacity: 0.8,
+    opacity: 0.6,
   },
 });
 

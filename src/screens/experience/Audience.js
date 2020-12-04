@@ -27,7 +27,7 @@ class Audience extends Component {
     }
     getAudienceList = async () => {
         this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.experienceBase, `v1/experience/api/v1/audience/list`);
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/audience/list`);
         this.setState({ loading: false });
         if (res.isError || res.IsError) {
             errorMessage(res.message);
@@ -44,11 +44,12 @@ class Audience extends Component {
             audienceId: this.state.audienceId,
             id: tourOnboard.id
         }
-        const res = await Request(urls.experienceBase, `Experience/update`, obj );
+        console.log(obj)
+        const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
         console.log('update experience ', res)
         this.setState({ loading: false });
         if (res.isError || res.IsError) {
-            errorMessage(res.message)
+            errorMessage(res.message || res.Message)
         } else {
             this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
             this.props.navigation.navigate('TourStack', { screen: 'TourDescribeActivity' })
@@ -75,9 +76,9 @@ class Audience extends Component {
                         <View style={radioContainer}>
                             <View style={[item.id === audienceId ? activeRadio : '']}></View>
                         </View>
-                        <MyText style={[textH4Style, textGrey, textBold, { flex: 1}]}>Everyone</MyText>
+                        <MyText style={[textH4Style, textGrey, textBold, { flex: 1}]}>{item.name}</MyText>
                     </TouchableOpacity>
-                    <MyText style={[textH4Style, textGrey]}>Touch Description</MyText>
+                    <MyText style={[textH4Style, textGrey]}>{item.description}</MyText>
                 </View>
             )
         })

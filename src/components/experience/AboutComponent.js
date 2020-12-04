@@ -8,7 +8,8 @@ import { Icon } from 'native-base';
 
 import colors from '../../colors';
 
-import { AppContext } from '../../../AppProvider'
+import { AppContext } from '../../../AppProvider';
+import { urls, Request, GetRequest, errorMessage } from '../../utils'
 
 class AboutComponent extends Component {
     static contextType = AppContext
@@ -19,10 +20,34 @@ class AboutComponent extends Component {
 
     onChangeValue = (attrName, value) => {
         this.setState({ [attrName]: value });
-      }
+    }
+
+    updateExperience = async () => {
+        const { tourOnboard } = this.context.state
+            this.props.setLoader(true)
+            const obj = {
+                id: tourOnboard.id,
+                email: "",
+                name: "",
+                picture: "",
+                story: this.state.story
+            }
+            const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
+            console.log('update experience ', res)
+            this.props.setLoader(false)
+            if (res.isError || res.IsError) {
+                errorMessage(res.message || res.Message)
+            } else {
+                this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+                this.props.getValue(this.state.story)
+                this.props.setCount({ count: 3 })
+            }  
+    }
+
+      
 
     changePhoto = () => {
-
+        this.props.navigation.navigate('TourEditPhoto')
     }
 
     render() {
@@ -56,7 +81,7 @@ class AboutComponent extends Component {
                     value={this.state.story} onChangeText={this.onChangeValue} attrName="story" />
                 </View>
                 <View>
-                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} />
+                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} disabled={!this.state.story} />
                 </View>
             </View>
         );
