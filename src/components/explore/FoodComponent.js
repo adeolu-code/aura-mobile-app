@@ -16,23 +16,23 @@ class FoodComponent extends Component {
     };
   }
 
-  linkToFood = () => {
-    this.props.navigation.navigate('Other', { screen: 'FoodSingle'})
-  }
+  // linkToFood = () => {
+  //   this.props.navigation.navigate('Other', { screen: 'FoodSingle'})
+  // }
 
   render() {
     const { imgContainer, contentContainer, scrollItemContainer } = styles;
     const { imgStyle, flexRow, textExtraBold, textH3Style, marginBottomSmall, textH4Style, textWhite } = GStyles;
-    const { title, img, location } = this.props;
+    const { title, img, location, onPress } = this.props;
     return (
         <View>
-            <TouchableOpacity style={scrollItemContainer} onPress={this.linkToFood}>
+            <TouchableOpacity style={scrollItemContainer} onPress={onPress}>
                 <View style={imgContainer}>
                     <Image source={img} resizeMode="cover" style={imgStyle} />
                 </View>
                 <View style={contentContainer}>
                     <MyText style={[textWhite, textExtraBold, textH3Style, marginBottomSmall]}>{title}</MyText>
-                    <StarComponent />
+                    {/* <StarComponent /> */}
                     <MyText style={[textWhite, textH4Style]}>{location}</MyText>
                 </View>
             </TouchableOpacity>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         // borderColor: 'red'
     },
     imgContainer: {
-        width: '100%', height: 190, borderRadius: 8, overflow: 'hidden', marginBottom: 10
+        width: '100%', height: 190, borderRadius: 8, elevation:3, overflow: 'hidden', marginBottom: 10, backgroundColor: colors.lightGrey
     },
 });
 

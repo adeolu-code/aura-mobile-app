@@ -226,25 +226,7 @@ class Index extends Component {
 
           <ImageBackground  source={require('../../assets/images/food_bg/food_bg.png')}
             style={foodBgStyles}>
-            <View style={foodContainer}>
-              <View style={headerContainer}>
-                <ScrollHeader title="Good food & restaurants" white noDot />
-              </View>
-              {this.renderFoodComingSoon()}
-              {/* <View style={textContainer}>
-                <MyText style={[textWhite, textH4Style, lineHeightText]}>
-                  Curabitur vulputate arcu odio, ac facilisis diam accumsan ut.
-                  Ut imperdiet et leo in vulputate.
-                </MyText>
-              </View>
-
-              <View style={scrollContainer}>
-                <ScrollContentFood {...this.props} />
-              </View>
-              <View style={buttonContainer}>
-                <CustomButton buttonText="Find More Restaurants" iconName="arrow-right" onPress={this.linkToFood} />
-              </View> */}
-            </View>
+            <ScrollContentFood {...this.props} refresh={this.state.refreshPlaces} />
           </ImageBackground>
 
           {/* <View style={foodAroundContainer}>
