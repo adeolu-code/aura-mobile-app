@@ -125,6 +125,16 @@ import { AppContext } from '../../../AppProvider';
         }
     }
 
+    onEndReached = () => {
+      const { pageCount, activePage, loadMore } = this.state
+      if(activePage < pageCount && !loadMore) {
+        this.setState(()=>({ activePage: this.state.activePage + 1}), 
+        () => {
+          this.getPlaces(true)
+        })
+      }
+    }
+
     componentDidMount = () => {
       
     }

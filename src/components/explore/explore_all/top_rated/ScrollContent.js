@@ -73,7 +73,6 @@ class ScrollContent extends Component {
                 this.getTopRatedPlaces(true)
             })
         }
-        console.log('End reached')
     }
 
     renderItem = ({item}) => {

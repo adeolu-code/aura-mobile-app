@@ -32,7 +32,7 @@ class StepTwo extends Component {
   
 
   render() {
-    const { container, button, selectStyle, imageContainer, textContainer } = styles;
+    const { container, button, selectStyle, imageContainer, textContainer, icon } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
         textH4Style, textH5Style, textH6Style} = GStyles;
     
@@ -60,17 +60,17 @@ class StepTwo extends Component {
 
                         <View style={textContainer}>
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 6, }]}>
-                                <Icon name="ellipse" style={{ fontSize: 12, marginRight: 15}} />
+                                <Icon name="ellipse" style={icon} />
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1}]}>
                                     <MyText style={[textBold ]}>Expertise:</MyText> Having exceptional skill, ability, or background</MyText>
                             </View>
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 6}]}>
-                                <Icon name="ellipse" style={{ fontSize: 12, marginRight: 15}} />
+                                <Icon name="ellipse" style={icon} />
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1}]}>
                                     <MyText style={[textBold]}>Access:</MyText> Giving guests something they couldn’t do on their own</MyText>
                             </View>
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 6}]}>
-                                <Icon name="ellipse" style={{ fontSize: 12, marginRight: 15}} />
+                                <Icon name="ellipse" style={icon} />
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1}]}>
                                     <MyText style={[textBold]}>Connection:</MyText> Making meaningful interactions happen</MyText>
                             </View>
@@ -113,6 +113,9 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         paddingHorizontal: 10
+    },
+    icon: {
+        fontSize: 8, marginRight: 15, color: colors.grey
     }
 });
 

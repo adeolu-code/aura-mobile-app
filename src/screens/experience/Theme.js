@@ -42,7 +42,7 @@ class Theme extends Component {
         const { listValue, subListValue } = themeValues
         return (
             <>
-                <View style={{flex: 1, paddingLeft: 10}}>
+                <View style={{flex: 6, paddingLeft: 10}}>
                     <MyText style={[textH3Style, textGrey, textBold, { marginBottom: 5}]}>{listValue.name}</MyText>
                     <MyText style={[textH4Style]}>{subListValue.name}</MyText>
                 </View>

@@ -87,6 +87,7 @@ class BookingsScreen extends Component {
                       const checkInDate = moment(property.check_In_Date);
                       const dayLeft = moment.duration(checkInDate.diff(new Date())).asDays();
                       return (
+                          // <></>
                         <BookingPropertyComponent 
                             key={index}
                             title={property.propertyInfo.title} 

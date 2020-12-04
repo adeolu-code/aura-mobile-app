@@ -12,7 +12,6 @@ import DateTimePickerComponent from "../../components/date_time_picker/dateTimeP
 import { AppContext } from '../../../AppProvider'
 
 
-// const DP = require("react-native-zdatepicker");
 
 export default class NotifyHost extends Component {
     static contextType = AppContext

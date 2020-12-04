@@ -46,18 +46,15 @@ export default class BookingPropertyComponent extends Component {
                             <MyText style={[Styles.properyTitle, textH4Style, textBold]}>
                                 {this.props.title}
                             </MyText>
-                            {
-                                this.props.location != "" &&
+                            {this.props.location != "" &&
                                 <MyText style={[Styles.properyLocation]}>
                                     {this.props.location}
                                 </MyText>
                             }
-                            {
-                                (this.props.location == "" && this.props.amount) &&
-                                <MyText style={[Styles.properyLocation]}>
+                            {/* {(this.props.location === "" && this.props.amount)&&<MyText style={[Styles.properyLocation]}>
                                     NGN {this.props.amount}
                                 </MyText>
-                            }
+                            } */}
                             
                             <MyText style={[Styles.properyType]}>
                                 {this.props.type}
