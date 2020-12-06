@@ -17,7 +17,7 @@ import moment from 'moment'
 class ImageAndDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentIndex: 1, photos: [], loadingPhotos: false };
+    this.state = { currentIndex: 1, loadingPhotos: false };
   }
     indexChange = (index) => {
         this.setState({ currentIndex: index + 1})
@@ -96,7 +96,9 @@ class ImageAndDetails extends Component {
                     <View style={starContainer}>
                         <StarComponent style={iconStyle} grey rating={restaurant ? restaurant.rating : 0} />
                     </View>
-                    <MyText style={[textH4Style, textGrey]}>{restaurant && restaurant.locations ? restaurant.locations[0].state : '**'}</MyText>
+                    <MyText style={[textH4Style, textGrey]}>
+                        {restaurant && restaurant.locations ? `${restaurant.locations[0].city}, ${restaurant.locations[0].state}` : '**'}
+                    </MyText>
                     {restaurant ? <MyText style={[textGrey, { paddingVertical: 8}]}>
                         <MyText style={[textSuccess, textExtraBold, textH5Style]}>Open</MyText> · <MyText style={[textH6Style]}>{moment(restaurant.openTime, "hh:mm:ss").format('hh:mm a')} - {moment(restaurant.closeTime, "hh:mm:ss").format('hh:mm a')}</MyText>
                     </MyText>:<Fragment></Fragment>}

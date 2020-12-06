@@ -50,9 +50,10 @@ class ScrollContentFood extends Component {
             return restaurants.map((item, i) => {
                 const key = `REST_${i}`
                 const imgUrl = item.assetPath ? {uri: item.assetPath} : require('../../assets/images/no_food.png')
+                const location = `${item.city}, ${item.state}`
                 return (
                     <View style={styles.scrollItemContainer} key={key}>
-                        <FoodComponent title={item.restaurant} img={imgUrl} location={item.state} 
+                        <FoodComponent title={item.restaurant} img={imgUrl} location={location} 
                         {...this.props} onPress={this.linkToRestaurant.bind(this, item)} />
                     </View>
                 )
@@ -60,11 +61,10 @@ class ScrollContentFood extends Component {
         }
     }
     renderEmpty = () => {
-        const { location } = this.context.state;
         const { restaurants, loading } = this.state
         const { emptyStyles, locationContainer } = styles;
         const { imgStyle, textOrange, textH3Style, textBold, textCenter } = GStyles
-        if(restaurants.length === 0 && !loading && location) {
+        if(restaurants.length === 0 && !loading) {
             
             return (
                 <View>
@@ -124,6 +124,7 @@ class ScrollContentFood extends Component {
                     </View>
                 </ScrollView>
               </View>
+              {this.renderEmpty()}
               {this.renderButton()}
         </View>
     );
