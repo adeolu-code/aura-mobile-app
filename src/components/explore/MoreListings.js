@@ -11,7 +11,7 @@ import { formatAmount, shortenXterLength } from '../../helpers';
 
 import colors from '../../colors';
 
-class MorePlaces extends Component {
+class MoreListings extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
@@ -26,12 +26,12 @@ class MorePlaces extends Component {
     
     getPlaces = async () => {
         this.setState({ loading: true })
-        const { house } = this.props
+        const { house } = this.props;
         // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
         // `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
-        const res = await GetRequest(urls.listingBase, 
-        `${urls.v}listing/property/closeby/?propertyid=${house.id}`);
-        console.log('Places around ', res)
+        const res = await GetRequest(urls.listingBase,
+        `${urls.v}listing/property/search/available/?userid=${house.hostId}`);
+        console.log('More Listings ', res)
         this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;
@@ -67,7 +67,7 @@ class MorePlaces extends Component {
     const { scrollItemContainer, emptyStyles, locationContainer } = styles;
     
     
-    if(places.length !== 0) {
+    if (places.length !== 0) {
         return (
             places.map((item, i) => {
                 const formattedAmount = formatAmount(item.pricePerNight)
@@ -140,7 +140,7 @@ class MorePlaces extends Component {
     const { scrollContainer, scrollMainContainer, placeAroundContainer, headerStyle } = styles
     const { width } = Dimensions.get('window')
 
-    const { textH2Style, textExtraBold} = GStyles
+    const { textH2Style, textExtraBold, textDarkBlue} = GStyles
 
     const { photo } = this.props
 
@@ -150,7 +150,7 @@ class MorePlaces extends Component {
             <View style={placeAroundContainer}>
                 {this.renderLoading()}
                 <View style={headerStyle}>
-                    <MyText style={[textH2Style, textExtraBold]}>More Places To Stay</MyText>
+                    <MyText style={[textExtraBold, textH2Style, textDarkBlue, {marginTop: 23}]}>More Listings By Host</MyText>
                 </View>
                 <View style={scrollMainContainer}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
@@ -175,10 +175,6 @@ const styles = StyleSheet.create({
     scrollItemContainer: { 
         marginRight: '1.8%', width: '21.5%'
     },
-    // placeAroundContainer: {
-    //     paddingVertical: 20,
-    //     backgroundColor: colors.white, minHeight: 250
-    // },
     placeAroundContainer: {
         paddingTop: 20, paddingBottom:100,
         backgroundColor: colors.white,
@@ -213,4 +209,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default MorePlaces;
+export default MoreListings;

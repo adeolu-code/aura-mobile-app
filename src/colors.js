@@ -27,6 +27,7 @@ const colors = {
     willowBrook: "#eaf3e7",
     fadedOrange: "#fff2e5",
     brilliantRose: "#EF48A2",
+    skyBlue: "#26D3A4"
 }
 
 export default colors;
