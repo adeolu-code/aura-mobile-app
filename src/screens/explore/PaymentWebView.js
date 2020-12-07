@@ -16,10 +16,10 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height
 class PaymentWebView extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: false, booked: '', url: '',  house: '', verified: false, cover: false };
+    this.state = { loading: false, orderDetails: '', url: '',  restaurant: '', verified: false, cover: false };
     this.state.url = props.route.params?.url;
-    this.state.house = props.route.params?.house
-    this.state.booked = props.route.params?.booked
+    this.state.restaurant = props.route.params?.restaurant
+    this.state.orderDetails = props.route.params?.orderDetails
   }
 
   renderLoading = () => {
@@ -44,8 +44,8 @@ class PaymentWebView extends Component {
   };
   verifyTransaction = () => {
     this.setState({ loading: true, cover: true })
-    const { booked } = this.state
-    Request(urls.paymentBase, `${urls.v}pay/verify`, { reference: booked.id } )
+    const { orderDetails } = this.state
+    Request(urls.paymentBase, `${urls.v}pay/verify`, { reference: orderDetails.id } )
     .then((response) => {
       console.log('Verify ', response)
       if(response.isError) {
@@ -74,9 +74,9 @@ class PaymentWebView extends Component {
   onLoadStart = (data) => {
       data.persist()
       const { nativeEvent } = data;
-      const { booked } = this.state
-      console.log('On load start ', nativeEvent, booked)
-      const verifyUrl = `verifypayment?ref=${booked.id}`
+      const { orderDetails } = this.state
+      console.log('On load start ', nativeEvent, orderDetails)
+      const verifyUrl = `verifypayment`
       if(nativeEvent.url.includes(verifyUrl)) {
         console.log('Got here url ', nativeEvent.url)
         this.verifyTransaction()

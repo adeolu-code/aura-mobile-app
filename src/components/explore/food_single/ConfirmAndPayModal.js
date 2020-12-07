@@ -56,6 +56,7 @@ class ConfirmAndPayModal extends Component {
         if(res.isError || res.IsError) {
           this.setState({ formErrors: [res.message] })
         } else {
+            this.props.onDecline()
           this.props.navigation.navigate('Other', { screen: 'FoodPayment', params: { restaurant, orderDetails, url: res.data }})
         }
       }
