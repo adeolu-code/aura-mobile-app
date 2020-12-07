@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { MyText, Loading, CustomButton } from '../../utils/Index';
@@ -7,6 +8,7 @@ import ScrollHeader from './ScrollHeader';
 import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
+import HostDetails from './HostDetails';
 
 import colors from '../../colors';
 

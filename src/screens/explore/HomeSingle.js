@@ -17,6 +17,7 @@ import HostComponent from '../../components/explore/HostComponent';
 import DetailsComponent from '../../components/explore/DetailsComponent';
 import ReviewsComponent from '../../components/explore/ReviewsComponent';
 import CommentComponent from '../../components/explore/CommentComponent';
+import HostDetails from '../../components/explore/HostDetails';
 import BottomMenuComponent from '../../components/explore/home_single/BottomMenuComponent';
 
 import CheckInModal from '../../components/explore/home_single/CheckInModal';
@@ -41,7 +42,7 @@ class HomeSingle extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { showCheckInModal: false, showCheckOutModal: false, showReserveModal: false, house: null, loadingImages: false, photos: [], gettingHouse: false, gettingHouseRules: false,
+    this.state = { showCheckInModal: false, showCheckOutModal: false, showReserveModal: false, showModal: false, house: null, loadingImages: false, photos: [], gettingHouse: false, gettingHouseRules: false,
         houseId: '', houseRules: [], location: null, gettingReviews: false, reviews: [], 
         gettingComments: false, comments: [], gettingCalendar: false, calendar: null, showLoginModal: false, showRegisterModal: false, 
         formData: {
@@ -61,8 +62,15 @@ class HomeSingle extends Component {
     const { house } = props.route.params;
     this.state.house = house;
     this.state.location = { longitude: house.longitude, latitude: house.latitude }
-    console.log('House ', house)
+    console.log('Housess ', house)
     
+  }
+  
+  openHostDetailsModal = () => {
+    this.setState({ showModal: true })
+  }
+  closeHostDetailsModal = () => {
+    this.setState({ showModal: false })
   }
   contactHost = () => {
     const { state } = this.context
@@ -329,7 +337,7 @@ class HomeSingle extends Component {
         <ScrollView>
             <View>
                 <ImageAndDetails imgArr={this.state.photos} house={house} title={house.title} photos={this.state.photos}
-                loading={this.state.loadingImages} />
+                loading={this.state.loadingImages} openHostModal={this.openHostDetailsModal} />
                 <AmenitiesComponent house={house} />
                 {houseRules.length !== 0 ?<RulesComponent title="House Rules" rules={houseRules} /> : <Fragment />}
                 <LocationComponent house={house} address={house.address} location={location} />
@@ -364,12 +372,7 @@ class HomeSingle extends Component {
         <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
 
         <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
-
-        {isLoggedIn ? <IdentityCardModal visible={this.state.showIdentityModal} onDecline={this.closeIdentityModal} { ...this.props} />
-        :<></>}
-
-        {isLoggedIn ? <SharedIdModal visible={this.state.shareIdModal} onDecline={this.closeSharedIdModal} {...this.props} 
-        booked={this.state.booked} house={this.state.house} /> : <></>}
+        <HostDetails visible ={this.state.showModal} onDecline={this.closeHostDetailsModal} {...this.props}  />
       </SafeAreaView>
     );
   }
@@ -381,9 +384,9 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         justifyContent: 'space-between', paddingHorizontal: 20,
     },
-    headerStyle: {
-        marginBottom: 10, marginTop: 10, paddingHorizontal: 20
-    },
+    // headerStyle: {
+    //     marginBottom: 10, marginTop: 10, paddingHorizontal: 20
+    // },
     scrollContainer: {
         marginLeft: 20,
     },

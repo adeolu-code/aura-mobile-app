@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import { MyText, Loading, CustomButton, Spinner } from '../../utils/Index';
