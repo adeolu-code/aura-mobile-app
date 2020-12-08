@@ -17,7 +17,7 @@ class ScrollContentFood extends Component {
     this.state = { loading: false, restaurants: [], noDot: true, first: true };
   }
     linkToRestaurants = () => {
-        this.props.navigation.navigate('ExploreAll', { tab: 'two' })
+        this.props.navigation.navigate('ExploreAll', { tab: 'three' })
     }
     linkToRestaurant = (restaurant) => {
         this.props.navigation.navigate('Other', { screen: 'FoodSingle', params: { restaurantId: restaurant.profileId } })
@@ -85,7 +85,7 @@ class ScrollContentFood extends Component {
         if(restaurants.length !== 0 && !loading) {
             return (
                 <View style={buttonContainer}>
-                    <CustomButton buttonText="Find More Restaurants" iconName="arrow-right" onPress={this.linkToFood} />
+                    <CustomButton buttonText="Find More Restaurants" iconName="arrow-right" onPress={this.linkToRestaurants} />
                 </View>
             )
         }

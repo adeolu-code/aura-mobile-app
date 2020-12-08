@@ -72,7 +72,7 @@ class NotificationScreenClass extends Component {
                                     onPress={() => {
                                         this.markNotificationAsRead(notification.id);
                                         navigation.navigate("NotificationDetail", {
-                                            imageSource: require("./../../assets/images/food/food.png"),
+                                            imageSource: require("./../../assets/images/food_bg/food_bg.png"),
                                             content: notification.message,
                                             id: notification.id,
                                             propertyId: notification.propertyId,

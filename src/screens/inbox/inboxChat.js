@@ -106,7 +106,7 @@ export default class InboxChat extends Component {
                         <Content 
                             scrollEnabled={true}
                         >
-                            <ImageBackground style={[Styles.chatBackground]} source={require("./../../assets/images/inbox/pattern_3x.png")}>
+                            <ImageBackground style={[Styles.chatBackground]} source={require("./../../assets/images/inbox/pattern.png")}>
                                 <ScrollView 
                                     ref={(c) => {this.scroll = c}}
                                     contentContainerStyle={[Styles.chatScrollView]}

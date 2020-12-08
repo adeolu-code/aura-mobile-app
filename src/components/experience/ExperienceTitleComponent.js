@@ -9,6 +9,8 @@ import { Icon } from 'native-base';
 import colors from '../../colors';
 
 import { AppContext } from '../../../AppProvider';
+import { urls, Request, GetRequest, errorMessage } from '../../utils'
+
 
 
 class ExperienceTitleComponent extends Component {
@@ -21,14 +23,14 @@ class ExperienceTitleComponent extends Component {
 
     updateExperience = async () => {
         const { tourOnboard } = this.context.state
-        this.props.setLoader(true)
+        this.props.loading(true)
         const obj = {
             id: tourOnboard.id,
             title: this.state.title
         }
         const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
         console.log('update experience ', res)
-        this.props.setLoader(false)
+        this.props.loading(false)
         if (res.isError || res.IsError) {
             errorMessage(res.message || res.Message)
         } else {

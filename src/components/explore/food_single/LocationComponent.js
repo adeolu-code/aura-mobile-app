@@ -119,7 +119,6 @@ class LocationComponent extends Component {
                 <MyText style={[textH4Style]}>{address}</MyText>
                 <View style={mapContainer}>
                     {this.renderMapView()}
-                    {/* <Image source={require('../../assets/images/map/map.png')} resizeMode="cover" style={imgStyle} /> */}
                 </View>
             </View>
             {!noDivider ? <View style={divider}></View> : <View></View>}

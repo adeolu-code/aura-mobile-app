@@ -52,7 +52,7 @@ class Index extends Component {
     return (
       <View style={comingSoonContainer}>
         <View style={comingSoonImg}>
-          <Image source={require('../../assets/images/food/food.png')} style={imgStyle} />
+          <Image source={require('../../assets/images/food_bg/food_bg.png')} style={imgStyle} />
         </View>
         <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
       </View>

@@ -372,7 +372,12 @@ class HomeSingle extends Component {
         <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
 
         <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
-        <HostDetails visible ={this.state.showModal} onDecline={this.closeHostDetailsModal} {...this.props}  />
+
+        {isLoggedIn ? <IdentityCardModal visible={this.state.showIdentityModal} onDecline={this.closeIdentityModal} { ...this.props} />
+        :<></>}
+
+        {isLoggedIn ? <SharedIdModal visible={this.state.shareIdModal} onDecline={this.closeSharedIdModal} {...this.props} 
+        booked={this.state.booked} house={this.state.house} /> : <></>}
       </SafeAreaView>
     );
   }
