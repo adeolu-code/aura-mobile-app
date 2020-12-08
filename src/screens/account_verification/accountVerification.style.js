@@ -4,12 +4,12 @@ import colors from "../../colors";
 
 export const Styles = StyleSheet.create({
     container: {
-        marginTop: 125,        
+        marginTop: 120,        
         paddingLeft: GLOBAL_PADDING,
         paddingRight: GLOBAL_PADDING,
     },
     imgContainer: {
-        marginVertical: 30,
+        marginVertical: 40,
         height: 200,
         paddingHorizontal: 20,
     },
@@ -38,10 +38,10 @@ export const Styles = StyleSheet.create({
     },
     lowerView: {
         flexDirection: "row",
-        height: 50,
-        width: "100%",
+        // height: 50,
+        width: "100%", marginBottom: 20,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center", 
     },
     imageShield: {
         height: 20, 
@@ -73,7 +73,7 @@ export const Styles = StyleSheet.create({
         height: 250,
         width: "100%",
         backgroundColor: colors.lightOrange,
-        marginBottom: 10,
+        marginBottom: 10, borderRadius: 10
     },
     centerItems: {
         alignItems: "center",

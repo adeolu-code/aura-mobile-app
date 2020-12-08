@@ -39,8 +39,8 @@ class TimePicker extends Component {
             )
         }
         return (
-            <MyText style={[textH4Style, right ? alignRight : '', { color: colors.grey }]}>
-                12:00 am
+            <MyText style={[textH4Style, right ? alignRight : '', { color: colors.greyWhite }]}>
+               Eg 12:00 am
             </MyText>
         )
     }
@@ -83,8 +83,9 @@ const styles = StyleSheet.create({
         // width: '100%', 
         paddingVertical: 10,
         // alignItems: 'center', 
-        elevation: 1,
+        elevation: 3,
         backgroundColor:'white',  paddingHorizontal:15, marginTop: 10,
+        borderRadius: 6
    },
    alignRight: {
        textAlign: 'right'

@@ -23,6 +23,7 @@ export default class UploadVerification extends Component {
             selectedId: props.route.params.selectedId,
             imageFile: undefined,
             loading: false,
+            isIdenificationDocumentVerfied: props.route.params.force || false,
         };
     }
 
@@ -117,7 +118,7 @@ export default class UploadVerification extends Component {
           } = GStyles;
         return (
             <>
-                <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
+                <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Upload Your Means Of Identification" />
                     {this.renderLoading()}
@@ -125,7 +126,7 @@ export default class UploadVerification extends Component {
                         <Content scrollEnabled>
                                 <View style={[Styles.imageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent"})]}>
                                     {
-                                        !this.state.isCaptured ?
+                                        !this.state.isCaptured && !this.state.isIdenificationDocumentVerfied ?
                                             <> 
                                                 <Icon name={"md-image"} style={[Styles.galleryIcon]} />
                                                 <TouchableOpacity onPress={() => this.selectImage()}>
@@ -133,7 +134,7 @@ export default class UploadVerification extends Component {
                                                 </TouchableOpacity>
                                             </>   
                                         :
-                                            <Image source={this.state.imageOriginal} style={[Styles.imageView]} />
+                                            <Image source={this.state.imageOriginal || this.context.state.userData.identificationDocument} style={[Styles.imageView]} />
                                     }
                                     
                                 </View>

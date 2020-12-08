@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
 import {Icon} from 'native-base';
 import { CustomButton, MyText } from '../../utils/Index';
 import colors from '../../colors';
@@ -18,11 +18,23 @@ class SavedScreen extends Component {
     this.state = {};
   }
   //TODO prevent people from using the back button to go back
+  //Implemented the TODO
   
+  componentWillUnmount = () => {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+  handleBackButtonClick = () => {
+    this.cancel()
+    return true;
+  };
+  cancel = () => {
+    return null
+  }
   onPress = () => {
     this.props.navigation.navigate('HostSteps')
   }
   componentDidMount = () => {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     setTimeout(() => {
       this.props.navigation.navigate('HostSteps')
     }, 2000);

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {
   ScrollView,
   SafeAreaView,
-  StatusBar,
 } from 'react-native';
 import colors from '../../colors';
 import { AppContext } from '../../../AppProvider';

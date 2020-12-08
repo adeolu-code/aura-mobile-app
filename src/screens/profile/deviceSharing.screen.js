@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, ScrollView, Pressable, Image } from "react-native";
+import { SafeAreaView, ScrollView, Pressable, Image } from "react-native";
 import Header from "../../components/Header";
 import { View } from "native-base";
 import { Styles } from "./profile.style";
@@ -30,7 +30,6 @@ export default class DeviceSharing extends Component {
     render() {
         return(
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title={ "Device Sharing"} />
                     <View style={[Styles.container, {marginTop: 140}]}>

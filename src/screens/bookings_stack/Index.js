@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import { ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 import colors from '../../colors';
 import PlaceHolderComponent from '../../components/PlaceHolderComponent';
 import { AppContext } from '../../../AppProvider';
@@ -18,7 +18,6 @@ class Index extends Component {
     const description = `Information about all your trips and bookings are here.`;
     return (
       <>
-        <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
             {

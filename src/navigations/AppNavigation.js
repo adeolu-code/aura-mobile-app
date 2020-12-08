@@ -18,6 +18,9 @@ import HostPropertyStack from './HostPropertyNavigation';
 import AddProfilePicture from '../screens/edit_profile/addProfilePic.screen';
 import VerifyPhoneNumber from '../screens/account_verification/verifyPhone.screen';
 
+
+import { PhotographStack, ExperienceStack } from './StackNavigation';
+
 import { navigationRef, isReadyRef } from '../RootNavigation';
 
 
@@ -37,6 +40,8 @@ function AppNavigator() {
       <RootStack.Screen name="SelectVerification" component={SelectVerification} options={{headerShown: false}} />
       <RootStack.Screen name="UploadVerification" component={UploadVerification} options={{headerShown: false}} />
       <RootStack.Screen name="HostPropertyStack" component={HostPropertyStack} options={{headerShown: false}} />
+      <RootStack.Screen name="PhotographStack" component={PhotographStack} options={{headerShown: false}} />
+      <RootStack.Screen name="TourStack" component={ExperienceStack} options={{headerShown: false}} />
       <RootStack.Screen name="AddProfilePicture" component={AddProfilePicture} options={{headerShown: false}} />
       <RootStack.Screen name="VerifyPhoneNumber" component={VerifyPhoneNumber} options={{headerShown: false}} />
     </RootStack.Navigator>

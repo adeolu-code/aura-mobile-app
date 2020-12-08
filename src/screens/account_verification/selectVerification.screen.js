@@ -28,9 +28,9 @@ export default class SelectVerification extends Component {
     }
 
     init = () => {
-        if (this.context.state.userData && this.state.userData.identityDocument) {
+        if (this.context.state.userData && this.state.userData.identificationDocument) {
             // id doc approved
-            this.props.navigation.navigate('UploadVerification', {force}) 
+            this.props.navigation.navigate('UploadVerification', {force:true}) 
 
         }
         else {
@@ -58,7 +58,7 @@ export default class SelectVerification extends Component {
           } = GStyles;
         return (
             <>
-                <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
+                <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Choose Your Means Of Identification" />
                     <Container style={[Styles.selectVerificationContainer]}>

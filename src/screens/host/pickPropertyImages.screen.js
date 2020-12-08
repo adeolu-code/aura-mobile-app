@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Image, ScrollView  } from "react-native";
+import { SafeAreaView, TouchableOpacity, Image, ScrollView  } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon } from "native-base";
 import { MyText, CustomButton, Loading, CustomInput } from "../../utils/Index";
@@ -10,6 +10,7 @@ import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
 import { urls, Request, UploadRequest, uploadMultipleFile, uploadFile, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
+import PhotographTipsModal from '../../components/PhotographTipsModal';
 
 
 export default class PickPropertyImage extends Component {
@@ -19,8 +20,14 @@ export default class PickPropertyImage extends Component {
         
         this.state = {
             isCaptured: false, selectModal: false, errors: '', images: [], imgUrls: [], loading: false, coverImage: '', coverImgUrl: '',
-            cover: false, additionalInformation: ''
+            cover: false, additionalInformation: '', showTipsModal: false
         };
+    }
+    openTipsModal = () => {
+        this.setState({ showTipsModal: true })
+    }
+    closeTipsModal = () => {
+        this.setState({ showTipsModal: false })
     }
     componentDidMount = () => {
         const { propertyFormData } = this.context.state
@@ -270,7 +277,9 @@ export default class PickPropertyImage extends Component {
                     <ScrollView>
                     <Container style={[Styles.container]}>
                         <Content>
-                            <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40}]}>See Photography Tips</MyText>
+                                <TouchableOpacity onPress={this.openTipsModal}>
+                                    <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40}]}>See Photography Tips</MyText>
+                                </TouchableOpacity>
                                 <View style={[Styles.pickImageImageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent", justifyContent: 'flex-start'})]}>
                                     {
                                         !isCaptured ?
@@ -312,6 +321,7 @@ export default class PickPropertyImage extends Component {
                         <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />
                     </Container>
                     </ScrollView>
+                    <PhotographTipsModal visible={this.state.showTipsModal} onDecline={this.closeTipsModal} />
                 </SafeAreaView>
             </>
         );

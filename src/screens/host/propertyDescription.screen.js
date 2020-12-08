@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Image, Keyboard  } from "react-native";
+import { SafeAreaView, TouchableOpacity, Image, Keyboard  } from "react-native";
 import { Styles } from "./host.style";
 import { Container, Content, View, Icon } from "native-base";
 import colors from "../../colors";
@@ -20,6 +20,13 @@ export default class PropertyDescription extends Component {
     renderLoading = () => {
         const { loading } = this.state;
         if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
+    }
+    validate = () => {
+        const { title, description } = this.state
+        if(title === '') {
+            return true
+        }
+        return false
     }
     submit = () => {
         Keyboard.dismiss()
@@ -78,7 +85,6 @@ export default class PropertyDescription extends Component {
     componentDidMount = () => {
         const { state } = this.context
         const ppty = state.propertyFormData;
-        console.log('Title ',ppty)
         if(ppty) {
             this.setState({ title: ppty.title, description: ppty.description })
         }
@@ -129,7 +135,7 @@ export default class PropertyDescription extends Component {
                             </View>
 
                             <View style={{ flex: 0.8, justifyContent: 'center' }}>
-                                <CustomButton onPress={this.submit} buttonText="Next" buttonStyle={{ elevation: 2}}  />
+                                <CustomButton onPress={this.submit} buttonText="Next" buttonStyle={{ elevation: 2}} disabled={this.validate()}  />
                             </View>
                         
                         </Container>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, ImageBackground, ScrollView, StatusBar, TouchableOpacity, SafeAreaView } from "react-native";
+import { Image, ImageBackground, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
 import { AppContext } from "../../../AppProvider";
 import colors from "../../colors";
 import { MyText } from "../../utils/Index";
@@ -75,10 +75,9 @@ export default class InboxChat extends Component {
         const defaultImage = require("./../../assets/images/profile.png");
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Container style={{marginTop: 25}}>
-                        <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"}  androidStatusBarColor={"white"}>
+                        <Header style={[Styles.chatHeader]} iosBarStyle={"dark-content"} >
                             <Left>
                                 <Button icon transparent onPress={() => this.props.navigation.goBack()}>
                                     <Icon name={"ios-chevron-back-sharp"} style={[Styles.headerIcon]} />
@@ -107,7 +106,7 @@ export default class InboxChat extends Component {
                         <Content 
                             scrollEnabled={true}
                         >
-                            <ImageBackground style={[Styles.chatBackground]} source={require("./../../assets/images/inbox/pattern_3x.png")}>
+                            <ImageBackground style={[Styles.chatBackground]} source={require("./../../assets/images/inbox/pattern.png")}>
                                 <ScrollView 
                                     ref={(c) => {this.scroll = c}}
                                     contentContainerStyle={[Styles.chatScrollView]}

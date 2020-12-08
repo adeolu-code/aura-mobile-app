@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import {
-  View,SafeAreaView,ScrollView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform, StatusBar, Image
+  View,SafeAreaView,ScrollView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform, StatusBar, Image, RefreshControl
 } from 'react-native';
 import {
   MyText,
@@ -31,7 +31,7 @@ class Index extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { active: false, loadingPlaces: false, places: [], refreshPlaces: false };
+    this.state = { active: false, loadingPlaces: false, places: [], refreshPlaces: false, refreshing: false };
   }
   linkToHouses = () => {
     this.props.navigation.navigate('ExploreAll', { tab: 'two' })
@@ -52,7 +52,7 @@ class Index extends Component {
     return (
       <View style={comingSoonContainer}>
         <View style={comingSoonImg}>
-          <Image source={require('../../assets/images/food/food.png')} style={imgStyle} />
+          <Image source={require('../../assets/images/food_bg/food_bg.png')} style={imgStyle} />
         </View>
         <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
       </View>
@@ -127,6 +127,19 @@ class Index extends Component {
     );
   }
 
+  onRefresh = () => {
+      this.setState({ refreshing: true })
+      this.setState(() => ({ refreshPlaces: !this.state.refreshPlaces }), () => {
+        setTimeout(() => {
+          this.setState({ refreshing: false })
+        }, 1000);
+      })
+      // this.props.propertyContext.getAllProperties()
+      // .finally(() => {
+      //     this.setState({ refreshing: false })
+      // })
+  }
+
   componentDidMount = () => {
     // console.log('Explore ',this.context.state)
     // const { location } = this.context.state
@@ -178,9 +191,13 @@ class Index extends Component {
     } = GStyles;
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: 'white' }}>
-        <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
+        <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
         
-        <ScrollView style={{position: 'relative', backgroundColor: colors.white}}>
+        <ScrollView style={{position: 'relative', backgroundColor: colors.white}} 
+            refreshControl={
+              <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.refreshing}
+              colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
+          }>
           <ImageBackground
             source={require('../../assets/images/mask/mask.png')}
             style={[headerBg]}>
@@ -209,25 +226,7 @@ class Index extends Component {
 
           <ImageBackground  source={require('../../assets/images/food_bg/food_bg.png')}
             style={foodBgStyles}>
-            <View style={foodContainer}>
-              <View style={headerContainer}>
-                <ScrollHeader title="Good food & restaurants" white noDot />
-              </View>
-              {this.renderFoodComingSoon()}
-              {/* <View style={textContainer}>
-                <MyText style={[textWhite, textH4Style, lineHeightText]}>
-                  Curabitur vulputate arcu odio, ac facilisis diam accumsan ut.
-                  Ut imperdiet et leo in vulputate.
-                </MyText>
-              </View>
-
-              <View style={scrollContainer}>
-                <ScrollContentFood {...this.props} />
-              </View>
-              <View style={buttonContainer}>
-                <CustomButton buttonText="Find More Restaurants" iconName="arrow-right" onPress={this.linkToFood} />
-              </View> */}
-            </View>
+            <ScrollContentFood {...this.props} refresh={this.state.refreshPlaces} />
           </ImageBackground>
 
           {/* <View style={foodAroundContainer}>
@@ -253,7 +252,7 @@ class Index extends Component {
               <CustomButton buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} onPress={this.linkToHouses} />
             </View>
           </View> */}
-          <ScrollContentPhoto {...this.props} />
+          <ScrollContentPhoto {...this.props} refresh={this.state.refreshPlaces} />
           {/* <View style={photoContainer}>
             <View style={headerContainer}>
               <ScrollHeader title="Book photographers on Aura" noDot />

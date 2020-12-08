@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { SafeAreaView, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, Footer, View, Icon } from "native-base";
 import { Styles } from "./host.style";

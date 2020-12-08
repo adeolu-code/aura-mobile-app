@@ -7,6 +7,7 @@ import { MyText, CustomButton } from '../../../utils/Index';
 import { Icon } from 'native-base';
 
 import colors from '../../../colors';
+import { formatAmount } from '../../../helpers'
 
 class FoodRow extends Component {
   constructor(props) {
@@ -18,22 +19,24 @@ class FoodRow extends Component {
     const { iconStyle, imgContainer, container, contentContainer, iconContainer, leftContainer, divider, foodContainer } = styles
     const { flexRow, imgStyle, textH3Style, textBold, textGrey, textH4Style, textH5Style, textSuccess, 
         textExtraBold } = GStyles;
-    const { border } = this.props
+    const { border, item, onAdd } = this.props
+
+    const imgUrl = item.assetPath ? { uri: item.assetPath } : require('../../../assets/images/no_food.png')
     return (
       <View style={[container]}>
         <View style={[flexRow, foodContainer]}>
             <View style={leftContainer}>
                 <View style={imgContainer}>
-                    <Image source={require('../../../assets/images/food/food2.png')} resizeMode="cover" style={imgStyle} />
+                    <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
                 </View>
             </View>
             <View style={contentContainer}>
-                <MyText style={[textH4Style, textExtraBold, { marginBottom: 6 }]}>Sandwich</MyText>
-                <MyText style={[textH5Style, textGrey, { marginBottom: 16 }]}>Phasellus risus turpis, pretium sit amet magna non, molestie ultricies</MyText>
-                <MyText style={[textExtraBold, textSuccess, textH5Style]}>₦ 200,341 / plate</MyText>
+                <MyText style={[textH4Style, textExtraBold, { marginBottom: 6 }]}>{item.mealName}</MyText>
+                <MyText style={[textH5Style, textGrey, { marginBottom: 16 }]}>{item.description}</MyText>
+                <MyText style={[textExtraBold, textSuccess, textH5Style]}>₦ {formatAmount(item.price)} / plate</MyText>
             </View>
             <View style={iconContainer}>
-                <TouchableOpacity style={iconStyle}>
+                <TouchableOpacity style={iconStyle} onPress={onAdd}>
                     <Icon name="add-outline" style={{ color: colors.white, fontSize: 20, marginRight: -1}} />
                 </TouchableOpacity>
             </View>

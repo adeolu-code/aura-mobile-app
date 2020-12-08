@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Header from "../../components/Header";
 import { Container, Content, View } from "native-base";
-import { SafeAreaView, TouchableOpacity, StatusBar } from "react-native";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import colors from "../../colors";
 import { Styles } from "./host.style";
 import { MyText } from "../../utils/Index";
@@ -28,7 +28,6 @@ export default class PropertyLocation extends Component {
           } = GStyles;
         return (
             <>
-                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Where Is Your Property Located" />
                     <Container style={[Styles.container]}>

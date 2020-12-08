@@ -13,7 +13,7 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 class CheckInModal extends Component {
   constructor(props) {
     super(props);
-    this.state = { check_In_Date: '', day: '', markedDates: {} };
+    this.state = { check_In_Date: '', day: '', markedDates: {}, toggle: true, bookedDates: {} };
   }
 
   next = () => {
@@ -24,7 +24,24 @@ class CheckInModal extends Component {
   selectDate = (day) => {
     const date = `${day.month}/${day.day}/${day.year}`;
     const obj = {[day.dateString]: {selected: true, selectedColor: colors.orange}}
-    this.setState({ check_In_Date: date, day, markedDates: obj })
+    this.setState({ check_In_Date: date, day, markedDates: {...this.state.bookedDates, ...obj} })
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if(this.props.bookedDays.length !== prevProps.bookedDays.length) {
+        let obj = {}
+        this.props.bookedDays.filter(item => {
+            const newDate = new Date(item)
+            const yr = newDate.getFullYear()
+            const month = newDate.getMonth() + 1
+            const day = newDate.getDate()
+            const date = `${yr}-${month}-${day < 10 ? "0"+day : day}`
+            obj[`${date}`] = {selected: true, selectedColor: colors.lightGrey, textColor: colors.darkBlue, disabled: true, disableTouchEvent: true}
+        })
+        this.setState(() => ({ markedDates: { ...obj }, bookedDates: { ...obj }, toggle: false}), ()=>{
+            this.setState({ toggle: true })
+        })
+    }
   }
 
   render() {
@@ -33,6 +50,10 @@ class CheckInModal extends Component {
         headerStyle, calendarContainer, daysStyles, dayStyle } = styles;
     const { flexRow, textH2Style, textExtraBold, textDarkGrey, textCenter, textH5Style, 
         textH4Style, textGrey, textH3Style } = GStyles;
+    const { toggle } = this.state
+    const markedDates = Object.assign({}, this.state.markedDates)
+    // console.log('Render marked dates ', markedDates)
+    
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
             <View style={{ flex: 1}}>
@@ -80,11 +101,11 @@ class CheckInModal extends Component {
                     </View>
 
                     <View style={calendarContainer}>
-                        <CalendarList
+                        {toggle ? <CalendarList
                             // Callback which gets executed when visible months change in scroll view. Default = undefined
                             onVisibleMonthsChange={(months) => {}}
 
-                            markedDates={this.state.markedDates}
+                            markedDates={markedDates}
 
                             onDayPress={this.selectDate}
 
@@ -108,7 +129,7 @@ class CheckInModal extends Component {
                                 textMonthFontSize: 16,
                                 textDayHeaderFontSize: 16,
                             }}
-                        />
+                        /> : <></>}
                     </View>
                     
                 </View>

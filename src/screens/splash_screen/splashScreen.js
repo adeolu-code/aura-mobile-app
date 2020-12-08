@@ -132,7 +132,7 @@ const SplashScreen = (props) => {
 
     return (
         <Container>
-            <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0.4)" />
+            <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
             <Content style={Styles.contentStyle} contentContainerStyle={Styles.contentContainerStyle}>
                 <TouchableOpacity style={{width: "100%", height: "100%", alignItems: "center", justifyContent: "center", alignSelf: "stretch"}} onPress={() => navigateToTab(props)}>
                     {
