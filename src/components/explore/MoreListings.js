@@ -8,11 +8,10 @@ import ScrollHeader from './ScrollHeader';
 import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
-import HostDetails from './HostDetails';
 
 import colors from '../../colors';
 
-class ScrollContentPlaces extends Component {
+class MoreListings extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
@@ -25,20 +24,20 @@ class ScrollContentPlaces extends Component {
         this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
     }
     
-    getPlaces = async (long, lat) => {
+    getPlaces = async () => {
         this.setState({ loading: true })
-        // const res = await GetRequest(urls.listingBase, 
-        // `${urls.v}listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
-        const res = await GetRequest(urls.listingBase, 
-            `${urls.v}listing/property/search/available/?Size=4&Page=1`);
-        // console.log('Res places', res)
+        const { house } = this.props;
+        // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
+        // `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
+        const res = await GetRequest(urls.listingBase,
+        `${urls.v}listing/property/search/available/?userid=${house.hostId}`);
+        console.log('More Listings ', res)
         this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;
         } else {
-            const data = res.data.data
-            this.setState({ places: data })
-            if(data.length !== 0) {
+            this.setState({ places: res.data.data })
+            if(res.data.data.length !== 0) {
                 this.setState({ noDot: false })
             }
         }
@@ -51,19 +50,14 @@ class ScrollContentPlaces extends Component {
 
     componentDidMount = () => {
         this.getPlaces()
-        // const { location } = this.context.state;
-        // if(location) {
-        //     this.getPlaces(location.longitude, location.latitude)
-        // } 
-        
     }
     componentDidUpdate = (prevProps, prevState) => {
-        // if(prevProps.refresh !== this.props.refresh) {
-        //     const { location } = this.context.state;
-        //     if(location) {
-        //         this.getPlaces(location.longitude, location.latitude)
-        //     }
-        // }
+        if(prevProps.refresh !== this.props.refresh) {
+            const { location } = this.context.state;
+            if(location) {
+                this.getPlaces(location.longitude, location.latitude)
+            }
+        }
     }
 
 
@@ -71,16 +65,16 @@ class ScrollContentPlaces extends Component {
     const { location } = this.context.state;
     const { places, loading } = this.state
     const { scrollItemContainer, emptyStyles, locationContainer } = styles;
-    if(places.length !== 0) {
+    
+    
+    if (places.length !== 0) {
         return (
             places.map((item, i) => {
                 const formattedAmount = formatAmount(item.pricePerNight)
-                let title = item.title ? item.title : 'no title'
-                title = shortenXterLength(title, 18)
-                const imgUrl = item.mainImage && item.mainImage.assetPath ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
+                const title = shortenXterLength(item.title, 18)
                 return (
                     <View style={scrollItemContainer} key={item.id}>
-                        <HouseComponent img={imgUrl} onPress={this.linkToHouse.bind(this, item)} rating={item.rating}
+                        <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={this.linkToHouse.bind(this, item)}
                         title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
                     </View>
                 )
@@ -142,41 +136,30 @@ class ScrollContentPlaces extends Component {
         )
     }
   }
-  handleScroll = (e) => {
-    const contentOffset = e.nativeEvent.contentOffset
-    if(contentOffset.x >= 176) {
-        this.setState({ first: false})
-    } else {
-        this.setState({ first: true })
-    }
-  }
   render() {
-    const { scrollContainer, scrollMainContainer, placeAroundContainer, 
-        headerContainer, buttonContainer, buttonStyle } = styles
+    const { scrollContainer, scrollMainContainer, placeAroundContainer, headerStyle } = styles
     const { width } = Dimensions.get('window')
+
+    const { textH2Style, textExtraBold, textDarkBlue} = GStyles
 
     const { photo } = this.props
 
     // const actualWidth = (20/width) * 100
-    // const headerTitle = "Places to stay around you"
-    const headerTitle = "Places to stay"
     return (
         <Fragment>
             <View style={placeAroundContainer}>
                 {this.renderLoading()}
-                <View style={headerContainer}>
-                    <ScrollHeader title={headerTitle} noDot={this.state.noDot} first={this.state.first} />
+                <View style={headerStyle}>
+                    <MyText style={[textExtraBold, textH2Style, textDarkBlue, {marginTop: 23}]}>More Listings By Host</MyText>
                 </View>
                 <View style={scrollMainContainer}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}
-                    onScroll={this.handleScroll}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
                         <View style={[scrollContainer, { width: '100%' }]}>
                             {this.renderPlaces()}
                         </View>
                     </ScrollView>
                 </View>
-                {this.renderButton()}
-                {/* {this.renderEmptyLocation()} */}
+                {this.renderEmptyLocation()}
                 {this.renderEmptyProperty()}
             </View>
         </Fragment>
@@ -193,8 +176,12 @@ const styles = StyleSheet.create({
         marginRight: '1.8%', width: '21.5%'
     },
     placeAroundContainer: {
-        paddingVertical: 20,
-        backgroundColor: colors.white, minHeight: 250
+        paddingTop: 20, paddingBottom:100,
+        backgroundColor: colors.white,
+        borderTopWidth: 2, borderTopColor: colors.lightGrey
+    },
+    headerStyle: {
+        marginBottom: 10, marginTop: 10, paddingHorizontal: 20
     },
     headerContainer: {
         paddingHorizontal: 20,
@@ -222,4 +209,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ScrollContentPlaces;
+export default MoreListings;

@@ -54,7 +54,6 @@ export const urls = {
     hostMessageHeadline: "messaging/host/headlinemessages",
     conversation: "conversation/",
     host: "host/",
-    user: "user/",
     notification: "notification/",
     unread: "unread/",
     read: "read/",
@@ -262,7 +261,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
      "Access-Control-Allow-Origin": "*",
     }   
     if (typeof token === "boolean" && token) {
-      headers["Authorization"] = "Bearer " + Token
+      headers["Authorization"] = "Bearer " + token
     } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
     }   

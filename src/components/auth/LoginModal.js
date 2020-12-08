@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import {
   StyleSheet,
+  SafeAreaView,
   View,
   Image,
   ScrollView,
@@ -14,7 +15,7 @@ import colors from "../../colors";
 import { CustomInput, MyText, CustomButton, Loading, Error } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
-import { setToken } from '../../helpers';
+import { setUser, setToken } from '../../helpers';
 import { setContext, Request, urls } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { GOOGLE_WEB_CLIENTID } from '../../strings'
@@ -25,10 +26,10 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      // email: "ferume@tapi.re", 
-      // password: "123999_@ABCabc", 
-      email: '',
-      password: '',
+      email: "ferume@tapi.re", 
+      password: "123999_@ABCabc", 
+      // email: '',
+      // password: '',
       loading: false, 
       formErrors: [] 
     };
@@ -54,25 +55,12 @@ class LoginModal extends Component {
       this.props.onDecline();
     }, 300);
   }
-  
-  linkToForgotPassword = () => {
-    if (this.props.navigation) {
-      this.props.navigation.navigate('Auth', {screen: 'ForgotPassword'});
-      setTimeout(() => {
-        this.props.onDecline();
-      }, 300);
-    }
-  }
-
   onChangeValue = (attrName, value) => {
     this.setState({ [attrName]: value });
   }
   forgotPassword = () => {
-    const {navigation, onDecline } = this.props;
+    const {navigation} = this.props;
     navigation.navigate('Auth', {screen: 'Password'});
-    setTimeout(() => {
-      onDecline();
-    }, 300);
   }
   submit = async () => {
     Keyboard.dismiss()
@@ -119,7 +107,7 @@ class LoginModal extends Component {
         this.props.onDecline(true)
       }
     })
-    .catch(() => {
+    .catch((error) => {
       this.setState({ formErrors: ['Something went wrong please try again'], loading: false })
     })
   }
@@ -200,11 +188,10 @@ class LoginModal extends Component {
   }
 
   render() {
-
     const { visible, onDecline } = this.props;
-    const { textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline,
-      textGreen, textBold, textOrange } = GStyles;
-    const { modalHeader, closeContainer, logoContainer, modalContainer, inputContainer, 
+    const { textWhite, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, 
+      textGreen, textBold } = GStyles;
+    const { modalHeader, closeContainer, logoContainer, container, modalContainer, inputContainer, 
       buttonContainer, modalBodyStyle, dashStyles, dashContainer, socialContainer, buttonStyle, accountStyle } = styles
     return (
       
@@ -235,9 +222,8 @@ class LoginModal extends Component {
                   <CustomButton buttonText="Log In" onPress={this.submit} disabled={this.disabled()} />
                 </View>
                 <View>
-
                   <TouchableOpacity onPress={this.forgotPassword}>
-                    <MyText style={[textH4Style, textCenter, textOrange]}>Forgot password?</MyText>
+                    <MyText style={[textH5Style, textCenter, textDarkGrey]}>Forgot password?</MyText>
                   </TouchableOpacity>
                 </View>
                 <View style={dashContainer}>

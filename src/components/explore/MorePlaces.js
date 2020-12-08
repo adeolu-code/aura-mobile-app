@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { MyText, Loading, CustomButton } from '../../utils/Index';
@@ -152,7 +153,7 @@ class MorePlaces extends Component {
                     <MyText style={[textH2Style, textExtraBold]}>More Places To Stay</MyText>
                 </View>
                 <View style={scrollMainContainer}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
                         <View style={[scrollContainer, { width: '100%' }]}>
                             {this.renderPlaces()}
                         </View>
