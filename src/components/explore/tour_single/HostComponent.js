@@ -19,12 +19,66 @@ class HostComponent extends Component {
     this.state = {
     };
   }
+  renderMoreImages = () => {
+    const { photos } = this.props;
+    const { headerStyle, ImgContainer, image } = styles
+    const { flexRow, textH2Style, textExtraBold, textWhite, imgStyle } = GStyles
+    if(photos && photos.length > 5) {
+        const images = photos.splice(0, 4)
+        return (
+            <>
+                <View style={headerStyle}>
+                    <MyText style={[textH2Style, textExtraBold, textWhite, {marginTop: 30}]}>
+                        More Photos
+                    </MyText>
+                </View>
+                <View style={{width: '100%', marginBottom: 10}}>
+                    <View style={[flexRow, ImgContainer]}>
+                        {images.map((item, i) => {
+                            const key = `KE_${i}`
+                            return (
+                                <View style={image} key={key}>
+                                    <Image source={{uri: item.assetPath }} resizeMode="cover" style={imgStyle} />
+                                </View>
+                            )
+                        })}
+                    </View>
+                </View>
+            </>
+        )
+    }
+  }
+
+  renderItems = () => {
+      const { tour } = this.props
+      const { flexRow, textWhite, textH4Style } = GStyles
+      const { iconStyleOne, imageView } = styles
+      if(tour.guestShouldBring && tour.guestShouldBring.length !== 0) {
+        return tour.guestShouldBring.map((item) => {
+            return (
+              <View style={[flexRow, { marginBottom: 15, width: '48%'}]}>
+                  <View style={[imageView]}>
+                      <Icon type="Ionicons" name="checkmark-done-outline" style={iconStyleOne} />
+                  </View>
+                  <View style={{marginLeft: 20, justifyContent: 'center'}}>
+                      <MyText style={[textWhite, textH4Style]}>
+                          {item}
+                      </MyText>
+                  </View>
+              </View>
+            )
+        })
+      }
+      
+  }
 
   render() {
     const {  contentContainer, divider, container, headerStyle, thumbTxtContainer, thumbContainer, verifiedStyle, 
         iconVerifiedContainer, thumbStyle, buttonContainer, buttonStyle, shieldContainer, textStyle, iconStyle, imageView, iconStyleOne, lowerContainer, reportContainer, image, ImgContainer, subContainer} = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textGrey, textH4Style, textH5Style, 
             imgStyle, textWhite, textH3Style, textDarkGrey, textLightGrey, textSuccess, textUnderline } = GStyles
+    const { tour } = this.props
+    const picture = tour.picture ? { uri: tour.picture } : require('../../../assets/images/profile.png')
     return (
         <View style={container}>
             <View style={headerStyle}>
@@ -34,9 +88,8 @@ class HostComponent extends Component {
             </View>
             <View>
             <MyText style={[textWhite, textH4Style, {marginBottom: 30}]}>
-                    Quisque suscipit ipsum est, eu venenatis leo ornare eget. Ut porta facilisis elementum. 
-                    Sed condimentum sed massa quis ullamcorper. Donec at scelerisque neque. Pellentesque sagittis, 
-                    massa sodales sodales finibus, felis ligula tempus lorem, eu porttitor ex lacus vel felis.
+                    {/* {tour.guestPreExperienceInfomration}  */}
+                    {tour.experienceDescription}
                 </MyText>
             </View>
             <View style={divider}></View>
@@ -46,21 +99,17 @@ class HostComponent extends Component {
             <View style={contentContainer}>
                 <View style={[flexRow, thumbTxtContainer]}>
                     <View style={thumbContainer}>
-                        <Image source={require('../../../assets/images/photo/photo5.png')} resizeMode="cover" style={thumbStyle} />
+                        <Image source={picture} resizeMode="cover" style={thumbStyle} />
                         <View style={{ position: 'absolute', right: 0, top: -5}}>
                             <View style={iconVerifiedContainer}>
                                 <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
                             </View>
                         </View>
                     </View>
-                    <MyText style={[textH3Style, textWhite]}>Ikhidie Ehigiator</MyText>
+                    <MyText style={[textH3Style, textWhite]}>{tour.name}</MyText>
                 </View>
                 <View>
-                    <MyText style={[textWhite, textH4Style]}>Quisque suscipit ipsum est, eu venenatis leo ornare eget. 
-                        Ut porta facilisis elementum. Sed condimentum sed massa quis ullamcorper. 
-                        Donec at scelerisque neque. Pellentesque sagittis, 
-                        massa sodales sodales finibus, felis ligula tempus lorem, 
-                        eu porttitor ex lacus vel felis.</MyText>
+                    <MyText style={[textWhite, textH4Style]}>{tour.story}</MyText>
                 </View>
                 <View style={buttonContainer}>
                     <CustomButton buttonText="Ask Question" buttonStyle={buttonStyle} textStyle={{color: colors.orange}} />
@@ -76,44 +125,15 @@ class HostComponent extends Component {
                 </View>
             </View>
             <View style={divider}></View>
-            <View style={headerStyle}>
-                <MyText style={[textH2Style, textExtraBold, textWhite, {marginTop: 30}]}>
-                    More Photos
-                </MyText>
-            </View>
-            <View style={{width: '100%', marginBottom: 10}}>
-                <View style={[flexRow, ImgContainer]}>
-                    <View style={image}>
-                        <Image source={require('../../../assets/images/tour/sebastian-sammer-ZAQR0bIijmk-unsplash(5).png')} resizeMode="cover" style={imgStyle} />
-                    </View>
-                    <View style={image}>
-                        <Image source={require('../../../assets/images/tour/sebastian-sammer-ZAQR0bIijmk-unsplash(4).png')} resizeMode="cover" style={imgStyle} />
-                    </View>
-                </View>
-                <View style={[flexRow, ImgContainer]}>
-                    <View style={image}>
-                        <Image source={require('../../../assets/images/tour/sebastian-sammer-ZAQR0bIijmk-unsplash(3).png')} resizeMode="cover" style={imgStyle} />
-                    </View>
-                    <View style={image}>
-                        <Image source={require('../../../assets/images/tour/sebastian-sammer-ZAQR0bIijmk-unsplash(2).png')} resizeMode="cover" style={imgStyle}/>
-                    </View>
-                </View>
-                <View style={[flexRow, ImgContainer]}>
-                    <View style={image}>
-                        <Image source={require('../../../assets/images/tour/sebastian-sammer-ZAQR0bIijmk-unsplash.png')} resizeMode="cover" style={imgStyle}/>
-                    </View>
-                    <View style={image}>
-                        <Image source={require('../../../assets/images/tour/sebastian-sammer-ZAQR0bIijmk-unsplash(1).png')} resizeMode="cover" style={imgStyle}/>
-                    </View>
-                </View>
-            </View>
+            {this.renderMoreImages()}
             <View style={divider}></View>
             <View style={headerStyle}>
-                <MyText style={[textH2Style, textExtraBold, textWhite, {marginTop: 10}]}>Included Equipments</MyText>
+                <MyText style={[textH2Style, textExtraBold, textWhite, {marginTop: 10}]}>What to bring</MyText>
             </View>
             <View>
-                <View style={{marginBottom: 30, marginTop: 10}}>
-                    <View style={[flexRow]}>
+                <View style={[flexRow, {marginBottom: 30, marginTop: 10, flexWrap: 'wrap'}]}>
+                    {this.renderItems()}
+                    {/* <View style={[flexRow]}>
                         <View style={[imageView]}>
                             <Icon type="Ionicons" name="map-sharp" style={iconStyleOne} />
                         </View>
@@ -132,7 +152,7 @@ class HostComponent extends Component {
                                 Camera
                             </MyText>
                         </View>
-                    </View>
+                    </View> */}
                 </View>
             </View>
             <View style={divider}></View>
@@ -140,19 +160,23 @@ class HostComponent extends Component {
                 <MyText style={[textH2Style, textExtraBold, textWhite, {marginTop: 10}]}>Things To Keep In Mind</MyText>
             </View>
             <View>
-                <MyText style={[textWhite, textH4Style, {marginBottom: 30}]}>Quisque suscipit ipsum est, eu venenatis leo ornare eget. 
-                        Ut porta facilisis elementum. Sed condimentum sed massa quis ullamcorper. 
-                        Donec at scelerisque neque. Pellentesque sagittis, 
-                        massa sodales sodales finibus, felis ligula tempus lorem, 
-                        eu porttitor ex lacus vel felis.
-                </MyText>
+                <MyText style={[textWhite, textH4Style, {marginBottom: 30}]}>{tour.notes}</MyText>
             </View>
             <View style={divider}></View>
-            <View>
+            
             <View style={headerStyle}>
-                <MyText style={[textH2Style, textExtraBold, textWhite, {marginTop: 10}]}>Reviews</MyText>
+                <MyText style={[textH2Style, textExtraBold, textWhite, {marginTop: 10}]}>Please Read Before Booking</MyText>
             </View>
-            <View style={[flexRow, subContainer, {marginBottom: 30}]}>
+            <View>
+                <MyText style={[textWhite, textH4Style, {marginBottom: 30}]}>{tour.guestPreExperienceInfomration}</MyText>
+            </View>
+            <View style={divider}></View>
+
+            {/* <View>
+                <View style={headerStyle}>
+                    <MyText style={[textH2Style, textExtraBold, textWhite, {marginTop: 10}]}>Reviews</MyText>
+                </View>
+                <View style={[flexRow, subContainer, {marginBottom: 30}]}>
                     <MyText style={[textH5Style, textWhite]}>384 reviews </MyText>
                     <MyText style={[textLightGrey, { marginHorizontal: 6 }]}>|</MyText> 
                     <StarComponent grey starContainer={{marginBottom: 0}} />
@@ -170,9 +194,9 @@ class HostComponent extends Component {
             </View>
             <View style={divider}></View>
             <TouchableOpacity style={[flexRow, reportContainer]}>
-                    <Icon type="MaterialIcons" name="flag" style={iconStyle} />
-                    <MyText style={[textH4Style, textSuccess, textUnderline]}>Report This Listing</MyText>
-                </TouchableOpacity>
+                <Icon type="MaterialIcons" name="flag" style={iconStyle} />
+                <MyText style={[textH4Style, textSuccess, textUnderline]}>Report This Listing</MyText>
+            </TouchableOpacity> */}
         </View>
     );
   }
@@ -233,10 +257,10 @@ const styles = StyleSheet.create({
         height: 190,
         borderRadius: 5,
         overflow: 'hidden',
-        marginBottom: 20,
+        marginBottom: 20, backgroundColor: colors.darkGrey, elevation: 2
     },
     ImgContainer: {
-        justifyContent: 'space-between',
+        justifyContent: 'space-between', flexWrap: 'wrap'
     },
     subContainer: {
         alignItems: 'center', marginBottom: 25
@@ -248,17 +272,17 @@ const styles = StyleSheet.create({
         fontSize: 25, marginRight: 10, color: colors.success,
     },
     iconStyleOne: {
-        fontSize: 25,
-        color: colors.white,
+        fontSize: 20,
+        color: colors.success,
     },
     imageView: {
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#fff',
-        borderRadius: 35,
-        height: 35,
-        width: 35,
+        borderColor: colors.success,
+        borderRadius: 30,
+        height: 30,
+        width: 30,
     },
 });
 

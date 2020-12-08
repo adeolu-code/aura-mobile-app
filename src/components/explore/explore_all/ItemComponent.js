@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
         width: '100%', marginBottom: 40
     },
     imgContainer: {
-        width: '100%', height: 300, borderRadius: 8, overflow: 'hidden', marginBottom: 10
+        width: '100%', height: 300, borderRadius: 8, overflow: 'hidden', marginBottom: 10, elevation: 2,
+        backgroundColor: colors.lightGrey
     },
     verifiedContainer: {
         position: 'absolute', right: 15, top: 15, justifyContent: 'center', alignItems: 'center'

@@ -1,15 +1,62 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, Dimensions } from 'react-native';
-// import { MyText } from '../../utils/Index';
-// import GStyles from '../../assets/styles/GeneralStyles';
+import { MyText, Loading } from '../../../utils/Index';
+// import GStyles from '../../../assets/styles/GeneralStyles';
 import PhotoComponent from './PhotoComponent';
-;
+
+import { Request, GetRequest, urls } from '../../../utils';
+import { shortenXterLength, formatAmount } from '../../../helpers'
 class ScrollContent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+    constructor(props) {
+        super(props);
+        this.state = { loading: false, tours: [] };
+    }
+    renderLoading = () => {
+        const { gettingTour, loading, loadingImages } = this.state;
+        if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+    }
+    getTours = async (more=false) => {
+        this.setState({ loading: true })
+        const { tourId } = this.props
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/get/list/?status=Adminpublished&Page=1&Size=4`);
+        console.log('Res tours', res)
+        this.setState({ loading: false })
+        if(res.isError) {
+            const message = res.Message;
+            errorMessage(message)
+        } else {
+            const dataResult = res.data.data
+            const tours = dataResult.filter(item => item.id !== tourId)
+            this.setState({ tours })
+        }
+    }
+    linkTo = (tour) => {
+        this.props.navigation.push('Other', { screen: 'TourSingle', params: { tourId: tour.id } })
+    }
+
+    renderTours = () => {
+        const { tours } = this.state;
+        if(tours.length > 0) {
+            return tours.map((item) => {
+                let title = item.title ? item.title : ''
+                title = shortenXterLength(title, 35)
+                const imgUrl = item.mainImage ? {uri: item.mainImage.assetPath} : require('../../../assets/images/no_tour.png')
+                const price = `₦ ${formatAmount(item.pricePerGuest)} / person`
+                const location = `${item.meetUpCity}, ${item.meetUpState}`
+                return (
+                    <View style={styles.scrollItemContainer} key={item.id}>
+                        <PhotoComponent img={imgUrl} onPress={this.linkTo.bind(this, item)}
+                        title2={title} location={location} title1={price} {...this.props} />
+                    </View>
+                )
+            })
+        }
+    }
+
+    componentDidMount = () => {
+        this.getTours()
+    }
 
   render() {
     const { scrollItemContainer, scrollContainer } = styles
@@ -17,20 +64,15 @@ class ScrollContent extends Component {
 
     const { photo } = this.props
 
-    // const actualWidth = (20/width) * 100
     return (
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
-            <View style={[scrollContainer, { width: '100%' }]}>
-                <View style={scrollItemContainer}>
-                    <PhotoComponent img={require('../../../assets/images/photo/photo5.png')} 
-                    title2="Ronald Matthews" location="Lagos" title1="N 6,000/ person" {...this.props} />
+        <>
+            {this.renderLoading()}
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width }}>
+                <View style={[scrollContainer, { width: '100%' }]}>
+                    {this.renderTours()}
                 </View>
-                <View style={scrollItemContainer}>
-                    <PhotoComponent img={require('../../../assets/images/photo/pic2.png')} 
-                    title2="Carmen Cooper" location="Lagos" title1="N 3,500/ person" {...this.props} />
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </>
     );
   }
 }
