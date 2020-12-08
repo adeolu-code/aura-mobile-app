@@ -7,6 +7,8 @@ import { MyText, CustomButton, CustomInput } from '../../utils/Index';
 import { Icon } from 'native-base';
 
 import colors from '../../colors';
+import { urls, Request, GetRequest, errorMessage } from '../../utils'
+
 
 import { AppContext } from '../../../AppProvider'
 
@@ -23,14 +25,14 @@ class DescribeComponent extends Component {
 
       updateExperience = async () => {
         const { tourOnboard } = this.context.state
-            this.props.setLoader(true)
+            this.props.loading(true)
             const obj = {
                 id: tourOnboard.id,
                 guestPreExperienceInfomration: this.state.guestPreExperienceInfomration
             }
             const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
             console.log('update experience ', res)
-            this.props.setLoader(false)
+            this.props.loading(false)
             if (res.isError || res.IsError) {
                 errorMessage(res.message || res.Message)
             } else {
@@ -38,6 +40,10 @@ class DescribeComponent extends Component {
                 this.props.getValue(this.state.guestPreExperienceInfomration)
                 this.props.setCount({ count: 4 })
             }  
+    }
+
+    componentDidMount = () => {
+        
     }
 
 
@@ -84,7 +90,7 @@ class DescribeComponent extends Component {
                     value={this.state.guestPreExperienceInfomration} onChangeText={this.onChangeValue} attrName="guestPreExperienceInfomration" />
                 </View>
                 <View>
-                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} 
+                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} onPress={this.updateExperience}
                     disabled={!this.state.guestPreExperienceInfomration} />
                 </View>
             </View>

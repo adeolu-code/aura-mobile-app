@@ -57,23 +57,23 @@ class DescribeActivity extends Component {
     this.setState({ [attrName]: value });
   }
   updateExperience = async () => {
-    this.props.navigation.navigate('TourAddImages')
-    // Keyboard.dismiss()
-    // const { tourOnboard } = this.context.state
-    // this.setState({ loading: true });
-    // const obj = {
-    //     experienceDescription: this.state.experienceDescription,
-    //     id: tourOnboard.id
-    // }
-    // const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
-    // console.log('update experience ', res)
-    // this.setState({ loading: false });
-    // if (res.isError || res.IsError) {
-    //     errorMessage(res.message || res.Message)
-    // } else {
-    //     this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-    //     this.setState({ count: 2 })
-    // }  
+    // this.props.navigation.navigate('TourAddImages')
+    Keyboard.dismiss()
+    const { tourOnboard } = this.context.state
+    this.setState({ loading: true });
+    const obj = {
+        experienceDescription: this.state.experienceDescription,
+        id: tourOnboard.id
+    }
+    const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
+    console.log('update experience ', res)
+    this.setState({ loading: false });
+    if (res.isError || res.IsError) {
+        errorMessage(res.message || res.Message)
+    } else {
+        this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+        this.setState({ count: 2 })
+    }  
   }
 
   description = () => {
@@ -152,7 +152,7 @@ class DescribeActivity extends Component {
   }
 
   setCount = (count) => {
-      this.setState({ count })
+      this.setState(count)
   }
   renderSteps = () => {
       const { count } = this.state;

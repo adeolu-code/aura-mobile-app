@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Keyboard } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import { MyText, CustomButton, CustomInput } from '../../utils/Index';
@@ -23,8 +23,9 @@ class AboutComponent extends Component {
     }
 
     updateExperience = async () => {
+        Keyboard.dismiss()
         const { tourOnboard } = this.context.state
-            this.props.setLoader(true)
+            this.props.loading(true)
             const obj = {
                 id: tourOnboard.id,
                 email: "",
@@ -34,7 +35,7 @@ class AboutComponent extends Component {
             }
             const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
             console.log('update experience ', res)
-            this.props.setLoader(false)
+            this.props.loading(false)
             if (res.isError || res.IsError) {
                 errorMessage(res.message || res.Message)
             } else {
@@ -81,7 +82,7 @@ class AboutComponent extends Component {
                     value={this.state.story} onChangeText={this.onChangeValue} attrName="story" />
                 </View>
                 <View>
-                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} disabled={!this.state.story} />
+                    <CustomButton buttonText="Save" onPress={this.updateExperience} buttonStyle={{ elevation: 2, marginBottom: 30 }} disabled={!this.state.story} />
                 </View>
             </View>
         );
