@@ -18,7 +18,7 @@ export default class PaymentInitial extends Component {
     }
     
     onPress = () => {
-        this.props.navigation.navigate("PayWith");
+        this.props.navigation.navigate("Bank");
     }
 
     render() {
@@ -28,7 +28,7 @@ export default class PaymentInitial extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title={"Payments Settings"} />
                     <View style={[Styles.container, {marginTop: 120}]}>                    
-                        <MyText>Add a payment method to easily make purchases on Aura</MyText>
+                        <MyText>Easily make purchases on Aura</MyText>
                         
                         <ScrollView>
                             <>
@@ -36,7 +36,7 @@ export default class PaymentInitial extends Component {
                                     <Image style={imgStyle} source={require("./../../assets/images/profile/payment/add_payment.png")} resizeMode="contain" />
                                 </View>
                                 <CustomButton
-                                    buttonText={"Add Payment Method"} 
+                                    buttonText={"Next"} 
                                     buttonStyle={[Styles.buttonStyle]} textStyle={[Styles.customTextStyle]} 
                                     onPress={() => this.onPress()}
                                 />

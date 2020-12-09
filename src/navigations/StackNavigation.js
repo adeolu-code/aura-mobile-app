@@ -61,6 +61,7 @@ import TourConnectionScreen from '../screens/experience/Connection';
 
 import MyPageScreen from '../screens/photograph/MyPage';
 import PortfolioScreen from '../screens/photograph/Portfolio';
+import Bank from '../screens/payment/bank.screen';
 
 
 const Stack = createStackNavigator();
@@ -126,6 +127,7 @@ export function ProfileStack() {
             <Stack.Screen name="PaymentInitial" component={PaymentInitial} options={{ headerShown: false }} />
             <Stack.Screen name="PayWith" component={PayWith} options={{ headerShown: false }} />
             <Stack.Screen name="AddPayment" component={AddPayment} options={{ headerShown: false }} />
+            <Stack.Screen name="Bank" component={Bank} options={{ headerShown: false }} />
             <Stack.Screen name="DeviceSharing" component={DeviceSharing} options={{ headerShown: false }} />
             <Stack.Screen name="AddProfilePicture" component={AddProfilePicture} options={{ headerShown: false }} />
             <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }} />

@@ -51,7 +51,7 @@ class InboxScreenClass extends Component {
       <>
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
-            {
+            {/* {
               this.context.state.isLoggedIn ?
                 <BottomTabSectionNoRecord
                     title={"Inbox"}
@@ -59,9 +59,10 @@ class InboxScreenClass extends Component {
                     onTopTabClick={(index) => this.onTopTabClick(index)}
                     render={this.state.toBeRendered}
                 />
+                
               :
               undefined
-            }
+            } */}
           </ScrollView>
         </SafeAreaView>
       </>
