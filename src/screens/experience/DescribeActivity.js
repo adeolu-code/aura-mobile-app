@@ -120,7 +120,7 @@ class DescribeActivity extends Component {
                         value={this.state.experienceDescription} onChangeText={this.onChangeValue} attrName="experienceDescription" />
                     </View>
                     <View>
-                        <CustomButton buttonText="SAVE" 
+                        <CustomButton buttonText="Save" 
                         buttonStyle={{ elevation: 2, marginBottom: 30 }}
                         // textStyle={{ color: colors.orange, fontFamily: 'Nunito-Bold' }} 
                         onPress={this.updateExperience} 

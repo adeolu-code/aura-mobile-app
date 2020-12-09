@@ -63,6 +63,23 @@ import TourAudienceScreen from '../screens/experience/Audience';
 import TourDescribeActivityScreen from '../screens/experience/DescribeActivity';
 import TourEditProfilePhotoScreen from '../screens/experience/EditProfilePhoto';
 import TourAddPhotoScreen from '../screens/experience/AddPhoto';
+import TourPickImageScreen from '../screens/experience/PickImages';
+import TourMeetingLocationScreen from '../screens/experience/MeetingLocation';
+import TourNotesScreen from '../screens/experience/Notes';
+import TourGuestRequirementScreen from '../screens/experience/GuestRequirements';
+import TourNumberOfGuestsScreen from '../screens/experience/NumberOfGuests';
+import TourDurationScreen from '../screens/experience/Duration';
+import TourGuestPricingScreen from '../screens/experience/GuestPricing';
+import TourBookingSettingsScreen from '../screens/experience/BookingSettings';
+import TourSafetyOverviewScreen from '../screens/experience/SafetyOverview';
+import TourSafetyHygieneScreen from '../screens/experience/SafetyHygiene';
+import TourSafetyPhysicalScreen from '../screens/experience/SafetyPhysical';
+import TourSafetyLocationScreen from '../screens/experience/SafetyLocation';
+import TourSafetyCleaningScreen from '../screens/experience/SafetyCleaning';
+import TourSafetyCommitmentScreen from '../screens/experience/SafetyCommitment';
+import TourSafetyPolicyScreen from '../screens/experience/SafetyPolicy';
+import TourIdentityVerificationScreen from '../screens/experience/IdentityCard';
+import TourSuccessScreen from '../screens/experience/Success';
 
 import MyPageScreen from '../screens/photograph/MyPage';
 import PortfolioScreen from '../screens/photograph/Portfolio';
@@ -169,6 +186,23 @@ export function ExperienceStack() {
             <Stack.Screen name="TourDescribeActivity" component={TourDescribeActivityScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourEditPhoto" component={TourEditProfilePhotoScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourAddImages" component={TourAddPhotoScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourPickImage" component={TourPickImageScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourMeetingLocation" component={TourMeetingLocationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourNotes" component={TourNotesScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourGuestRequirement" component={TourGuestRequirementScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourNumberOfGuests" component={TourNumberOfGuestsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourDuration" component={TourDurationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourGuestPricing" component={TourGuestPricingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourBookingSettings" component={TourBookingSettingsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyOverview" component={TourSafetyOverviewScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyHygiene" component={TourSafetyHygieneScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyPhysical" component={TourSafetyPhysicalScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyLocation" component={TourSafetyLocationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyCleaning" component={TourSafetyCleaningScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyCommitment" component={TourSafetyCommitmentScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyPolicy" component={TourSafetyPolicyScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourIdentityCard" component={TourIdentityVerificationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSuccess" component={TourSuccessScreen} options={{ headerShown: false }} />
             
         </Stack.Navigator>
     ) 

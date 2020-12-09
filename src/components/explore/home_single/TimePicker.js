@@ -67,7 +67,7 @@ class TimePicker extends Component {
     const { textH6Style, textGrey } = GStyles
     return (
       <View style={container}>
-        <MyText style={[textH6Style, textGrey, right ? alignRight : '']}>{title}</MyText>
+        {title ? <MyText style={[textH6Style, textGrey, right ? alignRight : '']}>{title}</MyText> : <></>}
         {this.renderTime()}
         {this.renderTimePicker()}
       </View>

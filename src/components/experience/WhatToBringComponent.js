@@ -26,7 +26,7 @@ class AddDetailsComponent extends Component {
         if(values.length > 0) {
             return values.map((item, i) => {
                 return (
-                    <View style={[flexRow, styles.itemContainer]}>
+                    <View style={[flexRow, styles.itemContainer]} key={i}>
                         <MyText style={[textH4Style, textGrey, { flex: 1}]}>{item}</MyText>
                         <TouchableOpacity onPress={this.removeItem.bind(this, item)}>
                             <Icon name="trash" style={{ fontSize: 22, color: colors.orange }} />

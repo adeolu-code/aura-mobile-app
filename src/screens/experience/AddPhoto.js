@@ -90,7 +90,7 @@ class AddPhoto extends Component {
                             titleStyle={textWhite}
                             desciptionStyle={textWhite}
                             image={require("./../../assets/images/img_upload/photograph.png")}
-                            onPress={() => this.props.navigation.navigate('PickPropertyImage')}
+                            onPress={() => this.props.navigation.navigate('TourPickImage')}
                         />
                         <Section 
                             style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, borderColor: colors.grey, overflow: "hidden"}} 
@@ -101,7 +101,7 @@ class AddPhoto extends Component {
                             titleStyle={textBlack}
                             desciptionStyle={textBlack}
                             image={require("./../../assets/images/img_upload/take_photo.png")}
-                            onPress={() => this.props.navigation.navigate('PickPropertyImage')}
+                            onPress={() => this.props.navigation.navigate('TourPickImage')}
                         />
 
                     </Content>
