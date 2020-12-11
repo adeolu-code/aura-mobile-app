@@ -7,7 +7,7 @@ import colors from '../../colors';
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 
-import ReservationRow from './../../components/dashboard/ReservationRow';
+import ReservationRow from '../../components/dashboard/ReservationRow';
 import CommentRow from '../../components/CommentRow';
 import RatingRow from '../../components/dashboard/RatingRow';
 
@@ -16,7 +16,7 @@ import { urls, GetRequest, errorMessage } from '../../utils';
 
 import { formatAmount } from '../../helpers'
 
-class Dashboard extends Component {
+class DashboardTour extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
@@ -58,18 +58,27 @@ class Dashboard extends Component {
     const { gettingRatings } = this.state;
       if (gettingRatings ) { this.loading() }
   }
-  // renderRatingsLoading = () => {
-  //   const { gettingRatings } = this.state;
-  //     if (gettingRatings ) { this.loading() }
-  // }
-
+  
+  getReservations = async () => {
+    this.setState({ gettingReservations: true })
+    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/experience/host/reservation/overview`);
+    this.setState({ gettingReservations: false })
+    if (response.isError || response.IsError) {
+      errorMessage(response.message || response.Message)
+    } else { 
+      const data = response.data;
+      this.setState({ reservations: data});
+      console.log(data, 'reservation');
+    }
+  }
 
   getEarnings = async () => {
     this.setState({ gettingEarnings: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/host/earnings`);
+    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/experience/host/earnings`);
+    console.log(response)
     this.setState({ gettingEarnings: false })
-    if (response.isError) {
-      errorMessage(response.message)
+    if (response.isError || response.IsError) {
+      errorMessage(response.message || response.Message)
     } else {  
       const data = response.data;
       const weekly = data.weeklyEarnings;
@@ -78,65 +87,45 @@ class Dashboard extends Component {
     }
   }
 
-  linkToReservation = (item) => {
-    this.props.navigation.navigate('HomeDetails', { propertyId: item.property_Id } )
-  }
-
-  linkToReservations = () => {
-    this.props.navigation.navigate('Reservations');
-  }
-  linkToRatings = () => {
-    this.props.navigation.navigate('RatingsReviews');
-  }
-  linkToEarning = () => {
-    this.props.navigation.navigate('Earnings')
-  }
-
-  renderName = () => {
-    if (this.context.state.isLoggedIn) {
-      const {userData} = this.context.state;
-      const name = userData.firstName;
-      const { textBold, textH4Style } = GStyles;
-      if (name) {
-        return (
-          <View style={{ flex: 1 }}>
-            <MyText style={[textH4Style, textBold]}>Hi {name},</MyText>
-          </View>
-        );
+  getRatings = async () => {
+      this.setState({ gettingRatings: true })
+      const res = await GetRequest(urls.experienceBase, `${urls.v}experience/review/rating/host/overview`);
+      this.setState({ gettingRatings: false })
+      if (res.isError || res.IsError) { 
+        errorMessage(res.message || res.Message)
+      } else { 
+        const data = res.data;
+        this.setState({ ratings: data });
+        console.log(data);
       }
-    }
   }
-
-  renderProfilePhoto = () => {
-    if (this.context.state.isLoggedIn) {
-      const {userData} = this.context.state;
-      const photo = userData.profilePicture;
-      const { imgStyle } = GStyles;
-      if (photo) {
-        return (
-            <Image source={{uri: photo}} style={imgStyle} />
-        );
-      } else {
-        const { imgStyle } = GStyles;
-        return (
-            <Image source={require('../../assets/images/profile.png')} resizeMode="cover" style={imgStyle} />  
-        );
-      }
-    } 
-  }
-
-  getReservations = async () => {
-    this.setState({ gettingReservations: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/host/reservation/overview`);
-    this.setState({ gettingReservations: false })
+  getComments = async () => {
+    this.setState({ gettingComments: true })
+    const response = await GetRequest(urls.experienceBase, `${urls.v}experience/review/comment/host/overview`);
+    this.setState({ gettingComments: false})
     if (response.isError) {
       errorMessage(response.message)
     } else { 
       const data = response.data;
-      this.setState({ reservations: data});
-      console.log(data, 'reservation');
+      this.setState({ comments: data });
     }
   }
+
+  linkToReservation = (item) => {
+    // this.props.navigation.navigate('HomeDetails', { propertyId: item.property_Id } )
+  }
+
+  linkToReservations = () => {
+    // this.props.navigation.navigate('Reservations');
+  }
+  linkToRatings = () => {
+    // this.props.navigation.navigate('RatingsReviews');
+  }
+  linkToEarning = () => {
+    this.props.navigation.navigate('TourEarnings')
+  }
+
+  
 
   renderReservations = () => {
     const { reservations, gettingReservations } = this.state;
@@ -181,18 +170,7 @@ class Dashboard extends Component {
     }
   }
 
-  getComments = async () => {
-    this.setState({ gettingComments: true })
-    const response = await GetRequest(urls.listingBase, `${urls.v}listing/review/comment/host/overview`);
-    this.setState({ gettingComments: false})
-    if (response.isError) {
-      errorMessage(response.message)
-    } else { 
-      const data = response.data;
-      this.setState({ comments: data });
-    }
-    
-  }
+  
 
   renderComments = () => {
     const { comments, gettingComments } = this.state;
@@ -241,17 +219,7 @@ class Dashboard extends Component {
     }
   }
 
-  getRatings = async () => {
-    this.setState({ gettingRatings: true })
-    const response = await GetRequest(urls.listingBase, `${urls.v}listing/review/rating/host/overview`);
-    this.setState({ gettingRatings: false })
-    if (response.isError || response.IsError) {
-       errorMessage(response.message || response.Message) 
-    } else { 
-      const data = response.data;
-      this.setState({ ratings: data });
-    }
-  }
+  
 
   renderRatings = () => {
     const { ratings, gettingRatings } = this.state;
@@ -311,20 +279,25 @@ class Dashboard extends Component {
       secondRow, viewContainer, walletImgContainer, contentContainer, noBorderBottom, profileImg, imgContainer, wrapper } = styles;
     const { textBold, textH4Style, flexRow, imgStyle, textGrey, textWhite,
       textH5Style, textDarkGreen, textH2Style, textExtraBold } = GStyles;
+    const {userData} = this.context.state;
+    const imgUrl = userData && userData.profilePicture ? { uri: userData.profilePicture} : require('../../assets/images/profile.png')
+    const firstName = userData && userData.firstName ? userData.firstName : ''
     return (
       <SafeAreaView style={{ flex: 1}}>
-        <Header {...this.props} title="Dashboard" />
+        <Header {...this.props} title="Experience/Tour Dashboard" />
         <ScrollView keyboardShouldPersistTaps="always">
           <View style={subHeaderContainer}>
             <View style={[flexRow, profileContainer]}>
               <View style={profileImg}>
                 <View style={imgContainer}>
-                    {this.renderProfilePhoto()}
+                  <Image source={imgUrl} style={imgStyle} /> 
                 </View>
               </View>
               <View style={profileText}>
-                {this.renderName()}
-                <MyText style={[textGrey, textH4Style]}>You are now a host on Aura</MyText>
+                <View style={{ flex: 1 }}>
+                  <MyText style={[textH4Style, textBold]}>Hi {firstName},</MyText>
+                </View>
+                <MyText style={[textGrey, textH4Style]}>You Are Now A Tour Guide On Aura</MyText>
               </View>
             </View>
 
@@ -438,4 +411,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Dashboard;
+export default DashboardTour;

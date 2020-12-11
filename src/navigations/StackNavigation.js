@@ -17,6 +17,10 @@ import EarningsScreen from '../screens/dashboard_stack/Earnings';
 import TransactionsHistoryScreen from '../screens/dashboard_stack/TransactionsHistory';
 import RatingsAndReviewsScreen from '../screens/dashboard_stack/ReviewsProvider';
 
+import TourDashboardScreen from '../screens/dashboard_stack/DashboardTour';
+import TourEarningsScreen from '../screens/dashboard_stack/EarningsTour';
+import ManageTourScreen from '../screens/dashboard_stack/ManageTours';
+
 
 import BookingScreen from '../screens/bookings_stack/Index';
 
@@ -109,6 +113,11 @@ export function DashboardStack() {
             <Stack.Screen name="RatingsReviews" component={RatingsAndReviewsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Earnings" component={EarningsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TransactionsHistory" component={TransactionsHistoryScreen} options={{ headerShown: false }} />
+
+            <Stack.Screen name="DashboardTour" component={TourDashboardScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourEarnings" component={TourEarningsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="ManageTour" component={ManageTourScreen} options={{ headerShown: false }} />
+
             <Stack.Screen name="MyPage" component={MyPageScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Portfolio" component={PortfolioScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotographChangeProfile" component={PhotographChangeProfilePicScreen} options={{ headerShown: false }} />

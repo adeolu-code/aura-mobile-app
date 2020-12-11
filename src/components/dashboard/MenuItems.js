@@ -44,10 +44,10 @@ class MenuItems extends Component {
     }
   }
   linkToExperienceDashboard = () => {
-    this.linkToExperience()
-    // const { set } = this.context
-    // set({ currentDashboard: 4 })
-    // this.props.onPress()
+    // this.linkToExperience()
+    const { set } = this.context
+    set({ currentDashboard: 4 })
+    this.props.onPress()
   }
   linkToHost = () => {
     const { set } = this.context

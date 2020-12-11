@@ -6,7 +6,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
-export let debug = true; 
+export let debug = false; 
+// export let debug = true; 
 export const GLOBAL_PADDING = 20;
 
 const CLIENT_ID = '0987654321'

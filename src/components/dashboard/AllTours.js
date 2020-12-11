@@ -12,7 +12,7 @@ import { formatAmount, shortenXterLength } from '../../helpers';
 import colors from '../../colors';
 import { Icon } from 'native-base';
 
-class AllPropertiesTab extends Component {
+class AllTours extends Component {
     constructor(props) {
         super(props);
         this.state = { showFilterModal: false, loadMore: false, property: null, modalImg: require('../../assets/images/no_house1.png'), refreshing: false };
@@ -29,15 +29,16 @@ class AllPropertiesTab extends Component {
     }
     renderLoading = () => {
         const { loading, refreshing } = this.state;
-        const { state } = this.props.propertyContext
-        if ((loading || state.loadingAllProperties) && !refreshing) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
+        if ((loading) && !refreshing) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
     }
     onEndReached = () => {
         const { set, state, getAllProperties } = this.props.propertyContext
         if(state.activePropertiesPage < state.pagePropertiesCount && !state.loadMoreProperties) {
             set({ activePropertiesPage: state.activePropertiesPage + 1 })
+            console.log('Got here ', state)
             getAllProperties(true)
         }
+        console.log('End reached')
     }
     renderLoadMore = () => {
         const { state } = this.props.propertyContext
@@ -121,9 +122,9 @@ class AllPropertiesTab extends Component {
             <>
                 {this.renderLoading()}
                 <View style={contentContainer}>
-                    {this.renderProperties()}
+                    {/* {this.renderProperties()}
                     <FilterModal visible={this.state.showFilterModal} onDecline={this.closeFilterModal} property={property}
-                    img={this.state.modalImg}  title={property && property.title ? property.title : 'No title'} {...this.props} />
+                    img={this.state.modalImg}  title={property && property.title ? property.title : 'No title'} {...this.props} /> */}
                 </View>
             </>
         );
@@ -144,4 +145,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AllPropertiesTab;
+export default AllTours;
