@@ -32,7 +32,7 @@ class StepTwo extends Component {
   
 
   render() {
-    const { container, button, selectStyle, imageContainer, textContainer, icon } = styles;
+    const { container, button, selectStyle, imageContainer, textContainer, icon, skipStyle } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
         textH4Style, textH5Style, textH6Style} = GStyles;
     
@@ -42,6 +42,7 @@ class StepTwo extends Component {
             <View style={container}>
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 2 / 6</MyText>
+                    <ProgressBar width={16.7 * 2} />
                     <ProgressBar width={25} />
                 </View>
                 <ScrollView>
@@ -90,6 +91,12 @@ class StepTwo extends Component {
                 <View style={button}>
                     <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} />
                 </View>
+                <View style={skipStyle}>
+                    <CustomButton buttonText="Skip To Step 3" 
+                    buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                    textStyle={{ color: colors.orange }}
+                    onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
+                </View>
                 </ScrollView>
             </View>
             
@@ -106,7 +113,7 @@ const styles = StyleSheet.create({
     },
   
     button: {
-        flex: 1, marginBottom: 40, marginTop: 20, justifyContent: 'flex-end'
+        flex: 1, marginBottom: 20, marginTop: 20, justifyContent: 'flex-end'
     },
     imageContainer: {
         borderRadius: 10, borderColor: colors.orange, borderWidth: 4, width: '100%', height: 250, overflow: 'hidden',
@@ -115,7 +122,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10
     },
     icon: {
-        fontSize: 8, marginRight: 15, color: colors.grey
+        fontSize: 8, marginRight: 15, color: colors.grey, alignSelf: 'flex-start', marginTop: 8
+    },
+    skipStyle: {
+        // width: '50%', 
+        marginBottom: 30, 
+        // alignSelf: 'flex-end'
     }
 });
 

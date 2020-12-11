@@ -63,12 +63,13 @@ class AddPhoto extends Component {
             <Header { ...this.props } title="Photos" />
             <View style={container}>
                 <View style={{ marginTop: 30}}>
-                    <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
-                    <ProgressBar />
+                    <MyText style={[textOrange, textBold, textH3Style]}>Step 4 / 6</MyText>
+                    <ProgressBar width={16.7 * 4} />
+                    <ProgressBar width={100} />
                 </View>
                 <ScrollView>
                 <View style={{ flex: 1, marginTop: 30 }}>
-                    <View style={[{ paddingHorizontal: 1}]}>
+                    <View style={[{ paddingHorizontal: 1, marginBottom: 20}]}>
                         
                         <MyText style={[textH2Style, textGrey, textBold, { marginBottom: 15}]}>
                             Add Photos To Your Experience
@@ -85,7 +86,7 @@ class AddPhoto extends Component {
                             style={{backgroundColor: colors.lightGreen, marginBottom: 40}} 
                             label={"Hire A"}
                             title={"Photographer"}
-                            desciption={"Lorem ipsum dolor sit amet, consectetur adipiscing."}
+                            desciption={"You can always use Aura photographers"}
                             hireStyle={{backgroundColor: colors.fadedGreen,}}
                             titleStyle={textWhite}
                             desciptionStyle={textWhite}
@@ -96,7 +97,7 @@ class AddPhoto extends Component {
                             style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, borderColor: colors.grey, overflow: "hidden"}} 
                             label={"I Can"}
                             title={"Take My Own Pictures"}
-                            desciption={"Lorem ipsum dolor sit amet, consectetur adipiscing."}
+                            desciption={"Upload quality images from your device"}
                             hireStyle={{backgroundColor: colors.black,}}
                             titleStyle={textBlack}
                             desciptionStyle={textBlack}
@@ -108,9 +109,9 @@ class AddPhoto extends Component {
                     
                 </View>
                 
-                <View style={button}>
+                {/* <View style={button}>
                     <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} />
-                </View>
+                </View> */}
                 </ScrollView>
             </View>
             

@@ -33,7 +33,8 @@ class AddDetailsComponent extends Component {
 
     setValue = (value) => {
         const { experienceProvisions } = this.state;
-        const arr = [ ...experienceProvisions, value.name ]
+        const arr = [ ...experienceProvisions ]
+        arr.push(value)
         console.log(value)
         this.setState({ experienceProvisions: arr })
     }
@@ -41,10 +42,11 @@ class AddDetailsComponent extends Component {
 
     updateExperience = async () => {
         const { tourOnboard } = this.context.state
+        // console.log(this.state.experienceProvisions)
         this.props.loading(true)
         const obj = {
             id: tourOnboard.id,
-            experienceProvisions: this.state.experienceProvisions.id
+            experienceProvisions: this.state.experienceProvisions.map(item => item.id)
         }
         const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
         console.log('update experience ', res)
@@ -61,7 +63,7 @@ class AddDetailsComponent extends Component {
     removeItem = (item) => {
         const { experienceProvisions } = this.state
         const arr = [ ...experienceProvisions ]
-        const index = arr.findIndex(x => x === item)
+        const index = arr.findIndex(x => x.id === item.id)
         arr.splice(index, 1)
         this.setState({ experienceProvisions: arr })
     }
@@ -74,7 +76,7 @@ class AddDetailsComponent extends Component {
                 return (
                     <View style={[flexRow, styles.selectedContainer]} key={i}>
                         <View style={{flex: 6, paddingLeft: 10}}>
-                            <MyText style={[textH3Style, textGrey, textBold, { marginBottom: 5}]}>{item}</MyText>
+                            <MyText style={[textH3Style, textGrey, textBold, { marginBottom: 5}]}>{item.name}</MyText>
                         </View>
                         <TouchableOpacity style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}} onPress={this.removeItem.bind(this, item)}>
                             <Icon name="trash" style={{ color: colors.orange, marginLeft: 20}} />
@@ -91,7 +93,6 @@ class AddDetailsComponent extends Component {
             textH4Style, textH5Style, textH6Style } = GStyles;
         const { container, selectStyle, profileImgContainer, textContainer, icon } = styles
         const { userData } = this.context.state
-        const imgUrl = userData.profilePicture ? {uri: userData.profilePicture} : require('../../assets/images/profile.png')
         return (
             <View style={[container]}>
                 <MyText style={[textGrey, textH4Style, { marginTop: 15, marginBottom:30 }]}>

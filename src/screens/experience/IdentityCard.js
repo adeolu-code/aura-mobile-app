@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, Platform, Keyboard } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, Platform, Keyboard, Pressable } from 'react-native';
 import {Icon, Picker} from 'native-base';
 import { CustomButton, MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
@@ -19,7 +19,7 @@ class IdentityCard extends Component {
     static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { loading: false, identityInfo: '', idTypes: [], identity: false };
+    this.state = { loading: false, identityInfo: '', idTypes: [], identity: false, edit: false };
   }
   renderLoading = () => {
     const { loading } = this.state;
@@ -32,12 +32,21 @@ class IdentityCard extends Component {
         if (result != undefined) {
             this.setState({idTypes: result});
             this.context.set({idTypes: result})
-            this.getIdentityInfo(result)
+            const { userData } = this.context.state
+            if(userData.identificationDocument) {
+                this.getIdentityInfo(result)
+            } else {
+                this.setState({ identity: true })
+            }
+            
         } else {
             errorMessage('Something went wrong, try again, if error persists contact support')
             this.setState({ loading: false })
         }
     });
+  }
+  setLoader = (bool) => {
+      this.setState({ loading: bool })
   }
 
   getIdentityInfo = async (types) => {
@@ -60,12 +69,16 @@ class IdentityCard extends Component {
   next = () => {
     this.props.navigation.navigate('TourStack', { screen: 'TourSuccess' })
   }
+
+  edit = () => {
+      this.setState({ edit: true })
+  }
   
   renderIdentityInfo = () => {
-    const { identityInfo } = this.state
-    const { textH4Style, textBold, imgStyle } = GStyles
+    const { identityInfo, edit } = this.state
+    const { textH4Style, textBold, imgStyle, textOrange, textUnderline } = GStyles
     const { imgInfoContainer } = styles
-    if(identityInfo) {
+    if(identityInfo && !edit) {
       return (
         <View style={{ flex: 1, paddingBottom: 30}}>
           <View>
@@ -75,6 +88,9 @@ class IdentityCard extends Component {
           <View style={imgInfoContainer}>
             <Image source={{ uri: identityInfo.assetPath }} resizeMode="cover" style={imgStyle} />
           </View>
+          <Pressable style={{ paddingVertical: 20}} onPress={this.edit}>
+              <MyText style={[textH4Style, textOrange, textBold, textUnderline]}>Edit Document</MyText>
+          </Pressable>
         </View>
       )
     }
@@ -88,22 +104,26 @@ class IdentityCard extends Component {
         this.getIdTypes()
     } else {
         this.setState({ identity: false })
-    //   this.openIdentityModal()
     }
   }
 
+  changeEdit = () => {
+    this.setState({ edit: false })
+  }
+
   renderUploadIdentity = () => {
-      const { identity, loading } = this.state;
-      if(identity && !loading) {
+      const { identity, edit, loading } = this.state;
+      if((identity || edit)  && !loading) {
         return (
-            <UploadIdentity {...this.props} idTypes={this.state.idTypes} /> 
+            <UploadIdentity {...this.props} idTypes={this.state.idTypes} loading={this.setLoader} 
+            identityInfo={this.state.identityInfo} edit={this.state.edit} changeEdit={this.changeEdit} /> 
         )
       }
   }
 
   renderButton = () => {
-      const { identity, loading } = this.state;
-      if(!identity && !loading) {
+      const { identity, loading, edit } = this.state;
+      if(!identity && !edit && !loading) {
           return (
             <View style={styles.button}>
                 <CustomButton buttonText="Proceed" buttonStyle={{ elevation: 2}} onPress={this.next}  />
@@ -114,9 +134,8 @@ class IdentityCard extends Component {
   
 
   render() {
-    const { container, button, imageContainer, textContainer, policyContainer, icon } = styles;
-    const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
-        textH4Style, textH5Style, textH6Style} = GStyles;
+    const { container, button } = styles;
+    const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle} = GStyles;
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
@@ -156,10 +175,7 @@ const styles = StyleSheet.create({
     },
   
     button: {
-        flex: 1, marginBottom: 40, marginTop: 50, justifyContent: 'flex-end', marginTop: 60
-    },
-    imageContainer: {
-        borderRadius: 10, borderColor: colors.orange, borderWidth: 4, width: '100%', height: 250, overflow: 'hidden',
+        flex: 1, marginBottom: 40, justifyContent: 'flex-end', marginTop: 10
     },
     textContainer: {
         paddingHorizontal: 10
@@ -175,7 +191,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15, backgroundColor: colors.white, borderRadius: 6, elevation: 2, marginTop: 20
     },
     imgInfoContainer: {
-        width: '100%', borderRadius: 10, overflow:'hidden', marginTop: 20,
+        width: '100%', height: 250, borderRadius: 10, overflow:'hidden', marginTop: 20,
         borderWidth: 1, borderColor: colors.orange
     }
 

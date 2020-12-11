@@ -36,23 +36,23 @@ class NumberOfGuests extends Component {
     }
 
     updateExperience = async () => {
-        this.props.navigation.navigate('TourStack', { screen: 'TourDuration' })
-        // const { tourOnboard } = this.context.state;
-        // const { maximumGroupSize } = this.state
-        // this.setState({ loading: true });
-        // const obj = {
-        //     maximumGroupSize, 
-        //     id: tourOnboard.id
-        // }
-        // const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
-        // console.log('update experience ', res)
-        // this.setState({ loading: false });
-        // if (res.isError || res.IsError) {
-        //     errorMessage(res.message || res.Message)
-        // } else {
-        //     this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-        //     this.props.navigation.navigate('TourStack', { screen: 'TourDuration' })
-        // }  
+        // this.props.navigation.navigate('TourStack', { screen: 'TourDuration' })
+        const { tourOnboard } = this.context.state;
+        const { maximumGroupSize } = this.state
+        this.setState({ loading: true });
+        const obj = {
+            maximumGroupSize, 
+            id: tourOnboard.id
+        }
+        const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
+        console.log('update experience ', res)
+        this.setState({ loading: false });
+        if (res.isError || res.IsError) {
+            errorMessage(res.message || res.Message)
+        } else {
+            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+            this.props.navigation.navigate('TourStack', { screen: 'TourDuration' })
+        }  
     }
 
     renderPickerItem = () => {
@@ -62,7 +62,7 @@ class NumberOfGuests extends Component {
         return (
             <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
                 style={{ width: undefined }}
-                selectedValue={this.state.minimumAge}
+                selectedValue={this.state.maximumGroupSize}
                 onValueChange={this.onValueChange}>
                 {pickerItems.map((item, i) => {
                     return (
@@ -93,8 +93,9 @@ class NumberOfGuests extends Component {
             <Header { ...this.props } title="Group Size" />
             <View style={container}>
                 <View style={{ marginTop: 30}}>
-                    <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 8</MyText>
-                    <ProgressBar width={80} />
+                    <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
+                    <ProgressBar width={16.7 * 5} />
+                    <ProgressBar width={14.2 * 4} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 10 }}>
@@ -116,6 +117,12 @@ class NumberOfGuests extends Component {
                         <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} 
                         onPress={this.updateExperience} />
                     </View>
+                    <View style={styles.skipStyle}>
+                        <CustomButton buttonText="Skip To Step 6" 
+                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        textStyle={{ color: colors.orange }}
+                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                    </View>
                 </ScrollView>
             </View>
             
@@ -132,7 +139,7 @@ const styles = StyleSheet.create({
     },
   
     button: {
-        flex: 1, marginBottom: 40, marginTop: 50, justifyContent: 'flex-end'
+        flex: 1, marginBottom: 20, marginTop: 50, justifyContent: 'flex-end'
     },
     textContainer: {
         paddingHorizontal: 10
@@ -146,6 +153,9 @@ const styles = StyleSheet.create({
     divider: {
         height: 1.5, backgroundColor: colors.lightGrey, width: '100%'
     },
+    skipStyle: {
+        marginBottom: 30
+    }
 });
 
 export default NumberOfGuests;

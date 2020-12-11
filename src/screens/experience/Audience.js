@@ -38,10 +38,13 @@ class Audience extends Component {
 
     updateExperience = async () => {
         const { tourOnboard } = this.context.state
+        const { audience, audienceId } = this.state
         this.setState({ loading: true, errors: [] });
+        const a = audience.find(item => item.id === audienceId)
         const obj = {
             languageId: [tourOnboard.languageOne, tourOnboard.languageTwo],
             audienceId: this.state.audienceId,
+            audienceName: a.name,
             id: tourOnboard.id
         }
         console.log(obj)
@@ -101,7 +104,8 @@ class Audience extends Component {
             <View style={container}>
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 3 / 6</MyText>
-                    <ProgressBar width={50} />
+                    <ProgressBar width={16.7 * 3} />
+                    <ProgressBar width={100} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 20 }}>
