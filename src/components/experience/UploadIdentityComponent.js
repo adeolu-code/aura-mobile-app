@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Keyboard } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton, CustomInput } from '../../utils/Index';
+import { MyText, CustomButton, CustomInput, Error } from '../../utils/Index';
 
 
 import { Container, Content, Footer, Button, Icon } from "native-base";
@@ -23,7 +23,7 @@ import { urls, Request, GetRequest, errorMessage } from '../../utils'
 class UploadIdentityComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedId: "", identityNumber: '',imageFile: undefined, isCaptured: false, formErrors: []};
+    this.state = { selectedId: "", identityNumber: '', imageOriginal: null, imageFile: undefined, isCaptured: false, formErrors: []};
   }
   renderError = () => {
     const { formErrors } = this.state
@@ -32,6 +32,8 @@ class UploadIdentityComponent extends Component {
     }
   }
   onSave = () => {
+    const { imageOriginal } = this.state;
+    this.setState({ formErrors: []})
     if (!this.state.isCaptured) {
         this.setState({ formErrors: ['Please select a file']})
         return;
@@ -40,40 +42,45 @@ class UploadIdentityComponent extends Component {
       this.setState({ formErrors: ['Please enter ID Number.']})
       return;
     }
-
-    this.setState({loading: true});
     
-      uploadImageApi([
-          { 
-              name : 'File', filename : this.state.imageFile.name, type:this.state.imageFile.mime, data: RNFetchBlob.wrap(decodeURIComponent(Platform.OS == "ios" ? String(this.state.imageFile.uri).replace("file://","") : String(this.state.imageFile.uri)))
-          },
-          {
-              name: 'FileName', 
-              data: String(this.state.imageFile.name),
-          }
-      ]).then(result => {
-          result = JSON.parse(result.data);
-          
-          if (result.isError == false) {
-              uploadIdentityImageApi({
+    if(imageOriginal.uri && !imageOriginal.mime) {
+        this.setState({ formErrors: ['Please change photo or re-upload same image to update']})
+        return;
+    } 
+    this.props.loading(true)
+    uploadImageApi([
+        { 
+            name : 'File', filename : this.state.imageFile.name, type:this.state.imageFile.mime, data: RNFetchBlob.wrap(decodeURIComponent(Platform.OS == "ios" ? String(this.state.imageFile.uri).replace("file://","") : String(this.state.imageFile.uri)))
+        },
+        {
+            name: 'FileName', 
+            data: String(this.state.imageFile.name),
+        }
+    ]).then(result => {
+        result = JSON.parse(result.data);
+        
+        if (result.isError == false) {
+            uploadIdentityImageApi({
                 "identityTypeId": this.state.selectedId,
                 "identityNumber": this.state.identityNumber,
                 "imageName": this.state.imageFile.name,
-              })
-              .then((res) => {
+            })
+            .then((res) => {
                 if(res.isError || res.IsError) {
-                  this.setState({ formErrors: [res.message]})
+                this.setState({ formErrors: [res.message]})
                 } else {
-                  this.props.onDecline(true)
+                    //   this.props.onDecline(true)
+                    this.props.navigation.navigate('TourStack', { screen: 'TourSuccess' })
                 }
-              })
-              .finally(() => {
-                this.setState({loading: false });
-              })
-          } else {
-            this.setState({ formErrors: [result.message], loading: false })
-          }
-      });
+            })
+            .finally(() => {
+                this.props.loading(false)
+            })
+        } else {
+            this.setState({ formErrors: [result.message]})
+            this.props.loading(false)
+        }
+    });
   }
   selectImage = () => {
         ImagePicker.openPicker({
@@ -87,7 +94,7 @@ class UploadIdentityComponent extends Component {
             //   console.log("image", image)
             const source = {uri: image.path, width: image.width, height: image.height, mime: image.mime};
             this.setState({
-                imageOriginal: source,
+                imageOriginal: {...source},
                 imageFile: prepareMedia(
                     {
                         ...image,
@@ -95,24 +102,44 @@ class UploadIdentityComponent extends Component {
                             fileName: image.path.substr(image.path.lastIndexOf("/")).replace("/","")
                         }
                     }),
-            isCaptured: true,
+                isCaptured: true,
             })
         }).catch(err => console.log(err));
+    }
+
+    pickID = (id) => {
+        console.log(id)
+        this.setState({ selectedId: id })
+    }
+
+    componentDidMount = () => {
+        const { idTypes, identityInfo } = this.props
+        if(idTypes.length > 0) {
+            this.setState({ selectedId: idTypes[0].id })
+        }
+        if(identityInfo) {
+            this.setState({ identityNumber: identityInfo.identityNumber, isCaptured: true, 
+                imageOriginal: {uri: identityInfo.assetPath, mime: '' }, selectedId: identityInfo.identityTypeId })
+        }
     }
 
   render() {
     const { textWhite, textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline, flexRow,
         textGreen, textBold, textExtraBold, textH3Style, textGrey, textOrange } = GStyles;
-      const { modalHeader, closeContainer, logoContainer, modalContainer, inputContainer, lineStyle, headerStyle,
+      const { modalContainer, inputContainer, lineStyle, headerStyle,
         buttonContainer, closeStyle } = styles
+    const { edit } = this.props
     return (
       <View>
         <View style={modalContainer}>
           
-          <View style={headerStyle}>
+          <View style={[flexRow, headerStyle]}>
               <MyText style={[textH3Style, textExtraBold, textDarkGrey, textCenter]}>
-              Choose Your Means Of Identification
+                  {edit ? `Edit your document` : 'Choose Your Means Of Identification'}
               </MyText>
+              {edit ? <TouchableOpacity onPress={() => {this.props.changeEdit()}}>
+                <Icon name="close" />
+              </TouchableOpacity> : <></>}
           </View>
           
           <ScrollView>
@@ -126,10 +153,11 @@ class UploadIdentityComponent extends Component {
                           }
                       })}
                       selectedOption={this.state.selectedId || (this.props.idTypes.length > 0 ? this.props.idTypes[0] : "")}
-                      onPickerChange={(e) => this.setState({selectedId: e})}
+                      onPickerChange={this.pickID}
                   />
                   <View style={{ marginTop: 20}}>
-                    <LabelInput labelStyle={[textGrey]} label={"Enter Id Number"} onChangeText={(e) => this.setState({identityNumber: e})} />
+                    <LabelInput labelStyle={[textGrey]} label={"Enter Id Number"} value={this.state.identityNumber}
+                    onChangeText={(e) => this.setState({identityNumber: e})} />
                   </View>
                 </Content>
                 
@@ -170,7 +198,9 @@ class UploadIdentityComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-    
+    headerStyle: {
+        justifyContent: 'space-between'
+    }
 });
 
 export default UploadIdentityComponent;

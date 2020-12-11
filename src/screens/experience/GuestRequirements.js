@@ -20,7 +20,7 @@ class GuestRequirements extends Component {
     constructor(props) {
         super(props);
         this.state = { loading: false, value: '', activityLevel: '', skillLevel: '', minimumAge: 0  };
-        this.activityLevels = ['Light', 'Moderate', 'Strenous', 'Extreme'];
+        this.activityLevels = ['Light', 'Moderate', 'Strenuous', 'Extreme'];
         this.skillLevels = ['Beginner', 'Intermediate', 'Advanced', 'Expert']
     }
     renderLoading = () => {
@@ -48,25 +48,26 @@ class GuestRequirements extends Component {
     }
 
     updateExperience = async () => {
-        this.props.navigation.navigate('TourStack', { screen: 'TourNumberOfGuests' })
+        // this.props.navigation.navigate('TourStack', { screen: 'TourNumberOfGuests' })
 
-        // const { tourOnboard } = this.context.state;
-        // const { activityLevel, skillLevel } = this.state
-        // this.setState({ loading: true, errors: [] });
-        // const obj = {
-        //     activityLevel, 
-        //     skillLevel,
-        //     id: tourOnboard.id
-        // }
-        // const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
-        // console.log('update experience ', res)
-        // this.setState({ loading: false });
-        // if (res.isError || res.IsError) {
-        //     errorMessage(res.message || res.Message)
-        // } else {
-        //     this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-        //     this.props.navigation.navigate('TourStack', { screen: 'TourNumberOfGuests' })
-        // }  
+        const { tourOnboard } = this.context.state;
+        const { activityLevel, skillLevel, minimumAge } = this.state
+        this.setState({ loading: true, errors: [] });
+        const obj = {
+            activityLevel, 
+            skillLevel,
+            minimumAge,
+            id: tourOnboard.id
+        }
+        const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
+        console.log('update experience ', res)
+        this.setState({ loading: false });
+        if (res.isError || res.IsError) {
+            errorMessage(res.message || res.Message)
+        } else {
+            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+            this.props.navigation.navigate('TourStack', { screen: 'TourNumberOfGuests' })
+        }  
     }
 
     renderPickerItem = () => {
@@ -135,8 +136,9 @@ class GuestRequirements extends Component {
             <Header { ...this.props } title="Guest Requirements" />
             <View style={container}>
                 <View style={{ marginTop: 30}}>
-                    <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 7</MyText>
-                    <ProgressBar width={80} />
+                    <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
+                    <ProgressBar width={16.7 * 5} />
+                    <ProgressBar width={14.2 * 3} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 10 }}>
@@ -176,6 +178,12 @@ class GuestRequirements extends Component {
                         <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} disabled={this.validate()} 
                         onPress={this.updateExperience} />
                     </View>
+                    <View style={styles.skipStyle}>
+                        <CustomButton buttonText="Skip To Step 6" 
+                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        textStyle={{ color: colors.orange }}
+                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                    </View>
                 </ScrollView>
             </View>
             
@@ -192,7 +200,7 @@ const styles = StyleSheet.create({
     },
   
     button: {
-        flex: 1, marginBottom: 40, marginTop: 50, justifyContent: 'flex-end'
+        flex: 1, marginBottom: 20, marginTop: 50, justifyContent: 'flex-end'
     },
     imageContainer: {
         borderRadius: 10, borderColor: colors.orange, borderWidth: 4, width: '100%', height: 250, overflow: 'hidden',
@@ -225,6 +233,9 @@ const styles = StyleSheet.create({
     divider: {
         height: 1.5, backgroundColor: colors.lightGrey, width: '100%'
     },
+    skipStyle: {
+        marginBottom: 30
+    }
 });
 
 export default GuestRequirements;

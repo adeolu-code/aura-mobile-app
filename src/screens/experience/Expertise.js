@@ -65,7 +65,8 @@ class Expertise extends Component {
             <View style={container}>
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 2 / 6</MyText>
-                    <ProgressBar width={50} />
+                    <ProgressBar width={16.7 * 2} />
+                    <ProgressBar width={25*2} />
                 </View>
                 <ScrollView>
                 <View style={{ flex: 1, marginTop: 30 }}>
@@ -148,6 +149,12 @@ class Expertise extends Component {
                 <View style={button}>
                     <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={this.validate()} />
                 </View>
+                <View style={styles.skipStyle}>
+                    <CustomButton buttonText="Skip To Step 3" 
+                    buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                    textStyle={{ color: colors.orange }}
+                    onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
+                </View>
                 </ScrollView>
             </View>
             
@@ -164,7 +171,7 @@ const styles = StyleSheet.create({
     },
   
     button: {
-        flex: 1, marginBottom: 40, marginTop: 20, justifyContent: 'flex-end'
+        flex: 1, marginBottom: 20, marginTop: 20, justifyContent: 'flex-end'
     },
     imageContainer: {
         borderRadius: 10, borderColor: colors.orange, borderWidth: 4, width: '100%', height: 250, overflow: 'hidden',
@@ -190,6 +197,9 @@ const styles = StyleSheet.create({
     },
     icon: {
         fontSize: 8, marginRight: 15, color: colors.grey
+    },
+    skipStyle: {
+        marginBottom: 30, 
     }
 });
 

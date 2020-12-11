@@ -137,7 +137,7 @@ export const LabelInput = (props) => {
                             style={[Styles.input]} 
                             maxLength={props.maxLength} 
                             value={props.value}
-                            onChangeText={(e) => { consoleLog("val", e); props.onChangeText(e);}}
+                            onChangeText={(e) => { props.onChangeText(e);}}
                             keyboardType={props.keyboardType || "default"}
                         />
                     </View>

@@ -51,7 +51,7 @@ class DescribeActivity extends Component {
   }
   
   next = () => {
-    this.props.navigation.navigate('TourStack', { screen: 'TourExpertise' })
+    this.props.navigation.navigate('TourStack', { screen: 'TourMeetingLocation' })
   }
   onChangeValue = (attrName, value) => {
     this.setState({ [attrName]: value });
@@ -201,7 +201,7 @@ class DescribeActivity extends Component {
         textH4Style, textH5Style, textH6Style} = GStyles;
     const { experienceDescription, isCaptured, count } = this.state
 
-    const percent = count/6 * 100
+    const percent = count/7 * 100
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
@@ -210,15 +210,19 @@ class DescribeActivity extends Component {
             <View style={container}>
                 <View style={{ marginTop: count === 4 || count === 6 ? 75 : 30 }}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 4 / 6</MyText>
-                    <ProgressBar width={75} />
+                    <ProgressBar width={16.7 * 4} />
                     <ProgressBar width={percent} />
                 </View>
                 <ScrollView keyboardShouldPersistTaps="always">
                     {this.renderSteps()}
                 
                     <View style={button}>
-                        <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} 
-                        disabled={this.state.count !== 6} />
+                        {/* <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} 
+                        disabled={this.state.count !== 6} /> */}
+                        <CustomButton buttonText="Skip To Step 5" 
+                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        textStyle={{ color: colors.orange }}
+                        onPress={this.next} />
                     </View>
                 </ScrollView>
             </View>

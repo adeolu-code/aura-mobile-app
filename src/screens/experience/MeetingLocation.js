@@ -10,7 +10,7 @@ import Geolocation from 'react-native-geolocation-service';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { GOOGLE_API_KEY, GetRequest, errorMessage, Request } from '../../utils';
+import { GOOGLE_API_KEY, GetRequest, errorMessage, Request, urls } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
@@ -43,11 +43,7 @@ class MeetingLocation extends Component {
           
         })
     }
-    getGeolocation = async (cord) => {
-        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
-        this.setState({ loading: false })
-        this.getAddressDetails(res.results[0])
-    }
+    
     getCountry = (country) => {
         this.setState({ country, toggleAutoComplete: !this.state.toggleAutoComplete, city: '' })
     }
@@ -63,61 +59,27 @@ class MeetingLocation extends Component {
         return false
     }
     updateExperience = async () => {
-        this.props.navigation.navigate('TourNotes')
-        // const { tourOnboard } = this.context.state
-        // const { country, city, address, state, zipCode } = this.state
-        // this.props.loading(true)
-        // const obj = {
-        //     id: tourOnboard.id,
-        //     meetUpAddress: address,
-        //     meetUpCity: city,
-        //     meetUpCountry: country.name,
-        //     meetUpState: state,
-        //     meetUpZipCode: zipCode
-        // }
-        // const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
-        // console.log('update experience ', res)
-        // this.props.loading(false)
-        // if (res.isError || res.IsError) {
-        //     errorMessage(res.message || res.Message)
-        // } else {
-        //     this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-        //     this.props.getValue(this.state.title)
-        //     this.props.navigation.navigate('TourNotes')
-        // }  
-    }
-    
-
-    getAddressDetails = (res) => {
-        const geometryloc = res.geometry.location
-        const addressComponents = res.address_components
-        // const addressArr = addressComponents.map(item => item.long_name)
-        // const arr = addressArr.splice(addressArr.length - 2, 2)
-        
-        let countryObj = null;
-        let stateObj = null
-        addressComponents.filter(item => {
-            const types = item.types
-            const foundCountry = types.find(item => item === 'country')
-            const foundState = types.find(item => item === 'administrative_area_level_1')
-            if(foundCountry) {
-                countryObj = item
-            }
-            if(foundState) {
-                stateObj = item
-            }
-        })
-        const { set, state } = this.context
-        const { zipCode, city, address } = this.state
-        if(state.propertyFormData) {
-            const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, 
-                country: countryObj.long_name, district: city, zipCode, address }
-            const obj = { ...state.propertyFormData, ...locationObj }
-            set({ propertyFormData: obj })
-            this.props.navigation.navigate('LocationMap');
-        } else {
-            errorMessage('Please go back and fill out List property section')
+        // this.props.navigation.navigate('TourNotes')
+        const { tourOnboard } = this.context.state
+        const { country, city, address, st, zipCode } = this.state
+        this.setState({ loading: true })
+        const obj = {
+            id: tourOnboard.id,
+            meetUpAddress: address,
+            meetUpCity: city,
+            meetUpCountry: country.name,
+            meetUpState: st,
+            meetUpZipCode: zipCode
         }
+        const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
+        console.log('update experience ', res)
+        this.setState({ loading: false})
+        if (res.isError || res.IsError) {
+            errorMessage(res.message || res.Message)
+        } else {
+            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+            this.props.navigation.navigate('TourNotes')
+        }  
     }
 
     componentDidMount = async () => {
@@ -157,7 +119,8 @@ class MeetingLocation extends Component {
         <View style={container}>
             <View style={{ marginTop: 70}}>
                 <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
-                <ProgressBar width={75} />
+                <ProgressBar width={16.7 * 5} />
+                <ProgressBar width={14.2 * 1} />
             </View>
             <ScrollView keyboardShouldPersistTaps="always">
                 <View style={{ flex: 1}}>
@@ -204,6 +167,12 @@ class MeetingLocation extends Component {
                     <View style={button}>
                         <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} />
                     </View>
+                    <View style={styles.skipStyle}>
+                        <CustomButton buttonText="Skip To Step 6" 
+                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        textStyle={{ color: colors.orange }}
+                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                    </View>
                 </View>
             </ScrollView>
         </View>
@@ -226,7 +195,7 @@ const styles = StyleSheet.create({
       marginTop: 10,
   },
   button: {
-      marginTop: 60, flex: 1, marginBottom: 40
+      marginTop: 60, flex: 1, marginBottom: 20
     },
     imageView: {
         justifyContent: 'center',
@@ -248,6 +217,9 @@ const styles = StyleSheet.create({
         borderColor: colors.lightGreyOne,
         marginTop: 10,
     },
+    skipStyle: {
+        marginBottom: 20
+    }
 });
 
 export default MeetingLocation;

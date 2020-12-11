@@ -23,7 +23,7 @@ class Location extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { country: null, st: '', city: '', zipCode:'', address: '', loading: false, defaultCountry: '', toggleAutoComplete:false };
+        this.state = { country: null, city: '', zipCode:'', address: '', loading: false, defaultCountry: '', toggleAutoComplete:false };
     }
     
     renderLoading = () => {
@@ -109,20 +109,23 @@ class Location extends Component {
 
     componentDidMount = async () => {
         const { edit, photographOnboard } = this.context.state
-        if(photographOnboard && edit) {
-            this.setState({ st: photographOnboard.address.state, city: photographOnboard.address.city, 
-                address: photographOnboard.address.address, zipCode: photographOnboard.address.zipCode})
+        const countries = await getAllCountries()
+        const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
+        this.setState({ defaultCountry: country, country })
+        // if(photographOnboard && edit) {
+        //     this.setState({ st: photographOnboard.address.state, city: photographOnboard.address.city, 
+        //         address: photographOnboard.address.address, zipCode: photographOnboard.address.zipCode})
 
-            const countries = await getAllCountries()
-            const country = countries.find(item => item.name.toLowerCase() === photographOnboard.address.country.toLowerCase())
-            if(country) {
-                this.setState({ defaultCountry: country, country })
-            }
-        } else {
-            const countries = await getAllCountries()
-            const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
-            this.setState({ defaultCountry: country, country })
-        }
+        //     const countries = await getAllCountries()
+        //     const country = countries.find(item => item.name.toLowerCase() === photographOnboard.address.country.toLowerCase())
+        //     if(country) {
+        //         this.setState({ defaultCountry: country, country })
+        //     }
+        // } else {
+        //     const countries = await getAllCountries()
+        //     const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
+        //     this.setState({ defaultCountry: country, country })
+        // }
         
     }
 
@@ -137,16 +140,18 @@ class Location extends Component {
         <Header { ...this.props } title={"Location"} />
 
         <View style={container}>
-            <View style={{ marginTop: 40}}>
+            <View style={{ marginTop: 40, zIndex: 1, backgroundColor: colors.white}}>
                 <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
+                <ProgressBar width={16.7} />
                 <ProgressBar width={50} />
+
             </View>
             
             <View style={{ flex: 1, justifyContent: 'center'}}>
-                <View style={{ height: 85, width: '100%', marginBottom: 30, flexDirection: 'row'}}>
+                <View style={{ height: 85, width: '100%', marginBottom: 30, flexDirection: 'row', zIndex: 0}}>
                     <CountryPickerComponent getCountry={this.getCountry} defaultCountry={this.state.defaultCountry} />
                 </View>
-                <View style={[{ paddingHorizontal: 1}]}>
+                <View style={[{ paddingHorizontal: 1, elevation: 3}]}>
                     <MyText style={[textH4Style, textGrey, { marginBottom: 15}]}>Which city will you host your experience in ?</MyText>
                     <AutoCompleteComponent locationDetails={this.getSelectedLocation} type={false} autofocus={false} 
                     countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} 
@@ -156,7 +161,7 @@ class Location extends Component {
             </View>
             
             <View style={button}>
-                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} />
+                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={!this.state.address} />
             </View>
         </View>
 

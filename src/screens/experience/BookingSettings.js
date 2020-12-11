@@ -46,24 +46,24 @@ class BookingSettings extends Component {
     }
 
     updateExperience = async () => {
-        this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' })
+        // this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' })
 
-        // const { tourOnboard } = this.context.state;
-        // const { cutOffTimeForAdditionalGuest, cutOffTimeForFirstGuest } = this.state
-        // this.setState({ loading: true, errors: [] });
-        // const obj = {
-        //     cutOffTimeForAdditionalGuest, cutOffTimeForFirstGuest,
-        //     id: tourOnboard.id
-        // }
-        // const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
-        // console.log('update experience ', res)
-        // this.setState({ loading: false });
-        // if (res.isError || res.IsError) {
-        //     errorMessage(res.message || res.Message)
-        // } else {
-        //     this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-        //     this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' })
-        // }  
+        const { tourOnboard } = this.context.state;
+        const { cutOffTimeForAdditionalGuest, cutOffTimeForFirstGuest } = this.state
+        this.setState({ loading: true, errors: [] });
+        const obj = {
+            cutOffTimeForAdditionalGuest, cutOffTimeForFirstGuest,
+            id: tourOnboard.id
+        }
+        const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
+        console.log('update experience ', res)
+        this.setState({ loading: false });
+        if (res.isError || res.IsError) {
+            errorMessage(res.message || res.Message)
+        } else {
+            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+            this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' })
+        }  
     }
     renderPickerOne = () => {
         return (
@@ -110,8 +110,9 @@ class BookingSettings extends Component {
             <Header { ...this.props } title="Booking Settings" />
             <View style={container}>
                 <View style={{ marginTop: 30}}>
-                    <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 7</MyText>
-                    <ProgressBar width={80} />
+                    <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
+                    <ProgressBar width={16.7 * 5} />
+                    <ProgressBar width={14.3 * 7} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 10 }}>

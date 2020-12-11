@@ -93,7 +93,8 @@ class Theme extends Component {
             <View style={container}>
                 <View style={{ marginTop: 40}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
-                    <ProgressBar />
+                    <ProgressBar width={16.7} />
+                    <ProgressBar width={100} />
                 </View>
                 
                 <View style={{ flex: 1, marginTop: 40 }}>

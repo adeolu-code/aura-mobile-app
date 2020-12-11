@@ -62,7 +62,8 @@ class Connection extends Component {
             <View style={container}>
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 2 / 6</MyText>
-                    <ProgressBar />
+                    <ProgressBar width={16.7 * 2} />
+                    <ProgressBar width={25*4} />
                 </View>
                 <ScrollView>
                 <View style={{ flex: 1, marginTop: 30 }}>

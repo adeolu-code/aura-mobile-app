@@ -39,22 +39,25 @@ class Duration extends Component {
     getFromDate = (value) => {
         const { noOfDays, toggleDate } = this.state
         const newDate = new Date(value);
-        const formatDate = moment(newDate).format('MMMM D, YYYY')
+        // const formatDate = moment(newDate).format('MMMM D, YYYY')
         if(noOfDays === 1) {
-            this.setState({ toDate: moment(newDate).add(1, 'days').format('MMMM D, YYYY') })
+            this.setState({ toDate: moment(newDate).add(1, 'days') })
+            // this.setState({ toDate: moment(newDate).add(1, 'days').format('MMMM D, YYYY') })
         }
-        this.setState({ fromDate: formatDate, toggleDate: false })
+        // this.setState({ fromDate: formatDate, toggleDate: false })
+        this.setState({ fromDate: newDate, toggleDate: false })
         this.setState({ toggleDate: true })
     }
     getToDate = (value) => {
         const newDate = new Date(value);
-        const formatDate = moment(newDate).format('MMMM D, YYYY')
-        this.setState({ toDate: formatDate })
+        // const formatDate = moment(newDate).format('MMMM D, YYYY')
+        this.setState({ toDate: newDate })
     }
     addDate = () => {
         const { noOfDays, fromDate, toDate, dates } = this.state
         const dateArr = [ ...dates ]
-        const obj = { fromDate, toDate }
+        const obj = { fromDate: fromDate.toISOString(), toDate: toDate.toISOString() }
+        console.log(obj)
         dateArr.push(obj)
         this.setState({ dates: dateArr, fromDate: '', toDate: '', noOfDays: 1, addDate: false })
     }
@@ -106,22 +109,22 @@ class Duration extends Component {
     updateExperience = async () => {
         const { tourOnboard } = this.context.state;
         const { duration, dates, experienceStartTime } = this.state
-        // this.setState({ loading: true });
+        this.setState({ loading: true });
         const obj = {
             dates, duration, experienceStartTime, 
-            // id: tourOnboard.id
+            id: tourOnboard.id
         }
         console.log(obj)
-        this.props.navigation.navigate('TourStack', { screen: 'TourGuestPricing' })
-        // const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
-        // console.log('update experience ', res)
-        // this.setState({ loading: false });
-        // if (res.isError || res.IsError) {
-        //     errorMessage(res.message || res.Message)
-        // } else {
-        //     this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-        //     this.props.navigation.navigate('TourStack', { screen: 'TourGuestPricing' })
-        // }  
+        // this.props.navigation.navigate('TourStack', { screen: 'TourGuestPricing' })
+        const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
+        console.log('update experience ', res)
+        this.setState({ loading: false });
+        if (res.isError || res.IsError) {
+            errorMessage(res.message || res.Message)
+        } else {
+            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+            this.props.navigation.navigate('TourStack', { screen: 'TourGuestPricing' })
+        }  
     }
 
     renderPickerItem = () => {
@@ -214,9 +217,9 @@ class Duration extends Component {
                             return (
                                 <View key={`DAT_${i}`} style={[flexRow, { justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10}]}>
                                     <MyText style={[textH5Style, textGrey]}>{i+1}. </MyText>
-                                    <MyText style={[textH5Style, textGrey]}>{item.fromDate}</MyText>
+                                    <MyText style={[textH5Style, textGrey]}>{moment(item.fromDate).format('MMMM D, YYYY')}</MyText>
                                     <Icon name="arrow-forward" style={{ color: colors.orange, fontSize: 16}} />
-                                    <MyText style={[textH5Style, textGrey]}>{item.toDate}</MyText>
+                                    <MyText style={[textH5Style, textGrey]}>{moment(item.toDate).format('MMMM D, YYYY')}</MyText>
                                     <TouchableOpacity style={{paddingHorizontal: 10}} onPress={this.removeItem.bind(this, i)}>
                                         <Icon name="close-circle" style={{ color: colors.orange, fontSize: 22}} />
                                     </TouchableOpacity>
@@ -248,8 +251,9 @@ class Duration extends Component {
             <Header { ...this.props } title="Duration" />
             <View style={container}>
                 <View style={{ marginTop: 30}}>
-                    <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 8</MyText>
-                    <ProgressBar width={80} />
+                    <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
+                    <ProgressBar width={16.7 * 5} />
+                    <ProgressBar width={14.2 * 5} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 10 }}>
@@ -288,6 +292,12 @@ class Duration extends Component {
                         <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} 
                         onPress={this.updateExperience} />
                     </View>
+                    <View style={styles.skipStyle}>
+                        <CustomButton buttonText="Skip To Step 6" 
+                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        textStyle={{ color: colors.orange }}
+                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                    </View>
                 </ScrollView>
             </View>
             
@@ -304,7 +314,7 @@ const styles = StyleSheet.create({
     },
   
     button: {
-        flex: 1, marginBottom: 40, marginTop: 50, justifyContent: 'flex-end'
+        flex: 1, marginBottom: 20, marginTop: 50, justifyContent: 'flex-end'
     },
     textContainer: {
         paddingHorizontal: 10
@@ -328,6 +338,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10, paddingVertical: 10, marginTop: 10, marginBottom: 10,
         justifyContent: 'center', alignItems: 'center'
     },
+    skipStyle: {
+        marginBottom: 30
+    }
 });
 
 export default Duration;

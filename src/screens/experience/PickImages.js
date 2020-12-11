@@ -117,8 +117,9 @@ export default class PickImages extends Component {
         const { tourOnboard } = this.context.state
 
         const obj = {
-            experienceId: tourOnboard.id, additionalInformation, assetPath: imgUrl
+            experienceId: tourOnboard.id, additionalInformation, assetPath: imgUrl, isMain: true
         }
+        console.log(obj)
         
         Request(urls.experienceBase,`${urls.v}experience/photo/upload`, obj )
         .then((res) => {
@@ -142,7 +143,7 @@ export default class PickImages extends Component {
             photoId: data.id,
             experienceId: data.experienceId
         }
-        await Request(urls.experienceBase,`${urls.v}experience/photo/upload`, obj )
+        await Request(urls.experienceBase,`${urls.v}experience/photo/cover`, obj )
         // const res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/experience?experienceid=${data.}`)
         // if(res.isError || res.IsError) {
 
@@ -275,8 +276,8 @@ export default class PickImages extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header 
-                        {...this.props} title="Upload Your Pictures" 
-                        sub={!isCaptured ? "Upload cover image" : "Upload other images of property"}
+                        {...this.props} title="Upload Your Photos" 
+                        sub={!isCaptured ? "Upload cover image" : "Upload other images for this tour"}
                     />
                     <ScrollView>
                     <Container style={[Styles.container]}>

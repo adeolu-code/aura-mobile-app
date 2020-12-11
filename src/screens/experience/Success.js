@@ -7,7 +7,7 @@ import colors from '../../colors';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { GOOGLE_API_KEY, GetRequest, errorMessage } from '../../utils';
+import { GetRequest, errorMessage, urls, Request } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 import ProgressBar from '../../components/ProgressBar'
@@ -27,9 +27,19 @@ class Success extends Component {
   }
   
   
-  next = () => {
-    this.props.navigation.navigate('TourStack', { screen: 'TourSafetyPolicy' })
-
+  next = async () => {
+    const { tourOnboard } = this.context.state;
+    this.setState({ loading: true, errors: [] });
+    
+    const res = await Request(urls.experienceBase, `${urls.v}experience/publish?id=${tourOnboard.id}` );
+    console.log('update experience ', res)
+    this.setState({ loading: false });
+    if (res.isError || res.IsError) {
+        errorMessage(res.message || res.Message)
+    } else {
+        this.context.set({ tourOnboard: null })
+        this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
+    }  
   }
   
 
@@ -39,9 +49,11 @@ class Success extends Component {
     const { container, button, imageContainer, textContainer, divider, radioContainer, activeRadio, selectRow, alertStyle, icon } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
         textH4Style, textH5Style, textH6Style} = GStyles;
+    const { userData } = this.context.state
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
+            {this.renderLoading()}
             <Header { ...this.props } title="You are Done" />
             <View style={container}>
                 <View style={{ marginTop: 30}}>
@@ -63,7 +75,7 @@ class Success extends Component {
                             <View style={[flexRow, { alignItems: 'center', marginBottom: 15, marginTop:20}]}>
                                 
                                 <MyText style={[textH4Style, textGrey, {flexWrap: 'wrap', flex: 1, lineHeight: 24}]}>
-                                Hi <MyText style={[textBold]}>ALex</MyText>, your identity is currently being verified with the identity information you provided to us.
+                                Hi <MyText style={[textBold]}>{userData.firstName}</MyText>, your identity is currently being verified with the identity information you provided to us.
                                 We will review all details you submitted. This should take less than 72 hours.
                                 Once all is verified, your tour/experience will be approved and guests can begin booking your tour/experience</MyText>
                             </View>
