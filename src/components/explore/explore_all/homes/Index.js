@@ -101,10 +101,11 @@ class Index extends Component {
     let title = item.title ? item.title : 'no title'
     title = shortenXterLength(title, 18)
     const type = item.propertyType?.name;
+    const imgUrl = item.mainImage ? {uri:item.mainImage.assetPath} : require('../../../../assets/images/no_house1.png')
     return (
       <View style={{paddingHorizontal: 20}}>
         <ItemComponent title={item.title} price={`₦ ${formattedAmount} / night`} location={item.state} verified={item.isVerified}
-            img={{uri:item.mainImage.assetPath}} type={type} onPress={this.linkHouse.bind(this, item)} rating={item.rating} />
+            img={imgUrl} type={type} onPress={this.linkHouse.bind(this, item)} rating={item.rating} />
       </View>
     )
     

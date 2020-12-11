@@ -13,14 +13,18 @@ class Header extends Component {
     };
   }
   goBack = () => {
+    if(this.props.onPress) {
+      this.props.onPress()
+    } else {
+      if (this.props.goBackTo) {
+        consoleLog("this.props.goBackTo", this.props.goBackTo)
+        this.props.navigation.navigate(this.props.goBackTo);
+      }
+      else {
+        this.props.navigation.goBack();
+      }
+    }
     
-    if (this.props.goBackTo) {
-      consoleLog("this.props.goBackTo", this.props.goBackTo)
-      this.props.navigation.navigate(this.props.goBackTo);
-    }
-    else {
-      this.props.navigation.goBack();
-    }
     
   }
 

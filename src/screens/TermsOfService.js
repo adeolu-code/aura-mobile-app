@@ -26,7 +26,8 @@ class TermsOfService extends Component {
         
             break;
         case EXPERIENCE:
-            this.props.navigation.navigate('TourStack', { screen: 'TourLocation'})
+            this.props.navigation.navigate('TourStack', { screen: 'TourGuestRequirement'})
+            // this.props.navigation.navigate('TourStack', { screen: 'TourLocation'})
             break;
         default:
             break;

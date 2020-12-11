@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {MyText} from '../../utils/Index';
@@ -36,15 +37,7 @@ class HouseComponent extends Component {
       scrollItemContainer,
     } = styles;
     const {
-      imgStyle,
-      flexRow,
-      textSuccess,
-      textExtraBold,
-      textH3Style,
-      textDarkGrey,
-      marginBottomSmall,
-      textGrey,
-      textH4Style,
+      imgStyle, flexRow, textSuccess, textExtraBold, textH3Style, textDarkGrey, marginBottomSmall, textGrey, textH4Style,
     } = GStyles;
     const {title, img, location, price, onPress, rating } = this.props;
     return (
@@ -83,7 +76,7 @@ const styles = StyleSheet.create({
         width: '100%', 
     },
     imgContainer: {
-        width: '100%', height: 170, borderRadius: 8, overflow: 'hidden', marginBottom: 10
+        width: '100%', height: 170, borderRadius: 8, overflow: 'hidden', marginBottom: 10, backgroundColor: colors.white, elevation: 2
     },
     iconContainer: {
       backgroundColor: colors.orange, width: 18, height: 18, borderRadius: 20, justifyContent: 'center', alignItems: 'center',

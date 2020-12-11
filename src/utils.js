@@ -33,7 +33,8 @@ export const urls = {
     supportBase: "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/",
     promotionBase: "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/",
     storageBase: "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/storage/",
-    experienceBase: "http://aura-experience-service.d6f993e093904834a7f1.eastus.aksapp.io/api/v1/experience/",
+    experienceBase: "http://aura-experience-service.d6f993e093904834a7f1.eastus.aksapp.io/",
+    restaurantBase: "http://aura-restaurant.d6f993e093904834a7f1.eastus.aksapp.io/",
     v1: "api/v1/",
     v: "api/v1/",
     auth: "auth/",
@@ -270,7 +271,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
      "Access-Control-Allow-Origin": "*",
     }   
     if (typeof token === "boolean" && token) {
-      headers["Authorization"] = "Bearer " + Token
+      headers["Authorization"] = "Bearer " + token
     } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
     }   

@@ -76,7 +76,7 @@ class CustomInput extends Component {
       iconName,
       label,
       sublabel,
-      placeholderColor, disabled
+      placeholderColor, disabled, textAlignVertical
     } = this.props;
     // const inputImgStyle = imageUrl || iconName ? '' : InputWithImgStyle;
     const paddingRight = password ? '' : inputRightPadding;
@@ -103,7 +103,7 @@ class CustomInput extends Component {
             placeholder={placeholder || 'Placeholder'}
             onChange={onChange}
             keyboardType={keyboard}
-            placeholderTextColor={placeholderColor || 'rgba(99, 99, 99, 0.7)'}
+            placeholderTextColor={placeholderColor || 'rgba(99, 99, 99, 0.7)'} textAlignVertical={textAlignVertical || "center"}
           />
           {this.renderSpinner()}
           {this.renderShow()}

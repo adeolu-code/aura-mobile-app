@@ -42,7 +42,7 @@ function MyTabs() {
         activeTintColor: colors.orange,
         inactiveTintColor: colors.darkBlue,
         style: {
-          height: 80,
+          height: 70,
           elevation: 3,
         },
       }}>

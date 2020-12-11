@@ -21,7 +21,7 @@ import { Request, GetRequest, urls } from '../../utils'
 class ThemeListModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false, formErrors: [], lists: [], listValue: null, subLists: [], subListValue: null };
+        this.state = { loading: false, errors: [], lists: [], listValue: null, subLists: [], subListValue: null };
     }
 
     openModal = () => {
@@ -43,7 +43,7 @@ class ThemeListModal extends Component {
 
     getThemeList = async () => {
         this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.experienceBase, `${urls.v}themeCategory/list`);
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/themeCategory/list`);
         this.setState({ loading: false });
         if (res.isError || res.IsError) {
             const message = res.message;
@@ -55,7 +55,7 @@ class ThemeListModal extends Component {
     }
     getSubCatThemeList = async (id) => {
         this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.experienceBase, `${urls.v}theme/list?ThemeCategoryId=${id}`);
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/theme/list?ThemeCategoryId=${id}`);
         this.setState({ loading: false });
         if (res.isError || res.IsError) {
             const message = res.message;
@@ -105,7 +105,7 @@ class ThemeListModal extends Component {
             }
             return <MyText Style={[textH4Style, textBold]}>No Data for this Category</MyText>
         } else {
-            if(lists.length > 0) {
+            if(lists && lists.length > 0) {
                 return lists.map((item, index) => {
                     const key = `TH_${index}`
                     return (

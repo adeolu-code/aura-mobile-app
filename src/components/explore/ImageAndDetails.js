@@ -11,12 +11,16 @@ import { Icon } from 'native-base';
 import colors from '../../colors';
 
 import StarComponent from '../../components/StarComponent';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 class ImageAndDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentIndex: 1, photos: [], loadingPhotos: false };
+    this.state = { currentIndex: 1, photos: [], loadingPhotos: false, showModal: false };
+  }
+  openHostDetailsModal = () => {
+    this.setState({ showModal: true })
   }
     indexChange = (index) => {
         this.setState({ currentIndex: index + 1})
@@ -54,9 +58,9 @@ class ImageAndDetails extends Component {
         }
     }
     renderProfileVerified = () => {
-        const { house } = this.props
+        const { house } = this.props;
         const { iconVerifiedContainer, verifiedStyle } = styles
-        if(house.isVerified) {
+        if (house.isVerified) {
             return (
                 <View style={{ position: 'absolute', right: 0, top: -5}}>
                     <View style={iconVerifiedContainer}>
@@ -85,7 +89,7 @@ class ImageAndDetails extends Component {
     const { flexRow, textH2Style, textExtraBold, textBold, textLgStyle, textH5Style, textGrey, textH4Style, 
             imgStyle, textWhite, textH3Style, textSuccess, textH6Style, textDarkGrey } = GStyles
     const { currentIndex, photos } = this.state
-    const { time, house, title, loading } = this.props;
+    const { time, house, title, loading, openHostModal } = this.props;
 
     const imgUrl = house.hostPicture ? { uri: house.hostPicture } : require('../../assets/images/profile.png')
     return (
@@ -142,7 +146,9 @@ class ImageAndDetails extends Component {
 
                         <View style={[flexRow, thumbTxtContainer]}>
                             <View style={thumbContainer}>
+                                <TouchableOpacity onPress={openHostModal}>
                                 <Image source={imgUrl} resizeMode="cover" style={thumbStyle} />
+                                </TouchableOpacity>
                                 {this.renderProfileVerified()}
                                 {/* <View style={{ position: 'absolute', right: 0, top: -5}}>
                                     <View style={iconVerifiedContainer}>
@@ -153,7 +159,7 @@ class ImageAndDetails extends Component {
                             <MyText style={[textH3Style]}>Posted by {house.hostName}</MyText>
                         </View>
                     </View>
-                    <View style={divider}></View>
+                    <View style={divider} />
                 </Fragment> : <Fragment></Fragment>}
             </View>
 

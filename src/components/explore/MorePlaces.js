@@ -1,10 +1,11 @@
+/* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
-import { MyText, Loading, CustomButton } from '../../utils/Index';
+import { View, Text, ScrollView, StyleSheet, Image, Dimensions, TouchableOpacity, FlatList } from 'react-native';
+import { MyText, Loading, CustomButton, Spinner } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import HouseComponent from './HouseComponent';
 import ScrollHeader from './ScrollHeader';
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 
@@ -14,32 +15,52 @@ class MorePlaces extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { loading: false, places: [], noDot: true, first: true };
+        this.state = { loading: false, places: [], noDot: true, first: true, currentPage: 1, pageSize: 10, pageCount: 0, totalItems: 0, loadmore: false };
     }
     linkToHouses = () => {
         this.props.navigation.navigate('ExploreAll', { tab: 'two' })
     }
     linkToHouse = (house) => {
-        this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
+        this.props.navigation.push('Other', { screen: 'HouseSingle', params: { house } })
     }
     
-    getPlaces = async () => {
-        this.setState({ loading: true })
+    getPlaces = async (more=false) => {
+        more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
+        const { currentPage, pageSize, places } = this.state
         const { house } = this.props
-        // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-        // `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
         const res = await GetRequest(urls.listingBase, 
-        `${urls.v}listing/property/closeby/?propertyid=${house.id}`);
-        console.log('Places around ', res)
-        this.setState({ loading: false })
-        if(res.isError) {
+        `${urls.v}listing/property/closeby/?id=${house.id}&pageSize=${pageSize}&Page=${currentPage}`);
+        console.log(res)
+        more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
+        if(res.isError || res.IsError) {
             const message = res.Message;
+            errorMessage(message)
         } else {
-            this.setState({ places: res.data.data })
-            if(res.data.data.length !== 0) {
+            const dataResult = res.data.data
+            let data = []
+            if(more) {
+                data = [...places, ...dataResult]
+            } else {
+                data = dataResult
+            }
+            const pageCount =  Math.ceil(res.data.totalItems / pageSize)
+            this.setState({ places: data, currentPage: res.data.page, totalItems: res.data.totalItems, pageSize: res.data.pageSize, pageCount })
+            if(dataResult !== 0) {
                 this.setState({ noDot: false })
             }
         }
+        
+    }
+    onEndReached = () => {
+        
+        const { pageCount, currentPage, loadMore } = this.state
+        // console.log('End reached ', pageCount, currentPage)
+        // if(currentPage < pageCount && !loadMore) {
+        //   this.setState(()=>({ currentPage: this.state.currentPage + 1}), 
+        //   () => {
+        //     this.getPlaces(true)
+        //   })
+        // }
     }
 
     renderLoading = () => {
@@ -58,26 +79,56 @@ class MorePlaces extends Component {
             }
         }
     }
+    renderLoadMore = () => {
+        const { loadMore } = this.state;
+        const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
+        if(loadMore) {
+            return (
+                <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
+                    <Spinner size={20} color={colors.orange} />
+                    <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
+                </View>
+            )
+        }
+    }
+    renderItem = ({item}) => {
+        const { scrollItemContainer } = styles
+        const formattedAmount = formatAmount(item.pricePerNight)
+        const title = item.title ? shortenXterLength(item.title, 18) : 'No title';
+        const imgUrl = item.mainImage ? { uri: item.mainImage.assetPath } : require('../../assets/images/no_house1.png')
+        return (
+            <View style={scrollItemContainer}>
+                <HouseComponent img={imgUrl} verified={item.isVerified} title={title} location={item.state} 
+                onPress={this.linkToHouse.bind(this, item)}
+                price={`₦ ${formattedAmount} / night`} {...this.props} rating={item.rating} />
+            </View>
+        )
+    }
 
 
   renderPlaces = () => {
     const { location } = this.context.state;
     const { places, loading } = this.state
-    const { scrollItemContainer, emptyStyles, locationContainer } = styles;
     
-    
-    if(places.length !== 0) {
+    if(places && places.length !== 0) {
         return (
-            places.map((item, i) => {
-                const formattedAmount = formatAmount(item.pricePerNight)
-                const title = shortenXterLength(item.title, 18)
-                return (
-                    <View style={scrollItemContainer} key={item.id}>
-                        <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={this.linkToHouse.bind(this, item)}
-                        title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
-                    </View>
-                )
-            })
+            <FlatList
+                horizontal={true}
+                ListFooterComponent={
+                    <>
+                        {this.renderLoadMore()}
+                    </>
+                }
+                // ListEmptyComponent={this.renderEmptyContainer()}
+                ListFooterComponentStyle={{ marginBottom: 60, marginRight: 80}}
+                ListHeaderComponentStyle={{ marginBottom: 20, marginRight: 20}}
+                data={places}
+                renderItem={this.renderItem}
+                keyExtractor={(item) => item.id}
+                onEndReached={this.onEndReached}
+                onEndReachedThreshold={0.8}
+                // extraData={selectedId}
+            />
         )
     }
     
@@ -152,11 +203,9 @@ class MorePlaces extends Component {
                     <MyText style={[textH2Style, textExtraBold]}>More Places To Stay</MyText>
                 </View>
                 <View style={scrollMainContainer}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}>
-                        <View style={[scrollContainer, { width: '100%' }]}>
-                            {this.renderPlaces()}
-                        </View>
-                    </ScrollView>
+                    <View style={[scrollContainer ]}>
+                        {this.renderPlaces()}
+                    </View>
                 </View>
                 {this.renderEmptyLocation()}
                 {this.renderEmptyProperty()}
@@ -166,13 +215,17 @@ class MorePlaces extends Component {
   }
 }
 
+const { width } = Dimensions.get('window')
+
 const styles = StyleSheet.create({
     scrollContainer: {
         flexDirection: 'row', marginVertical: 30,
         // borderWidth: 1
     }, 
     scrollItemContainer: { 
-        marginRight: '1.8%', width: '21.5%'
+        // marginRight: '1.8%', 
+        marginRight: 20, 
+        width: 0.40 * `${width}`
     },
     // placeAroundContainer: {
     //     paddingVertical: 20,

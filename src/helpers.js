@@ -47,6 +47,20 @@ export const rulesIcons = [
     { name: 'no smoking allowed', iconName: 'smoke-free', type: 'MaterialIcons'},
     { name: 'default', iconName: 'check-circle', type: 'MaterialIcons'}
 ]
+export const operationsIcons = [
+    { name: 'Waiter', iconName: 'restaurant', type: 'MaterialIcons'},
+    { name: 'Pickup', iconName: 'shopping-basket', type: 'MaterialIcons'},
+    { name: 'Delivery', iconName: 'local-shipping', type: 'MaterialIcons'},
+    { name: 'default', iconName: 'room-service', type: 'MaterialIcons'}
+]
+export const servicesIcons = [
+    { name: 'Night Life', iconName: 'sports-bar', type: 'MaterialIcons'},
+    { name: 'Breakfast', iconName: 'fastfood', type: 'MaterialIcons'},
+    { name: 'Lunch', iconName: 'restaurant', type: 'MaterialIcons'},
+    { name: 'Dinner', iconName: 'local-bar', type: 'MaterialIcons'},
+    { name: 'Cafe', iconName: 'local-pizza', type: 'MaterialIcons'},
+    { name: 'default', iconName: 'room-service', type: 'MaterialIcons'}
+]
 export const clearData = async () => {
     try {
         const keys = ['userData', 'token'];

@@ -1,0 +1,139 @@
+import React, { Component } from 'react';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, Platform, Keyboard } from 'react-native';
+import {Icon, Picker} from 'native-base';
+import { CustomButton, MyText, Loading, CustomInput } from '../../utils/Index';
+import colors from '../../colors';
+
+
+import Header from '../../components/Header';
+import GStyles from '../../assets/styles/GeneralStyles';
+import { GOOGLE_API_KEY, GetRequest, errorMessage, Request, urls } from '../../utils';
+
+import { AppContext } from '../../../AppProvider';
+
+import ProgressBar from '../../components/ProgressBar'
+
+
+
+class Notes extends Component {
+    static contextType = AppContext;
+  constructor(props) {
+    super(props);
+    this.state = { loading: false, audience: [], notes: ''  };
+  }
+    renderLoading = () => {
+        const { loading } = this.state;
+        if(loading) { return (<Loading />) }
+    }
+
+    updateExperience = async () => {
+        this.props.navigation.navigate('TourStack', { screen: 'TourGuestRequirement' })
+
+        // const { tourOnboard } = this.context.state
+        // this.setState({ loading: true, errors: [] });
+        // const obj = {
+        //     audienceId: this.state.notes,
+        //     id: tourOnboard.id
+        // }
+        // console.log(obj)
+        // const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
+        // console.log('update experience ', res)
+        // this.setState({ loading: false });
+        // if (res.isError || res.IsError) {
+        //     errorMessage(res.message || res.Message)
+        // } else {
+        //     this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+        //     this.props.navigation.navigate('TourStack', { screen: 'TourGuestRequirement' })
+        // }  
+    }
+
+  
+
+  componentDidMount = () => {
+    
+  }
+
+  render() {
+    const { container, button, picker, icon, selectRow, radioContainer, activeRadio, touchContainer } = styles;
+    const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
+        textH4Style, textH5Style, textH6Style} = GStyles;
+    const { ansOne, ansThree, ansTwo } = this.state
+    const placeholder = `Try addressing any concerns guests might have about booking your experience`
+    
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
+            {this.renderLoading()}
+            <Header { ...this.props } title="Notes" />
+            <View style={container}>
+                <View style={{ marginTop: 30}}>
+                    <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 7</MyText>
+                    <ProgressBar width={80} />
+                </View>
+                <ScrollView>
+                    <View style={{ flex: 1, marginTop: 20 }}>
+                        <View>
+                            <MyText style={[textH3Style, textGrey, textBold, { marginBottom: 15, marginTop: 15}]}>
+                            What else do guests need to know before they book?
+                            </MyText>
+                            <MyText style={[textH4Style, textGrey ]}>
+                            Some information may seem obvious, but be detailed so guests are over-prepared.
+                            </MyText>
+
+                            <View style={{paddingHorizontal: 2, marginTop: 30}}>
+                                <View>
+                                    <CustomInput placeholder={placeholder} 
+                                    textInputStyle={{ height: 150, marginBottom:10 }} textAlignVertical="top" 
+                                    value={this.state.notes} onChangeText={this.onChangeValue} attrName="notes" />
+                                </View>
+                            </View>
+                            
+                        </View>
+                    </View>
+                    
+                    <View style={button}>
+                        <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} />
+                    </View>
+                </ScrollView>
+            </View>
+            
+        </SafeAreaView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.white,
+        paddingHorizontal: 24, marginTop: 100,
+        flex: 1, flexGrow: 1
+    },
+  
+    button: {
+        flex: 1, marginBottom: 40, marginTop: 150, justifyContent: 'flex-end'
+    },
+    imageContainer: {
+        borderRadius: 10, borderColor: colors.orange, borderWidth: 4, width: '100%', height: 250, overflow: 'hidden',
+    },
+    textContainer: {
+        paddingHorizontal: 10
+    },
+    icon: {
+        fontSize: 8, marginRight: 15, color: colors.grey
+    },
+    
+    radioContainer: {
+        borderRadius: 18, width: 18, height: 18, borderWidth: 2, borderColor: colors.orange, justifyContent: 'center', alignItems: 'center', 
+        marginRight: 10, marginTop: 5
+    },
+    activeRadio: {
+        width: 10, height: 10, backgroundColor: colors.orange, borderRadius: 10, 
+    },
+    selectRow: {
+        alignItems: 'flex-start', paddingBottom: 10
+    },
+    touchContainer: {
+        borderRadius: 8, elevation: 2, backgroundColor: colors.white, padding: 15, marginTop: 10, width: '100%'
+    }
+});
+
+export default Notes;
