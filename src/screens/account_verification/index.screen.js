@@ -7,8 +7,10 @@ import { Styles } from "./accountVerification.style";
 import colors from "../../colors";
 import { MyText, CustomButton } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
+import { AppContext } from "../../../AppProvider";
 
 export default class AccountVerification extends Component {
+    static contextType = AppContext;
     constructor() {
         super();
 
@@ -16,7 +18,15 @@ export default class AccountVerification extends Component {
     }
 
     selectVerification = () => {
-        this.props.navigation.navigate('SelectVerification')
+        if (this.context.state.userData && this.context.state.userData.identificationDocument) {
+            // id doc approved
+            this.props.navigation.navigate('UploadVerification', {force:true}) 
+
+        }
+        else {
+            this.props.navigation.navigate('SelectVerification')
+        }
+        
     }
 
     render() {

@@ -5,6 +5,7 @@ import { View  } from 'native-base';
 import { MyText } from './../../utils/Index';
 import TopTab from '../top_tab/topTabComponent';
 import GStyles from "./../../assets/styles/GeneralStyles";
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -27,7 +28,7 @@ class BottomTabSectionNoRecord extends Component {
       const { textH1Style, textExtraBold, textDarkBlue } = GStyles;
     return (
       <>
-        <View style={[Styles.parentView]}>
+        <View style={[Styles.parentView, ]}>
             <MyText style={[textExtraBold, textH1Style, textDarkBlue, Styles.myTextTitle, this.props.myTextTitle ]}>
                 {this.props.title}
             </MyText>
@@ -36,9 +37,12 @@ class BottomTabSectionNoRecord extends Component {
                 activeTab={this.props.activeTab ?? 0}
                 onClick={(e) => this.props.onTopTabClick(e)} 
             />
-            {
-                this.props.render
-            }
+            <ScrollView>
+              {
+                  this.props.render
+              }
+            </ScrollView>
+            
         </View>
       </>
     );

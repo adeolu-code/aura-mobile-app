@@ -28,25 +28,17 @@ export default class SelectVerification extends Component {
     }
 
     init = () => {
-        if (this.context.state.userData && this.state.userData.identificationDocument) {
-            // id doc approved
-            this.props.navigation.navigate('UploadVerification', {force:true}) 
-
+        consoleLog("identification", this.context.state.userData);
+        if (this.context.state.idTypes != undefined) {
+            this.setState({idTypes: this.context.state.idTypes, selectedId: result[0].id});
         }
         else {
-
-        
-            if (this.context.state.idTypes != undefined) {
-                this.setState({idTypes: this.context.state.idTypes, selectedId: result[0].id});
-            }
-            else {
-                getIdentityTypesApi().then(result => {
-                    if (result != undefined) {
-                        this.setState({idTypes: result, selectedId: result[0].id});
-                        this.context.set({idTypes: result})
-                    }
-                });
-            }
+            getIdentityTypesApi().then(result => {
+                if (result != undefined) {
+                    this.setState({idTypes: result, selectedId: result[0].id});
+                    this.context.set({idTypes: result})
+                }
+            });
         }
     }
 

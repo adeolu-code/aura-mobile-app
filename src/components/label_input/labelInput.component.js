@@ -14,6 +14,8 @@ import { consoleLog } from "../../utils";
  * 
  * onChange | onPickerChange | onChangeText [function]
  * 
+ * pickerOptions [array {label,value} |picker only]
+ * 
  */
 export const LabelInput = (props) => {
     const dateTime = (props.dateTime == undefined) ? false : ((props.dateTime) ? true : false);
@@ -49,12 +51,13 @@ export const LabelInput = (props) => {
             <Picker.Item key={1} value={"Female"} label={"Female"} />
         ];
         return (
-            <Item stackedLabel style={[Styles.item, props.itemStyle]}>
+            <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={props.disabled || false}>
                 <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <Picker
                         selectedValue={props.selectedOption ? props.selectedOption : "Male"}
                         onValueChange={(e) => props.onPickerChange && props.onPickerChange(e)}
+
                     >
                         {
                             props.pickerOptions != undefined ?
@@ -139,6 +142,7 @@ export const LabelInput = (props) => {
                             value={props.value}
                             onChangeText={(e) => { consoleLog("val", e); props.onChangeText(e);}}
                             keyboardType={props.keyboardType || "default"}
+                            disabled={props.disabled || false}
                         />
                     </View>
                     {

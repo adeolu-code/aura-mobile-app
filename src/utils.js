@@ -6,7 +6,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
-export let debug = false;
+export let debug = true; 
 export const GLOBAL_PADDING = 20;
 
 const CLIENT_ID = '0987654321'
@@ -70,6 +70,8 @@ export const urls = {
     changePassword: "changepassword/",
     forgotPassword: "forgotpassword/",
     complaints: "complaints/",
+    bank: "bank/",
+    bankAccount: "bankaccount/",
 }
 const getUserToken = async () => {
 	try {
@@ -134,6 +136,7 @@ export async function Request(
    const token = await getUserToken();
    let headers = {}
    consoleLog("url", Base+Url, Data)
+   console.log("url", Base+Url, Data)
    
    if (!PreparedData) {
       headers["Content-Type"] = "application/json"
