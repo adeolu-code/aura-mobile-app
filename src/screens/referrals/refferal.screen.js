@@ -89,7 +89,7 @@ export default class Referrals extends Component {
                                     style={[Styles.facebookImageView]}
                                     onPress={() => this.shareToFB()}
                                 >
-                                    <Image source={require("./../../assets/images/profile/facebook/facebook.png")} />
+                                    <Image source={require("./../../assets/images/icons/facebook/facebook.png")} />
                                 </TouchableOpacity>
                                 <TouchableOpacity 
                                     style={[Styles.instagramImageView]}

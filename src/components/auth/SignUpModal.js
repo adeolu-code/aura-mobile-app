@@ -146,7 +146,7 @@ class SignUpModal extends Component {
               <View>
                 <CustomButton
                   buttonText="Sign Up With Facebook" buttonStyle={buttonStyle} onPress={this.loginWithFacebook}
-                  socialImg={require('../../assets/images/icons/facebook/Facebook.png')}
+                  socialImg={require('../../assets/images/icons/facebook/facebook.png')}
                   textStyle={{ color: colors.darkGrey }}
                 />
                 <CustomButton

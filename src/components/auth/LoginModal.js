@@ -233,7 +233,7 @@ class LoginModal extends Component {
                 </View>
                 <View style={socialContainer}>
                   <CustomButton buttonText="Log In With Facebook" buttonStyle={buttonStyle} onPress={this.loginWithFacebook}
-                  socialImg={require('../../assets/images/icons/facebook/Facebook.png')}
+                  socialImg={require('../../assets/images/icons/facebook/facebook.png')}
                     textStyle={{ color: colors.darkGrey }}  />
                   <CustomButton buttonText="Log In With Google" buttonStyle={buttonStyle} onPress={this.loginWithGoogle}
                   socialImg={require('../../assets/images/icons/google/google.png')}

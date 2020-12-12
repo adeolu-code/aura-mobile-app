@@ -148,7 +148,7 @@ class Index extends Component {
         <MyText style={[textH3Style, textExtraBold, { marginTop:30}]}>Tour Guides & Experiences On Aura</MyText>
         <View style={contentContainer}>
           <ItemComponent title="LaCampagne Tropicana" price="₦ 5,000 / person" location="Lagos" 
-          img={require('../../../../assets/images/photo/pic3.png')} />
+          img={require('../../../../assets/images/photo/pic2.png')} />
         </View> */}
       </>
     );

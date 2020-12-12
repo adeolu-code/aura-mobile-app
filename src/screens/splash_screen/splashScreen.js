@@ -10,7 +10,6 @@ import { AppContext } from '../../../AppProvider';
 
 
 const auraAnimated = require("./../../assets/aura_splash_animation.gif");
-// const auraAnimated = require("./../../assets/aura_animation.gif");
 const splashTimeout = 3800;
 
 const navigateToTab = async (props) => {

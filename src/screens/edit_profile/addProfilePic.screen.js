@@ -137,7 +137,7 @@ export default class AddProfilePicture extends Component {
                                 </MyText>
                             </TouchableOpacity>
                             {/* <View style={[Styles.fbProfilePic]}>
-                                <Image source={require("./../../assets/images/profile/facebook/facebook.png")} />
+                                <Image source={require("./../../assets/images/icons/facebook/facebook.png")} />
                                 <MyText style={[textUnderline, {marginTop: 5, marginLeft: 5}]}>Use Facebook Photo</MyText>
                             </View> */}
                         </Content>
