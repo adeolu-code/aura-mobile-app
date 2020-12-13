@@ -11,6 +11,7 @@ import { GOOGLE_API_KEY, GetRequest, errorMessage } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 import ProgressBar from '../../components/ProgressBar'
+import CancelComponent from '../../components/experience/CancelComponent';
 
 
 class StepTwo extends Component {
@@ -91,11 +92,14 @@ class StepTwo extends Component {
                 <View style={button}>
                     <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} />
                 </View>
-                <View style={skipStyle}>
-                    <CustomButton buttonText="Skip To Step 3" 
-                    buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
-                    textStyle={{ color: colors.orange }}
-                    onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
+                <View style={[flexRow, skipStyle]}>
+                    {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                    <View style={{ flex: 1}}>
+                        <CustomButton buttonText="Skip To Step 3" 
+                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        textStyle={{ color: colors.orange }}
+                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
+                    </View>
                 </View>
                 </ScrollView>
             </View>

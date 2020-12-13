@@ -12,6 +12,8 @@ import { GOOGLE_API_KEY, GetRequest, errorMessage, Request, urls } from '../../u
 import { AppContext } from '../../../AppProvider';
 
 import ProgressBar from '../../components/ProgressBar'
+import CancelComponent from '../../components/experience/CancelComponent';
+
 
 
 
@@ -121,7 +123,11 @@ class GuestRequirements extends Component {
     }
 
     componentDidMount = () => {
-        
+        const { tourOnboard, editTour } = this.context.state;
+        if(editTour) {
+            this.setState({ minimumAge: tourOnboard.minimumAge, 
+                skillLevel: this.skillLevels[tourOnboard.skillLevel], activityLevel: this.activityLevels[tourOnboard.activityLevel] })
+        }
     }
 
 
@@ -178,11 +184,14 @@ class GuestRequirements extends Component {
                         <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} disabled={this.validate()} 
                         onPress={this.updateExperience} />
                     </View>
-                    <View style={styles.skipStyle}>
-                        <CustomButton buttonText="Skip To Step 6" 
-                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
-                        textStyle={{ color: colors.orange }}
-                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                    <View style={[flexRow, styles.skipStyle]}>
+                        {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                        <View style={{ flex: 1}}>
+                            <CustomButton buttonText="Skip To Step 6" 
+                            buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            textStyle={{ color: colors.orange }}
+                            onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                        </View>
                     </View>
                 </ScrollView>
             </View>

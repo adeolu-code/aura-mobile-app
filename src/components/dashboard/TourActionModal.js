@@ -45,13 +45,19 @@ class TourActionModal extends Component {
         const { loading } = this.state;
         if(loading) { return (<Loading />) }
     }
+    viewPhotos = () => {
+        const { tour, navigation, onDecline } = this.props
+        const { state, set } = this.context;
+        onDecline()
+        navigation.navigate('Photos', { id: tour.id, type: 'tour', title: tour.title } )
+    }
     onEdit = () => {
         const { tour, navigation, onDecline } = this.props
         const { state, set } = this.context;
-        this.checkStep()
-        set({ propertyFormData: tour })
+        // this.checkStep()
+        set({ tourOnboard: tour, editTour: true })
         onDecline()
-        navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+        navigation.navigate('TourStack', { screen: 'TourLocation'})
     }
     checkStep = () => {
         const { tour } = this.props;
@@ -172,7 +178,12 @@ class TourActionModal extends Component {
                                     </View>
                                     {this.renderError()}
                                 </View>
-                                
+                                <TouchableOpacity style={tabTwo} onPress={this.viewPhotos}>
+                                    <MyText style={[textDarkBlue, textBold]}>
+                                        View/Edit Photos
+                                    </MyText>
+                                </TouchableOpacity>
+                                <View style={[dash]}></View>
                                 <TouchableOpacity style={tabTwo} onPress={this.onEdit}>
                                     <MyText style={[textDarkBlue, textBold]}>
                                             Edit Tour
@@ -218,7 +229,7 @@ const styles = StyleSheet.create({
         overflow: "hidden",
     },
     dash: {
-        height: 1,
+        height: 1, width: '100%',
         backgroundColor: colors.lightGrey,
     },
     tabOne: {

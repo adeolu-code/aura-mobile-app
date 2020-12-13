@@ -61,7 +61,7 @@ class TourSingle extends Component {
     console.log('Photos tour ', res)
     this.setState({ loadingImages: false })
     if(res.isError) {
-        const message = res.Message;
+        const message = res.Message || res.message;
         errorMessage(message)
     } else {
         const imgData = res.data;

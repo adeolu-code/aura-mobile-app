@@ -89,6 +89,8 @@ import MyPageScreen from '../screens/photograph/MyPage';
 import PortfolioScreen from '../screens/photograph/Portfolio';
 import Bank from '../screens/payment/bank.screen';
 
+import PhotosComponentScreen from '../screens/dashboard_stack/PhotosComponent';
+
 
 const Stack = createStackNavigator();
 
@@ -120,6 +122,7 @@ export function DashboardStack() {
 
             <Stack.Screen name="MyPage" component={MyPageScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Portfolio" component={PortfolioScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Photos" component={PhotosComponentScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotographChangeProfile" component={PhotographChangeProfilePicScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>

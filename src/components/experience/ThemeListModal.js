@@ -51,6 +51,7 @@ class ThemeListModal extends Component {
             this.setState({ errors: error});
         } else {
             this.setState({ lists: res.data })
+            this.props.getThemes(res.data)
         }
     }
     getSubCatThemeList = async (id) => {

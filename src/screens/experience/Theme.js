@@ -20,7 +20,10 @@ class Theme extends Component {
     static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { showCatThemeModal: false, themeValues: null, loading: false };
+    this.state = { showCatThemeModal: false, themeValues: null, loading: false, themes: [] };
+  }
+  getThemes = (themes) => {
+    this.setState({ themes })
   }
   renderLoading = () => {
     const { loading } = this.state;
@@ -63,23 +66,45 @@ class Theme extends Component {
   }
 
   createExperience = async () => {
-    const { tourOnboard } = this.context.state
-    this.setState({ loading: true, errors: [] });
+    const { tourOnboard, editTour } = this.context.state
     const { themeValues } = this.state
-    const obj = {
-        location: tourOnboard.location,
-        themeId: themeValues.subListValue.id
+    
+    this.setState({ loading: true, errors: [] });
+    let obj;
+    if(!themeValues && editTour){
+        obj = { location: tourOnboard.location, themeId: tourOnboard.themeId}
+    } else {
+        obj = {
+            location: tourOnboard.location,
+            themeId: themeValues.subListValue.id
+        }
     }
-    const res = await Request(urls.experienceBase, `${urls.v}Experience`, obj );
+    if(editTour) {
+        obj.id = tourOnboard.id
+    }
+    const url = editTour ? `${urls.v}Experience/update` : `${urls.v}Experience`
+    const res = await Request(urls.experienceBase, url, obj );
     console.log('create experience ', res)
     this.setState({ loading: false });
     if (res.isError || res.IsError) {
-        errorMessage(res.message)
+        errorMessage(res.message || res.Message)
     } else {
         this.context.set({ tourOnboard: { ...tourOnboard, ...obj, ...res.data }})
         this.props.navigation.navigate('TourStack', { screen: 'TourStepTwo', params: { experience: res.data }})
-    }  
+    }   
+    
+    
   }
+  componentDidMount = () => {
+    const { tourOnboard } = this.context.state
+    // console.log(tourOnboard)
+    // this.getThemeCatById()
+  }
+//   getThemeCatById = async () => {
+//     const { tourOnboard } = this.context.state
+//     const res = await GetRequest(urls.experienceBase, `${urls.v}experience/themeCategory?id=${tourOnboard.themeId}`);
+//     console.log(res)
+//   }
 
   render() {
     const { container, button, selectStyle } = styles;
@@ -115,10 +140,11 @@ class Theme extends Component {
                 </View>
                 
                 <View style={button}>
-                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.createExperience} disabled={this.state.themeValues === null} />
+                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.createExperience} 
+                    disabled={this.state.themeValues === null && !this.context.state.editTour} />
                 </View>
             </View>
-            <ThemeListModal visible={this.state.showCatThemeModal} onDecline={this.closeCatThemeModal} value={this.getThemeValue} />
+            <ThemeListModal visible={this.state.showCatThemeModal} onDecline={this.closeCatThemeModal} value={this.getThemeValue} getThemes={this.getThemes} />
         </SafeAreaView>
     );
   }

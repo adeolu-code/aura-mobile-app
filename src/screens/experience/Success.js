@@ -28,6 +28,7 @@ class Success extends Component {
   
   
   next = async () => {
+    
     const { tourOnboard } = this.context.state;
     this.setState({ loading: true, errors: [] });
     
@@ -37,8 +38,13 @@ class Success extends Component {
     if (res.isError || res.IsError) {
         errorMessage(res.message || res.Message)
     } else {
-        this.context.set({ tourOnboard: null })
-        this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
+        
+        // this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
+        // this.props.navigation.navigate('ManageTour', { tour: tourOnboard})
+        // this.props.navigation.push('ManageTour')
+        // this.props.navigation.push('Tabs', { screen: 'Dashboard', params: { screen: 'ManageTour'} })
+        this.props.navigation.navigate('ManageTour', { tour: tourOnboard})
+        this.context.set({ tourOnboard: null, editTour: false })
     }  
   }
   

@@ -10,7 +10,9 @@ import GStyles from '../../assets/styles/GeneralStyles';
 import { GOOGLE_API_KEY, GetRequest, errorMessage } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
-import ProgressBar from '../../components/ProgressBar'
+import ProgressBar from '../../components/ProgressBar';
+import CancelComponent from '../../components/experience/CancelComponent';
+
 
 
 
@@ -19,8 +21,7 @@ class Expertise extends Component {
     static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { loading: false, experience: null, ansOne: false, ansTwo: false, ansThree: false, value: null };
-    this.state.experience = props.route.params?.experience
+    this.state = { loading: false, ansOne: false, ansTwo: false, ansThree: false, value: null };
   }
   renderLoading = () => {
     const { loading } = this.state;
@@ -33,12 +34,12 @@ class Expertise extends Component {
     this.setState({ ansOne: false, ansTwo: true, ansThree: false, value: { expertise: 'Yes_Informally' } })
   }
   selectThree = () => {
-    this.setState({ ansOne: false, ansTwo: false, ansThree: true, value: { expertise: 'no' } })
+    this.setState({ ansOne: false, ansTwo: false, ansThree: true, value: { expertise: 'No' } })
   }
 
   validate = () => {
     const { value } = this.state
-    if(value === null || value && value.expertise === 'no' ) {
+    if(value === null || value && value.expertise === 'No' ) {
         return true
     }
     return false
@@ -50,6 +51,16 @@ class Expertise extends Component {
     this.props.navigation.navigate('TourStack', { screen: 'TourAccess' })
   }
   
+  componentDidMount = () => {
+    const { tourOnboard, editTour } = this.context.state;
+    if(editTour) {
+        const arr = [ 'Yes_Professionally', 'Yes_Informally', 'No' ]
+        const arrSt = [ 'ansOne', 'ansTwo', 'ansThree' ]
+        const getName = arrSt[tourOnboard.expertise]
+        this.setState({ value: { expertise: arr[tourOnboard.expertise] }, [getName]: true})
+    }
+    console.log(tourOnboard)
+  }
 
   
 
@@ -149,11 +160,14 @@ class Expertise extends Component {
                 <View style={button}>
                     <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={this.validate()} />
                 </View>
-                <View style={styles.skipStyle}>
-                    <CustomButton buttonText="Skip To Step 3" 
-                    buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
-                    textStyle={{ color: colors.orange }}
-                    onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
+                <View style={[flexRow, styles.skipStyle]}>
+                    {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                    <View style={{ flex: 1}}>
+                        <CustomButton buttonText="Skip To Step 3" 
+                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        textStyle={{ color: colors.orange }}
+                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
+                    </View>
                 </View>
                 </ScrollView>
             </View>

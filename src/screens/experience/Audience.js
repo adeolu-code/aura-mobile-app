@@ -11,7 +11,9 @@ import { GOOGLE_API_KEY, GetRequest, errorMessage, Request, urls } from '../../u
 
 import { AppContext } from '../../../AppProvider';
 
-import ProgressBar from '../../components/ProgressBar'
+import ProgressBar from '../../components/ProgressBar';
+import CancelComponent from '../../components/experience/CancelComponent';
+
 
 
 
@@ -32,6 +34,10 @@ class Audience extends Component {
         if (res.isError || res.IsError) {
             errorMessage(res.message);
         } else {
+            const { tourOnboard, editTour } = this.context.state;
+            if(editTour) {
+                this.setState({ audienceId: tourOnboard.audienceId })
+            }
             this.setState({ audience: res.data })
         }
     }
@@ -47,7 +53,6 @@ class Audience extends Component {
             audienceName: a.name,
             id: tourOnboard.id
         }
-        console.log(obj)
         const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
         console.log('update experience ', res)
         this.setState({ loading: false });
@@ -128,7 +133,11 @@ class Audience extends Component {
                     <View style={button}>
                         <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} disabled={!this.state.audienceId} />
                     </View>
+                    <View style={[flexRow, styles.skipStyle]}>
+                        {this.context.state.editTour ? <CancelComponent {...this.props} wrapper={{ paddingRight: 0 }} /> : <></>}
+                    </View>
                 </ScrollView>
+                
             </View>
             
         </SafeAreaView>

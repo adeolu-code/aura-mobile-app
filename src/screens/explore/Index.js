@@ -197,7 +197,7 @@ class Index extends Component {
             refreshControl={
               <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.refreshing}
               colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
-          } decelerationRate="fast">
+          } decelerationRate={0.8}>
           <ImageBackground
             source={require('../../assets/images/mask/mask.png')}
             style={[headerBg]}>

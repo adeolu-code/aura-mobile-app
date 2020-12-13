@@ -12,6 +12,7 @@ import { GOOGLE_API_KEY, GetRequest, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import ProgressBar from '../../components/ProgressBar'
 
+import CancelComponent from '../../components/experience/CancelComponent';
 
 
 
@@ -50,7 +51,15 @@ class Access extends Component {
     this.props.navigation.navigate('TourStack', { screen: 'TourConnection' })
   }
   
-
+  componentDidMount = () => {
+    const { tourOnboard, editTour } = this.context.state;
+    if(editTour) {
+        const arr = [ 'GuestNeedMe', 'GuestMayNeedMe', 'GuestDontNeedMe' ]
+        const arrSt = [ 'ansOne', 'ansTwo', 'ansThree' ]
+        const getName = arrSt[tourOnboard.access]
+        this.setState({ value: { access: arr[tourOnboard.access] }, [getName]: true})
+    }
+  }
   
 
   render() {
@@ -146,11 +155,14 @@ class Access extends Component {
                 <View style={button}>
                     <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={this.validate()} />
                 </View>
-                <View style={styles.skipStyle}>
-                    <CustomButton buttonText="Skip To Step 3" 
-                    buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
-                    textStyle={{ color: colors.orange }}
-                    onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
+                <View style={[flexRow, styles.skipStyle]}>
+                    {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                    <View style={{ flex: 1}}>
+                        <CustomButton buttonText="Skip To Step 3" 
+                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        textStyle={{ color: colors.orange }}
+                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
+                    </View>
                 </View>
                 </ScrollView>
             </View>

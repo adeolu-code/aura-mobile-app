@@ -11,7 +11,9 @@ import { GOOGLE_API_KEY, GetRequest, errorMessage, Request, urls } from '../../u
 
 import { AppContext } from '../../../AppProvider';
 
-import ProgressBar from '../../components/ProgressBar'
+import ProgressBar from '../../components/ProgressBar';
+import CancelComponent from '../../components/experience/CancelComponent';
+
 
 
 
@@ -36,6 +38,12 @@ class Language extends Component {
             
             const obj = { description: '', name: 'Please Select a language', id: null }
             this.setState({ languages: [obj, ...res.data] })
+            const { tourOnboard, editTour } = this.context.state;
+            if(editTour) {
+                const lOne = res.data.find(item => item.id === tourOnboard.languageId[0])
+                const lTwo = res.data.find(item => item.id === tourOnboard.languageId[1])
+                this.setState({ languageOne: lOne.id, languageTwo: lTwo.id })
+            }
         }
     }
 
@@ -168,11 +176,14 @@ class Language extends Component {
                     <View style={button}>
                         <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={this.validate()} />
                     </View>
-                    <View style={styles.skipStyle}>
-                        <CustomButton buttonText="Skip To Step 4" 
-                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
-                        textStyle={{ color: colors.orange }}
-                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourDescribeActivity' }) }} />
+                    <View style={[flexRow, styles.skipStyle]}>
+                        {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                        <View style={{ flex: 1}}>
+                            <CustomButton buttonText="Skip To Step 4" 
+                            buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            textStyle={{ color: colors.orange }}
+                            onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourDescribeActivity' }) }} />
+                        </View>
                     </View>
                 </ScrollView>
             </View>

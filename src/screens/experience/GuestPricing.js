@@ -14,6 +14,7 @@ import { AppContext } from '../../../AppProvider';
 import ProgressBar from '../../components/ProgressBar'
 import { formatAmount } from '../../helpers';
 
+import CancelComponent from '../../components/experience/CancelComponent';
 
 
 class GuestPricing extends Component {
@@ -74,7 +75,12 @@ class GuestPricing extends Component {
             errorMessage(res.Message || res.message)
         } else {
             const data = res.data;
-            this.setState({ deductions: data })
+            this.setState(() => ({ deductions: data }), () => {
+                const { tourOnboard, editTour } = this.context.state;
+                if(editTour) {
+                    this.onValueChange('pricePerGuest', tourOnboard.pricePerGuest.toString())
+                } 
+            })
         }
     }
     
@@ -82,7 +88,7 @@ class GuestPricing extends Component {
     componentDidMount = () => {
         this.getDeductions()
     }
-
+    
 
   render() {
     const { container, button, currencyContainer } = styles;
@@ -143,11 +149,14 @@ class GuestPricing extends Component {
                         <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} disabled={this.validate()} 
                         onPress={this.updateExperience} />
                     </View>
-                    <View style={styles.skipStyle}>
-                        <CustomButton buttonText="Skip To Step 6" 
-                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
-                        textStyle={{ color: colors.orange }}
-                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                    <View style={[flexRow, styles.skipStyle]}>
+                        {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                        <View style={{ flex: 1}}>
+                            <CustomButton buttonText="Skip To Step 6" 
+                            buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            textStyle={{ color: colors.orange }}
+                            onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                        </View>
                     </View>
                 </ScrollView>
             </View>

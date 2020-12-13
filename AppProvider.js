@@ -23,6 +23,7 @@ const defaultContext = {
   location: null,
   isInApp: false,
   edit: false,
+  editTour: false,
   step: 1,
   notificationSettings: {messages: {}, policy: {}, reminders: {}},
   photographOnboard: null,

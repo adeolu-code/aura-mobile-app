@@ -24,13 +24,13 @@ class AboutComponent extends Component {
 
     updateExperience = async () => {
         Keyboard.dismiss()
-        const { tourOnboard } = this.context.state
+        const { tourOnboard, userData } = this.context.state
             this.props.loading(true)
             const obj = {
                 id: tourOnboard.id,
-                email: "",
+                email: userData.email,
                 name: "",
-                picture: "",
+                picture: userData.profilePicture,
                 story: this.state.story
             }
             const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
@@ -43,6 +43,13 @@ class AboutComponent extends Component {
                 this.props.getValue(this.state.story)
                 this.props.setCount({ count: 3 })
             }  
+    }
+
+    componentDidMount = () => {
+        const { tourOnboard, editTour, userData } = this.context.state;
+        if(editTour) {
+            this.setState({ story: tourOnboard.story })
+        }
     }
 
       

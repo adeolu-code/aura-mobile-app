@@ -61,6 +61,13 @@ class TimePicker extends Component {
         }
     }
 
+    componentDidMount = () => {
+        const { defaultValue } = this.props;
+        if(defaultValue) {
+            this.setState({ timeValue: defaultValue })
+        }
+    }
+
   render() {
     const { container, alignRight } = styles
     const { title, right } = this.props;

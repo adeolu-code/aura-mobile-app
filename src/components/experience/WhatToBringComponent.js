@@ -75,6 +75,14 @@ class AddDetailsComponent extends Component {
         this.setState({ [attrName]: value });
     }
 
+    componentDidMount = () => {
+        const { tourOnboard, editTour } = this.context.state;
+        if(editTour) {
+            this.setState({ values: tourOnboard.guestShouldBring})
+            
+        }
+    }
+
 
     render() {
         const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle, textH2Style,
