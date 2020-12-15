@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList, RefreshControl } from 'react-native';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
 import { MyText, Loading } from '../../../../utils/Index';
@@ -8,6 +8,8 @@ import colors from '../../../../colors';
 import { urls, GetRequest, errorMessage } from '../../../../utils';
 import { AppContext } from '../../../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../../../helpers';
+import FilterModal from './FilterModal';
+
 
 import { Icon } from 'native-base';
 import ItemComponent from '../ItemComponent';
@@ -16,7 +18,14 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height
 class Index extends Component {
   constructor(props) {
     super(props);
-    this.state = { tours: [], loading: false, loadMore: false, activePage: 1, perPage: 10, pageCount: 0, totalItems: 0 };
+    this.state = { tours: [], loading: false, loadMore: false, activePage: 1, perPage: 10, pageCount: 0, totalItems: 0, 
+      showModal: false, filterUrl: '', filter: '', refreshing: false };
+  }
+  openModal = () => {
+    this.setState({ showModal: true })
+  }
+  closeModal = () => {
+    this.setState({ showModal: false })
   }
   renderLoading = () => {
       const { loading } = this.state;
@@ -29,9 +38,13 @@ class Index extends Component {
   getTours = async (more=false) => {
       more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
       const { activePage, perPage, tours } = this.state
-      
+      const { filterUrl } = this.state
+      let queryUrl = ''
+      if(filterUrl) {
+        queryUrl = `${filterUrl}&`
+      }
       const res = await GetRequest(urls.experienceBase, 
-        `${urls.v}experience/get/list/?status=Adminpublished&Page=${activePage}&Size=${perPage}`);
+        `${urls.v}experience/get/list/?${queryUrl}status=Adminpublished&Page=${activePage}&Size=${perPage}`);
       console.log('Res tours', res)
       more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
       if(res.isError) {
@@ -101,6 +114,51 @@ class Index extends Component {
       )
     }
   }
+  applyFilter = (value) => {
+    this.setFilterValues(value)
+  }
+  setFilterValues = (value) => {
+    const { pricePerGuest, location } = value
+    const filter = {
+      pricePerGuest, state: location
+    }
+    this.setState(() => ({ filter }), () => {
+      const url = this.createUrl()
+      this.setState(() => ({ filterUrl: url }), () => {
+        this.getTours()
+      })
+    })
+  }
+
+  createUrl = () => {
+    const { filter } = this.state
+    let url = ''
+    const keys = Object.keys(filter)
+    keys.filter((item) => {
+      
+      const values = filter[item].toString()
+      if(values.length !== 0 && values !== "0") {
+        const string = `${item}=${values}`;
+        url += `${string}&`
+      }
+    })
+    if(url.endsWith('&')) {
+      url = url.slice(0, -1)
+    }
+    return url
+  }
+  clearFilter = () => {
+    const { filterUrl } = this.state
+    if(filterUrl) {
+      this.setState(() => ({ filterUrl: '', filter: '', activePage: 1 }), () => {
+        this.getTours()
+      })
+    }
+  }
+  onRefresh = () => {
+    this.setState({ filterUrl: ''})
+    this.getTours();
+  }
 
   componentDidMount = () => {
     this.getTours()
@@ -116,6 +174,10 @@ class Index extends Component {
         <View style={contentMainContainer}>
 
           <FlatList
+            refreshControl={
+              <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading}
+              colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
+            }
               ListHeaderComponent={
                 <>
                   <View style={container}>
@@ -142,14 +204,7 @@ class Index extends Component {
               // extraData={selectedId}
           />
         </View>
-        {/* <TouchableOpacity style={filterContainer}>
-          <MyText style={[textH4Style, textDarkGrey]}>Filters</MyText>
-        </TouchableOpacity>
-        <MyText style={[textH3Style, textExtraBold, { marginTop:30}]}>Tour Guides & Experiences On Aura</MyText>
-        <View style={contentContainer}>
-          <ItemComponent title="LaCampagne Tropicana" price="₦ 5,000 / person" location="Lagos" 
-          img={require('../../../../assets/images/photo/pic2.png')} />
-        </View> */}
+        <FilterModal visible={this.state.showModal} onDecline={this.closeModal} filter={this.applyFilter} clearFilter={this.clearFilter} />
       </>
     );
   }
