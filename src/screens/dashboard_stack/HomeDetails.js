@@ -177,10 +177,6 @@ class HomeDetails extends Component {
             <View style={lowerContainer}>
                 <MyText style={[textH2Style, textExtraBold, textDarkGrey, { marginBottom: 25}]}>Guests</MyText>
                 {this.renderGuests()}
-                {/* 
-                <View>
-                    <GuestRow name="Cypril Hill" img={require('../../assets/images/photo/photo4.png')} {...this.props} />
-                </View> */}
             </View>
         </ScrollView>
       </SafeAreaView>

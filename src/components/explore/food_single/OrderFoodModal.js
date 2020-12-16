@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1
     },
     imgContainer: {
-        width: 100, height: 60, borderRadius: 8, overflow: 'hidden',
+        width: 100, height: 60, borderRadius: 8, overflow: 'hidden', elevation: 1, backgroundColor: colors.lightGrey
     },
     
     itemCountContainer: {

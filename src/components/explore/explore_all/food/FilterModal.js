@@ -4,7 +4,7 @@ import { View, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, Dimension
 TouchableWithoutFeedback } from 'react-native';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
-import { MyText, CustomButton, CheckBox, Switch, ItemCountPicker, CustomInput } from '../../../../utils/Index';
+import { MyText, CustomButton, CheckBox, Switch, ItemCountPicker, CustomInput, Loading, Error } from '../../../../utils/Index';
 import colors from '../../../../colors';
 import {Input } from '../../../auth/Input';
 
@@ -18,37 +18,58 @@ class FilterModal extends Component {
     static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { loadingAmenities: false, cuisinesValues: [], 
+    this.state = { loadingAmenities: false, cuisinesValues: [], cuisines: [],
         houseTypeValues:[], toggleComponent: false, location: '',
         contentBody : {
           one: false, two: false, three: false, four: false, five: false
         }
     };
-    this.cuisines = [
-      { name: 'Italian', value: 'Italian'}, { name: 'African', value: 'African'}, { name: 'Mexican', value: 'Mexican'},
-      { name: 'Japanese', value: 'Japanese'}, { name: 'Chinese', value: 'Chinese' }, { name: 'American', value: 'American'},
-      { name: 'Lebanese', value: 'Lebanese'}, { name: 'French', value: 'French' }, { name: 'Intercontinental', value: 'Intercontinental'},
-      { name: 'Asian', value: 'Asian'}
-    ]
     
   }
 
   onChangeValue = (attrName, value) => {
     this.setState({ [attrName]: value });
   }
+
+  renderLoading = () => {
+      const { loading, gettingPayments, gettingDeductions } = this.state;
+      if(loading || gettingDeductions ) { return (<Loading />) }
+  }
+  renderError = () => {
+      const { errors } = this.state
+      if(errors.length !== 0) {
+          return (<Error errors={errors} />)
+      }
+  }
+
+  getCuisines = async () => {
+    this.setState({ gettingCuisines: true })
+    const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/operation/cuisine`);
+    console.log('Cuisines ', res)
+    this.setState({ gettingCuisines: false })
+    if(res.isError || res.IsError) {
+      this.setState({ errors: [res.message || res.Message]})
+    } else {
+      this.setState({ cuisines: res.data })
+    }
+  }
   
   renderCuisines = () => {
-    const { toggleComponent } = this.state;
-    if(this.cuisines.length !== 0 && !toggleComponent) {
-      return this.cuisines.map((item, i) => {
+    const { toggleComponent, cuisines } = this.state;
+    const {textH3Style, textOrange, textBold} = GStyles
+    if(cuisines.length !== 0 && !toggleComponent) {
+      return cuisines.map((item, i) => {
         return (
           <View style={{ width: '50%'}} key={i}>
-            <CheckBox title={item.name}  item={item} onPress={this.onCheckCuisine} value={this.getCuisineValue(item.value)} 
+            <CheckBox title={item.name}  item={item} onPress={this.onCheckCuisine} value={this.getCuisineValue(item.id)} 
             rightStyle={{ flex: 4}}  />
           </View>
         )
       })
     }
+    return (
+      <MyText style={[textH3Style, textOrange, textBold]}>Loading ...</MyText>
+    )
   }
   onCheckCuisine = (arg) => {
     const { cuisinesValues } = this.state
@@ -56,10 +77,10 @@ class FilterModal extends Component {
     const value = arg.value;
     let arr = [...cuisinesValues]
     if(value) {
-      arr.push(item.value)
+      arr.push(item.id)
       this.setState({ cuisinesValues: arr })
     } else {
-      const index = arr.findIndex(x => x === item.value )
+      const index = arr.findIndex(x => x === item.id )
       if(index !== -1) {
         arr.splice(index, 1)
         this.setState({ cuisinesValues: arr})
@@ -88,7 +109,7 @@ class FilterModal extends Component {
     this.props.clearFilter()
   }
   componentDidMount = () => {
-    
+    this.getCuisines()
   }
 
   

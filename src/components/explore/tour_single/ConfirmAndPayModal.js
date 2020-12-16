@@ -41,23 +41,23 @@ class ConfirmAndPayModal extends Component {
     
     makePayment = async () => {
         this.setState({ loading: true })
-        const { orderDetails, restaurant } = this.props
+        const { orderDetails, tour } = this.props
         const obj = {
           reference: orderDetails.id, 
-          amount: orderDetails.amount,
+          amount: orderDetails.total_Cost,
           currency: 'NGN',
           paymentMethod: this.state.selectedId,
-          transactionType: "RESTAURANT",
-          payee: orderDetails.restaurantId
+          transactionType: "EXPERIENCE",
+          payee: orderDetails.host_Id
         }
         const res = await Request(urls.paymentBase,  `${urls.v}pay`, obj);
         console.log('confirm pay ', res)
         this.setState({ loading: false })
         if(res.isError || res.IsError) {
-          this.setState({ formErrors: [res.message] })
+          this.setState({ formErrors: [res.message || res.Message] })
         } else {
             this.props.onDecline()
-          this.props.navigation.navigate('Other', { screen: 'FoodPayment', params: { restaurant, orderDetails, url: res.data }})
+            this.props.navigation.navigate('Other', { screen: 'TourPayment', params: { tour, orderDetails, url: res.data }})
         }
       }
 
@@ -65,7 +65,6 @@ class ConfirmAndPayModal extends Component {
     getPaymentMethods = async () => {
         this.setState({ gettingPayments: true })
         const res = await GetRequest(urls.paymentBase,  `${urls.v}pay/methods`);
-        console.log('Payments ', res)
         this.setState({ gettingPayments: false })
         if(res.isError) {
             const message = res.Message;
@@ -94,9 +93,9 @@ class ConfirmAndPayModal extends Component {
         headerStyle, mainHeader, totalContainer, buttonStyle, buttonContainerStyle, detailsRow } = styles;
     const { flexRow, textH2Style, textExtraBold, textDarkGrey, textCenter, textGrey, textH3Style, textOrange, textH5Style,
         textBold, textH4Style, imgStyle, textSuccess } = GStyles;
-    const { restaurant, orderDetails } = this.props
-    const imgUrl = restaurant && restaurant.coverPhoto ? {uri: restaurant.coverPhoto} : require('../../../assets/images/profile.png')
-    const address = restaurant ? `${restaurant.locations[0].city}, ${restaurant.locations[0].state}, ${restaurant.locations[0].country}` : '****'
+    const { tour, orderDetails } = this.props
+    const imgUrl = tour && tour.mainImage ? {uri: tour.mainImage.assetPath} : require('../../../assets/images/profile.png')
+    // const address = tour ? `${restaurant.locations[0].city}, ${restaurant.locations[0].state}, ${restaurant.locations[0].country}` : '****'
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
             <View style={container}>
@@ -134,12 +133,12 @@ class ConfirmAndPayModal extends Component {
                                         </View>
                                         <View style={styles.rightContainer}>
                                             <MyText style={[textExtraBold, textH4Style, textDarkGrey]}>
-                                                { restaurant ? restaurant.name : '***'}
+                                                { tour ? tour.title : '***'}
                                             </MyText>
                                             <View style={{marginTop: 4}}>
-                                                <StarComponent grey rating={restaurant && restaurant.rating ? restaurant.rating : 0} />
+                                                <StarComponent grey rating={tour && tour.rating ? tour.rating : 0} />
                                             </View>
-                                            <MyText style={[textH5Style, textGrey, { marginBottom: 15}]}>{address}</MyText>
+                                            {/* <MyText style={[textH5Style, textGrey, { marginBottom: 15}]}>{address}</MyText> */}
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -148,7 +147,7 @@ class ConfirmAndPayModal extends Component {
                                         <MyText style={[textH5Style, textGrey]}>NAME</MyText>
                                     </View>
                                     <View style={{ flex: 1.6}}>
-                                        <MyText style={[textBold, textH4Style]}>{orderDetails ? orderDetails.orderedForName : '***'}</MyText>
+                                        <MyText style={[textBold, textH4Style]}>{orderDetails ? orderDetails.guest_Name : '***'}</MyText>
                                     </View>
                                 </View>
                                 <View style={[flexRow, detailsRow ]}>
@@ -156,41 +155,30 @@ class ConfirmAndPayModal extends Component {
                                         <MyText style={[textH5Style, textGrey]}>PHONE NUMBER</MyText>
                                     </View>
                                     <View style={{ flex: 1.6}}>
-                                        <MyText style={[textBold, textH4Style]}>{orderDetails ? orderDetails.orderedForMobile : '****'}</MyText>
+                                        <MyText style={[textBold, textH4Style]}>{orderDetails ? orderDetails.guest_PhoneNumber : '****'}</MyText>
                                     </View>
                                 </View>
-                                <View style={[flexRow, detailsRow ]}>
-                                    <View style={{ flex: 1}}>
-                                        <MyText style={[textH5Style, textGrey]}>ADDRESS</MyText>
-                                    </View>
-                                    <View style={{ flex: 1.6}}>
-                                        <MyText style={[textBold, textH4Style]}>{orderDetails ? orderDetails.orderedForAddress : '****'}</MyText>
-                                    </View>
-                                </View>
-                                <View style={[flexRow, detailsRow]}>
-                                    <View style={{ flex: 1}}>
-                                        <MyText style={[textH5Style, textGrey]}>PLATE</MyText>
-                                    </View>
-                                    <View style={{ flex: 1.6}}>
-                                        <MyText style={[textBold, textH4Style]}>{orderDetails ? orderDetails.orders[0].mealName : '****'}</MyText>
-                                    </View>
-                                </View>
+                                
+                                
                                 <View style={[flexRow, styles.checkRow, { borderTopWidth: 0, marginTop: 10}]}>
                                     <View style={{ alignItems: 'center'}}>
                                         <MyText style={[textH5Style,textGrey, { marginBottom: 30}]}>AMOUNT</MyText>
                                         <MyText style={[textBold, textH4Style]}>
-                                            ₦ {orderDetails ? formatAmount(orderDetails.orders[0].unitCost) : 0}
+                                            ₦ {orderDetails ? formatAmount(orderDetails.cost_Per_Person) : 0}
                                         </MyText>
                                     </View>
                                     <View style={{ alignItems: 'center'}}>
-                                        <MyText style={[textH5Style,textGrey, { marginBottom: 30}]}>QUANTITY</MyText>
+                                        <MyText style={[textH5Style,textGrey, { marginBottom: 30}]}>NO OF PEOPLE</MyText>
                                         <MyText style={[textBold, textH4Style]}>
-                                            {orderDetails ? orderDetails.orders[0].quantity : 0}
+                                            {orderDetails ? orderDetails.number_Of_People : 0}
                                         </MyText>
                                     </View>
                                     <View style={{ alignItems: 'center'}}>
-                                        <MyText style={[textH5Style,textGrey, { marginBottom: 30}]}>DELIVERY FEE</MyText>
-                                        <MyText style={[textBold, textH4Style]}>₦ {orderDetails ? formatAmount(orderDetails.orders[0].deliveryFee) : 0}</MyText>
+                                        <MyText style={[textH5Style,textGrey, { marginBottom: 15}]}>TOUR DATE</MyText>
+                                        <MyText style={[textBold, textH4Style]}>{orderDetails ? moment(orderDetails.start_Date).format('MMM DD, YYYY') : ''}</MyText>
+                                        <MyText> - </MyText>
+                                        <MyText style={[textBold, textH4Style]}>{orderDetails ? moment(orderDetails.end_Date).format('MMM DD, YYYY') : ''}</MyText>
+                                        {/* <MyText style={[textBold, textH4Style]}>₦ {orderDetails ? formatAmount(orderDetails.orders[0].deliveryFee) : 0}</MyText> */}
                                     </View>
                                 </View>
 
@@ -198,7 +186,7 @@ class ConfirmAndPayModal extends Component {
                                     <View style={[flexRow, styles.amountRow]}>
                                         <MyText style={[textGrey, textH4Style, textBold]}>Total Amount</MyText>
                                         <MyText style={[textH4Style, textSuccess, textH4Style, textBold]}>
-                                            ₦ {orderDetails ? formatAmount(orderDetails.amount) : 0}
+                                            ₦ {orderDetails ? formatAmount(orderDetails.total_Cost) : 0}
                                         </MyText>
                                     </View>
                                 </View>
@@ -259,8 +247,7 @@ const styles = StyleSheet.create({
         paddingBottom: 10, paddingTop: 10
     },
     imgContainer: {
-        width: 70, height: 70, borderRadius: 70, overflow: 'hidden', marginRight: 20,
-        backgroundColor: colors.lightGrey,
+        width: 70, height: 70, borderRadius: 70, overflow: 'hidden', marginRight: 20, backgroundColor: colors.lightGrey,
         borderWidth: 2, borderColor: colors.orange
     },
     lineStyle: {

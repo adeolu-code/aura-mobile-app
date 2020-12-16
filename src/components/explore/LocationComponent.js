@@ -60,7 +60,7 @@ class LocationComponent extends Component {
       return (
         <View style={[mapContainer]}>
           <MapView region={this.state.region} onRegionChange={this.onRegionChange} minZoomLevel={15}
-            style={{ height: '100%', width: '100%'}} >
+            style={{ height: '100%', width: '100%'}} scrollEnabled={false}>
             {markers.map(marker => (
               <Marker key={marker.key} coordinate={marker.coordinate} pinColor={marker.color} />
             ))}

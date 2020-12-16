@@ -13,12 +13,12 @@ import moment from 'moment';
 import { formatAmount } from '../../helpers';
 const SCREEN_HEIGHT = Dimensions.get('screen').height
 
-class PaymentWebView extends Component {
+class PaymentTourWebView extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: false, orderDetails: '', url: '',  restaurant: '', verified: false, cover: false };
+    this.state = { loading: false, orderDetails: '', url: '',  tour: '', verified: false, cover: false };
     this.state.url = props.route.params?.url;
-    this.state.restaurant = props.route.params?.restaurant
+    this.state.tour = props.route.params?.tour
     this.state.orderDetails = props.route.params?.orderDetails
   }
 
@@ -42,10 +42,10 @@ class PaymentWebView extends Component {
     this.cancel()
     return true;
   };
-  verifyTransaction = () => {
+  verifyTransaction = (ref) => {
     this.setState({ loading: true, cover: true })
     const { orderDetails } = this.state
-    GetRequest(urls.paymentBase, `${urls.v}pay/verify/${orderDetails.id}` )
+    GetRequest(urls.paymentBase, `${urls.v}pay/verify/${ref}` )
     .then((response) => {
       console.log('Verify ', response)
       if(response.isError) {
@@ -75,12 +75,12 @@ class PaymentWebView extends Component {
       const { nativeEvent } = data;
       const { orderDetails } = this.state
       console.log('On load start ', nativeEvent, orderDetails)
-      const verifyUrl = `verifypayment`
+      const verifyUrl = `verifypayment?ref=`
       if(nativeEvent.url.includes(verifyUrl)) {
-        // const index = nativeEvent.url.indexOf('=')
-        // const ref = nativeEvent.url.slice(index+1)
+        const index = nativeEvent.url.indexOf('=')
+        const ref = nativeEvent.url.slice(index+1)
         // console.log('Got here url ', nativeEvent.url)
-        this.verifyTransaction()
+        this.verifyTransaction(ref)
       }
   }
   renderGoBack = () => {
@@ -182,4 +182,4 @@ const styles = StyleSheet.create({
   
 });
 
-export default PaymentWebView;
+export default PaymentTourWebView;

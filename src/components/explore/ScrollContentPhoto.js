@@ -131,8 +131,7 @@ class ScrollContent extends Component {
                 </View>
                 <View style={textContainer}>
                     <MyText style={[textDarkGrey, textH4Style, lineHeightText]}>
-                        Curabitur vulputate arcu odio, ac facilisis diam accumsan ut.
-                        Ut imperdiet et leo in vulputate.
+                    Get booked capturing homes and experiences that last a lifetime.
                     </MyText>
                 </View>
                 <View style={scrollMainContainer}>
