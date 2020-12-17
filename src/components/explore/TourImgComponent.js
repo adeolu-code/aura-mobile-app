@@ -21,7 +21,6 @@ class TourImgComponent extends Component {
       this.setState({ loading: true })
       const { tourId } = this.props
       const res = await GetRequest(urls.experienceBase, `${urls.v}experience/get/list/?status=Adminpublished&Page=1&Size=3`);
-      console.log('Res tours', res)
       this.setState({ loading: false })
       if(res.isError || res.IsError) {
           const message = res.Message || res.message;

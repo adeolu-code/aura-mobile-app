@@ -14,7 +14,6 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import Header from '../../components/Header';
 
-// import { setUser, setToken } from '../../helpers';
 import { setContext, Request, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 // import Dashboard from "../dashboard_stack/Dashboard";

@@ -26,7 +26,6 @@ class ScrollContentFood extends Component {
     getRestaurants = async (long, lat) => {
         this.setState({ loading: true })
         const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/?Size=4&Page=1`);
-        console.log('Res restaurants', res)
         this.setState({ loading: false })
         if(res.isError) {
             const message = res.Message;

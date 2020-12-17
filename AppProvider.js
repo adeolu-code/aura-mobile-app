@@ -93,6 +93,7 @@ class AppProvider extends Component {
     })
   }
 
+
   logOut = async () => {
     await clearData()
     this.set({ userData: null, isLoggedIn: false })
@@ -100,6 +101,7 @@ class AppProvider extends Component {
     // RootNavigation.navigate('Dashboard', { screen: 'Dashboard' });
     // RootNavigation.navigate('Tabs', { screen: 'Dashboard' });
   }
+   
   
 
   render() {

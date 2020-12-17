@@ -119,8 +119,8 @@ import { AppContext } from '../../../AppProvider';
     componentDidMount = () => {
       this.getStates()
     }
-    linkHouse = (house) => {
-      this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
+    linkToFood = (restaurant) => {
+      this.props.navigation.navigate('Other', { screen: 'FoodSingle', params: { restaurantId: restaurant.profileId } })
     }
     renderEmptyContainer = () => {
       const { emptyContainerStyle } = styles;
@@ -165,7 +165,7 @@ import { AppContext } from '../../../AppProvider';
     }
     renderLoading = () => {
         const { loading } = this.state;
-        if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 200 }} />); }
+        if (loading) { return (<Loading wrapperStyles={{ marginTop: 40, height: '100%', width: '100%', zIndex: 1000 }} />); }
     }
 
     getRestaurants = async (more=false) => {
@@ -247,7 +247,7 @@ import { AppContext } from '../../../AppProvider';
                 </View>
               </View>
 
-              {setSearch ? <View style={{ width: '100%', marginTop: 20}}>
+              {setSearch ? <View style={{ width: '100%', marginTop: 20, marginBottom: 60, paddingBottom: 60 }}>
                   <FlatList
                     ListHeaderComponent={
                       <>
@@ -279,7 +279,7 @@ import { AppContext } from '../../../AppProvider';
 
 const styles = StyleSheet.create({
     search: {
-      paddingTop: 50,
+      paddingTop: 40,
       // paddingHorizontal: 20,
       position: 'absolute',
       top: 0,

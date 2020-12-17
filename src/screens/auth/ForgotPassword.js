@@ -11,7 +11,6 @@ import { CustomInput, MyText, CustomButton, Loading, Error } from "../../utils/I
 import GStyles from "../../assets/styles/GeneralStyles";
 import Header from '../../components/Header';
 
-// import { setUser, setToken } from '../../helpers';
 import { setContext, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 // import Dashboard from "../dashboard_stack/Dashboard";
@@ -55,7 +54,6 @@ class ForgotPassword extends Component {
         this.props.navigation.navigate('Resend', { email })
         // this.getUserDetails(res.data.access_token);
         // this.context.set({ token: res.data })
-        // await setToken(res.data);
       } else {
         const message = res.message;
         const error = [message]

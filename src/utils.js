@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
+import { getToken, setToken } from './helpers';
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
@@ -22,6 +23,11 @@ export const PHOTOGRAPH = 'Photographer';
 export const RESTAURANT = 'Restaurant';
 export const EXPERIENCE = 'Tour-Guide';
 export const HOST = 'Host';
+
+let apiType = '';
+let apiUrl = ''
+let apiHeaders = '';
+let apiData = ''
 
 
 export const urls = {
@@ -122,7 +128,48 @@ export function consoleLog(message, ...optionalParams) {
    if (debug) console.log(message, JSON.stringify(optionalParams));
 }
 
-/* POST Request fetch function **/
+export async function refreshToken(apiDetails) {
+   const tokenObj = await getToken();
+   const headers = {
+      ClientId: CLIENT_ID,
+      ClientSecret: CLIENT_SECRET,
+      RefreshToken: tokenObj.refresh_token
+   }
+   headers["Content-Type"] = "application/json"
+   headers["Access-Control-Allow-Origin"] = "*"
+   headers["Authorization"] = "Bearer " + tokenObj.access_token
+   const url = `${urls.identityBase}${urls.v}auth/token/renew`
+
+   const response = await fetch(url, { method: 'GET', headers })
+   let data = await response.json()
+   if(data.isError) {
+      // Log user Out
+      context.logOut()
+      return data
+   } else {
+      // Set user data to context and to async storage
+      setToken(data.data)
+      context.set({ token: data.data })
+      // repeat the previous api call
+      if(apiDetails.type === 'GET') {
+         getApi(apiDetails.url, apiDetails.type, apiDetails.headers)
+      } else {
+         postApi(apiDetails.url, apiDetails.type, apiDetails.headers, apiDetails.body)
+      }
+   }
+}
+
+async function getApi(url, type, headers ) {
+   const response = await fetch(url, { method: type, headers })
+   let data = response.json()
+   return data
+}
+async function postApi(url, method, headers, body) {
+   const response = await fetch(url, {
+      method, headers, body })
+   let data = response.json()
+   return data
+}
 /* POST Request fetch function **/
 export async function Request(
    Base,
@@ -137,7 +184,6 @@ export async function Request(
    const token = await getUserToken();
    let headers = {}
    consoleLog("url", Base+Url, Data)
-   console.log("url", Base+Url, Data)
    
    if (!PreparedData) {
       headers["Content-Type"] = "application/json"
@@ -155,25 +201,65 @@ export async function Request(
    } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
    } 
-   
-   return fetch(Base + Url, {
-      method: method,
-      headers: headers,
-      body: !PreparedData ? PrepareData(Data) : Data,
-   })
-      .then((response) => {
-         return response.json();
-      })
-      .then((data) => {
-         
-         consoleLog("returned data", data)
-         return data
-      })
-      .catch((error) => {
-         return error
-      })
- }
- 
+   const body = !PreparedData ? PrepareData(Data) : Data
+   const res = await fetch(Base + Url, {
+      method, headers, body })
+
+   if(res.status === 401) {
+      const apiDetails = {
+         url: Base + Url, headers, type: method, body
+      }
+      refreshToken(apiDetails)
+   } else {
+      let data = res.json()
+      return data
+   }
+}
+
+
+export async function GetRequest(Base, Url, accessToken, type = "GET", data=undefined) {
+   let token = '';
+   if(accessToken) {
+      token = accessToken;
+   } else {
+      token = await getUserToken();
+   }
+
+   let headers = {
+     Accept: "application/json",
+     "Content-Type": "application/json",
+     "Access-Control-Allow-Origin": "*",
+    }   
+    if (typeof token === "boolean" && token) {
+      headers["Authorization"] = "Bearer " + token
+    } else if (token != undefined && token !== null) {
+      headers["Authorization"] = "Bearer " + token
+    }   
+
+    let url = Base + Url;
+    if (data != undefined) {
+      url = new URL(Base + Url);
+      let search = new URLSearchParams(data).toString();
+      
+      url = url+"?"+search;
+      consoleLog("get data", data, url);
+    }
+   const response = await fetch(url, { method: type, headers })
+   if(response.status === 401) {
+      const apiDetails = {
+         url, headers, type
+      }
+      refreshToken(apiDetails)
+   } else {
+      let data = response.json()
+      return data
+   }
+} 
+// if(data !== undefined && (data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
+//    console.log('Got here utils ', data)
+//    context.logOut()
+//    return;
+// }
  
 
 /* POST Request fetch function **/
@@ -258,59 +344,7 @@ export const uploadFile = async (image, fname) => {
    
 }
 
-export async function GetRequest(Base, Url, accessToken, type = "GET", data=undefined) {
-   let token = '';
-   if(accessToken) {
-      token = accessToken;
-   } else {
-      token = await getUserToken();
-   }
 
-   let headers = {
-     Accept: "application/json",
-     "Content-Type": "application/json",
-     "Access-Control-Allow-Origin": "*",
-    }   
-    if (typeof token === "boolean" && token) {
-      headers["Authorization"] = "Bearer " + token
-    } else if (token != undefined && token !== null) {
-      headers["Authorization"] = "Bearer " + token
-    }   
-
-    let url = Base + Url;
-    if (data != undefined) {
-       
-      url = new URL(Base + Url);
-      let search = new URLSearchParams(data).toString();
-      
-      url = url+"?"+search;
-      
-      consoleLog("get data", data, url);
-    }
-    
-    return fetch(url, {
-      method: type,
-      headers: headers,
-    })
-     .then((response) => {
-        return response.json()
-     })
-     .then((data) => {
-      //   console.log('Utils ', data)
-        if(data !== undefined && (data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
-         //   console.log('Got here utils')
-           context.logOut()
-           return;
-        }
-        return data
-     })
-     .catch((error) => {
-       let data = {error: error, type: "error"}
-       console.log("Fetch error", error);
-      //  if (debug) console.log("Fetch error", error);
-        return data
-     })
-}
 
 export const errorMessage = (message, size) => {
    showMessage({

@@ -22,7 +22,7 @@ import SearchToggle from '../../components/explore/SearchToggle';
 
 import AutoCompleteComponent from '../../components/explore/AutoCompleteComponent';
 
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, Request, urls, GetRequest, refreshToken } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import Geolocation from 'react-native-geolocation-service';
 
@@ -116,7 +116,9 @@ class Index extends Component {
       // })
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    // const res = await refreshToken()
+    // console.log('Token component ', res, this.context.state)
     // console.log('Explore ',this.context.state)
     // const { location } = this.context.state
     // this.requestLocationPermission()

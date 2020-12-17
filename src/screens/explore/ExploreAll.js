@@ -24,7 +24,7 @@ class ExploreAll extends Component {
   constructor(props) {
     super(props);
     this.state = { tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, selectedTab: 'one', 
-    active: false, activeRestaurant: false, activePhoto: false, activeTour: false };
+    active: false, activeRestaurant: false, activePhoto: false, activeTour: false, showSearch: true };
     this.tabs = {}
     const { tab } = props.route.params;
     this.state.selectedTab = tab
@@ -73,19 +73,19 @@ class ExploreAll extends Component {
     this.scrollViewRef.scrollTo({ x: this.tabs[tab] - 20, y: 0, animated: true})
     switch (tab) {
         case 'one':
-            this.setState({ tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false })
+            this.setState({ tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, showSearch: true })
             break;
         case 'two':
-            this.setState({ tabOne: false, tabTwo: true, tabThree: false, tabFour: false, tabFive: false })
+            this.setState({ tabOne: false, tabTwo: true, tabThree: false, tabFour: false, tabFive: false, showSearch: true })
             break;
         case 'three':
-            this.setState({ tabOne: false, tabTwo: false, tabThree: true, tabFour: false, tabFive: false })
+            this.setState({ tabOne: false, tabTwo: false, tabThree: true, tabFour: false, tabFive: false, showSearch: true })
             break;
         case 'four':
-            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: true, tabFive: false })
+            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: true, tabFive: false, showSearch: false })
             break;
         case 'five':
-            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: false, tabFive: true })
+            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: false, tabFive: true, showSearch: false })
             break;
         default:
             break;
@@ -145,10 +145,10 @@ class ExploreAll extends Component {
             </TouchableOpacity>
         )
     } else {
-        return (
-            <TouchableOpacity style={[inputStyles, { justifyContent: 'center'}]} onPress={this.openTour}>
-                <MyText style={[textGrey]}>Search Experiences/Tours near you</MyText>
-            </TouchableOpacity>
+        return (<></>
+            // <TouchableOpacity style={[inputStyles, { justifyContent: 'center'}]} onPress={this.openTour}>
+            //     <MyText style={[textGrey]}>Search Experiences/Tours near you</MyText>
+            // </TouchableOpacity>
         )
     }
   }
@@ -158,22 +158,22 @@ class ExploreAll extends Component {
         searchIconStyle, secondHeaderContainer, smallIconStyle, menuItemStyle, menuItemActive, iconActive, container,
     contentContainer } = styles;
     const { flexRow, textH5Style, textGrey, textOrange } = GStyles;
-    const { tabOne, tabTwo, tabThree, tabFour, tabFive } = this.state;
+    const { tabOne, tabTwo, tabThree, tabFour, tabFive, showSearch } = this.state;
     return (
         <SafeAreaView style={container}>
             {this.state.active ? <><SearchToggle close={this.closeSearch} {...this.props} /></> : <Fragment />}
-            {this.state.activeRestaurant ? <><SearchRestaurant close={this.closeSearch} {...this.props} /></> : <Fragment />}
+            {this.state.activeRestaurant ? <><SearchRestaurant close={this.closeRestaurant} {...this.props} /></> : <Fragment />}
                 <View style={fixedHeaderContainer}>
                     <View style={[flexRow, headerContainer]}>
                     <TouchableOpacity style={leftStyle} onPress={this.goBack}>
                         <Icon type="Feather" name="chevron-left" style={iconStyle} />
                     </TouchableOpacity>
                     <View style={rightStyle}>
-                        <View style={[flexRow, searchContainer]}>
+                        {showSearch ? <View style={[flexRow, searchContainer]}>
                             {this.renderHeading()}
                             {/* <TextInput style={[inputStyles]} placeholder="search Location" /> */}
                             <Icon name="search" style={searchIconStyle}  />
-                        </View>
+                        </View> : <></>}
                     </View>
                 </View>
                 

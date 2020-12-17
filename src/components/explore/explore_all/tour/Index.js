@@ -44,7 +44,7 @@ class Index extends Component {
         queryUrl = `${filterUrl}&`
       }
       const res = await GetRequest(urls.experienceBase, 
-        `${urls.v}experience/get/list/?${queryUrl}status=Adminpublished&Page=${activePage}&Size=${perPage}`);
+        `${urls.v}experience/get/list/?${queryUrl}Page=${activePage}&Size=${perPage}`);
       console.log('Res tours', res)
       more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
       if(res.isError) {
