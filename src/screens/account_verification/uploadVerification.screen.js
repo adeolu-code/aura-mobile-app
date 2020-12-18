@@ -13,7 +13,6 @@ import { uploadIdentityImageApi } from "../../api/profile.api";
 import { LabelInput } from "../../components/label_input/labelInput.component";
 import { FILE_NOT_UPLOADED } from "../../strings";
 import { AppContext } from "../../../AppProvider";
-// import ImagePicker from 'react-native-image-picker';
 
 //upload photo
 export default class UploadVerification extends Component {

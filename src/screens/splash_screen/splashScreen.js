@@ -98,12 +98,13 @@ const SplashScreen = (props) => {
         const userData = await getUser()
         const token = await getToken()
         console.log('User await ', userData, token)
-        if(userData && token) {
-            context.set({ userData, token, isLoggedIn: true })
+        if(userData && token && token.access_token) {
+            
             context.getUserProfile(token.access_token)
             .catch((error) => {
                 console.log('Error caught ', error)
             })
+            context.set({ userData, token, isLoggedIn: true })
             // console.log('check login userData ', userData, token)
             // if(expired) {
             //     this.props.signOut()

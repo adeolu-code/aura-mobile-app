@@ -3,6 +3,11 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
+#import <GoogleMaps/GoogleMaps.h>
+
+#import <RNGoogleSignin/RNGoogleSignin.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -11,6 +16,8 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+
+
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -23,13 +30,20 @@ static void InitializeFlipper(UIApplication *application) {
 }
 #endif
 
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#ifdef FB_SONARKIT_ENABLED
+  [GMSServices provideAPIKey:@"AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs"];
+//#ifdef FB_SONARKIT_ENABLED
   // InitializeFlipper(application);
-#endif
+//#endif
+  
+  
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
+  
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
@@ -54,5 +68,22 @@ static void InitializeFlipper(UIApplication *application) {
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
+
+
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+{
+  
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                 openURL:url
+                                                 options:options];
+  [RNGoogleSignin application:application openURL:url options:options];
+  return YES;
+  
+}
+
 
 @end

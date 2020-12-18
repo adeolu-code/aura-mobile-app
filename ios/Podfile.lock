@@ -38,6 +38,27 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - Google-Maps-iOS-Utils (2.1.0):
+    - Google-Maps-iOS-Utils/Clustering (= 2.1.0)
+    - Google-Maps-iOS-Utils/Geometry (= 2.1.0)
+    - Google-Maps-iOS-Utils/Heatmap (= 2.1.0)
+    - Google-Maps-iOS-Utils/QuadTree (= 2.1.0)
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Clustering (2.1.0):
+    - Google-Maps-iOS-Utils/QuadTree
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Geometry (2.1.0):
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Heatmap (2.1.0):
+    - Google-Maps-iOS-Utils/QuadTree
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/QuadTree (2.1.0):
+    - GoogleMaps
+  - GoogleMaps (3.5.0):
+    - GoogleMaps/Maps (= 3.5.0)
+  - GoogleMaps/Base (3.5.0)
+  - GoogleMaps/Maps (3.5.0):
+    - GoogleMaps/Base
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
@@ -232,8 +253,10 @@ PODS:
     - React
   - react-native-geolocation-service (5.1.1):
     - React
-  - react-native-image-picker (2.3.4):
-    - React-Core
+  - react-native-google-maps (0.27.1):
+    - Google-Maps-iOS-Utils (= 2.1.0)
+    - GoogleMaps (= 3.5.0)
+    - React
   - react-native-maps (0.27.1):
     - React
   - react-native-safe-area-context (3.1.9):
@@ -312,10 +335,10 @@ PODS:
     - React
   - RNCPicker (1.8.1):
     - React-Core
-  - RNDateTimePicker (2.3.2):
+  - RNDateTimePicker (2.6.2):
     - React
-  - RNGestureHandler (1.6.1):
-    - React
+  - RNGestureHandler (1.9.0):
+    - React-Core
   - RNGoogleSignin (4.0.3):
     - GoogleSignIn (~> 5.0.0)
     - React
@@ -347,6 +370,9 @@ DEPENDENCIES:
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - Google-Maps-iOS-Utils
+  - GoogleMaps
+  - GoogleSignIn (~> 5.0.2)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -361,7 +387,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
-  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -399,6 +425,8 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
+    - Google-Maps-iOS-Utils
+    - GoogleMaps
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
@@ -439,8 +467,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fbsdk"
   react-native-geolocation-service:
     :path: "../node_modules/react-native-geolocation-service"
-  react-native-image-picker:
-    :path: "../node_modules/react-native-image-picker"
+  react-native-google-maps:
+    :path: "../node_modules/react-native-maps"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
@@ -511,6 +539,8 @@ SPEC CHECKSUMS:
   FBSDKShareKit: 00a055c1999b099596e00212dd1c0600c6697019
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
+  GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
@@ -526,7 +556,7 @@ SPEC CHECKSUMS:
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
   react-native-geolocation-service: f33626f1ae12381ca2ae60f98b2f5edd676bf95a
-  react-native-image-picker: 32d1ad2c0024ca36161ae0d5c2117e2d6c441f11
+  react-native-google-maps: 0a989abda71059db2caa98b9dacca7a8f38a47d0
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
   react-native-safe-area-context: 86612d2c9a9e94e288319262d10b5f93f0b395f5
   react-native-webview: f0da708d7e471b60ebdbf861c114d2c5d7f7af2d
@@ -546,8 +576,8 @@ SPEC CHECKSUMS:
   RNCClipboard: 5e299c6df8e0c98f3d7416b86ae563d3a9f768a3
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
-  RNDateTimePicker: 0f657a34a0f6465ab7d0255c24954693bc7a8cf6
-  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
+  RNDateTimePicker: dc9dab744823a2c734dbc7362cdf57a3adba3c43
+  RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNImageCropPicker: 16951bc02411f50c4d197488ed6406a23dc3b5f1
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
@@ -558,6 +588,6 @@ SPEC CHECKSUMS:
   TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
 
-PODFILE CHECKSUM: 08c6ba7b19492045dd2c1429a4840559fe1ef58d
+PODFILE CHECKSUM: aa22b2c00d1dbaa1110f890dfdd4db4904a367df
 
 COCOAPODS: 1.8.4
