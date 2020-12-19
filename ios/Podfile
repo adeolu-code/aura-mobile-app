@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'aura' do
+target 'Aura' do
   
   # React Native Maps dependencies
   rn_maps_path = '../node_modules/react-native-maps'
@@ -20,7 +20,7 @@ target 'aura' do
 
   pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
 
-  target 'auraTests' do
+  target 'AuraTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -38,10 +38,10 @@ target 'aura' do
   # end
 end
 
-target 'aura-tvOS' do
-  # Pods for aura-tvOS
+target 'Aura-tvOS' do
+  # Pods for Aura-tvOS
 
-  target 'aura-tvOSTests' do
+  target 'Aura-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

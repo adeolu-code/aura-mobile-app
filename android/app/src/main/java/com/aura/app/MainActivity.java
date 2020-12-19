@@ -1,4 +1,4 @@
-package com.aura;
+package com.aura.app;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "reactnative";
+    return "Aura";
   }
 }

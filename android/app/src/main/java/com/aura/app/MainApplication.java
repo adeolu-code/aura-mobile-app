@@ -1,4 +1,4 @@
-package com.aura;
+package com.aura.app;
 
 import android.app.Application;
 import android.content.Context;

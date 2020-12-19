@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.aura"
+        applicationId "com.aura.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
