@@ -46,7 +46,7 @@ class TourImgComponent extends Component {
       const imgUrl = tour.mainImage ? { uri: tour.mainImage.assetPath } : require('../../assets/images/no_experience.png')
       return (
         <Pressable style={styles.imgContainer1} onPress={this.linkToTour.bind(this, tour)}>
-          <Image source={imgUrl} resizeMode="cover" style={GStyles.imgStyle} />
+          <Image source={imgUrl} resizeMode="cover" style={[GStyles.imgStyle, { borderRadius: 5}]} />
         </Pressable>
       )
     }
@@ -58,7 +58,7 @@ class TourImgComponent extends Component {
       const imgUrl = tour.mainImage ? { uri: tour.mainImage.assetPath } : require('../../assets/images/no_experience.png')
       return (
         <Pressable style={styles.imgContainer2} onPress={this.linkToTour.bind(this, tour)}>
-            <Image source={imgUrl} resizeMode="cover" style={GStyles.imgStyle} />
+            <Image source={imgUrl} resizeMode="cover" style={[GStyles.imgStyle, { borderRadius: 5}]} />
         </Pressable>
       )
     }
@@ -70,14 +70,14 @@ class TourImgComponent extends Component {
       const imgUrl = tour.mainImage ? { uri: tour.mainImage.assetPath } : require('../../assets/images/no_experience.png')
       return (
         <Pressable style={styles.imgContainer2} onPress={this.linkToTour.bind(this, tour)}>
-            <Image source={imgUrl} resizeMode="cover" style={GStyles.imgStyle} />
+            <Image source={imgUrl} resizeMode="cover" style={[GStyles.imgStyle, { borderRadius: 5}]} />
         </Pressable>
       )
     }
   }
 
   render() {
-    const { imgContainer2, imgContainer1, container, bottomImgContainer } = styles;
+    const { container, bottomImgContainer } = styles;
     const { imgStyle, flexRow } = GStyles;
     return (
       <View style={container}>
@@ -100,14 +100,14 @@ const styles = StyleSheet.create({
     },
     imgContainer1: {
         width: '100%', height: 170, marginTop: 30, marginBottom: 20, borderRadius: 5, overflow: 'hidden',
-        elevation: 1, backgroundColor: colors.lightGrey
+        elevation: 1, backgroundColor: colors.lightGrey, ...GStyles.shadow
     },
     bottomImgContainer: {
         justifyContent: 'space-between'
     },
     imgContainer2: {
         width: '47.5%', height: 190, borderRadius: 5, overflow: 'hidden',
-        elevation: 1, backgroundColor: colors.lightGrey
+        elevation: 1, backgroundColor: colors.lightGrey, ...GStyles.shadow
     }
 });
 

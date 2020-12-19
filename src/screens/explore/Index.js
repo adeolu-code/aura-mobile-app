@@ -168,7 +168,7 @@ class Index extends Component {
       textBold,
     } = GStyles;
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: 'white' }}>
+      <View style={{flex: 1, backgroundColor: 'white' }}>
         <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
         
         <ScrollView style={{position: 'relative', backgroundColor: colors.white}} 
@@ -250,7 +250,7 @@ class Index extends Component {
 
         </ScrollView>
         {this.state.active ? <SearchToggle close={this.closeSearch} {...this.props} /> : <Fragment />}
-      </SafeAreaView>
+      </View>
     );
   }
 }

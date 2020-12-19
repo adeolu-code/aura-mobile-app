@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 
@@ -312,7 +312,7 @@ class Dashboard extends Component {
     const { textBold, textH4Style, flexRow, imgStyle, textGrey, textWhite,
       textH5Style, textDarkGreen, textH2Style, textExtraBold } = GStyles;
     return (
-      <SafeAreaView style={{ flex: 1}}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         <Header {...this.props} title="Dashboard" />
         <ScrollView keyboardShouldPersistTaps="always">
           <View style={subHeaderContainer}>
@@ -379,11 +379,11 @@ class Dashboard extends Component {
 
 const styles = StyleSheet.create({
   subHeaderContainer: {
-    paddingTop: 140, backgroundColor: colors.white, paddingBottom: 30,
-    paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey
+    paddingTop: Platform.OS === 'ios' ? 120 : 140, backgroundColor: colors.white, paddingBottom: 30,
+    paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey, 
   },
   imgContainer: {
-    width: 55, height: 55, borderRadius: 60, overflow:'hidden'
+    width: 55, height: 55, borderRadius: 60, overflow:'hidden', borderWidth: 2, borderColor: colors.orange
   },
   profileImg: {
     flex: 1, 

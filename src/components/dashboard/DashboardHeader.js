@@ -12,6 +12,10 @@ class DashboardHeader extends Component {
     };
   }
 
+  onPress = () => {
+    this.props.onPress()
+  }
+
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
     const { container, headerStyle, iconContainer } = styles;
@@ -22,7 +26,7 @@ class DashboardHeader extends Component {
             <View style={{ flex: 1}}>
                 <MyText style={[textDarkGrey, textH1Style, textExtraBold ]}>{title || 'Dashboard'}</MyText>
             </View>
-            <TouchableOpacity style={iconContainer} onPress={onPress}>
+            <TouchableOpacity style={iconContainer} onPress={this.onPress}>
               <Icon name="menu" style={{ fontSize: 27, color: colors.grey }} />
             </TouchableOpacity>
         </View>
@@ -37,13 +41,13 @@ const styles = StyleSheet.create({
         width: '100%', paddingHorizontal: 20, paddingTop: 40, paddingBottom: 30,
         flexDirection: 'row', 
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     
     iconContainer: {
       height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',
       alignItems: 'center', 
-      borderWidth: 1, borderColor: colors.lightGrey
+      borderWidth: 1, borderColor: colors.lightGrey, 
       // borderColor: colors.orange
     },
     menuStyles: {

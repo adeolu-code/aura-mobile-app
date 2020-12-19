@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText, Spinner, Loading } from '../../utils/Index';
-import { View, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, FlatList, Platform } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import { formatAmount, shortenXterLength } from '../../helpers';
@@ -109,7 +109,7 @@ class ConcludedReservationsTab extends Component {
   
   const styles = StyleSheet.create({
       contentContainer: {
-        paddingTop: 250, paddingHorizontal: 20, paddingBottom:30,
+        paddingTop: Platform.OS === 'ios' ? 220 : 250, paddingHorizontal: 20, paddingBottom:30,
       },
       rowContainer: {
           marginBottom: 20, paddingHorizontal: 1, paddingVertical: 1

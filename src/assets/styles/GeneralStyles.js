@@ -247,7 +247,15 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   shadow: {
-    elevation: 3,
+    // elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 2.62, 
+
     // shadowOffset: { width: 0, height: 2},
     // shadowOpacity: 0.1, shadowRadius: 2, shadowColor: '#000',
   },

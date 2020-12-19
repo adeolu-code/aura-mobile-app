@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, 
+  TouchableWithoutFeedback, Platform } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 
@@ -78,7 +79,8 @@ class Reservations extends Component {
 
 const styles = StyleSheet.create({
     reservationHeader: {
-        position: 'absolute', backgroundColor: colors.white, paddingTop: 130, width: '100%', paddingHorizontal: 20, zIndex: 1
+        position: 'absolute', backgroundColor: colors.white, paddingTop: Platform.OS === 'ios' ? 160 : 130,
+         width: '100%', paddingHorizontal: 20, zIndex: 1
     }, 
     tabsContainer: {
         display: 'flex', flexDirection: 'row', backgroundColor: colors.lighterGreen, borderRadius: 6, padding: 4,

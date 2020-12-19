@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity, Keyboard,
-  Modal,
+  Modal, Platform
 } from "react-native";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
@@ -26,10 +26,10 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      // email: "ferume@tapi.re", 
-      // password: "123999_@ABCabc", 
-      email: '',
-      password: '',
+      email: "ferume@tapi.re", 
+      password: "123999_@ABCabc", 
+      // email: '',
+      // password: '',
       loading: false, 
       formErrors: [] 
     };
@@ -50,9 +50,9 @@ class LoginModal extends Component {
     }
   }
   linkToRegister = () => {
-    this.props.openSignUp();
+    this.props.onDecline();
     setTimeout(() => {
-      this.props.onDecline();
+      this.props.openSignUp();
     }, 300);
   }
   onChangeValue = (attrName, value) => {
@@ -198,6 +198,7 @@ class LoginModal extends Component {
         <Modal visible={visible} transparent onRequestClose={() => {}} animationType="slide">
           <View style={modalContainer}>
             {this.renderLoading()}
+            
             <View style={modalHeader} >
               <View style={logoContainer}>
                 <Image resizeMode="contain" style={imgStyle} source={require("../../assets/images/icons/aura/aura.png")} />
@@ -207,6 +208,7 @@ class LoginModal extends Component {
                 <Icon type="Feather" name="x" />
               </TouchableOpacity>
             </View>
+            
             <ScrollView keyboardShouldPersistTaps="always">
               <View style={modalBodyStyle}>
                 <View style={inputContainer}>
@@ -264,7 +266,7 @@ const styles = StyleSheet.create({
   },
   modalHeader: {
     flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20,
-    paddingVertical: 30, position: 'absolute', top: 0,zIndex: 4, width: '100%', backgroundColor: colors.white,
+    paddingVertical: 30, position: 'absolute', top: Platform.OS === 'ios' ? 30 : 0,zIndex: 4, width: '100%', backgroundColor: colors.white,
     // borderWidth: 1
   },
   logoContainer: { width: 70, height: 25 },
@@ -291,7 +293,7 @@ const styles = StyleSheet.create({
 
   },
   accountStyle: {
-    marginBottom: 90, marginTop: 70, alignSelf: 'center'
+    marginBottom: 90, marginTop: 70, alignSelf: 'center',
   },
   
   

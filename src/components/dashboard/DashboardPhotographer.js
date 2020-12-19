@@ -208,7 +208,9 @@ class DashboardPhotographer extends Component {
       {this.renderLoading()}
       {this.renderMenuItems()}
       <View style={container}>
-        <Header {...this.props} title="Photographer Dashboard" onPress={this.openMenu} />
+        <View style={{ zIndex: 1}}>
+          <Header {...this.props} title="Photographer Dashboard" onPress={this.openMenu} />
+        </View>
         <ScrollView>
             <View style={contentStyle}>
 

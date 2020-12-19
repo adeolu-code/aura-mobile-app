@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  Modal,
+  Modal, Platform
 } from "react-native";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { GoogleSignin } from '@react-native-community/google-signin';
@@ -27,9 +27,9 @@ class SignUpModal extends Component {
     this.state = { formErrors: [], loading: false };
   }
   linkToLogin = () => {
-    this.props.openLogin();
+    this.props.onDecline();
     setTimeout(() => {
-      this.props.onDecline();
+      this.props.openLogin();
     }, 300);
   }
   linkToSignUp = () => {
@@ -180,7 +180,8 @@ const styles = StyleSheet.create({
   },
   modalHeader: {
     flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20,
-    paddingVertical: 30, position: 'absolute', top: 0,zIndex: 4, width: '100%', backgroundColor: colors.white,
+    paddingVertical: 30, position: 'absolute', top: Platform.OS === 'ios' ? 40 : 0,zIndex: 4, 
+    width: '100%', backgroundColor: colors.white,
     // borderWidth: 1
   },
   logoContainer: { width: 70, height: 25 },

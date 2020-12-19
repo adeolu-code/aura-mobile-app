@@ -36,13 +36,6 @@ class RatingRow extends Component {
                 <MyText style={[textGrey, textH5Style]}>{formattedDate}</MyText>
             </View>
             <StarComponent rating={rating} />
-            {/* <View style={[flexRow, starContainer]}>
-                <Icon name="star" style={[iconStyle, orangeIcon]} />
-                <Icon name="star" style={[iconStyle, orangeIcon]} />
-                <Icon name="star" style={[iconStyle, orangeIcon]} />
-                <Icon name="star-outline" style={[iconStyle]} />
-                <Icon name="star-outline" style={[iconStyle]} />
-            </View> */}
             {/* <MyText style={[textH5Style, textGrey, { marginBottom: 18}]}>{location}</MyText> */}
             <View style={[flexRow, { marginTop: 18}]}>
                 <MyText style={[textGrey, textH5Style, { marginRight: 20}]}>{reviewAction}</MyText>
@@ -63,7 +56,7 @@ const styles = StyleSheet.create({
         marginBottom: 5, justifyContent: 'space-between', alignItems: 'flex-end'
     },
     imgContainer: {
-        width: 50, height: 50, borderRadius: 50, overflow: 'hidden'
+        width: 50, height: 50, borderRadius: 50, overflow: 'hidden', backgroundColor: colors.lightGrey
     },
     leftContainer: {
         flex: 1.2

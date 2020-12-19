@@ -59,20 +59,29 @@ const SplashScreen = (props) => {
       }
     
     const requestPermissionIos = async () => {
-        request(PERMISSIONS.IOS.LOCATION_ALWAYS)
-        .then((result) => {
-            console.log('Request permissions ios ', result)
-            switch (result) {
-            case 'granted':
-                getCurrentPos();
-                break;
-            default:
-                break;
-            }
-        })
-        .catch((error) => {
-            console.log('Permissions catched error ', error)
-        });
+        await Geolocation.setRNConfiguration({ authorizationLevel : "whenInUse" });
+        // const request = await Geolocation.requestAuthorization()
+        getCurrentPos();
+        // console.log(request)
+        // if(request) {
+        //     getCurrentPos();
+        // } else {
+
+        // }
+        // request(PERMISSIONS.IOS.LOCATION_ALWAYS)
+        // .then((result) => {
+        //     console.log('Request permissions ios ', result)
+        //     switch (result) {
+        //     case 'granted':
+        //         getCurrentPos();
+        //         break;
+        //     default:
+        //         break;
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.log('Permissions catched error ', error)
+        // });
     }
     const getCurrentPos = async () => {
         Geolocation.getCurrentPosition(
