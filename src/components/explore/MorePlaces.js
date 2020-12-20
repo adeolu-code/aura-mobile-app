@@ -26,8 +26,8 @@ class MorePlaces extends Component {
     
     getPlaces = async (more=false) => {
         more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
-        const { currentPage, pageSize, places } = this.state
-        const { house } = this.props
+        const { currentPage, pageSize, places } = this.state;
+        const { house } = this.props;
         const res = await GetRequest(urls.listingBase, 
         `${urls.v}listing/property/closeby/?id=${house.id}&pageSize=${pageSize}&Page=${currentPage}`);
         console.log(res)
@@ -69,12 +69,12 @@ class MorePlaces extends Component {
     }
 
     componentDidMount = () => {
-        this.getPlaces()
+        this.getPlaces();
     }
     componentDidUpdate = (prevProps, prevState) => {
-        if(prevProps.refresh !== this.props.refresh) {
+        if (prevProps.refresh !== this.props.refresh) {
             const { location } = this.context.state;
-            if(location) {
+            if (location) {
                 this.getPlaces(location.longitude, location.latitude)
             }
         }
@@ -82,35 +82,35 @@ class MorePlaces extends Component {
     renderLoadMore = () => {
         const { loadMore } = this.state;
         const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
-        if(loadMore) {
+        if (loadMore) {
             return (
                 <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
                     <Spinner size={20} color={colors.orange} />
-                    <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
+                    <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading...</MyText>
                 </View>
-            )
+            );
         }
     }
     renderItem = ({item}) => {
-        const { scrollItemContainer } = styles
-        const formattedAmount = formatAmount(item.pricePerNight)
+        const { scrollItemContainer } = styles;
+        const formattedAmount = formatAmount(item.pricePerNight);
         const title = item.title ? shortenXterLength(item.title, 18) : 'No title';
-        const imgUrl = item.mainImage ? { uri: item.mainImage.assetPath } : require('../../assets/images/no_house1.png')
+        const imgUrl = item.mainImage ? { uri: item.mainImage.assetPath } : require('../../assets/images/no_house1.png');
         return (
             <View style={scrollItemContainer}>
-                <HouseComponent img={imgUrl} verified={item.isVerified} title={title} location={item.state} 
+                <HouseComponent img={imgUrl} verified={item.isVerified} title={title} location={item.state}
                 onPress={this.linkToHouse.bind(this, item)}
                 price={`₦ ${formattedAmount} / night`} {...this.props} rating={item.rating} />
             </View>
-        )
+        );
     }
 
 
   renderPlaces = () => {
     const { location } = this.context.state;
-    const { places, loading } = this.state
-    
-    if(places && places.length !== 0) {
+    const { places, loading } = this.state;
+
+    if (places && places.length !== 0) {
         return (
             <FlatList
                 horizontal={true}
@@ -129,17 +129,16 @@ class MorePlaces extends Component {
                 onEndReachedThreshold={0.8}
                 // extraData={selectedId}
             />
-        )
+        );
     }
-    
   }
   renderEmptyLocation = () => {
     const { location } = this.context.state;
-    const { loading } = this.state
-    const { onPhoneLocation } = this.props
+    const { loading } = this.state;
+    const { onPhoneLocation } = this.props;
     const { emptyStyles, locationStyle, locationContainer } = styles;
-    const { imgStyle, textOrange, textH4Style } = GStyles
-    if(!location && !loading) {
+    const { imgStyle, textOrange, textH4Style } = GStyles;
+    if (!location && !loading) {
         return (
             <View>
                 <View style={emptyStyles}>
@@ -157,11 +156,10 @@ class MorePlaces extends Component {
   }
   renderEmptyProperty = () => {
     const { location } = this.context.state;
-    const { places, loading } = this.state
+    const { places, loading } = this.state;
     const { emptyStyles, locationContainer } = styles;
-    const { imgStyle, textOrange, textH3Style, textBold, textCenter } = GStyles
-    if(places.length === 0 && !loading && location) {
-        
+    const { imgStyle, textOrange, textH3Style, textBold, textCenter } = GStyles;
+    if (places.length === 0 && !loading && location) {
         return (
             <View>
                 <View style={[emptyStyles]}>
@@ -177,8 +175,8 @@ class MorePlaces extends Component {
 
   renderButton = () => {
     const { places, loading } = this.state;
-    const { buttonStyle, buttonContainer } = styles
-    if(places.length !== 0 && !loading) {
+    const { buttonStyle, buttonContainer } = styles;
+    if (places.length !== 0 && !loading) {
         return (
             <View style={buttonContainer}>
                 <CustomButton onPress={this.linkToHouses} buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
@@ -187,12 +185,12 @@ class MorePlaces extends Component {
     }
   }
   render() {
-    const { scrollContainer, scrollMainContainer, placeAroundContainer, headerStyle } = styles
-    const { width } = Dimensions.get('window')
+    const { scrollContainer, scrollMainContainer, placeAroundContainer, headerStyle } = styles;
+    const { width } = Dimensions.get('window');
 
-    const { textH2Style, textExtraBold} = GStyles
+    const { textH2Style, textExtraBold} = GStyles;
 
-    const { photo } = this.props
+    const { photo } = this.props;
 
     // const actualWidth = (20/width) * 100
     return (

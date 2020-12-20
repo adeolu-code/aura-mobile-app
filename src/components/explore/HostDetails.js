@@ -14,7 +14,7 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { setContext, urls, GetRequest, errorMessage} from '../../utils';
 import { AppContext } from '../../../AppProvider';
-import MoreListings from './MorePlaces';
+import MoreListings from './MoreListings';
 import { formatAmount, shortenXterLength } from '../../helpers';
 
 class HostDetails extends Component {
@@ -29,6 +29,7 @@ class HostDetails extends Component {
         profilePicture: null,
         location: null,
         signUpDate: '',
+        showModal: false,
     };
     const { house } = props.route.params;
     this.state.house = house;
@@ -60,6 +61,7 @@ class HostDetails extends Component {
   getHost = async () => {
     const { house } = this.state;
     const response = await GetRequest(urls.identityBase, `${urls.v}user/?id=${house.hostId}`);
+    // const response = await GetRequest(urls.identityBase, `${urls.v}user/?id=APd1249674b19a41a0a64e499e642de561`);
     if (response.isError) {
         errorMessage(response.message);
       } else { 
@@ -75,9 +77,8 @@ class HostDetails extends Component {
   }
 
   render() {
-    const { visible, onDecline } = this.props;
-    const { textH5Style, imgStyle, textH4Style, textCenter, textDarkGrey, textUnderline,
-      textGreen, textBold, textOrange, textExtraBold, textH1Style, textH2Style, textDarkBlue, textDarkGreen, textGrey, flexRow } = GStyles;
+    const { visible, onDecline, navigateToHouse } = this.props;
+    const { textH5Style, textUnderline, textBold, textExtraBold, textH1Style, textH2Style, textDarkBlue, textDarkGreen, textGrey, flexRow } = GStyles;
     const { modalHeader, closeContainer, modalContainer, 
       buttonContainer, modalBodyStyle, dashStyles, thumbStyle, thumbContainer, About, scrollItemContainer, scrollContainer, scrollMainContainer, iconVerifiedContainer, verifiedStyle  } = styles; 
     const {house} = this.state;
@@ -108,16 +109,17 @@ class HostDetails extends Component {
                             Quisque suscipit ipsum est, eu venenatis leo ornare eget. Ut porta facilisis elementum. Sed condimentum sed massa quis ullamcorper. Donec at scelerisque neque. Pellentesque sagittis, massa sodales sodales finibus, felis ligula tempus lorem, eu porttitor ex lacus vel felis.
                       </MyText>
                       <View style={About}>
-                        <View style={[flexRow, textH5Style, textDarkBlue, {marginBottom: 15, alignItems: "center"}]}>
+                        <View style={[flexRow, textH5Style, textDarkBlue, { alignItems: "center"}]}>
                             <Icon type="MaterialCommunityIcons" name="home" style={{color: colors.darkBlue}} />
                             <MyText style={{marginLeft: 10}}>From</MyText>
                             <MyText style={[textBold, {marginLeft: 5}]}>{this.state.location} State</MyText>
+                            {/* {this.renderPlaces()} */}
                         </View>
-                        <View style={[flexRow, textH5Style, textDarkBlue, {alignItems: "center"}]}>
+                        {/* <View style={[flexRow, textH5Style, textDarkBlue, {alignItems: "center"}]}>
                             <Icon type="MaterialCommunityIcons" name="web" style={{color: colors.darkBlue}} />
                             <MyText style={{marginLeft: 10}}>Speaks</MyText>
                             <MyText style={[textBold, {marginLeft: 5}]}>English & French</MyText>
-                        </View>
+                        </View> */}
                       </View>
                   </View>
                   <View style={dashStyles} />
@@ -138,12 +140,13 @@ class HostDetails extends Component {
                   </View>
                   <View style={dashStyles} />
                   <View>
-                {house ? <MoreListings {...this.props} house={house}  /> : <Fragment />}
+                {house ? 
+                    <MoreListings {...this.props} house={house} navigateToHouse={navigateToHouse} /> : <Fragment />}
                   </View>
                   <View style={dashStyles} />
                   <View style={[flexRow, textH5Style, {marginTop: 30, alignItems: "center", marginBottom: 30}]}>
                         <Icon type="Ionicons" name="flag" style={{color: colors.green}} />
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={{}}>
                             <MyText style={[textUnderline, textDarkGreen, {marginLeft: 20}]}>Report This Listing</MyText>
                         </TouchableOpacity>
                     </View>

@@ -15,20 +15,19 @@ class MoreListings extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { loading: false, places: [], noDot: true, first: true };
+        this.state = { loading: false, places: [], noDot: true, first: true, showModal: false };
     }
     linkToHouses = () => {
-        this.props.navigation.navigate('ExploreAll', { tab: 'two' })
+        this.props.navigation.navigate('ExploreAll', { tab: 'two' });
     }
     linkToHouse = (house) => {
-        this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
+        this.props.navigateToHouse.closeHostDetailsModal();
+        this.props.navigation.push('Other', { screen: 'HouseSingle', params: { house } })
     }
-    
+
     getPlaces = async () => {
         this.setState({ loading: true })
         const { house } = this.props;
-        // const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-        // `api/v1/listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
         const res = await GetRequest(urls.listingBase,
         `${urls.v}listing/property/search/available/?userid=${house.hostId}`);
         console.log('More Listings ', res)
@@ -37,7 +36,7 @@ class MoreListings extends Component {
             const message = res.Message;
         } else {
             this.setState({ places: res.data.data })
-            if(res.data.data.length !== 0) {
+            if (res.data.data.length !== 0) {
                 this.setState({ noDot: false })
             }
         }
@@ -65,6 +64,7 @@ class MoreListings extends Component {
     const { location } = this.context.state;
     const { places, loading } = this.state
     const { scrollItemContainer, emptyStyles, locationContainer } = styles;
+     const {navigateToHouse} = this.props;
     
     
     if (places.length !== 0) {
@@ -74,7 +74,7 @@ class MoreListings extends Component {
                 const title = shortenXterLength(item.title, 18)
                 return (
                     <View style={scrollItemContainer} key={item.id}>
-                        <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={this.linkToHouse.bind(this, item)}
+                        <HouseComponent img={{uri: item.mainImage.assetPath}} onPress={ this.linkToHouse.bind(this, item)}
                         title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
                     </View>
                 )
@@ -96,7 +96,7 @@ class MoreListings extends Component {
                     <Image source={require('../../assets/images/no_location.png')} resizeMode="contain" style={imgStyle} />
                 </View>
                 <View style={locationContainer}>
-                    <MyText style={[textH4Style]}>Please turn on your location to get places around you</MyText>
+                    <MyText style={[textH4Style]}>Please turn on your location to get more listings</MyText>
                     <TouchableOpacity style={locationStyle} onPress={onPhoneLocation}>
                         <MyText style={[textH4Style, textOrange]}>Turn on Location</MyText>
                     </TouchableOpacity>
@@ -131,18 +131,18 @@ class MoreListings extends Component {
     if(places.length !== 0 && !loading) {
         return (
             <View style={buttonContainer}>
-                <CustomButton onPress={this.linkToHouses} buttonText="View More Places" iconName="arrow-right" buttonStyle={buttonStyle} />
+                <CustomButton onPress={this.linkToHouses} buttonText="View More Listings" iconName="arrow-right" buttonStyle={buttonStyle} />
             </View>
         )
     }
   }
   render() {
-    const { scrollContainer, scrollMainContainer, placeAroundContainer, headerStyle } = styles
+    const { scrollContainer, scrollMainContainer, placeAroundContainer, headerStyle } = styles;
     const { width } = Dimensions.get('window')
 
-    const { textH2Style, textExtraBold, textDarkBlue} = GStyles
+    const { textH2Style, textExtraBold, textDarkBlue} = GStyles;
 
-    const { photo } = this.props
+    const { photo } = this.props;
 
     // const actualWidth = (20/width) * 100
     return (
@@ -176,12 +176,12 @@ const styles = StyleSheet.create({
         marginRight: '1.8%', width: '21.5%'
     },
     placeAroundContainer: {
-        paddingTop: 20, paddingBottom:100,
+        paddingTop: 20, paddingBottom:50,
         backgroundColor: colors.white,
         borderTopWidth: 2, borderTopColor: colors.lightGrey
     },
     headerStyle: {
-        marginBottom: 10, marginTop: 10, paddingHorizontal: 20
+        marginBottom: 10, paddingHorizontal: 20
     },
     headerContainer: {
         paddingHorizontal: 20,
