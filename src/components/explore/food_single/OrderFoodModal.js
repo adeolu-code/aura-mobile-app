@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity, Image, ScrollView, Keyboard } from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, Image, ScrollView, Keyboard, Platform } from 'react-native';
 import { Icon, Picker } from 'native-base';
 import colors from '../../../colors';
 import GStyles from '../../../assets/styles/GeneralStyles';
@@ -211,7 +211,8 @@ class OrderFoodModal extends Component {
                                 <MyText style={[textH3Style, textBold, textGrey ]}>Delivery Options</MyText>
                                 <View style={picker}>
                                     {restaurant ? <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                                        style={{ width: undefined }} selectedValue={this.state.operationValue}
+                                        style={{ width: Platform.OS === 'ios' ? '100%' : undefined }} 
+                                        selectedValue={this.state.operationValue}
                                         onValueChange={this.onValueChange}>
                                         {restaurant.operations.map(item => {
                                             return (

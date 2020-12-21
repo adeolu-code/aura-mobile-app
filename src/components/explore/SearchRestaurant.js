@@ -63,8 +63,8 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height
         const { textOrange, textH4Style, textBold } = GStyles
         if(sts.length !== 0) {
             return (<Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
-                selectedValue={this.state.stateValue}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
+                selectedValue={this.state.stateValue} placeholder="Select your State"
                 onValueChange={this.onStateChange}>
                 {sts.map(item => {
                     return (
@@ -81,21 +81,7 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height
             )
         }
     }
-    picker = () => {
-      return (<Picker
-              note
-              mode="dropdown"
-              style={{ width: 120 }}
-              selectedValue={this.state.selected}
-              onValueChange={this.onValueChange}
-            >
-              <Picker.Item label="Wallet" value="key0" />
-              <Picker.Item label="ATM Card" value="key1" />
-              <Picker.Item label="Debit Card" value="key2" />
-              <Picker.Item label="Credit Card" value="key3" />
-              <Picker.Item label="Net Banking" value="key4" />
-      </Picker>)
-    }
+    
     renderAreaPicker = () => {
       const { areas, gettingAreas } = this.state;
       const { textOrange, textH4Style, textBold, textGrey } = GStyles
@@ -114,7 +100,7 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height
         )
       }
       return (<Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-          style={{ width: undefined }} placeholder="Select option"
+          style={{ width: Platform.OS === 'ios' ? '100%' : undefined }} placeholder="Select your city"
           selectedValue={this.state.areaValue}
           onValueChange={this.onAreaChange}>
           {areas.map(item => {
@@ -250,7 +236,6 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height
                 <View style={styles.picker}>
                     {this.renderStatePicker()}
                 </View>
-                {this.picker()}
                 <View style={[flexRow, subStyle]}>
                   <View style={[styles.picker, { flex: 3.5}]}>
                     {this.renderAreaPicker()}
