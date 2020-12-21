@@ -1,6 +1,6 @@
 
 import React, { Component, Fragment } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput, Platform } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import { MyText } from '../../utils/Index';
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         width: '100%', alignItems: 'center',
-        paddingHorizontal: 20, paddingTop: 40, paddingBottom: 20, backgroundColor: colors.white,
+        paddingHorizontal: 20, paddingTop: Platform.OS === 'ios' ? 70 : 40, paddingBottom: 20, backgroundColor: colors.white,
         borderBottomWidth: 1, borderBottomColor: colors.lightGrey,
     },
     leftStyle: {
@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
     },
     searchContainer: {
         elevation: 4, backgroundColor: colors.white, alignItems: 'center', borderRadius: 4,
+        ...GStyles.shadow
     },
     inputStyles: {
         flex: 1, height: 40, paddingHorizontal: 20, fontFamily: 'Nunito-Regular',

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
-import {View, TouchableOpacity, SafeAreaView, StyleSheet, Image, FlatList} from 'react-native';
+import {View, TouchableOpacity, SafeAreaView, StyleSheet, Image, FlatList, Platform, Dimensions} from 'react-native';
 
 import {
     MyText,
@@ -19,7 +19,7 @@ import ItemComponent from './explore_all/ItemComponent';
 
 import { AppContext } from '../../../AppProvider';
 
-
+const SCREEN_HEIGHT = Dimensions.get('screen').height
 
   class SearchRestaurant extends Component {
     constructor(props) {
@@ -81,6 +81,21 @@ import { AppContext } from '../../../AppProvider';
             )
         }
     }
+    picker = () => {
+      return (<Picker
+              note
+              mode="dropdown"
+              style={{ width: 120 }}
+              selectedValue={this.state.selected}
+              onValueChange={this.onValueChange}
+            >
+              <Picker.Item label="Wallet" value="key0" />
+              <Picker.Item label="ATM Card" value="key1" />
+              <Picker.Item label="Debit Card" value="key2" />
+              <Picker.Item label="Credit Card" value="key3" />
+              <Picker.Item label="Net Banking" value="key4" />
+      </Picker>)
+    }
     renderAreaPicker = () => {
       const { areas, gettingAreas } = this.state;
       const { textOrange, textH4Style, textBold, textGrey } = GStyles
@@ -99,7 +114,7 @@ import { AppContext } from '../../../AppProvider';
         )
       }
       return (<Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-          style={{ width: undefined }}
+          style={{ width: undefined }} placeholder="Select option"
           selectedValue={this.state.areaValue}
           onValueChange={this.onAreaChange}>
           {areas.map(item => {
@@ -235,6 +250,7 @@ import { AppContext } from '../../../AppProvider';
                 <View style={styles.picker}>
                     {this.renderStatePicker()}
                 </View>
+                {this.picker()}
                 <View style={[flexRow, subStyle]}>
                   <View style={[styles.picker, { flex: 3.5}]}>
                     {this.renderAreaPicker()}
@@ -279,13 +295,13 @@ import { AppContext } from '../../../AppProvider';
 
 const styles = StyleSheet.create({
     search: {
-      paddingTop: 40,
+      paddingTop: Platform.OS === 'ios' ? 60 : 40,
       // paddingHorizontal: 20,
       position: 'absolute',
       top: 0,
       width: '100%',
-      height: '100%',
-      backgroundColor: colors.white,
+      height: SCREEN_HEIGHT,
+      backgroundColor: colors.white
       // backgroundColor: colors.orange,
     },
     SearchArea: {
