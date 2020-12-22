@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* AuraXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AuraXTests.m */; };
-		0879479E7E55EB1536F8104E /* libPods-AuraX-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D240BACB3701039751CB81C1 /* libPods-AuraX-tvOS.a */; };
+		00E356F31AD99517003FC87E /* AuraTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AuraTests.m */; };
+		0879479E7E55EB1536F8104E /* libPods-Aura-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D240BACB3701039751CB81C1 /* libPods-Aura-tvOS.a */; };
 		0D9FEA4434F240AE8D0426E9 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10769534F26E4F0E9C5E8018 /* Nunito-ExtraBold.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1EFBF439A1D86CC27395A7CC /* libPods-AuraX-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 075D045942ECB6828EB27B65 /* libPods-AuraX-tvOSTests.a */; };
+		1EFBF439A1D86CC27395A7CC /* libPods-Aura-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 075D045942ECB6828EB27B65 /* libPods-Aura-tvOSTests.a */; };
 		2705D4AC258CE20B001984E5 /* geoservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2705D4AB258CE20B001984E5 /* geoservice.swift */; };
 		27F7F555259202F100952DCA /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27F7F554259202F100952DCA /* AppCenter-Config.plist */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* AuraXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AuraXTests.m */; };
+		2DCD954D1E0B4F2C00145EB5 /* AuraTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AuraTests.m */; };
 		359B428C4AF34657A7261844 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57F28A9D09F44728A9514827 /* Nunito-SemiBold.ttf */; };
 		414817AB2AAA4FFF83B0E1DB /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1C88C3DD61B64FBAA56F8176 /* Nunito-ExtraLight.ttf */; };
 		48E33E64E01F43CCAC0024B3 /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EC8878DF5FC4A6BA333E58D /* Nunito-ExtraBoldItalic.ttf */; };
@@ -28,10 +28,10 @@
 		59BD2D6940ED4C608CF58A8F /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0C32A0C4185D4DA595A68C46 /* Nunito-Bold.ttf */; };
 		5E1C07690E644420B9335D43 /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B06FCADF98D4F7B98A55330 /* Nunito-SemiBoldItalic.ttf */; };
 		643EB0E156E64EECAE389F36 /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F55A487515DB4DF6BD55E660 /* Nunito-LightItalic.ttf */; };
-		7BAB3A315D0E1C9F857E134E /* libPods-AuraX-AuraXTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E35872E637CB27E0A3379715 /* libPods-AuraX-AuraXTests.a */; };
+		7BAB3A315D0E1C9F857E134E /* libPods-Aura-AuraTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E35872E637CB27E0A3379715 /* libPods-Aura-AuraTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A7EA52DCD09D4379A6B52674 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 72F86829E4A141F0BCC0773A /* Nunito-BoldItalic.ttf */; };
-		BD8B9FEEF8074A043CCEC74F /* libPods-AuraX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CE0DA6FA9D564460BF4D87 /* libPods-AuraX.a */; };
+		BD8B9FEEF8074A043CCEC74F /* libPods-Aura.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CE0DA6FA9D564460BF4D87 /* libPods-Aura.a */; };
 		C0205F3B5ACB4109B07D94EC /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F42E0A739E274AD5B833F735 /* Nunito-Light.ttf */; };
 		F5C337C16C0F4430B026FD7C /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA233525D0458BAEB9090C /* Nunito-Regular.ttf */; };
 /* End PBXBuildFile section */
@@ -42,55 +42,55 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = AuraX;
+			remoteInfo = Aura;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "AuraX-tvOS";
+			remoteInfo = "Aura-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		005BABCBD28709E8DA075C7D /* Pods-AuraX-AuraXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraX-AuraXTests.release.xcconfig"; path = "Target Support Files/Pods-AuraX-AuraXTests/Pods-AuraX-AuraXTests.release.xcconfig"; sourceTree = "<group>"; };
+		005BABCBD28709E8DA075C7D /* Pods-Aura-AuraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aura-AuraTests.release.xcconfig"; path = "Target Support Files/Pods-Aura-AuraTests/Pods-Aura-AuraTests.release.xcconfig"; sourceTree = "<group>"; };
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* AuraXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuraXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* AuraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* AuraXTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuraXTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* AuraTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuraTests.m; sourceTree = "<group>"; };
 		0668D3EC01044598B1ACC97A /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		075D045942ECB6828EB27B65 /* libPods-AuraX-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AuraX-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		075D045942ECB6828EB27B65 /* libPods-Aura-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Aura-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C32A0C4185D4DA595A68C46 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		0C6029BD16B04656A4C154FC /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		0CC8EE8613D9408FA741B69D /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		10769534F26E4F0E9C5E8018 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../assets/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
-		1292B80FB20C86AA52FA6FD5 /* Pods-AuraX-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraX-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-AuraX-tvOS/Pods-AuraX-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* AuraX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuraX.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AuraX/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = AuraX/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AuraX/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AuraX/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AuraX/main.m; sourceTree = "<group>"; };
+		1292B80FB20C86AA52FA6FD5 /* Pods-Aura-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aura-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Aura-tvOS/Pods-Aura-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Aura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aura.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Aura/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Aura/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Aura/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Aura/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Aura/main.m; sourceTree = "<group>"; };
 		1B06FCADF98D4F7B98A55330 /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBoldItalic.ttf"; path = "../assets/fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		1C88C3DD61B64FBAA56F8176 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.ttf"; path = "../assets/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
 		23C5995629BA4FEB8D5708F4 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		24E76D97F79B64CC1BA09224 /* Pods-AuraX-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraX-tvOS.release.xcconfig"; path = "Target Support Files/Pods-AuraX-tvOS/Pods-AuraX-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		2705D4AA258CE20A001984E5 /* AuraX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AuraX-Bridging-Header.h"; sourceTree = "<group>"; };
+		24E76D97F79B64CC1BA09224 /* Pods-Aura-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aura-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Aura-tvOS/Pods-Aura-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		2705D4AA258CE20A001984E5 /* Aura-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Aura-Bridging-Header.h"; sourceTree = "<group>"; };
 		2705D4AB258CE20B001984E5 /* geoservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geoservice.swift; sourceTree = "<group>"; };
 		2750D93981D3496FA6DC8955 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		27F7F554259202F100952DCA /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		28F65375831B49D196DD317D /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		297DA114362844D8A3759BE2 /* Oxygen-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oxygen-Bold.ttf"; path = "../assets/fonts/Oxygen-Bold.ttf"; sourceTree = "<group>"; };
 		2BCD83412C2244D5968B8333 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* AuraX-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AuraX-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* AuraX-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AuraX-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* Aura-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aura-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* Aura-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aura-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E288F820E3A402AB01364BE /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		2EB343CF5CFA415291C1B064 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		4BD0A8D63416442685F349FC /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		4CBC87A3BE8D474AB416C7AF /* Oxygen-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oxygen-Regular.ttf"; path = "../assets/fonts/Oxygen-Regular.ttf"; sourceTree = "<group>"; };
 		4EC8878DF5FC4A6BA333E58D /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../assets/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		51727DA7C1B96C0B20B78DDE /* Pods-AuraX-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraX-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-AuraX-tvOSTests/Pods-AuraX-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		51727DA7C1B96C0B20B78DDE /* Pods-Aura-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aura-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Aura-tvOSTests/Pods-Aura-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		521E2D1A49FA47FAB3C4CA15 /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		57F28A9D09F44728A9514827 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		633AD6BF69094F3F80CDCD84 /* Nunito-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Italic.ttf"; path = "../assets/fonts/Nunito-Italic.ttf"; sourceTree = "<group>"; };
@@ -98,14 +98,14 @@
 		72F86829E4A141F0BCC0773A /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../assets/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
 		74493E588A974CBF9CA7C426 /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../assets/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		78AD345302A342BFB3234BF4 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AuraX/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Aura/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		871A98A596FA4D6BBE118F9D /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		8864537F76BC40A5A10D01FA /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		8A833266D6E54E4C889931A1 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/native-base/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
-		8B14599D6AD16EC22E34AB12 /* Pods-AuraX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraX.debug.xcconfig"; path = "Target Support Files/Pods-AuraX/Pods-AuraX.debug.xcconfig"; sourceTree = "<group>"; };
-		900F2C4B9C009059A67132CD /* Pods-AuraX-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraX-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-AuraX-tvOSTests/Pods-AuraX-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		8B14599D6AD16EC22E34AB12 /* Pods-Aura.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aura.debug.xcconfig"; path = "Target Support Files/Pods-Aura/Pods-Aura.debug.xcconfig"; sourceTree = "<group>"; };
+		900F2C4B9C009059A67132CD /* Pods-Aura-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aura-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Aura-tvOSTests/Pods-Aura-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		97313568E6DF4DDA95E1AC40 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		99CE0DA6FA9D564460BF4D87 /* libPods-AuraX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AuraX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		99CE0DA6FA9D564460BF4D87 /* libPods-Aura.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Aura.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BDA233525D0458BAEB9090C /* Nunito-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.ttf"; path = "../assets/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		A0DC5A0445714B04ABB653B7 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		A3E6F1F30CCF4ED792CAAEB8 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -113,13 +113,13 @@
 		A738292354AC45F0B6DF831F /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		A8626A8F7D6C4BA8B5DCCB43 /* Oxygen-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oxygen-Light.ttf"; path = "../assets/fonts/Oxygen-Light.ttf"; sourceTree = "<group>"; };
 		ACEA37761ACD40F1AC5D1A3F /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
-		AEC8267F34436CF7D3961DF9 /* Pods-AuraX-AuraXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraX-AuraXTests.debug.xcconfig"; path = "Target Support Files/Pods-AuraX-AuraXTests/Pods-AuraX-AuraXTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AEC8267F34436CF7D3961DF9 /* Pods-Aura-AuraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aura-AuraTests.debug.xcconfig"; path = "Target Support Files/Pods-Aura-AuraTests/Pods-Aura-AuraTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B9D09CA8EFBF40BEACF63249 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		BB9DBC618FC7471DBBD7E84D /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		C7AECEA45F5044C7A3CF266C /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
-		D240BACB3701039751CB81C1 /* libPods-AuraX-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AuraX-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D240BACB3701039751CB81C1 /* libPods-Aura-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Aura-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8ED2102985243A8AA2287E6 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
-		E35872E637CB27E0A3379715 /* libPods-AuraX-AuraXTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AuraX-AuraXTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E35872E637CB27E0A3379715 /* libPods-Aura-AuraTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Aura-AuraTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E89531ACEC964F1ABEE92706 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		E9D44C8A97A14CCA9B2CDC91 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		E9F38F0C11A142FC8F3A5CBC /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		F55A487515DB4DF6BD55E660 /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-LightItalic.ttf"; path = "../assets/fonts/Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
 		F9264B173C20479DBD712C7D /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/native-base/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		FB63DCC721C6458794DB8125 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
-		FDC04F65B1C7ED92A5DBA69B /* Pods-AuraX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraX.release.xcconfig"; path = "Target Support Files/Pods-AuraX/Pods-AuraX.release.xcconfig"; sourceTree = "<group>"; };
+		FDC04F65B1C7ED92A5DBA69B /* Pods-Aura.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aura.release.xcconfig"; path = "Target Support Files/Pods-Aura/Pods-Aura.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BAB3A315D0E1C9F857E134E /* libPods-AuraX-AuraXTests.a in Frameworks */,
+				7BAB3A315D0E1C9F857E134E /* libPods-Aura-AuraTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,7 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD8B9FEEF8074A043CCEC74F /* libPods-AuraX.a in Frameworks */,
+				BD8B9FEEF8074A043CCEC74F /* libPods-Aura.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,7 +157,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0879479E7E55EB1536F8104E /* libPods-AuraX-tvOS.a in Frameworks */,
+				0879479E7E55EB1536F8104E /* libPods-Aura-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,20 +165,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1EFBF439A1D86CC27395A7CC /* libPods-AuraX-tvOSTests.a in Frameworks */,
+				1EFBF439A1D86CC27395A7CC /* libPods-Aura-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* AuraXTests */ = {
+		00E356EF1AD99517003FC87E /* AuraTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* AuraXTests.m */,
+				00E356F21AD99517003FC87E /* AuraTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = AuraXTests;
+			path = AuraTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -189,7 +189,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* AuraX */ = {
+		13B07FAE1A68108700A75B9A /* Aura */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -201,7 +201,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				27F7F554259202F100952DCA /* AppCenter-Config.plist */,
 			);
-			name = AuraX;
+			name = Aura;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -209,10 +209,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				99CE0DA6FA9D564460BF4D87 /* libPods-AuraX.a */,
-				E35872E637CB27E0A3379715 /* libPods-AuraX-AuraXTests.a */,
-				D240BACB3701039751CB81C1 /* libPods-AuraX-tvOS.a */,
-				075D045942ECB6828EB27B65 /* libPods-AuraX-tvOSTests.a */,
+				99CE0DA6FA9D564460BF4D87 /* libPods-Aura.a */,
+				E35872E637CB27E0A3379715 /* libPods-Aura-AuraTests.a */,
+				D240BACB3701039751CB81C1 /* libPods-Aura-tvOS.a */,
+				075D045942ECB6828EB27B65 /* libPods-Aura-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -220,14 +220,14 @@
 		4EDC3D0C2C6D89362FC03AAE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8B14599D6AD16EC22E34AB12 /* Pods-AuraX.debug.xcconfig */,
-				FDC04F65B1C7ED92A5DBA69B /* Pods-AuraX.release.xcconfig */,
-				AEC8267F34436CF7D3961DF9 /* Pods-AuraX-AuraXTests.debug.xcconfig */,
-				005BABCBD28709E8DA075C7D /* Pods-AuraX-AuraXTests.release.xcconfig */,
-				1292B80FB20C86AA52FA6FD5 /* Pods-AuraX-tvOS.debug.xcconfig */,
-				24E76D97F79B64CC1BA09224 /* Pods-AuraX-tvOS.release.xcconfig */,
-				51727DA7C1B96C0B20B78DDE /* Pods-AuraX-tvOSTests.debug.xcconfig */,
-				900F2C4B9C009059A67132CD /* Pods-AuraX-tvOSTests.release.xcconfig */,
+				8B14599D6AD16EC22E34AB12 /* Pods-Aura.debug.xcconfig */,
+				FDC04F65B1C7ED92A5DBA69B /* Pods-Aura.release.xcconfig */,
+				AEC8267F34436CF7D3961DF9 /* Pods-Aura-AuraTests.debug.xcconfig */,
+				005BABCBD28709E8DA075C7D /* Pods-Aura-AuraTests.release.xcconfig */,
+				1292B80FB20C86AA52FA6FD5 /* Pods-Aura-tvOS.debug.xcconfig */,
+				24E76D97F79B64CC1BA09224 /* Pods-Aura-tvOS.release.xcconfig */,
+				51727DA7C1B96C0B20B78DDE /* Pods-Aura-tvOSTests.debug.xcconfig */,
+				900F2C4B9C009059A67132CD /* Pods-Aura-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -243,14 +243,14 @@
 			isa = PBXGroup;
 			children = (
 				2705D4AB258CE20B001984E5 /* geoservice.swift */,
-				13B07FAE1A68108700A75B9A /* AuraX */,
+				13B07FAE1A68108700A75B9A /* Aura */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* AuraXTests */,
+				00E356EF1AD99517003FC87E /* AuraTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				EFC2C11BDE7D42128DECFB42 /* Resources */,
 				4EDC3D0C2C6D89362FC03AAE /* Pods */,
-				2705D4AA258CE20A001984E5 /* AuraX-Bridging-Header.h */,
+				2705D4AA258CE20A001984E5 /* Aura-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -260,10 +260,10 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* AuraX.app */,
-				00E356EE1AD99517003FC87E /* AuraXTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* AuraX-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* AuraX-tvOSTests.xctest */,
+				13B07F961A680F5B00A75B9A /* Aura.app */,
+				00E356EE1AD99517003FC87E /* AuraTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* Aura-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* Aura-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -328,9 +328,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* AuraXTests */ = {
+		00E356ED1AD99517003FC87E /* AuraTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "AuraXTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "AuraTests" */;
 			buildPhases = (
 				A745D0243D0EB787A769E475 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -343,14 +343,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = AuraXTests;
-			productName = AuraXTests;
-			productReference = 00E356EE1AD99517003FC87E /* AuraXTests.xctest */;
+			name = AuraTests;
+			productName = AuraTests;
+			productReference = 00E356EE1AD99517003FC87E /* AuraTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* AuraX */ = {
+		13B07F861A680F5B00A75B9A /* Aura */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AuraX" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Aura" */;
 			buildPhases = (
 				3B9F3F520616C48455CD3E21 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -364,14 +364,14 @@
 			);
 			dependencies = (
 			);
-			name = AuraX;
-			productName = AuraX;
-			productReference = 13B07F961A680F5B00A75B9A /* AuraX.app */;
+			name = Aura;
+			productName = Aura;
+			productReference = 13B07F961A680F5B00A75B9A /* Aura.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* AuraX-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* Aura-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "AuraX-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Aura-tvOS" */;
 			buildPhases = (
 				0687B9EF0571565F873E0E03 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
@@ -384,14 +384,14 @@
 			);
 			dependencies = (
 			);
-			name = "AuraX-tvOS";
-			productName = "AuraX-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* AuraX-tvOS.app */;
+			name = "Aura-tvOS";
+			productName = "Aura-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* Aura-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* AuraX-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* Aura-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "AuraX-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Aura-tvOSTests" */;
 			buildPhases = (
 				4819ACA3773A7CC6ACF18DBE /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
@@ -403,9 +403,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "AuraX-tvOSTests";
-			productName = "AuraX-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* AuraX-tvOSTests.xctest */;
+			name = "Aura-tvOSTests";
+			productName = "Aura-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* Aura-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -434,7 +434,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AuraX" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Aura" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -447,10 +447,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* AuraX */,
-				00E356ED1AD99517003FC87E /* AuraXTests */,
-				2D02E47A1E0B4A5D006451C7 /* AuraX-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* AuraX-tvOSTests */,
+				13B07F861A680F5B00A75B9A /* Aura */,
+				00E356ED1AD99517003FC87E /* AuraTests */,
+				2D02E47A1E0B4A5D006451C7 /* Aura-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* Aura-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -532,7 +532,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AuraX-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Aura-tvOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -545,7 +545,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AuraX-AuraXTests/Pods-AuraX-AuraXTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Aura-AuraTests/Pods-Aura-AuraTests-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
@@ -596,7 +596,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AuraX-AuraXTests/Pods-AuraX-AuraXTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Aura-AuraTests/Pods-Aura-AuraTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
@@ -628,7 +628,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AuraX-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Aura-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -650,7 +650,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AuraX-tvOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Aura-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -663,7 +663,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AuraX/Pods-AuraX-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Aura/Pods-Aura-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
@@ -714,7 +714,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AuraX/Pods-AuraX-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Aura/Pods-Aura-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A745D0243D0EB787A769E475 /* [CP] Check Pods Manifest.lock */ = {
@@ -732,7 +732,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AuraX-AuraXTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Aura-AuraTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -784,7 +784,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* AuraXTests.m in Sources */,
+				00E356F31AD99517003FC87E /* AuraTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -811,7 +811,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* AuraXTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* AuraTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,12 +820,12 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* AuraX */;
+			target = 13B07F861A680F5B00A75B9A /* Aura */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* AuraX-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* Aura-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -833,7 +833,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AEC8267F34436CF7D3961DF9 /* Pods-AuraX-AuraXTests.debug.xcconfig */;
+			baseConfigurationReference = AEC8267F34436CF7D3961DF9 /* Pods-Aura-AuraTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -841,7 +841,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = AuraXTests/Info.plist;
+				INFOPLIST_FILE = AuraTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -851,18 +851,18 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AuraX.app/AuraX";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Aura.app/Aura";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 005BABCBD28709E8DA075C7D /* Pods-AuraX-AuraXTests.release.xcconfig */;
+			baseConfigurationReference = 005BABCBD28709E8DA075C7D /* Pods-Aura-AuraTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = AuraXTests/Info.plist;
+				INFOPLIST_FILE = AuraTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -872,19 +872,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AuraX.app/AuraX";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Aura.app/Aura";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B14599D6AD16EC22E34AB12 /* Pods-AuraX.debug.xcconfig */;
+			baseConfigurationReference = 8B14599D6AD16EC22E34AB12 /* Pods-Aura.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = AuraX/Info.plist;
+				INFOPLIST_FILE = Aura/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -892,8 +892,8 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = AuraX;
-				SWIFT_OBJC_BRIDGING_HEADER = "AuraX-Bridging-Header.h";
+				PRODUCT_NAME = Aura;
+				SWIFT_OBJC_BRIDGING_HEADER = "Aura-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -902,12 +902,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDC04F65B1C7ED92A5DBA69B /* Pods-AuraX.release.xcconfig */;
+			baseConfigurationReference = FDC04F65B1C7ED92A5DBA69B /* Pods-Aura.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = AuraX/Info.plist;
+				INFOPLIST_FILE = Aura/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -915,8 +915,8 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = AuraX;
-				SWIFT_OBJC_BRIDGING_HEADER = "AuraX-Bridging-Header.h";
+				PRODUCT_NAME = Aura;
+				SWIFT_OBJC_BRIDGING_HEADER = "Aura-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -924,7 +924,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1292B80FB20C86AA52FA6FD5 /* Pods-AuraX-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 1292B80FB20C86AA52FA6FD5 /* Pods-Aura-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -935,14 +935,14 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "AuraX-tvOS/Info.plist";
+				INFOPLIST_FILE = "Aura-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.AuraX-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Aura-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -952,7 +952,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 24E76D97F79B64CC1BA09224 /* Pods-AuraX-tvOS.release.xcconfig */;
+			baseConfigurationReference = 24E76D97F79B64CC1BA09224 /* Pods-Aura-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -963,14 +963,14 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "AuraX-tvOS/Info.plist";
+				INFOPLIST_FILE = "Aura-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.AuraX-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Aura-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -980,7 +980,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 51727DA7C1B96C0B20B78DDE /* Pods-AuraX-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 51727DA7C1B96C0B20B78DDE /* Pods-Aura-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -990,24 +990,24 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "AuraX-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "Aura-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.AuraX-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Aura-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AuraX-tvOS.app/AuraX-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Aura-tvOS.app/Aura-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 900F2C4B9C009059A67132CD /* Pods-AuraX-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 900F2C4B9C009059A67132CD /* Pods-Aura-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1017,17 +1017,17 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "AuraX-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "Aura-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.AuraX-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Aura-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AuraX-tvOS.app/AuraX-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Aura-tvOS.app/Aura-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1148,7 +1148,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "AuraXTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "AuraTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1157,7 +1157,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AuraX" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Aura" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1166,7 +1166,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "AuraX-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Aura-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1175,7 +1175,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "AuraX-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Aura-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1184,7 +1184,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AuraX" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Aura" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
