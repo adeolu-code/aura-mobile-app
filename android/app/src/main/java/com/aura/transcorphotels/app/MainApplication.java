@@ -1,4 +1,4 @@
-package com.aura.app;
+package com.aura.transcorphotels.app;
 
 import android.app.Application;
 import android.content.Context;

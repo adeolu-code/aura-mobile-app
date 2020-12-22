@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.aura.app",
+    package = "com.aura.transcorphotels.app",
 )
 
 android_resource(
     name = "res",
-    package = "com.aura.app",
+    package = "com.aura.transcorphotels.app",
     res = "src/main/res",
 )
 

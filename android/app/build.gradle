@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.aura.app"
+        applicationId "com.aura.transcorphotels.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
