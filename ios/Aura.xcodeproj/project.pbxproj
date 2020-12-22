@@ -15,6 +15,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1EFBF439A1D86CC27395A7CC /* libPods-Aura-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 075D045942ECB6828EB27B65 /* libPods-Aura-tvOSTests.a */; };
 		2705D4AC258CE20B001984E5 /* geoservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2705D4AB258CE20B001984E5 /* geoservice.swift */; };
+		27F7F555259202F100952DCA /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27F7F554259202F100952DCA /* AppCenter-Config.plist */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -78,6 +79,7 @@
 		2705D4AA258CE20A001984E5 /* Aura-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Aura-Bridging-Header.h"; sourceTree = "<group>"; };
 		2705D4AB258CE20B001984E5 /* geoservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geoservice.swift; sourceTree = "<group>"; };
 		2750D93981D3496FA6DC8955 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		27F7F554259202F100952DCA /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		28F65375831B49D196DD317D /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		297DA114362844D8A3759BE2 /* Oxygen-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oxygen-Bold.ttf"; path = "../assets/fonts/Oxygen-Bold.ttf"; sourceTree = "<group>"; };
 		2BCD83412C2244D5968B8333 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				27F7F554259202F100952DCA /* AppCenter-Config.plist */,
 			);
 			name = Aura;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				48E33E64E01F43CCAC0024B3 /* Nunito-ExtraBoldItalic.ttf in Resources */,
 				414817AB2AAA4FFF83B0E1DB /* Nunito-ExtraLight.ttf in Resources */,
 				49D30CF1D9CB45D19498F338 /* Nunito-ExtraLightItalic.ttf in Resources */,
+				27F7F555259202F100952DCA /* AppCenter-Config.plist in Resources */,
 				4FB054AE8A144CDF943E9483 /* Nunito-Italic.ttf in Resources */,
 				643EB0E156E64EECAE389F36 /* Nunito-LightItalic.ttf in Resources */,
 				5E1C07690E644420B9335D43 /* Nunito-SemiBoldItalic.ttf in Resources */,
