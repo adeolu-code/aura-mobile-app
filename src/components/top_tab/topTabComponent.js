@@ -6,6 +6,15 @@ import { AppContext } from '../../../AppProvider';
 import { Styles } from "./topTab.style";
 import { View, Text } from 'native-base';
 
+/**
+ * 
+ * @param {*} props
+ * 
+ *  tabs [array]
+ * 
+ * onClick [function]
+ * 
+ */
 
 class TopTab extends Component {
   static contextType = AppContext;

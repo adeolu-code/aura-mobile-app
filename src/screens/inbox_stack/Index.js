@@ -16,7 +16,7 @@ class Index extends Component {
     const description = `Keep in touch with your host in real-time and get notified on any updates in your notifications tab.`;
     return (
       <>
-        <SafeAreaView style={{flex: 1, backgroundColor: colors.white}}>
+        {/* <SafeAreaView style={{flex: 1, backgroundColor: "red"}}> */}
           <ScrollView>
             
             {
@@ -26,7 +26,7 @@ class Index extends Component {
               <InboxScreen />
             }
           </ScrollView>
-        </SafeAreaView>
+        {/* </SafeAreaView> */}
       </>
     );
   }
