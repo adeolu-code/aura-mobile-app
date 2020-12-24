@@ -1,4 +1,4 @@
-import { urls, GetRequest, errorMessage, successMessage, consoleLog } from "../utils";
+import { urls, GetRequest, errorMessage, successMessage, consoleLog, Request } from "../utils";
 
 export async function getRestaurantOrdersApi(page=1,size=1) {
     
@@ -23,6 +23,21 @@ export async function getRestaurantApi() {
         errorMessage(res.message);
     }
     else {
+        return res.data;
+    }
+    
+    return;
+}
+
+export async function updateRestaurantApi(profileId, data) {
+    
+    let res = await Request(urls.restaurantBase + urls.v, urls.restaurant + profileId, data, false, "PUT");
+    //console.log("this.context.state.idTypes", res, res.isError);
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        successMessage(res.message);
         return res.data;
     }
     

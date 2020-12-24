@@ -12,6 +12,7 @@ import { AppContext } from '../../../AppProvider';
 import { MyText } from '../../utils/Index';
 
 import { RESTAURANT, HOST, PHOTOGRAPH, EXPERIENCE } from '../../utils'
+import RestaurantDashboardComponent from '../restuarant/index.screen';
 
 
 class Index extends Component {
@@ -23,6 +24,7 @@ class Index extends Component {
   renderLoginOrDashboard = () => {
     const description = `Keep track and manage all your listings and guests’ bookings here when you become a host.`;
     const { userData, isLoggedIn, currentDashboard } = this.context.state;
+    
     if (isLoggedIn && userData) {
         const roleHost = userData.roles.find(item => item === HOST)
         const rolePhotograph = userData.roles.find(item => item === PHOTOGRAPH)
@@ -49,6 +51,11 @@ class Index extends Component {
                 </View>
               );
             case 3:
+                return(
+                  <View style={{ flex: 1 }}>
+                    <RestaurantDashboardComponent {...this.props} />
+                  </View>
+                );
               break;
             case 4:
               return (

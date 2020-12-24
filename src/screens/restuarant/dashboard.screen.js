@@ -356,26 +356,26 @@ export default class RestuarantDashboard extends Component {
             </View>   
           </View>
 
-          <View style={wrapper}>
+          {/* <View style={wrapper}>
             {this.renderReservationsLoading()}
             <View style={contentContainer}> 
               {this.renderOrders()}
             </View>
-          </View>
+          </View> */}
 
-          <View style={wrapper}>
+          {/* <View style={wrapper}>
             {this.renderCommentsLoading()}
             <View style={contentContainer}>
                 {this.renderComments()}
             </View>
-          </View>
+          </View> */}
 
-          <View style={wrapper}>
+          {/* <View style={wrapper}>
             {this.renderRatingsLoading()}
             <View style={[contentContainer, noBorderBottom]}>
               {this.renderRatings()}
             </View>
-          </View>
+          </View> */}
 
         </ScrollView>
       </SafeAreaView>

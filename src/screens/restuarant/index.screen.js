@@ -44,10 +44,11 @@ export default class RestaurantDashboardComponent extends Component {
     this.props.navigation.navigate('RestaurantStack', {screen: 'RestaurantDashboard'})
   }
   onPressReservations = () => {
-    this.props.navigation.navigate('RestaurantOrders')
+    this.props.navigation.navigate('RestaurantStack', {screen: 'RestaurantOrders'})
   }
   onPressProperties = () => {
-    this.props.navigation.navigate('AddRestaurant')
+    this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant'})
+    // this.props.navigation.navigate('AddRestaurant')
   }
   onPressRR = () => {
     this.props.navigation.navigate('RestaurantReviews')
