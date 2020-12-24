@@ -45,7 +45,7 @@ class PaymentWebView extends Component {
   verifyTransaction = () => {
     this.setState({ loading: true, cover: true })
     const { orderDetails } = this.state
-    Request(urls.paymentBase, `${urls.v}pay/verify`, { reference: orderDetails.id } )
+    GetRequest(urls.paymentBase, `${urls.v}pay/verify/${orderDetails.id}` )
     .then((response) => {
       console.log('Verify ', response)
       if(response.isError) {
@@ -53,7 +53,6 @@ class PaymentWebView extends Component {
       } else {
         this.setState({ verified: true, loading: false  })
       }
-      const data = response.data;
       
     })
     
@@ -78,7 +77,9 @@ class PaymentWebView extends Component {
       console.log('On load start ', nativeEvent, orderDetails)
       const verifyUrl = `verifypayment`
       if(nativeEvent.url.includes(verifyUrl)) {
-        console.log('Got here url ', nativeEvent.url)
+        // const index = nativeEvent.url.indexOf('=')
+        // const ref = nativeEvent.url.slice(index+1)
+        // console.log('Got here url ', nativeEvent.url)
         this.verifyTransaction()
       }
   }

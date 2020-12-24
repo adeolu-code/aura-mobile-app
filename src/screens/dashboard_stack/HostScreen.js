@@ -13,7 +13,6 @@ import Header from '../../components/dashboard/DashboardHeader';
 import MenuItems from '../../components/dashboard/MenuItems';
 
 
-import Loader from '../../assets/loader.svg'
 
 if (
   Platform.OS === "android" &&

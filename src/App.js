@@ -4,7 +4,6 @@ if (__DEV__) {
   import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
 }
 import {Text, View, Platform} from 'react-native';
-import 'react-native-gesture-handler';
 import AppNavigation from './navigations/AppNavigation';
 import {Provider} from 'react-redux';
 import reducers from './redux/reducers/Index';
@@ -14,6 +13,9 @@ import { AppProvider } from '../AppProvider';
 import { ManagePropertyProvider } from '../ManagePropertyProvider';
 import { Root } from 'native-base';
 
+import { setNativeExceptionHandler } from "react-native-exception-handler";
+
+
 
 import FlashMessage from "react-native-flash-message";
 
@@ -21,9 +23,11 @@ import FlashMessage from "react-native-flash-message";
 
 export class App extends Component {
   
+  
   render() {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
+      
       <AppProvider>
         <ManagePropertyProvider>
           <Fragment>

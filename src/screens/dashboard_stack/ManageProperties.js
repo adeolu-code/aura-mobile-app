@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, SafeAreaView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Platform, Dimensions } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 import {Fab, Icon} from 'native-base';
@@ -14,7 +14,7 @@ import AllPropertiesTab from '../../components/dashboard/AllPropertiesTab';
 import HotelsTab from '../../components/dashboard/HotelsTab';
 import ApartmentsTab from '../../components/dashboard/ApartmentsTab';
 
-
+const SCREEN_HEIGHT = Dimensions.get('screen').height
 class ManageProperties extends Component {
   static contextType = ManagePropertyContext;
   constructor(props) {
@@ -30,7 +30,7 @@ class ManageProperties extends Component {
 
   renderLoading = () => {
       const { loading } = this.state;
-      if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
+      if (loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 100 }} />); }
   }
 
   componentDidMount = () => {
@@ -110,7 +110,7 @@ class ManageProperties extends Component {
 
 const styles = StyleSheet.create({
     manageHeader: {
-        position: 'absolute', backgroundColor: colors.white, paddingTop: 110, width: '100%', paddingHorizontal: 20, zIndex: 1,
+        position: 'absolute', backgroundColor: colors.white, paddingTop: Platform.OS === 'ios' ? 125 : 110, width: '100%', paddingHorizontal: 20, zIndex: 1,
     }, 
     tabsContainer: {
         display: 'flex', flexDirection: 'row', backgroundColor: colors.lighterGreen, borderRadius: 6, padding: 4,

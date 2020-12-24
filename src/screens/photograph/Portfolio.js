@@ -209,11 +209,6 @@ class Portfolio extends Component {
               
               <View style={[flexRow, picsContainer]}>
                   {this.renderPortfolio()}
-                  {/* <PhotoComponent />
-                  
-                  <PhotoComponent />
-                  <PhotoComponent />
-                  <PhotoComponent /> */}
                 
               </View>
           </View>
@@ -230,10 +225,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, paddingTop: 150, borderBottomColor: colors.lightGrey, borderBottomWidth: 4, paddingBottom: 20
   },
   picTextContainer: {
-    width: '48%'
+    width: '48%', 
   },
   picContainer: {
-    width: '100%', height: 200, borderRadius: 10, elevation: 3, marginBottom: 12, backgroundColor: colors.white
+    width: '100%', height: 200, borderRadius: 10, elevation: 3, marginBottom: 12, backgroundColor: colors.white,
+    ...GStyles.shadow,
   },
   picsContainer: {
     justifyContent: 'space-between', marginVertical: 20, flexWrap: 'wrap'

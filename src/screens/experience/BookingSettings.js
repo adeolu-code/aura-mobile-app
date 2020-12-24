@@ -95,7 +95,11 @@ class BookingSettings extends Component {
     }
     
     componentDidMount = () => {
-
+        const { tourOnboard, editTour } = this.context.state;
+        if(editTour) {
+            this.setState({ cutOffTimeForAdditionalGuest: tourOnboard.cutOffTimeForAdditionalGuest,
+                 cutOffTimeForFirstGuest: tourOnboard.cutOffTimeForFirstGuest })
+        }
     }
 
 

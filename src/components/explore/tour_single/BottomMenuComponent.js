@@ -21,7 +21,7 @@ class BottomMenuComponent extends Component {
   render() {
     const {   container, buttonStyle, buttonContainer } = styles;
     const { flexRow, textExtraBold, textBold, textGrey, textH4Style, textH5Style, textSuccess, textH6Style } = GStyles;
-    const { onPress, price, title } = this.props
+    const { onPress, price, title, disabled } = this.props
     return (
         <View style={[flexRow, container]}>
             <View style={{flex: 1}}>
@@ -31,7 +31,7 @@ class BottomMenuComponent extends Component {
             <View style={{flex: 1.3}}>
                 <View style={buttonContainer}>
                     <CustomButton buttonText={title}
-                    buttonStyle={buttonStyle} textStyle={[textH5Style]} onPress={onPress} />
+                    buttonStyle={buttonStyle} textStyle={[textH5Style]} onPress={onPress} disabled={disabled} />
                 </View>
             </View>
             

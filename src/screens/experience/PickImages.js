@@ -12,6 +12,9 @@ import { urls, Request, UploadRequest, uploadMultipleFile, uploadFile, errorMess
 import { AppContext } from '../../../AppProvider';
 import PhotographTipsModal from '../../components/PhotographTipsModal';
 
+import CancelComponent from '../../components/experience/CancelComponent';
+
+
 
 export default class PickImages extends Component {
     static contextType = AppContext
@@ -19,8 +22,8 @@ export default class PickImages extends Component {
         super();
         
         this.state = {
-            isCaptured: false, selectModal: false, errors: '', images: [], imgUrls: [], loading: false, coverImage: '', coverImgUrl: '',
-            cover: false, additionalInformation: '', showTipsModal: false
+            isCaptured: false, selectModal: false, errors: '', images: [], loading: false, coverImage: '', coverImgUrl: '',
+            cover: false, additionalInformation: '', showTipsModal: false, photos: []
         };
     }
     onChangeValue = (attrName, value) => {
@@ -33,11 +36,30 @@ export default class PickImages extends Component {
         this.setState({ showTipsModal: false })
     }
     componentDidMount = () => {
-        const { tourOnboard } = this.context.state
+        const { tourOnboard, editTour } = this.context.state;
         console.log(tourOnboard)
-        if(tourOnboard && tourOnboard.mainImage) {
-            this.setState({ coverImage: { path: tourOnboard.mainImage.assetPath } })
+        if(editTour) {
+            this.getPhotos(tourOnboard.id)
+            this.setState({ coverImage: { path: tourOnboard.mainImage.assetPath }, 
+                additionalInformation: tourOnboard.mainImage.additionalInformation })
         }
+    }
+    getPhotos = async (id) => {
+        this.setState({ loadingImages: true })
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/experience?experienceid=${id}`);
+        console.log('Photos tour ', res)
+        this.setState({ loadingImages: false })
+        if(res.isError || res.IsError) {
+            const message = res.Message || res.message;
+            errorMessage(message)
+        } else {
+            const imgData = res.data;
+            const images = imgData.filter(item => !item.isMain)
+            this.setState({ photos: imgData, images })
+        }
+    }
+    deletePhoto = async (id) => {
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/delete?photoId=${id}`, null, false, 'DELETE');
     }
     renderLoading = () => {
         const { loading } = this.state;
@@ -90,6 +112,10 @@ export default class PickImages extends Component {
         } else {
             // this.setState({ isCaptured: true })
             if(coverImage.size && coverImage.mime) {
+                const { tourOnboard, editTour } = this.context.state;
+                if(editTour && tourOnboard.mainImage && tourOnboard.mainImage.assetPath) {
+                    this.deletePhoto()
+                }
                 this.uploadCover()
             } else {
                 this.setState({ loading: true })
@@ -112,30 +138,22 @@ export default class PickImages extends Component {
             }
         })
     }
-    updateCoverPhoto = (imgUrl) => {
+    updateCoverPhoto = async (imgUrl) => {
         const { additionalInformation } = this.state
         const { tourOnboard } = this.context.state
-
         const obj = {
             experienceId: tourOnboard.id, additionalInformation, assetPath: imgUrl, isMain: true
         }
-        console.log(obj)
-        
-        Request(urls.experienceBase,`${urls.v}experience/photo/upload`, obj )
-        .then((res) => {
-            console.log('Res ', res)
-            if(res.isError || res.IsError) {
-                errorMessage('Failed to update cover image, try again else contact support')
-            } else {
-                this.setState({ isCaptured: true, cover: false })
-                // this.context.set({ tourOnboard: {...tourOnboard, ...res.data }})
-                this.setState({ cover: false })
-                this.makeCover(res.data)
-            }
-        })
-        .finally(() => {
-            this.setState({ loading: false })
-        })
+        const res = await Request(urls.experienceBase,`${urls.v}experience/photo/upload`, obj )
+        this.setState({ loading: false })
+        if(res.isError || res.IsError) {
+            errorMessage('Failed to update cover image, try again else contact support')
+        } else {
+            this.setState({ isCaptured: true, cover: false })
+            this.setState({ cover: false })
+            this.makeCover(res.data)
+        }
+       
     }
 
     makeCover = async (data) => {
@@ -152,25 +170,29 @@ export default class PickImages extends Component {
         // }
     }
     
-    submit = () => {
-        this.setState({ loading: true })
+    submit = async () => {
+        const { editTour } = this.context.state
         const { images } = this.state
-        uploadMultipleFile(images)
-        .then((res) => {
-            if(!res.isError) {
+        const imgs = images.filter(item => item.mime)
+        if(imgs.length !== 0) {
+            this.setState({ loading: true })
+            const res = await uploadMultipleFile(imgs)
+            if(res.isError || res.IsError) {
+                errorMessage(res.message || res.Message)
+                this.setState({ loading: false })
+            } else {
                 const data = res.data;
                 const urls = data.map(item => item.displayUrl)
                 this.updateOtherImages(urls)
-            } else {
-                errorMessage('Failed to upload images, try again else contact support')
-                this.setState({ loading: false })
             }
-        })
-        .catch(error => {
-            console.log(error)
-            this.setState({ loading: false })
-            errorMessage('Failed to upload images, try again else contact support')
-        })
+        } else {
+            if(editTour) {
+                this.props.navigation.navigate("TourMeetingLocation");
+            } else {
+                errorMessage('Please add images')
+            }
+        }
+        
     }
     updateOtherImages = (imageUrls) => {
         const { tourOnboard } = this.context.state
@@ -235,10 +257,7 @@ export default class PickImages extends Component {
             this.closeSelectModal()
         })
     }
-
-    getPropertyPhotos = () => {
-        
-    }
+    
 
     renderCoverImage = () => {
         const { coverImage } = this.state;
@@ -261,6 +280,8 @@ export default class PickImages extends Component {
             </>
         )
     }
+    
+    
 
     render() {
         const {
@@ -322,9 +343,12 @@ export default class PickImages extends Component {
                                         <CustomButton buttonText="Next" onPress={this.submit} buttonStyle={{elevation: 2}} />
                                     }
                                 </View>
+                                {this.context.state.editTour ? <CancelComponent {...this.props} wrapper={{ paddingRight: 0, marginTop: 20}} /> : <></>}
                         </Content>
+                        
                         <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />
                     </Container>
+                    
                     </ScrollView>
                     <PhotographTipsModal visible={this.state.showTipsModal} onDecline={this.closeTipsModal} />
                 </SafeAreaView>

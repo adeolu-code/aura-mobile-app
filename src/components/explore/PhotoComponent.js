@@ -27,7 +27,7 @@ class PhotoComponent extends Component {
       <View>
         <TouchableOpacity style={scrollItemContainer} onPress={this.linkToPhoto}>
             <View style={imgContainer}>
-                <Image source={img} resizeMode="cover" style={imgStyle} />
+                <Image source={img} resizeMode="cover" style={[imgStyle, { borderRadius: 8}]} />
             </View>
             <View style={contentContainer}>
                 <MyText style={[textDarkGrey, textExtraBold, textH3Style, marginBottomSmall]}>{title1}</MyText>
@@ -46,10 +46,11 @@ const styles = StyleSheet.create({
     scrollItemContainer: {
         // borderWidth: 1, 
         // marginRight: '1.8%', 
-        width: '100%', 
+        width: '100%', paddingLeft: 2
     },
     imgContainer: {
-        width: '100%', height: 250, borderRadius: 8, overflow: 'hidden', marginBottom: 10
+        width: '100%', height: 250, borderRadius: 8, marginBottom: 10,
+        elevation: 2, backgroundColor: colors.lightGrey, ...GStyles.shadow
     },
 });
 

@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  Image,
+  Image, Platform
 } from 'react-native';
 import { CustomButton, MyText } from '../utils/Index';
 import colors from '../colors';
@@ -53,7 +53,7 @@ class PlaceHolderComponent extends Component {
     } = styles;
     const { title, description, img } = this.props;
     return (
-      <View>
+      <View style={{ flex: 1}}>
         <ScrollView style={container} keyboardShouldPersistTaps="always">
           <View>
             <MyText style={[textExtraBold, textH1Style, textDarkBlue, { marginBottom: 5 }]}>{title}</MyText>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   accountStyle: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 25,
+    marginVertical: 25, marginBottom: Platform.OS === 'ios' ? 80 : 25
   },
   container: {
     alignSelf: 'center',

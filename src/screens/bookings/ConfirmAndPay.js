@@ -223,7 +223,7 @@ class ConfirmAndPay extends Component {
 
             <View style={{ marginBottom: 40}}>
               {this.renderError()}
-              <CustomButton buttonText="Make Payment" buttonStyle={{ elevation: 1}} onPress={this.makePayment} />
+              <CustomButton buttonText="Make Payment" buttonStyle={{ elevation: 1, ...GStyles.shadow}} onPress={this.makePayment} />
             </View>
         </View>
         </ScrollView>

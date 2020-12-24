@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
         width: '48%', marginBottom: 15
     },
     picContainer: {
-        width: '100%', height: 200, borderRadius: 10, elevation: 3, marginBottom: 12, backgroundColor: colors.white
+        width: '100%', height: 200, borderRadius: 10, elevation: 3, marginBottom: 12, backgroundColor: colors.white,
+        ...GStyles.shadow
     },
     picsContainer: {
         justifyContent: 'space-between', marginVertical: 20

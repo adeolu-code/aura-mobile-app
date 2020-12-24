@@ -260,7 +260,8 @@ const styles = StyleSheet.create({
     },
     imgContainer: {
         width: 70, height: 70, borderRadius: 70, overflow: 'hidden', marginRight: 20,
-        // borderWidth: 1
+        backgroundColor: colors.lightGrey,
+        borderWidth: 2, borderColor: colors.orange
     },
     lineStyle: {
         width: '22%', height: 4, backgroundColor: colors.lightGrey, borderRadius: 10, 

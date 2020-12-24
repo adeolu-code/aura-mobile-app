@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native';
 import { MyText } from '../../utils/Index';
 import colors from '../../colors';
 
@@ -79,7 +79,7 @@ class RatingsAndReviews extends Component {
 
 const styles = StyleSheet.create({
     rrHeader: {
-        position: 'absolute', backgroundColor: colors.white, paddingTop: 100, width: '100%', paddingHorizontal: 20, zIndex: 1
+        position: 'absolute', backgroundColor: colors.white, paddingTop: Platform.OS === 'ios' ? 130 : 100, width: '100%', paddingHorizontal: 20, zIndex: 1
     }, 
     tabsContainer: {
         display: 'flex', flexDirection: 'row', backgroundColor: colors.lighterGreen, borderRadius: 6, padding: 4,

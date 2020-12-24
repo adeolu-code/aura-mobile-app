@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList, RefreshControl } from 'react-native';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
 import { MyText, Loading, Spinner } from '../../../../utils/Index';
@@ -31,7 +31,7 @@ class Index extends Component {
         maxPrice: '', 
         isVerified: ''
       },
-      filterUrl: ''
+      filterUrl: '', refreshing: false
     };
   }
   openModal = () => {
@@ -203,6 +203,10 @@ class Index extends Component {
       })
     }
   }
+  onRefresh = () => {
+    this.setState({ filterUrl: ''})
+    this.getPlaces();
+  }
 
   render() {
     const {filterContainer, container, contentContainer, contentMainContainer } = styles
@@ -214,6 +218,10 @@ class Index extends Component {
           {this.renderLoading()}
           
             <FlatList
+              refreshControl={
+                <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.refreshing}
+                colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
+              }
               ListHeaderComponent={
                 <>
                   <ExploreLocation onSelectState={this.selectState} onRemoveState={this.removeState} {...this.props} />

@@ -4,6 +4,7 @@ import { Card, MyText } from '../utils/Index';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import GStyles from '../assets/styles/GeneralStyles';
 import moment from 'moment'
+import colors from '../colors';
 
 class CommentRow extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
         marginBottom: 15, justifyContent: 'space-between', alignItems: 'flex-end'
     },
     imgContainer: {
-        width: 50, height: 50, borderRadius: 50, overflow: 'hidden'
+        width: 50, height: 50, borderRadius: 50, overflow: 'hidden', backgroundColor: colors.lightGrey
     },
     leftContainer: {
         flex: 1.2

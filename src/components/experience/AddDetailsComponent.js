@@ -18,7 +18,7 @@ class AddDetailsComponent extends Component {
     static contextType = AppContext
     constructor(props) {
         super(props);
-        this.state = { experienceProvisions: [], showModal: false };
+        this.state = { experienceProvisions: [], showModal: false, provisions: [] };
     }
     openModal = () => {
         this.setState({ showModal: true })
@@ -38,11 +38,23 @@ class AddDetailsComponent extends Component {
         console.log(value)
         this.setState({ experienceProvisions: arr })
     }
+
+    getProvisions = (provisions) => {
+        this.setState({ provisions })
+        const { tourOnboard, editTour } = this.context.state;
+        const arr = [];
+        tourOnboard.experienceProvisions.forEach(element => {
+            const provision = provisions.find(pr => pr.id === element)
+            arr.push(provision)
+        });
+        if(editTour) {
+            this.setState({ experienceProvisions: arr })
+        }
+    }
     
 
     updateExperience = async () => {
         const { tourOnboard } = this.context.state
-        // console.log(this.state.experienceProvisions)
         this.props.loading(true)
         const obj = {
             id: tourOnboard.id,
@@ -87,10 +99,16 @@ class AddDetailsComponent extends Component {
         }
     }
 
+    componentDidMount = () => {
+        // const { tourOnboard, editTour, userData } = this.context.state;
+        // if(editTour) {
+        //     this.setState({ experienceProvisions: tourOnboard.experienceProvisions })
+        // }
+    }
+
 
     render() {
-        const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle, textH2Style,
-            textH4Style, textH5Style, textH6Style } = GStyles;
+        const { textGrey, flexRow, textH4Style } = GStyles;
         const { container, selectStyle, profileImgContainer, textContainer, icon } = styles
         const { userData } = this.context.state
         return (
@@ -111,7 +129,7 @@ class AddDetailsComponent extends Component {
                 <View>
                     <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} onPress={this.updateExperience} />
                 </View>
-                <AddDetailsModal visible={this.state.showModal} onDecline={this.closeModal} setValue={this.setValue} />
+                <AddDetailsModal visible={this.state.showModal} onDecline={this.closeModal} setValue={this.setValue} getProvisions={this.getProvisions} />
             </View>
         );
     }

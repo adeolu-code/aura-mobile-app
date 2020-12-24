@@ -18,6 +18,9 @@ import CountryPicker, { getAllCountries } from 'react-native-country-picker-moda
 import AutoCompleteComponent from '../../components/explore/AutoCompleteComponent';
 import ProgressBar from '../../components/ProgressBar'
 
+import CancelComponent from '../../components/experience/CancelComponent';
+
+
 
 
 class MeetingLocation extends Component {
@@ -84,25 +87,14 @@ class MeetingLocation extends Component {
 
     componentDidMount = async () => {
         
-        const { state } = this.context
+        const { tourOnboard, editTour } = this.context.state;
         const countries = await getAllCountries()
         const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
         this.setState({ defaultCountry: country, country })
-        // const ppty = state.propertyFormData;
-        // if(ppty && state.edit) {
-        //     if(ppty.longitude || ppty.latitude) {
-        //         this.setState({ st: ppty.state, city: ppty.district, address: ppty.address, zipCode: ppty.zipCode})
-        //     }
-        //     const countries = await getAllCountries()
-        //     const country = countries.find(item => item.name.toLowerCase() === ppty.country.toLowerCase())
-        //     if(country) {
-        //         this.setState({ defaultCountry: country, country })
-        //     }
-        // } else {
-        //     const countries = await getAllCountries()
-        //     const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
-        //     this.setState({ defaultCountry: country, country })
-        // }
+        if(editTour) {
+            this.setState({ address: tourOnboard.meetUpAddress, city: tourOnboard.meetUpCity, 
+                st: tourOnboard.meetUpState, zipCode: tourOnboard.meetUpZipCode})
+        }
         
     }
 
@@ -146,7 +138,7 @@ class MeetingLocation extends Component {
                             <View style={[{ marginBottom: 30, paddingHorizontal: 1}]}>
                                 <MyText style={[textH4Style, textGrey, { marginBottom: 10}]}>Address</MyText>
                                 <AutoCompleteComponent locationDetails={this.getSelectedLocation} type={true} autofocus={false} 
-                                countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} />
+                                countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} placeholder={this.state.address} />
                                 {/* <CustomInput label="Property Location" placeholder=" " attrName="address"
                                 value={this.state.address} onChangeText={this.onChangeValue} /> */}
                             </View>
@@ -167,11 +159,14 @@ class MeetingLocation extends Component {
                     <View style={button}>
                         <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} />
                     </View>
-                    <View style={styles.skipStyle}>
-                        <CustomButton buttonText="Skip To Step 6" 
-                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
-                        textStyle={{ color: colors.orange }}
-                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                    <View style={[flexRow, styles.skipStyle]}>
+                        {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                        <View style={{ flex: 1}}>
+                            <CustomButton buttonText="Skip To Step 6" 
+                            buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            textStyle={{ color: colors.orange }}
+                            onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                        </View>
                     </View>
                 </View>
             </ScrollView>

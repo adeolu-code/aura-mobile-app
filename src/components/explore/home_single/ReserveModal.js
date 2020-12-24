@@ -193,18 +193,21 @@ class ReserveModal extends Component {
 const styles = StyleSheet.create({
     container: {
         // flex: 1,
-        backgroundColor: colors.white, 
+        // backgroundColor: colors.white, 
+        backgroundColor: 'rgba(255, 255, 255, 0.9)', 
         width: '100%', height: '100%',
         justifyContent: 'flex-end'
     },
     
     modalContainer: {
-        backgroundColor: colors.white, borderTopLeftRadius: 15, borderTopRightRadius: 15, overflow: 'hidden', elevation: 4,
+        backgroundColor: colors.white, borderTopLeftRadius: 15, borderTopRightRadius: 15,  elevation: 4,
+        ...GStyles.shadow, 
+        // overflow: 'hidden',
         // flex: 1
         // paddingHorizontal: 20
     },
     mainHeader: {
-        backgroundColor: colors.white, 
+        backgroundColor: colors.white,borderTopLeftRadius: 15, borderTopRightRadius: 15,
     },
     modalHeader: {
         marginTop: 20, alignItems: 'center', paddingHorizontal: 20,

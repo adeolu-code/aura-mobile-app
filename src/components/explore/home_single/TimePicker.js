@@ -9,8 +9,9 @@ import moment from 'moment';
 class TimePicker extends Component {
     constructor(props) {
         super(props);
-        this.state = { showTimePicker: false, time: new Date().getTime(), };
+        this.state = { showTimePicker: false, time: '', timeValue: '' };
     }
+    
     toggleTimePicker = () => {
         this.setState({ showTimePicker: true })
     }
@@ -21,7 +22,7 @@ class TimePicker extends Component {
             })
         } else {
             const selectedTime = moment(time).format('LT')
-            this.setState({ timeValue: selectedTime, showTimePicker: false })
+            this.setState({ timeValue: selectedTime, showTimePicker: false, time })
             // this.props.receiveTime(moment(time))
             this.props.receiveTime(time)
         }
@@ -61,6 +62,14 @@ class TimePicker extends Component {
         }
     }
 
+    componentDidMount = () => {
+        const { defaultValue } = this.props;
+        if(defaultValue) {
+            this.setState({ timeValue: defaultValue })
+        }
+        this.setState({ time: new Date().getTime() })
+    }
+
   render() {
     const { container, alignRight } = styles
     const { title, right } = this.props;
@@ -83,7 +92,7 @@ const styles = StyleSheet.create({
         // width: '100%', 
         paddingVertical: 10,
         // alignItems: 'center', 
-        elevation: 3,
+        elevation: 3, ...GStyles.shadow,
         backgroundColor:'white',  paddingHorizontal:15, marginTop: 10,
         borderRadius: 6
    },

@@ -96,6 +96,8 @@ import RestaurantOrders from '../screens/restuarant/orders.screen';
 import AddRestaurant from '../screens/restuarant/addRestuarant.screen';
 import RestaurantReviews from '../screens/restuarant/reviews.screen';
 
+import PhotosComponentScreen from '../screens/dashboard_stack/PhotosComponent';
+
 
 const Stack = createStackNavigator();
 
@@ -129,6 +131,7 @@ export function DashboardStack() {
 
             <Stack.Screen name="MyPage" component={MyPageScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Portfolio" component={PortfolioScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Photos" component={PhotosComponentScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotographChangeProfile" component={PhotographChangeProfilePicScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>

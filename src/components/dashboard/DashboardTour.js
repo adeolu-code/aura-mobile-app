@@ -78,7 +78,9 @@ class DashboardTour extends Component {
       <>
       {this.renderMenuItems()}
       <View style={container}>
-        <Header {...this.props} title="Experience/Tour Dashboard" onPress={this.openMenu}  />
+        <View style={{ zIndex: 1}}>
+          <Header {...this.props} title="Experience/Tour Dashboard" onPress={this.openMenu}  />
+        </View>
         <ScrollView>
             <View style={contentStyle}>
                 

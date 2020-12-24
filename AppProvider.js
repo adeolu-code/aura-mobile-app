@@ -23,6 +23,7 @@ const defaultContext = {
   location: null,
   isInApp: false,
   edit: false,
+  editTour: false,
   step: 1,
   notificationSettings: {messages: {}, policy: {}, reminders: {}},
   photographOnboard: null,
@@ -92,6 +93,7 @@ class AppProvider extends Component {
     })
   }
 
+
   logOut = async () => {
     await clearData()
     this.set({ userData: null, isLoggedIn: false })
@@ -99,6 +101,7 @@ class AppProvider extends Component {
     // RootNavigation.navigate('Dashboard', { screen: 'Dashboard' });
     // RootNavigation.navigate('Tabs', { screen: 'Dashboard' });
   }
+   
   
 
   render() {

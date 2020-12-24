@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     },
     contentStyle: {
         backgroundColor: colors.white, padding:10, borderRadius: 8,
-        width: '65%', elevation: 3
+        width: '70%', elevation: 3, ...GStyles.shadow
     },
     itemRow: {
       alignItems: 'center', paddingVertical: 8, backgroundColor: colors.white

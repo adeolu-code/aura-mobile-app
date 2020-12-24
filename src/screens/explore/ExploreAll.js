@@ -1,6 +1,6 @@
 
 import React, { Component, Fragment } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput, Platform } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import { MyText } from '../../utils/Index';
@@ -15,14 +15,16 @@ import FoodComponent from '../../components/explore/explore_all/food/Index';
 import ToursComponent from '../../components/explore/explore_all/tour/Index';
 import PhotographersComponent from '../../components/explore/explore_all/photograph/Index';
 
-import ExploreLocation from '../../components/explore/explore_all/ExploreLocation';
 import SearchToggle from '../../components/explore/SearchToggle';
+import SearchRestaurant from '../../components/explore/SearchRestaurant';
+
 
 
 class ExploreAll extends Component {
   constructor(props) {
     super(props);
-    this.state = { tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, selectedTab: 'one', active: false };
+    this.state = { tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, selectedTab: 'one', 
+    active: false, activeRestaurant: false, activePhoto: false, activeTour: false, showSearch: true };
     this.tabs = {}
     const { tab } = props.route.params;
     this.state.selectedTab = tab
@@ -34,6 +36,26 @@ class ExploreAll extends Component {
   openSearch = () => {
     this.setState({ active: true });
   }
+  openRestaurant = () => {
+    this.setState({ activeRestaurant: true })
+  }
+  closeRestaurant = () => {
+    this.setState({ activeRestaurant: false })
+  }
+  openPhoto = () => {
+    this.setState({ activePhoto: true })
+  }
+  closePhoto = () => {
+    this.setState({ activePhoto: false })
+  }
+
+  openTour = () => {
+    this.setState({ activeTour: true })
+  }
+  closeTour = () => {
+    this.setState({ activeTour: false })
+  }
+  
   componentDidMount = () => {
       const { selectedTab } = this.state
       this.linkTo(selectedTab)
@@ -51,19 +73,19 @@ class ExploreAll extends Component {
     this.scrollViewRef.scrollTo({ x: this.tabs[tab] - 20, y: 0, animated: true})
     switch (tab) {
         case 'one':
-            this.setState({ tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false })
+            this.setState({ tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, showSearch: true })
             break;
         case 'two':
-            this.setState({ tabOne: false, tabTwo: true, tabThree: false, tabFour: false, tabFive: false })
+            this.setState({ tabOne: false, tabTwo: true, tabThree: false, tabFour: false, tabFive: false, showSearch: true })
             break;
         case 'three':
-            this.setState({ tabOne: false, tabTwo: false, tabThree: true, tabFour: false, tabFive: false })
+            this.setState({ tabOne: false, tabTwo: false, tabThree: true, tabFour: false, tabFive: false, showSearch: true })
             break;
         case 'four':
-            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: true, tabFive: false })
+            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: true, tabFive: false, showSearch: false })
             break;
         case 'five':
-            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: false, tabFive: true })
+            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: false, tabFive: true, showSearch: false })
             break;
         default:
             break;
@@ -91,31 +113,70 @@ class ExploreAll extends Component {
         return <ToursComponent link={this.linkToTab} {...this.props} />
     }
   }
+  searchContainer = () => {
+    const { iconStyle, searchContainer, inputStyles } = styles;
+    const { flexRow, textH5Style, textGrey, textOrange } = GStyles;
+      return (
+        <>
+            <TouchableOpacity style={[inputStyles, { justifyContent: 'center'}]} onPress={this.openSearch}>
+                <MyText style={[textGrey]}>Search location</MyText>
+            </TouchableOpacity>
+        </>
+      )
+  }
+  renderHeading = () => {
+    const { tabOne, tabTwo, tabThree, tabFour, tabFive } = this.state;
+    const { inputStyles, searchIconStyle } = styles;
+    const { flexRow, textH5Style, textGrey, textOrange } = GStyles;
+    if(tabOne) {
+        return <>{this.searchContainer()}</>
+    } else if(tabTwo) {
+        return <>{this.searchContainer()}</>
+    } else if (tabThree) {
+        return (
+            <TouchableOpacity style={[inputStyles, { justifyContent: 'center'}]} onPress={this.openRestaurant}>
+                <MyText style={[textGrey]}>Search Restaurants near you</MyText>
+            </TouchableOpacity>
+        )
+    } else if (tabFour) {
+        return (
+            <TouchableOpacity style={[inputStyles, { justifyContent: 'center'}]} onPress={this.openPhoto}>
+                <MyText style={[textGrey]}>Search Photographers near you</MyText>
+            </TouchableOpacity>
+        )
+    } else {
+        return (<></>
+            // <TouchableOpacity style={[inputStyles, { justifyContent: 'center'}]} onPress={this.openTour}>
+            //     <MyText style={[textGrey]}>Search Experiences/Tours near you</MyText>
+            // </TouchableOpacity>
+        )
+    }
+  }
 
   render() {
     const { iconStyle, fixedHeaderContainer, searchContainer, inputStyles, headerContainer, leftStyle, rightStyle, lastItem,
         searchIconStyle, secondHeaderContainer, smallIconStyle, menuItemStyle, menuItemActive, iconActive, container,
     contentContainer } = styles;
     const { flexRow, textH5Style, textGrey, textOrange } = GStyles;
-    const { tabOne, tabTwo, tabThree, tabFour, tabFive } = this.state;
+    const { tabOne, tabTwo, tabThree, tabFour, tabFive, showSearch } = this.state;
     return (
         <SafeAreaView style={container}>
-            {this.state.active ? <SearchToggle close={this.closeSearch} {...this.props} /> : <Fragment />}
-            <View style={fixedHeaderContainer}>
-                <View style={[flexRow, headerContainer]}>
+            {this.state.active ? <><SearchToggle close={this.closeSearch} {...this.props} /></> : <Fragment />}
+            {this.state.activeRestaurant ? <><SearchRestaurant close={this.closeRestaurant} {...this.props} /></> : <Fragment />}
+                <View style={fixedHeaderContainer}>
+                    <View style={[flexRow, headerContainer]}>
                     <TouchableOpacity style={leftStyle} onPress={this.goBack}>
                         <Icon type="Feather" name="chevron-left" style={iconStyle} />
                     </TouchableOpacity>
                     <View style={rightStyle}>
-                        <View style={[flexRow, searchContainer]}>
-                            <TouchableOpacity style={[inputStyles, { justifyContent: 'center'}]} onPress={this.openSearch}>
-                                <MyText style={[textGrey]}>Search location</MyText>
-                            </TouchableOpacity>
+                        {showSearch ? <View style={[flexRow, searchContainer]}>
+                            {this.renderHeading()}
                             {/* <TextInput style={[inputStyles]} placeholder="search Location" /> */}
                             <Icon name="search" style={searchIconStyle}  />
-                        </View>
+                        </View> : <></>}
                     </View>
                 </View>
+                
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} ref={ref => {this.scrollViewRef = ref}}>
                     <View style={[flexRow, secondHeaderContainer]}>
                         <TouchableOpacity style={[flexRow, menuItemStyle, tabOne ? menuItemActive : '']}
@@ -170,17 +231,18 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         width: '100%', alignItems: 'center',
-        paddingHorizontal: 20, paddingTop: 40, paddingBottom: 20, backgroundColor: colors.white,
+        paddingHorizontal: 20, paddingTop: Platform.OS === 'ios' ? 70 : 40, paddingBottom: 20, backgroundColor: colors.white,
         borderBottomWidth: 1, borderBottomColor: colors.lightGrey,
     },
     leftStyle: {
         flex: 1,
     },
     rightStyle: {
-        flex:5,
+        flex:7,
     },
     searchContainer: {
         elevation: 4, backgroundColor: colors.white, alignItems: 'center', borderRadius: 4,
+        ...GStyles.shadow
     },
     inputStyles: {
         flex: 1, height: 40, paddingHorizontal: 20, fontFamily: 'Nunito-Regular',

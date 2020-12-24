@@ -61,19 +61,19 @@ class Location extends Component {
         return false
     }
     next = async () => {
-        const { tourOnboard } = this.context.state
+        const { tourOnboard, editTour } = this.context.state
         Keyboard.dismiss()
-        if(this.validate()) {
+        if(this.validate() && !editTour) {
             errorMessage('Please fill all fields')
         } else {
             const { address } = this.state;
             const obj = { location: address }
-            this.context.set({ tourOnboard: obj })
+            if(editTour) {
+                this.context.set({ tourOnboard: {...tourOnboard, ...obj} })
+            } else {
+                this.context.set({ tourOnboard: obj })
+            }
             this.props.navigation.navigate('TourStack', { screen: 'TourTheme'})
-            // this.setState({ loading: true })
-            // const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?address=${address},${city},${country.name}&key=${GOOGLE_API_KEY}`)
-            // this.setState({ loading: false })
-            // this.getAddressDetails(res.results[0])
         }
     }
 
@@ -96,37 +96,26 @@ class Location extends Component {
         })
         const { set, state } = this.context
         const { zipCode, city, address } = this.state
-        if(state.photographOnboard) {
-            const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, 
-                country: countryObj.long_name, city, zipCode, address }
-            const obj = { ...state.photographOnboard, ...locationObj }
-            set({ photographOnboard: obj })
-            this.props.navigation.navigate('PhotographStack', { screen: 'PhotographLocationMap'})
-        } else {
-            errorMessage('Please go back and fill out the photograph title section')
-        }
+        // if(state.photographOnboard) {
+        //     const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, 
+        //         country: countryObj.long_name, city, zipCode, address }
+        //     const obj = { ...state.photographOnboard, ...locationObj }
+        //     set({ photographOnboard: obj })
+        //     this.props.navigation.navigate('PhotographStack', { screen: 'PhotographLocationMap'})
+        // } else {
+        //     errorMessage('Please go back and fill out the photograph title section')
+        // }
     }
 
     componentDidMount = async () => {
-        const { edit, photographOnboard } = this.context.state
+        const { editTour, tourOnboard } = this.context.state
         const countries = await getAllCountries()
         const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
         this.setState({ defaultCountry: country, country })
-        // if(photographOnboard && edit) {
-        //     this.setState({ st: photographOnboard.address.state, city: photographOnboard.address.city, 
-        //         address: photographOnboard.address.address, zipCode: photographOnboard.address.zipCode})
-
-        //     const countries = await getAllCountries()
-        //     const country = countries.find(item => item.name.toLowerCase() === photographOnboard.address.country.toLowerCase())
-        //     if(country) {
-        //         this.setState({ defaultCountry: country, country })
-        //     }
-        // } else {
-        //     const countries = await getAllCountries()
-        //     const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
-        //     this.setState({ defaultCountry: country, country })
-        // }
-        
+        console.log(tourOnboard)
+        if(tourOnboard && editTour) {
+            this.setState({  address: tourOnboard.location })
+        } 
     }
 
   render() {

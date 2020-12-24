@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {Image, StyleSheet, Platform } from 'react-native';
+
+import GStyles from '../assets/styles/GeneralStyles';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
@@ -42,8 +44,8 @@ function MyTabs() {
         activeTintColor: colors.orange,
         inactiveTintColor: colors.darkBlue,
         style: {
-          height: 70,
-          elevation: 3,
+          height: Platform.OS === 'ios' ? 95 : 70,
+          elevation: 3, ...GStyles.shadow,
         },
       }}>
       <>

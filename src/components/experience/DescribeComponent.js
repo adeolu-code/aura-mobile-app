@@ -43,7 +43,10 @@ class DescribeComponent extends Component {
     }
 
     componentDidMount = () => {
-        
+        const { tourOnboard, editTour } = this.context.state;
+        if(editTour) {
+            this.setState({ guestPreExperienceInfomration: tourOnboard.guestPreExperienceInfomration })
+        }
     }
 
 

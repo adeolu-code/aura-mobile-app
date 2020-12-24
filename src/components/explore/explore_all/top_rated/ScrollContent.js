@@ -10,9 +10,11 @@ import HouseComponent from '../../../../components/explore/HouseComponent'
 import { color } from 'react-native-reanimated';
 import { urls, GetRequest } from '../../../../utils';
 import { formatAmount, shortenXterLength } from '../../../../helpers';
+import { AppContext } from '../../../../../AppProvider';
 
 
 class ScrollContent extends Component {
+    static contextType = AppContext
     constructor(props) {
         super(props);
         this.state = { places: [], totalItems: 0, activePage: 1, perPage: 10, pageCount: 0, loading: false, loadMore: false };
@@ -39,7 +41,7 @@ class ScrollContent extends Component {
                 <View style={emptyContainerStyle}>
                     <Image source={require('../../../../assets/images/no_house1.png')} style={imgStyle} resizeMode="contain" />
                 </View>
-                <MyText style={[textBold, textCenter, textOrange]}>No Apartments and Hotels Found</MyText>
+                <MyText style={[textBold, textCenter, textOrange,textH4Style]}>No Apartments and Hotels Found</MyText>
             </View>
             )
         }

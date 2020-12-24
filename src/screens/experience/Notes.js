@@ -11,7 +11,9 @@ import { GOOGLE_API_KEY, GetRequest, errorMessage, Request, urls } from '../../u
 
 import { AppContext } from '../../../AppProvider';
 
-import ProgressBar from '../../components/ProgressBar'
+import ProgressBar from '../../components/ProgressBar';
+import CancelComponent from '../../components/experience/CancelComponent';
+
 
 
 
@@ -52,11 +54,14 @@ class Notes extends Component {
   
 
   componentDidMount = () => {
-    
+    const { tourOnboard, editTour } = this.context.state;
+    if(editTour) {
+        this.setState({ notes: tourOnboard.notes })
+    }
   }
 
   render() {
-    const { container, button, picker, icon, selectRow, radioContainer, activeRadio, touchContainer } = styles;
+    const { container, button } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
         textH4Style, textH5Style, textH6Style} = GStyles;
     const { ansOne, ansThree, ansTwo } = this.state
@@ -96,11 +101,14 @@ class Notes extends Component {
                     <View style={button}>
                         <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} />
                     </View>
-                    <View style={styles.skipStyle}>
-                        <CustomButton buttonText="Skip To Step 6" 
-                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
-                        textStyle={{ color: colors.orange }}
-                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                    <View style={[flexRow, styles.skipStyle]}>
+                        {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                        <View style={{ flex: 1}}>
+                            <CustomButton buttonText="Skip To Step 6" 
+                            buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            textStyle={{ color: colors.orange }}
+                            onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                        </View>
                     </View>
                 </ScrollView>
             </View>
@@ -118,30 +126,10 @@ const styles = StyleSheet.create({
     },
   
     button: {
-        flex: 1, marginBottom: 20, marginTop: 150, justifyContent: 'flex-end'
-    },
-    imageContainer: {
-        borderRadius: 10, borderColor: colors.orange, borderWidth: 4, width: '100%', height: 250, overflow: 'hidden',
-    },
-    textContainer: {
-        paddingHorizontal: 10
-    },
-    icon: {
-        fontSize: 8, marginRight: 15, color: colors.grey
-    },
-    
-    radioContainer: {
-        borderRadius: 18, width: 18, height: 18, borderWidth: 2, borderColor: colors.orange, justifyContent: 'center', alignItems: 'center', 
-        marginRight: 10, marginTop: 5
-    },
-    activeRadio: {
-        width: 10, height: 10, backgroundColor: colors.orange, borderRadius: 10, 
+        flex: 1, marginBottom: 20, marginTop: 100, justifyContent: 'flex-end'
     },
     selectRow: {
         alignItems: 'flex-start', paddingBottom: 10
-    },
-    touchContainer: {
-        borderRadius: 8, elevation: 2, backgroundColor: colors.white, padding: 15, marginTop: 10, width: '100%'
     },
     skipStyle: {
         marginBottom: 30

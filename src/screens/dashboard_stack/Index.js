@@ -64,25 +64,12 @@ class Index extends Component {
               );
           }
         }
-        // if (roleHost) {
-        //   return (
-        //     <View style={{ flex: 1 }}>
-        //       <DashboardComponent {...this.props} />
-        //     </View>
-        //   );
-        // } else {
-        //   return (
-        //     <View style={{ flex: 1 }}>
-        //       <HostScreen {...this.props} />
-        //     </View>
-        //   );
-        // }
     }
     return (
-      <ScrollView>
+      <View style={{ flex: 1 }}>
         <PlaceHolderComponent {...this.props} title="Dashboard" description={description} {...this.props} 
         img={require('../../assets/images/dash/dash.png')} />
-      </ScrollView>
+      </View>
     )
   }
 
@@ -92,13 +79,6 @@ class Index extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
 
           {this.renderLoginOrDashboard()}
-          {/* <ScrollView>
-            <PlaceHolderComponent title="Dashboard" description={description} {...this.props} 
-            img={require('../../assets/images/dash/dash.png')} />
-          </ScrollView>
-          <View style={{ flex: 1 }}>
-            <DashboardComponent {...this.props} />
-          </View> */}
         </SafeAreaView>
       </>
     );

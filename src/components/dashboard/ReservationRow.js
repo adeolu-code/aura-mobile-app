@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText } from '../../utils/Index';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 import colors from '../../colors';
 import { Icon } from 'native-base';
@@ -47,11 +47,12 @@ class ReservationRow extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8, marginBottom: 10,
+        width: '100%', padding: Platform.OS === 'ios' ? 15 : 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8, marginBottom: 10,
+        ...GStyles.shadow
     },
     imgContainer: {
         width: 130, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
-        borderWidth: 1, borderColor: colors.lightGrey,
+        borderWidth: 1, borderColor: colors.lightGrey, backgroundColor: colors.lightGrey
     },
     starContainer: {
         marginVertical: 8,

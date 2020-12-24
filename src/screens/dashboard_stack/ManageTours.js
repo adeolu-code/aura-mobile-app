@@ -10,7 +10,7 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 import { ManagePropertyContext } from '../../../ManagePropertyProvider';
 
-import { GetRequest, urls, Request, errorMessage } from '../../utils';
+import { GetRequest, urls, Request, errorMessage, EXPERIENCE } from '../../utils';
 
 
 import AllTours from '../../components/dashboard/AllTours';
@@ -27,13 +27,17 @@ class ManageTours extends Component {
   constructor(props) {
     super(props);
     this.state = { tabOneSelected: true, showModal: false, loading: false, tours: [], page: 1, size: 5, totalItems: 0, 
-      pageCount: 0, loadMore: false, tour: null, modalImg: require('../../assets/images/no_experience.png'), refreshing: false };
+      pageCount: 0, loadMore: false, tour: null, modalImg: require('../../assets/images/no_experience.png'), refreshing: false, tour:'' };
+    this.state.tour = props.route?.tour
   }
 
   linkTo = (tour) => {
     this.props.navigation.navigate('Other', { screen: 'TourSingle', params: { tourId: tour.id } })
   }
-
+  addTour = () => {
+    this.context.set({ editTour: false })
+    this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
+  }
   renderLoading = () => {
       const { loading, refreshing } = this.state;
       if (loading && !refreshing) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
@@ -41,6 +45,11 @@ class ManageTours extends Component {
 
   componentDidMount = () => {
     this.getTours();
+    console.log('Component mounted')
+    if(this.state.tour) {
+      console.log('Got here')
+    }
+
   }
 
   getTours = async (more=false, refresh=false) => {
@@ -193,8 +202,8 @@ class ManageTours extends Component {
         {/* <AllTours {...this.props}  /> */}
         <View style={{ flex: 1 }}>
           <Fab active={this.state.active} direction="up" containerStyle={{ }} style={{ backgroundColor: colors.orange }} 
-            position="bottomRight" onPress={this.linkToHost}>
-            <Icon name="home" />
+            position="bottomRight" onPress={this.addTour}>
+            <Icon name="add-circle" style={{ fontSize: 30 }} />
           </Fab>
           <TourActionModal visible={this.state.showModal} onDecline={this.closeModal} tour={tour} deleteTour={this.deleteTour}
                     img={this.state.modalImg}  title={tour && tour.title ? tour.title : 'No title'} {...this.props} />
