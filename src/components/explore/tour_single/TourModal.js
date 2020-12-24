@@ -102,7 +102,7 @@ class TourModal extends Component {
 
   componentDidMount = () => {
     const { tour } = this.props
-    if(tour && tour.dates.length > 0) {
+    if(tour && tour.dates && tour.dates.length > 0) {
       this.setState({ selectedDate: tour.dates[0]})
     }
   }

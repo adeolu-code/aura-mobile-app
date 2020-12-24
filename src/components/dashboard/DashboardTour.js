@@ -69,9 +69,9 @@ class DashboardTour extends Component {
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
     const { container, sectionStyle,contentStyle, iconContainer } = styles;
-    const dasboardDescription = `View summary of your reservations, comments, properties and ratings`
+    const dasboardDescription = `View summary of your reservations, comments, ratings`
     const reservations = `Bookings Made By Clients For Experience And Tour`;
-    const properties = `Create property, edit your properties and view your properties`;
+    const properties = `Create Experience, edit your Experience and view your Experience`;
     const reviews = `See all your ratings and reviews`;
     const earning = `View your details of your transactions and how much you have made in the app`
     return (
@@ -90,7 +90,7 @@ class DashboardTour extends Component {
                 </View>
 
                 <View style={sectionStyle}>
-                    <DashboardCardComponent title="Reservations" description={reservations} iconName="toys"
+                    <DashboardCardComponent title="Experience Reservations" description={reservations} iconName="toys"
                     onPress={this.onPressReservations} />
                 </View>
 
@@ -99,11 +99,11 @@ class DashboardTour extends Component {
                     img={require('../../assets/images/dashboard_icons/reservation.png')} onPress={this.onPressProperties} />
                 </View>
                 <View style={sectionStyle}>
-                    <DashboardCardComponent title="Reviews and Ratings" description={reviews}
+                    <DashboardCardComponent title="Tour Reviews and Ratings" description={reviews}
                     img={require('../../assets/images/dashboard_icons/review.png')} onPress={this.onPressRR} />
                 </View>
                 <View style={sectionStyle}>
-                    <DashboardCardComponent title="My Earnings" description={earning} iconX onPress={this.onPressEarning}
+                    <DashboardCardComponent title="My Tour Earnings" description={earning} iconX onPress={this.onPressEarning}
                     img={require('../../assets/images/dashboard_icons/pay.png')} />
                 </View>
                 
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         marginBottom: 25
     },
     contentStyle: {
-        zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, 
+        zIndex: 1, paddingVertical: 20, paddingHorizontal: 20,
         // marginTop:140
     },
     iconContainer: {

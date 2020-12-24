@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     tabContainer: {
         borderTopWidth: 2, borderTopColor: colors.lightGrey, backgroundColor: colors.white,
         elevation: 3, paddingTop: 30,
-        justifyContent: 'flex-end', paddingBottom: 0,
+        justifyContent: 'flex-end', paddingBottom: 0, ...GStyles.shadow
         // borderBottomWidth: 1, borderBottomColor: colors.lightGrey, 
     },
     headerContainer: {

@@ -21,6 +21,9 @@ import TourDashboardScreen from '../screens/dashboard_stack/DashboardTour';
 import TourEarningsScreen from '../screens/dashboard_stack/EarningsTour';
 import ManageTourScreen from '../screens/dashboard_stack/ManageTours';
 
+import TourReservationsScreen from '../screens/dashboard_stack/ReservationsTourContainerProvider'
+import RatingsAndReviewsTourScreen from '../screens/dashboard_stack/ReviewsTourProvider';
+
 
 import BookingScreen from '../screens/bookings_stack/Index';
 
@@ -116,10 +119,13 @@ export function DashboardStack() {
             <Stack.Screen name="DashboardView" component={DashboardViewScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Reservations" component={ReservationsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourReservations" component={TourReservationsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="HomeDetails" component={HomeDetailsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="GuestProfile" component={GuestProfileScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ManageProperties" component={ManagePropertiesContainerScreen} options={{ headerShown: false }} />
+
             <Stack.Screen name="RatingsReviews" component={RatingsAndReviewsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourRatingsReviews" component={RatingsAndReviewsTourScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Earnings" component={EarningsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TransactionsHistory" component={TransactionsHistoryScreen} options={{ headerShown: false }} />
 

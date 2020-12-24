@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, FlatList, RefreshControl } from 'react-native';
+import { View, SafeAreaView, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, FlatList, 
+  RefreshControl, Platform } from 'react-native';
 import { MyText, Loading, Spinner } from '../../utils/Index';
 import colors from '../../colors';
 import {Fab, Icon} from 'native-base';
@@ -215,7 +216,7 @@ class ManageTours extends Component {
 
 const styles = StyleSheet.create({
     manageHeader: {
-        position: 'absolute', backgroundColor: colors.white, paddingTop: 110, width: '100%', paddingHorizontal: 20, zIndex: 1,
+        position: 'absolute', backgroundColor: colors.white, paddingTop: Platform.OS === 'ios' ? 130 : 110, width: '100%', paddingHorizontal: 20, zIndex: 1,
     }, 
     tabsContainer: {
         display: 'flex', flexDirection: 'row', backgroundColor: colors.lighterGreen, borderRadius: 6, padding: 4,
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.green, borderRadius: 6,
     },
     contentContainer: {
-        paddingTop: 210, paddingHorizontal: 20, paddingBottom:30,
+        paddingTop:Platform.OS === 'ios' ? 180 : 210, paddingHorizontal: 20, paddingBottom:30,
     },
     rowContainer: {
         marginBottom: 20,

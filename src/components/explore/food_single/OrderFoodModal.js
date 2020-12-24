@@ -210,7 +210,8 @@ class OrderFoodModal extends Component {
                             <View style={{ paddingHorizontal: 25 }}>
                                 <MyText style={[textH3Style, textBold, textGrey ]}>Delivery Options</MyText>
                                 <View style={picker}>
-                                    {restaurant ? <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
+                                    {restaurant ? <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />} 
+                                    placeholder="Select delivery option"
                                         style={{ width: Platform.OS === 'ios' ? '100%' : undefined }} 
                                         selectedValue={this.state.operationValue}
                                         onValueChange={this.onValueChange}>
@@ -272,7 +273,7 @@ const styles = StyleSheet.create({
         // flex: 1
     },
     modalHeader: {
-        marginTop: 20, alignItems: 'center', paddingHorizontal: 20,
+        marginTop: Platform.OS === 'ios' ? 50 : 20, alignItems: 'center', paddingHorizontal: 20,
     },
     headerStyle: {
         paddingBottom: 10, paddingTop: 10

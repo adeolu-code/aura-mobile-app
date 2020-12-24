@@ -66,7 +66,7 @@ class Earnings extends Component {
 
   getEarnings = async () => {
     this.setState({ gettingEarnings: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/host/earnings`);
+    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/experience/host/earnings`);
     this.setState({ gettingEarnings: false })
     console.log('Earnings ', response)
     if (response.isError) {
@@ -195,8 +195,8 @@ class Earnings extends Component {
       textH5Style, textDarkGreen, textH2Style, textExtraBold, textDarkGrey } = GStyles;
     const { weeklyEarnings, totalEarnings, transactions } = this.state
     return (
-      <SafeAreaView style={{ flex: 1}}>
-        <Header {...this.props} title="Earnings" sub="Total Earnings, Monthly and Weekly Including Transaction History" />
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
+        <Header {...this.props} title="Tour Earnings" sub="Total Earnings, Monthly and Weekly Including Transaction History" />
         <ScrollView keyboardShouldPersistTaps="always">
           <View style={subHeaderContainer}>
 
@@ -229,9 +229,9 @@ class Earnings extends Component {
                   <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Total Disbursement</MyText>
                   <MyText style={[textH2Style, textWhite, textExtraBold]}>₦ {totalEarnings ? formatAmount(totalEarnings) : 0}</MyText>
                 </View>
-                <TouchableOpacity style={viewContainer}>
+                {/* <TouchableOpacity style={viewContainer}>
                   <MyText style={[textH5Style, textWhite, textBold]}>Generate Statement</MyText>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
               
             </View>
@@ -250,7 +250,7 @@ class Earnings extends Component {
 
           </View>
 
-          <View style={wrapper}>
+          {/* <View style={wrapper}>
             {this.renderTransactionsLoading()}
             <View style={[contentContainer, { borderBottomWidth: 0 }]}> 
               <View style={[flexRow, contentHeader, { marginBottom: 0 }]}>
@@ -266,7 +266,7 @@ class Earnings extends Component {
             </View>
 
 
-          </View>
+          </View> */}
           <EditBankModal visible={this.state.showModal} onDecline={this.closeModal} bankDetails={this.state.bankDetails} 
           refresh={this.refresh} edit={this.state.edit} />
 

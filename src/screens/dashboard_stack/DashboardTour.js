@@ -14,7 +14,7 @@ import RatingRow from '../../components/dashboard/RatingRow';
 import { AppContext } from '../../../AppProvider';
 import { urls, GetRequest, errorMessage } from '../../utils';
 
-import { formatAmount } from '../../helpers'
+import { formatAmount, shortenXterLength } from '../../helpers'
 
 class DashboardTour extends Component {
   static contextType = AppContext;
@@ -116,10 +116,10 @@ class DashboardTour extends Component {
   }
 
   linkToReservations = () => {
-    // this.props.navigation.navigate('Reservations');
+    this.props.navigation.navigate('TourReservations');
   }
   linkToRatings = () => {
-    // this.props.navigation.navigate('RatingsReviews');
+    this.props.navigation.navigate('TourRatingsReviews');
   }
   linkToEarning = () => {
     this.props.navigation.navigate('TourEarnings')
@@ -135,9 +135,14 @@ class DashboardTour extends Component {
       const {rowContainer, contentHeader, contentBody} = styles;
       const reservation = reservations.map((reservation, i) => {
         const key = `RE_${i}`
+        let title = reservation.experienceTitle ? reservation.experienceTitle : 'No title';
+        title = shortenXterLength(title, 18)
+        const imgUrl = reservation.experienceMainImage ? {uri: reservation.experienceMainImage} : require('../../assets/images/no_experience.png')
+        const reserve = `${reservation.total} reservation(s)`
         return (
-          <ReservationRow title={reservation.propertyTitle} img={{uri: reservation.propertyMainImage }} key={key} type={reservation.propertyType}
-           reserve={reservation.total + ' Reservations'} calendar onPress={this.linkToReservation.bind(this, reservation)} />
+          <ReservationRow title={title} img={imgUrl} key={key} 
+          type={reservation.propertyType}
+           reserve={reserve}  onPress={this.linkToReservation.bind(this, reservation)} />
         )
       })
       return (

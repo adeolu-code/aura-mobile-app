@@ -195,7 +195,7 @@ class Earnings extends Component {
       textH5Style, textDarkGreen, textH2Style, textExtraBold, textDarkGrey } = GStyles;
     const { weeklyEarnings, totalEarnings, transactions } = this.state
     return (
-      <SafeAreaView style={{ flex: 1}}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
         <Header {...this.props} title="Earnings" sub="Total Earnings, Monthly and Weekly Including Transaction History" />
         <ScrollView keyboardShouldPersistTaps="always">
           <View style={subHeaderContainer}>
@@ -229,9 +229,9 @@ class Earnings extends Component {
                   <MyText style={[textDarkGreen, textH5Style, { marginBottom: 5}]}>Total Disbursement</MyText>
                   <MyText style={[textH2Style, textWhite, textExtraBold]}>₦ {totalEarnings ? formatAmount(totalEarnings) : 0}</MyText>
                 </View>
-                <TouchableOpacity style={viewContainer}>
+                {/* <TouchableOpacity style={viewContainer}>
                   <MyText style={[textH5Style, textWhite, textBold]}>Generate Statement</MyText>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
               
             </View>
