@@ -7,7 +7,7 @@ import { getToken, setToken } from './helpers';
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
-export let debug = false; 
+export let debug = true; 
 // export let debug = true; 
 export const GLOBAL_PADDING = 20;
 
@@ -79,6 +79,8 @@ export const urls = {
     complaints: "complaints/",
     bank: "bank/",
     bankAccount: "bankaccount/",
+    restaurant: "restaurant/",
+    order: "orders/",
 }
 const getUserToken = async () => {
 	try {

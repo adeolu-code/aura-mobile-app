@@ -142,7 +142,7 @@ export const LabelInput = (props) => {
                             style={[Styles.input]} 
                             maxLength={props.maxLength} 
                             value={props.value}
-                            onChangeText={(e) => { props.onChangeText(e);}}
+                            onChangeText={(e) => { props.onChangeText && props.onChangeText(e);}}
                             keyboardType={props.keyboardType || "default"}
                             disabled={props.disabled || false}
                         />

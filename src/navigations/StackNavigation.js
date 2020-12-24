@@ -85,9 +85,16 @@ import TourSafetyPolicyScreen from '../screens/experience/SafetyPolicy';
 import TourIdentityVerificationScreen from '../screens/experience/IdentityCard';
 import TourSuccessScreen from '../screens/experience/Success';
 
+// Restuarent
+import RestuarantDashboard from "./../screens/restuarant/dashboard.screen";
+import RestaurantDashboardComponent from "./../screens/restuarant/index.screen";
+
 import MyPageScreen from '../screens/photograph/MyPage';
 import PortfolioScreen from '../screens/photograph/Portfolio';
 import Bank from '../screens/payment/bank.screen';
+import RestaurantOrders from '../screens/restuarant/orders.screen';
+import AddRestaurant from '../screens/restuarant/addRestuarant.screen';
+import RestaurantReviews from '../screens/restuarant/reviews.screen';
 
 import PhotosComponentScreen from '../screens/dashboard_stack/PhotosComponent';
 
@@ -119,6 +126,8 @@ export function DashboardStack() {
             <Stack.Screen name="DashboardTour" component={TourDashboardScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourEarnings" component={TourEarningsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ManageTour" component={ManageTourScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="RestaurantStack" component={RestaurantStack} options={{ headerShown: false }} />
+
 
             <Stack.Screen name="MyPage" component={MyPageScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Portfolio" component={PortfolioScreen} options={{ headerShown: false }} />
@@ -218,6 +227,19 @@ export function ExperienceStack() {
             <Stack.Screen name="TourIdentityCard" component={TourIdentityVerificationScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourSuccess" component={TourSuccessScreen} options={{ headerShown: false }} />
             
+        </Stack.Navigator>
+    ) 
+}
+
+
+export function RestaurantStack() {
+    return (
+        <Stack.Navigator initialRouteName="RestaurantDashboardComponent" options={{ gestureEnabled: true }}>
+            <Stack.Screen name="RestaurantDashboardComponent" component={RestaurantDashboardComponent} options={{ headerShown: false }} />
+            <Stack.Screen name="RestuarantDashboard" component={RestuarantDashboard} options={{ headerShown: false }} />
+            <Stack.Screen name="RestaurantOrders" component={RestaurantOrders} options={{ headerShown: false }} />
+            <Stack.Screen name="AddRestaurant" component={AddRestaurant} options={{ headerShown: false }} />
+            <Stack.Screen name="RestaurantReviews" component={RestaurantReviews} options={{ headerShown: false }} />
         </Stack.Navigator>
     ) 
 }
