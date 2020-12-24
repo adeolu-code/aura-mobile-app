@@ -13,6 +13,7 @@ class DashboardHeader extends Component {
   }
 
   onPress = () => {
+    console.log('Clicked')
     this.props.onPress()
   }
 
@@ -21,27 +22,30 @@ class DashboardHeader extends Component {
     const { container, headerStyle, iconContainer } = styles;
     const { title, onPress } = this.props
     return (
-      <View>
-        <View style={headerStyle}>
+      
+        <TouchableOpacity style={headerStyle} onPress={this.onPress}>
             <View style={{ flex: 1}}>
                 <MyText style={[textDarkGrey, textH1Style, textExtraBold ]}>{title || 'Dashboard'}</MyText>
             </View>
             <TouchableOpacity style={iconContainer} onPress={this.onPress}>
               <Icon name="menu" style={{ fontSize: 27, color: colors.grey }} />
             </TouchableOpacity>
-        </View>
-      </View>
+        </TouchableOpacity>
+      
     );
   }
 }
 
 const styles = StyleSheet.create({
     headerStyle: {
-        marginBottom: 30, backgroundColor: colors.white, position: 'absolute', top: 0,zIndex: 10,
+        // marginBottom: 30, 
+        backgroundColor: colors.white, 
+        // position: 'absolute', top: 0,
+        // zIndex: 10,
         width: '100%', paddingHorizontal: 20, paddingTop: 40, paddingBottom: 30,
         flexDirection: 'row', 
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between', 
     },
     
     iconContainer: {

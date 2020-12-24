@@ -277,7 +277,8 @@ const styles = StyleSheet.create({
       marginBottom: 25
     },
     contentStyle: {
-      zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, marginTop:140
+      zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, 
+      // marginTop:140
     },
     menuStyles: {
       position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 2000,

@@ -72,7 +72,7 @@ class DashboardComponent extends Component {
 
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
-    const { container, headerStyle, sectionStyle,contentStyle, iconContainer } = styles;
+    const { container, sectionStyle,contentStyle, iconContainer } = styles;
     const dasboardDescription = `View summary of your reservations, comments, properties and ratings`
     const reservations = `All your reservations and their details`;
     const properties = `Create property, edit your properties and view your properties`;
@@ -132,19 +132,14 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: 1
     },
-    headerStyle: {
-        marginBottom: 30, backgroundColor: colors.white, position: 'absolute', top: 0,zIndex: 10,
-        width: '100%', paddingHorizontal: 20, paddingTop: 40, paddingBottom: 30,
-        flexDirection: 'row', 
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
+    
     sectionStyle: {
         marginBottom: 25
     },
     contentStyle: {
         // zIndex: 1, 
-        paddingVertical: 20, paddingHorizontal: 20, marginTop:100
+        paddingVertical: 20, paddingHorizontal: 20, 
+        // marginTop:100
     },
     iconContainer: {
       height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',

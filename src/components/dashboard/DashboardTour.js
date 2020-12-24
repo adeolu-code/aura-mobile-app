@@ -68,7 +68,7 @@ class DashboardTour extends Component {
 
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
-    const { container, headerStyle, sectionStyle,contentStyle, iconContainer } = styles;
+    const { container, sectionStyle,contentStyle, iconContainer } = styles;
     const dasboardDescription = `View summary of your reservations, comments, properties and ratings`
     const reservations = `Bookings Made By Clients For Experience And Tour`;
     const properties = `Create property, edit your properties and view your properties`;
@@ -76,9 +76,9 @@ class DashboardTour extends Component {
     const earning = `View your details of your transactions and how much you have made in the app`
     return (
       <>
-      {this.renderMenuItems()}
+      
       <View style={container}>
-        <View style={{ zIndex: 1}}>
+        <View style={{ zIndex: 200 }}>
           <Header {...this.props} title="Experience/Tour Dashboard" onPress={this.openMenu}  />
         </View>
         <ScrollView>
@@ -112,26 +112,22 @@ class DashboardTour extends Component {
         </ScrollView>
         
       </View>
+      {this.renderMenuItems()}
       </>
     );
   }
 }
 const styles = StyleSheet.create({
     container: {
-        width: '100%'
-    },
-    headerStyle: {
-        marginBottom: 30, backgroundColor: colors.white, position: 'absolute', top: 0,zIndex: 10,
-        width: '100%', paddingHorizontal: 20, paddingTop: 40, paddingBottom: 30,
-        flexDirection: 'row', 
-        alignItems: 'center',
-        justifyContent: 'space-between'
+        // width: '100%', height: '100%', 
+        flex: 1
     },
     sectionStyle: {
         marginBottom: 25
     },
     contentStyle: {
-        zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, marginTop:140
+        zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, 
+        // marginTop:140
     },
     iconContainer: {
       height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',
