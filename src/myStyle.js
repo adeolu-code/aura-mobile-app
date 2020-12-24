@@ -37,5 +37,17 @@ export const MyStyle = StyleSheet.create({
         width: "100%",
         height: 1,
         backgroundColor: colors.lightGreyOne,
-    }
+    },
+    hPx50: {
+        height: 50,
+    },
+    hPx60: {
+        height: 60,
+    },
+    hPx70: {
+        height: 70,
+    },
+    hPx: (val) => {
+        return {height: val,}
+    },
 });
