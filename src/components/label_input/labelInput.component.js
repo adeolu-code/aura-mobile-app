@@ -58,6 +58,7 @@ export const LabelInput = (props) => {
                     <Picker style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
                         selectedValue={props.selectedOption ? props.selectedOption : "Male"}
                         onValueChange={(e) => props.onPickerChange && props.onPickerChange(e)}
+                        placeholder={props.placeholder}
 
                     >
                         {

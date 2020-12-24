@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     buttomStyle: {
         backgroundColor: colors.white, elevation: 3, width: '100%', position: 'absolute',
         zIndex: 20, bottom: 0, paddingTop: 15, paddingHorizontal: 20, alignItems: 'flex-end',
-        paddingBottom: 15
+        paddingBottom: Platform.OS === 'ios' ? 40 : 15, ...GStyles.shadow
     },
     buttonContainer: {
         width: '30%'

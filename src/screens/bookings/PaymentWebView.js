@@ -42,18 +42,18 @@ class PaymentWebView extends Component {
     this.cancel()
     return true;
   };
-  verifyTransaction = () => {
+  verifyTransaction = (ref) => {
     this.setState({ loading: true, cover: true })
-    const { booked } = this.state
-    Request(urls.paymentBase, `${urls.v}pay/verify`, { reference: booked.id } )
+    // const { booked } = this.state
+    GetRequest(urls.paymentBase, `${urls.v}pay/verify/${ref}` )
     .then((response) => {
       console.log('Verify ', response)
-      if(response.isError) {
-        this.setState({ error: response.message, loading: false, verified: false })
+      if(response.isError || response.IsError) {
+        this.setState({ error: response.message || response.Message, loading: false, verified: false })
       } else {
         this.setState({ verified: true, loading: false  })
       }
-      const data = response.data;
+      // const data = response.data;
       
     })
     
@@ -76,10 +76,13 @@ class PaymentWebView extends Component {
       const { nativeEvent } = data;
       const { booked } = this.state
       console.log('On load start ', nativeEvent, booked)
-      const verifyUrl = `verifypayment?ref=${booked.id}`
+      // const verifyUrl = `verifypayment?ref=${booked.id}`
+      const verifyUrl = `verifypayment?ref=`
       if(nativeEvent.url.includes(verifyUrl)) {
         console.log('Got here url ', nativeEvent.url)
-        this.verifyTransaction()
+        const index = nativeEvent.url.indexOf('=')
+        const ref = nativeEvent.url.slice(index+1)
+        this.verifyTransaction(ref)
       }
   }
   renderGoBack = () => {

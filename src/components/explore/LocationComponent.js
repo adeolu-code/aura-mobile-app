@@ -59,8 +59,8 @@ class LocationComponent extends Component {
     if(region && region.latitude !== null && region.longitude !== null) {
       return (
         <View style={[mapContainer]}>
-          <MapView region={this.state.region} onRegionChange={this.onRegionChange} minZoomLevel={15}
-            style={{ height: '100%', width: '100%'}} scrollEnabled={false}>
+          <MapView region={this.state.region} onRegionChange={this.onRegionChange} minZoomLevel={15} scrollEnabled={false}
+            style={{ height: '100%', width: '100%'}} >
             {markers.map(marker => (
               <Marker key={marker.key} coordinate={marker.coordinate} pinColor={marker.color} />
             ))}

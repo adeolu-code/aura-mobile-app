@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  Modal,
+  Modal, Platform
 } from "react-native";
 
 import colors from "../../colors";
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
       // paddingHorizontal: 20
   },
   modalHeader: {
-      marginTop: 30, marginBottom: 20, alignItems: 'center',
+      marginTop: Platform.OS === 'ios' ? 50 : 30, marginBottom: 20, alignItems: 'center',
       paddingHorizontal: 20
   },
   buttonStyle: {

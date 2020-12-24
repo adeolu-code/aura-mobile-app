@@ -59,7 +59,7 @@ class TourModal extends Component {
 
   renderPicker = () => {
     const { tour } = this.props
-    if(tour) {
+    if(tour && tour.dates) {
       return (<Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
       style={{ width: undefined }}
       selectedValue={this.state.selectedDate}
