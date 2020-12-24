@@ -3,6 +3,17 @@ import { Icon, View } from "native-base";
 import { Pressable } from "react-native";
 import { Styles } from "./renderStars.style";
 
+/**
+ * 
+ * @param {*} props
+ * 
+ *  stars [int] | totalStars [int | optional] 
+ * 
+ * starActive [style] | starInactive [style]
+ * 
+ * onClick [function]
+ * 
+ */
 export class RenderStars extends Component {
     constructor(props) {
         super(props);
@@ -10,6 +21,10 @@ export class RenderStars extends Component {
         this.state = {
             totalStars: 5
         };
+    }
+
+    updateAverageRate = (stars) => {
+      this.props.onClick && this.props.onClick(stars);
     }
 
     renderStars(totalStars = 5, stars, starActiveStyle={},starInactiveStyle={}) {

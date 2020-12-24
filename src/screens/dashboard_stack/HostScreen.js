@@ -72,6 +72,10 @@ class HostScreen extends Component {
     const link = () => this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
     this.check(link)
   }
+  hostARestaurant = () => {
+    const link = () => this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: RESTAURANT } })
+    this.check(link)
+  }
   becomeAHost = () => {
     const { userData } = this.context.state;
     const { navigation } = this.props;
@@ -156,8 +160,10 @@ class HostScreen extends Component {
       return (
         <View style={menuStyles}>
           <MenuItems {...this.props} onPress={this.closeMenu} 
-          onPressPhoto={this.becomeAPhotographer}
-          onPressExperience={this.hostAnExperience} />
+            onPressPhoto={this.becomeAPhotographer}
+            onPressExperience={this.hostAnExperience} 
+            onPressRestaurant={this.hostARestaurant} 
+          />
         </View>
       )
     }

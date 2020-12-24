@@ -73,6 +73,8 @@ export const urls = {
     complaints: "complaints/",
     bank: "bank/",
     bankAccount: "bankaccount/",
+    restaurant: "restaurant/",
+    order: "orders/",
 }
 const getUserToken = async () => {
 	try {

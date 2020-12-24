@@ -55,6 +55,23 @@ class MenuItems extends Component {
     this.props.onPress()
   }
 
+  linkToRestaurantDashboard = () => {
+    this.props.onPress()
+    const { set } = this.context
+    set({ edit: false, currentDashboard: 3 })
+    const { onPressRestaurant } = this.props;
+    if(onPressRestaurant) {
+      onPressRestaurant()
+    } else {
+      this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: RESTAURANT } })
+    }
+  }
+
+  linkToHostRestaurant = () => {}
+  onPressRestaurant = () => {
+    this.props.navigation.navigate('RestaurantStack')
+  }
+
   renderPhotograph = () => {
     const { userData, currentDashboard } = this.context.state
     const rolePhotograph = userData.roles.find(item => item === PHOTOGRAPH)
@@ -125,6 +142,34 @@ class MenuItems extends Component {
       )
     }
   }
+
+  
+  renderRestaurant = () => {
+    const { userData, currentDashboard } = this.context.state
+    const roleRestaurant = userData.roles.find(item => item === RESTAURANT)
+    const { flexRow, textH4Style } = GStyles
+    const { itemRow, iconStyle } = styles;
+    if(roleRestaurant && currentDashboard !== 3) {
+      return (
+        <TouchableOpacity style={[flexRow, itemRow]} onPress={this.linkToRestaurantDashboard}>
+          <View>
+          <Icon name="fast-food" style={iconStyle}  />
+          </View>
+          <MyText style={[textH4Style]}>Restaurant Dashboard</MyText>
+        </TouchableOpacity>
+      )
+    }
+    if(!roleRestaurant) {
+      return (
+        <TouchableOpacity style={[flexRow, itemRow]} onPress={this.linkToHostRestaurant}>
+          <View>
+            <Icon name="fast-food" style={iconStyle} />
+          </View>
+          <MyText style={[textH4Style]}>Host a Restaurant</MyText>
+        </TouchableOpacity>
+      )
+    }
+  }
   
 
   render() {
@@ -140,12 +185,7 @@ class MenuItems extends Component {
                   {this.renderPhotograph()}
                   {this.renderHost()}
                   {this.renderExperience()}
-                  <View style={[flexRow, itemRow]}>
-                    <View>
-                      <Icon name="fast-food" style={iconStyle}  />
-                    </View>
-                    <MyText style={[textH4Style]}>Host your Restaurant</MyText>
-                  </View>
+                  {this.renderRestaurant()}
                   
               </View>
           
