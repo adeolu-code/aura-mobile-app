@@ -35,7 +35,6 @@ class RecentReservationsTab extends Component {
         }
     }
     linkToReserve = (reservation) => {
-      // this.props.navigation.navigate('Tabs', { screen: 'HomeDetails'})
       this.props.navigation.navigate('HomeDetails', { propertyId: reservation.propertyId } )
     }
     onEndReached = () => {

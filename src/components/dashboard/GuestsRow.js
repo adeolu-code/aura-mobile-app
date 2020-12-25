@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         flex: 2, paddingVertical: 20
     },
     imgContainer: {
-        width: 60,height:60, borderRadius: 60, overflow: 'hidden'
+        width: 60,height:60, borderRadius: 60, overflow: 'hidden', backgroundColor: colors.lightGrey
     },
     leftContainer: {
         flex: 2, 

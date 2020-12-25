@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, MyText } from '../../utils/Index';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 import colors from '../../colors';
 import { Icon } from 'native-base'
@@ -29,8 +29,8 @@ class GuestHeader extends Component {
                 <Image source={imgUrl} style={imgStyle} resizeMode="cover" />
             </View>
             <MyText style={[textExtraBold, textLgStyle, textDarkGrey]}>{reservation.guest_Name}</MyText>
-            <View style={[flexRow, infoContainer]}>
-                {/* <TouchableOpacity style={imgTextContainer}>
+            {/* <View style={[flexRow, infoContainer]}>
+                <TouchableOpacity style={imgTextContainer}>
                     <View style={imgContainer1}>
                         <Image source={require('../../assets/images/icons/phone.png')} resizeMode="contain"  />
                     </View>
@@ -41,8 +41,8 @@ class GuestHeader extends Component {
                         <Image source={require('../../assets/images/icons/envelope.png')} resizeMode="contain" />
                     </View>
                     <MyText style={[textH4Style, textSuccess, textBold]}>Message</MyText>
-                </TouchableOpacity> */}
-            </View>
+                </TouchableOpacity>
+            </View> */}
         </View>
       </View>
     );
@@ -52,7 +52,8 @@ class GuestHeader extends Component {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20, borderBottomWidth: 3, borderBottomColor: colors.lightGrey, paddingBottom: 35,
-        position: 'absolute', top: 0, width: '100%', zIndex: 100, backgroundColor: colors.white
+        position: 'absolute', top: 0, width: '100%', zIndex: 100, backgroundColor: colors.white, 
+        paddingTop: Platform.OS === 'ios' ? 30 : 0
     },
     headerContainer: {
         justifyContent: 'center', width: '100%', display: 'flex', alignItems: 'center'
