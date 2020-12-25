@@ -112,7 +112,7 @@ class HostComponent extends Component {
                     <MyText style={[textWhite, textH4Style]}>{tour.story}</MyText>
                 </View>
                 <View style={buttonContainer}>
-                    <CustomButton buttonText="Ask Question" buttonStyle={buttonStyle} textStyle={{color: colors.orange}} />
+                    {/* <CustomButton buttonText="Ask Question" buttonStyle={buttonStyle} textStyle={{color: colors.orange}} /> */}
                 </View>
                 <View style={[flexRow, lowerContainer]}>
                     <View style={shieldContainer}>

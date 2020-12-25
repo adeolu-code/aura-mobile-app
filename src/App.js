@@ -19,7 +19,7 @@ import { setNativeExceptionHandler } from "react-native-exception-handler";
 
 import FlashMessage from "react-native-flash-message";
 
-LogBox.ignoreAllLogs()
+// LogBox.ignoreAllLogs()
 
 export class App extends Component {
   

@@ -59,15 +59,10 @@ const SplashScreen = (props) => {
       }
     
     const requestPermissionIos = async () => {
-        await Geolocation.setRNConfiguration({ authorizationLevel : "whenInUse" });
-        // const request = await Geolocation.requestAuthorization()
-        getCurrentPos();
-        // console.log(request)
-        // if(request) {
-        //     getCurrentPos();
-        // } else {
-
-        // }
+        const request = await Geolocation.requestAuthorization('whenInUse')
+        if(request === 'granted') {
+            getCurrentPos();
+        }
         // request(PERMISSIONS.IOS.LOCATION_ALWAYS)
         // .then((result) => {
         //     console.log('Request permissions ios ', result)
