@@ -82,7 +82,7 @@ class AddPhoto extends Component {
                     </View>
 
                     <Content scrollEnabled>
-                        <Section 
+                        {/* <Section 
                             style={{backgroundColor: colors.lightGreen, marginBottom: 40}} 
                             label={"Hire A"}
                             title={"Photographer"}
@@ -92,7 +92,7 @@ class AddPhoto extends Component {
                             desciptionStyle={textWhite}
                             image={require("./../../assets/images/img_upload/photograph.png")}
                             onPress={() => this.props.navigation.navigate('TourPickImage')}
-                        />
+                        /> */}
                         <Section 
                             style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, borderColor: colors.grey, overflow: "hidden"}} 
                             label={"I Can"}
@@ -123,7 +123,7 @@ class AddPhoto extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

@@ -38,7 +38,7 @@ export default class PickImages extends Component {
     componentDidMount = () => {
         const { tourOnboard, editTour } = this.context.state;
         console.log(tourOnboard)
-        if(editTour) {
+        if(editTour && tourOnboard.mainImage) {
             this.getPhotos(tourOnboard.id)
             this.setState({ coverImage: { path: tourOnboard.mainImage.assetPath }, 
                 additionalInformation: tourOnboard.mainImage.additionalInformation })

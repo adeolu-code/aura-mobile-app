@@ -174,13 +174,13 @@ class Language extends Component {
                     </View>
                     
                     <View style={button}>
-                        <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={this.validate()} />
+                        <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.next} disabled={this.validate()} />
                     </View>
                     <View style={[flexRow, styles.skipStyle]}>
                         {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
                         <View style={{ flex: 1}}>
                             <CustomButton buttonText="Skip To Step 4" 
-                            buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
                             textStyle={{ color: colors.orange }}
                             onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourDescribeActivity' }) }} />
                         </View>
@@ -196,7 +196,7 @@ class Language extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

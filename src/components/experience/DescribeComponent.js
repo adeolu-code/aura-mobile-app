@@ -89,7 +89,7 @@ class DescribeComponent extends Component {
                 </View>
 
                 <View>
-                    <CustomInput placeholder="Where we'll be" textInputStyle={{ height: 150, marginBottom:10 }} textAlignVertical="top" 
+                    <CustomInput placeholder="Where we'll be" multiline textInputStyle={{ height: 150, marginBottom:10 }} textAlignVertical="top" 
                     value={this.state.guestPreExperienceInfomration} onChangeText={this.onChangeValue} attrName="guestPreExperienceInfomration" />
                 </View>
                 <View>

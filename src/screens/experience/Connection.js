@@ -108,7 +108,7 @@ class Connection extends Component {
                 </View>
                 
                 <View style={button}>
-                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} />
+                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.updateExperience} />
                 </View>
                 </ScrollView>
             </View>
@@ -121,7 +121,7 @@ class Connection extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

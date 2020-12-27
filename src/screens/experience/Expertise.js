@@ -158,13 +158,13 @@ class Expertise extends Component {
                 </View>
                 
                 <View style={button}>
-                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={this.validate()} />
+                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.next} disabled={this.validate()} />
                 </View>
                 <View style={[flexRow, styles.skipStyle]}>
                     {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
                     <View style={{ flex: 1}}>
                         <CustomButton buttonText="Skip To Step 3" 
-                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
                         textStyle={{ color: colors.orange }}
                         onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
                     </View>
@@ -180,7 +180,7 @@ class Expertise extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     },
     radioContainer: {
         borderRadius: 18, width: 18, height: 18, borderWidth: 2, borderColor: colors.orange, justifyContent: 'center', alignItems: 'center', 
-        marginRight: 10, marginTop: 5
+        marginRight: 10, marginTop: 3
     },
     activeRadio: {
         width: 10, height: 10, backgroundColor: colors.orange, borderRadius: 10, 
@@ -207,7 +207,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start', paddingVertical: 10
     },
     alertStyle: {
-        paddingHorizontal: 15,paddingVertical: 15, backgroundColor: colors.white, borderRadius: 8, elevation: 2, marginTop: 10
+        paddingHorizontal: 15,paddingVertical: 15, backgroundColor: colors.white, borderRadius: 8, elevation: 2, marginTop: 10,
+        ...GStyles.shadow
     },
     icon: {
         fontSize: 8, marginRight: 15, color: colors.grey

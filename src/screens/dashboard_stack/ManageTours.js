@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, SafeAreaView, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, FlatList, 
-  RefreshControl, Platform } from 'react-native';
+  RefreshControl, Platform, Dimensions } from 'react-native';
 import { MyText, Loading, Spinner } from '../../utils/Index';
 import colors from '../../colors';
 import {Fab, Icon} from 'native-base';
@@ -21,7 +21,7 @@ import TourActionModal from '../../components/dashboard/TourActionModal';
 
 import { shortenXterLength, formatAmount } from '../../helpers'
 
-
+const SCREEN_HEIGHT = Dimensions.get('screen').height
 
 class ManageTours extends Component {
   static contextType = ManagePropertyContext;
@@ -41,7 +41,7 @@ class ManageTours extends Component {
   }
   renderLoading = () => {
       const { loading, refreshing } = this.state;
-      if (loading && !refreshing) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
+      if (loading && !refreshing) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 100 }} />); }
   }
 
   componentDidMount = () => {
@@ -201,10 +201,11 @@ class ManageTours extends Component {
         </View>
         {this.renderTours()}
         {/* <AllTours {...this.props}  /> */}
-        <View style={{ flex: 1 }}>
-          <Fab active={this.state.active} direction="up" containerStyle={{ }} style={{ backgroundColor: colors.orange }} 
+        <View style={{ flex: 1, borderWidth: 1 }}>
+          <Fab active={this.state.active} direction="up" 
+          style={{ backgroundColor: colors.orange }} 
             position="bottomRight" onPress={this.addTour}>
-            <Icon name="add-circle" style={{ fontSize: 30 }} />
+            <Icon name="add-circle" style={{ fontSize: 26 }} />
           </Fab>
           <TourActionModal visible={this.state.showModal} onDecline={this.closeModal} tour={tour} deleteTour={this.deleteTour}
                     img={this.state.modalImg}  title={tour && tour.title ? tour.title : 'No title'} {...this.props} />

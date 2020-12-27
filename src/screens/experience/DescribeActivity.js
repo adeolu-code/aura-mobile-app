@@ -118,7 +118,7 @@ class DescribeActivity extends Component {
 
                     <View>
                         <CustomInput placeholder="What we'll do" textInputStyle={{ height: 150, marginBottom:10 }} textAlignVertical="top" 
-                        value={this.state.experienceDescription} onChangeText={this.onChangeValue} attrName="experienceDescription" />
+                        value={this.state.experienceDescription} multiline onChangeText={this.onChangeValue} attrName="experienceDescription" />
                     </View>
                     <View>
                         <CustomButton buttonText="Save" 
@@ -230,7 +230,7 @@ class DescribeActivity extends Component {
                             <View style={{ flex: 1}}>
                             
                                 <CustomButton buttonText="Skip To Step 5" 
-                                buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                                buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
                                 textStyle={{ color: colors.orange }}
                                 onPress={this.next} />
                             </View>
@@ -248,7 +248,7 @@ class DescribeActivity extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

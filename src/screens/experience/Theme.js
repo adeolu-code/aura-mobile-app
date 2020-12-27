@@ -47,7 +47,7 @@ class Theme extends Component {
             <>
                 <View style={{flex: 6, paddingLeft: 10}}>
                     <MyText style={[textH3Style, textGrey, textBold, { marginBottom: 5}]}>{listValue.name}</MyText>
-                    <MyText style={[textH4Style]}>{subListValue.name}</MyText>
+                    {/* <MyText style={[textH4Style]}>{subListValue.name}</MyText> */}
                 </View>
                 <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}}>
                     <Icon name="caret-forward" style={{ color: colors.orange, marginLeft: 20}} />
@@ -76,7 +76,8 @@ class Theme extends Component {
     } else {
         obj = {
             location: tourOnboard.location,
-            themeId: themeValues.subListValue.id
+            // themeId: themeValues.subListValue.id,
+            themeId: themeValues.listValue.id
         }
     }
     if(editTour) {
@@ -140,7 +141,7 @@ class Theme extends Component {
                 </View>
                 
                 <View style={button}>
-                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.createExperience} 
+                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.createExperience} 
                     disabled={this.state.themeValues === null && !this.context.state.editTour} />
                 </View>
             </View>
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     selectStyle: {
         backgroundColor: colors.white, borderRadius: 10, elevation: 2, 
         paddingHorizontal: 10, paddingVertical: 15, marginTop: 40,
-        justifyContent: 'center', alignItems: 'center'
+        justifyContent: 'center', alignItems: 'center', ...GStyles.shadow
     }
 });
 

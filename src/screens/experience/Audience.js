@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, Platform, Keyboard } from 'react-native';
 import {Icon, Picker} from 'native-base';
-import { CustomButton, MyText, Loading } from '../../utils/Index';
+import { CustomButton, MyText, Loading, CustomInput } from '../../utils/Index';
 import colors from '../../colors';
 
 
@@ -19,13 +19,38 @@ import CancelComponent from '../../components/experience/CancelComponent';
 
 class Audience extends Component {
     static contextType = AppContext;
-  constructor(props) {
-    super(props);
-    this.state = { loading: false, audience: [], audienceId: ''  };
-  }
+    constructor(props) {
+        super(props);
+        this.state = { loading: false, audience: [], audienceId: '', name: '', description: ''  };
+    }
     renderLoading = () => {
         const { loading } = this.state;
         if(loading) { return (<Loading />) }
+    }
+    onChangeValue = (attrName, value) => {
+        this.setState({ [attrName]: value });
+    }
+    createAudience = async () => {
+        const { name, description, audience } = this.state
+        this.setState({ loading: true })
+        const obj = { name, description: description ? description : name, code: name.slice(0,2)}
+        const res = await Request(urls.experienceBase, `${urls.v}experience/audience`, obj );
+        console.log('Create audience ', res)
+        if (res.isError || res.IsError) {
+            errorMessage(res.message || res.Message);
+            this.setState({ loading: false })
+        } else {
+            const getRes = await GetRequest(urls.experienceBase, `${urls.v}experience/audience/list`);
+            if(getRes.data && getRes.data.length !== 0) {
+                const a = getRes.data.find(item => item.name === name )
+                this.setState(() => ({ audienceId: a.id, audience: getRes.data }), () => {
+                    this.updateExperience()
+                })
+            } else {
+                this.updateExperience()
+            }
+            
+        }
     }
     getAudienceList = async () => {
         this.setState({ loading: true, errors: [] });
@@ -64,6 +89,15 @@ class Audience extends Component {
         }  
     }
 
+    submit = () => {
+        const { name } = this.state
+        if(name) {
+            this.createAudience()
+        } else {
+            this.updateExperience()
+        }
+    }
+
   check = (audienceId) => {
     this.setState({ audienceId })
   }
@@ -75,8 +109,8 @@ class Audience extends Component {
   renderAudienceItem = () => {
       const { touchContainer, selectRow, radioContainer, activeRadio } = styles
       const { textH4Style, flexRow, textGrey, textBold} = GStyles
-      const { audience, audienceId } = this.state
-      if(audience && audience.length > 0) {
+      const { audience, audienceId, name } = this.state
+      if(audience && audience.length > 0 && name === '') {
         return audience.map(item => {
             return (
                 <View style={touchContainer} key={item.id}>
@@ -97,7 +131,7 @@ class Audience extends Component {
   
 
   render() {
-    const { container, button, picker, icon, selectRow, radioContainer, activeRadio, touchContainer } = styles;
+    const { container, button, addContainer } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
         textH4Style, textH5Style, textH6Style} = GStyles;
     const { ansOne, ansThree, ansTwo } = this.state
@@ -126,12 +160,20 @@ class Audience extends Component {
                             <View style={{paddingHorizontal: 2, marginTop: 30}}>
                                 {this.renderAudienceItem()}
                             </View>
-                            
+                            <View style={{paddingHorizontal: 2 }}>
+                                <View style={addContainer}>
+                                    <CustomInput label="Enter Specific Audience" placeholder="Eg. Females only" onChangeText={this.onChangeValue} 
+                                    value={this.state.name} attrName="name" />
+                                    <CustomInput placeholder="Description" onChangeText={this.onChangeValue} 
+                                    value={this.state.description} attrName="description" />
+                                </View>
+                            </View>
                         </View>
                     </View>
                     
                     <View style={button}>
-                        <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} disabled={!this.state.audienceId} />
+                        <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.sahdow }} onPress={this.submit} 
+                        disabled={!this.state.audienceId && !this.state.name} />
                     </View>
                     <View style={[flexRow, styles.skipStyle]}>
                         {this.context.state.editTour ? <CancelComponent {...this.props} wrapper={{ paddingRight: 0 }} /> : <></>}
@@ -148,7 +190,7 @@ class Audience extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   
@@ -167,7 +209,7 @@ const styles = StyleSheet.create({
     
     radioContainer: {
         borderRadius: 18, width: 18, height: 18, borderWidth: 2, borderColor: colors.orange, justifyContent: 'center', alignItems: 'center', 
-        marginRight: 10, marginTop: 5
+        marginRight: 10, marginTop: 3
     },
     activeRadio: {
         width: 10, height: 10, backgroundColor: colors.orange, borderRadius: 10, 
@@ -176,7 +218,12 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start', paddingBottom: 10
     },
     touchContainer: {
-        borderRadius: 8, elevation: 2, backgroundColor: colors.white, padding: 15, marginTop: 10, width: '100%'
+        borderRadius: 8, elevation: 2, backgroundColor: colors.white, padding: 15, marginTop: 10, width: '100%',
+        ...GStyles.shadow
+    },
+    addContainer: {
+        elevation: 2, ...GStyles.shadow, marginTop: 20, backgroundColor: colors.white, paddingVertical: 15,
+        paddingHorizontal: 15, borderRadius: 8
     }
 });
 

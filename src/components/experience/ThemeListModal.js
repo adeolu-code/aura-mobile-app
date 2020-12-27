@@ -43,7 +43,8 @@ class ThemeListModal extends Component {
 
     getThemeList = async () => {
         this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/themeCategory/list`);
+        // const res = await GetRequest(urls.experienceBase, `${urls.v}experience/themeCategory/list`);
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/theme/list`);
         this.setState({ loading: false });
         if (res.isError || res.IsError) {
             const message = res.message;
@@ -68,7 +69,10 @@ class ThemeListModal extends Component {
     }
     selectList = (listValue) => {
         this.setState({ listValue })
-        this.getSubCatThemeList(listValue.id)
+        // this.getSubCatThemeList(listValue.id)
+        const obj = { listValue, subListValue: '' }
+        this.props.value(obj)
+        this.props.onDecline()
     }
     selectSubList = (subListValue) => {
         const { listValue } = this.state
@@ -92,42 +96,54 @@ class ThemeListModal extends Component {
         const { lists, listValue, subLists } = this.state
         const {itemContainer } = styles
         const { flexRow, textH4Style, textGrey, textBold } = GStyles
-        if(listValue) {
-            if(subLists.length > 0) {
-                return subLists.map((item, index) => {
-                    const key = `TH_${index}`
-                    return (
-                        <TouchableOpacity style={[flexRow, itemContainer]} key={key} onPress={this.selectSubList.bind(this, item)}>
-                            <MyText style={[textH4Style, textGrey]}>{item.name}</MyText>
-                            <Icon name="caret-forward" style={{ fontSize: 15, marginLeft: 5, color: colors.orange, marginBottom: -2 }} />
-                        </TouchableOpacity>
-                    )
-                })
-            }
-            return <MyText Style={[textH4Style, textBold]}>No Data for this Category</MyText>
-        } else {
-            if(lists && lists.length > 0) {
-                return lists.map((item, index) => {
-                    const key = `TH_${index}`
-                    return (
-                        <TouchableOpacity style={[flexRow, itemContainer]} key={key} onPress={this.selectList.bind(this, item)}>
-                            <MyText style={[textH4Style, textGrey]}>{item.name}</MyText>
-                            <Icon name="caret-forward" style={{ fontSize: 15, marginLeft: 5, color: colors.orange, marginBottom: -2 }} />
-                        </TouchableOpacity>
-                    )
-                })
-            }
+        if(lists && lists.length > 0) {
+            return lists.map((item, index) => {
+                const key = `TH_${index}`
+                return (
+                    <TouchableOpacity style={[flexRow, itemContainer]} key={key} onPress={this.selectList.bind(this, item)}>
+                        <MyText style={[textH4Style, textGrey]}>{item.name}</MyText>
+                        <Icon name="caret-forward" style={{ fontSize: 15, marginLeft: 5, color: colors.orange, marginBottom: -2 }} />
+                    </TouchableOpacity>
+                )
+            })
         }
+        // if(listValue) {
+        //     if(subLists.length > 0) {
+        //         return subLists.map((item, index) => {
+        //             const key = `TH_${index}`
+        //             return (
+        //                 <TouchableOpacity style={[flexRow, itemContainer]} key={key} onPress={this.selectSubList.bind(this, item)}>
+        //                     <MyText style={[textH4Style, textGrey]}>{item.name}</MyText>
+        //                     <Icon name="caret-forward" style={{ fontSize: 15, marginLeft: 5, color: colors.orange, marginBottom: -2 }} />
+        //                 </TouchableOpacity>
+        //             )
+        //         })
+        //     }
+        //     return <MyText Style={[textH4Style, textBold]}>No Data for this Category</MyText>
+        // } else {
+        //     if(lists && lists.length > 0) {
+        //         return lists.map((item, index) => {
+        //             const key = `TH_${index}`
+        //             return (
+        //                 <TouchableOpacity style={[flexRow, itemContainer]} key={key} onPress={this.selectList.bind(this, item)}>
+        //                     <MyText style={[textH4Style, textGrey]}>{item.name}</MyText>
+        //                     <Icon name="caret-forward" style={{ fontSize: 15, marginLeft: 5, color: colors.orange, marginBottom: -2 }} />
+        //                 </TouchableOpacity>
+        //             )
+        //         })
+        //     }
+        // }
         
     }
 
     renderTitle = () => {
         const { listValue } = this.state
-        if(listValue) {
-            return `What exactly in ${listValue.name}`
-        } else {
-            return 'All Themes'
-        }
+        return 'All Themes'
+        // if(listValue) {
+        //     return `What exactly in ${listValue.name}`
+        // } else {
+        //     return 'All Themes'
+        // }
     }
     
 
@@ -151,9 +167,9 @@ class ThemeListModal extends Component {
                     <View style={container} >
                         <ScrollView>
                             <View style={[flexRow, modalHeader]}>
-                                {listValue ? <TouchableOpacity style={{flex: 1}} onPress={this.clear}>
+                                {/* {listValue ? <TouchableOpacity style={{flex: 1}} onPress={this.clear}>
                                     <Icon name="chevron-back" />
-                                </TouchableOpacity> : <></>}
+                                </TouchableOpacity> : <></>} */}
                                 <View style={{ flex: 6, alignItems: 'center'}}>
                                     <View style={[lineStyle, listValue ? { marginLeft: 0} : '']}></View>
                                 </View>
@@ -173,10 +189,7 @@ class ThemeListModal extends Component {
 
                             <View style={[flexRow, itemsContainer]}>
                                 {this.renderThemes()}
-                                {/* <View style={[flexRow, itemContainer]}>
-                                    <MyText style={[textH4Style, textGrey]}>Styles</MyText>
-                                    <Icon name="caret-forward" style={{ fontSize: 15, marginLeft: 10 }} />
-                                </View> */}
+                                
                             </View>
                             
                             <View style={{ borderWidth: 1, borderColor: colors.lightGrey, borderRadius: 10, marginVertical: 20}}>
@@ -227,7 +240,8 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         width: '49%', paddingHorizontal: 10, paddingVertical: 10, backgroundColor: colors.white, 
-        borderRadius: 8, elevation: 2, justifyContent: 'center', alignItems: 'center', marginBottom: 10
+        borderRadius: 8, elevation: 2, justifyContent: 'center', alignItems: 'center', marginBottom: 10,
+        ...GStyles.shadow
     }
 });
 

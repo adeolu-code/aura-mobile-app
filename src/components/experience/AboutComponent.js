@@ -86,7 +86,7 @@ class AboutComponent extends Component {
                 <View style={styles.divider}></View>
                 <View>
                     <CustomInput placeholder="Your story" textInputStyle={{ height: 150, marginBottom:10 }} textAlignVertical="top" 
-                    value={this.state.story} onChangeText={this.onChangeValue} attrName="story" />
+                    value={this.state.story} onChangeText={this.onChangeValue} attrName="story" multiline />
                 </View>
                 <View>
                     <CustomButton buttonText="Save" onPress={this.updateExperience} buttonStyle={{ elevation: 2, marginBottom: 30 }} disabled={!this.state.story} />
