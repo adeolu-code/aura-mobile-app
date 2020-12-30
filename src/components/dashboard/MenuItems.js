@@ -67,7 +67,11 @@ class MenuItems extends Component {
     }
   }
 
-  linkToHostRestaurant = () => {}
+  linkToHostRestaurant = () => {
+    this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant', params:{
+      host: true
+    }})
+  }
   onPressRestaurant = () => {
     this.props.navigation.navigate('RestaurantStack')
   }
