@@ -27,7 +27,7 @@ const defaultContext = {
   step: 1,
   notificationSettings: {messages: {}, policy: {}, reminders: {}},
   photographOnboard: null,
-  currentDashboard: 3,
+  currentDashboard: 1,
   tourOnboard: null
 };
 

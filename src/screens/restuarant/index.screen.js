@@ -9,6 +9,7 @@ import { Icon, Fab, Button } from 'native-base';
 
 import MenuItems from './../../components/dashboard/MenuItems';
 import { Styles as styles } from "./restuarant.style";
+import { AppContext } from '../../../AppProvider';
 
 if (
   Platform.OS === "android" &&
@@ -18,6 +19,7 @@ if (
 }
 
 export default class RestaurantDashboardComponent extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = { menuActive: false };
@@ -83,18 +85,19 @@ export default class RestaurantDashboardComponent extends Component {
     const reviews = `See all your ratings and reviews`;
     const earning = `View your details of your transactions and how much you have made in the app`
     const photograph = `Become a photographer to display your photos`
+    console.log("current Dashboard", this.context.state.currentDashboard)
     return (
       <>
       {this.renderMenuItems()}
       <View style={[container, {backgroundColor: 'white'}]}>
         <Header {...this.props} title="Resturant Dashboard" onPress={this.openMenu}  />
-        <ScrollView style={{marginTop: 50}}>
+        <ScrollView style={{marginTop: 0}}>
             <View style={contentStyle}>
                 
-                <View style={sectionStyle}>
+                {/* <View style={sectionStyle}>
                     <DashboardCardComponent title="Dashboard" description={dasboardDescription} iconX iconName="grid-outline" type="Ionicons"
                      onPress={this.onPressDashboard} />
-                </View>
+                </View> */}
 
                 <View style={sectionStyle}>
                     <DashboardCardComponent title="Orders" 
