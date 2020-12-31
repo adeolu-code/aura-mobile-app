@@ -57,7 +57,8 @@ class AddDetailsComponent extends Component {
             arr.push(provision)
         });
         if(editTour) {
-            this.setState({ experienceProvisions: arr })
+            const a = arr.filter(item => item !== undefined)
+            this.setState({ experienceProvisions: a })
         }
     }
     
@@ -87,6 +88,7 @@ class AddDetailsComponent extends Component {
     }
 
     removeItem = (item) => {
+        console.log(item)
         const { experienceProvisions } = this.state
         const arr = [ ...experienceProvisions ]
         const index = arr.findIndex(x => x.id === item.id)

@@ -23,7 +23,15 @@ class Theme extends Component {
     this.state = { showCatThemeModal: false, themeValues: null, loading: false, themes: [] };
   }
   getThemes = (themes) => {
+    const { tourOnboard, editTour } = this.context.state;
     this.setState({ themes })
+    if(editTour) {
+        const f = themes.find(item => item.id === tourOnboard.themeId)
+        if(f) {
+            const obj = { listValue: f, subListValue: '' }
+            this.setState({ themeValues: obj })
+        }
+    }
   }
   renderLoading = () => {
     const { loading } = this.state;
@@ -98,6 +106,7 @@ class Theme extends Component {
   }
   componentDidMount = () => {
     const { tourOnboard } = this.context.state
+    
     // console.log(tourOnboard)
     // this.getThemeCatById()
   }
