@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { Icon } from 'native-base';
 import { MyText } from '../utils/Index';
 import GStyles from '../assets/styles/GeneralStyles';
@@ -60,12 +60,13 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%', paddingVertical: 20, backgroundColor: colors.white, paddingHorizontal: 20, paddingTop: 30,
+        width: '100%', paddingVertical: 20, backgroundColor: colors.white, paddingHorizontal: 20, 
+        paddingTop: Platform.OS === 'ios' ? 50 : 30,
         position: 'absolute', top: 0, zIndex: 100, 
         // marginTop: 10
     },
     iconContainer:{
-        marginBottom: 10, 
+        marginBottom: Platform.OS === 'ios' ? 6 : 10, 
         // borderWidth: 1
     },
     iconStyle: {

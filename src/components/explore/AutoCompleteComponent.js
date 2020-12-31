@@ -116,7 +116,7 @@ const autoStyles = {
             // borderColor: 'rgb(248,106,39)', borderWidth: .8, borderTopColor: 'rgb(248,106,39)',
             // height: 50, 
             justifyContent: 'center', alignItems: 'center',
-            paddingBottom: 0, paddingHorizontal: 0,
+            paddingBottom: 0, paddingHorizontal: 0, ...GStyles.shadow
             // elevation: 4
         },
 
@@ -127,7 +127,7 @@ const autoStyles = {
             elevation: 4
         },
         row: {
-            backgroundColor: 'white', marginVertical: 5, borderRadius: 5, elevation: 2,
+            backgroundColor: 'white', marginVertical: 5, borderRadius: 5, elevation: 2, ...GStyles.shadow,
             paddingHorizontal: 10
         },
         separator: {

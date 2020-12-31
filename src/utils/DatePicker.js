@@ -8,10 +8,12 @@ import {MyText} from './MyText';
 class DatePicker extends Component {
   state = {
     show: false,
-    date: new Date(moment().subtract(18, 'years').format()),
+    date: '',
+    // date: new Date(moment().subtract(18, 'years').format()),
     mode: 'date',
     value: '',
   };
+  
   renderPicker = () => {
     if (this.state.show) {
       return (
@@ -20,15 +22,27 @@ class DatePicker extends Component {
           mode={this.state.mode}
           onChange={this.setDate}
           maximumDate={this.renderEighteenYrs()}
+          minimumDate={this.renderMinDate()}
         />
       );
     }
   };
+  renderMinDate = () => {
+    const { minDate } = this.props;
+    if(minDate) {
+      return minDate
+    } else {
+      return new Date('1900-1-1')
+    }
+  }
   renderEighteenYrs = () => {
-    const yr = moment()
-      .subtract(18, 'years')
-      .format();
-    return new Date(yr);
+    const { minDate } = this.props;
+    if(minDate) {
+      return new Date('2050-1-1')
+    } else {
+      const yr = moment().subtract(18, 'years').format();
+      return new Date(yr);
+    }
   };
   setDate = (event, date) => {
     if (event.type === 'dismissed') {
@@ -57,6 +71,14 @@ class DatePicker extends Component {
     }
     return <MyText style={[textGreyColor, textH3Style]}>{placeholder}</MyText>;
   };
+  componentDidMount = () => {
+    const { minDate } = this.props
+    if(minDate) {
+      this.setState({ date: minDate })
+    } else {
+      this.setState({ date: new Date(moment().subtract(18, 'years').format()) })
+    }
+  }
   render() {
     const {touchContainerStyle} = style;
     const {textGreyColor, textH3Style} = GeneralStyles;

@@ -35,10 +35,10 @@ class ItemCountPicker extends Component {
   render() {
     const { rowContainer, increment, decrement} = styles;
     const { textBold, textH4Style, flexRow} = GStyles;
-    const { title, value } = this.props;
+    const { title, value, container } = this.props;
     return (
       <View style={{ width: '100%'}}>
-        <View style={[flexRow, rowContainer]}>
+        <View style={[flexRow, rowContainer, container]}>
             <View style={{flex: 7}}>
                 <MyText style={[textBold, textH4Style, {color: '#1E2B37'}]}>{title}</MyText>
             </View>

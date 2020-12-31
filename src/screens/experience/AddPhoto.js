@@ -63,12 +63,13 @@ class AddPhoto extends Component {
             <Header { ...this.props } title="Photos" />
             <View style={container}>
                 <View style={{ marginTop: 30}}>
-                    <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
-                    <ProgressBar />
+                    <MyText style={[textOrange, textBold, textH3Style]}>Step 4 / 6</MyText>
+                    <ProgressBar width={16.7 * 4} />
+                    <ProgressBar width={100} />
                 </View>
                 <ScrollView>
                 <View style={{ flex: 1, marginTop: 30 }}>
-                    <View style={[{ paddingHorizontal: 1}]}>
+                    <View style={[{ paddingHorizontal: 1, marginBottom: 20}]}>
                         
                         <MyText style={[textH2Style, textGrey, textBold, { marginBottom: 15}]}>
                             Add Photos To Your Experience
@@ -81,36 +82,36 @@ class AddPhoto extends Component {
                     </View>
 
                     <Content scrollEnabled>
-                        <Section 
+                        {/* <Section 
                             style={{backgroundColor: colors.lightGreen, marginBottom: 40}} 
                             label={"Hire A"}
                             title={"Photographer"}
-                            desciption={"Lorem ipsum dolor sit amet, consectetur adipiscing."}
+                            desciption={"You can always use Aura photographers"}
                             hireStyle={{backgroundColor: colors.fadedGreen,}}
                             titleStyle={textWhite}
                             desciptionStyle={textWhite}
                             image={require("./../../assets/images/img_upload/photograph.png")}
-                            onPress={() => this.props.navigation.navigate('PickPropertyImage')}
-                        />
+                            onPress={() => this.props.navigation.navigate('TourPickImage')}
+                        /> */}
                         <Section 
                             style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, borderColor: colors.grey, overflow: "hidden"}} 
                             label={"I Can"}
                             title={"Take My Own Pictures"}
-                            desciption={"Lorem ipsum dolor sit amet, consectetur adipiscing."}
+                            desciption={"Upload quality images from your device"}
                             hireStyle={{backgroundColor: colors.black,}}
                             titleStyle={textBlack}
                             desciptionStyle={textBlack}
                             image={require("./../../assets/images/img_upload/take_photo.png")}
-                            onPress={() => this.props.navigation.navigate('PickPropertyImage')}
+                            onPress={() => this.props.navigation.navigate('TourPickImage')}
                         />
 
                     </Content>
                     
                 </View>
                 
-                <View style={button}>
+                {/* <View style={button}>
                     <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} />
-                </View>
+                </View> */}
                 </ScrollView>
             </View>
             
@@ -122,7 +123,7 @@ class AddPhoto extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

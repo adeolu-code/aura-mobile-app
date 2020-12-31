@@ -205,7 +205,7 @@ class MorePlaces extends Component {
                         {this.renderPlaces()}
                     </View>
                 </View>
-                {this.renderEmptyLocation()}
+                {/* {this.renderEmptyLocation()} */}
                 {this.renderEmptyProperty()}
             </View>
         </Fragment>

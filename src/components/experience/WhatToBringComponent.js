@@ -17,7 +17,7 @@ class AddDetailsComponent extends Component {
     static contextType = AppContext
     constructor(props) {
         super(props);
-        this.state = { inputValue: '', values: [] };
+        this.state = { inputValue: '', values: [], ansOne: false };
     }
 
     renderValues = () => {
@@ -26,7 +26,7 @@ class AddDetailsComponent extends Component {
         if(values.length > 0) {
             return values.map((item, i) => {
                 return (
-                    <View style={[flexRow, styles.itemContainer]}>
+                    <View style={[flexRow, styles.itemContainer]} key={i}>
                         <MyText style={[textH4Style, textGrey, { flex: 1}]}>{item}</MyText>
                         <TouchableOpacity onPress={this.removeItem.bind(this, item)}>
                             <Icon name="trash" style={{ fontSize: 22, color: colors.orange }} />
@@ -36,13 +36,22 @@ class AddDetailsComponent extends Component {
             })
         }
     }
+    selectOne = () => {
+        this.setState(() => ({ ansOne: !this.state.ansOne }), () => {
+            if(this.state.ansOne) {
+                this.setState({ values: [] })
+            }
+        })
+        
+    }
 
     updateExperience = async () => {
         const { tourOnboard } = this.context.state
+        const { ansOne } = this.state
         this.props.loading(true)
         const obj = {
             id: tourOnboard.id,
-            guestShouldBring: this.state.values
+            guestShouldBring: ansOne ? null : this.state.values
         }
         const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
         console.log('update experience ', res)
@@ -75,11 +84,20 @@ class AddDetailsComponent extends Component {
         this.setState({ [attrName]: value });
     }
 
+    componentDidMount = () => {
+        const { tourOnboard, editTour } = this.context.state;
+        if(editTour) {
+            this.setState({ values: tourOnboard.guestShouldBring})
+            
+        }
+    }
+
 
     render() {
         const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle, textH2Style,
             textH4Style, textH5Style, textH6Style } = GStyles;
-        const { container, selectStyle, profileImgContainer, textContainer, icon } = styles
+        const { container, selectRow, radioContainer, activeRadio } = styles
+        const { ansOne } = this.state
         return (
             <View style={[container]}>
                 <MyText style={[textGrey, textH4Style, { marginTop: 15}]}>
@@ -93,6 +111,12 @@ class AddDetailsComponent extends Component {
                 <MyText style={[textGrey, textH4Style, { marginTop: 15}]}>
                     Be as detailed as possible and add each item individually.
                 </MyText>
+                <TouchableOpacity style={[flexRow, selectRow ]} onPress={this.selectOne}>
+                    <View style={radioContainer}>
+                        <View style={[ansOne ? activeRadio : '']}></View>
+                    </View>
+                    <MyText style={[textH4Style, textGrey, { flex: 1}]}>Guests just need to show up</MyText>
+                </TouchableOpacity>
                 {this.renderValues()}
 
                 <CustomInput placeholder="Enter Item here" value={this.state.inputValue} 
@@ -104,7 +128,8 @@ class AddDetailsComponent extends Component {
                 </TouchableOpacity>
 
                 <View>
-                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} onPress={this.updateExperience} />
+                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} 
+                    onPress={this.updateExperience} />
                 </View>
             </View>
         );
@@ -132,7 +157,17 @@ const styles = StyleSheet.create({
     itemContainer: {
         borderRadius: 8, elevation: 2, backgroundColor: colors.white, paddingHorizontal: 20, paddingVertical: 10,
         justifyContent: 'space-between', marginTop: 15
-    }
+    },
+    radioContainer: {
+        borderRadius: 18, width: 18, height: 18, borderWidth: 2, borderColor: colors.orange, justifyContent: 'center', alignItems: 'center', 
+        marginRight: 10, marginTop: 3
+    },
+    activeRadio: {
+        width: 10, height: 10, backgroundColor: colors.orange, borderRadius: 10, 
+    },
+    selectRow: {
+        alignItems: 'flex-start', paddingVertical: 10, 
+    },
 });
 
 export default AddDetailsComponent;

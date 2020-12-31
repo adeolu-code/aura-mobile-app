@@ -13,7 +13,6 @@ import Header from '../../components/dashboard/DashboardHeader';
 import MenuItems from '../../components/dashboard/MenuItems';
 
 
-import Loader from '../../assets/loader.svg'
 
 if (
   Platform.OS === "android" &&
@@ -70,6 +69,10 @@ class HostScreen extends Component {
   }
   hostAnExperience = () => {
     const link = () => this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
+    this.check(link)
+  }
+  hostARestaurant = () => {
+    const link = () => this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: RESTAURANT } })
     this.check(link)
   }
   becomeAHost = () => {
@@ -156,8 +159,10 @@ class HostScreen extends Component {
       return (
         <View style={menuStyles}>
           <MenuItems {...this.props} onPress={this.closeMenu} 
-          onPressPhoto={this.becomeAPhotographer}
-          onPressExperience={this.hostAnExperience} />
+            onPressPhoto={this.becomeAPhotographer}
+            onPressExperience={this.hostAnExperience} 
+            onPressRestaurant={this.hostARestaurant} 
+          />
         </View>
       )
     }

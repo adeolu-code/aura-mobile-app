@@ -22,7 +22,7 @@ import SearchToggle from '../../components/explore/SearchToggle';
 
 import AutoCompleteComponent from '../../components/explore/AutoCompleteComponent';
 
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, Request, urls, GetRequest, refreshToken } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import Geolocation from 'react-native-geolocation-service';
 
@@ -46,30 +46,6 @@ class Index extends Component {
     this.props.navigation.navigate('ExploreAll', { tab: 'five' })
   }
 
-  renderFoodComingSoon = () => {
-    const { comingSoonContainer, comingSoonImg } = styles
-    const { imgStyle, textH3Style, textExtraBold, textOrange, textCenter } = GStyles
-    return (
-      <View style={comingSoonContainer}>
-        <View style={comingSoonImg}>
-          <Image source={require('../../assets/images/food_bg/food_bg.png')} style={imgStyle} />
-        </View>
-        <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
-      </View>
-    )
-  }
-  renderTourComingSoon = () => {
-    const { comingSoonContainer, comingSoonImg } = styles
-    const { imgStyle, textH3Style, textExtraBold, textOrange, textCenter } = GStyles
-    return (
-      <View style={comingSoonContainer}>
-        <View style={comingSoonImg}>
-          <Image source={require('../../assets/images/photo/photo2.png')} style={imgStyle} />
-        </View>
-        <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
-      </View>
-    )
-  }
 
   requestLocationPermission = async () => {
     if(Platform.OS === 'android') {
@@ -140,7 +116,9 @@ class Index extends Component {
       // })
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    // const res = await refreshToken()
+    // console.log('Token component ', res, this.context.state)
     // console.log('Explore ',this.context.state)
     // const { location } = this.context.state
     // this.requestLocationPermission()
@@ -190,14 +168,14 @@ class Index extends Component {
       textBold,
     } = GStyles;
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: 'white' }}>
+      <View style={{flex: 1, backgroundColor: 'white' }}>
         <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
         
         <ScrollView style={{position: 'relative', backgroundColor: colors.white}} 
             refreshControl={
               <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.refreshing}
               colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
-          }>
+          } decelerationRate={0.8}>
           <ImageBackground
             source={require('../../assets/images/mask/mask.png')}
             style={[headerBg]}>
@@ -253,43 +231,26 @@ class Index extends Component {
             </View>
           </View> */}
           <ScrollContentPhoto {...this.props} refresh={this.state.refreshPlaces} />
-          {/* <View style={photoContainer}>
-            <View style={headerContainer}>
-              <ScrollHeader title="Book photographers on Aura" noDot />
-            </View>
-            <View style={textContainer}>
-              <MyText style={[textDarkGrey, textH4Style, lineHeightText]}>
-                Curabitur vulputate arcu odio, ac facilisis diam accumsan ut.
-                Ut imperdiet et leo in vulputate.
-              </MyText>
-            </View>
-            <View style={scrollContainer}>
-              <ScrollContentPhoto {...this.props} />
-            </View>
-            <View style={buttonContainer}>
-              <CustomButton buttonText="Find More Photographers" iconName="arrow-right" onPress={this.linkToPhotograph} />
-            </View>
-          </View> */}
 
           <View style={tourContainer}>
             <MyText style={[textWhite, textExtraBold, textH2Style, textCenter, { marginBottom: 15 }]}>Are you New in a city ?</MyText>
             <MyText style={[textWhite, textH4Style, textCenter, lineHeightText, { marginBottom: 25 }]}>Book a Tour Guide Today</MyText>
-            {this.renderTourComingSoon()}
-            {/* <MyText style={[textWhite, textH4Style, textCenter, { lineHeight: 30 }]}>
-              Curabitur vulputate arcu odio, ac facilisis diam accumsan ut. Ut imperdiet et leo in vulputate.
+            <MyText style={[textWhite, textH4Style, textCenter, { lineHeight: 30 }]}>
+              Bring your passion to life and make some extra money while leading 
+              and teaching people on activities you love in your own city.
               </MyText>
             <View style={tourContentStyle}>
               <TourImgComponent {...this.props} />
             </View>
             <View>
               <CustomButton buttonText="Find More Tour" iconName="arrow-right" onPress={this.linkToTour} />
-            </View> */}
+            </View>
           </View>
 
 
         </ScrollView>
         {this.state.active ? <SearchToggle close={this.closeSearch} {...this.props} /> : <Fragment />}
-      </SafeAreaView>
+      </View>
     );
   }
 }

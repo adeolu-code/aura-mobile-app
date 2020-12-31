@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { Icon } from 'native-base';
 import colors from '../../../colors';
 import GStyles from '../../../assets/styles/GeneralStyles';
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         // paddingHorizontal: 20
     },
     modalHeader: {
-        marginTop: 30, marginBottom: 20, alignItems: 'center',
+        marginTop: Platform.OS === 'ios' ? 50 : 30, marginBottom: 20, alignItems: 'center',
         paddingHorizontal: 20
     },
     headerStyle: {
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     buttomStyle: {
         backgroundColor: colors.white, elevation: 3, width: '100%', position: 'absolute',
         zIndex: 20, bottom: 0, paddingTop: 15, paddingHorizontal: 20, alignItems: 'flex-end',
-        paddingBottom: 15
+        paddingBottom: Platform.OS === 'ios' ? 40 : 15, ...GStyles.shadow
     },
     buttonContainer: {
         width: '30%'

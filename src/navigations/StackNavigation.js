@@ -17,6 +17,13 @@ import EarningsScreen from '../screens/dashboard_stack/Earnings';
 import TransactionsHistoryScreen from '../screens/dashboard_stack/TransactionsHistory';
 import RatingsAndReviewsScreen from '../screens/dashboard_stack/ReviewsProvider';
 
+import TourDashboardScreen from '../screens/dashboard_stack/DashboardTour';
+import TourEarningsScreen from '../screens/dashboard_stack/EarningsTour';
+import ManageTourScreen from '../screens/dashboard_stack/ManageTours';
+
+import TourReservationsScreen from '../screens/dashboard_stack/ReservationsTourContainerProvider'
+import RatingsAndReviewsTourScreen from '../screens/dashboard_stack/ReviewsTourProvider';
+
 
 import BookingScreen from '../screens/bookings_stack/Index';
 
@@ -63,9 +70,36 @@ import TourAudienceScreen from '../screens/experience/Audience';
 import TourDescribeActivityScreen from '../screens/experience/DescribeActivity';
 import TourEditProfilePhotoScreen from '../screens/experience/EditProfilePhoto';
 import TourAddPhotoScreen from '../screens/experience/AddPhoto';
+import TourPickImageScreen from '../screens/experience/PickImages';
+import TourMeetingLocationScreen from '../screens/experience/MeetingLocation';
+import TourNotesScreen from '../screens/experience/Notes';
+import TourGuestRequirementScreen from '../screens/experience/GuestRequirements';
+import TourNumberOfGuestsScreen from '../screens/experience/NumberOfGuests';
+import TourDurationScreen from '../screens/experience/Duration';
+import TourGuestPricingScreen from '../screens/experience/GuestPricing';
+import TourBookingSettingsScreen from '../screens/experience/BookingSettings';
+import TourSafetyOverviewScreen from '../screens/experience/SafetyOverview';
+import TourSafetyHygieneScreen from '../screens/experience/SafetyHygiene';
+import TourSafetyPhysicalScreen from '../screens/experience/SafetyPhysical';
+import TourSafetyLocationScreen from '../screens/experience/SafetyLocation';
+import TourSafetyCleaningScreen from '../screens/experience/SafetyCleaning';
+import TourSafetyCommitmentScreen from '../screens/experience/SafetyCommitment';
+import TourSafetyPolicyScreen from '../screens/experience/SafetyPolicy';
+import TourIdentityVerificationScreen from '../screens/experience/IdentityCard';
+import TourSuccessScreen from '../screens/experience/Success';
+
+// Restuarent
+import RestuarantDashboard from "./../screens/restuarant/dashboard.screen";
+import RestaurantDashboardComponent from "./../screens/restuarant/index.screen";
 
 import MyPageScreen from '../screens/photograph/MyPage';
 import PortfolioScreen from '../screens/photograph/Portfolio';
+import Bank from '../screens/payment/bank.screen';
+import RestaurantOrders from '../screens/restuarant/orders.screen';
+import AddRestaurant from '../screens/restuarant/addRestuarant.screen';
+import RestaurantReviews from '../screens/restuarant/reviews.screen';
+
+import PhotosComponentScreen from '../screens/dashboard_stack/PhotosComponent';
 
 
 const Stack = createStackNavigator();
@@ -85,14 +119,25 @@ export function DashboardStack() {
             <Stack.Screen name="DashboardView" component={DashboardViewScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Reservations" component={ReservationsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourReservations" component={TourReservationsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="HomeDetails" component={HomeDetailsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="GuestProfile" component={GuestProfileScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ManageProperties" component={ManagePropertiesContainerScreen} options={{ headerShown: false }} />
+
             <Stack.Screen name="RatingsReviews" component={RatingsAndReviewsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourRatingsReviews" component={RatingsAndReviewsTourScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Earnings" component={EarningsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TransactionsHistory" component={TransactionsHistoryScreen} options={{ headerShown: false }} />
+
+            <Stack.Screen name="DashboardTour" component={TourDashboardScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourEarnings" component={TourEarningsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="ManageTour" component={ManageTourScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="RestaurantStack" component={RestaurantStack} options={{ headerShown: false }} />
+
+
             <Stack.Screen name="MyPage" component={MyPageScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Portfolio" component={PortfolioScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Photos" component={PhotosComponentScreen} options={{ headerShown: false }} />
             <Stack.Screen name="PhotographChangeProfile" component={PhotographChangeProfilePicScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>
@@ -131,6 +176,7 @@ export function ProfileStack() {
             <Stack.Screen name="PaymentInitial" component={PaymentInitial} options={{ headerShown: false }} />
             <Stack.Screen name="PayWith" component={PayWith} options={{ headerShown: false }} />
             <Stack.Screen name="AddPayment" component={AddPayment} options={{ headerShown: false }} />
+            <Stack.Screen name="Bank" component={Bank} options={{ headerShown: false }} />
             <Stack.Screen name="DeviceSharing" component={DeviceSharing} options={{ headerShown: false }} />
             <Stack.Screen name="AddProfilePicture" component={AddProfilePicture} options={{ headerShown: false }} />
             <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }} />
@@ -169,7 +215,37 @@ export function ExperienceStack() {
             <Stack.Screen name="TourDescribeActivity" component={TourDescribeActivityScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourEditPhoto" component={TourEditProfilePhotoScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourAddImages" component={TourAddPhotoScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourPickImage" component={TourPickImageScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourMeetingLocation" component={TourMeetingLocationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourNotes" component={TourNotesScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourGuestRequirement" component={TourGuestRequirementScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourNumberOfGuests" component={TourNumberOfGuestsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourDuration" component={TourDurationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourGuestPricing" component={TourGuestPricingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourBookingSettings" component={TourBookingSettingsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyOverview" component={TourSafetyOverviewScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyHygiene" component={TourSafetyHygieneScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyPhysical" component={TourSafetyPhysicalScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyLocation" component={TourSafetyLocationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyCleaning" component={TourSafetyCleaningScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyCommitment" component={TourSafetyCommitmentScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSafetyPolicy" component={TourSafetyPolicyScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourIdentityCard" component={TourIdentityVerificationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourSuccess" component={TourSuccessScreen} options={{ headerShown: false }} />
             
+        </Stack.Navigator>
+    ) 
+}
+
+
+export function RestaurantStack() {
+    return (
+        <Stack.Navigator initialRouteName="RestaurantDashboardComponent" options={{ gestureEnabled: true }}>
+            <Stack.Screen name="RestaurantDashboardComponent" component={RestaurantDashboardComponent} options={{ headerShown: false }} />
+            <Stack.Screen name="RestuarantDashboard" component={RestuarantDashboard} options={{ headerShown: false }} />
+            <Stack.Screen name="RestaurantOrders" component={RestaurantOrders} options={{ headerShown: false }} />
+            <Stack.Screen name="AddRestaurant" component={AddRestaurant} options={{ headerShown: false }} />
+            <Stack.Screen name="RestaurantReviews" component={RestaurantReviews} options={{ headerShown: false }} />
         </Stack.Navigator>
     ) 
 }

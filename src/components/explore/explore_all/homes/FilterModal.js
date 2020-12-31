@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1
     },
     modalHeader: {
-        alignItems: 'center', backgroundColor: colors.white, paddingVertical: 30,
+        alignItems: 'center', backgroundColor: colors.white, paddingVertical: 30, paddingTop: Platform.OS === 'ios' ? 50 : 30,
         paddingHorizontal: 20, elevation: 3,
     },
     headerStyle: {

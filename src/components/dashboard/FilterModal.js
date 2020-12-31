@@ -30,6 +30,12 @@ class FilterModal extends Component {
         const { loading } = this.state;
         if(loading) { return (<Loading />) }
     }
+    viewPhotos = () => {
+        const { property, navigation, onDecline } = this.props
+        const { state, set } = this.context;
+        onDecline()
+        navigation.navigate('Photos', { id: property.id, type: 'property', title: property.title } )
+    }
     onEdit = () => {
         const { property, navigation, onDecline } = this.props
         const { state, set } = this.context;
@@ -188,12 +194,18 @@ class FilterModal extends Component {
                             <View style={container}>
                                 <View style={tabOne}>
                                     <View style={imgStyle}>
-                                    <Image source={img} style={{width: '100%', height: '100%'}} />
+                                        <Image source={img} style={{width: '100%', height: '100%'}} />
                                     </View>
                                     <View style={{marginTop: 20}}>
-                                    <MyText style={[textDarkGrey, textBold]}>{title}</MyText>
+                                        <MyText style={[textDarkGrey, textBold]}>{title}</MyText>
                                     </View>
                                 </View>
+                                <TouchableOpacity style={tabTwo} onPress={this.viewPhotos}>
+                                    <MyText style={[textDarkBlue, textBold]}>
+                                        View/Edit Photos
+                                    </MyText>
+                                </TouchableOpacity>
+                                <View style={[dash]}></View>
                                 <TouchableOpacity style={tabTwo} onPress={this.onEdit}>
                                     <MyText style={[textDarkBlue, textBold]}>
                                             Edit Property
@@ -239,7 +251,7 @@ const styles = StyleSheet.create({
         overflow: "hidden",
     },
     dash: {
-        height: 1,
+        height: 1, width: '100%',
         backgroundColor: colors.lightGrey,
     },
     tabOne: {

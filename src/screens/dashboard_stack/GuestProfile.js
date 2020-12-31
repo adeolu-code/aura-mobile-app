@@ -18,6 +18,21 @@ class GuestProfile extends Component {
     this.state.reservation = reservation
   }
 
+  statusColor = () => {
+      const { reservation } = this.state;
+      const { textSuccess, textOrange, textDanger, textGrey } = GStyles
+      switch (reservation.approval_Info.name.toLowerCase()) {
+          case 'approved':
+            return textSuccess
+          case 'expired':
+            return textOrange 
+          case 'cancelled':
+              return textDanger
+          default:
+              return textGrey
+      }
+  }
+
   render() {
     const { contentContainer, titleStyle, rowContainer, detailsContainer, downloadContainer, lowerContainer, buttonContainer } = styles;
     const { flexRow, upperCase, textH5Style, textH4Style, textBold, textGrey, textRight, textH6Style, 
@@ -74,6 +89,10 @@ class GuestProfile extends Component {
                                 <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>Date Booked</MyText>
                                 <MyText style={[textH4Style, textBold]}>{moment(reservation.date_Booked).format('DD/MM/YYYY')}</MyText>
                             </View>
+                            <View>
+                                <MyText style={[textH5Style, textGrey,textRight,   { marginBottom: 4}]}>Status</MyText>
+                                <MyText style={[textH4Style, textBold, this.statusColor()]}>{reservation.approval_Info.name}</MyText>
+                            </View>
                         </View>
                     </View>
 
@@ -99,7 +118,7 @@ class GuestProfile extends Component {
 
 const styles = StyleSheet.create({
     contentContainer: {
-        paddingTop: 330, paddingHorizontal: 20, borderBottomColor: colors.lightGrey, borderBottomWidth: 3
+        paddingTop: 240, paddingHorizontal: 20, borderBottomColor: colors.lightGrey, borderBottomWidth: 3
     },
     titleStyle: {
         marginTop: 20, marginBottom: 30, paddingVertical:8, borderBottomColor: colors.lightGrey, borderBottomWidth: 1

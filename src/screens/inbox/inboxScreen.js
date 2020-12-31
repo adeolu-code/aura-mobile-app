@@ -49,7 +49,6 @@ class InboxScreenClass extends Component {
   render() {
     return (
       <>
-        <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
           <ScrollView>
             {
               this.context.state.isLoggedIn ?
@@ -59,11 +58,11 @@ class InboxScreenClass extends Component {
                     onTopTabClick={(index) => this.onTopTabClick(index)}
                     render={this.state.toBeRendered}
                 />
+                
               :
               undefined
             }
           </ScrollView>
-        </SafeAreaView>
       </>
     );
   }

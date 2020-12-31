@@ -10,7 +10,9 @@ import GStyles from '../../assets/styles/GeneralStyles';
 import { GOOGLE_API_KEY, GetRequest, errorMessage } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
-import ProgressBar from '../../components/ProgressBar'
+import ProgressBar from '../../components/ProgressBar';
+import CancelComponent from '../../components/experience/CancelComponent';
+
 
 
 
@@ -19,8 +21,7 @@ class Expertise extends Component {
     static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { loading: false, experience: null, ansOne: false, ansTwo: false, ansThree: false, value: null };
-    this.state.experience = props.route.params?.experience
+    this.state = { loading: false, ansOne: false, ansTwo: false, ansThree: false, value: null };
   }
   renderLoading = () => {
     const { loading } = this.state;
@@ -33,12 +34,12 @@ class Expertise extends Component {
     this.setState({ ansOne: false, ansTwo: true, ansThree: false, value: { expertise: 'Yes_Informally' } })
   }
   selectThree = () => {
-    this.setState({ ansOne: false, ansTwo: false, ansThree: true, value: { expertise: 'no' } })
+    this.setState({ ansOne: false, ansTwo: false, ansThree: true, value: { expertise: 'No' } })
   }
 
   validate = () => {
     const { value } = this.state
-    if(value === null || value && value.expertise === 'no' ) {
+    if(value === null || value && value.expertise === 'No' ) {
         return true
     }
     return false
@@ -50,6 +51,16 @@ class Expertise extends Component {
     this.props.navigation.navigate('TourStack', { screen: 'TourAccess' })
   }
   
+  componentDidMount = () => {
+    const { tourOnboard, editTour } = this.context.state;
+    if(editTour) {
+        const arr = [ 'Yes_Professionally', 'Yes_Informally', 'No' ]
+        const arrSt = [ 'ansOne', 'ansTwo', 'ansThree' ]
+        const getName = arrSt[tourOnboard.expertise]
+        this.setState({ value: { expertise: arr[tourOnboard.expertise] }, [getName]: true})
+    }
+    console.log(tourOnboard)
+  }
 
   
 
@@ -65,7 +76,8 @@ class Expertise extends Component {
             <View style={container}>
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 2 / 6</MyText>
-                    <ProgressBar width={50} />
+                    <ProgressBar width={16.7 * 2} />
+                    <ProgressBar width={25*2} />
                 </View>
                 <ScrollView>
                 <View style={{ flex: 1, marginTop: 30 }}>
@@ -146,7 +158,16 @@ class Expertise extends Component {
                 </View>
                 
                 <View style={button}>
-                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={this.validate()} />
+                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.next} disabled={this.validate()} />
+                </View>
+                <View style={[flexRow, styles.skipStyle]}>
+                    {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                    <View style={{ flex: 1}}>
+                        <CustomButton buttonText="Skip To Step 3" 
+                        buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        textStyle={{ color: colors.orange }}
+                        onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
+                    </View>
                 </View>
                 </ScrollView>
             </View>
@@ -159,12 +180,12 @@ class Expertise extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   
     button: {
-        flex: 1, marginBottom: 40, marginTop: 20, justifyContent: 'flex-end'
+        flex: 1, marginBottom: 20, marginTop: 20, justifyContent: 'flex-end'
     },
     imageContainer: {
         borderRadius: 10, borderColor: colors.orange, borderWidth: 4, width: '100%', height: 250, overflow: 'hidden',
@@ -177,7 +198,7 @@ const styles = StyleSheet.create({
     },
     radioContainer: {
         borderRadius: 18, width: 18, height: 18, borderWidth: 2, borderColor: colors.orange, justifyContent: 'center', alignItems: 'center', 
-        marginRight: 10, marginTop: 5
+        marginRight: 10, marginTop: 3
     },
     activeRadio: {
         width: 10, height: 10, backgroundColor: colors.orange, borderRadius: 10, 
@@ -186,10 +207,14 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start', paddingVertical: 10
     },
     alertStyle: {
-        paddingHorizontal: 15,paddingVertical: 15, backgroundColor: colors.white, borderRadius: 8, elevation: 2, marginTop: 10
+        paddingHorizontal: 15,paddingVertical: 15, backgroundColor: colors.white, borderRadius: 8, elevation: 2, marginTop: 10,
+        ...GStyles.shadow
     },
     icon: {
         fontSize: 8, marginRight: 15, color: colors.grey
+    },
+    skipStyle: {
+        marginBottom: 30, 
     }
 });
 

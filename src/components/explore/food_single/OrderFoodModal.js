@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity, Image, ScrollView, Keyboard } from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, Image, ScrollView, Keyboard, Platform } from 'react-native';
 import { Icon, Picker } from 'native-base';
 import colors from '../../../colors';
 import GStyles from '../../../assets/styles/GeneralStyles';
@@ -210,8 +210,10 @@ class OrderFoodModal extends Component {
                             <View style={{ paddingHorizontal: 25 }}>
                                 <MyText style={[textH3Style, textBold, textGrey ]}>Delivery Options</MyText>
                                 <View style={picker}>
-                                    {restaurant ? <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                                        style={{ width: undefined }} selectedValue={this.state.operationValue}
+                                    {restaurant ? <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />} 
+                                    placeholder="Select delivery option"
+                                        style={{ width: Platform.OS === 'ios' ? '100%' : undefined }} 
+                                        selectedValue={this.state.operationValue}
                                         onValueChange={this.onValueChange}>
                                         {restaurant.operations.map(item => {
                                             return (
@@ -271,7 +273,7 @@ const styles = StyleSheet.create({
         // flex: 1
     },
     modalHeader: {
-        marginTop: 20, alignItems: 'center', paddingHorizontal: 20,
+        marginTop: Platform.OS === 'ios' ? 50 : 20, alignItems: 'center', paddingHorizontal: 20,
     },
     headerStyle: {
         paddingBottom: 10, paddingTop: 10
@@ -304,7 +306,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1
     },
     imgContainer: {
-        width: 100, height: 60, borderRadius: 8, overflow: 'hidden',
+        width: 100, height: 60, borderRadius: 8, overflow: 'hidden', elevation: 1, backgroundColor: colors.lightGrey
     },
     
     itemCountContainer: {

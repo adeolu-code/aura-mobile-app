@@ -46,6 +46,7 @@ class AddDetailsModal extends Component {
             this.setState({ errors: error});
         } else {
             this.setState({ lists: res.data })
+            this.props.getProvisions(res.data)
         }
     }
     
@@ -188,7 +189,8 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         width: '49%', paddingHorizontal: 10, paddingVertical: 10, backgroundColor: colors.white, 
-        borderRadius: 8, elevation: 2, justifyContent: 'center', alignItems: 'center', marginBottom: 10
+        borderRadius: 8, elevation: 2, justifyContent: 'center', alignItems: 'center', marginBottom: 10,
+        ...GStyles.shadow
     },
     activeStyle: {
         backgroundColor: colors.lightGrey

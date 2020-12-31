@@ -45,6 +45,13 @@ class ExperienceTitleComponent extends Component {
         this.setState({ [attrName]: value });
     }
 
+    componentDidMount = () => {
+        const { tourOnboard, editTour } = this.context.state;
+        if(editTour) {
+            this.setState({ title: tourOnboard.title})
+        }
+    }
+
 
     render() {
         const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, 

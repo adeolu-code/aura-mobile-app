@@ -20,7 +20,18 @@ class Theme extends Component {
     static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { showCatThemeModal: false, themeValues: null, loading: false };
+    this.state = { showCatThemeModal: false, themeValues: null, loading: false, themes: [] };
+  }
+  getThemes = (themes) => {
+    const { tourOnboard, editTour } = this.context.state;
+    this.setState({ themes })
+    if(editTour) {
+        const f = themes.find(item => item.id === tourOnboard.themeId)
+        if(f) {
+            const obj = { listValue: f, subListValue: '' }
+            this.setState({ themeValues: obj })
+        }
+    }
   }
   renderLoading = () => {
     const { loading } = this.state;
@@ -44,7 +55,7 @@ class Theme extends Component {
             <>
                 <View style={{flex: 6, paddingLeft: 10}}>
                     <MyText style={[textH3Style, textGrey, textBold, { marginBottom: 5}]}>{listValue.name}</MyText>
-                    <MyText style={[textH4Style]}>{subListValue.name}</MyText>
+                    {/* <MyText style={[textH4Style]}>{subListValue.name}</MyText> */}
                 </View>
                 <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}}>
                     <Icon name="caret-forward" style={{ color: colors.orange, marginLeft: 20}} />
@@ -63,23 +74,47 @@ class Theme extends Component {
   }
 
   createExperience = async () => {
-    const { tourOnboard } = this.context.state
-    this.setState({ loading: true, errors: [] });
+    const { tourOnboard, editTour } = this.context.state
     const { themeValues } = this.state
-    const obj = {
-        location: tourOnboard.location,
-        themeId: themeValues.subListValue.id
+    
+    this.setState({ loading: true, errors: [] });
+    let obj;
+    if(!themeValues && editTour){
+        obj = { location: tourOnboard.location, themeId: tourOnboard.themeId}
+    } else {
+        obj = {
+            location: tourOnboard.location,
+            // themeId: themeValues.subListValue.id,
+            themeId: themeValues.listValue.id
+        }
     }
-    const res = await Request(urls.experienceBase, `${urls.v}Experience`, obj );
+    if(editTour) {
+        obj.id = tourOnboard.id
+    }
+    const url = editTour ? `${urls.v}Experience/update` : `${urls.v}Experience`
+    const res = await Request(urls.experienceBase, url, obj );
     console.log('create experience ', res)
     this.setState({ loading: false });
     if (res.isError || res.IsError) {
-        errorMessage(res.message)
+        errorMessage(res.message || res.Message)
     } else {
         this.context.set({ tourOnboard: { ...tourOnboard, ...obj, ...res.data }})
         this.props.navigation.navigate('TourStack', { screen: 'TourStepTwo', params: { experience: res.data }})
-    }  
+    }   
+    
+    
   }
+  componentDidMount = () => {
+    const { tourOnboard } = this.context.state
+    
+    // console.log(tourOnboard)
+    // this.getThemeCatById()
+  }
+//   getThemeCatById = async () => {
+//     const { tourOnboard } = this.context.state
+//     const res = await GetRequest(urls.experienceBase, `${urls.v}experience/themeCategory?id=${tourOnboard.themeId}`);
+//     console.log(res)
+//   }
 
   render() {
     const { container, button, selectStyle } = styles;
@@ -93,7 +128,8 @@ class Theme extends Component {
             <View style={container}>
                 <View style={{ marginTop: 40}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
-                    <ProgressBar />
+                    <ProgressBar width={16.7} />
+                    <ProgressBar width={100} />
                 </View>
                 
                 <View style={{ flex: 1, marginTop: 40 }}>
@@ -114,10 +150,11 @@ class Theme extends Component {
                 </View>
                 
                 <View style={button}>
-                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.createExperience} disabled={this.state.themeValues === null} />
+                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.createExperience} 
+                    disabled={this.state.themeValues === null && !this.context.state.editTour} />
                 </View>
             </View>
-            <ThemeListModal visible={this.state.showCatThemeModal} onDecline={this.closeCatThemeModal} value={this.getThemeValue} />
+            <ThemeListModal visible={this.state.showCatThemeModal} onDecline={this.closeCatThemeModal} value={this.getThemeValue} getThemes={this.getThemes} />
         </SafeAreaView>
     );
   }
@@ -136,7 +173,7 @@ const styles = StyleSheet.create({
     selectStyle: {
         backgroundColor: colors.white, borderRadius: 10, elevation: 2, 
         paddingHorizontal: 10, paddingVertical: 15, marginTop: 40,
-        justifyContent: 'center', alignItems: 'center'
+        justifyContent: 'center', alignItems: 'center', ...GStyles.shadow
     }
 });
 

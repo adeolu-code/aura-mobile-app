@@ -23,7 +23,7 @@ class Location extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { country: null, st: '', city: '', zipCode:'', address: '', loading: false, defaultCountry: '', toggleAutoComplete:false };
+        this.state = { country: null, city: '', zipCode:'', address: '', loading: false, defaultCountry: '', toggleAutoComplete:false };
     }
     
     renderLoading = () => {
@@ -61,19 +61,19 @@ class Location extends Component {
         return false
     }
     next = async () => {
-        const { tourOnboard } = this.context.state
+        const { tourOnboard, editTour } = this.context.state
         Keyboard.dismiss()
-        if(this.validate()) {
+        if(this.validate() && !editTour) {
             errorMessage('Please fill all fields')
         } else {
             const { address } = this.state;
             const obj = { location: address }
-            this.context.set({ tourOnboard: obj })
+            if(editTour) {
+                this.context.set({ tourOnboard: {...tourOnboard, ...obj} })
+            } else {
+                this.context.set({ tourOnboard: obj })
+            }
             this.props.navigation.navigate('TourStack', { screen: 'TourTheme'})
-            // this.setState({ loading: true })
-            // const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?address=${address},${city},${country.name}&key=${GOOGLE_API_KEY}`)
-            // this.setState({ loading: false })
-            // this.getAddressDetails(res.results[0])
         }
     }
 
@@ -96,34 +96,26 @@ class Location extends Component {
         })
         const { set, state } = this.context
         const { zipCode, city, address } = this.state
-        if(state.photographOnboard) {
-            const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, 
-                country: countryObj.long_name, city, zipCode, address }
-            const obj = { ...state.photographOnboard, ...locationObj }
-            set({ photographOnboard: obj })
-            this.props.navigation.navigate('PhotographStack', { screen: 'PhotographLocationMap'})
-        } else {
-            errorMessage('Please go back and fill out the photograph title section')
-        }
+        // if(state.photographOnboard) {
+        //     const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, 
+        //         country: countryObj.long_name, city, zipCode, address }
+        //     const obj = { ...state.photographOnboard, ...locationObj }
+        //     set({ photographOnboard: obj })
+        //     this.props.navigation.navigate('PhotographStack', { screen: 'PhotographLocationMap'})
+        // } else {
+        //     errorMessage('Please go back and fill out the photograph title section')
+        // }
     }
 
     componentDidMount = async () => {
-        const { edit, photographOnboard } = this.context.state
-        if(photographOnboard && edit) {
-            this.setState({ st: photographOnboard.address.state, city: photographOnboard.address.city, 
-                address: photographOnboard.address.address, zipCode: photographOnboard.address.zipCode})
-
-            const countries = await getAllCountries()
-            const country = countries.find(item => item.name.toLowerCase() === photographOnboard.address.country.toLowerCase())
-            if(country) {
-                this.setState({ defaultCountry: country, country })
-            }
-        } else {
-            const countries = await getAllCountries()
-            const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
-            this.setState({ defaultCountry: country, country })
-        }
-        
+        const { editTour, tourOnboard } = this.context.state
+        const countries = await getAllCountries()
+        const country = countries.find(item => item.name.toLowerCase() === 'nigeria')
+        this.setState({ defaultCountry: country, country })
+        console.log(tourOnboard)
+        if(tourOnboard && editTour) {
+            this.setState({  address: tourOnboard.location })
+        } 
     }
 
   render() {
@@ -137,16 +129,18 @@ class Location extends Component {
         <Header { ...this.props } title={"Location"} />
 
         <View style={container}>
-            <View style={{ marginTop: 40}}>
+            <View style={{ marginTop: 40, zIndex: 1, backgroundColor: colors.white}}>
                 <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
+                <ProgressBar width={16.7} />
                 <ProgressBar width={50} />
+
             </View>
             
             <View style={{ flex: 1, justifyContent: 'center'}}>
-                <View style={{ height: 85, width: '100%', marginBottom: 30, flexDirection: 'row'}}>
+                <View style={{ height: 85, width: '100%', marginBottom: 30, flexDirection: 'row', zIndex: 0}}>
                     <CountryPickerComponent getCountry={this.getCountry} defaultCountry={this.state.defaultCountry} />
                 </View>
-                <View style={[{ paddingHorizontal: 1}]}>
+                <View style={[{ paddingHorizontal: 1, elevation: 3}]}>
                     <MyText style={[textH4Style, textGrey, { marginBottom: 15}]}>Which city will you host your experience in ?</MyText>
                     <AutoCompleteComponent locationDetails={this.getSelectedLocation} type={false} autofocus={false} 
                     countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} 
@@ -156,7 +150,7 @@ class Location extends Component {
             </View>
             
             <View style={button}>
-                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} />
+                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={!this.state.address} />
             </View>
         </View>
 

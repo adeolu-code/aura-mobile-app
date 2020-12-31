@@ -208,7 +208,9 @@ class DashboardPhotographer extends Component {
       {this.renderLoading()}
       {this.renderMenuItems()}
       <View style={container}>
-        <Header {...this.props} title="Photographer Dashboard" onPress={this.openMenu} />
+        <View style={{ zIndex: 1}}>
+          <Header {...this.props} title="Photographer Dashboard" onPress={this.openMenu} />
+        </View>
         <ScrollView>
             <View style={contentStyle}>
 
@@ -275,7 +277,8 @@ const styles = StyleSheet.create({
       marginBottom: 25
     },
     contentStyle: {
-      zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, marginTop:140
+      zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, 
+      // marginTop:140
     },
     menuStyles: {
       position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 2000,

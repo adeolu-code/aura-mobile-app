@@ -7,15 +7,16 @@ import colors from "../../colors";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { MyText, Loading } from "../../utils/Index";
 import ImagePicker from 'react-native-image-crop-picker';
-import { prepareMedia, uploadImageApi } from "../../utils";
+import { prepareMedia, uploadImageApi, consoleLog } from "../../utils";
 import RNFetchBlob from "rn-fetch-blob";
 import { uploadIdentityImageApi } from "../../api/profile.api";
 import { LabelInput } from "../../components/label_input/labelInput.component";
 import { FILE_NOT_UPLOADED } from "../../strings";
-// import ImagePicker from 'react-native-image-picker';
+import { AppContext } from "../../../AppProvider";
 
 //upload photo
 export default class UploadVerification extends Component {
+    static contextType = AppContext;
     constructor(props) {
         super();
         this.state = {
@@ -116,11 +117,19 @@ export default class UploadVerification extends Component {
             textH4Style,
             textUnderline,
           } = GStyles;
+          let uri = undefined;
+          if (!this.state.isIdenificationDocumentVerfied) {
+              uri = this.state.imageOriginal;
+          }
+          else {
+              uri = {uri: this.context.state.userData.identificationDocument};
+          }
+          consoleLog("uri", {uri: this.context.state.userData.identificationDocument}, (!this.state.isCaptured && !this.state.isIdenificationDocumentVerfied), uri);
         return (
             <>
                 <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="Upload Your Means Of Identification" />
+                    <Header {...this.props} title={!this.state.isIdenificationDocumentVerfied ? "Upload Your Means Of Identification": "Identification Document"} />
                     {this.renderLoading()}
                     <Container style={[Styles.selectVerificationContainer]}>
                         <Content scrollEnabled>
@@ -134,7 +143,10 @@ export default class UploadVerification extends Component {
                                                 </TouchableOpacity>
                                             </>   
                                         :
-                                            <Image source={this.state.imageOriginal || this.context.state.userData.identificationDocument} style={[Styles.imageView]} />
+                                            <Image 
+                                                source={uri}
+                                                style={[Styles.imageView]} 
+                                            />
                                     }
                                     
                                 </View>
@@ -146,24 +158,31 @@ export default class UploadVerification extends Component {
                                         <MyText style={[textUnderline, textOrange, textCenter, textBold]}>Change Picture</MyText>
                                     </TouchableOpacity>
                                 }
-                                <LabelInput
-                                    label={"Enter Id Number"}
-                                    onChangeText={(e) => this.setState({identityNumber: e})}
-                                 />
+                                {
+                                    !this.state.isCaptured && !this.state.isIdenificationDocumentVerfied &&
+                                    <LabelInput
+                                        label={"Enter Id Number"}
+                                        onChangeText={(e) => this.setState({identityNumber: e})}
+                                    />
+                                }
                         </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter,]}>
-                            <Button
-                                transparent 
-                                style={[Styles.nextButton, {backgroundColor: (!this.state.isCaptured ? colors.lightOrange : colors.orange)}]}
-                                onPress={() => this.onSave()}
-                            >
-                                <MyText 
-                                    style={[textWhite, textH4Style, textBold]}
+                        {
+                            !this.state.isCaptured && !this.state.isIdenificationDocumentVerfied &&
+                        
+                            <Footer style={[Styles.footer, Styles.transparentFooter,]}>
+                                <Button
+                                    transparent 
+                                    style={[Styles.nextButton, {backgroundColor: (!this.state.isCaptured ? colors.lightOrange : colors.orange)}]}
+                                    onPress={() => this.onSave()}
                                 >
-                                    Send Document
-                                </MyText>
-                            </Button>
-                        </Footer>
+                                    <MyText 
+                                        style={[textWhite, textH4Style, textBold]}
+                                    >
+                                        Send Document
+                                    </MyText>
+                                </Button>
+                            </Footer>
+                        }
                     </Container>
                 </SafeAreaView>
             </>

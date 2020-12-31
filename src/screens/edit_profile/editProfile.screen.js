@@ -11,6 +11,7 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import {LabelInput as EditInput} from "./../../components/label_input/labelInput.component";
 import { AppContext } from "../../../AppProvider";
 import { editProfileApi } from "../../api/profile.api";
+import { consoleLog } from "../../utils";
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import  from "@react-native-community/picker";
@@ -59,6 +60,7 @@ export default class EditProfile extends Component {
 
     render() {
         const {textCenter, textH3Style, textWhite, textBold,textGreen} = GStyles;
+        consoleLog("emergencyContact", this.context.state.userData);
         return (
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
@@ -110,14 +112,21 @@ export default class EditProfile extends Component {
                                     selectedOption={this.state.gender}
                                 />
                             </View>
-                            <TouchableOpacity style={[Styles.nextOfKinView]}>
+                            <EditInput 
+                                phone 
+                                label={"Emergency Contact"} 
+                                placeholder={this.state.emergencyContact || this.context.state.userData.emergencyContact.replace("+234","")} 
+                                itemStyle={Styles.phoneItem} 
+                                onChangeText={(e) => this.setState({emergencyContact: e})}
+                            />
+                            {/* <TouchableOpacity style={[Styles.nextOfKinView]}>
                                 <Left>
                                     <MyText style={[textGreen]}>Add next of Kin</MyText>
                                 </Left>
                                 <Right>
                                     <Icon name={"ios-add-circle-sharp"} style={[Styles.icon]} />
                                 </Right>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter]}>
                             <TouchableOpacity 

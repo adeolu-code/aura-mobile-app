@@ -16,6 +16,8 @@ import DescribeComponent from '../../components/experience/DescribeComponent';
 import AddDetailsComponent from '../../components/experience/AddDetailsComponent';
 import WhatToBringComponent from '../../components/experience/WhatToBringComponent';
 import ExperienceTitleComponent from '../../components/experience/ExperienceTitleComponent';
+import CancelComponent from '../../components/experience/CancelComponent';
+
 
 
 class DescribeActivity extends Component {
@@ -23,8 +25,7 @@ class DescribeActivity extends Component {
   constructor(props) {
     super(props);
     this.state = { loading: false, experience: null, experienceDescription: '', story: '', guestPreExperienceInfomration:'',
-     experienceProvisions: '', guestShouldBring: [], title: '',
-     isCaptured: false, count: 1 };
+     experienceProvisions: '', guestShouldBring: [], title: '', count: 1 };
     this.state.experience = props.route.params?.experience
   }
   renderLoading = () => {
@@ -51,7 +52,7 @@ class DescribeActivity extends Component {
   }
   
   next = () => {
-    this.props.navigation.navigate('TourStack', { screen: 'TourExpertise' })
+    this.props.navigation.navigate('TourStack', { screen: 'TourMeetingLocation' })
   }
   onChangeValue = (attrName, value) => {
     this.setState({ [attrName]: value });
@@ -117,10 +118,10 @@ class DescribeActivity extends Component {
 
                     <View>
                         <CustomInput placeholder="What we'll do" textInputStyle={{ height: 150, marginBottom:10 }} textAlignVertical="top" 
-                        value={this.state.experienceDescription} onChangeText={this.onChangeValue} attrName="experienceDescription" />
+                        value={this.state.experienceDescription} multiline onChangeText={this.onChangeValue} attrName="experienceDescription" />
                     </View>
                     <View>
-                        <CustomButton buttonText="SAVE" 
+                        <CustomButton buttonText="Save" 
                         buttonStyle={{ elevation: 2, marginBottom: 30 }}
                         // textStyle={{ color: colors.orange, fontFamily: 'Nunito-Bold' }} 
                         onPress={this.updateExperience} 
@@ -193,15 +194,20 @@ class DescribeActivity extends Component {
             return ''
       }
   }
-  
+  componentDidMount = () => {
+    const { tourOnboard, editTour } = this.context.state;
+    if(editTour) {
+        this.setState({ experienceDescription: tourOnboard.experienceDescription })
+    }
+  }
 
   render() {
     const { container, button, textContainer, icon } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
         textH4Style, textH5Style, textH6Style} = GStyles;
-    const { experienceDescription, isCaptured, count } = this.state
+    const { experienceDescription, count } = this.state
 
-    const percent = count/6 * 100
+    const percent = count/7 * 100
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
@@ -210,15 +216,26 @@ class DescribeActivity extends Component {
             <View style={container}>
                 <View style={{ marginTop: count === 4 || count === 6 ? 75 : 30 }}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 4 / 6</MyText>
-                    <ProgressBar width={75} />
+                    <ProgressBar width={16.7 * 4} />
                     <ProgressBar width={percent} />
                 </View>
                 <ScrollView keyboardShouldPersistTaps="always">
                     {this.renderSteps()}
                 
                     <View style={button}>
-                        <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} 
-                        disabled={this.state.count !== 6} />
+                        {/* <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} 
+                        disabled={this.state.count !== 6} /> */}
+                        <View style={[flexRow, styles.skipStyle]}>
+                        {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                            <View style={{ flex: 1}}>
+                            
+                                <CustomButton buttonText="Skip To Step 5" 
+                                buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                                textStyle={{ color: colors.orange }}
+                                onPress={this.next} />
+                            </View>
+                        </View>
+
                     </View>
                 </ScrollView>
             </View>
@@ -231,7 +248,7 @@ class DescribeActivity extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

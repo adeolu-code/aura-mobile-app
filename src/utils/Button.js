@@ -71,14 +71,14 @@ class CustomButton extends Component {
     const buttonDisabled = disabled || loading ? true : false;
     const buttonDisabledStyle = disabled || loading ? disabledStyles : '';
     return (
-      <View style={[containerStyle, buttonDisabledStyle]}>
+      <View style={[containerStyle]}>
         <TouchableOpacity
           onPress={onPress}
           onPressIn={onPressIn}
           onPressOut={onPressOut}
           onLongPress={onLongPress}
           disabled={buttonDisabled}
-          style={[touchableContainerStyle, centerContentStyle, buttonStyle]}>
+          style={[touchableContainerStyle,buttonDisabledStyle, centerContentStyle, buttonStyle]}>
           {this.renderSocialImg()}
           <View style={contentContainer}>
             
@@ -97,8 +97,10 @@ const styles = StyleSheet.create({
   },
   touchableContainerStyle: {
     paddingTop: 10, paddingBottom: 13,
+    // borderWidth: 3,
     borderRadius: 6,
     backgroundColor: colors.orange,
+    
   },
   contentContainer: {
     display: 'flex',

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList, RefreshControl } from 'react-native';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
-import { MyText, Loading } from '../../../../utils/Index';
+import { MyText, Loading, CustomInput, CustomButton } from '../../../../utils/Index';
 import colors from '../../../../colors';
 
 import { Icon } from 'native-base';
@@ -12,14 +12,22 @@ import { urls, GetRequest, errorMessage } from '../../../../utils';
 import { AppContext } from '../../../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../../../helpers';
 
+import FilterModal from './FilterModal';
+
 const SCREEN_HEIGHT = Dimensions.get('screen').height
 
 class Index extends Component {
   constructor(props) {
     super(props);
-    this.state = { restaurants: [], loading: false, loadMore: false, activePage: 1, perPage: 10, pageCount: 0, totalItems: 0};
+    this.state = { restaurants: [], loading: false, loadMore: false, activePage: 1, perPage: 10, pageCount: 0, totalItems: 0, 
+      showModal: false, filter: '', filterUrl: '', refreshing: false};
   }
-  
+  openModal = () => {
+    this.setState({ showModal: true })
+  }
+  closeModal = () => {
+    this.setState({ showModal: false })
+  }
   componentDidMount = () => {
     this.getRestaurants()
   }
@@ -42,13 +50,16 @@ class Index extends Component {
   }
   getRestaurants = async (more=false) => {
       more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
-      const { activePage, perPage, restaurants } = this.state
-      
-      const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/?Size=${perPage}&Page=${activePage}`);
+      const { activePage, perPage, restaurants, filterUrl } = this.state
+      let queryUrl = ''
+      if(filterUrl) {
+        queryUrl = `${filterUrl}&`
+      }
+      const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/?${queryUrl}Size=${perPage}&Page=${activePage}`);
       console.log('Res restaurants', res)
       more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
-      if(res.isError) {
-        const message = res.Message;
+      if(res.isError || res.IsError) {
+        const message = res.Message || res.message;
         errorMessage(message)
       } else {
         const dataResult = res.data.items
@@ -59,7 +70,7 @@ class Index extends Component {
           data = dataResult
         }
         const pageCount =  Math.ceil(res.data.totalItems / perPage)
-        this.setState({ restaurants: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
+        this.setState({ restaurants: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.size, pageCount })
       }
   }
   renderItem = ({item}) => {
@@ -103,16 +114,66 @@ class Index extends Component {
       )
     }
   }
+  onRefresh = () => {
+    this.setState({ filterUrl: ''})
+    this.getRestaurants();
+  }
+  applyFilter = (value) => {
+    this.setFilterValues(value)
+  }
+  clearFilter = () => {
+    const { filterUrl } = this.state
+    if(filterUrl) {
+      this.setState(() => ({ filterUrl: '', filter: '', activePage: 1 }), () => {
+        this.getRestaurants()
+      })
+    }
+  }
+  setFilterValues = (value) => {
+    const { cuisinesValues, location } = value
+    const filter = {
+      filters: cuisinesValues.join(), 
+      state: location
+    }
+    this.setState(() => ({ filter }), () => {
+      const url = this.createUrl()
+      this.setState(() => ({ filterUrl: url }), () => {
+        this.getRestaurants()
+      })
+    })
+  }
+
+  createUrl = () => {
+    const { filter } = this.state
+    let url = ''
+    const keys = Object.keys(filter)
+    keys.filter((item) => {
+      
+      const values = filter[item].toString()
+      if(values.length !== 0 && values !== "0") {
+        const string = `${item}=${values}`;
+        url += `${string}&`
+      }
+    })
+    if(url.endsWith('&')) {
+      url = url.slice(0, -1)
+    }
+    return url
+  }
 
   render() {
     const {filterContainer, container, contentContainer, contentMainContainer } = styles
-    const { textH3Style, textExtraBold, textH4Style, textDarkGrey } = GStyles
+    const { textH3Style, textExtraBold, textH4Style, textDarkGrey, flexRow } = GStyles
     const { restaurants } = this.state
     return (
       <>
         {this.renderLoading()}
         <View style={contentMainContainer}>
           <FlatList
+              refreshControl={
+                <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading}
+                colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
+              }
               ListHeaderComponent={
                 <>
                   <View style={container}>
@@ -133,11 +194,12 @@ class Index extends Component {
               ListHeaderComponentStyle={{ marginBottom: 20}}
               data={restaurants}
               renderItem={this.renderItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) => `FOOD_${index}`}
               onEndReached={this.onEndReached}
               onEndReachedThreshold={0.8}
               // extraData={selectedId}
             />
+            <FilterModal visible={this.state.showModal} onDecline={this.closeModal} filter={this.applyFilter} clearFilter={this.clearFilter} />
         </View>
       </>
     );

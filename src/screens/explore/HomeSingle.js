@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import { MyText, Loading } from '../../utils/Index';
@@ -36,6 +36,7 @@ import IdentityCardModal from '../../components/explore/IdentityCardModal';
 
 import SharedIdModal from '../../components/explore/ShareIdModal';
 
+const SCREEN_HEIGHT = Dimensions.get('screen').height
 
 
 class HomeSingle extends Component {
@@ -248,7 +249,7 @@ class HomeSingle extends Component {
     const { house } = this.state
     this.setState({ gettingHouseRules: true })
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/houserules/?propertyid=${house.id}`);
-    console.log('House Rules ', res)
+    // console.log('House Rules ', res)
     this.setState({ gettingHouseRules: false })
     if(res.isError) {
         const message = res.Message;
@@ -285,23 +286,9 @@ class HomeSingle extends Component {
     }
   }
 
-//   getComments = async () => {
-//     const { house } = this.state
-//     this.setState({ gettingComments: true })
-//     const res = await GetRequest('https://aura-listing-prod.transcorphotels.com/', 
-//     `api/v1/listing/review/comment/?PropertyId=${house.id}`);
-//     console.log('House Reviews ', res)
-//     this.setState({ gettingComments: false })
-//     if(res.isError) {
-//         const message = res.Message;
-//     } else {
-//         const data = res.data;
-//         this.setState({ comments: data })
-//     }
-//   }
   renderLoading = () => {
       const { gettingHouse, loading } = this.state;
-      if (gettingHouse || loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+      if (gettingHouse || loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 1000 }} />); }
   }
 
   componentDidMount = () => {
@@ -357,14 +344,7 @@ class HomeSingle extends Component {
                 <CommentComponent comments={comments} loading={gettingReviews} />
 
                 {house ? <MorePlaces {...this.props} house={house}  /> : <Fragment />}
-                {/* <View style={placeAroundContainer}>
-                    <View style={headerStyle}>
-                        <MyText style={[textH2Style, textExtraBold]}>More Places To Stay</MyText>
-                    </View>
-                    <View style={scrollContainer}>
-                        <ScrollContent {...this.props} />
-                    </View>
-                </View> */}
+                
             </View>
         </ScrollView>
         <View style={buttomContainer}>
@@ -416,7 +396,7 @@ const styles = StyleSheet.create({
         // marginVertical: 30
     },
     buttomContainer: {
-        position: 'absolute', bottom: 0, width: '100%', zIndex: 50
+        position: 'absolute', bottom: Platform.OS === 'ios' ? 20 : 0, width: '100%', zIndex: 50
     }
     
 });

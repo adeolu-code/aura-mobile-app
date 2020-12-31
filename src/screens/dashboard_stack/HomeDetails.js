@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 
@@ -129,7 +129,7 @@ class HomeDetails extends Component {
         {this.renderLoading()}
         <Header {...this.props} title={title} wrapperStyles={{ paddingBottom: 5}} sub={address} />
         <ScrollView>
-            <View style={contentContainer}>
+            <View style={[contentContainer, { paddingTop: title.length > 20 ? 160 : 140}]}>
                 <View style={imgContainer}>
                     <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
                 </View>
@@ -177,10 +177,6 @@ class HomeDetails extends Component {
             <View style={lowerContainer}>
                 <MyText style={[textH2Style, textExtraBold, textDarkGrey, { marginBottom: 25}]}>Guests</MyText>
                 {this.renderGuests()}
-                {/* 
-                <View>
-                    <GuestRow name="Cypril Hill" img={require('../../assets/images/photo/photo4.png')} {...this.props} />
-                </View> */}
             </View>
         </ScrollView>
       </SafeAreaView>
@@ -192,7 +188,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20, paddingTop: 150, borderBottomColor: colors.lightGrey, borderBottomWidth: 4, paddingBottom: 20
     },
     imgContainer: {
-        width: '100%', height: 220, borderRadius: 8, overflow: 'hidden',
+        width: '100%', height: 220, borderRadius: 8, overflow: 'hidden',backgroundColor: colors.lightGrey, borderWidth: 1,
+        borderColor: colors.lightGrey
     },
     titleStyle: {
         marginTop: 20, marginBottom: 30, paddingVertical:8, borderBottomColor: colors.lightGrey, borderBottomWidth: 1

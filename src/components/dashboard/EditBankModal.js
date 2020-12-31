@@ -6,7 +6,7 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Modal, TouchableWithoutFeedback,
+    Modal, TouchableWithoutFeedback, Platform
 } from "react-native";
 import colors from "../../colors";
 import { MyText, CustomButton, CustomInputNumber, Loading, Error, CustomInput } from "../../utils/Index";
@@ -95,7 +95,7 @@ class EditBankModal extends Component {
         const { textOrange, textH4Style, textBold } = GStyles
         if(banks.length !== 0) {
             return (<Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
                 selectedValue={this.state.bankId}
                 onValueChange={this.onValueChange}>
                 {banks.map(item => {

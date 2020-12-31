@@ -31,6 +31,7 @@ class DashboardComponent extends Component {
         LayoutAnimation.Properties.scaleXY
       )
     );
+    
     this.setState({ menuActive: true })
   }
   closeMenu = () => {
@@ -71,7 +72,7 @@ class DashboardComponent extends Component {
 
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
-    const { container, headerStyle, sectionStyle,contentStyle, iconContainer } = styles;
+    const { container, sectionStyle,contentStyle, iconContainer } = styles;
     const dasboardDescription = `View summary of your reservations, comments, properties and ratings`
     const reservations = `All your reservations and their details`;
     const properties = `Create property, edit your properties and view your properties`;
@@ -82,40 +83,44 @@ class DashboardComponent extends Component {
       <>
       {this.renderMenuItems()}
       <View style={container}>
-        <Header {...this.props} title="Host Dashboard" onPress={this.openMenu}  />
-        <ScrollView>
-            <View style={contentStyle}>
-                
-                <View style={sectionStyle}>
-                    <DashboardCardComponent title="Dashboard" description={dasboardDescription} iconX iconName="grid-outline" type="Ionicons"
-                     onPress={this.onPressDashboard} />
-                </View>
+        <View style={{ zIndex: 1}}>
+          <Header {...this.props} title="Host Dashboard" onPress={this.openMenu}  />
+        </View>
+        <View style={{ flex: 1}}>
+          <ScrollView>
+              <View style={contentStyle}>
+                  
+                  <View style={sectionStyle}>
+                      <DashboardCardComponent title="Dashboard" description={dasboardDescription} iconX iconName="grid-outline" type="Ionicons"
+                      onPress={this.onPressDashboard} />
+                  </View>
 
-                <View style={sectionStyle}>
-                    <DashboardCardComponent title="Reservations" description={reservations} iconName="toys"
-                    onPress={this.onPressReservations} />
-                </View>
+                  <View style={sectionStyle}>
+                      <DashboardCardComponent title="Reservations" description={reservations} iconName="toys"
+                      onPress={this.onPressReservations} />
+                  </View>
 
-                <View style={sectionStyle}>
-                    <DashboardCardComponent title="Manage Properties" description={properties}
-                    img={require('../../assets/images/dashboard_icons/reservation.png')} onPress={this.onPressProperties} />
-                </View>
-                <View style={sectionStyle}>
-                    <DashboardCardComponent title="Reviews and Ratings" description={reviews}
-                    img={require('../../assets/images/dashboard_icons/review.png')} onPress={this.onPressRR} />
-                </View>
-                <View style={sectionStyle}>
-                    <DashboardCardComponent title="My Earnings" description={earning} iconX onPress={this.onPressEarning}
-                    img={require('../../assets/images/dashboard_icons/pay.png')} />
-                </View>
-                {/* <View style={sectionStyle}>
-                    <DashboardCardComponent title="Become a photographer" description={photograph} iconX onPress={this.onPressPhotographer}
-                    img={require('../../assets/images/icons/camera.png')} iconName="camera-alt" />
-                </View> */}
-                
-                
-            </View>
-        </ScrollView>
+                  <View style={sectionStyle}>
+                      <DashboardCardComponent title="Manage Properties" description={properties}
+                      img={require('../../assets/images/dashboard_icons/reservation.png')} onPress={this.onPressProperties} />
+                  </View>
+                  <View style={sectionStyle}>
+                      <DashboardCardComponent title="Reviews and Ratings" description={reviews}
+                      img={require('../../assets/images/dashboard_icons/review.png')} onPress={this.onPressRR} />
+                  </View>
+                  <View style={sectionStyle}>
+                      <DashboardCardComponent title="My Earnings" description={earning} iconX onPress={this.onPressEarning}
+                      img={require('../../assets/images/dashboard_icons/pay.png')} />
+                  </View>
+                  {/* <View style={sectionStyle}>
+                      <DashboardCardComponent title="Become a photographer" description={photograph} iconX onPress={this.onPressPhotographer}
+                      img={require('../../assets/images/icons/camera.png')} iconName="camera-alt" />
+                  </View> */}
+                  
+                  
+              </View>
+          </ScrollView>
+        </View>
         
       </View>
       </>
@@ -124,20 +129,17 @@ class DashboardComponent extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        width: '100%'
+        width: '100%',
+        flex: 1
     },
-    headerStyle: {
-        marginBottom: 30, backgroundColor: colors.white, position: 'absolute', top: 0,zIndex: 10,
-        width: '100%', paddingHorizontal: 20, paddingTop: 40, paddingBottom: 30,
-        flexDirection: 'row', 
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
+    
     sectionStyle: {
         marginBottom: 25
     },
     contentStyle: {
-        zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, marginTop:100
+        // zIndex: 1, 
+        paddingVertical: 20, paddingHorizontal: 20, 
+        // marginTop:100
     },
     iconContainer: {
       height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',
@@ -146,7 +148,8 @@ const styles = StyleSheet.create({
       // borderColor: colors.orange
     },
     menuStyles: {
-      position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 2000,
+      position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', 
+      zIndex: 2000,
     }
 });
 

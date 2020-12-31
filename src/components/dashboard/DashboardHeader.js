@@ -12,38 +12,46 @@ class DashboardHeader extends Component {
     };
   }
 
+  onPress = () => {
+    console.log('Clicked')
+    this.props.onPress()
+  }
+
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
     const { container, headerStyle, iconContainer } = styles;
     const { title, onPress } = this.props
     return (
-      <View>
-        <View style={headerStyle}>
+      
+        <TouchableOpacity style={headerStyle} onPress={this.onPress}>
             <View style={{ flex: 1}}>
                 <MyText style={[textDarkGrey, textH1Style, textExtraBold ]}>{title || 'Dashboard'}</MyText>
             </View>
-            <TouchableOpacity style={iconContainer} onPress={onPress}>
+            <TouchableOpacity style={iconContainer} onPress={this.onPress}>
               <Icon name="menu" style={{ fontSize: 27, color: colors.grey }} />
             </TouchableOpacity>
-        </View>
-      </View>
+        </TouchableOpacity>
+      
     );
   }
 }
 
 const styles = StyleSheet.create({
     headerStyle: {
-        marginBottom: 30, backgroundColor: colors.white, position: 'absolute', top: 0,zIndex: 10,
-        width: '100%', paddingHorizontal: 20, paddingTop: 40, paddingBottom: 30,
+        // marginBottom: 30, 
+        backgroundColor: colors.white, 
+        // position: 'absolute', top: 0,
+        // zIndex: 10,
+        width: '100%', paddingHorizontal: 20, paddingTop: 40, paddingBottom: 10,
         flexDirection: 'row', 
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between', 
     },
     
     iconContainer: {
       height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',
       alignItems: 'center', 
-      borderWidth: 1, borderColor: colors.lightGrey
+      borderWidth: 1, borderColor: colors.lightGrey, 
       // borderColor: colors.orange
     },
     menuStyles: {

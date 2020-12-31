@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import GStyles from '../assets/styles/GeneralStyles';
 
 const Card = props => {
   return (
@@ -15,7 +16,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     // borderWidth: 0.8,
     // borderColor: 'rgba(211,211,211,0.9)',
-    backgroundColor: 'white', elevation: 3
+    backgroundColor: 'white', elevation: 3,
+    ...GStyles.shadow
   },
 });
 

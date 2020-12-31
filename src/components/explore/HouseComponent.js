@@ -44,7 +44,7 @@ class HouseComponent extends Component {
       <View>
         <TouchableOpacity style={scrollItemContainer} onPress={onPress}>
           <View style={imgContainer}>
-            <Image source={img} resizeMode="cover" style={imgStyle} />
+            <Image source={img} resizeMode="cover" style={[imgStyle, { borderRadius: 8}]} />
             {this.renderVerified()}
           </View>
           <View style={contentContainer}>
@@ -73,10 +73,11 @@ const styles = StyleSheet.create({
     scrollItemContainer: {
         // borderWidth: 1, 
         // marginRight: '1.8%', 
-        width: '100%', 
+        width: '100%', paddingLeft: 2
     },
     imgContainer: {
-        width: '100%', height: 170, borderRadius: 8, overflow: 'hidden', marginBottom: 10, backgroundColor: colors.white, elevation: 2
+        width: '100%', height: 170, borderRadius: 8, marginBottom: 10, backgroundColor: colors.white,
+        elevation: 2, ...GStyles.shadow
     },
     iconContainer: {
       backgroundColor: colors.orange, width: 18, height: 18, borderRadius: 20, justifyContent: 'center', alignItems: 'center',

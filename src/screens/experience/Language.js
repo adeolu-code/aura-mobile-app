@@ -11,7 +11,9 @@ import { GOOGLE_API_KEY, GetRequest, errorMessage, Request, urls } from '../../u
 
 import { AppContext } from '../../../AppProvider';
 
-import ProgressBar from '../../components/ProgressBar'
+import ProgressBar from '../../components/ProgressBar';
+import CancelComponent from '../../components/experience/CancelComponent';
+
 
 
 
@@ -36,6 +38,12 @@ class Language extends Component {
             
             const obj = { description: '', name: 'Please Select a language', id: null }
             this.setState({ languages: [obj, ...res.data] })
+            const { tourOnboard, editTour } = this.context.state;
+            if(editTour) {
+                const lOne = res.data.find(item => item.id === tourOnboard.languageId[0])
+                const lTwo = res.data.find(item => item.id === tourOnboard.languageId[1])
+                this.setState({ languageOne: lOne.id, languageTwo: lTwo.id })
+            }
         }
     }
 
@@ -131,7 +139,8 @@ class Language extends Component {
             <View style={container}>
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 3 / 6</MyText>
-                    <ProgressBar width={25} />
+                    <ProgressBar width={16.7 * 3} />
+                    <ProgressBar width={50} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 30 }}>
@@ -165,7 +174,16 @@ class Language extends Component {
                     </View>
                     
                     <View style={button}>
-                        <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={this.validate()} />
+                        <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.next} disabled={this.validate()} />
+                    </View>
+                    <View style={[flexRow, styles.skipStyle]}>
+                        {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                        <View style={{ flex: 1}}>
+                            <CustomButton buttonText="Skip To Step 4" 
+                            buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            textStyle={{ color: colors.orange }}
+                            onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourDescribeActivity' }) }} />
+                        </View>
                     </View>
                 </ScrollView>
             </View>
@@ -178,12 +196,12 @@ class Language extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   
     button: {
-        flex: 1, marginBottom: 40, marginTop: 20, justifyContent: 'flex-end'
+        flex: 1, marginBottom: 20, marginTop: 20, justifyContent: 'flex-end'
     },
     imageContainer: {
         borderRadius: 10, borderColor: colors.orange, borderWidth: 4, width: '100%', height: 250, overflow: 'hidden',
@@ -199,6 +217,9 @@ const styles = StyleSheet.create({
         borderColor: colors.lightGreyOne,
         marginTop: 15, justifyContent: 'center'
     },
+    skipStyle: {
+        marginBottom: 30, 
+    }
 });
 
 export default Language;

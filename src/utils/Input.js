@@ -6,7 +6,7 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  TouchableOpacity,
+  TouchableOpacity, Platform
 } from 'react-native';
 import {Icon} from 'native-base';
 import {MyText} from './MyText';
@@ -76,7 +76,7 @@ class CustomInput extends Component {
       iconName,
       label,
       sublabel,
-      placeholderColor, disabled, textAlignVertical
+      placeholderColor, disabled, textAlignVertical, multiline
     } = this.props;
     // const inputImgStyle = imageUrl || iconName ? '' : InputWithImgStyle;
     const paddingRight = password ? '' : inputRightPadding;
@@ -102,7 +102,7 @@ class CustomInput extends Component {
             autoCapitalize={autoCapitalize || 'none'}
             placeholder={placeholder || 'Placeholder'}
             onChange={onChange}
-            keyboardType={keyboard}
+            keyboardType={keyboard} multiline={multiline}
             placeholderTextColor={placeholderColor || 'rgba(99, 99, 99, 0.7)'} textAlignVertical={textAlignVertical || "center"}
           />
           {this.renderSpinner()}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     fontSize: 17,
     color: colors.darkGrey,
-    fontFamily: 'Nunito-bold',
+    fontFamily: Platform.OS === 'ios' ? 'Nunito-Regular' : 'Nunito-bold',
     paddingHorizontal: 15,
   },
   InputWithImgStyle: {

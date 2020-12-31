@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText, Spinner, Loading } from '../../utils/Index';
-import { View, StyleSheet, Image, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, FlatList, RefreshControl, Platform } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import FilterModal from './FilterModal';
@@ -135,7 +135,7 @@ class HotelsTab extends Component {
 
 const styles = StyleSheet.create({
     contentContainer: {
-        paddingTop: 210, paddingHorizontal: 20, paddingBottom:30,
+      paddingTop: Platform.OS === 'ios' ? 185 : 210, paddingHorizontal: 20, paddingBottom:30,
     },
     rowContainer: {
         marginBottom: 20,

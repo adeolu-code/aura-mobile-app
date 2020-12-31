@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { Icon } from 'native-base';
 import { MyText } from '../utils/Index';
 import GStyles from '../assets/styles/GeneralStyles';
@@ -32,7 +32,7 @@ class BackHeader extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%', paddingTop: 20, backgroundColor: colors.white, paddingHorizontal: 20,
+        width: '100%', paddingTop: Platform.OS === 'ios' ? 60 : 20, backgroundColor: colors.white, paddingHorizontal: 20,
         position: 'absolute', top: 0, zIndex: 100, paddingBottom: 0
     },
     iconContainer:{

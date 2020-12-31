@@ -4,6 +4,7 @@ import { Styles } from "./labelInput.style";
 import IntlPhoneInput from 'react-native-intl-phone-input';
 import { Item, Label, Input, View, Picker, DatePicker, Icon, Textarea } from "native-base";
 import { consoleLog } from "../../utils";
+import { Platform } from 'react-native';
 /**
  * 
  * @param {*} props
@@ -13,6 +14,8 @@ import { consoleLog } from "../../utils";
  * label [string]
  * 
  * onChange | onPickerChange | onChangeText [function]
+ * 
+ * pickerOptions [array {label,value} |picker only]
  * 
  */
 export const LabelInput = (props) => {
@@ -49,12 +52,14 @@ export const LabelInput = (props) => {
             <Picker.Item key={1} value={"Female"} label={"Female"} />
         ];
         return (
-            <Item stackedLabel style={[Styles.item, props.itemStyle]}>
+            <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={props.disabled || false}>
                 <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
-                    <Picker
+                    <Picker style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
                         selectedValue={props.selectedOption ? props.selectedOption : "Male"}
                         onValueChange={(e) => props.onPickerChange && props.onPickerChange(e)}
+                        placeholder={props.placeholder}
+
                     >
                         {
                             props.pickerOptions != undefined ?
@@ -137,8 +142,9 @@ export const LabelInput = (props) => {
                             style={[Styles.input]} 
                             maxLength={props.maxLength} 
                             value={props.value}
-                            onChangeText={(e) => { consoleLog("val", e); props.onChangeText(e);}}
+                            onChangeText={(e) => { props.onChangeText && props.onChangeText(e);}}
                             keyboardType={props.keyboardType || "default"}
+                            disabled={props.disabled || false}
                         />
                     </View>
                     {

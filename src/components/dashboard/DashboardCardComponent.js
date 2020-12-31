@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, MyText } from '../../utils/Index';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Pressable } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 import colors from '../../colors';
 import { Icon } from 'native-base'
@@ -31,7 +31,7 @@ class DashboardCardComponent extends Component {
     const iconType = iconX ? "close" : "add";
     return (
       <View>  
-        <TouchableOpacity onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut} style={{ width: '100%', backgroundColor: colors.white,}}>
+        <Pressable onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut} style={{ width: '100%', backgroundColor: colors.white,}}>
             <Card style={cardStyle}>
                 <View style={leftContainer}>
                     <View style={imgContainer}>
@@ -47,7 +47,7 @@ class DashboardCardComponent extends Component {
                     </MyText>
                 </View>
             </Card>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     );
   }

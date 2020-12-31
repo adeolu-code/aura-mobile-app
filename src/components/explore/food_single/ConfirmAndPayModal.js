@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, Image, ScrollView, Platform } from 'react-native';
 import { Icon, Picker } from 'native-base';
 import colors from '../../../colors';
 import GStyles from '../../../assets/styles/GeneralStyles';
@@ -205,6 +205,7 @@ class ConfirmAndPayModal extends Component {
 
                                 <View style={{ marginBottom: 30, marginTop: 10}}>
                                     <LabelInput label={"Select A Payment Method"} picker labelStyle={[textGrey]}
+                                        placeholder="Select Payment option"
                                         pickerOptions={this.state.paymentTypes.map(type => {
                                             return {
                                                 label: type.name,
@@ -253,14 +254,15 @@ const styles = StyleSheet.create({
         // flex: 1
     },
     modalHeader: {
-        marginTop: 20, alignItems: 'center', paddingHorizontal: 20,
+        marginTop: Platform.OS === 'ios' ? 60 : 20, alignItems: 'center', paddingHorizontal: 20,
     },
     headerStyle: {
         paddingBottom: 10, paddingTop: 10
     },
     imgContainer: {
         width: 70, height: 70, borderRadius: 70, overflow: 'hidden', marginRight: 20,
-        // borderWidth: 1
+        backgroundColor: colors.lightGrey,
+        borderWidth: 2, borderColor: colors.orange
     },
     lineStyle: {
         width: '22%', height: 4, backgroundColor: colors.lightGrey, borderRadius: 10, 

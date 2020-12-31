@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     },
     
     iconStyle: {
-      height: 40, flex: 1, justifyContent: 'center', marginRight: 15,
+      height: 40, flex: 1, justifyContent: 'center', marginRight: 15, 
     },
     SearchArea: {
       flex: 8,

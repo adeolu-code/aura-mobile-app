@@ -16,18 +16,54 @@ import ScrollContent from '../../components/explore/tour_single/ScrollContent';
 
 import TourModal from '../../components/explore/tour_single/TourModal';
 
+import ConfirmAndPayModal from '../../components/explore/tour_single/ConfirmAndPayModal';
+
+
 import { setContext, Request, urls, GetRequest, successMessage, errorMessage, GOOGLE_API_KEY } from '../../utils';
 import { formatAmount } from '../../helpers'
 import { AppContext } from '../../../AppProvider';
 
+import LoginModal from '../../components/auth/LoginModal';
+import SignUpModal from '../../components/auth/SignUpModal';
+
 class TourSingle extends Component {
+  static contextType = AppContext
   constructor(props) {
     super(props);
-    this.state = {showModal: false, tour: [], photos: [], gettingTour: false, loadingImages: false, id: '' };
+    this.state = {showModal: false, tour: '', photos: [], gettingTour: false, loadingImages: false, id: '', showLoginModal: false, 
+    showRegisterModal: false, mountPayModal: false, orderDetails: '' };
     this.state.id = props.route.params?.tourId
   }
+  openPayModal = (value) => {
+    this.setState({ payModal: true, orderDetails: value, mountPayModal: true })
+  }
+  onClosePayModal = () => {
+    this.setState({ payModal: false })
+  }
+  openLoginModal = () => {
+    this.setState({ showLoginModal: true })
+  }
+  closeLoginModal = (bool) => {
+    this.setState(() => ({ showLoginModal: false }), () => {
+      if(bool) {
+        this.openModal();
+      }
+    })
+  }
+  openSignUpModal = () => {
+    this.setState({ showRegisterModal: true })
+  }
+  closeSignUpModal = () => {
+    this.setState({ showRegisterModal: false })
+  }
   openModal = () => {
-    this.setState({ showModal: true })
+    const { isLoggedIn } = this.context.state
+    if(isLoggedIn) {
+      this.setState({ showModal: true })
+    } else {
+      this.openLoginModal()
+    }
+    
   }
   closeModal = () => {
     this.setState({ showModal: false })
@@ -61,7 +97,7 @@ class TourSingle extends Component {
     console.log('Photos tour ', res)
     this.setState({ loadingImages: false })
     if(res.isError) {
-        const message = res.Message;
+        const message = res.Message || res.message;
         errorMessage(message)
     } else {
         const imgData = res.data;
@@ -76,7 +112,7 @@ class TourSingle extends Component {
   render() {
     const { buttonContainer, placeAroundContainer, headerStyle, scrollContainer } = styles;
     const {  textExtraBold, textH2Style } = GStyles;
-    const { photos, tour } = this.state
+    const { photos, tour, mountPayModal } = this.state
     const price = tour ? `₦ ${formatAmount(tour.pricePerGuest)} /person` : '₦ 0'
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
@@ -99,9 +135,15 @@ class TourSingle extends Component {
             <View style={buttonContainer}>
                 <BottomMenuComponent onPress={this.openModal} title='Show Available Dates' price={price} />
             </View>
-            <View>
-                <TourModal visible={this.state.showModal} onDecline={this.closeModal} />
-            </View>
+            {tour ? <View>
+                <TourModal visible={this.state.showModal} onDecline={this.closeModal} tour={this.state.tour} next={this.openPayModal} />
+            </View> : <></>}
+
+            <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
+
+            <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
+            {mountPayModal ? <ConfirmAndPayModal visible={this.state.payModal} onDecline={this.onClosePayModal} {...this.props} goBack={this.openModal}
+            tour={this.state.tour} orderDetails={this.state.orderDetails} /> : <></>}
         </SafeAreaView>
     );
   }

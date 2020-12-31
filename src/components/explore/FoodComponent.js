@@ -28,7 +28,7 @@ class FoodComponent extends Component {
         <View>
             <TouchableOpacity style={scrollItemContainer} onPress={onPress}>
                 <View style={imgContainer}>
-                    <Image source={img} resizeMode="cover" style={imgStyle} />
+                    <Image source={img} resizeMode="cover" style={[imgStyle, {borderRadius: 8}]} />
                 </View>
                 <View style={contentContainer}>
                     <MyText style={[textWhite, textExtraBold, textH3Style, marginBottomSmall]}>{title}</MyText>
@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
         // borderColor: 'red'
     },
     imgContainer: {
-        width: '100%', height: 190, borderRadius: 8, elevation:3, overflow: 'hidden', marginBottom: 10, backgroundColor: colors.lightGrey
+        width: '100%', height: 190, borderRadius: 8, elevation:3, marginBottom: 10, 
+        backgroundColor: colors.lightGrey, ...GStyles.shadow
     },
 });
 

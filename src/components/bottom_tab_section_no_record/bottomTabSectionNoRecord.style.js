@@ -15,6 +15,7 @@ export const Styles = StyleSheet.create({
         backgroundColor: "transparent", 
         height: Dimensions.get("window").height * 0.84, 
         padding: 10,
+        paddingBottom: 10,
 
     },
     customTextStyle:{color: colors.white },

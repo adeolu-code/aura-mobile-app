@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         marginBottom: 30
     },
     buttonStyle: {
-        borderRadius: 6, elevation: 2
+        borderRadius: 6, elevation: 2, ...GStyles.shadow
     },
     buttonContainer: {
         // marginVertical: 40

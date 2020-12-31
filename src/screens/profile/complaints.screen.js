@@ -20,12 +20,13 @@ import { makeComplaintApi } from "../../api/chat.api";
 
 export default class Complaint extends Component {
     static contextType = AppContext;
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             message: "",
             loading: false,
+            propertyId: props.route.params.propertyId || undefined,
         }
     }
 
@@ -38,13 +39,17 @@ export default class Complaint extends Component {
 
         let data = {
             "information": this.state.message,
-          }
+        }
+
+        if (this.state.propertyId != undefined) data['property_Id'] = this.state.propertyId;
+
           this.setState({loading: true});
           
           await makeComplaintApi(data).then(result => {
               if (result != undefined && result.isError != true) {}
           });
           this.setState({loading: false});
+          if (this.state.propertyId != undefined) this.props.navigation.navigate('Bookings')
     }
 
     renderLoading = () => {
@@ -57,7 +62,7 @@ export default class Complaint extends Component {
         return (
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="SUBMIT COMPLAINT OR GIVE SUGGESTION" />
+                    <Header {...this.props} title={(this.state.propertyId != undefined) ? "REPORT HOST" : "SUBMIT COMPLAINT OR GIVE SUGGESTION"} />
                     {this.renderLoading()}
                     <Container style={[Styles.container]}>
                         <Content scrollEnabled={true}>

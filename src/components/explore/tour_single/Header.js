@@ -25,7 +25,7 @@ class Header extends Component {
         if(photos && photos.length === 1) {
             return (
                 <View style={styles.imageOneContainer}>
-                    <Image source={{uri: photos[0].assetPath}} resizeMode="cover" style={imgStyle} />
+                    <Image source={{uri: photos[0].assetPath}} resizeMode="cover" style={[imgStyle, { borderRadius: 10}]} />
                 </View>
             )
         } else if(photos && photos.length > 1) {
@@ -34,7 +34,7 @@ class Header extends Component {
                     const key = `P_${index}`
                     return (
                         <View style={styles.imageTwoContainer} key={key}>
-                            <Image source={{uri: item.assetPath }} resizeMode="cover" style={imgStyle} />
+                            <Image source={{uri: item.assetPath }} resizeMode="cover" style={[imgStyle, { borderRadius: 10}]} />
                         </View>
                     )
                 })}
@@ -127,7 +127,7 @@ class Header extends Component {
                             {this.renderRightImgs()}
                         </View>
                     </View> : 
-                    <View>
+                    <View style={{ width: '100%'}}>
                         {this.renderImages()}
                     </View>}
                     
@@ -167,6 +167,19 @@ class Header extends Component {
                             <Icon name="people-circle" style={iconStyleOne} />
                             <MyText style={[textGrey, textH6Style]}>Minimum Age</MyText>
                             <MyText style={[textH4Style]}>{tour.minimumAge} year(s)</MyText>
+                        </View>
+                        
+                    </View>
+                    <View style={[flexRow, header, {flex: 1}]}>
+                        <View style={{flex: 1}}>
+                            <Icon name="time" style={iconStyleOne} />
+                            <MyText style={[textGrey, textH6Style]}>Experience Time Starts</MyText>
+                            <MyText style={[textH4Style]}>{tour.experienceStartTime}</MyText>
+                        </View>
+                        <View style={{flex: 1}}>
+                            <Icon name="navigate" style={iconStyleOne} />
+                            <MyText style={[textGrey, textH6Style]}>Location</MyText>
+                            <MyText style={[textH4Style]}>{tour.meetUpState}</MyText>
                         </View>
                     </View>
                 </View>
@@ -277,11 +290,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between', flexWrap: 'wrap'
     },
     imageTwoContainer: {
-        width: '48%', height: 200, borderRadius: 10, overflow: 'hidden',marginBottom: 15, backgroundColor: colors.lightGrey, 
-        elevation: 2
+        width: '48%', height: 200, borderRadius: 10, marginBottom: 15, backgroundColor: colors.lightGrey, 
+        elevation: 2, ...GStyles.shadow
     },
     imageOneContainer: {
-        width: '100%', height: 250, borderRadius: 10, overflow: 'hidden', backgroundColor: colors.lightGrey, elevation: 2
+        width: '100%', height: 250, borderRadius: 10, backgroundColor: colors.lightGrey, elevation: 2,
+        ...GStyles.shadow,
     }
 
 });

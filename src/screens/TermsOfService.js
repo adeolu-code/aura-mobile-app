@@ -23,9 +23,11 @@ class TermsOfService extends Component {
             this.props.navigation.navigate('PhotographStack', { screen: 'TitleDescription'})
             return;
         case RESTAURANT:
-        
+            this.props.navigation.navigate('RestaurantStack')
             break;
         case EXPERIENCE:
+            // this.props.navigation.navigate('TourStack', { screen: 'TourIdentityCard'})
+            // this.props.navigation.navigate('TourStack', { screen: 'TourGuestRequirement'})
             this.props.navigation.navigate('TourStack', { screen: 'TourLocation'})
             break;
         default:

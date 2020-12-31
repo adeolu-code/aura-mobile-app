@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-import { StatusBar, SafeAreaView, ScrollView, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { StatusBar, SafeAreaView, ScrollView, Image, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
 import { Styles } from "../payment/payment.style";
@@ -129,8 +129,8 @@ class ConfirmAndPay extends Component {
         <Header  {...this.props} title="Confirm and Pay" />
         <ScrollView>
         <View style={container}>
-            <View style={{ width: '100%', marginBottom: 40}}>
-                <TouchableOpacity style={[flexRow, styles.propertyContainer]} >
+            <View style={{ width: '100%', marginBottom: 40 }}>
+                <View style={[flexRow, styles.propertyContainer]} >
                     <View style={styles.imgContainer}>
                         <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
                         {this.renderVerified()}
@@ -144,7 +144,7 @@ class ConfirmAndPay extends Component {
 
                         <MyText style={[textH5Style]}>{house ? house.description : ''}</MyText>
                     </View>
-                </TouchableOpacity>
+                </View>
             </View>
 
             {booked ? <View>
@@ -177,6 +177,14 @@ class ConfirmAndPay extends Component {
                   <MyText style={[textBold, textH4Style]}>{booked.no_Of_Rooms} Room(s)</MyText>
                 </View>
               </View>
+
+              <View style={[flexRow, checkRow, { borderTopWidth: 0}]}>
+                <View>
+                  <MyText style={[textH5Style,textGrey, { marginBottom: 10}]}>BOOKING REFERENCE</MyText>
+                  <MyText style={[textBold, textH4Style]}>{booked.propertyInfo.id}</MyText>
+                </View>
+              </View>
+
             </View> : <></>}
 
             <View style={[ amountContainer]}>
@@ -209,7 +217,7 @@ class ConfirmAndPay extends Component {
             </View>
 
             <View style={{ marginBottom: 30, marginTop: 30}}>
-              <LabelInput label={"Select A Payment Method"} picker labelStyle={[textGrey]}
+              <LabelInput label={"Select A Payment Method"} picker labelStyle={[textGrey]} placeholder="Choose a payment Option"
                       pickerOptions={this.state.paymentTypes.map(type => {
                           return {
                               label: type.name,
@@ -223,7 +231,7 @@ class ConfirmAndPay extends Component {
 
             <View style={{ marginBottom: 40}}>
               {this.renderError()}
-              <CustomButton buttonText="Make Payment" buttonStyle={{ elevation: 1}} onPress={this.makePayment} />
+              <CustomButton buttonText="Make Payment" disabled={!this.state.selectedId} buttonStyle={{ elevation: 1, ...GStyles.shadow}} onPress={this.makePayment} />
             </View>
         </View>
         </ScrollView>
@@ -237,13 +245,15 @@ const styles = StyleSheet.create({
     flex: 1, backgroundColor: colors.white,
   },
   container: {
-    flex: 1, paddingTop: 140, paddingHorizontal: 20
+    flex: 1, paddingTop: Platform.OS === 'ios' ? 110 : 140, paddingHorizontal: 20
   },
   propertyContainer: {
-    width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8
+    width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8, 
+    ...GStyles.shadow
   },
   imgContainer: {
       width: 140, height: 130, borderRadius: 6, overflow: 'hidden', marginRight: 20,
+      backgroundColor: colors.lightGrey
       // borderWidth: 1
   },
   rightContainer: {

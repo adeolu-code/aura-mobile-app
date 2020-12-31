@@ -10,7 +10,6 @@ import { AppContext } from '../../../AppProvider';
 
 
 const auraAnimated = require("./../../assets/aura_splash_animation.gif");
-// const auraAnimated = require("./../../assets/aura_animation.gif");
 const splashTimeout = 3800;
 
 const navigateToTab = async (props) => {
@@ -60,20 +59,24 @@ const SplashScreen = (props) => {
       }
     
     const requestPermissionIos = async () => {
-        request(PERMISSIONS.IOS.LOCATION_ALWAYS)
-        .then((result) => {
-            console.log('Request permissions ios ', result)
-            switch (result) {
-            case 'granted':
-                getCurrentPos();
-                break;
-            default:
-                break;
-            }
-        })
-        .catch((error) => {
-            console.log('Permissions catched error ', error)
-        });
+        const request = await Geolocation.requestAuthorization('whenInUse')
+        if(request === 'granted') {
+            getCurrentPos();
+        }
+        // request(PERMISSIONS.IOS.LOCATION_ALWAYS)
+        // .then((result) => {
+        //     console.log('Request permissions ios ', result)
+        //     switch (result) {
+        //     case 'granted':
+        //         getCurrentPos();
+        //         break;
+        //     default:
+        //         break;
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.log('Permissions catched error ', error)
+        // });
     }
     const getCurrentPos = async () => {
         Geolocation.getCurrentPosition(
@@ -99,12 +102,13 @@ const SplashScreen = (props) => {
         const userData = await getUser()
         const token = await getToken()
         console.log('User await ', userData, token)
-        if(userData && token) {
-            context.set({ userData, token, isLoggedIn: true })
+        if(userData && token && token.access_token) {
+            
             context.getUserProfile(token.access_token)
             .catch((error) => {
                 console.log('Error caught ', error)
             })
+            context.set({ userData, token, isLoggedIn: true })
             // console.log('check login userData ', userData, token)
             // if(expired) {
             //     this.props.signOut()

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 
@@ -66,7 +66,7 @@ class Dashboard extends Component {
 
   getEarnings = async () => {
     this.setState({ gettingEarnings: true })
-    const response = await GetRequest(urls.bookingBase, 'api/v1/bookings/property/host/earnings');
+    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/host/earnings`);
     this.setState({ gettingEarnings: false })
     if (response.isError) {
       errorMessage(response.message)
@@ -242,16 +242,14 @@ class Dashboard extends Component {
   }
 
   getRatings = async () => {
-    try {
-          const response = await GetRequest(urls.listingBase, 'api/v1/listing/review/rating/host/overview');
-          if (!response.isError) {
-              const data = response.data;
-              this.setState({ ratings: data });
-              console.log(data);
-          } else { this.setState({ error: true }); }
-      } catch (e) {
-        console.log(e);
-      this.setState({ error: true });
+    this.setState({ gettingRatings: true })
+    const response = await GetRequest(urls.listingBase, `${urls.v}listing/review/rating/host/overview`);
+    this.setState({ gettingRatings: false })
+    if (response.isError || response.IsError) {
+       errorMessage(response.message || response.Message) 
+    } else { 
+      const data = response.data;
+      this.setState({ ratings: data });
     }
   }
 
@@ -314,7 +312,7 @@ class Dashboard extends Component {
     const { textBold, textH4Style, flexRow, imgStyle, textGrey, textWhite,
       textH5Style, textDarkGreen, textH2Style, textExtraBold } = GStyles;
     return (
-      <SafeAreaView style={{ flex: 1}}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         <Header {...this.props} title="Dashboard" />
         <ScrollView keyboardShouldPersistTaps="always">
           <View style={subHeaderContainer}>
@@ -381,11 +379,11 @@ class Dashboard extends Component {
 
 const styles = StyleSheet.create({
   subHeaderContainer: {
-    paddingTop: 140, backgroundColor: colors.white, paddingBottom: 30,
-    paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey
+    paddingTop: Platform.OS === 'ios' ? 120 : 140, backgroundColor: colors.white, paddingBottom: 30,
+    paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey, 
   },
   imgContainer: {
-    width: 55, height: 55, borderRadius: 60, overflow:'hidden'
+    width: 55, height: 55, borderRadius: 60, overflow:'hidden', borderWidth: 2, borderColor: colors.orange
   },
   profileImg: {
     flex: 1, 
