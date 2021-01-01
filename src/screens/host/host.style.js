@@ -1,10 +1,10 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import colors from "../../colors";
 import { GLOBAL_PADDING } from "../../utils";
 
 export const Styles = StyleSheet.create({
     container: {
-        marginTop: 145,
+        marginTop: Platform.OS === 'ios' ? 120 : 145,
         padding: GLOBAL_PADDING,
         paddingBottom: 10,
     },

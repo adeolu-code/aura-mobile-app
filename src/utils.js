@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import AsyncStorage from "@react-native-community/async-storage";
 import { showMessage, hideMessage } from "react-native-flash-message";
+import { Platform } from 'react-native';
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
 import { getToken, setToken } from './helpers';
@@ -309,7 +310,7 @@ export const uploadMultipleFile = async (images) => {
       images.forEach((item, i) => {
          const filename = item.path.substring(item.path.lastIndexOf('/') + 1)
          formData.append("model", {
-            uri: item.path,
+            uri:Platform.OS === 'ios' ? item.sourceURL : item.path,
             name: `${Date.now()}_${filename}`,
             type: item.mime
          });

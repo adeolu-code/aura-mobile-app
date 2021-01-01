@@ -244,6 +244,7 @@ export default class PickImages extends Component {
             cropping: true,
             multiple: cover ? false : true
         }).then((imgs) => {
+            console.log(imgs)
             if(cover) {
                 this.setState({ coverImage: imgs })
             } else {
@@ -337,7 +338,8 @@ export default class PickImages extends Component {
                                 <View style={{ marginTop: 60}}>
                                     {
                                         !isCaptured ?
-                                            <CustomButton buttonText={coverImage ? "Next" : "Choose A Cover Picture"} onPress={this.submitCover} buttonStyle={{elevation: 2}} />
+                                            <CustomButton buttonText={coverImage ? "Next" : "Choose A Cover Picture"} onPress={this.submitCover} 
+                                            buttonStyle={{elevation: 2, ...GStyles.shadow }} />
                                         :
                                         // <CustomButton buttonText="Next" onPress={() => this.props.navigation.navigate('AddProfilePicture')} buttonStyle={{elevation: 2}} />
                                         <CustomButton buttonText="Next" onPress={this.submit} buttonStyle={{elevation: 2}} />
