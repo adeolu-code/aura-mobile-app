@@ -1,3 +1,5 @@
+/* eslint-disable quotes */
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from "react";
 import {
