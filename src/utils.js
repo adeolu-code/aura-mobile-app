@@ -310,7 +310,8 @@ export const uploadMultipleFile = async (images) => {
       images.forEach((item, i) => {
          const filename = item.path.substring(item.path.lastIndexOf('/') + 1)
          formData.append("model", {
-            uri:Platform.OS === 'ios' ? item.sourceURL : item.path,
+            // uri:Platform.OS === 'ios' ? item.sourceURL : item.path,
+            uri: item.path,
             name: `${Date.now()}_${filename}`,
             type: item.mime
          });

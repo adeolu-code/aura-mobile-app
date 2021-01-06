@@ -63,6 +63,7 @@ export default class SetPricing extends Component {
         const estEarning = +text - vat
         this.setState({ price: text, commissionAndVAT: vat, estEarning })
     }
+    
 
     componentDidMount = () => {
         this.getAveragePrice();
