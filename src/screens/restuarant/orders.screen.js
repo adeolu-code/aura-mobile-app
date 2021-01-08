@@ -31,6 +31,7 @@ export default class RestaurantOrders extends Component {
     getOrders = () => {
         this.setState({loading: true});
         getRestaurantOrdersApi(this.state.page,this.state.size).then(result => {
+            
             if (result != undefined) {
                 this.setState({orders: result.items});
             }
@@ -55,9 +56,10 @@ export default class RestaurantOrders extends Component {
                         <Content scrollEnabled={true}>
                             {
                                 Array.isArray(this.state.orders) && this.state.orders.length > 0 ?
-                                this.state.orders.map(order => {
+                                this.state.orders.map((order, index) => {
                                     return (
                                         <RenderItem 
+                                            key={index}
                                             meal={order.orderedForName}
                                             customer={order.user}
                                             amount={order.amount}
@@ -92,14 +94,14 @@ const RenderItem = (props)  => {
             <Pressable style={[Styles.parentView, {marginBottom: 5}]}>
                 <View style={[Styles.textSection]}>
                     <View style={[Styles.textView]}>
-                        <MyText style={[textH2Style, textBold, textOrange,{padding: 0, paddingLeft: 2, paddingRight: 2}]}>
+                        <MyText style={[textH4Style, textOrange,{padding: 0, paddingLeft: 2, paddingRight: 2}]}>
                             Meal: {props.meal}
                         </MyText>
                         <MyText style={[{padding: 0, paddingLeft: 2, paddingRight: 2}]}>
                                 Customer: {props.customer}
                         </MyText>
                         
-                        <MyText style={[textBold, textH4Style, textOrange, {padding: 0, paddingLeft: 2, paddingRight: 2}]}>
+                        <MyText style={[textH4Style, textOrange, {padding: 0, paddingLeft: 2, paddingRight: 2}]}>
                             Total Cost: NGN {props.amount}
                         </MyText>
                         <MyText style={[{padding: 0, paddingLeft: 2, paddingRight: 2}]}>

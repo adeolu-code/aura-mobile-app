@@ -15,6 +15,7 @@ export const MyStyle = StyleSheet.create({
     row: {
         flexDirection: 'row',
     },
+    // width
     halfWidth: {
         width: '49%',
     },
@@ -24,6 +25,7 @@ export const MyStyle = StyleSheet.create({
     quarterWidth: {
         width: '24%',
     },
+    //margin
     mt05: {
         margin: "5%",
     },
@@ -38,6 +40,7 @@ export const MyStyle = StyleSheet.create({
         height: 1,
         backgroundColor: colors.lightGreyOne,
     },
+    //height
     hPx50: {
         height: 50,
     },
@@ -49,5 +52,9 @@ export const MyStyle = StyleSheet.create({
     },
     hPx: (val) => {
         return {height: val,}
+    },
+    //
+    transparent: {
+        backgroundColor: 'transparent'
     },
 });

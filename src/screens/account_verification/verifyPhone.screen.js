@@ -26,7 +26,7 @@ export default class VerifyPhoneNumber extends Component {
 
     onSelectionChanged = (index) => {
         if (index == 0) {
-            this.setState({newNumber: 0});
+            this.setState({newNumber: 0, phone: this.context.state.userData.phoneNumber});
         }
         else {
             this.setState({newNumber: 1});
@@ -104,6 +104,7 @@ export default class VerifyPhoneNumber extends Component {
                                 <LabelInput 
                                     label={"Phone Number"}
                                     phone
+                                    onChangeText={(phone) => this.setState({phone: phone})}
                                 />
                             }
                         </Content>
