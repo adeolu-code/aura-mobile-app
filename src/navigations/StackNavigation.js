@@ -76,6 +76,7 @@ import TourNotesScreen from '../screens/experience/Notes';
 import TourGuestRequirementScreen from '../screens/experience/GuestRequirements';
 import TourNumberOfGuestsScreen from '../screens/experience/NumberOfGuests';
 import TourDurationScreen from '../screens/experience/Duration';
+import TourCalendarScreen from '../screens/experience/TourCalendar';
 import TourGuestPricingScreen from '../screens/experience/GuestPricing';
 import TourBookingSettingsScreen from '../screens/experience/BookingSettings';
 import TourSafetyOverviewScreen from '../screens/experience/SafetyOverview';
@@ -221,6 +222,7 @@ export function ExperienceStack() {
             <Stack.Screen name="TourGuestRequirement" component={TourGuestRequirementScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourNumberOfGuests" component={TourNumberOfGuestsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourDuration" component={TourDurationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TourCalendar" component={TourCalendarScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourGuestPricing" component={TourGuestPricingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourBookingSettings" component={TourBookingSettingsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourSafetyOverview" component={TourSafetyOverviewScreen} options={{ headerShown: false }} />

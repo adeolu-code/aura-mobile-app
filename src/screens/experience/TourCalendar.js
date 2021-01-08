@@ -1,20 +1,27 @@
 import React, { Component } from "react";
-import { Styles } from "./host.style";
+import { Styles } from "../host/host.style";
 import { Footer, Container, Content, View, } from "native-base";
 import { MyText, Switch, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
-import { TouchableOpacity, StatusBar, SafeAreaView } from "react-native";
+import { TouchableOpacity, StatusBar, SafeAreaView, StyleSheet, Platform } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
-import TipViewComponent from "../../components/tip_view/tipView.component";
 import {Calendar} from 'react-native-calendars';
+
+import ProgressBar from '../../components/ProgressBar';
+
 
 import { AppContext } from '../../../AppProvider';
 import { urls, Request, GetRequest, errorMessage, SCREEN_HEIGHT } from '../../utils';
 import { isEmpty } from '../../helpers';
 
+import CancelComponent from '../../components/experience/CancelComponent';
 
-export default class PropertyAvailability extends Component {
+
+import moment from 'moment';
+
+
+export default class TourCalendar extends Component {
     static contextType = AppContext
     constructor(props) {
         super(props);
@@ -60,13 +67,10 @@ export default class PropertyAvailability extends Component {
     }
 
     toggleSelectedDate = (date) => {
-        console.log(date)
         const getYr = new Date(date).getFullYear()
         const getMonth = new Date(date).getMonth() + 1
         const monthObj = { month: getMonth, year: getYr }
         let selectedDatesKey = Object.keys(this.state.selectedDays);
-        
-        
         if (selectedDatesKey.includes(date)) {
             let selectedDates = this.state.selectedDays;
             delete selectedDates[date];
@@ -75,9 +79,6 @@ export default class PropertyAvailability extends Component {
                 this.checkSelectedMonths(monthObj)
             });
 
-            // setTimeout(() => {
-            //     console.log("new dates ", this.state.selectedDays);
-            // }, 1000);
         } else {
             this.setState(() => ({
                 selectedDays: {...this.state.selectedDays, ...{
@@ -88,10 +89,6 @@ export default class PropertyAvailability extends Component {
             }), () => {
                 this.checkSelectedMonths(monthObj)
             });
-
-            // setTimeout(() => {
-            //     console.log("add new date", this.state.selectedDays);
-            // }, 1000);
         }
     }
     submit = () => {
@@ -121,30 +118,31 @@ export default class PropertyAvailability extends Component {
     }
 
     setUnAvailable = async () => {
+        const { tourOnboard } = this.context.state;
         const { selectedDays } = this.state
-        
-        if(!isEmpty(selectedDays)) {
-            const dates = []
-            for (const item in selectedDays) {
-                dates.push(item)
-            }
-            const { state } = this.context
-            const propertyFormData = state.propertyFormData
-            const obj = { propertyId: propertyFormData.id, fromDate:"", toDate:"", dates }
-            this.setState({ loading: true })
-            const res = await Request(urls.listingBase, `${urls.v}listing/property/calendar/unavailabledays`, obj);
-            this.setState({ loading: false })
-            this.props.navigation.navigate('SetPricing')
-        } else {
-            this.props.navigation.navigate('SetPricing')
+        this.setState({ loading: true });
+        const dateKeys = Object.keys(selectedDays)
+        const dates = dateKeys.map(item => moment(item).toISOString())
+        const obj = {
+            dates, 
+            id: tourOnboard.id
         }
+        const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
+        console.log('update experience ', res)
+        this.setState({ loading: false });
+        if (res.isError || res.IsError) {
+            errorMessage(res.message || res.Message)
+        } else {
+            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+            this.props.navigation.navigate('TourStack', { screen: 'TourGuestPricing' })
+        } 
     }
 
     getCalendar = async () => {
         const { state, set } = this.context
         const ppty = state.propertyFormData;
         this.setState({ gettingCalendar: true })
-        const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/calendar/?propertyId=${ppty.id}`);
+        const res = await GetRequest(urls.experienceBase, `${urls.v}listing/property/calendar/?propertyId=${ppty.id}`);
         this.setState({ gettingCalendar: false })
         if(res.isError) {
             const message = res.Message;
@@ -163,12 +161,12 @@ export default class PropertyAvailability extends Component {
                 })
             }
         }
-      }
+    }
 
     componentDidMount = () => {
-        const { state } = this.context
-        const ppty = state.propertyFormData;
-        this.getCalendar()
+        const { tourOnboard, editTour } = this.context.state;
+        // const ppty = state.propertyFormData;
+        // this.getCalendar()
     }
 
     render() {
@@ -176,8 +174,9 @@ export default class PropertyAvailability extends Component {
             textBold, textGrey, textGreen,
             textH4Style,
             textCenter,
-            textWhite,
+            textWhite, textOrange, textH3Style, flexRow
           } = GStyles;
+        const { container } = styles
         const markedDates = Object.assign({}, this.state.selectedDays)
         // const { markedDates } = this.state;
 
@@ -185,20 +184,23 @@ export default class PropertyAvailability extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
-                    <Header {...this.props} title="Property Availability Dates" />
-                    <Container style={[Styles.container, {marginTop: 140}]}>
+                    <Header {...this.props} title="Set your experience availability" />
+                    <View style={[container]}>
+                        <View style={{ marginTop: 60}}>
+                            <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
+                            <ProgressBar width={16.7 * 5} />
+                            <ProgressBar width={12.5 * 6} />
+                        </View>
                         <Content scrollEnabled>
-                            <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
+                            <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start", marginTop: 10}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
                                     <MyText style={[textGrey]}>
-                                    Editing your calendar is easy — just select a date to block or unblock it. 
-                                    You can always make changes after you publish. 
-                                    {/* Tap the dates of the months in the calendar below that your property would be available for hosting.  */}
-                                    Toggle the <MyText style={[textBold]}>“Available This Month”</MyText> switch if your property won’t be available for a particular month.
+                                    Editing your calendar is easy — just select a date to block or unblock it. You can always make changes after you publish. 
+                                    {/* Toggle the <MyText style={[textBold]}>“Available This Month”</MyText> switch if your property won’t be available for a particular month. */}
                                     </MyText>
                                 </MyText>
                             </View>
-                            <View style={{ paddingHorizontal: 2}}>
+                            <View style={{ paddingHorizontal: 2, ...GStyles.shadow, elevation: 2 }}>
                                 <View style={[Styles.calendarContainer]}>
                                     <Calendar
                                         // Callback which gets executed when visible months change in scroll view. Default = undefined
@@ -230,7 +232,7 @@ export default class PropertyAvailability extends Component {
                                     />
                                 </View>
                             </View>
-                            <View style={[Styles.rowView, {justifyContent: 'flex-end', marginTop: 20, marginBottom: 20}]}>
+                            {/* <View style={[Styles.rowView, {justifyContent: 'flex-end', marginTop: 20, marginBottom: 20}]}>
 
                                 <MyText style={[textGrey, textH4Style]}>Available This Month:</MyText>
                                 <View style={[{marginLeft: 10}]}>
@@ -240,17 +242,35 @@ export default class PropertyAvailability extends Component {
                                         onPress={this.disableEnableMonth}
                                     />
                                 </View>
-                            </View>
+                            </View> */}
                             <View style={{marginBottom: 20, marginTop: 40}}>
-                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} />
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} />
+                            </View>
+                            <View style={[flexRow, styles.skipStyle]}>
+                                {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
+                                <View style={{ flex: 1}}>
+                                    <CustomButton buttonText="Skip To Step 6" 
+                                    buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                                    textStyle={{ color: colors.orange }}
+                                    onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
+                                </View>
                             </View>
                         </Content>
-                        {/* <Footer style={[Styles.footer, Styles.transparentFooter]}>
-                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} />
-                        </Footer> */}
-                    </Container>
+                        
+                    </View>
                 </SafeAreaView>
             </>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.white,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        flex: 1, flexGrow: 1
+    },
+    skipStyle: {
+        marginBottom: 30
+    }
+});

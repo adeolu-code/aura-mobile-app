@@ -24,7 +24,7 @@ class Duration extends Component {
     constructor(props) {
         super(props);
         this.state = { loading: false, duration: 1, dates: [], experienceStartTime: '', addDate: false, noOfDays: 1,
-        fromDate: '', toDate: '', toggleDate: true  };
+        fromDate: '', toDate: '', toggleDate: true,  };
         
     }
     renderLoading = () => {
@@ -59,7 +59,6 @@ class Duration extends Component {
         const { noOfDays, fromDate, toDate, dates } = this.state
         const dateArr = [ ...dates ]
         const obj = { fromDate: fromDate.toISOString(), toDate: toDate.toISOString() }
-        console.log(obj)
         dateArr.push(obj)
         this.setState({ dates: dateArr, fromDate: '', toDate: '', noOfDays: 1, addDate: false })
     }
@@ -87,7 +86,7 @@ class Duration extends Component {
     }
 
     setStartTime = (value) => {
-        this.setState({ experienceStartTime: moment(value).format('hh:mmA') })
+        this.setState({ experienceStartTime: moment(value).format('h:mmA') })
         // const { formData } = this.state;
         // this.setState({ errors: []})
         // const obj = { ...formData, Arrival_Time_From: moment(value).format('HH:mm:ss') }
@@ -113,10 +112,10 @@ class Duration extends Component {
         const { duration, dates, experienceStartTime } = this.state
         this.setState({ loading: true });
         const obj = {
-            dates, duration, experienceStartTime, 
+            // dates, 
+            duration, experienceStartTime, 
             id: tourOnboard.id
         }
-        console.log(obj)
         // this.props.navigation.navigate('TourStack', { screen: 'TourGuestPricing' })
         const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
         console.log('update experience ', res)
@@ -125,7 +124,8 @@ class Duration extends Component {
             errorMessage(res.message || res.Message)
         } else {
             this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-            this.props.navigation.navigate('TourStack', { screen: 'TourGuestPricing' })
+            // this.props.navigation.navigate('TourStack', { screen: 'TourGuestPricing' })
+            this.props.navigation.navigate('TourStack', { screen: 'TourCalendar' })
         }  
     }
 
@@ -137,9 +137,10 @@ class Duration extends Component {
             arr.push(i+1+0.5) 
         })
         return (
-            <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
+            <Picker mode="dropdown" Icon={<Icon name="ios-arrow-down" />}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
                 selectedValue={this.state.duration}
+                placeholder="Duration"
                 onValueChange={this.onValueChange}>
                 {arr.map((item, i) => {
                     return (
@@ -152,8 +153,8 @@ class Duration extends Component {
     renderSecondPicker = () => {
         const newArr = new Array(2).fill(0)
         return (
-            <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
+            <Picker mode="dropdown" Icon={<Icon name="ios-arrow-down" />}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
                 selectedValue={this.state.noOfDays}
                 onValueChange={this.onValueChangeSecond}>
                 {newArr.map((item, i) => {
@@ -239,7 +240,12 @@ class Duration extends Component {
     componentDidMount = () => {
         const { tourOnboard, editTour } = this.context.state;
         if(editTour) {
-            this.setState({ duration: tourOnboard.duration, experienceStartTime: tourOnboard.experienceStartTime })
+            console.log(tourOnboard.experienceStartTime)
+            this.setState(() => ({ duration: tourOnboard.duration, experienceStartTime: tourOnboard.experienceStartTime, toggleDate: false }),
+            () => {
+                this.setState({ toggleDate: true })
+            })
+            
         }
     }
 
@@ -248,7 +254,7 @@ class Duration extends Component {
     const { container, button, timeContainer } = styles;
     const { textGrey, flexRow, textOrange, textUnderline, textBold, textWhite, textH3Style, imgStyle,
         textH4Style, textH5Style, textH6Style} = GStyles;
-    const { dates } = this.state
+    const { dates, toggleDate, experienceStartTime } = this.state
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
@@ -258,7 +264,7 @@ class Duration extends Component {
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
-                    <ProgressBar width={14.2 * 5} />
+                    <ProgressBar width={12.5 * 5} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 10 }}>
@@ -278,14 +284,15 @@ class Duration extends Component {
                             </MyText>
                             <MyText style={[textH4Style, textGrey ]}>Experience start time</MyText>
                             <View style={timeContainer}>
-                                <TimePicker receiveTime={this.setStartTime} defaultValue={this.state.experienceStartTime} />
+                                {toggleDate ? <TimePicker receiveTime={this.setStartTime} defaultValue={experienceStartTime} 
+                                 /> : <></>}
                             </View>
 
                             {this.renderDates()}
-                            <Pressable style={[flexRow, styles.selectStyle]} onPress={this.onAddDate}>
+                            {/* <Pressable style={[flexRow, styles.selectStyle]} onPress={this.onAddDate}>
                                 <Icon name="md-add-circle" style={{ color: colors.orange, marginRight: 20}} />
                                 <MyText style={[textH4Style, textBold]}>{ dates.length > 0 ? `Add Mores Dates` : 'Add Dates'}</MyText>
-                            </Pressable>
+                            </Pressable> */}
 
                             {this.renderAddDates()}
                             
@@ -294,14 +301,14 @@ class Duration extends Component {
                     </View>
                     
                     <View style={button}>
-                        <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} 
+                        <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, ...GStyles.shadow}} 
                         onPress={this.updateExperience} />
                     </View>
                     <View style={[flexRow, styles.skipStyle]}>
                         {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
                         <View style={{ flex: 1}}>
                             <CustomButton buttonText="Skip To Step 6" 
-                            buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
                             textStyle={{ color: colors.orange }}
                             onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
                         </View>
@@ -317,7 +324,7 @@ class Duration extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   
@@ -342,7 +349,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1
     },
     selectStyle: {
-        backgroundColor: colors.white, borderRadius: 10, elevation: 2, 
+        backgroundColor: colors.white, borderRadius: 10, elevation: 2, ...GStyles.shadow,
         paddingHorizontal: 10, paddingVertical: 10, marginTop: 10, marginBottom: 10,
         justifyContent: 'center', alignItems: 'center'
     },

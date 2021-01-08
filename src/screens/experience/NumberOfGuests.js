@@ -59,12 +59,13 @@ class NumberOfGuests extends Component {
 
     renderPickerItem = () => {
         const { textOrange, textH4Style, textBold } = GStyles
-        const numbers = new Array(11).fill(0)
+        const numbers = new Array(20).fill(0)
         const pickerItems = ['Choose Number Of Guests', ...numbers]
         return (
             <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
                 selectedValue={this.state.maximumGroupSize}
+                placeholder="Choose number of guests"
                 onValueChange={this.onValueChange}>
                 {pickerItems.map((item, i) => {
                     return (
@@ -100,7 +101,7 @@ class NumberOfGuests extends Component {
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
-                    <ProgressBar width={14.2 * 4} />
+                    <ProgressBar width={12.5 * 4} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 10 }}>
@@ -119,14 +120,14 @@ class NumberOfGuests extends Component {
                     </View>
                     
                     <View style={button}>
-                        <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} 
+                        <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, ...GStyles.shadow }} 
                         onPress={this.updateExperience} />
                     </View>
                     <View style={[flexRow, styles.skipStyle]}>
                         {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
                         <View style={{ flex: 1}}>
                         <CustomButton buttonText="Skip To Step 6" 
-                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
                         textStyle={{ color: colors.orange }}
                         onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
                         </View>
@@ -142,7 +143,7 @@ class NumberOfGuests extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

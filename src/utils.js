@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import AsyncStorage from "@react-native-community/async-storage";
 import { showMessage, hideMessage } from "react-native-flash-message";
-import { Platform } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
 import { getToken, setToken } from './helpers';
@@ -11,6 +11,7 @@ let context = undefined;
 export let debug = false; 
 // export let debug = true; 
 export const GLOBAL_PADDING = 20;
+export const SCREEN_HEIGHT = Dimensions.get('screen').height
 
 const CLIENT_ID = '0987654321'
 const CLIENT_SECRET = '1234567890'
@@ -286,29 +287,27 @@ export async function UploadRequest(
    } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
    }   
-   
-   return fetch(Base + Url, {
-      method: method,
-      headers: headers,
-      body: Data,
+   return new Promise(async (resolve, reject) => {
+      try {
+         const response = await fetch(Base + Url, {
+            method: method,
+            headers: headers,
+            body: Data,
+         });
+         const data = await response.json();
+         resolve(data);
+      } catch (error) {
+         reject(error);
+      }
    })
-      .then((response) => {
-         return response.json();
-      })
-      .then((data) => {
-         let keys = Object.keys(data);
-         return data
-      })
-      .catch((error) => {
-         return error
-      })
+   
  }
 
 export const uploadMultipleFile = async (images) => {
    return new Promise((resolve, reject) => {
       const formData = new FormData();
       images.forEach((item, i) => {
-         const filename = item.path.substring(item.path.lastIndexOf('/') + 1)
+         const filename = item.filename ? item.filename : item.path.substring(item.path.lastIndexOf('/') + 1)
          formData.append("model", {
             // uri:Platform.OS === 'ios' ? item.sourceURL : item.path,
             uri: item.path,

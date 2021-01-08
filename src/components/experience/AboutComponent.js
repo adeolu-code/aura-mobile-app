@@ -79,7 +79,7 @@ class AboutComponent extends Component {
                     <View style={profileImgContainer}>
                         <Image source={imgUrl} style={imgStyle} />
                     </View>
-                    <TouchableOpacity onPress={this.changePhoto} style={{ paddingHorizontal: 30}}>
+                    <TouchableOpacity onPress={this.changePhoto} style={{ paddingHorizontal: 10}}>
                         <MyText style={[textOrange, textH4Style, textUnderline, textBold]}>Update Photo</MyText>
                     </TouchableOpacity>
                 </View>
@@ -89,7 +89,8 @@ class AboutComponent extends Component {
                     value={this.state.story} onChangeText={this.onChangeValue} attrName="story" multiline />
                 </View>
                 <View>
-                    <CustomButton buttonText="Save" onPress={this.updateExperience} buttonStyle={{ elevation: 2, marginBottom: 30 }} disabled={!this.state.story} />
+                    <CustomButton buttonText="Save" onPress={this.updateExperience} 
+                    buttonStyle={{ elevation: 2, marginBottom: 30, ...GStyles.shadow }} disabled={!this.state.story} />
                 </View>
             </View>
         );

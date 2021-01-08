@@ -93,7 +93,7 @@ class DescribeComponent extends Component {
                     value={this.state.guestPreExperienceInfomration} onChangeText={this.onChangeValue} attrName="guestPreExperienceInfomration" />
                 </View>
                 <View>
-                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} onPress={this.updateExperience}
+                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, ...GStyles.shadow, marginBottom: 30 }} onPress={this.updateExperience}
                     disabled={!this.state.guestPreExperienceInfomration} />
                 </View>
             </View>
