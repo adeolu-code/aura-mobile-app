@@ -33,7 +33,9 @@ let apiData = ''
 
 
 export const urls = {
-   identityBase: "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/",
+   identityBase: process.env.NODE_ENV === 'development' ? 
+   "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/" : 'https://aura.transcorphotels.com/identity',
+   
     bookingBase: "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     listingBase: "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     messagingBase: "http://aura-messaging.d6f993e093904834a7f1.eastus.aksapp.io/",

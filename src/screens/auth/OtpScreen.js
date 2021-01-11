@@ -149,7 +149,10 @@ class OtpScreen extends Component {
   checkEmailVerification = () => {
     this.sendMail()
     this.setState({ loading: false })
-    this.props.navigation.navigate('Success');
+    this.props.navigation.navigate('Success', { 
+      parentScreen: undefined,
+      finalScreen: undefined
+    });
   }
   render() {
     const { container, middleRow, bottomRow, inputContainer, topRow, buttonStyle } = styles
@@ -166,7 +169,7 @@ class OtpScreen extends Component {
             
             <View style={topRow}>
               <MyText style={[textH4Style, textGrey, { lineHeight: 25}]}>
-                An OTP code has been sent to {userData.phoneNumber} Kindly enter below the 6 digit code 
+                An OTP code has been sent to {userData ? userData.phoneNumber : ''} Kindly enter below the 6 digit code 
                 {/* or {' '}
                 <TouchableOpacity >
                   <MyText style={[textOrange, textUnderline, textBold, { marginBottom: -4}]}>Change Phone Number</MyText>

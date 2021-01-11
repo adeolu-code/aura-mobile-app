@@ -134,7 +134,7 @@ class Location extends Component {
     if(region) {
       return (
         <View style={[imgContainer, { paddingHorizontal: 0, height: 350, overflow: 'hidden' }]}>
-          <MapView region={this.state.region} onRegionChange={this.onRegionChange} minZoomLevel={15}
+          <MapView region={this.state.region} onRegionChange={this.onRegionChange} minZoomLevel={Platform.OS === 'ios' ? 0 : 15}
             style={{ height: '100%', width: '100%'}} onPress={e => this.onMapPress(e)} >
             {this.state.markers.map(marker => (
               <Marker key={marker.key} coordinate={marker.coordinate} pinColor={marker.color} />
