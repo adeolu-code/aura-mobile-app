@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import PasswordError from '../../components/auth/PasswordError';
 import FormError from '../../components/auth/FormError';
 import { AppContext } from '../../../AppProvider';
-import { setContext, Request, urls } from '../../utils';
+import { setContext, Request, urls, successMessage } from '../../utils';
 import { Icon } from 'native-base';
 import { setToken } from '../../helpers';
 
@@ -81,7 +81,20 @@ class signUp extends Component {
   }
   onBlurPhone = () => {
     const { phoneNumber } = this.state;
-    phoneNumber === '' ? this.setState({ phoneErrors: ['Phone number is required'] }) : this.setState({ phoneErrors: [] })
+    
+    phoneNumber === '' ? this.setState({ phoneErrors: ['Phone number is required'] }) : this.checkNumber(phoneNumber)
+    
+  }
+  checkNumber = (value) => {
+    const regex = new RegExp(/^[0-9\b]+$/);
+    // var regex= /^\d{10}$/;
+    if(!regex.test(value)) {
+      this.setState({ phoneErrors: ['Please enter only numbers']})
+    } else if(value.length < 10 || value.length > 11) {
+      this.setState({ phoneErrors: ['Please enter valid phone number'] })
+    } else {
+      this.setState({ phoneErrors: [] })
+    }
   }
   formatNumber = () => {
     const { country, phoneNumber } = this.state;
@@ -91,6 +104,7 @@ class signUp extends Component {
   disabled = () => {
     const { firstNameErrors, lastNameErrors, passwordError, phoneErrors, emailErrors,
       firstName, lastName, email, phoneNumber, password, dateOfBirth } = this.state;
+      const regex = new RegExp(/^[0-9\b]+$/);
     // if(firstNameErrors.length !== 0  || lastNameErrors !== 0 || phoneErrors !== 0 || emailErrors.length !== 0 || passwordError) {
     //   return true
     // }
@@ -99,6 +113,9 @@ class signUp extends Component {
     }
     if (firstName === '' || lastName === '' || phoneNumber === '' || password === '' || dateOfBirth === '' || email === '' || !email.includes('@')) {
       return true;
+    }
+    if(!regex.test(phoneNumber) || phoneNumber.length < 10 || phoneNumber.length > 11) { 
+      return true
     }
     return false;
   }
@@ -122,6 +139,7 @@ class signUp extends Component {
   getUserDetails = (token) => {
     this.context.getUserProfile(token)
     .then(() => {
+      successMessage('Registration was successful!')
       this.generateOtp()
     })
     .catch((error) => {
@@ -131,8 +149,8 @@ class signUp extends Component {
   generateOtp = async () => {
     const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
     this.setState({ loading: false })
-    if(res.IsError) {
-        const message = res.Message;
+    if(res.IsError || res.isError) {
+        const message = res.Message || res.message;
         const error = [`${message}. Or Try signing with your details`]
         this.setState({ formErrors: error})
     } else {
@@ -223,7 +241,7 @@ class signUp extends Component {
                 {dobErrors.length !== 0 ? <FormError errorMessages={dobErrors} /> : <Fragment />}
               </View>
               <View style={inputContainer}>
-                <PhoneNumberInput getCountry={this.getCountry} label="Phone Number" placeholder="Phone number" 
+                <PhoneNumberInput getCountry={this.getCountry} label="Phone Number" placeholder="Enter phone number" keyType="numeric"
                 value={this.state.phoneNumber} onChangeText={this.onChangeValue} attrName="phoneNumber" onBlur={this.onBlurPhone} />
                 {phoneErrors.length !== 0 ? <FormError errorMessages={phoneErrors} /> : <Fragment />}
               </View>

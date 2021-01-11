@@ -6,7 +6,7 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  TouchableOpacity,
+  TouchableOpacity, Platform
 } from 'react-native';
 import CountryPicker, { DARK_THEME, getAllCountries } from 'react-native-country-picker-modal';
 import {Icon} from 'native-base';
@@ -86,7 +86,7 @@ class PhoneNumberInput extends Component {
     } = this.props;
     // const inputImgStyle = imageUrl || iconName ? '' : InputWithImgStyle;
     const paddingRight = password ? '' : inputRightPadding;
-    const keyboard = this.props.keyType ? this.props.keyType : 'default';
+    const keyboard = this.props.keyType ? this.props.keyType : 'numeric';
     return (
       <View>
         {label ? (
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     fontSize: 17,
     color: colors.darkGrey,
-    fontFamily: 'Nunito-bold',
+    fontFamily: Platform.OS === 'ios' ? 'Nunito-Regular':'Nunito-bold',
     paddingHorizontal: 15,
   },
   InputWithImgStyle: {

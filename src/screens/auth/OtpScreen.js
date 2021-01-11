@@ -188,9 +188,9 @@ class OtpScreen extends Component {
                   </TouchableOpacity></MyText>
               </View>
 
-              <View style={{paddingTop: 40}}>
+              {/* <View style={{paddingTop: 40}}>
                   <MyText style={[textUnderline, textGreen, textBold, textH5Style]}>Request Call</MyText>
-              </View>
+              </View> */}
             </View>
             <View style={bottomRow}>
               {this.renderError()}
