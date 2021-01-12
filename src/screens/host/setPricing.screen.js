@@ -3,14 +3,14 @@ import { Styles } from "./host.style";
 import { Footer, Container, Content, View, Switch, Input, Picker } from "native-base";
 import { MyText, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
-import { TouchableOpacity, StatusBar, SafeAreaView, StyleSheet, Keyboard } from "react-native";
+import { TouchableOpacity, StatusBar, SafeAreaView, StyleSheet, Keyboard, Platform } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors"; 
 import TipViewComponent from "../../components/tip_view/tipView.component";
 import { GLOBAL_PADDING } from "../../utils";
 
 import { AppContext } from '../../../AppProvider';
-import { urls, Request, GetRequest, errorMessage } from '../../utils';
+import { urls, Request, GetRequest, errorMessage, SCREEN_HEIGHT } from '../../utils';
 import { formatAmount } from '../../helpers'
 
 export default class SetPricing extends Component {
@@ -23,7 +23,7 @@ export default class SetPricing extends Component {
 
     renderLoading = () => {
         const { loading, submitting } = this.state;
-        if (loading || submitting) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+        if (loading || submitting) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 1000 }} />); }
     }
 
     getCommissions = async () => {
@@ -59,9 +59,19 @@ export default class SetPricing extends Component {
 
     onPriceChange = (text) => {
         const { commissions } = this.state;
-        const vat = +text * (commissions.total/100)
-        const estEarning = +text - vat
-        this.setState({ price: text, commissionAndVAT: vat, estEarning })
+        const auraCommissionAmount = +text * (commissions.auraCommission / 100);
+        const taxAmount = auraCommissionAmount * (commissions.tax / 100);
+        const tourDeductionInTotal = auraCommissionAmount + taxAmount;
+
+        this.setState({ price: text, commissionAndVAT: auraCommissionAmount, estEarning: (Math.floor(+text - tourDeductionInTotal)).toString() })
+        // const vat = +text * (commissions.total/100)
+        // const estEarning = +text - vat
+        // this.setState({ price: text, commissionAndVAT: vat, estEarning })
+
+        // const auraCommissionAmount = value * (deductions.auraCommission / 100);
+        // const taxAmount = auraCommissionAmount * (deductions.tax / 100);
+        // const tourDeductionInTotal = auraCommissionAmount + taxAmount;
+        // this.setState({ estimatedEarning: (Math.floor(value - tourDeductionInTotal)).toString(), commission: tourDeductionInTotal })
     }
     
 
@@ -177,7 +187,7 @@ export default class SetPricing extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header {...this.props}  title="Set Your Pricing"  />
-                    <Container style={[Styles.container, {marginTop: 130, padding: 0, paddingBottom: 10}]}>
+                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 100 : 130, padding: 0, paddingBottom: 10}]}>
                         <Content scrollEnabled>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start", paddingHorizontal: 20, paddingTop: 20}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
@@ -226,7 +236,7 @@ export default class SetPricing extends Component {
                                 </View>
                             </View>
                             <View style={{marginBottom: 20, marginTop: 40, paddingHorizontal: 21}}>
-                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} disabled={this.state.price === ''} />
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} disabled={this.state.price === ''} />
                             </View>
                         </Content>
                         {/* <Footer style={[Styles.footer, Styles.transparentFooter, InternalStyles.pad]}>

@@ -1,28 +1,92 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Container, Header, Content } from "native-base";
-import { Image, TouchableOpacity, PermissionsAndroid, Platform, StatusBar } from "react-native";
+import { Image, TouchableOpacity, PermissionsAndroid, Platform, StatusBar, Alert, BackHandler, Linking } from "react-native";
 import { Styles } from "./splashScreenStyle";
 
 import Geolocation from 'react-native-geolocation-service';
 import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
 import { getUser, getToken } from '../../helpers';
 import { AppContext } from '../../../AppProvider';
+import DeviceInfo from 'react-native-device-info';
 
 
 const auraAnimated = require("./../../assets/aura_splash_animation.gif");
 const splashTimeout = 3800;
+
+import AppVersion from '../../../appVersion';
 
 const navigateToTab = async (props) => {
     props.navigation.navigate("Tabs");
     // console.log("moved", new Date().getMinutes(), new Date().getSeconds());
 }
 
+const AndroidStoreUrl = 'https://play.google.com/store/apps/details?id=';
+const IOSStoreUrl = 'https://apps.apple.com/gh/app/'
+
 
 const SplashScreen = (props) => {
     const [play, setPlay] = useState(true);
     const context = useContext(AppContext);
 
+    const checkVersion = async () => {
+        const res = await GetRequest(urls.identityBase, `${urls.v}auth/version`)
+        console.log('Check version ', res)
+        if(res.isError) {
 
+        } else {
+            if(Platform.OS === 'android') {
+                checkAndroid(res.data)
+            } else {
+                checkIOS(res.data)
+            }
+        }
+        // http.get('versions')
+        // .then((res) => {
+        //   const data =  res.data;
+        //   if(Platform.OS === 'android') {
+        //     this.checkAndroid(data.android)
+        //   } else {
+        //     this.checkIOS(data.ios)
+        //   }
+        //   console.log('Res ', res)
+        // })
+        // .catch(error => {
+        //   console.log(error)
+        //   this.checkLogin()
+        //   Notifications.events().registerNotificationOpened( (notification: Notification, completion: () => void) => {
+        //     console.log("Notification opened by device user", notification.payload);
+        //     completion();
+        //   });
+        // })
+    }
+    const checkAndroid = (versionNumber) => {
+        if(versionNumber !== AppVersion.android) {
+          const bundleId = DeviceInfo.getBundleId();
+          const url = `${AndroidStoreUrl}${bundleId}`
+          alertMessage(url)
+        }
+    }
+    const checkIOS = (versionNumber) => {
+        if(versionNumber !== AppVersion.ios) {
+          const url = `${IOSStoreUrl}`
+          alertMessage(url)
+        } 
+    }
+    const alertMessage = (url) => {
+        Alert.alert(
+          'Please Update',
+          'You will have to update your app to the latest version to continue using',
+          [
+            {
+              text: 'Update',
+              onPress: () => {
+                BackHandler.exitApp();
+                Linking.openURL(url)
+              }
+            }
+          ]
+        )
+    }
     const requestLocationPermission = async () => {
         if(Platform.OS === 'android') {
             await requestPermissionAndroid()
@@ -118,6 +182,7 @@ const SplashScreen = (props) => {
         } 
     }
     useEffect(() => {
+        checkVersion();
         setContext(context)
         checkLogin()
         requestLocationPermission()

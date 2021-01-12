@@ -96,6 +96,7 @@ class EditBankModal extends Component {
         if(banks.length !== 0) {
             return (<Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
                 style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
+                placeholder="Select Bank"
                 selectedValue={this.state.bankId}
                 onValueChange={this.onValueChange}>
                 {banks.map(item => {
@@ -274,19 +275,19 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     topRow: {
-        flex: 1,
+        flex: 2,
         // borderWidth: 1
     },
     middleRow: {
         justifyContent: 'center',
         flex: 3, paddingHorizontal: 20,
-    //   borderWidth: 1
+      borderWidth: 1
     },
     bottomRow: {
         justifyContent: 'flex-end',
         alignItems: 'center',
         paddingBottom: 50,
-        flex: 2.5,
+        flex: 1,
     //   borderWidth: 1
     },
       inputContainer: { 

@@ -85,8 +85,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white, elevation: 2, borderRadius: 8, ...GStyles.shadow
     },
     imgContainer: {
-        width: 120, height: 100, borderRadius: 6, overflow: 'hidden', marginRight: 20, backgroundColor: colors.lightGrey
-        
+        width: 120, height: 100, borderRadius: 6, overflow: 'hidden', marginRight: 20, backgroundColor: colors.lightGrey,
     },
     typeStyle: {
         marginBottom:10, alignItems: 'center'
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
     },
     activeStyle: {
         height: 20, width: 20, position: 'absolute', right: 5, bottom: 5,
-        borderRadius: 14, elevation: 4
+        borderRadius: 14, elevation: 4, ...GStyles.shadow
     },
     bgGreen: {
         backgroundColor: colors.success,

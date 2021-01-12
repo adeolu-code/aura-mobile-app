@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
       height: 30, width: 30, overflow: 'hidden', borderRadius: 40, marginRight: 10
     },
     checkStyle: {
-      marginVertical: 8
+      marginVertical: 8, flex: 1
     }
   });
 
