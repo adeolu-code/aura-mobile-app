@@ -31,15 +31,20 @@ const SplashScreen = (props) => {
     const checkVersion = async () => {
         const res = await GetRequest(urls.identityBase, `${urls.v}auth/version`)
         console.log('Check version ', res)
-        if(res.isError) {
+        try {
+            if(res.isError) {
 
-        } else {
-            if(Platform.OS === 'android') {
-                checkAndroid(res.data)
             } else {
-                checkIOS(res.data)
+                if(Platform.OS === 'android') {
+                    checkAndroid(res.data)
+                } else {
+                    checkIOS(res.data)
+                }
             }
+        } catch (error) {
+            errorMessage(error.message)
         }
+        
         // http.get('versions')
         // .then((res) => {
         //   const data =  res.data;

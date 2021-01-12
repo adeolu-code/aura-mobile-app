@@ -25,17 +25,22 @@ class ScrollContentFood extends Component {
 
     getRestaurants = async (long, lat) => {
         this.setState({ loading: true })
-        const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/?Size=4&Page=1`);
-        this.setState({ loading: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            const data = res.data.items
-            this.setState({ restaurants: data })
-            if(data.length !== 0) {
-                this.setState({ noDot: false })
-            }
+        try {
+            const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/?Size=4&Page=1`);
+            this.setState({ loading: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data.items
+                this.setState({ restaurants: data })
+                if(data.length !== 0) {
+                    this.setState({ noDot: false })
+                }
+            } 
+        } catch (error) {
+            this.setState({ loading: false })
         }
+        
     }
 
     renderLoading = () => {

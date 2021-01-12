@@ -145,14 +145,18 @@ class signUp extends Component {
     this.setState({ loading: true, formErrors: [] });
     const number = this.formatNumber();
     const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms, dateOfBirth };
-    const res = await Request(urls.identityBase, `${urls.v}user/signup`, obj);
-    console.log(res);
-    if (res.isError) {
-      this.setState({ formErrors: res.data, loading: false });
-    } else {
-      this.getUserDetails(res.data.authentication.access_token);
-      this.context.set({ token: res.data })
-      setToken(res.data)
+    try {
+      const res = await Request(urls.identityBase, `${urls.v}user/signup`, obj);
+      console.log(res);
+      if (res.isError) {
+        this.setState({ formErrors: res.data, loading: false });
+      } else {
+        this.getUserDetails(res.data.authentication.access_token);
+        this.context.set({ token: res.data })
+        setToken(res.data)
+      }
+    } catch (error) {
+      this.setState({ loading: false, formErrors: [error.message] })
     }
   }
   getUserDetails = (token) => {

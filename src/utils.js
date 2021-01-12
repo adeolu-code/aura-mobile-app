@@ -235,18 +235,27 @@ export async function Request(
       headers["Authorization"] = "Bearer " + token
    } 
    const body = !PreparedData ? PrepareData(Data) : Data
-   const res = await fetch(Base + Url, {
-      method, headers, body })
 
-   if(res.status === 401) {
-      const apiDetails = {
-         url: Base + Url, headers, type: method, body
+   return new Promise(async (resolve, reject) => {
+      try {
+         const res = await fetch(Base + Url, { method, headers, body })
+
+         if(res.status === 401) {
+            const apiDetails = {
+               url: Base + Url, headers, type: method, body
+            }
+            refreshToken(apiDetails)
+         } else {
+            let data = res.json()
+            resolve(data)
+            // return data
+         }
+      } catch (error) {
+         reject(error)
       }
-      refreshToken(apiDetails)
-   } else {
-      let data = res.json()
-      return data
-   }
+      
+   })
+   
 }
 
 
@@ -277,16 +286,25 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
       url = url+"?"+search;
       consoleLog("get data", data, url);
     }
-   const response = await fetch(url, { method: type, headers })
-   if(response.status === 401) {
-      const apiDetails = {
-         url, headers, type
+   return new Promise(async (resolve, reject) => {
+      try {
+         const response = await fetch(url, { method: type, headers })
+         if(response.status === 401) {
+            const apiDetails = {
+               url, headers, type
+            }
+            refreshToken(apiDetails)
+         } else {
+            let data = response.json()
+            resolve(data)
+            // return data
+         }
+      } catch (error) {
+         reject(error)
       }
-      refreshToken(apiDetails)
-   } else {
-      let data = response.json()
-      return data
-   }
+   })
+   
+   
 } 
 // if(data !== undefined && (data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
 //    console.log('Got here utils ', data)
