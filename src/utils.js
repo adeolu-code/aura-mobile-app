@@ -216,11 +216,12 @@ export async function Request(
    Data,
    PreparedData = false,
    method = "POST",
-   
  ) {
    //if PreparedData then no need to convert the data to json or multi part e.g is data being passed is already a form data
    //also change content type
+   
    const token = await getUserToken();
+   
    let headers = {}
    consoleLog("url", Base+Url, Data)
    
@@ -243,11 +244,12 @@ export async function Request(
    const body = !PreparedData ? PrepareData(Data) : Data
 
    return new Promise(async (resolve, reject) => {
-      console.log(Url)
+      console.log('utils url ',Url)
       try {
          const res = await fetch(Base + Url, { method, headers, body })
 
-         if(res.status === 401 && Url !== 'user/changepassword/') {
+         if(res.status === 401 && Url !== 'user/changepassword/' && Url !== 'api/v1/user/otp/generate') {
+            console.log('Got here ',Base, 'Url ', Url)
             const apiDetails = {
                url: Base + Url, headers, type: method, body
             }

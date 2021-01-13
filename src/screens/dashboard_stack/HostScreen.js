@@ -180,9 +180,9 @@ class HostScreen extends Component {
           {this.renderLoading()}
           <View style={contentContainer}>  
           <ScrollView style={{flex: 1, backgroundColor: colors.white }}>
-              <View style={{flex: 2}}>
+              {/* <View style={{flex: 2}}>
                   <MyText style={[textExtraBold, textH1Style, textDarkBlue]}>Dashboard</MyText>
-              </View>
+              </View> */}
               
               <View style={middleStyle}>
                   <MyText style={[textGrey, textH4Style, textCenter]}>
