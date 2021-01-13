@@ -159,11 +159,11 @@ class ProfileScreenClass extends Component {
                         /> */}
                         <View style={{ paddingHorizontal: 20 }}>
                             {/* Hosting */}
-                            <ProfileComponent 
+                            {/* <ProfileComponent 
                                 title={"Learn about Hosting"} 
                                 description={"Credit Cards, Coupons and more"} 
                                 iconImage={require("./../../assets/images/profile/education/education.png")}
-                            />
+                            /> */}
                             {
                                 userIsLoggedIn &&
                                     <>
@@ -186,15 +186,14 @@ class ProfileScreenClass extends Component {
                                     </> 
                             }
                         </View>
-                        {
+                        {/* {
                                 userIsLoggedIn &&
                                 <Separator style={[Styles.separator]}>
                                     <MyText style={[Styles.separatorText, textBold, textH4Style]}>Support</MyText>
                                 </Separator>
-                        }
+                        } */}
                         
-                        <View style={{ paddingHorizontal: 20 }}>
-                            {/* Hosting */}
+                        {/* <View style={{ paddingHorizontal: 20 }}>
                             <ProfileComponent 
                                 title={"Get Help"} 
                                 description={"Get 24/7 support, tools and information you need"} 
@@ -209,7 +208,7 @@ class ProfileScreenClass extends Component {
                                     onPress={() => this.props.navigation.navigate('Complaint')}
                                 />
                             }
-                        </View>
+                        </View> */}
                         {
                                 userIsLoggedIn &&
                                 <>
