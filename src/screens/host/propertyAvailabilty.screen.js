@@ -10,7 +10,7 @@ import TipViewComponent from "../../components/tip_view/tipView.component";
 import {Calendar} from 'react-native-calendars';
 
 import { AppContext } from '../../../AppProvider';
-import { urls, Request, GetRequest, errorMessage } from '../../utils';
+import { urls, Request, GetRequest, errorMessage, SCREEN_HEIGHT } from '../../utils';
 import { isEmpty } from '../../helpers';
 
 
@@ -25,7 +25,7 @@ export default class PropertyAvailability extends Component {
     }
     renderLoading = () => {
         const { loading, gettingCalendar } = this.state;
-        if (loading || gettingCalendar) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+        if (loading || gettingCalendar) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 1000 }} />); }
     }
     getDaysInMonth = (month, year) => {
         return new Date(year,month,0).getDate()

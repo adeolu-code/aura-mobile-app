@@ -67,8 +67,9 @@ class BookingSettings extends Component {
     }
     renderPickerOne = () => {
         return (
-            <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
+            <Picker mode="dropdown" Icon={<Icon name="ios-arrow-down" />}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
+                placeholder="Choose Amount of time"
                 selectedValue={this.state.cutOffTimeForAdditionalGuest}
                 onValueChange={this.onChangePickerOne}>
                 {this.times.map((item, i) => {
@@ -81,13 +82,15 @@ class BookingSettings extends Component {
     }
     renderPickerTwo = () => {
         return (
-            <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
+            <Picker mode="dropdown" Icon={<Icon name="ios-arrow-down" />}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
+                placeholder="Choose Amount of time"
                 selectedValue={this.state.cutOffTimeForFirstGuest}
                 onValueChange={this.onChangePickerTwo}>
                 {this.times.map((item, i) => {
+                    const key = `TI_${i}`
                     return (
-                        <Picker.Item label={item} value={CHOOSE_TIME === item ? '' : item} key={i} />
+                        <Picker.Item label={item} value={CHOOSE_TIME === item ? '' : item} key={key} />
                     )
                 })}
             </Picker>
@@ -98,7 +101,7 @@ class BookingSettings extends Component {
         const { tourOnboard, editTour } = this.context.state;
         if(editTour) {
             this.setState({ cutOffTimeForAdditionalGuest: tourOnboard.cutOffTimeForAdditionalGuest,
-                 cutOffTimeForFirstGuest: tourOnboard.cutOffTimeForFirstGuest })
+                cutOffTimeForFirstGuest: tourOnboard.cutOffTimeForFirstGuest })
         }
     }
 
@@ -116,7 +119,7 @@ class BookingSettings extends Component {
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
-                    <ProgressBar width={14.3 * 7} />
+                    <ProgressBar width={12.5 * 8} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 10 }}>
@@ -154,7 +157,7 @@ class BookingSettings extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

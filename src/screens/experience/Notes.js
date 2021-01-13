@@ -75,7 +75,7 @@ class Notes extends Component {
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
-                    <ProgressBar width={14.2 * 2} />
+                    <ProgressBar width={12.5 * 2} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 20 }}>
@@ -90,7 +90,7 @@ class Notes extends Component {
                             <View style={{paddingHorizontal: 2, marginTop: 30}}>
                                 <View>
                                     <CustomInput placeholder={placeholder} 
-                                    textInputStyle={{ height: 150, marginBottom:10 }} textAlignVertical="top" 
+                                    textInputStyle={{ height: 150, marginBottom:10 }} textAlignVertical="top" multiline
                                     value={this.state.notes} onChangeText={this.onChangeValue} attrName="notes" />
                                 </View>
                             </View>
@@ -99,13 +99,13 @@ class Notes extends Component {
                     </View>
                     
                     <View style={button}>
-                        <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} onPress={this.updateExperience} />
+                        <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.updateExperience} />
                     </View>
                     <View style={[flexRow, styles.skipStyle]}>
                         {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
                         <View style={{ flex: 1}}>
                             <CustomButton buttonText="Skip To Step 6" 
-                            buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
                             textStyle={{ color: colors.orange }}
                             onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
                         </View>
@@ -121,7 +121,7 @@ class Notes extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

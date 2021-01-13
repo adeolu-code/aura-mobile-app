@@ -53,7 +53,7 @@ export default class BookingDuration extends Component {
         return (
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="When Should We Notify You Before A Guest Shows Up" />
+                    <Header {...this.props} title="How Long Can a Guest Stay?" />
                     <Container style={[Styles.container, {marginTop: 200}]}>
                         <Content scrollEnabled>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>

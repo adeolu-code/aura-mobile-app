@@ -61,22 +61,26 @@ class LocationScreen extends Component {
     }
     
     requestPermissionIos = async () => {
-        request(PERMISSIONS.IOS.LOCATION_ALWAYS)
-        .then((result) => {
-            console.log('Request permissions ios ', result)
-            switch (result) {
-            case 'granted':
-                this.getCurrentPos();
-                break;
-            default:
-                errorMessage('Please grant access to your location to continue')
-                break;
-            }
-        })
-        .catch((error) => {
-            console.log('Permissions catched error ', error)
-            errorMessage('Something went wrong, please try again')
-        });
+        const request = await Geolocation.requestAuthorization('whenInUse')
+        if(request === 'granted') {
+            this.getCurrentPos();
+        }
+        // request(PERMISSIONS.IOS.LOCATION_ALWAYS)
+        // .then((result) => {
+        //     console.log('Request permissions ios ', result)
+        //     switch (result) {
+        //     case 'granted':
+        //         this.getCurrentPos();
+        //         break;
+        //     default:
+        //         errorMessage('Please grant access to your location to continue')
+        //         break;
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.log('Permissions catched error ', error)
+        //     errorMessage('Something went wrong, please try again')
+        // });
     }
     getCurrentPos = async () => {
         this.setState({ loading: true })

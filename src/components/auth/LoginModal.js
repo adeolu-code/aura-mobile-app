@@ -84,7 +84,7 @@ class LoginModal extends Component {
       }
     } catch (error) {
       console.log('Catched error ', error)
-      this.setState({ formErrors: error, loading: false})
+      this.setState({ formErrors: [error.message], loading: false})
     }
     // finally{
     //   this.setState({loading: false})

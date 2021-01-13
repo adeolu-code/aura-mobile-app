@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TouchableWithoutFeedback, Platform } from 'react-native';
 import GStyles from '../assets/styles/GeneralStyles';
 import { MyText } from '../utils/Index';
 import { Icon } from 'native-base';
@@ -50,13 +50,14 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         // padding: 20, 
-        backgroundColor: colors.orange, width: '100%', elevation: 1, borderTopLeftRadius: 10, borderTopRightRadius: 10
+        backgroundColor: colors.orange, width: '100%', elevation: 1, borderTopLeftRadius: 10, borderTopRightRadius: 10,
+        ...GStyles.shadow
     },
     galleryContainer: {
-        justifyContent: 'center', alignItems: 'center', flex: 1, paddingVertical: 20
+        justifyContent: 'center', alignItems: 'center', flex: 1, paddingVertical: 20, paddingBottom: Platform.OS === 'ios' ? 40 : 0
     },
     cameraContainer: {
-        alignItems: 'center', flex: 1, justifyContent: 'center', paddingVertical: 20
+        alignItems: 'center', flex: 1, justifyContent: 'center', paddingVertical: 20, paddingBottom: Platform.OS === 'ios' ? 40 : 0
     }
 });
 

@@ -44,7 +44,7 @@ class HomeSingle extends Component {
   constructor(props) {
     super(props);
     this.state = { showCheckInModal: false, showCheckOutModal: false, showReserveModal: false, showModal: false, house: null, loadingImages: false, photos: [], gettingHouse: false, gettingHouseRules: false,
-        houseId: '', houseRules: [], location: null, gettingReviews: false, reviews: [], 
+        houseId: '', houseRules: [], location: null, gettingReviews: false, reviews: [], hostDetails: false,
         gettingComments: false, comments: [], gettingCalendar: false, calendar: null, showLoginModal: false, showRegisterModal: false, 
         formData: {
           Arrival_Time_From: '',
@@ -67,14 +67,8 @@ class HomeSingle extends Component {
     
   }
   
-  openHostDetailsModal = () => {
-    this.setState({ showModal: true })
-  }
-  closeHostDetailsModal = () => {
-    this.setState({ showModal: false })
-  }
   contactHost = () => {
-    const { state } = this.context
+    const { state } = this.context;
     this.setState({ contact: true })
     if(state.isLoggedIn) {
       this.linkToChat()
@@ -109,37 +103,53 @@ class HomeSingle extends Component {
     if(bool) {
       this.setState({ shareIdModal: true })
       const { state, getUserProfile } = this.context;
-      if(state.token) {
+      if (state.token) {
         getUserProfile(state.token)
       }
     }
   }
   openLoginModal = () => {
-    this.setState({ showLoginModal: true })
+    this.setState({ showLoginModal: true });
   }
   closeLoginModal = (bool) => {
     this.setState(() => ({ showLoginModal: false }), () => {
-      if(bool) {
-        if(this.state.contact) {
-          this.linkToChat()
-        } else {
-          this.openCheckInModal();
+      if (bool) {
+          if (this.state.contact) {
+            this.linkToChat();
+          } else if (this.state.hostDetails === true) {
+            this.openHostDetailsModal(); () => {
+            this.setState({hostDetails: false});
+            };
+          } else {
+            this.openCheckInModal();
+          }
         }
-      }
-    })
+    });
   }
   openSignUpModal = () => {
-    this.setState({ showRegisterModal: true })
+    this.setState({ showRegisterModal: true });
   }
   closeSignUpModal = () => {
-    this.setState({ showRegisterModal: false })
+    this.setState({ showRegisterModal: false });
+  }
+
+  openHostDetailsModal = () => {
+    const { state } = this.context;
+    if (state.isLoggedIn) {
+      this.setState({ showModal: true });
+    } else {
+      this.setState({ showLoginModal: true, hostDetails: true});
+    }
+  }
+  closeHostDetailsModal = () => {
+    this.setState({ showModal: false });
   }
   openCheckInModal = () => {
     // this.openSharedIdModal()
     // this.openReserveModal()
     const { state } = this.context
     this.setState({ contact: false })
-    if(state.isLoggedIn) {
+    if (state.isLoggedIn) {
       this.setState({ showCheckInModal: true })
     } else {
       this.setState({ showLoginModal: true})
@@ -149,8 +159,8 @@ class HomeSingle extends Component {
     this.setState({ showCheckInModal: false })
   }
   openCheckOutModal = (value) => {
-    const { formData } = this.state
-    if(value) {
+    const { formData } = this.state;
+    if (value) {
       const obj = { ...formData, check_In_Date: value }
       this.setState({ formData: obj })
     }
@@ -160,8 +170,8 @@ class HomeSingle extends Component {
     this.setState({ showCheckOutModal: false })
   }
   openReserveModal = (value) => {
-    const { formData } = this.state
-    if(value) {
+    const { formData } = this.state;
+    if (value) {
       const obj = { ...formData, check_Out_Date: value }
       this.setState({ formData: obj })
     }
@@ -291,7 +301,7 @@ class HomeSingle extends Component {
   }
 
   getCalendar = async () => {
-    const { house } = this.state
+    const { house } = this.state;
     this.setState({ gettingCalendar: true })
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/calendar?PropertyId=${house.id}`);
     console.log('House calendar ', res)
@@ -352,6 +362,7 @@ class HomeSingle extends Component {
         <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
 
         <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
+        <HostDetails {...this.props} visible={this.state.showModal} navigateToHouse={this} onDecline={this.closeHostDetailsModal} />
 
         {isLoggedIn ? <IdentityCardModal visible={this.state.showIdentityModal} onDecline={this.closeIdentityModal} { ...this.props} />
         :<></>}
@@ -378,7 +389,7 @@ const styles = StyleSheet.create({
     placeAroundContainer: {
         paddingTop: 20, paddingBottom:100,
         backgroundColor: colors.white,
-        borderTopWidth: 2, borderTopColor: colors.lightGrey
+        borderTopWidth: 2, borderTopColor: colors.lightGrey,
     },
     divider: {
         width: '100%', height: 1, backgroundColor: colors.lightGrey,

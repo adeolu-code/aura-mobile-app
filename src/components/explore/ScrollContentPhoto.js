@@ -44,15 +44,20 @@ class ScrollContent extends Component {
     getPhotographers = async () => {
         // const res = await GetRequest(urls.photographyBase, 
         // `${urls.v}photographer/?country=${country}&state=${st}&Size=4&Page=1`);
-        this.setState({ loading: true })
-        const res = await GetRequest(urls.photographyBase, 
-            `${urls.v}photographer/all?Size=4&Page=1`);
-        this.setState({ loading: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            this.setState({ photographers: res.data.data })
+        try {
+            this.setState({ loading: true })
+            const res = await GetRequest(urls.photographyBase, 
+                `${urls.v}photographer/all?Size=4&Page=1`);
+            this.setState({ loading: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                this.setState({ photographers: res.data.data })
+            }
+        } catch (error) {
+            this.setState({ loading: false})
         }
+        
     }
     renderLoading = () => {
         const { loading } = this.state;

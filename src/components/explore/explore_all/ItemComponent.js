@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     },
     typeContainer: {
         paddingHorizontal: 30, paddingTop: 10, paddingBottom: 13, position: 'absolute',zIndex:20, right: 0, bottom: 0,
-        borderTopLeftRadius: 8
+        borderTopLeftRadius: 8, borderBottomRightRadius: 8
     },
     bgOrange: {
         backgroundColor: colors.orange

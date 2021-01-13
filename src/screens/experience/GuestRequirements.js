@@ -77,7 +77,8 @@ class GuestRequirements extends Component {
         const numbers = new Array(22).fill(0)
         return (
             <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
+                placeholder="Select Age"
                 selectedValue={this.state.minimumAge}
                 onValueChange={this.onValueChange}>
                 {numbers.map((item, i) => {
@@ -144,7 +145,7 @@ class GuestRequirements extends Component {
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
-                    <ProgressBar width={14.2 * 3} />
+                    <ProgressBar width={12.5 * 3} />
                 </View>
                 <ScrollView>
                     <View style={{ flex: 1, marginTop: 10 }}>
@@ -181,14 +182,14 @@ class GuestRequirements extends Component {
                     </View>
                     
                     <View style={button}>
-                        <CustomButton buttonText="Save" buttonStyle={{ elevation: 2}} disabled={this.validate()} 
+                        <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, ...GStyles.shadow}} disabled={this.validate()} 
                         onPress={this.updateExperience} />
                     </View>
                     <View style={[flexRow, styles.skipStyle]}>
                         {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
                         <View style={{ flex: 1}}>
                             <CustomButton buttonText="Skip To Step 6" 
-                            buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                            buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
                             textStyle={{ color: colors.orange }}
                             onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourSafetyOverview' }) }} />
                         </View>
@@ -204,7 +205,7 @@ class GuestRequirements extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

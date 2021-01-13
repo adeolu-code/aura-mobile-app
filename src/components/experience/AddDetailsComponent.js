@@ -57,7 +57,8 @@ class AddDetailsComponent extends Component {
             arr.push(provision)
         });
         if(editTour) {
-            this.setState({ experienceProvisions: arr })
+            const a = arr.filter(item => item !== undefined)
+            this.setState({ experienceProvisions: a })
         }
     }
     
@@ -87,6 +88,7 @@ class AddDetailsComponent extends Component {
     }
 
     removeItem = (item) => {
+        console.log(item)
         const { experienceProvisions } = this.state
         const arr = [ ...experienceProvisions ]
         const index = arr.findIndex(x => x.id === item.id)
@@ -105,7 +107,7 @@ class AddDetailsComponent extends Component {
                             <MyText style={[textH3Style, textGrey, textBold, { marginBottom: 5}]}>{item?.name}</MyText>
                         </View>
                         <TouchableOpacity style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}} onPress={this.removeItem.bind(this, item)}>
-                            <Icon name="trash" style={{ color: colors.orange, marginLeft: 20}} />
+                            <Icon name="trash" style={{ color: colors.orange, marginLeft: 10,}} />
                         </TouchableOpacity>
                     </View>
                 )
@@ -149,7 +151,7 @@ class AddDetailsComponent extends Component {
                 
 
                 <View>
-                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, marginBottom: 30 }} onPress={this.updateExperience} />
+                    <CustomButton buttonText="Save" buttonStyle={{ elevation: 2, ...GStyles.shadow, marginBottom: 30 }} onPress={this.updateExperience} />
                 </View>
                 <AddDetailsModal visible={this.state.showModal} onDecline={this.closeModal} setValue={this.setValue} getProvisions={this.getProvisions} />
             </View>

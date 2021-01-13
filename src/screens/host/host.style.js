@@ -1,10 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import colors from "../../colors";
 import { GLOBAL_PADDING } from "../../utils";
+import GStyles from '../../assets/styles/GeneralStyles';
 
 export const Styles = StyleSheet.create({
     container: {
-        marginTop: 145,
+        marginTop: Platform.OS === 'ios' ? 120 : 145,
         padding: GLOBAL_PADDING,
         paddingBottom: 10,
     },
@@ -42,7 +43,7 @@ export const Styles = StyleSheet.create({
     },
     calendarContainer: {
         borderRadius: 10, elevation: 3, backgroundColor: colors.white, marginVertical: 10,
-        overflow: 'hidden', paddingHorizontal: 2, paddingVertical: 10
+        paddingHorizontal: 2, paddingVertical: 10, ...GStyles.shadow
     },
 
     //amenities
@@ -76,7 +77,8 @@ export const Styles = StyleSheet.create({
         padding: GLOBAL_PADDING,
     },
     propertyContainer: {
-        width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8
+        width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8,
+        ...GStyles.shadow
     },
     imgContainer: {
         width: 120, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
@@ -128,7 +130,7 @@ export const Styles = StyleSheet.create({
         height: 210, width: "100%",
         flexDirection: "row",
         marginBottom: 20,
-        borderRadius: 5, elevation: 2
+        borderRadius: 5, elevation: 2, ...GStyles.shadow
     },
     imageView: {
         flex: 0.4,

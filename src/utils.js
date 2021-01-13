@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import AsyncStorage from "@react-native-community/async-storage";
 import { showMessage, hideMessage } from "react-native-flash-message";
+import { Platform, Dimensions } from 'react-native';
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
 import { getToken, setToken } from './helpers';
@@ -11,6 +12,7 @@ let context = undefined;
 export let debug = true; 
 // export let debug = true; 
 export const GLOBAL_PADDING = 20;
+export const SCREEN_HEIGHT = Dimensions.get('screen').height
 
 const CLIENT_ID = '0987654321'
 const CLIENT_SECRET = '1234567890'
@@ -43,6 +45,7 @@ export const urls = Object.assign({
     storageBase: "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/storage/",
     experienceBase: "http://aura-experience-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     restaurantBase: "http://aura-restaurant.d6f993e093904834a7f1.eastus.aksapp.io/",
+    
     v1: "api/v1/",
     v: "api/v1/",
     auth: "auth/",
@@ -204,18 +207,25 @@ export async function Request(
       headers["Authorization"] = "Bearer " + token
    } 
    const body = !PreparedData ? PrepareData(Data) : Data
-   const res = await fetch(Base + Url, {
-      method, headers, body })
 
-   if(res.status === 401) {
-      const apiDetails = {
-         url: Base + Url, headers, type: method, body
-      }
-      return refreshToken(apiDetails)
-   } else {
-      let data = res.json()
-      return data
-   }
+   return new Promise(async (resolve, reject) => {
+      try {
+         const res = await fetch(Base + Url, { method, headers, body })
+
+         if(res.status === 401) {
+            const apiDetails = {
+               url: Base + Url, headers, type: method, body
+            }
+            return refreshToken(apiDetails)
+         } else {
+            let data = res.json()
+            resolve(data)
+            // return data
+         }
+      } catch (error) {
+         reject(error)
+      } 
+   })
 }
 
 
@@ -246,16 +256,23 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
       url = url+"?"+search;
       consoleLog("get data", data, url);
     }
-   const response = await fetch(url, { method: type, headers })
-   if(response.status === 401) {
-      const apiDetails = {
-         url, headers, type
+   return new Promise(async (resolve, reject) => {
+      try {
+         const response = await fetch(url, { method: type, headers })
+         if(response.status === 401) {
+            const apiDetails = {
+               url, headers, type
+            }
+            refreshToken(apiDetails)
+         } else {
+            let data = response.json()
+            resolve(data)
+            // return data
+         }
+      } catch (error) {
+         reject(error)
       }
-      return refreshToken(apiDetails)
-   } else {
-      let data = response.json()
-      return data
-   }
+   })
 } 
 // if(data !== undefined && (data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
 //    console.log('Got here utils ', data)
@@ -285,30 +302,29 @@ export async function UploadRequest(
    } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
    }   
-   
-   return fetch(Base + Url, {
-      method: method,
-      headers: headers,
-      body: Data,
+   return new Promise(async (resolve, reject) => {
+      try {
+         const response = await fetch(Base + Url, {
+            method: method,
+            headers: headers,
+            body: Data,
+         });
+         const data = await response.json();
+         resolve(data);
+      } catch (error) {
+         reject(error);
+      }
    })
-      .then((response) => {
-         return response.json();
-      })
-      .then((data) => {
-         let keys = Object.keys(data);
-         return data
-      })
-      .catch((error) => {
-         return error
-      })
+   
  }
 
 export const uploadMultipleFile = async (images) => {
    return new Promise((resolve, reject) => {
       const formData = new FormData();
       images.forEach((item, i) => {
-         const filename = item.path.substring(item.path.lastIndexOf('/') + 1)
+         const filename = item.filename ? item.filename : item.path.substring(item.path.lastIndexOf('/') + 1)
          formData.append("model", {
+            // uri:Platform.OS === 'ios' ? item.sourceURL : item.path,
             uri: item.path,
             name: `${Date.now()}_${filename}`,
             type: item.mime

@@ -102,7 +102,8 @@ class AddDetailsComponent extends Component {
             <View style={[container]}>
                 <MyText style={[textGrey, textH4Style, { marginTop: 15}]}>
                     If guests need anything in order to enjoy your experience, this is the place to tell them. 
-                    Cooking experience hosts should make sure to include a complete list of ingredients here instead of planning to send them to guests later. 
+                    Cooking experience hosts should make sure to include a 
+                    complete list of ingredients here instead of planning to send them to guests later. 
                     We can’t accept submissions that don’t have a complete and specific list.
                 </MyText>
                 <MyText style={[textGrey, textH4Style, { marginTop: 15}]}>

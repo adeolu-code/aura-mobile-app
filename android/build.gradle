@@ -2,6 +2,9 @@
 
 buildscript {
     ext {
+        // firebaseIidVersion = "19.0.1"
+        googlePlayServicesIidVersion = "17.0.0"
+
         buildToolsVersion = "29.0.2"
         // minSdkVersion = 16
         minSdkVersion = 21
@@ -12,6 +15,10 @@ buildscript {
 
         playServicesVersion = "17.0.0"
         androidMapsUtilsVersion = "2.0.3"
+
+        supportLibVersion = '1.0.2'
+        mediaCompatVersion = '1.0.1'
+        supportV4Version = '1.0.0'
         
     }
     repositories {

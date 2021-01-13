@@ -6,7 +6,7 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Modal, TouchableWithoutFeedback, Platform
+    Modal, TouchableWithoutFeedback, Platform, ScrollView
 } from "react-native";
 import colors from "../../colors";
 import { MyText, CustomButton, CustomInputNumber, Loading, Error, CustomInput } from "../../utils/Index";
@@ -96,6 +96,7 @@ class EditBankModal extends Component {
         if(banks.length !== 0) {
             return (<Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
                 style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
+                placeholder="Select Bank"
                 selectedValue={this.state.bankId}
                 onValueChange={this.onValueChange}>
                 {banks.map(item => {
@@ -205,40 +206,43 @@ class EditBankModal extends Component {
                                 Payment Settings 
                             </MyText>
                         </View>
-                        <View style={container} >
-                            
-                            <View style={topRow}>
-                                <View style={inputContainer}>
-                                    <CustomInput label="Account Name" attrName="accountName" value={this.state.accountName} 
-                                    placeholder=" " onChangeText={this.onChangeValue} disabled />
+                        <ScrollView>
+                            <View style={container} >
+                                
+                                <View style={topRow}>
+                                    <View style={inputContainer}>
+                                        <CustomInput label="Account Name" attrName="accountName" value={this.state.accountName} 
+                                        placeholder=" " onChangeText={this.onChangeValue} disabled />
+                                        
+                                    </View>
+
+                                    <View style={inputContainer}>
+                                        <MyText style={[textGrey, textH4Style]}>
+                                            Commercial Banks
+                                        </MyText>
+                                        <View style={picker}>
+                                            {this.renderPickerItem()}
+                                        </View>
+                                    </View>
+
+                                    <View style={inputContainer}>
+                                        <CustomInput label="Account Number" value={this.state.accountName} 
+                                        placeholder=" " value={this.state.accountNumber} attrName="accountNumber"
+                                        onChangeText={this.onChangeValue} onBlur={this.checkAccountNumber} loading={this.state.resolving} />
+                                    </View>
                                     
                                 </View>
-
-                                <View style={inputContainer}>
-                                    <MyText style={[textGrey, textH4Style]}>
-                                        Commercial Banks
-                                    </MyText>
-                                    <View style={picker}>
-                                        {this.renderPickerItem()}
-                                    </View>
-                                </View>
-
-                                <View style={inputContainer}>
-                                    <CustomInput label="Account Number" value={this.state.accountName} 
-                                    placeholder=" " value={this.state.accountNumber} attrName="accountNumber"
-                                    onChangeText={this.onChangeValue} onBlur={this.checkAccountNumber} loading={this.state.resolving} />
+                                
+                                
+                                
+                                <View style={bottomRow}>
+                                    {this.renderError()}
+                                    <CustomButton buttonText={edit ? "Edit Bank Details" : "Add Bank Details"} onPress={this.submitForm} 
+                                    disabled={this.state.resolving || this.state.accountNumber === '' || this.state.formErrors.length !== 0} />
                                 </View>
                                 
                             </View>
-                            
-                            
-                            <View style={bottomRow}>
-                                {this.renderError()}
-                                <CustomButton buttonText={edit ? "Edit Bank Details" : "Add Bank Details"} onPress={this.submitForm} 
-                                disabled={this.state.resolving || this.state.accountNumber === '' || this.state.formErrors.length !== 0} />
-                            </View>
-                        </View>
-                        
+                        </ScrollView>
                         
                     </View>
                     
@@ -268,25 +272,25 @@ const styles = StyleSheet.create({
         height: 30, flex: 1, justifyContent:'flex-end',alignItems: 'flex-end'
     },
     container: {
-    backgroundColor: colors.white,
+        backgroundColor: colors.white,
         paddingHorizontal: 24,
         // paddingTop: 130,
         flex: 1,
     },
     topRow: {
-        flex: 1,
+        flex: 2,
         // borderWidth: 1
     },
     middleRow: {
         justifyContent: 'center',
         flex: 3, paddingHorizontal: 20,
-    //   borderWidth: 1
+      borderWidth: 1
     },
     bottomRow: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        paddingBottom: 50,
-        flex: 2.5,
+        paddingBottom: 50, marginTop: 70,
+        flex: 1,
     //   borderWidth: 1
     },
       inputContainer: { 

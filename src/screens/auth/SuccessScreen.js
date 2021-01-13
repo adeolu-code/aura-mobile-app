@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import {Icon} from 'native-base';
 import { CustomButton, MyText, Loading, Error } from '../../utils/Index';
 import colors from '../../colors';
@@ -67,7 +67,7 @@ class SuccessScreen extends Component {
     }
     else {
       this.setState({ loading: true, formErrors: [] })
-      this.context.getUserProfile(this.context.state.token)
+      this.context.getUserProfile(this.context.state.token.access_token)
       .then((res) => {
           this.setState({ loading: false })
           if(res.isEmailVerified) {
@@ -110,9 +110,7 @@ class SuccessScreen extends Component {
             <MyText style={[textLgStyle, textExtraBold]}>
               {
                 this.state.finalScreen ?
-                "OTP verified."
-                :
-                "Account Successfully Created"
+                "OTP verified":"Account Successfully Created"
               }  
               
             </MyText>
@@ -122,7 +120,7 @@ class SuccessScreen extends Component {
               {
                 !this.state.finalScreen &&
                 <MyText style={[textH5Style, textGrey, { lineHeight: 25}]}>
-                  A verification link has been sent to <MyText style={[textBold]}>{userData.email} </MyText>
+                  A verification link has been sent to <MyText style={[textBold]}>{userData ? userData.email : ''} </MyText>
                 </MyText>
               }
             </View>
@@ -177,7 +175,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   header: {
-    width: '100%', paddingTop: 40, backgroundColor: colors.white, paddingHorizontal: 20,
+    width: '100%', paddingTop: Platform.OS === 'ios' ? 60 : 40, backgroundColor: colors.white, paddingHorizontal: 20,
         position: 'absolute', top: 0, zIndex: 100,
   },
   iconContainer: {

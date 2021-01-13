@@ -206,7 +206,7 @@ export default class HostSteps extends Component {
             return (
                 <View style={{ marginBottom: 40}}>
                     {this.renderError()}
-                    <CustomButton buttonText="Publish For Review" buttonStyle={{ elevation: 2}} onPress={this.publish} />
+                    <CustomButton buttonText="Publish For Review" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.publish} />
                 </View>
             )
         }

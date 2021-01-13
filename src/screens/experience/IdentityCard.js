@@ -170,7 +170,7 @@ class IdentityCard extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 20, marginTop: 100,
+        paddingHorizontal: 20, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

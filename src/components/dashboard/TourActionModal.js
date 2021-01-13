@@ -92,7 +92,7 @@ class TourActionModal extends Component {
 
     }
     accepted = () => {
-        const { tour, onDecline, deleteTour } = this.props
+        const { tour, onDecline, deleteTour, refresh } = this.props
         this.setState({ loading: true })
         Request(urls.experienceBase, `${urls.v}experience?id=${tour.id}`, null, false, "DELETE")
         .then((res) => {
@@ -100,7 +100,7 @@ class TourActionModal extends Component {
             deleteTour(tour.id)
             onDecline()
             setTimeout(() => {
-                successMessage('Property was deleted successfully !!')
+                successMessage('Tour was deleted successfully !!')
             }, 10);
         })
         .finally(() => {
@@ -110,18 +110,18 @@ class TourActionModal extends Component {
     
 
     publishTour = async () => {
-        const { tour, onDecline } = this.props
+        const { tour, onDecline, refresh } = this.props
         this.setState({ loading: true })
         const res = await Request(urls.experienceBase, `${urls.v}experience/publish?id=${tour.id}`)
-        console.log(res)
         this.setState({ loading: false })
         if(res.isError || res.IsError) {
             const message = res.message || res.Message
             this.setState({ errors: [message]})
         } else {
             onDecline()
+            refresh()
             setTimeout(() => {
-                successMessage('Tour has been sent to admin for review')
+                successMessage('Tour has been sent to Admin for review')
             }, 10);
         }
     }

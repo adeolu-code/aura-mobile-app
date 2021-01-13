@@ -8,12 +8,11 @@ import { Styles } from "../host/host.style";
 import colors from "../../colors";
 import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
-import { urls, Request, UploadRequest, uploadMultipleFile, uploadFile, errorMessage, GetRequest } from '../../utils';
+import { urls, Request, UploadRequest, uploadMultipleFile, uploadFile, errorMessage, GetRequest, SCREEN_HEIGHT } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import PhotographTipsModal from '../../components/PhotographTipsModal';
 
 import CancelComponent from '../../components/experience/CancelComponent';
-
 
 
 export default class PickImages extends Component {
@@ -59,11 +58,11 @@ export default class PickImages extends Component {
         }
     }
     deletePhoto = async (id) => {
-        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/delete?photoId=${id}`, null, false, 'DELETE');
+        const res = await Request(urls.experienceBase, `${urls.v}experience/photo/delete?photoId=${id}`, null, false, 'DELETE');
     }
     renderLoading = () => {
         const { loading } = this.state;
-        if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
+        if (loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 100 }} />); }
     }
     openSelectModal = (cover) => {
         
@@ -79,6 +78,11 @@ export default class PickImages extends Component {
     }
     removeImg = (index) => {
         const { images } = this.state
+        const img = images[index]
+        // console.log(img)
+        if(img.id) {
+            this.deletePhoto(img.id)
+        }
         const arrImgs = images
         arrImgs.splice(index, 1)
         this.setState({ images: arrImgs })
@@ -88,7 +92,7 @@ export default class PickImages extends Component {
         return images.map((item, index) => {
             return (
                 <View style={[Styles.miniSelectedImageView]} key={index}>
-                    <Image style={[Styles.miniSelectedImage]} source={{ uri: item.path }} resizeMode="cover" />
+                    <Image style={[Styles.miniSelectedImage]} source={{ uri: item.path || item.assetPath }} resizeMode="cover" />
                     <TouchableOpacity style={{ position: "absolute", alignSelf: "flex-end", right: 15, bottom: 10 }} onPress={this.removeImg.bind(this, index)}>
                         <Icon name={"trash-sharp"} style={[Styles.trashIcon]} />
                     </TouchableOpacity>
@@ -114,7 +118,7 @@ export default class PickImages extends Component {
             if(coverImage.size && coverImage.mime) {
                 const { tourOnboard, editTour } = this.context.state;
                 if(editTour && tourOnboard.mainImage && tourOnboard.mainImage.assetPath) {
-                    this.deletePhoto()
+                    this.deletePhoto(tourOnboard.mainImage.id)
                 }
                 this.uploadCover()
             } else {
@@ -150,7 +154,6 @@ export default class PickImages extends Component {
             errorMessage('Failed to update cover image, try again else contact support')
         } else {
             this.setState({ isCaptured: true, cover: false })
-            this.setState({ cover: false })
             this.makeCover(res.data)
         }
        
@@ -176,15 +179,21 @@ export default class PickImages extends Component {
         const imgs = images.filter(item => item.mime)
         if(imgs.length !== 0) {
             this.setState({ loading: true })
-            const res = await uploadMultipleFile(imgs)
-            if(res.isError || res.IsError) {
-                errorMessage(res.message || res.Message)
+            try {
+                const res = await uploadMultipleFile(imgs)
+                if(res.isError || res.IsError) {
+                    errorMessage(res.message || res.Message)
+                    this.setState({ loading: false })
+                } else {
+                    const data = res.data;
+                    const urls = data.map(item => item.displayUrl)
+                    this.updateOtherImages(urls)
+                } 
+            } catch (error) {
+                errorMessage('Something went wrong, please try again or contact support')
                 this.setState({ loading: false })
-            } else {
-                const data = res.data;
-                const urls = data.map(item => item.displayUrl)
-                this.updateOtherImages(urls)
             }
+            
         } else {
             if(editTour) {
                 this.props.navigation.navigate("TourMeetingLocation");
@@ -244,6 +253,7 @@ export default class PickImages extends Component {
             cropping: true,
             multiple: cover ? false : true
         }).then((imgs) => {
+            console.log(imgs)
             if(cover) {
                 this.setState({ coverImage: imgs })
             } else {
@@ -289,7 +299,7 @@ export default class PickImages extends Component {
             textCenter,
             textOrange,
             textGreen,
-            textUnderline,
+            textUnderline, flexRow, textH6Style, textDanger
           } = GStyles;
         const { coverImage, isCaptured, additionalInformation } = this.state
         return (
@@ -321,6 +331,10 @@ export default class PickImages extends Component {
                                                     <View>
                                                         <MyText style={[textUnderline, textOrange]}>Add Photo</MyText>
                                                     </View>
+                                                    <View style={[flexRow, { paddingHorizontal: 8, marginTop: 15}]}>
+                                                        <Icon name="alert-circle" style={{ fontSize: 16, color: colors.danger, marginRight: 5 }} />
+                                                        <MyText style={[textH6Style, textDanger]}>Total Upload Limit Is 20mb!</MyText>
+                                                    </View>
                                                 </TouchableOpacity>
                                                 {this.renderImages()}
                                                 
@@ -337,7 +351,8 @@ export default class PickImages extends Component {
                                 <View style={{ marginTop: 60}}>
                                     {
                                         !isCaptured ?
-                                            <CustomButton buttonText={coverImage ? "Next" : "Choose A Cover Picture"} onPress={this.submitCover} buttonStyle={{elevation: 2}} />
+                                            <CustomButton buttonText={coverImage ? "Next" : "Choose A Cover Picture"} onPress={this.submitCover} 
+                                            buttonStyle={{elevation: 2, ...GStyles.shadow }} />
                                         :
                                         // <CustomButton buttonText="Next" onPress={() => this.props.navigation.navigate('AddProfilePicture')} buttonStyle={{elevation: 2}} />
                                         <CustomButton buttonText="Next" onPress={this.submit} buttonStyle={{elevation: 2}} />

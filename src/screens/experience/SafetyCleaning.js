@@ -99,7 +99,7 @@ class SafetyCleaning extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 20, marginTop: 100,
+        paddingHorizontal: 20, marginTop: 110,
         flex: 1, flexGrow: 1
     },
   

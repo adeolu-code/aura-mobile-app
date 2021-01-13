@@ -96,7 +96,7 @@ class StepTwo extends Component {
                     {this.context.state.editTour ? <CancelComponent {...this.props} /> : <></>}
                     <View style={{ flex: 1}}>
                         <CustomButton buttonText="Skip To Step 3" 
-                        buttonStyle={{ elevation: 2, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
+                        buttonStyle={{ elevation: 2, ...GStyles.shadow, borderColor: colors.orange, borderWidth: 1, backgroundColor: colors.white}} 
                         textStyle={{ color: colors.orange }}
                         onPress={()=> { this.props.navigation.navigate('TourStack', { screen: 'TourLanguage' }) }} />
                     </View>
@@ -112,7 +112,7 @@ class StepTwo extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   
