@@ -1,6 +1,6 @@
 import { Container, Content, View } from "native-base";
 import React,{ Component } from "react";
-import { Pressable } from "react-native";
+import { Pressable, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getRestaurantOrdersApi } from "../../api/restaurant.api";
 import GStyles from "../../assets/styles/GeneralStyles";
@@ -10,6 +10,8 @@ import { Loading, MyText } from "../../utils/Index";
 import { Styles } from "./restuarant.style";
 import moment from "moment";
 import NoContent from "./../../components/no_content/noContent.component";
+import { FlatList } from "react-native-gesture-handler";
+import { consoleLog } from "../../utils";
 
 
 export default class RestaurantOrders extends Component {
@@ -18,10 +20,12 @@ export default class RestaurantOrders extends Component {
 
         this.state = {
             loading: false,
+            refreshing: false,
             orders: [],
             page: 1,
-            size: 20,
+            size: 5,
         };
+        this.onEndReachedCalledDuringMomentum = true;
     }
 
     componentDidMount() {
@@ -31,7 +35,7 @@ export default class RestaurantOrders extends Component {
     getOrders = () => {
         this.setState({loading: true});
         getRestaurantOrdersApi(this.state.page,this.state.size).then(result => {
-            
+            consoleLog("result", result);
             if (result != undefined) {
                 this.setState({orders: result.items});
             }
@@ -45,6 +49,20 @@ export default class RestaurantOrders extends Component {
         if (loading) { return (<Loading />); }
     }
 
+    getMore = () => {
+        consoleLog("more");
+        if(!this.onEndReachedCalledDuringMomentum){
+            this.state.page =  this.state.page + 1;
+            this.state.size = this.state.size + 20;
+            this.setState({});
+
+            this.getOrders();
+            
+            this.onEndReachedCalledDuringMomentum = true;
+        }
+        
+    }
+
     render() {
         const {textCenter, textH3Style, textWhite, textBold} = GStyles;
         return (
@@ -53,25 +71,49 @@ export default class RestaurantOrders extends Component {
                     <Header {...this.props} title={"Orders"} sub={"Orders placed By Clients For Meals"} />
                     {this.renderLoading()}
                     <Container style={[Styles.container, {marginTop: 140}]}>
-                        <Content scrollEnabled={true}>
+                        {/* <Content scrollEnabled={true}> */}
                             {
                                 Array.isArray(this.state.orders) && this.state.orders.length > 0 ?
-                                this.state.orders.map((order, index) => {
-                                    return (
-                                        <RenderItem 
-                                            key={index}
-                                            meal={order.orderedForName}
-                                            customer={order.user}
-                                            amount={order.amount}
-                                            date={order.createdOn}
-                                        />
-                                    );
-                                })
+                                // this.state.orders.map((order, index) => {
+                                //     return (
+                                //         <RenderItem 
+                                //             key={index}
+                                //             meal={order.orderedForName}
+                                //             customer={order.user}
+                                //             amount={order.amount}
+                                //             date={order.createdOn}
+                                //         />
+                                //     );
+                                // })
+                                    <FlatList
+                                        data={this.state.orders}
+                                        renderItem={({ item, onPress, style }) => {
+                                            const order = item;
+                                            consoleLog("order", order);
+                                            return <RenderItem 
+                                                key={order.id}
+                                                meal={order.orderedForName}
+                                                customer={order.user}
+                                                amount={order.amount}
+                                                date={order.createdOn}
+                                                refreshControl={
+                                                    <RefreshControl
+                                                      refreshing = {this.state.refreshing}
+                                                      onRefresh = {() => this.getOrders()}
+                                                    />
+                                                }
+                                                onEndReached={() => this.getMore()}
+                                                onEndReachedThreshold={0.5}
+                                            />
+                                        }}
+                                        keyExtractor={(item) => item.id}
+                                        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                                    />
                                 :
                                 <NoContent text="No Orders" />
                             }
                             
-                        </Content>
+                        {/* </Content> */}
                     </Container>
                 </SafeAreaView>
             </>

@@ -1,8 +1,8 @@
 import { urls, GetRequest, errorMessage, successMessage, consoleLog, Request } from "../utils";
 
-export async function getRestaurantOrdersApi(page=1,size=1) {
+export async function getRestaurantOrdersApi(page=1,size=1, type="host") {
     
-    let res = await GetRequest(urls.restaurantBase + urls.v, urls.restaurant + urls.order + urls.host + "?Page="+page+"&Size="+size , undefined, "GET");
+    let res = await GetRequest(urls.restaurantBase + urls.v, urls.restaurant + urls.order + ((type == "host") ? urls.host : urls.user) + "?Page="+page+"&Size="+size , undefined, "GET");
     console.log(urls.restaurantBase + urls.v, urls.restaurant + urls.order + urls.host + "?Page="+page+"&Size="+size);
     //
     if (res.isError) {

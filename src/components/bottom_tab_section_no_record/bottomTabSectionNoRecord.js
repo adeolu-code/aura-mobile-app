@@ -25,13 +25,19 @@ class BottomTabSectionNoRecord extends Component {
   }
 
   render() {
-      const { textH1Style, textExtraBold, textDarkBlue } = GStyles;
+      const { textH1Style, textExtraBold, textDarkBlue, textH5Style } = GStyles;
     return (
       <>
         <View style={[Styles.parentView, ]}>
-            <MyText style={[textExtraBold, textH1Style, textDarkBlue, Styles.myTextTitle, this.props.myTextTitle ]}>
+            <MyText style={[textExtraBold, textH1Style, textDarkBlue, {marginTop: 10}, this.props.myTextTitle ]}>
                 {this.props.title}
             </MyText>
+            { 
+              this.props.subTitle &&
+                <MyText style={[textH5Style, textDarkBlue, {marginTop: 10, marginBottom: 10}, this.props.myTextTitle ]}>
+                    {this.props.subTitle}
+                </MyText>
+            }
             <TopTab 
                 tabs={this.props.tabs} 
                 activeTab={this.props.activeTab ?? 0}

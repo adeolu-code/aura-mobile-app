@@ -111,7 +111,11 @@ export default class Bank extends Component {
                                         picker
                                         placeholder={""}
                                         itemStyle={{marginLeft: 5}}
-                                        pickerOptions={this.state.banks}
+                                        pickerOptions={this.state.banks.sort(function(a, b) {
+                                            var textA = a.label.toUpperCase();
+                                            var textB = b.label.toUpperCase();
+                                            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+                                        })}
                                         selectedOption={this.state.userBank.bank != undefined 
                                             ? 
                                                 (this.state.selectedBank

@@ -4,10 +4,11 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
 import { getToken, setToken } from './helpers';
+import { urls as Urls } from "./urls";
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
-export let debug = false; 
+export let debug = true; 
 // export let debug = true; 
 export const GLOBAL_PADDING = 20;
 
@@ -30,7 +31,7 @@ let apiHeaders = '';
 let apiData = ''
 
 
-export const urls = {
+export const urls = Object.assign({
    identityBase: "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/",
     bookingBase: "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     listingBase: "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/",
@@ -79,16 +80,8 @@ export const urls = {
     complaints: "complaints/",
     bank: "bank/",
     bankAccount: "bankaccount/",
-    restaurant: "restaurant/",
-    order: "orders/",
-    restaurantServices: "operation/services/",
-    restaurantOpen: "operation/open/",
-    restaurantOpentime: "operation/opentime/",
-    restaurantCuisine:"operation/cuisine/",
-    restaurantOperation: "operation/",
-    restaurantComment: "review/comment/host/",
-    restaurantRating: "review/rating/host/",
-}
+    
+}, Urls);
 const getUserToken = async () => {
 	try {
       let token = await AsyncStorage.getItem("token");
@@ -134,7 +127,7 @@ function PrepareData(Data, type = "json") {
 }
 
 export function consoleLog(message, ...optionalParams) {
-   if (debug) console.log(message, JSON.stringify(optionalParams));
+   if (debug) console.log(message, optionalParams);
 }
 
 export async function refreshToken(apiDetails) {
@@ -161,9 +154,9 @@ export async function refreshToken(apiDetails) {
       context.set({ token: data.data })
       // repeat the previous api call
       if(apiDetails.type === 'GET') {
-         getApi(apiDetails.url, apiDetails.type, apiDetails.headers)
+         return getApi(apiDetails.url, apiDetails.type, apiDetails.headers)
       } else {
-         postApi(apiDetails.url, apiDetails.type, apiDetails.headers, apiDetails.body)
+         return postApi(apiDetails.url, apiDetails.type, apiDetails.headers, apiDetails.body)
       }
    }
 }
@@ -218,7 +211,7 @@ export async function Request(
       const apiDetails = {
          url: Base + Url, headers, type: method, body
       }
-      refreshToken(apiDetails)
+      return refreshToken(apiDetails)
    } else {
       let data = res.json()
       return data
@@ -258,7 +251,7 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
       const apiDetails = {
          url, headers, type
       }
-      refreshToken(apiDetails)
+      return refreshToken(apiDetails)
    } else {
       let data = response.json()
       return data

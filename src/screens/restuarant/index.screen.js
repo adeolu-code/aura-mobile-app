@@ -91,8 +91,8 @@ export default class RestaurantDashboardComponent extends Component {
       {this.renderMenuItems()}
       <View style={[container, {backgroundColor: 'white'}]}>
         <Header {...this.props} title="Resturant Dashboard" onPress={this.openMenu}  />
-        <ScrollView style={{marginTop: 0}}>
-            <View style={contentStyle}>
+        <ScrollView style={{marginTop: 0, height: '80%'}} >
+            <View style={[contentStyle, {paddingBottom: 20}]}>
                 
                 {/* <View style={sectionStyle}>
                     <DashboardCardComponent title="Dashboard" description={dasboardDescription} iconX iconName="grid-outline" type="Ionicons"
@@ -115,10 +115,10 @@ export default class RestaurantDashboardComponent extends Component {
                     <DashboardCardComponent title="Reviews and Ratings" description={reviews}
                     img={require('../../assets/images/dashboard_icons/review.png')} onPress={this.onPressRR} />
                 </View>
-                <View style={sectionStyle}>
+                {/* <View style={sectionStyle}>
                     <DashboardCardComponent title="My Earnings" description={earning} iconX onPress={this.onPressEarning}
                     img={require('../../assets/images/dashboard_icons/pay.png')} />
-                </View>
+                </View> */}
                 
                 
             </View>
