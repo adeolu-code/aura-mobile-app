@@ -496,7 +496,7 @@ class TermsOfService extends Component {
                         </MyText>
                     </View>
 
-                    <View >
+                    {this.state.type ? <View >
                         <View style={[flexRow, { justifyContent: 'space-between', marginVertical: 20}]}>
                             <View style={{ width: '48%'}}>
                                 <CustomButton onPress={this.onAccept} buttonText="Accept" buttonStyle={{ elevation: 1}} />
@@ -506,7 +506,7 @@ class TermsOfService extends Component {
                                 buttonStyle={{ elevation: 1, borderWidth: 1, borderColor: colors.orange, backgroundColor: colors.white}} />
                             </View>
                         </View>
-                    </View>
+                    </View> : <></>}
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -13,6 +13,7 @@ export let debug = false;
 // export let debug = true; 
 export const GLOBAL_PADDING = 20;
 export const SCREEN_HEIGHT = Dimensions.get('screen').height
+export const WHATSAPP_NUMBER = '+2348131167172';
 
 const CLIENT_ID = '0987654321'
 const CLIENT_SECRET = '1234567890'
