@@ -51,16 +51,13 @@ export async function uploadIdentityImageApi(data) {
 }
 
 export async function changePasswordApi(data) {
-    
     let res = await Request(urls.identityBase + urls.v , urls.user + urls.changePassword, data);
-
-    if (res.isError == true) {
+    console.log("res", res);
+    if (res.isError) {
         errorMessage(res.message);
-    }
-    else {
+    } else {
         successMessage(res.message);
     }
-    
     return res;
 }
 

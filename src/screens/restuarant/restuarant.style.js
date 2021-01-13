@@ -79,7 +79,7 @@ export const Styles = StyleSheet.create({
         marginBottom: 25
     },
     contentStyle: {
-        zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, marginTop:100
+        zIndex: 1, paddingVertical: 0, paddingHorizontal: 20, marginTop:20
     },
     iconContainer: {
       height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',
@@ -97,11 +97,10 @@ export const Styles = StyleSheet.create({
         height: 120,
         flexDirection: "row",
         borderRadius: 5,
-        shadowColor: colors.grey,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.8,
         shadowRadius: 1, 
-        elevation: 2,
+        elevation: 1,
         paddingLeft: 10,
         paddingTop: 10,
         marginBottom: 20,
@@ -130,7 +129,7 @@ export const Styles = StyleSheet.create({
       elevation: 2, 
       borderRadius: 5, 
       marginBottom: 10, 
-      padding: 20, 
+      padding: 10, 
       marginTop: 10
     },
     nextButton: {

@@ -108,7 +108,7 @@ class Success extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 20, marginTop: 100,
+        paddingHorizontal: 20, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         flex: 1, marginBottom: 40, marginTop: 20, justifyContent: 'flex-end', paddingHorizontal: 10
     },
     imageContainer: {
-        borderRadius: 300, borderColor: colors.orange, borderWidth: 4, width: '73%', height: 270, overflow: 'hidden',
+        borderRadius: 300, borderColor: colors.orange, borderWidth: 4, width: '78%', height: 270, overflow: 'hidden',
         padding: 20
     },
     textContainer: {

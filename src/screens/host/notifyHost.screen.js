@@ -161,7 +161,7 @@ export default class NotifyHost extends Component {
                             </View> */}
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, }]}>
-                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} disabled={this.state.values.length === 0} />
+                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} disabled={this.state.values.length === 0} />
                         </Footer>
                     </Container>
                 </SafeAreaView>

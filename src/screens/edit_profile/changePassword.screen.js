@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from "react";
-import { StatusBar, TouchableOpacity } from "react-native";
+import { StatusBar, TouchableOpacity, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 import colors from "../../colors";
@@ -27,10 +27,14 @@ export default class ChangePassword extends Component {
             newPassword: "",
             confirmNewPassword: "",
             loading: false,
+            secureNewPassword: true,
+            secureConfPassword: true,
+            secureOldPassword: true,
         }
     }
 
     onUpdateUser = async () => {
+        Keyboard.dismiss()
         if (this.state.newPassword == "" || this.state.confirmNewPassword == "") {
             errorMessage(PASSWORD_EMPTY);
             return;
@@ -47,7 +51,6 @@ export default class ChangePassword extends Component {
             "newPassword": this.state.newPassword,
           }
           this.setState({loading: true});
-          
           await changePasswordApi(data);
           this.setState({loading: false});
     }
@@ -68,22 +71,31 @@ export default class ChangePassword extends Component {
                     <Container style={[Styles.container]}>
                         <Content scrollEnabled={true}>
                             <EditInput 
+                                secureText={this.state.secureOldPassword}
                                 label={"Current Password"} 
                                 placeholder={"Current Password"} 
                                 onChangeText={(e) => this.setState({oldPassword: e})}
                                 value={this.state.oldPassword}
+                                icon={'ios-eye'}
+                                onIconClick={() => this.setState({secureOldPassword: !this.state.secureOldPassword})}
                             />
                             <EditInput 
+                                secureText={this.state.secureNewPassword}
                                 label={"New Password"} 
                                 placeholder={"New Password"} 
                                 onChangeText={(e) => this.setState({newPassword: e})}
                                 value={this.state.newPassword}
+                                icon={'ios-eye'}
+                                onIconClick={() => this.setState({secureNewPassword: !this.state.secureNewPassword})}
                             />
                             <EditInput 
+                                secureText={this.state.secureConfPassword}
                                 label={"Confirm New Password"} 
-                                placeholder={"New Password"} 
+                                placeholder={"Confirm New Password"} 
                                 onChangeText={(e) => this.setState({confirmNewPassword: e})}
                                 value={this.state.confirmNewPassword}
+                                icon={'ios-eye'}
+                                onIconClick={() => this.setState({secureConfPassword: !this.state.secureConfPassword})}
                             />
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter]}>

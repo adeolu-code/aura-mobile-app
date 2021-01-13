@@ -5,7 +5,7 @@ import { MyText, Loading, CustomButton } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import HouseComponent from './HouseComponent';
 import ScrollHeader from './ScrollHeader';
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 import HostDetails from './HostDetails';
@@ -29,19 +29,25 @@ class ScrollContentPlaces extends Component {
         this.setState({ loading: true })
         // const res = await GetRequest(urls.listingBase, 
         // `${urls.v}listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
-        const res = await GetRequest(urls.listingBase, 
-            `${urls.v}listing/property/search/available/?Size=4&Page=1`);
-        // console.log('Res places', res)
-        this.setState({ loading: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            const data = res.data.data
-            this.setState({ places: data })
-            if(data.length !== 0) {
-                this.setState({ noDot: false })
-            }
+        try {
+           const res = await GetRequest(urls.listingBase, 
+                `${urls.v}listing/property/search/available/?Size=4&Page=1`);
+            // console.log('Res places', res)
+            this.setState({ loading: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data.data
+                this.setState({ places: data })
+                if(data.length !== 0) {
+                    this.setState({ noDot: false })
+                }
+            } 
+        } catch (error) {
+            this.setState({ loading: false })
+            errorMessage(error.message)
         }
+        
     }
 
     renderLoading = () => {

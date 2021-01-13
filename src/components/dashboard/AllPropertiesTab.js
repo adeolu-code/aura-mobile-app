@@ -7,7 +7,7 @@ import GStyles from '../../assets/styles/GeneralStyles';
 import FilterModal from './FilterModal';
 import ManagePropertyRow from './ManagePropertyRow';
 import { formatAmount, shortenXterLength } from '../../helpers';
-
+import { SCREEN_HEIGHT } from '../../utils';
 
 import colors from '../../colors';
 import { Icon } from 'native-base';
@@ -30,7 +30,7 @@ class AllPropertiesTab extends Component {
     renderLoading = () => {
         const { loading, refreshing } = this.state;
         const { state } = this.props.propertyContext
-        if ((loading || state.loadingAllProperties) && !refreshing) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100, elevation: 5 }} />); }
+        if ((loading || state.loadingAllProperties) && !refreshing) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 100, elevation: 5 }} />); }
     }
     onEndReached = () => {
         const { set, state, getAllProperties } = this.props.propertyContext

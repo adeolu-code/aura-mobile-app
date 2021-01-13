@@ -29,8 +29,13 @@ class ScrollContent extends Component {
     getGeolocation = async () => {
         const { location } = this.context.state
         this.setState({ loading: true })
-        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${location.latitude},${location.longitude}&key=${GOOGLE_API_KEY}`)
-        this.getAddressDetails(res.results[0])
+        try {
+            const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${location.latitude},${location.longitude}&key=${GOOGLE_API_KEY}`)
+            this.getAddressDetails(res.results[0])
+        } catch (error) {
+            this.setState({ loading: false })
+        }
+        
     }
     getAddressDetails = (res) => {
         const addressComponents = res.address_components

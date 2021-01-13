@@ -14,7 +14,7 @@ import {
   import {Icon} from 'native-base';
 import AutoCompleteComponent from '../explore/AutoCompleteComponent';
 import { formatAmount, shortenXterLength } from '../../helpers';
-import { urls, GetRequest } from '../../utils';
+import { urls, GetRequest, SCREEN_HEIGHT } from '../../utils';
 import ItemComponent from './explore_all/ItemComponent';
 
 import { AppContext } from '../../../AppProvider';
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
       top: 0,
       width: '100%',
-      height: '100%',
+      height: SCREEN_HEIGHT,
       backgroundColor: colors.white,
       // backgroundColor: colors.orange,
     },

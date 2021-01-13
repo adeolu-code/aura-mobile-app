@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Image } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, Image, Platform } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
@@ -35,7 +35,7 @@ export default class BookingPreview extends Component {
                         {...this.props} 
                         title="Here’s How Guests Will Book With You" 
                     />
-                    <Container style={[Styles.container, {marginTop: 160}]}>
+                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 130 : 160 }]}>
                         <Content scrollEnabled>
                             <Item 
                                 title={"Qualified Guests Find Your Listing"}

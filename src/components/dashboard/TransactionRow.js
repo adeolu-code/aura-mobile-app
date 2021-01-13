@@ -6,7 +6,7 @@ import colors from '../../colors';
 import { Icon } from 'native-base'
 import moment from 'moment';
 import StarComponent from '../StarComponent';
-import { formatAmount } from '../../helpers';
+import { formatAmount, shortenXterLength } from '../../helpers';
 
 class TransactionRow extends Component {
   constructor(props) {
@@ -40,8 +40,8 @@ class TransactionRow extends Component {
               </View>
               <View style={headerTextContainer}>
                   <View style={[flexRow, { justifyContent: 'space-between'}]}>
-                    <MyText style={[textBold, textH4Style]}>{title}</MyText>
-                    <MyText style={[textH4Style, textGreen, textBold]}>₦ {formatAmount(transaction.total_Cost)}</MyText>
+                    <MyText style={[textBold, textH4Style, { flex: 2.5}]}>{title}</MyText>
+                    <MyText style={[textH4Style, textGreen, textBold, { flex: 1, textAlign: 'right'}]}>₦ {formatAmount(transaction.total_Cost)}</MyText>
                   </View>
                   <View style={[flexRow, { justifyContent: 'space-between'}]}>
                     <View style={checkStyle}>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
       height: 30, width: 30, overflow: 'hidden', borderRadius: 40, marginRight: 10
     },
     checkStyle: {
-      marginVertical: 8
+      marginVertical: 8, flex: 1
     }
   });
 

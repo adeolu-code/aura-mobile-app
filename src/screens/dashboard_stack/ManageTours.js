@@ -207,8 +207,9 @@ class ManageTours extends Component {
             position="bottomRight" onPress={this.addTour}>
             <Icon name="add-circle" style={{ fontSize: 26 }} />
           </Fab>
-          <TourActionModal visible={this.state.showModal} onDecline={this.closeModal} tour={tour} deleteTour={this.deleteTour}
-                    img={this.state.modalImg}  title={tour && tour.title ? tour.title : 'No title'} {...this.props} />
+          <TourActionModal visible={this.state.showModal} onDecline={this.closeModal} tour={tour} refresh={this.onRefresh} 
+          deleteTour={this.deleteTour} img={this.state.modalImg} 
+          title={tour && tour.title ? tour.title : 'No title'} {...this.props} />
         </View>
       </SafeAreaView>
     );

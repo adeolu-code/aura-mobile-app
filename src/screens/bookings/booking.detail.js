@@ -63,7 +63,7 @@ export default class BookingsDetail extends Component {
                             </View>
                             <View>
                                 <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Amount Paid</MyText>
-                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>$</MyText>{this.props.route.params.amount}</MyText>
+                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>NGN </MyText>{this.props.route.params.amount}</MyText>
                             </View>
                         </View>
                         <View style={[flexRow, rowContainer]}>

@@ -10,17 +10,44 @@ import { MyStyle } from "../../myStyle";
 import { Loading, MyText } from "../../utils/Index";
 import { Styles } from "./restuarant.style";
 import { RenderStars } from "./../../components/render_stars/renderStars";
+import RestaurantReviewRating from "./../../components/restuarant_review/reviewRating.component";
+import moment from "moment";
+import { getRestaurantRatingApi, getRestaurantRevewApi } from "../../api/restaurant.api";
+import NoContentComponent from "../../components/no_content/noContent.component";
+import { AppContext } from "../../../AppProvider";
 
 
 export default class RestaurantReviews extends Component {
+    static contextType = AppContext;
     constructor(props) {
         super(props);
 
         this.state = {
             loading: false,
             tab: 0,
+            reviews: [],
+            ratings: [],
         };
     }
+
+    componentDidMount() {
+        this.getRatingReview();
+    }
+
+    getRatingReview = ()=> {
+        this.setState({loading: true});
+        getRestaurantRatingApi().then(result => {
+            if (result != undefined) {
+                this.setState({ratings: result});
+            }
+        });
+        getRestaurantRevewApi().then(result => {
+            if (result != undefined) {
+                this.setState({reviews: result, loading: false});
+            }
+        });
+    }
+
 
     renderLoading = () => {
         const { loading } = this.state;
@@ -33,6 +60,7 @@ export default class RestaurantReviews extends Component {
 
     render() {
         const {textCenter, textH3Style, textWhite, textBold} = GStyles;
+        console.log(this.context.state.currentDashboard)
         return (
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
@@ -44,29 +72,43 @@ export default class RestaurantReviews extends Component {
                             {
                                 this.state.tab == 0 &&
                                 <View style={[MyStyle.mt05]}>
-                                    <RenderReview 
-                                    customer={"Ade Ade"}
-                                    review={"Bad Rewview on my side"}
-                                    date={"01/01/2020"}
-                                    />
+                                    {
+                                        this.state.reviews.length > 0 ?
+                                            this.state.reviews.map((review, index) => {
+                                                <RenderReview 
+                                                    key={index}
+                                                    customer={review.user}
+                                                    review={review.comment}
+                                                    createdOn={review.createdOn}
+                                                    profilePicture={{uri: review.profilePicture}}
+                                                />
+                                            })
+                                        :
+                                        <NoContentComponent text={"No Reviews yet"} />
+                                    }
+                                    
                                 </View>
                             }
                             {
                                 this.state.tab == 1 &&
                                 <View style={[MyStyle.mt05]}>
-                                    <RenderRating 
-                                        stars={4} 
-                                        customer={"Ade Ade"}
-                                        date={"01/01/2020"}
-                                    />
+                                    {
+                                        this.state.ratings.length > 0 ?
+                                        this.state.ratings.map((rating, index) => {
+                                            <RenderRating 
+                                                key={index}
+                                                stars={rating.rating} 
+                                                customer={rating.user}
+                                                createdOn={rating.createdOn}
+                                                profilePicture={{uri: rating.profilePicture}}
+                                            />
+                                        })
+                                        :
+                                            <NoContentComponent text={"No Ratings yet"} />
+                                    }
+                                    
                                 </View>
                             }
-                            {/* <RenderItem 
-                                meal="hvhvh"
-                                customer="Feurme Takpe"
-                                amount="500"
-                                date="01/01/2020"
-                            /> */}
                         </Content>
                     </Container>
                 </SafeAreaView>
@@ -77,51 +119,32 @@ export default class RestaurantReviews extends Component {
 
 const RenderReview = (props)  => {
     const {textH4Style, textOrange, textH2Style, textBold, textBlack} = GStyles;
+    console.log("props", props);
     return (
-        <View style={[Styles.itemParentView]}>
-            <Pressable style={[Styles.parentView, {marginBottom: 5}]}>
-                <View style={[Styles.textSection]}>
-                    <View style={[Styles.textView]}>
-                        <View style={[MyStyle.row]}>
-                            <MyText style={[textH2Style, textBold, textOrange, MyStyle.halfWidth,{padding: 0, paddingLeft: 2, paddingRight: 2}]}>
-                                {props.customer}
-                            </MyText>
-                            <MyText style={[MyStyle.halfWidth,{padding: 0, paddingLeft: 2, paddingRight: 2}]}>
-                                {props.date}
-                            </MyText>
-                        </View>
-                        <View style={MyStyle.underline}></View>
-                        <MyText style={[textBold, textH4Style, textBlack, {padding: 0, paddingLeft: 2, paddingRight: 2}]}>
-                            {props.review}
-                        </MyText>
-                    </View>
-                </View>
-            </Pressable>
-        </View>
+        <RestaurantReviewRating 
+            user={props.customer}
+            imageSource={props.profilePicture}
+            date={moment(props.createdOn).fromNow()}
+            comment={props.review}
+        />
     );
 }
 
 const RenderRating = (props)  => {
     const {textH4Style, textOrange, textH2Style, textBold, textBlack} = GStyles;
     return (
-        <View style={[Styles.itemParentView]}>
-            <Pressable style={[Styles.parentView, {marginBottom: 5}]}>
-                <View style={[Styles.textSection]}>
-                    <View style={[Styles.textView]}>
-                        <MyText style={[textH2Style, textBold, textOrange, {padding: 0, paddingLeft: 2, paddingRight: 2,paddingBottom:5}]}>
-                            {props.customer}
-                        </MyText>
-                        <MyText style={[{padding: 0, paddingLeft: 2, paddingRight: 2,paddingBottom:5}]}>
-                            {props.date}
-                        </MyText>
-                        <RenderStars 
-                            stars={props.stars} 
-                            starActive={{fontSize: 19}} 
-                            starInactive={{fontSize: 18}}
-                        />
-                    </View>
-                </View>
-            </Pressable>
-        </View>
+        <RestaurantReviewRating 
+            rating
+            user={props.customer}
+            imageSource={props.profilePicture}
+            date={moment(props.createdOn).fromNow()}
+            child={
+                <RenderStars 
+                    stars={props.stars} 
+                    starActive={{fontSize: 19}} 
+                    starInactive={{fontSize: 18}}
+                />
+            }
+        />
     );
 }

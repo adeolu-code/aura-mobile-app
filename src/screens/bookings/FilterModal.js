@@ -14,6 +14,7 @@ import { MyText, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { AppContext } from '../../../AppProvider'
+import moment from "moment";
 
 import { urls, Request, GetRequest, successMessage } from '../../utils'
 
@@ -24,18 +25,18 @@ class FilterModal extends Component {
         this.state = { loading: false };
     }
 
-    reportProperty = (propertyId) => {
-        this.props.navigation.navigate('Profile', {screen: 'Complaint',params: {propertyId: propertyId}});
+    reportitem = (itemId) => {
+        this.props.navigation.navigate('Profile', {screen: 'Complaint',params: {itemId: itemId}});
         this.props.onDecline();
     }
 
-    linkToHouseSingle = () => {
-        this.props.linkToSingleHouse();
+    onPress = () => {
+        this.props.onPress() && this.props.onPress();
         this.props.onDecline();
     }
 
     render() {
-        const { visible, onDecline, property, img, type } = this.props;
+        const { visible, onDecline, item, img, type } = this.props;
         const { textDarkGrey, textBold, textDanger, textDarkBlue } = GStyles;
         const { container, dash, tabOne, tabTwo, tabThree, tabFour,  imgStyle, container2, inActiveTab } = styles;
         return (
@@ -46,25 +47,108 @@ class FilterModal extends Component {
                     <View style={container2}>
                         <View style={container}>
                         <TouchableOpacity 
-                            style={[tabTwo, (property.approval_Info.name == "Approved") ? tabTwo: inActiveTab]} 
-                            onPress={() => (property.approval_Info.name == "Approved") && this.onEdit}
+                            style={[tabTwo, (item.approval_Info.name == "Approved") ? tabTwo: inActiveTab]} 
+                            onPress={() => (item.approval_Info.name == "Approved") && this.onEdit}
                         >
                                 <MyText style={[textDarkGrey, textBold]}>
                                         Cancel Booking
                                 </MyText>
                             </TouchableOpacity>
                             <View style={dash}></View>
-                            <TouchableOpacity style={tabTwo} onPress={() => this.linkToHouseSingle(property.id)}>
+                            <TouchableOpacity style={tabTwo} onPress={() => this.onPress(item.id)}>
                                 <MyText style={[textDarkBlue, textBold]}>
-                                        View {property.propertyInfo.type}
+                                        View {item.itemInfo.type}
                                 </MyText>
                             </TouchableOpacity>
                             <View style={dash}></View>
-                            <TouchableOpacity style={tabTwo} onPress={() => this.reportProperty(property.propertyInfo.id)}>
+                            <TouchableOpacity style={tabTwo} onPress={() => this.reportitem(item.itemInfo.id)}>
                                 <MyText style={[textDarkBlue, textBold]}>
                                         Report Host
                                 </MyText>
                             </TouchableOpacity>
+                            <View style={dash}></View>
+                            <TouchableOpacity style={tabTwo} onPress={onDecline}>
+                                <MyText style={[textDarkBlue, textBold]}>
+                                        Cancel
+                                </MyText>
+                            </TouchableOpacity>
+                            <View style={dash}></View>
+                        </View>
+                    </View>
+                        
+                    </>
+                </TouchableWithoutFeedback>
+            </Modal>
+
+        );
+    }
+}
+
+export class ExperienceFilterModal extends Component {
+    static contextType = AppContext;
+    constructor(props) {
+        super(props);
+        this.state = { loading: false };
+    }
+
+    reportitem = (itemId) => {
+        this.props.navigation.navigate('Profile', {screen: 'Complaint',params: {itemId: itemId}});
+        this.props.onDecline();
+    }
+
+    onPress = () => {
+        this.props.onPress() && this.props.onPress();
+        this.props.onDecline();
+    }
+
+    render() {
+        const { visible, onDecline, experience, img, type } = this.props;
+        const { textDarkGrey, textBold, textDanger, textDarkBlue, textGrey } = GStyles;
+        const { container, dash, tabOne, tabTwo, tabThree, tabFour,  imgStyle, container2, inActiveTab } = styles;
+        
+        const item = experience;
+        const now = moment(new Date());
+        const timeDiff  = moment.duration(moment(item.start_Date).diff(now)).asDays()
+        return (
+            //ExperienceFilterModal
+            
+
+            <Modal visible={visible} onRequestClose={() => { }} transparent animationType="slide">
+                <TouchableWithoutFeedback onPress={() => onDecline()}>
+                    <>
+                    <View style={container2}>
+                        <View style={container}>
+                            <TouchableOpacity 
+                                style={[tabTwo, (item.approval_Status == "EXP") ? inActiveTab : tabTwo]} 
+                                onPress={() => (item.approval_Status != "EXP") && this.onEdit}
+                            >
+                                <MyText style={[textDarkGrey, textBold, ((item.approval_Status == "EXP") && textGrey)]}>
+                                        Cancel Booking
+                                </MyText>
+                            </TouchableOpacity>
+                            <View style={dash}></View>
+                            <TouchableOpacity 
+                                style={[tabTwo, (timeDiff < 1 && inActiveTab)]} 
+                                onPress={() => this.onPress(item.id)}>
+                                <MyText style={[textDarkBlue, textBold, (timeDiff < 1 && inActiveTab) && textGrey]}>
+                                        Edit Schedules
+                                </MyText>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={tabTwo} onPress={() => this.onPress(item.id)}>
+                                <MyText style={[textDarkBlue, textBold]}>
+                                        View Tour
+                                </MyText>
+                            </TouchableOpacity>
+                            <View style={dash}></View>
+                            {
+                                !item.is_Paid && 
+                            
+                                <TouchableOpacity style={tabTwo} onPress={() => this.onPress(item.id)}>
+                                    <MyText style={[textDarkBlue, textBold]}>
+                                            Make Payment
+                                    </MyText>
+                                </TouchableOpacity>
+                            }
                             <View style={dash}></View>
                             <TouchableOpacity style={tabTwo} onPress={onDecline}>
                                 <MyText style={[textDarkBlue, textBold]}>

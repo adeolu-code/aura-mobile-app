@@ -25,14 +25,14 @@ export default class HostSlider extends Component{
                 "Host An Experience",
             ],
             descriptionText: [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
+                "Swipe right to continue",
+                "Swipe left to go back to previous slider else right to continue",
+                "Swipe left to go back to previous slider",
             ],
             readMoreText: [
                 "Read more about hosting a home or hotel",
                 "Read more about hosting a resturant",
-                "Read more about hosting a resturant",
+                "Read more about hosting an experience",
             ],
             currentIndex: 0,
         };

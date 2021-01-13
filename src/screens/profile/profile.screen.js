@@ -69,7 +69,7 @@ class ProfileScreenClass extends Component {
         
         await clearData()
         this.context.set({ userData: null, isLoggedIn: false, currentDashboard: 1})
-        this.props.navigation.push('Tabs', {screen: 'Dashboard'})
+        this.props.navigation.navigate('Tabs', {screen: 'Dashboard', params: { screen: 'DashboardView'} })
     }
     becomeHost = () => {
         this.context.set({ propertyFormData: null, edit: false, step: 1 })
@@ -80,7 +80,7 @@ class ProfileScreenClass extends Component {
         const {textH2Style, 
             textCenter, textBold, textH3Style, 
             textH6Style, textOrange, textH1Style,
-            textWhite, textH4Style, textExtraBold
+            textWhite, textH4Style, textExtraBold, textFont13, textGrey
         } = GStyles;
         // consoleLog("user", this.context.state.userData,this.context.state.isLoggedIn, this.context.state.token)
         const userIsLoggedIn = this.context.state.isLoggedIn && this.context.state.userData;
@@ -159,11 +159,11 @@ class ProfileScreenClass extends Component {
                         /> */}
                         <View style={{ paddingHorizontal: 20 }}>
                             {/* Hosting */}
-                            <ProfileComponent 
+                            {/* <ProfileComponent 
                                 title={"Learn about Hosting"} 
                                 description={"Credit Cards, Coupons and more"} 
                                 iconImage={require("./../../assets/images/profile/education/education.png")}
-                            />
+                            /> */}
                             {
                                 userIsLoggedIn &&
                                     <>
@@ -194,13 +194,12 @@ class ProfileScreenClass extends Component {
                         }
                         
                         <View style={{ paddingHorizontal: 20 }}>
-                            {/* Hosting */}
                             <ProfileComponent 
                                 title={"Get Help"} 
                                 description={"Get 24/7 support, tools and information you need"} 
                                 iconImage={require("./../../assets/images/profile/question/question.png")}
                             />
-                            {
+                            {/* {
                                 userIsLoggedIn &&
                                 <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                     title={"Give us Feedback"} 
@@ -208,7 +207,7 @@ class ProfileScreenClass extends Component {
                                     iconImage={require("./../../assets/images/profile/thumbs_up/thumbs-up.png")}
                                     onPress={() => this.props.navigation.navigate('Complaint')}
                                 />
-                            }
+                            } */}
                         </View>
                         {
                                 userIsLoggedIn &&
@@ -238,7 +237,7 @@ class ProfileScreenClass extends Component {
                                             <MyText style={[textH3Style, textOrange]}>Log Out</MyText>
                                         </TouchableOpacity>
                                         
-                                        <MyText style={[textH6Style]}>Tap to sign out of account</MyText>
+                                        <MyText style={[textFont13, textGrey, { marginTop: 8}]}>Tap to sign out of account</MyText>
                                     </View>
                                     
                                 </View>

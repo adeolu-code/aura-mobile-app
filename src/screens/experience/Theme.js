@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, Pressable } from 'react-native';
 import {Icon, Picker} from 'native-base';
 import { CustomButton, MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
@@ -125,25 +125,31 @@ class Theme extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
             <Header { ...this.props } title="Your Theme" />
+            
             <View style={container}>
                 <View style={{ marginTop: 40}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
                     <ProgressBar width={16.7} />
                     <ProgressBar width={100} />
                 </View>
-                
                 <View style={{ flex: 1, marginTop: 40 }}>
-                    <View style={[{ paddingHorizontal: 1}]}>
+                
+                    <View style={[{ paddingHorizontal: 1 }]}>
+                   
                         <MyText style={[textH3Style, textGrey,textBold, { marginBottom: 20}]}>What type of experience will you host ?</MyText>
-
+                        
                         <MyText style={[textH4Style, textGrey, { marginBottom: 15}]}>
                             Select a theme that best describes what guests will mainly be doing on your experience. 
                             This will help guests find and book your experience.
                         </MyText>
 
-                        <TouchableOpacity style={[flexRow, selectStyle]} onPress={this.openCatThemeModal}>
-                            {this.renderSelectButton()}
-                        </TouchableOpacity>
+                        
+                        <Pressable onPress={this.openCatThemeModal}>
+                            <View style={[flexRow, selectStyle]}>
+                                {this.renderSelectButton()}
+                            </View>
+                        </Pressable>
+                        
                         
                     </View>
                     
@@ -163,7 +169,7 @@ class Theme extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: 100,
+        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   
@@ -171,7 +177,7 @@ const styles = StyleSheet.create({
         flex: 1, marginBottom: 40, justifyContent: 'flex-end'
     },
     selectStyle: {
-        backgroundColor: colors.white, borderRadius: 10, elevation: 2, 
+        backgroundColor: colors.white, borderRadius: 10, elevation: 2, width: '100%',
         paddingHorizontal: 10, paddingVertical: 15, marginTop: 40,
         justifyContent: 'center', alignItems: 'center', ...GStyles.shadow
     }

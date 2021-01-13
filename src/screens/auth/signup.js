@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, View, Image, ScrollView, Keyboard, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, View, ScrollView, Keyboard, TouchableOpacity } from 'react-native';
 import colors from '../../colors';
 import { CustomInput, MyText, CustomButton, PhoneNumberInput, Loading, Error, DatePicker } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import PasswordError from '../../components/auth/PasswordError';
 import FormError from '../../components/auth/FormError';
 import { AppContext } from '../../../AppProvider';
-import { setContext, Request, urls } from '../../utils';
+import { setContext, Request, urls, successMessage } from '../../utils';
 import { Icon } from 'native-base';
 import { setToken } from '../../helpers';
 
@@ -66,9 +66,8 @@ class signUp extends Component {
     lastName === '' ? this.setState({ lastNameErrors: ['last name required'] }) : this.setState({ lastNameErrors: [] })
   }
   onBlurEmail = () => {
-    const { email, emailErrors } = this.state;
+    const { email } = this.state;
     this.setState({ emailErrors: []})
-    const errors = [{name: 'required', description: 'Email required' }, { name: 'valid', description: 'Input a valid email' }]
     const arr = [ ]
     if (email === '' ) {
       arr.push('Email required')
@@ -81,7 +80,20 @@ class signUp extends Component {
   }
   onBlurPhone = () => {
     const { phoneNumber } = this.state;
-    phoneNumber === '' ? this.setState({ phoneErrors: ['Phone number is required'] }) : this.setState({ phoneErrors: [] })
+    
+    phoneNumber === '' ? this.setState({ phoneErrors: ['Phone number is required'] }) : this.checkNumber(phoneNumber)
+    
+  }
+  checkNumber = (value) => {
+    const regex = new RegExp(/^[0-9\b]+$/);
+    // var regex= /^\d{10}$/;
+    if(!regex.test(value)) {
+      this.setState({ phoneErrors: ['Please enter only numbers']})
+    } else if(value.length < 10 || value.length > 11) {
+      this.setState({ phoneErrors: ['Please enter valid phone number'] })
+    } else {
+      this.setState({ phoneErrors: [] })
+    }
   }
   formatNumber = () => {
     const { country, phoneNumber } = this.state;
@@ -91,6 +103,7 @@ class signUp extends Component {
   disabled = () => {
     const { firstNameErrors, lastNameErrors, passwordError, phoneErrors, emailErrors,
       firstName, lastName, email, phoneNumber, password, dateOfBirth } = this.state;
+      const regex = new RegExp(/^[0-9\b]+$/);
     // if(firstNameErrors.length !== 0  || lastNameErrors !== 0 || phoneErrors !== 0 || emailErrors.length !== 0 || passwordError) {
     //   return true
     // }
@@ -100,43 +113,75 @@ class signUp extends Component {
     if (firstName === '' || lastName === '' || phoneNumber === '' || password === '' || dateOfBirth === '' || email === '' || !email.includes('@')) {
       return true;
     }
+    if(!regex.test(phoneNumber) || phoneNumber.length < 10 || phoneNumber.length > 11) { 
+      return true
+    }
     return false;
   }
 
+  // login = async () => {
+  //   const { email, password } = this.state;
+  //   const obj = { username: email, password }
+  //   try {
+  //     const res = await Request(urls.identityBase, `${urls.v}auth/user/login`, obj)
+  //     console.log('Res ',res)
+  //     if (res.isError) {
+  //       this.setState({ formErrors: res.data, loading: false });
+  //     } else {
+  //       this.getUserDetails(res.data.access_token);
+  //       this.context.set({ token: res.data })
+  //       setToken(res.data)
+  //     }
+  //   } catch (error) {
+  //     console.log('Catched error ', error)
+  //     this.setState({ formErrors: error, loading: false})
+  //   }
+  // }
+
   submit = async () => {
     Keyboard.dismiss();
-    const { firstName, lastName, email, phoneNumber, password, acceptTerms, dateOfBirth } = this.state;
+    // this.login()
+    const { firstName, lastName, email, password, acceptTerms, dateOfBirth } = this.state;
     this.setState({ loading: true, formErrors: [] });
     const number = this.formatNumber();
     const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms, dateOfBirth };
-    const res = await Request(urls.identityBase, `${urls.v}user/signup`, obj);
-    console.log(res);
-    if (res.isError) {
-      this.setState({ formErrors: res.data, loading: false });
-    } else {
-      this.getUserDetails(res.data.authentication.access_token);
-      this.context.set({ token: res.data })
-      setToken(res.data)
+    try {
+      const res = await Request(urls.identityBase, `${urls.v}user/signup`, obj);
+      console.log(res);
+      if (res.isError) {
+        this.setState({ formErrors: res.data, loading: false });
+      } else {
+        this.getUserDetails(res.data.authentication.access_token);
+        this.context.set({ token: res.data })
+        setToken(res.data)
+      }
+    } catch (error) {
+      this.setState({ loading: false, formErrors: [error.message] })
     }
   }
   getUserDetails = (token) => {
     this.context.getUserProfile(token)
     .then(() => {
+      successMessage('Registration was successful!')
       this.generateOtp()
     })
-    .catch((error) => {
+    .catch(() => {
       this.setState({ formErrors: ['Something went wrong please try again, or try signing with your details'], loading: false })
     })
   }
   generateOtp = async () => {
     const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
     this.setState({ loading: false })
-    if(res.IsError) {
-        const message = res.Message;
+    if(res.IsError || res.isError) {
+        const message = res.Message || res.message;
         const error = [`${message}. Or Try signing with your details`]
         this.setState({ formErrors: error})
     } else {
-      this.props.navigation.navigate('Otp');
+      this.props.navigation.navigate('Otp', { 
+          parentScreen: undefined,
+          finalScreen: undefined
+        }
+      );
     }
   }
 
@@ -191,8 +236,8 @@ class signUp extends Component {
   }
   render() {
     // eslint-disable-next-line prettier/prettier
-    const { textWhite, textBold, flexRow, textH5Style, textGrey, textH4Style } = GStyles;
-    const {inputContainer, iconStyle, errorRow, errorContainer } = styles;
+    const { flexRow, textH5Style, textGrey, textH4Style } = GStyles;
+    const {inputContainer } = styles;
     const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors, dobErrors } = this.state;
     return (
       <>
@@ -223,7 +268,7 @@ class signUp extends Component {
                 {dobErrors.length !== 0 ? <FormError errorMessages={dobErrors} /> : <Fragment />}
               </View>
               <View style={inputContainer}>
-                <PhoneNumberInput getCountry={this.getCountry} label="Phone Number" placeholder="Phone number" 
+                <PhoneNumberInput getCountry={this.getCountry} label="Phone Number" placeholder="Enter phone number" keyType="numeric"
                 value={this.state.phoneNumber} onChangeText={this.onChangeValue} attrName="phoneNumber" onBlur={this.onBlurPhone} />
                 {phoneErrors.length !== 0 ? <FormError errorMessages={phoneErrors} /> : <Fragment />}
               </View>

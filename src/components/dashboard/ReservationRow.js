@@ -5,6 +5,7 @@ import { View, StyleSheet, Image, TouchableOpacity, Platform } from 'react-nativ
 import GStyles from '../../assets/styles/GeneralStyles';
 import colors from '../../colors';
 import { Icon } from 'native-base';
+import { shortenXterLength } from '../../helpers';
 
 class ReservationRow extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class ReservationRow extends Component {
             <Image source={img} resizeMode="cover" style={imgStyle} />
         </View>
         <View style={rightContainer}>
-            <MyText style={[textExtraBold, textH4Style, textFadedBlack]}>{title}</MyText>
+            <MyText style={[textExtraBold, textH4Style, textFadedBlack]}>{shortenXterLength(title, 16)}</MyText>
             <MyText style={[textH5Style, textGrey, { marginBottom: 18, marginTop: 15}]}>{type}</MyText>
             {/* <View style={[flexRow, starContainer]}>
                 <Icon name="star" style={[iconStyle, orangeIcon]} />

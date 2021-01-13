@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, Dimensions, TouchableOpacity, Pressable } from 'react-native';
-import { MyText, Loading } from '../../utils/Index';
+import { MyText, Loading, CustomButton } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import FoodComponent from './FoodComponent';
 
@@ -17,18 +17,27 @@ class TourImgComponent extends Component {
     const { loading } = this.state;
     if (loading) { return (<Loading wrapperStyles={{ height: 100, width: '100%', paddingTop: 50 }} />); }
   }
+
+  linkToTours = () => {
+    this.props.navigation.navigate('ExploreAll', { tab: 'five' })
+  }
   getTours = async (more=false) => {
       this.setState({ loading: true })
-      const { tourId } = this.props
-      const res = await GetRequest(urls.experienceBase, `${urls.v}experience/get/list/?status=Adminpublished&Page=1&Size=3`);
-      this.setState({ loading: false })
-      if(res.isError || res.IsError) {
-          const message = res.Message || res.message;
-          errorMessage(message)
-      } else {
-          const tours = res.data.data
-          // const tours = dataResult.filter(item => item.id !== tourId)
-          this.setState({ tours })
+
+      try {
+        const { tourId } = this.props
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/get/list/?status=Adminpublished&Page=1&Size=3`);
+        this.setState({ loading: false })
+        if(res.isError || res.IsError) {
+            const message = res.Message || res.message;
+            errorMessage(message)
+        } else {
+            const tours = res.data.data
+            // const tours = dataResult.filter(item => item.id !== tourId)
+            this.setState({ tours })
+        }
+      } catch (error) {
+        this.setState({ loading: false })
       }
   }
   
@@ -79,6 +88,7 @@ class TourImgComponent extends Component {
   render() {
     const { container, bottomImgContainer } = styles;
     const { imgStyle, flexRow } = GStyles;
+    const { tours } = this.state
     return (
       <View style={container}>
         {this.renderLoading()}
@@ -89,6 +99,9 @@ class TourImgComponent extends Component {
               {this.renderThird()}
           </View>
         </View>
+        {tours && tours.length !== 0 ? <View style={{ marginTop: 20 }}>
+          <CustomButton buttonText="Find More Tour" iconName="arrow-right" onPress={this.linkToTours} />
+        </View> : <></>}
       </View>
     );
   }

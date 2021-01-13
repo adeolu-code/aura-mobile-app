@@ -26,10 +26,10 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      // email: "ferume@tapi.re", 
-      // password: "123999_@ABCabc", 
-      email: '',
-      password: '',
+      email: "ferume@tapi.re", 
+      password: "123999_@ABCabc", 
+      // email: '',
+      // password: '',
       loading: false, 
       formErrors: [] 
     };
@@ -84,7 +84,7 @@ class LoginModal extends Component {
       }
     } catch (error) {
       console.log('Catched error ', error)
-      this.setState({ formErrors: error, loading: false})
+      this.setState({ formErrors: [error.message], loading: false})
     }
     // finally{
     //   this.setState({loading: false})

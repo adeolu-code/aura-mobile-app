@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { MyText, Loading, CustomButton } from '../../utils/Index';
 import colors from '../../colors';
 import Header from '../../components/Header';
@@ -15,9 +15,11 @@ import PhotographTipsModal from '../../components/PhotographTipsModal';
 
 
 import { AppContext } from '../../../AppProvider';
-import { urls, GetRequest, errorMessage, uploadMultipleFile, uploadFile, Request, successMessage } from '../../utils';
+import { urls, GetRequest, errorMessage, uploadMultipleFile, uploadFile, Request, successMessage, } from '../../utils';
 
 import { formatAmount } from '../../helpers'
+
+const SCREEN_HEIGHT = Dimensions.get('screen').height
 
 class PhotosComponent extends Component {
   constructor(props) {
@@ -36,7 +38,7 @@ class PhotosComponent extends Component {
   }
   renderLoading = () => {
       const { loading } = this.state;
-      if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
+      if (loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 1000 }} />); }
   }
   openTipModal = () => {
     this.setState({ tipModal: true })
@@ -116,17 +118,21 @@ class PhotosComponent extends Component {
     const { type, id } = this.state
     this.setState({ loading: true })
     let res;
-    if(type === 'tour') {
-      res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/experience?experienceid=${id}`)
-    } else {
-      res = await GetRequest(urls.listingBase, `${urls.v}listing/photo/property?propertyid=${id}`)
-    }
-    console.log('res photo ', res)
-    this.setState({ loading: false })
-    if(res.isError || res.IsError) {
-      errorMessage(res.message)
-    } else {
-      this.setState({ photos: res.data })
+    try {
+      if(type === 'tour') {
+        res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/experience?experienceid=${id}`)
+      } else {
+        res = await GetRequest(urls.listingBase, `${urls.v}listing/photo/property?propertyid=${id}`)
+      }
+      this.setState({ loading: false })
+      if(res.isError || res.IsError) {
+        errorMessage(res.message)
+      } else {
+        this.setState({ photos: res.data })
+      }
+    } catch (error) {
+      this.setState({ loading:false })
+      console.log('catch error ',error)
     }
   }
 
@@ -153,16 +159,21 @@ class PhotosComponent extends Component {
   submit = async () => {
       this.setState({ loading: true })
       const { images } = this.state
-      const res = await uploadMultipleFile(images)
-      if(res.isError || res.IsError) {
-        errorMessage(res.message || res.Message)
-        this.setState({ loading: false })
-      } else {
-        console.log('Upload ', res.data)
+      try {
+        const res = await uploadMultipleFile(images)
+        if(res.isError || res.IsError) {
+          errorMessage(res.message || res.Message)
+          this.setState({ loading: false })
+        } else {
           const data = res.data;
           const urls = data.map(item => item.fileName)
           this.updateOtherImages(urls)
+        }
+      } catch (error) {
+        this.setState({ loading: false})
+        errorMessage('Something went wrong, please try again or contact support')
       }
+      
   }
   updateOtherImages = async (imageUrls) => {
     const { type, id } = this.state
@@ -194,7 +205,8 @@ class PhotosComponent extends Component {
 
   render() {
     const { contentContainer, picContainer, picsContainer, picTextContainer, radioContainer, activeRadio } = styles
-    const { textSuccess, textH4Style, textBold, textUnderline, imgStyle, flexRow, textGrey, textOrange, textH3Style } = GStyles
+    const { textSuccess, textH4Style, textH6Style, textBold, textUnderline, imgStyle, flexRow, textGrey, 
+      textOrange, textH3Style, textDanger } = GStyles
     const { type, photos } = this.state
     const title = type === 'tour' ? `Experience Photos` : 'Property Photos'
     return (
@@ -219,6 +231,10 @@ class PhotosComponent extends Component {
                       <Icon name={"add-circle-sharp"} style={[styles.miniGalleryIcon]} />
                       <View>
                           <MyText style={[textUnderline, textOrange]}>Add Photo</MyText>
+                      </View>
+                      <View style={[flexRow, { paddingHorizontal: 8, marginTop: 15}]}>
+                          <Icon name="alert-circle" style={{ fontSize: 16, color: colors.danger, marginRight: 5 }} />
+                          <MyText style={[textH6Style, textDanger]}>Total Upload Limit Is 20mb!</MyText>
                       </View>
                   </TouchableOpacity>
                   {this.renderImages()}

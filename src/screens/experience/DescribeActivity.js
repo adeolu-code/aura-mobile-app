@@ -122,7 +122,7 @@ class DescribeActivity extends Component {
                     </View>
                     <View>
                         <CustomButton buttonText="Save" 
-                        buttonStyle={{ elevation: 2, marginBottom: 30 }}
+                        buttonStyle={{ elevation: 2, marginBottom: 30, ...GStyles.shadow }}
                         // textStyle={{ color: colors.orange, fontFamily: 'Nunito-Bold' }} 
                         onPress={this.updateExperience} 
                         disabled={!this.state.experienceDescription} />
