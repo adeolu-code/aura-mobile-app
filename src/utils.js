@@ -9,7 +9,7 @@ import { urls as Urls } from "./urls";
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
-export let debug = true; 
+export let debug = false; 
 // export let debug = true; 
 export const GLOBAL_PADDING = 20;
 export const SCREEN_HEIGHT = Dimensions.get('screen').height
@@ -34,6 +34,39 @@ let apiData = ''
 
 
 export const urls = Object.assign({
+   // identityBase: process.env.NODE_ENV === 'development' ? 
+   // "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/" : 'https://prod.transcorphotels.com/identity',
+   
+   //  bookingBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-booking-service.prod.transcorphotels.com/",
+
+   //  listingBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-listing-service.prod.transcorphotels.com/",
+
+   //  messagingBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-messaging.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-messaging.prod.transcorphotels.com/",
+
+   //  paymentBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-payment-service.d6f993e093904834a7f1.eastus.aksapp.io/payment/" : "https://aura-payment-service.prod.transcorphotels.com/payment/",
+
+   //  photographyBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-photography-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-photography-service.prod.transcorphotels.com/",
+
+   //  supportBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-support.prod.transcorphotels.com/",
+
+   //  promotionBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-promotion.prod.transcorphotels.com/",
+
+   //  storageBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/storage/" : "https://aura-storage.prod.transcorphotels.com/storage/",
+
+   //  experienceBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-experience-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-experience-service.prod.transcorphotels.com/",
+   
+   //  restaurantBase: process.env.NODE_ENV === 'development' ? 
+   //  "http://aura-restaurant.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-restaurant.prod.transcorphotels.com/",
+
    identityBase: "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/",
     bookingBase: "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     listingBase: "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/",
@@ -209,10 +242,11 @@ export async function Request(
    const body = !PreparedData ? PrepareData(Data) : Data
 
    return new Promise(async (resolve, reject) => {
+      console.log(Url)
       try {
          const res = await fetch(Base + Url, { method, headers, body })
 
-         if(res.status === 401) {
+         if(res.status === 401 && Url !== 'user/changepassword/') {
             const apiDetails = {
                url: Base + Url, headers, type: method, body
             }

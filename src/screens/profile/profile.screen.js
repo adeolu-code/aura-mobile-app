@@ -80,7 +80,7 @@ class ProfileScreenClass extends Component {
         const {textH2Style, 
             textCenter, textBold, textH3Style, 
             textH6Style, textOrange, textH1Style,
-            textWhite, textH4Style, textExtraBold
+            textWhite, textH4Style, textExtraBold, textFont13, textGrey
         } = GStyles;
         // consoleLog("user", this.context.state.userData,this.context.state.isLoggedIn, this.context.state.token)
         const userIsLoggedIn = this.context.state.isLoggedIn && this.context.state.userData;
@@ -186,20 +186,20 @@ class ProfileScreenClass extends Component {
                                     </> 
                             }
                         </View>
-                        {/* {
+                        {
                                 userIsLoggedIn &&
                                 <Separator style={[Styles.separator]}>
                                     <MyText style={[Styles.separatorText, textBold, textH4Style]}>Support</MyText>
                                 </Separator>
-                        } */}
+                        }
                         
-                        {/* <View style={{ paddingHorizontal: 20 }}>
+                        <View style={{ paddingHorizontal: 20 }}>
                             <ProfileComponent 
                                 title={"Get Help"} 
                                 description={"Get 24/7 support, tools and information you need"} 
                                 iconImage={require("./../../assets/images/profile/question/question.png")}
                             />
-                            {
+                            {/* {
                                 userIsLoggedIn &&
                                 <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                     title={"Give us Feedback"} 
@@ -207,8 +207,8 @@ class ProfileScreenClass extends Component {
                                     iconImage={require("./../../assets/images/profile/thumbs_up/thumbs-up.png")}
                                     onPress={() => this.props.navigation.navigate('Complaint')}
                                 />
-                            }
-                        </View> */}
+                            } */}
+                        </View>
                         {
                                 userIsLoggedIn &&
                                 <>
@@ -237,7 +237,7 @@ class ProfileScreenClass extends Component {
                                             <MyText style={[textH3Style, textOrange]}>Log Out</MyText>
                                         </TouchableOpacity>
                                         
-                                        <MyText style={[textH6Style]}>Tap to sign out of account</MyText>
+                                        <MyText style={[textFont13, textGrey, { marginTop: 8}]}>Tap to sign out of account</MyText>
                                     </View>
                                     
                                 </View>

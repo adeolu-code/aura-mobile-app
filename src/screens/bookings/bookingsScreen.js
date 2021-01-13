@@ -107,7 +107,7 @@ class BookingsScreen extends Component {
   }
 
   getActiveRender = (index=0) => {
-    console.log("index sel", index);
+    // console.log("index sel", index);
       //handling rendering of screen based on user top bar selection
       const now = moment(new Date());
       if (index == 0) {
@@ -117,7 +117,7 @@ class BookingsScreen extends Component {
                   { 
                     this.state.properties.map((property, index) => {
                       const checkInDate = moment(property.check_In_Date);
-                      console.log("checkInDate", checkInDate);
+                      // console.log("checkInDate", checkInDate);
                       const dayLeft = moment.duration(checkInDate.diff(now)).asHours();
                       if (dayLeft > 1) {
                         // if days left to checkin is in the future display
