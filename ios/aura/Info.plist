@@ -58,20 +58,10 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<!-- <false/> -->
-		<true/>
-
-		<!-- <key>NSExceptionDomains</key>
-		<dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict> -->
+		<false/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>http://d6f993e093904834a7f1.eastus.aksapp.io/</key>
+			<key>d6f993e093904834a7f1.eastus.aksapp.io</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>

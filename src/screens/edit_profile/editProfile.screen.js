@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 import colors from "../../colors";
 import { Styles } from "./editProfile.style";
 import { Container, Content, Footer, View, Left, Right, Icon } from "native-base";
-import { MyText, Loading } from "../../utils/Index";
+import { MyText, Loading, DatePicker } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import {LabelInput as EditInput} from "./../../components/label_input/labelInput.component";
 import { AppContext } from "../../../AppProvider";
@@ -30,6 +30,13 @@ export default class EditProfile extends Component {
             loading: false,
         }
     }
+
+    getDob = (value) => {
+        const { dob } = this.state
+        const newDate = new Date(value);
+        // console.log('Dob ', value, newDate)
+        this.setState({ dob: newDate })
+      }
 
     onUpdateUser = async () => {
         let data = {
@@ -59,8 +66,9 @@ export default class EditProfile extends Component {
     }
 
     render() {
-        const {textCenter, textH3Style, textWhite, textBold,textGreen} = GStyles;
+        const {textCenter, textH3Style, textWhite, textBold,textGreen, textGrey, textH4Style} = GStyles;
         consoleLog("emergencyContact", this.context.state.userData);
+        const { userData } = this.context.state
         return (
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
@@ -94,6 +102,11 @@ export default class EditProfile extends Component {
                                 onChangeText={(e) => this.setState({phoneNumber: e})}
                             />
                             <View style={[Styles.personalInfo]}>
+                                {/* <View style={{ flex: 1}}>
+                                    <MyText style={[textGrey, textH4Style, { marginBottom: 8}]}>Date of Birth</MyText>
+                                    <DatePicker placeholder="DD/MM/YYYY" receiveData={this.getDob} 
+                                    defaultValue={new Date(this.context.state.userData.dateofBirth) || new Date()} />
+                                </View> */}
                                 <EditInput 
                                     dateTime 
                                     label={"Date of Birth"} 
@@ -104,18 +117,20 @@ export default class EditProfile extends Component {
                                         this.setState({dob: new Date(e)});
                                     }}
                                 />
-                                <EditInput 
-                                    picker 
-                                    label={"Gender"} 
-                                    itemStyle={{flex: 0.5}} 
-                                    onPickerChange={(e) => this.setState({gender: e})}
-                                    selectedOption={this.state.gender}
-                                />
+                                <View style={{ flex: 1}}>
+                                    <EditInput 
+                                        picker 
+                                        label={"Gender"} 
+                                        itemStyle={{flex: 0.5}} 
+                                        onPickerChange={(e) => this.setState({gender: e})}
+                                        selectedOption={this.state.gender}
+                                    />
+                                </View>
                             </View>
                             <EditInput 
                                 phone 
                                 label={"Emergency Contact"} 
-                                placeholder={this.state.emergencyContact || this.context.state.userData.emergencyContact.replace("+234","")} 
+                                placeholder={this.state.emergencyContact || (userData.emergencyContact ? userData.emergencyContact.replace("+234","") : '')} 
                                 itemStyle={Styles.phoneItem} 
                                 onChangeText={(e) => this.setState({emergencyContact: e})}
                             />

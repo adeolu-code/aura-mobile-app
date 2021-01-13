@@ -36,37 +36,37 @@ let apiData = ''
 
 export const urls = Object.assign({
    // identityBase: process.env.NODE_ENV === 'development' ? 
-   // "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/" : 'https://prod.transcorphotels.com/identity',
+   // "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/" : 'https://aura-identity-prod.transcorphotels.com/identity',
    
    //  bookingBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-booking-service.prod.transcorphotels.com/",
+   //  "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-booking-prod.transcorphotels.com/",
 
    //  listingBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-listing-service.prod.transcorphotels.com/",
+   //  "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-listing-prod.transcorphotels.com/",
 
    //  messagingBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-messaging.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-messaging.prod.transcorphotels.com/",
+   //  "http://aura-messaging.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-messaging-prod.transcorphotels.com/",
 
    //  paymentBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-payment-service.d6f993e093904834a7f1.eastus.aksapp.io/payment/" : "https://aura-payment-service.prod.transcorphotels.com/payment/",
+   //  "http://aura-payment-service.d6f993e093904834a7f1.eastus.aksapp.io/payment/" : "https://aura-payment-prod.transcorphotels.com/payment/",
 
    //  photographyBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-photography-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-photography-service.prod.transcorphotels.com/",
+   //  "http://aura-photography-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-photography-prod.transcorphotels.com/",
 
    //  supportBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-support.prod.transcorphotels.com/",
+   //  "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-support-prod.transcorphotels.com/",
 
    //  promotionBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-promotion.prod.transcorphotels.com/",
+   //  "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-promotion-prod.transcorphotels.com/",
 
    //  storageBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/storage/" : "https://aura-storage.prod.transcorphotels.com/storage/",
+   //  "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/storage/" : "https://aura-storage-prod.transcorphotels.com/storage/",
 
    //  experienceBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-experience-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-experience-service.prod.transcorphotels.com/",
+   //  "http://aura-experience-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-experience-prod.transcorphotels.com/",
    
    //  restaurantBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-restaurant.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-restaurant.prod.transcorphotels.com/",
+   //  "http://aura-restaurant.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-restaurant-prod.transcorphotels.com/",
 
    identityBase: "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/",
     bookingBase: "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/",

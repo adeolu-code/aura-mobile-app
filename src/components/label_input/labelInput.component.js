@@ -5,6 +5,7 @@ import IntlPhoneInput from 'react-native-intl-phone-input';
 import { Item, Label, Input, View, Picker, DatePicker, Icon, Textarea } from "native-base";
 import { consoleLog } from "../../utils";
 import { Platform } from 'react-native';
+import GStyles from '../../assets/styles/GeneralStyles';
 /**
  * 
  * @param {*} props
@@ -19,6 +20,7 @@ import { Platform } from 'react-native';
  * 
  */
 export const LabelInput = (props) => {
+    const { textGrey } = GStyles
     const dateTime = (props.dateTime == undefined) ? false : ((props.dateTime) ? true : false);
     const picker = (props.picker == undefined) ? false : ((props.picker) ? true : false);
     const phone = (props.phone == undefined) ? false : ((props.phone) ? true : false);
@@ -28,7 +30,7 @@ export const LabelInput = (props) => {
     if (dateTime) {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <DatePicker
                         defaultDate={props.defaultDate || new Date()}
@@ -55,7 +57,7 @@ export const LabelInput = (props) => {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={props.disabled || false}>
                 <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
-                <View style={[Styles.personalContentView]}>
+                <View style={[Styles.personalContentView, { padding: 0}]}>
                     <Picker style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
                         selectedValue={props.selectedOption ? props.selectedOption : "Male"}
                         onValueChange={(e) => props.onPickerChange && props.onPickerChange(e)}
@@ -85,7 +87,7 @@ export const LabelInput = (props) => {
          */
         return (
             <Item stackedLabel style={[Styles.phoneItem, props.itemStyle]}>
-                <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <IntlPhoneInput
                         onChangeText={({dialCode, unmaskedPhoneNumber}) => {
@@ -107,7 +109,7 @@ export const LabelInput = (props) => {
     else if (textarea) {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
                 <View style={[Styles.personalContentView, props.contentViewStyle]}>
                     <Textarea
                         rowSpan={props.rowSpan || 3}
@@ -135,7 +137,7 @@ export const LabelInput = (props) => {
     {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
-                <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
                 <View style={[Styles.inputView]}>
                     <View style={[Styles.left, {width: (icon ? "90%": "100%" )}]}>
                         <Input 
