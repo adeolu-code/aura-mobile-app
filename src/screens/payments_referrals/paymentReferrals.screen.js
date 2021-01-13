@@ -34,7 +34,7 @@ export default class PaymentReferral extends Component {
                             <View style={sectionStyle}>
                                 <DashboardCardComponent 
                                     title="Payment Settings" 
-                                    description={description}
+                                    description={"Set up and edit your bank details"}
                                     img={require('../../assets/images/profile/credit_card/Component64–1_2x.png')} 
                                     onPress={this.onPressPayment} 
                                 />
@@ -42,7 +42,7 @@ export default class PaymentReferral extends Component {
                             <View style={sectionStyle}>
                                 <DashboardCardComponent 
                                     title="Referrals" 
-                                    description={description}
+                                    description={"Get referral code which you can use to invite your friends to Aura and get discount on Aura services"}
                                     img={require('../../assets/images/profile/component_64_1/Component_64_1_2x.png')} 
                                     onPress={this.onPressReferral} 
                                 />
