@@ -13,7 +13,7 @@ import { Platform } from 'react-native';
  * 
  * label [string]
  * 
- * onChange | onPickerChange | onChangeText [function]
+ * onChange | onPickerChange | onChangeText | onIconClick [function] 
  * 
  * pickerOptions [array {label,value} |picker only]
  * 
@@ -24,6 +24,7 @@ export const LabelInput = (props) => {
     const phone = (props.phone == undefined) ? false : ((props.phone) ? true : false);
     const icon = (props.icon == undefined) ? false : ((props.icon) ? props.icon : false);
     const textarea = (props.textarea == undefined) ? false : ((props.textarea) ? true : false);
+    const secureText = (props.secureText == undefined) ? false : ((props.secureText) ? true : false);
     if (dateTime) {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]}>
@@ -145,12 +146,13 @@ export const LabelInput = (props) => {
                             onChangeText={(e) => { props.onChangeText && props.onChangeText(e);}}
                             keyboardType={props.keyboardType || "default"}
                             disabled={props.disabled || false}
+                            secureTextEntry={secureText}
                         />
                     </View>
                     {
                         icon &&
                         <View style={[Styles.right]}>
-                            <Icon name={props.icon} style={[props.iconStyle]} />
+                            <Icon name={props.icon} style={[props.iconStyle]} onPress={() => props.onIconClick && props.onIconClick()} />
                         </View>
                     }
                     

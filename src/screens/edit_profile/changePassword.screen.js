@@ -27,6 +27,9 @@ export default class ChangePassword extends Component {
             newPassword: "",
             confirmNewPassword: "",
             loading: false,
+            secureNewPassword: true,
+            secureConfPassword: true,
+            secureOldPassword: true,
         }
     }
 
@@ -68,22 +71,31 @@ export default class ChangePassword extends Component {
                     <Container style={[Styles.container]}>
                         <Content scrollEnabled={true}>
                             <EditInput 
+                                secureText={this.state.secureOldPassword}
                                 label={"Current Password"} 
                                 placeholder={"Current Password"} 
                                 onChangeText={(e) => this.setState({oldPassword: e})}
                                 value={this.state.oldPassword}
+                                icon={'ios-eye'}
+                                onIconClick={() => this.setState({secureOldPassword: !this.state.secureOldPassword})}
                             />
                             <EditInput 
+                                secureText={this.state.secureNewPassword}
                                 label={"New Password"} 
                                 placeholder={"New Password"} 
                                 onChangeText={(e) => this.setState({newPassword: e})}
                                 value={this.state.newPassword}
+                                icon={'ios-eye'}
+                                onIconClick={() => this.setState({secureNewPassword: !this.state.secureNewPassword})}
                             />
                             <EditInput 
+                                secureText={this.state.secureConfPassword}
                                 label={"Confirm New Password"} 
-                                placeholder={"New Password"} 
+                                placeholder={"Confirm New Password"} 
                                 onChangeText={(e) => this.setState({confirmNewPassword: e})}
                                 value={this.state.confirmNewPassword}
+                                icon={'ios-eye'}
+                                onIconClick={() => this.setState({secureConfPassword: !this.state.secureConfPassword})}
                             />
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter]}>

@@ -5,10 +5,11 @@ import { Platform, Dimensions } from 'react-native';
 import colors from './colors'
 import RNFetchBlob from 'rn-fetch-blob';
 import { getToken, setToken } from './helpers';
+import { urls as Urls } from "./urls";
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
-export let debug = false; 
+export let debug = true; 
 // export let debug = true; 
 export const GLOBAL_PADDING = 20;
 export const SCREEN_HEIGHT = Dimensions.get('screen').height
@@ -32,43 +33,8 @@ let apiHeaders = '';
 let apiData = ''
 
 
-export const urls = {
-   // identityBase: process.env.NODE_ENV === 'development' ? 
-   // "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/" : 'https://prod.transcorphotels.com/identity',
-   
-   //  bookingBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-booking-service.prod.transcorphotels.com/",
-
-   //  listingBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-listing-service.prod.transcorphotels.com/",
-
-   //  messagingBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-messaging.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-messaging.prod.transcorphotels.com/",
-
-   //  paymentBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-payment-service.d6f993e093904834a7f1.eastus.aksapp.io/payment/" : "https://aura-payment-service.prod.transcorphotels.com/payment/",
-
-   //  photographyBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-photography-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-photography-service.prod.transcorphotels.com/",
-
-   //  supportBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-support.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-support.prod.transcorphotels.com/",
-
-   //  promotionBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-promotion.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-promotion.prod.transcorphotels.com/",
-
-   //  storageBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-storage.d6f993e093904834a7f1.eastus.aksapp.io/storage/" : "https://aura-storage.prod.transcorphotels.com/storage/",
-
-   //  experienceBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-experience-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-experience-service.prod.transcorphotels.com/",
-   
-   //  restaurantBase: process.env.NODE_ENV === 'development' ? 
-   //  "http://aura-restaurant.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-restaurant.prod.transcorphotels.com/",
-
-    
-
-    identityBase: "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/",
+export const urls = Object.assign({
+   identityBase: "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/",
     bookingBase: "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     listingBase: "http://aura-listing-service.d6f993e093904834a7f1.eastus.aksapp.io/",
     messagingBase: "http://aura-messaging.d6f993e093904834a7f1.eastus.aksapp.io/",
@@ -117,16 +83,8 @@ export const urls = {
     complaints: "complaints/",
     bank: "bank/",
     bankAccount: "bankaccount/",
-    restaurant: "restaurant/",
-    order: "orders/",
-    restaurantServices: "operation/services/",
-    restaurantOpen: "operation/open/",
-    restaurantOpentime: "operation/opentime/",
-    restaurantCuisine:"operation/cuisine/",
-    restaurantOperation: "operation/",
-    restaurantComment: "review/comment/host/",
-    restaurantRating: "review/rating/host/",
-}
+    
+}, Urls);
 const getUserToken = async () => {
 	try {
       let token = await AsyncStorage.getItem("token");
@@ -172,7 +130,7 @@ function PrepareData(Data, type = "json") {
 }
 
 export function consoleLog(message, ...optionalParams) {
-   if (debug) console.log(message, JSON.stringify(optionalParams));
+   if (debug) console.log(message, optionalParams);
 }
 
 export async function refreshToken(apiDetails) {
@@ -199,9 +157,9 @@ export async function refreshToken(apiDetails) {
       context.set({ token: data.data })
       // repeat the previous api call
       if(apiDetails.type === 'GET') {
-         getApi(apiDetails.url, apiDetails.type, apiDetails.headers)
+         return getApi(apiDetails.url, apiDetails.type, apiDetails.headers)
       } else {
-         postApi(apiDetails.url, apiDetails.type, apiDetails.headers, apiDetails.body)
+         return postApi(apiDetails.url, apiDetails.type, apiDetails.headers, apiDetails.body)
       }
    }
 }
@@ -258,7 +216,7 @@ export async function Request(
             const apiDetails = {
                url: Base + Url, headers, type: method, body
             }
-            refreshToken(apiDetails)
+            return refreshToken(apiDetails)
          } else {
             let data = res.json()
             resolve(data)
@@ -266,10 +224,8 @@ export async function Request(
          }
       } catch (error) {
          reject(error)
-      }
-      
+      } 
    })
-   
 }
 
 
@@ -317,8 +273,6 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
          reject(error)
       }
    })
-   
-   
 } 
 // if(data !== undefined && (data.IsError || data.isError) && (data.Message === UNAUTHORIZED_MESSAGE || data.message === UNAUTHORIZED_MESSAGE)) {
 //    console.log('Got here utils ', data)

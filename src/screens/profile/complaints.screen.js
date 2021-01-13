@@ -26,7 +26,7 @@ export default class Complaint extends Component {
         this.state = {
             message: "",
             loading: false,
-            propertyId: props.route.params.propertyId || undefined,
+            propertyId: props.route && props.route.params && props.route.params.propertyId || undefined,
         }
     }
 

@@ -53,7 +53,7 @@ export async function uploadIdentityImageApi(data) {
 export async function changePasswordApi(data) {
     
     let res = await Request(urls.identityBase + urls.v , urls.user + urls.changePassword, data);
-
+    console.log("res", res);
     if (res.isError == true) {
         errorMessage(res.message);
     }

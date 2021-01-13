@@ -5,11 +5,12 @@ import { Styles } from "./bookingProperty.style";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { consoleLog } from "../../utils";
+import moment from "moment";
 
 export default class BookingPropertyComponent extends Component {
     constructor(props) {
         super(props);
-
+        consoleLog("props", props);
         this.state = {
 
         }
@@ -31,6 +32,10 @@ export default class BookingPropertyComponent extends Component {
         else {
             daysLeft =  "";
         }
+
+        const def = (this.props.def == undefined) ? true : ((this.props.def) ? def : true);
+        const ellipsis = (this.props.ellipsis == undefined) ? true : ((this.props.ellipsis) ? this.props.ellipsis : false);
+        // const title = (this.props.title == undefined) ? "" : ((this.props.title === true) ? this.props.ellipsis : false);
 
         return (
             <>
@@ -63,15 +68,28 @@ export default class BookingPropertyComponent extends Component {
                             <MyText style={[Styles.properyType, {padding: 0, paddingLeft: 2, paddingRight: 2}]}>
                                 {this.props.type}
                             </MyText>
+                            <MyText style={[Styles.properyType, {padding: 0, paddingLeft: 2, paddingRight: 2}]}>
+                                {
+                                    def === true ?
+                                        moment(this.props.date).format("YYYY/MM/DD")
+                                    :
+                                        moment(this.props.date).format(def)
+                                }
+                            </MyText>
                             <MyText style={[Styles.properyCheckinDays, textBold, {marginTop: 0}]}>
                                 {daysLeft}
                             </MyText>
                         </View>
-                        <Icon 
-                            style={[Styles.iconSection]} 
-                            name={"ios-ellipsis-vertical-sharp"} style={[Styles.icon]} 
-                            onPress={() => this.props.onEllipsePress()}
-                        />
+                        {
+                            ellipsis
+                            &&
+                             <Icon 
+                                style={[Styles.iconSection]} 
+                                name={"ios-ellipsis-vertical-sharp"} style={[Styles.icon]} 
+                                onPress={() => this.props.onEllipsePress()}
+                            />
+                        }
+                        
                     </View>
                 </Pressable>
             </>
