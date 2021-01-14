@@ -16,7 +16,8 @@ const splashTimeout = 3800;
 import AppVersion from '../../../appVersion';
 
 const navigateToTab = async (props) => {
-    props.navigation.navigate("Tabs");
+    // props.navigation.navigate("Tabs");
+    props.navigation.navigate('Tabs', {screen: 'Explore', params: { screen: 'Explore'} })
     // console.log("moved", new Date().getMinutes(), new Date().getSeconds());
 }
 
