@@ -28,6 +28,7 @@ export default class EditProfile extends Component {
             lastName: "",
             phoneNumber: "",
             loading: false,
+            emergencyContact: "",
         }
     }
 
@@ -130,7 +131,7 @@ export default class EditProfile extends Component {
                             <EditInput 
                                 phone 
                                 label={"Emergency Contact"} 
-                                placeholder={this.state.emergencyContact || (userData.emergencyContact ? userData.emergencyContact.replace("+234","") : '')} 
+                                placeholder={this.state.emergencyContact || (this.context.state.userData.emergencyContact && this.context.state.userData.emergencyContact.replace("+234",""))} 
                                 itemStyle={Styles.phoneItem} 
                                 onChangeText={(e) => this.setState({emergencyContact: e})}
                             />
