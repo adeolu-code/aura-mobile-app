@@ -58,6 +58,20 @@ class EditBankModal extends Component {
         }
     }
 
+    compare = (a, b) => {
+        // Use toUpperCase() to ignore character casing
+        const bandA = a.name.toUpperCase();
+        const bandB = b.name.toUpperCase();
+      
+        let comparison = 0;
+        if (bandA > bandB) {
+          comparison = 1;
+        } else if (bandA < bandB) {
+          comparison = -1;
+        }
+        return comparison;
+    }
+
     getBank = async () => {
         this.setState({ gettingBanks: true })
         const response = await GetRequest(urls.identityBase, `${urls.v}bank`);
@@ -67,7 +81,7 @@ class EditBankModal extends Component {
             errorMessage(response.message)
         } else {  
             const data = response.data;
-            this.setState({ banks: data });
+            this.setState({ banks: data.sort(this.compare) });
         }
     }
 

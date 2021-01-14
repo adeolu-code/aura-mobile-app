@@ -25,11 +25,7 @@ class signUp extends Component {
     this.setState({ acceptTerms: !this.state.acceptTerms })
   }
   linkToTerms = async () => {
-    // try {
-    //   await Linking.openURL('')
-    // } catch (error) {
-    //     showMessage({ message: error.message, type: 'danger', floating: true})
-    // }
+    this.props.navigation.navigate('Other', { screen: 'TermsOfService' })
   }
   renderLoading = () => {
       const { loading } = this.state;
@@ -152,8 +148,8 @@ class signUp extends Component {
         this.setState({ formErrors: res.data, loading: false });
       } else {
         this.getUserDetails(res.data.authentication.access_token);
-        this.context.set({ token: res.data })
-        setToken(res.data)
+        this.context.set({ token: res.data.authentication })
+        setToken(res.data.authentication)
       }
     } catch (error) {
       this.setState({ loading: false, formErrors: [error.message] })
@@ -161,21 +157,22 @@ class signUp extends Component {
   }
   getUserDetails = (token) => {
     this.context.getUserProfile(token)
-    .then(() => {
+    .then(async () => {
       successMessage('Registration was successful!')
-      this.generateOtp()
+      await this.generateOtp(token)
     })
     .catch(() => {
       this.setState({ formErrors: ['Something went wrong please try again, or try signing with your details'], loading: false })
     })
   }
-  generateOtp = async () => {
+  generateOtp = async (token) => {
     const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
+    console.log('generate otp ', res)
     this.setState({ loading: false })
     if(res.IsError || res.isError) {
         const message = res.Message || res.message;
         const error = [`${message}. Or Try signing with your details`]
-        this.setState({ formErrors: error})
+        this.setState({ formErrors: error, loading: false })
     } else {
       this.props.navigation.navigate('Otp', { 
           parentScreen: undefined,

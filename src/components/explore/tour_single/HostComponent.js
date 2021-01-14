@@ -54,9 +54,10 @@ class HostComponent extends Component {
       const { flexRow, textWhite, textH4Style } = GStyles
       const { iconStyleOne, imageView } = styles
       if(tour.guestShouldBring && tour.guestShouldBring.length !== 0) {
-        return tour.guestShouldBring.map((item) => {
+        return tour.guestShouldBring.map((item, i) => {
+            const key = `Items_${i}`
             return (
-              <View style={[flexRow, { marginBottom: 15, width: '48%'}]}>
+              <View style={[flexRow, { marginBottom: 15, width: '48%'}]} key={key}>
                   <View style={[imageView]}>
                       <Icon type="Ionicons" name="checkmark-done-outline" style={iconStyleOne} />
                   </View>

@@ -30,7 +30,7 @@ const SplashScreen = (props) => {
 
     const checkVersion = async () => {
         const res = await GetRequest(urls.identityBase, `${urls.v}auth/version`)
-        console.log('Check version ', res)
+        // console.log('Check version ', res)
         try {
             if(res.isError) {
 

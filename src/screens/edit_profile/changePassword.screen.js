@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from "react";
-import { StatusBar, TouchableOpacity } from "react-native";
+import { StatusBar, TouchableOpacity, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 import colors from "../../colors";
@@ -34,6 +34,7 @@ export default class ChangePassword extends Component {
     }
 
     onUpdateUser = async () => {
+        Keyboard.dismiss()
         if (this.state.newPassword == "" || this.state.confirmNewPassword == "") {
             errorMessage(PASSWORD_EMPTY);
             return;
@@ -50,7 +51,6 @@ export default class ChangePassword extends Component {
             "newPassword": this.state.newPassword,
           }
           this.setState({loading: true});
-          
           await changePasswordApi(data);
           this.setState({loading: false});
     }

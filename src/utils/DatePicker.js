@@ -72,11 +72,17 @@ class DatePicker extends Component {
     return <MyText style={[textGreyColor, textH3Style]}>{placeholder}</MyText>;
   };
   componentDidMount = () => {
-    const { minDate } = this.props
+    const { minDate, defaultValue } = this.props
     if(minDate) {
       this.setState({ date: minDate })
     } else {
       this.setState({ date: new Date(moment().subtract(18, 'years').format()) })
+    }
+    if(defaultValue) {
+      const day = moment(defaultValue).format('DD');
+      const month = moment(defaultValue).format('MM');
+      const year = moment(defaultValue).format('YYYY');
+      this.setState({ value: `${day}/${month}/${year}`})
     }
   }
   render() {

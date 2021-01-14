@@ -306,8 +306,8 @@ class HomeSingle extends Component {
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/calendar?PropertyId=${house.id}`);
     console.log('House calendar ', res)
     this.setState({ gettingCalendar: false })
-    if(res.isError) {
-        const message = res.Message;
+    if(res.isError || res.IsError) {
+        const message = res.Message || res.message;
     } else {
         const data = res.data;
         this.setState({ bookedDays: data.bookedDays })

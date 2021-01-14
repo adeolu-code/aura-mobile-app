@@ -3,13 +3,13 @@ import { TouchableOpacity, SafeAreaView } from 'react-native'
 import { Container, Content, View, Separator, Text, Icon, Footer } from "native-base";
 import { Styles } from "./profile.style";
 import ProfileComponent from "./../../components/profile_item/profileItem.component";
-import { Image } from "react-native";
+import { Image, Linking } from "react-native";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { AppContext } from "../../../AppProvider";
 import { clearData } from '../../helpers';
 import colors from "../../colors";
-import { GLOBAL_PADDING, setContext, debug, consoleLog, HOST, PHOTOGRAPH, RESTAURANT, EXPERIENCE } from "../../utils";
+import { GLOBAL_PADDING, setContext, debug, consoleLog, WHATSAPP_NUMBER, errorMessage, HOST, PHOTOGRAPH, RESTAURANT, EXPERIENCE } from "../../utils";
 import LoginModal from "../../components/auth/LoginModal";
 import SignUpModal from "../../components/auth/SignUpModal";
 import { getNotificationSettingsApi } from "../../api/notifications.api";
@@ -66,10 +66,19 @@ class ProfileScreenClass extends Component {
       }
 
     onSignOut = async () => {
-        
         await clearData()
         this.context.set({ userData: null, isLoggedIn: false, currentDashboard: 1})
         this.props.navigation.navigate('Tabs', {screen: 'Dashboard', params: { screen: 'DashboardView'} })
+    }
+    linkToWhatsapp = () => {
+        let url = `whatsapp://send?phone=${WHATSAPP_NUMBER}`
+        Linking.openURL(url)
+        .then(data => {
+            console.log("WhatsApp Opened successfully " + data);
+        })
+        .catch(() => {
+            errorMessage('Make sure WhatsApp installed on your device')
+        });
     }
     becomeHost = () => {
         this.context.set({ propertyFormData: null, edit: false, step: 1 })
@@ -86,7 +95,7 @@ class ProfileScreenClass extends Component {
         const {textH2Style, 
             textCenter, textBold, textH3Style, 
             textH6Style, textOrange, textH1Style,
-            textWhite, textH4Style, textExtraBold
+            textWhite, textH4Style, textExtraBold, textFont13, textGrey
         } = GStyles;
         const {userData} = this.context.state;
         // consoleLog("user", this.context.state.userData,this.context.state.isLoggedIn, this.context.state.token)
@@ -170,11 +179,11 @@ class ProfileScreenClass extends Component {
                         /> */}
                         <View style={{ paddingHorizontal: 20 }}>
                             {/* Hosting */}
-                            <ProfileComponent 
+                            {/* <ProfileComponent 
                                 title={"Learn about Hosting"} 
                                 description={"Credit Cards, Coupons and more"} 
                                 iconImage={require("./../../assets/images/profile/education/education.png")}
-                            />
+                            /> */}
                             {
                                 userIsLoggedIn &&
                                     <>
@@ -217,13 +226,13 @@ class ProfileScreenClass extends Component {
                         }
                         
                         <View style={{ paddingHorizontal: 20 }}>
-                            {/* Hosting */}
                             <ProfileComponent 
                                 title={"Get Help"} 
                                 description={"Get 24/7 support, tools and information you need"} 
                                 iconImage={require("./../../assets/images/profile/question/question.png")}
+                                onPress={this.linkToWhatsapp}
                             />
-                            {
+                            {/* {
                                 userIsLoggedIn &&
                                 <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                     title={"Give us Feedback"} 
@@ -231,7 +240,7 @@ class ProfileScreenClass extends Component {
                                     iconImage={require("./../../assets/images/profile/thumbs_up/thumbs-up.png")}
                                     onPress={() => this.props.navigation.navigate('Complaint')}
                                 />
-                            }
+                            } */}
                         </View>
                         {
                                 userIsLoggedIn &&
@@ -251,6 +260,7 @@ class ProfileScreenClass extends Component {
                                         title={"Terms of Service"} 
                                         description={"Credit cards, coupons and more"} 
                                         iconImage={require("./../../assets/images/profile/new_paper/news-paper.png")}
+                                        onPress={() => this.props.navigation.navigate('Other', { screen: 'TermsOfService' }) }
                                     />
                                 </View>
                                 <Separator style={[Styles.separator]}></Separator>
@@ -261,7 +271,7 @@ class ProfileScreenClass extends Component {
                                             <MyText style={[textH3Style, textOrange]}>Log Out</MyText>
                                         </TouchableOpacity>
                                         
-                                        <MyText style={[textH6Style]}>Tap to sign out of account</MyText>
+                                        <MyText style={[textFont13, textGrey, { marginTop: 8}]}>Tap to sign out of account</MyText>
                                     </View>
                                     
                                 </View>
