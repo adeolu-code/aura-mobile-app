@@ -9,7 +9,7 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import { AppContext } from "../../../AppProvider";
 import { clearData } from '../../helpers';
 import colors from "../../colors";
-import { GLOBAL_PADDING, setContext, debug, consoleLog } from "../../utils";
+import { GLOBAL_PADDING, setContext, debug, consoleLog, HOST, PHOTOGRAPH, RESTAURANT, EXPERIENCE } from "../../utils";
 import LoginModal from "../../components/auth/LoginModal";
 import SignUpModal from "../../components/auth/SignUpModal";
 import { getNotificationSettingsApi } from "../../api/notifications.api";
@@ -76,15 +76,26 @@ class ProfileScreenClass extends Component {
         this.props.navigation.navigate("HostPropertyStack")
     }
 
+    hostRestaurant = () => {
+        this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant', params:{
+            host: true
+          }})
+    }
+
     render() {
         const {textH2Style, 
             textCenter, textBold, textH3Style, 
             textH6Style, textOrange, textH1Style,
             textWhite, textH4Style, textExtraBold
         } = GStyles;
+        const {userData} = this.context.state;
         // consoleLog("user", this.context.state.userData,this.context.state.isLoggedIn, this.context.state.token)
         const userIsLoggedIn = this.context.state.isLoggedIn && this.context.state.userData;
         const userIsNotLoggedIn = !this.context.state.isLoggedIn || !this.context.state.userData;
+        const rolePhotograph = userData && userData.roles.find(item => item === PHOTOGRAPH)
+        const roleHost = userData && userData.roles.find(item => item === HOST)
+        const roleRestaurant = userData && userData.roles.find(item => item === RESTAURANT)
+        const roleExperience = userData && userData.roles.find(item => item === EXPERIENCE)
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
                 <Container>
@@ -167,22 +178,34 @@ class ProfileScreenClass extends Component {
                             {
                                 userIsLoggedIn &&
                                     <>
-                                    <ProfileComponent 
-                                        title={"Host your Home/Hotel"} 
-                                        description={"Credit Cards, Coupons and more"} 
-                                        iconImage={require("./../../assets/images/profile/location_hotel/location-hotel.png")}
-                                        onPress={this.becomeHost}
-                                    />
-                                    <ProfileComponent 
-                                        title={"Host your Resturant"} 
-                                        description={"Credit Cards, Coupons and more"} 
-                                        iconImage={require("./../../assets/images/profile/location_food/location-food.png")}
-                                    />
-                                    <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
+                                    {
+                                        userIsLoggedIn && !roleHost && 
+                                        <ProfileComponent 
+                                            title={"Host your Home/Hotel"} 
+                                            description={"Credit Cards, Coupons and more"} 
+                                            iconImage={require("./../../assets/images/profile/location_hotel/location-hotel.png")}
+                                            onPress={this.becomeHost}
+                                        />
+                                    }
+                                    {
+                                        userIsLoggedIn && !roleRestaurant &&
+                                    
+                                        <ProfileComponent 
+                                            title={"Host your Restaurant"} 
+                                            description={"Credit Cards, Coupons and more"} 
+                                            iconImage={require("./../../assets/images/profile/location_food/location-food.png")}
+                                            onPress={this.hostRestaurant}
+                                        />
+                                    }
+                                    {
+                                        userIsLoggedIn && !rolePhotograph
+                                        && <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                         title={"Become a Photographer"} 
                                         description={"Credit Cards, Coupons and more"} 
                                         iconImage={require("./../../assets/images/profile/camera/camera.png")}
                                     />
+                                    }
+                                    
                                     </> 
                             }
                         </View>
