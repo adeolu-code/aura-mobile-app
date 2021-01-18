@@ -93,7 +93,9 @@ class signUp extends Component {
   }
   formatNumber = () => {
     const { country, phoneNumber } = this.state;
-    const number = `+${country.callingCode[0]}${phoneNumber}`;
+    const firstXter = phoneNumber.charAt(0);
+    const numberValue = firstXter === '0' ? `${phoneNumber}` : `0${phoneNumber}`
+    const number = `+${country.callingCode[0]}${numberValue}`;
     return number;
   }
   disabled = () => {
@@ -133,7 +135,7 @@ class signUp extends Component {
   //     this.setState({ formErrors: error, loading: false})
   //   }
   // }
-
+  
   submit = async () => {
     Keyboard.dismiss();
     // this.login()
@@ -155,6 +157,7 @@ class signUp extends Component {
       this.setState({ loading: false, formErrors: [error.message] })
     }
   }
+
   getUserDetails = (token) => {
     this.context.getUserProfile(token)
     .then(async () => {

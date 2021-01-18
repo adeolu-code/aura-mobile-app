@@ -55,11 +55,11 @@ const styles = StyleSheet.create({
         paddingVertical: 32
     },
     leftContainer: {
-        flex: 3.5, 
+        flex: 3.4, 
         // borderWidth: 1
     },
     imgContainer: {
-        width: 135, height: 120, borderRadius: 8, overflow: 'hidden',
+        width: '92%', height: 120, borderRadius: 8, overflow: 'hidden',
     },
     contentContainer: {
         flex: 4, paddingHorizontal: 10,

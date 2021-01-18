@@ -58,8 +58,18 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-		<key>NSExceptionDomains</key>
+		<!-- <false/> -->
+		<true/>
+
+		<!-- <key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict> -->
+		<!-- <key>NSExceptionDomains</key>
 		<dict>
 			<key>d6f993e093904834a7f1.eastus.aksapp.io</key>
 			<dict>
@@ -70,8 +80,9 @@
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
 				<string>TLSv1.1</string>
 			</dict>
-		</dict>
+		</dict> -->
 	</dict>
+	
 	<key>NSCameraUsageDescription</key>
 	<string>Will you allow this app access to camera?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

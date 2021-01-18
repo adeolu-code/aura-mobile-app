@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
         ...GStyles.shadow
     },
     galleryContainer: {
-        justifyContent: 'center', alignItems: 'center', flex: 1, paddingVertical: 20, paddingBottom: Platform.OS === 'ios' ? 40 : 0
+        justifyContent: 'center', alignItems: 'center', flex: 1, paddingVertical: 20, paddingBottom: Platform.OS === 'ios' ? 40 : 20
     },
     cameraContainer: {
-        alignItems: 'center', flex: 1, justifyContent: 'center', paddingVertical: 20, paddingBottom: Platform.OS === 'ios' ? 40 : 0
+        alignItems: 'center', flex: 1, justifyContent: 'center', paddingVertical: 20, paddingBottom: Platform.OS === 'ios' ? 40 : 20
     }
 });
 
