@@ -22,6 +22,7 @@ import { MyStyle } from '../../myStyle';
 import { PHOTOGRAPH, EXPERIENCE, RESTAURANT, HOST } from '../../utils'
 import { getRestaurantOrdersApi } from '../../api/restaurant.api';
 import { getExperienceApi } from "./../../api/booking.api";
+import FlatlistComponent from '../../components/flat_list/flatList.component';
 
 const illustration = require("./../../../assets/bookings-page-1-illustration.png");
 
@@ -35,7 +36,7 @@ class BookingsScreen extends Component {
         toBeRendered: this.defaultRender,
         activeTab: 0,
         page: 1,
-        pageSize: 10,
+        pageSize: 25,
         propertyType: 'Apartment',
         properties: [],
         showFilterModal: false,
@@ -47,7 +48,7 @@ class BookingsScreen extends Component {
         activeIndex: 0,
     };
 
-    this.onEndReachedCalledDuringMomentum = true;
+    this.onEndReachedCalledDuringMomentum = false;
   }
 
   defaultRender = (
@@ -85,8 +86,9 @@ class BookingsScreen extends Component {
     
 }
 
-  getProperty = (property, url=urls.property) => {
+  getProperty = (property=this.state.propertyType, url=urls.property) => {
     this.setState({loading: true});
+    
     getPropertyBookingsApi({
       page: this.state.page,
       pageSize: this.state.pageSize,
@@ -121,44 +123,66 @@ class BookingsScreen extends Component {
                       const dayLeft = moment.duration(checkInDate.diff(now)).asHours();
                       if (dayLeft > 1) {
                         // if days left to checkin is in the future display
-                        toBeRendered.push(
-                          <BookingPropertyComponent 
-                              key={index}
-                              title={property.propertyInfo.title} 
-                              location={property.propertyInfo.location || ""} 
-                              type={property.propertyInfo.type}
-                              dayLeft={dayLeft > 0 ? dayLeft.toFixed(2) : 0}
-                              image={{uri: property.propertyInfo.image}}
-                              isExpired= {property.isBookingExpired}
-                              amount= {property.total_Cost}
-                              onEllipsePress={() => this.selectProperty(index)}
-                              date={checkInDate}
-                              onClick={() => this.props.navigation.navigate("BookingDetail",{
-                                title: property.propertyInfo.title,
-                                propertyCategory: property.propertyInfo.type,
-                                checkOut: moment(property.check_Out_Date).format("DD/MM/YYYY"),
-                                propertyType: property.propertyInfo.type,
-                                time: `${moment(property.arrival_Time_From, "hh:mm:ss").format("hh:mm")} - ${moment(property.arrival_Time_To, "hh:mm:ss").format("hh:mm")}`,
-                                checkIn: checkInDate.format("DD/MM/YYYY"),
-                                amount: property.total_Cost,
-                                image: {uri: property.propertyInfo.image},
-                                isExpired: property.isBookingExpired
-                              })}
-                              {...this.props}
-                          />
-                        );
+                        property['dayLeft'] = dayLeft > 0 ? dayLeft.toFixed(2) : 0;
+                        property['checkInDate'] = checkInDate;
+                        toBeRendered.push(property);
                       }
                     });
                   }
                   
                   if (toBeRendered.length == 0) {
-                    toBeRendered = <RenderNoRecord 
+                    toBeRendered = [<RenderNoRecord 
                         illustrationSource={illustration} 
                         noRecordText={BOOKINGS_NO_BOOKINGS}
                         description={BOOKINGS_SCREEN_DESCRIPTION}
                         buttonText={"Explore Aura"}
                         onButtonPress={() => this.props.navigation.navigate('Tabs', {screen: 'Explore'})}
-                    />
+                    />]
+                  }
+                  else {
+                    toBeRendered = (
+                    <FlatlistComponent
+                      data={toBeRendered}
+                      // onEndReached={() => {
+                      //   this.state.page = this.state.page + 1;
+                      //   this.state.pageSize = this.state.pageSize + this.state.pageSize;
+                      //   this.getProperty(this.state.propertyType)
+                      // }}
+                      onRefresh={() => {
+                        this.setState({page: 1, pageSize: 10});
+                        this.getProperty(this.state.propertyType);
+                      }}
+                      renderItem={({item}, index) => {
+                        const property = item;
+                        return (
+                        <BookingPropertyComponent 
+                          key={index}
+                          title={property.propertyInfo.title} 
+                          location={property.propertyInfo.location || ""} 
+                          type={property.propertyInfo.type}
+                          dayLeft={property.dayLeft}
+                          image={{uri: property.propertyInfo.image}}
+                          isExpired= {property.isBookingExpired}
+                          amount= {property.total_Cost}
+                          onEllipsePress={() => this.selectProperty(index)}
+                          date={property.checkInDate}
+                          onClick={() => this.props.navigation.navigate("BookingDetail",{
+                            title: property.propertyInfo.title,
+                            propertyCategory: property.propertyInfo.type,
+                            checkOut: moment(property.check_Out_Date).format("DD/MM/YYYY"),
+                            propertyType: property.propertyInfo.type,
+                            time: `${moment(property.arrival_Time_From, "hh:mm:ss").format("hh:mm")} - ${moment(property.arrival_Time_To, "hh:mm:ss").format("hh:mm")}`,
+                            checkIn: property.checkInDate.format("DD/MM/YYYY"),
+                            amount: property.total_Cost,
+                            image: {uri: property.propertyInfo.image},
+                            isExpired: property.isBookingExpired
+                          })}
+                          {...this.props}
+                        />
+                      )
+                      }} 
+                      />
+                    )
                   }
                   this.state.toBeRendered = toBeRendered;
                   this.state.activeIndex = index;
@@ -174,46 +198,65 @@ class BookingsScreen extends Component {
                   // const dayLeft = moment.duration(checkInDate.diff(new Date())).asDays();
                   
                   const checkoutDayLeft = moment.duration(checkOutDate.diff(now)).asHours();
+                  property['checkInDate'] = checkInDate;
+                  property['checkOutDate'] = checkOutDate;
                   if (checkoutDayLeft < 1) {
                     // booking has expired
-                    toBeRendered.push(
-                      <BookingPropertyComponent 
-                          key={index}
-                          title={property.propertyInfo.title} 
-                          location={property.propertyInfo.location || ""} 
-                          type={property.propertyInfo.type}
-                          dayLeft={0}
-                          image={{uri: property.propertyInfo.image}}
-                          isExpired= {property.isBookingExpired}
-                          amount= {property.total_Cost}
-                          date={checkOutDate}
-                          onEllipsePress={() => this.selectProperty(index)}
-                          onClick={() => this.props.navigation.navigate("BookingDetail",{
-                            title: property.propertyInfo.title,
-                            propertyCategory: property.propertyInfo.type,
-                            checkOut: moment(property.check_Out_Date).format("DD/MM/YYYY"),
-                            propertyType: property.propertyInfo.type,
-                            time: `${moment(property.arrival_Time_From, "hh:mm:ss").format("hh:mm")} - ${moment(property.arrival_Time_To, "hh:mm:ss").format("hh:mm")}`,
-                            checkIn: checkInDate.format("DD/MM/YYYY"),
-                            amount: property.total_Cost,
-                            image: {uri: property.propertyInfo.image},
-                            isExpired: property.isBookingExpired
-                          })}
-                          {...this.props}
-                      />
-                    );
+                    toBeRendered.push(property);
                   }
                 }) 
               }
 
               if (toBeRendered.length == 0) {
-                toBeRendered =  <RenderNoRecord 
+                toBeRendered =  [<RenderNoRecord 
                       illustrationSource={illustration} 
                       noRecordText={BOOKINGS_NO_BOOKINGS}
                       description={BOOKINGS_SCREEN_DESCRIPTION}
                       buttonText={"Explore Aura"}
                       onButtonPress={() => this.props.navigation.navigate('Tabs', {screen: 'Explore'})}
+                  />]
+              }
+              else {
+                toBeRendered = (
+                  <FlatlistComponent
+                    data={toBeRendered}
+                      // onEndReached={() => {
+                      //   this.setState({page: this.state.page + 1, pageSize: this.state.pageSize + this.state.pageSize});
+                      //   this.getProperty(this.state.propertyType)
+                      // }}
+                      onRefresh={() => {
+                        this.setState({page: 1, pageSize: 10});
+                        this.getProperty(this.state.propertyType);
+                      }}
+                    renderItem={({item}, index) => {
+                      const property = item;
+                      return <BookingPropertyComponent 
+                            key={index}
+                            title={property.propertyInfo.title} 
+                            location={property.propertyInfo.location || ""} 
+                            type={property.propertyInfo.type}
+                            dayLeft={0}
+                            image={{uri: property.propertyInfo.image}}
+                            isExpired= {property.isBookingExpired}
+                            amount= {property.total_Cost}
+                            date={property.checkOutDate}
+                            onEllipsePress={() => this.selectProperty(index)}
+                            onClick={() => this.props.navigation.navigate("BookingDetail",{
+                              title: property.propertyInfo.title,
+                              propertyCategory: property.propertyInfo.type,
+                              checkOut: moment(property.check_Out_Date).format("DD/MM/YYYY"),
+                              propertyType: property.propertyInfo.type,
+                              time: `${moment(property.arrival_Time_From, "hh:mm:ss").format("hh:mm")} - ${moment(property.arrival_Time_To, "hh:mm:ss").format("hh:mm")}`,
+                              checkIn: property.checkInDate.format("DD/MM/YYYY"),
+                              amount: property.total_Cost,
+                              image: {uri: property.propertyInfo.image},
+                              isExpired: property.isBookingExpired
+                            })}
+                            {...this.props}
+                        />;
+                    }}
                   />
+                );
               }
               // if (Array.isArray(toBeRendered)) 
               this.state.activeIndex = index;
@@ -223,10 +266,9 @@ class BookingsScreen extends Component {
   }
 
   getRestaurantActiveRender = (currentIndex) => {
-    const toBeRendered = [];
+    let toBeRendered = [];
     const dayLeft = undefined;
     const now = moment(new Date());
-    console.log("tob", toBeRendered, currentIndex);
     
       for(let index = 0; index < this.state.properties.length; index++) {
         let order =this.state.properties[index];
@@ -234,7 +276,6 @@ class BookingsScreen extends Component {
         if (this.state.type == "experience") orderDate = moment(order.end_Date);
         
         const dayLefts = moment.duration(orderDate.diff(now)).asDays();
-        console.log("order", order, dayLefts, orderDate, currentIndex, dayLefts);
         if (currentIndex == 0 && dayLefts > 24) {
           // if recent/upcoming and createdon is older than a day
           continue
@@ -258,45 +299,79 @@ class BookingsScreen extends Component {
           continue
         }
 
+        order['dayLeft'] = dayLeft;
+        order['orderDate'] = orderDate;
+        order['currentIndex'] = currentIndex;
+
         if (this.state.type == "experience") {
-          toBeRendered.push(<BookingPropertyComponent 
-            key={index}
-            title={order.guest_Name} 
-            location={"NGN " + order.total_Cost} 
-            type={!order.is_Paid ? "Not Paid": "Paid"}
-            dayLeft={(dayLeft && dayLeft > 0) ? dayLeft.toFixed(2) : 0}
-            image={require('./../../assets/images/gallery-restuarant.jpeg')}
-            isExpired= {!order.isActive}
-            amount= {""}
-            onEllipsePress={() => this.selectExperience(currentIndex)}
-            date={orderDate}
-            
-            onClick={() => {this.setState({showExperience: true, experience: order})}}
-            {...this.props}
-        />);
+          toBeRendered.push(order);
         }else 
         {
-            toBeRendered.push(<BookingPropertyComponent 
-              key={index}
-              title={order.restaurant} 
-              location={order.name} 
-              type={order.paymentConfirmed ? "Not Paid": "Paid"}
-              dayLeft={(dayLeft && dayLeft > 0) ? dayLeft.toFixed(2) : 0}
-              image={require('./../../assets/images/gallery-restuarant.jpeg')}
-              isExpired= {!order.isActive}
-              amount= {order.total_Cost}
-              ellipsis={false}
-              date={orderDate}
-              
-              onClick={() => {}}
-              {...this.props}
-          />);
+          // order['dayLeft'] = dayLeft;
+          // order['orderDate'] = orderDate;
+          toBeRendered.push(order);
         }
  
       }
 
     if (toBeRendered.length <1 ) {
-      toBeRendered.push(this.defaultRender);
+      toBeRendered.push(<RenderNoRecord 
+        illustrationSource={illustration} 
+        noRecordText={BOOKINGS_NO_BOOKINGS}
+        description={BOOKINGS_SCREEN_DESCRIPTION}
+        buttonText={"Explore Aura"}
+        onButtonPress={() => this.props.navigation.navigate('Tabs', {screen: 'Explore'})}            
+    />);
+    }
+    else {
+      if (this.state.type == "experience") {
+        toBeRendered = (
+          <FlatlistComponent 
+            data={toBeRendered}
+            renderItem={({item}, index) => {
+              const order = item;
+              return <BookingPropertyComponent 
+                  key={index}
+                  title={order.guest_Name} 
+                  location={"NGN " + order.total_Cost} 
+                  type={!order.is_Paid ? "Not Paid": "Paid"}
+                  dayLeft={(order.dayLeft && order.dayLeft > 0) ? order.dayLeft.toFixed(2) : 0}
+                  image={require('./../../assets/images/gallery-restuarant.jpeg')}
+                  isExpired= {!order.isActive}
+                  amount= {""}
+                  onEllipsePress={() => this.selectExperience(order.currentIndex)}
+                  date={order.orderDate}
+                  
+                  onClick={() => {this.setState({showExperience: true, experience: order})}}
+                  {...this.props}
+              />;
+            }}
+          />
+        );
+      }
+      else {
+        toBeRendered = (<FlatlistComponent 
+          data={toBeRendered}
+          renderItem={({item}, index) => {
+            const order = item;
+            return <BookingPropertyComponent 
+                key={index}
+                title={order.restaurant} 
+                location={order.name} 
+                type={order.paymentConfirmed ? "Not Paid": "Paid"}
+                dayLeft={(order.dayLeft && order.dayLeft > 0) ? order.dayLeft.toFixed(2) : 0}
+                image={require('./../../assets/images/gallery-restuarant.jpeg')}
+                isExpired= {!order.isActive}
+                amount= {order.total_Cost}
+                ellipsis={false}
+                date={order.orderDate}
+                
+                onClick={() => {}}
+                {...this.props}
+            />;
+          }}
+        />);
+      }
     }
 
     this.state.toBeRendered = toBeRendered;
@@ -366,10 +441,16 @@ class BookingsScreen extends Component {
       this.setState({loading: false, type: "host"});
     }
     else if (this.state.roles[index] == "Experience") {
-      // this.getProperty("tour");
-      this.setState({loading: true});
+      this.getExperience();
+    }
+    else if (this.state.roles[index] == "Restaurant") {
+      this.getRestaurant();
+    }
+  }
+
+  getExperience = () => {
+    this.setState({loading: true});
       getExperienceApi(this.context.state.userData.id, this.state.page, this.state.pageSize).then(result => {
-        consoleLog("index", result)
         if (result != undefined && Array.isArray(result.data)) {
           this.setState({properties: result.data});
           
@@ -380,21 +461,19 @@ class BookingsScreen extends Component {
         this.setState({loading: true});
       });
       this.setState({loading: false, type: "experience"});
-    }
-    else if (this.state.roles[index] == "Restaurant") {
-      // this.getProperty("tour");
-      getRestaurantOrdersApi(this.state.page, this.state.pageSize, "user/").then(result => {
-        if (result != undefined && Array.isArray(result.items)) {
-            this.setState({properties: result.items});
-            setTimeout(() => {
-              this.getRestaurantActiveRender(this.state.activeIndex)
-            }, 100);
-          }
+  }
 
-          this.setState({loading: false, type: "restaurant"});
-      });
-      }
+  getRestaurant = () => {
+    getRestaurantOrdersApi(this.state.page, this.state.pageSize, "user/").then(result => {
+      if (result != undefined && Array.isArray(result.items)) {
+          this.setState({properties: result.items});
+          setTimeout(() => {
+            this.getRestaurantActiveRender(this.state.activeIndex)
+          }, 100);
+        }
 
+        this.setState({loading: false, type: "restaurant"});
+    });
   }
 
   render() {
@@ -402,7 +481,7 @@ class BookingsScreen extends Component {
       <> 
         <SafeAreaView style={[{flex: 1, backgroundColor: colors.white }]}>
         {this.renderLoading()}
-          <ScrollView>
+          <View>
             {
               this.context.state.isLoggedIn ?
               <View style={MyStyle.row}>
@@ -411,7 +490,6 @@ class BookingsScreen extends Component {
                       subTitle={this.state.type.toUpperCase()}
                       tabs={["Upcoming", "Past"]} 
                       onTopTabClick={(index) => {
-                        console.log("this.state.type", this.state.type);
                         if (this.state.type == "host") {
                           this.getActiveRender(index);
                         }
@@ -431,7 +509,7 @@ class BookingsScreen extends Component {
               :
               undefined
             }
-          </ScrollView>
+          </View>
           {
             this.state.showFilterModal &&
           

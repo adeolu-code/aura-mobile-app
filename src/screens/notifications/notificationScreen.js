@@ -9,6 +9,7 @@ import { getNotificationsApi } from "../../api/notifications.api";
 import NoContentComponent from "../../components/no_content/noContent.component";
 import moment from "moment";
 import { consoleLog } from "../../utils";
+import FlatlistComponent from "../../components/flat_list/flatList.component";
 
 
 class NotificationScreenClass extends Component {
@@ -53,8 +54,36 @@ class NotificationScreenClass extends Component {
                     <Input placeholder={"Search"} style={[Styles.input]}   />
                     <Icon name={"search"} style={[Styles.icon]} />
                 </Item>
+                <FlatlistComponent 
+                    data={this.state.notifications}
+                    emptyContent={"No new notifications."}
+                    renderItem={({item}, index) => {
+                        const notification = item;
+                        const title = `${notification.propertyName} has been queried` || undefined;
+                        return (
+                            <NotificationComponent 
+                                {...this.props}
+                                key={index}
+                                title={title}
+                                content={notification.message}
+                                time={undefined}
+                                alert={!notification.isRead}
+                                onPress={() => {
+                                    this.markNotificationAsRead(notification.id);
+                                    navigation.navigate("NotificationDetail", {
+                                        imageSource: require("./../../assets/images/food_bg/food_bg.png"),
+                                        content: notification.message,
+                                        id: notification.id,
+                                        propertyId: notification.propertyId,
+                                        title: title,
+                                    })
+                                }}
+                            />
+                        );
+                    }}
+                />
             
-                <ScrollView 
+                {/* <ScrollView 
                     contentContainerStyle={[Styles.scrollView]}
                 >
                     {
@@ -85,7 +114,7 @@ class NotificationScreenClass extends Component {
                         :
                         <NoContentComponent text={"No new notifications."} />
                     }
-                </ScrollView>
+                </ScrollView> */}
             </View>
             
         );
