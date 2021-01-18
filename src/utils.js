@@ -244,12 +244,10 @@ export async function Request(
    const body = !PreparedData ? PrepareData(Data) : Data
 
    return new Promise(async (resolve, reject) => {
-      console.log('utils url ',Url)
       try {
          const res = await fetch(Base + Url, { method, headers, body })
 
          if(res.status === 401 && Url !== 'user/changepassword/' && Url !== 'api/v1/user/otp/generate') {
-            console.log('Got here ',Base, 'Url ', Url)
             const apiDetails = {
                url: Base + Url, headers, type: method, body
             }

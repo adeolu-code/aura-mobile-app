@@ -24,7 +24,7 @@ class BottomMenuComponent extends Component {
 
   renderPrice = () => {
       const { foods, onRemove } = this.props;
-      const { flexRow, textExtraBold, textBold, textGrey, textH4Style, textSuccess, textH6Style } = GStyles;
+      const { flexRow, textExtraBold, textBold, textGrey, textH4Style, textSuccess, textH6Style, textH5Style } = GStyles;
       if(foods.length > 0) {
         const getFirstFood = foods[0]
         return (
@@ -34,7 +34,7 @@ class BottomMenuComponent extends Component {
                 <View style={[flexRow]}>
                     <MyText style={[textSuccess, textH4Style, textBold]}>₦ {formatAmount(getFirstFood.price)} / plate * {foods.length}</MyText>
                     <TouchableOpacity style={styles.iconStyle} onPress={onRemove}>
-                        <Icon name="remove-outline" style={{ color: colors.white, fontSize: 20, marginRight: -1}} />
+                        <Icon name="remove-outline" style={{ color: colors.white, fontSize: 18, marginRight: -1}} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -49,7 +49,7 @@ class BottomMenuComponent extends Component {
     const { onPress, disabled } = this.props
     return (
         <View style={[flexRow, container]}>
-            <View style={{flex: 1.3}}>
+            <View style={{flex: 1.5}}>
                 {this.renderPrice()}
                 {/* <Icon name="cart" />
                 <MyText style={[textGrey, textH6Style]}>Price:</MyText>
