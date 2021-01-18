@@ -347,7 +347,6 @@ export default class AddRestaurant extends Component {
             countrySymbol = country ? country.cca2.toLowerCase() : null
         }
         catch {}
-        console.log(this.context.state.token)
         
         return (
             <>

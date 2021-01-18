@@ -82,14 +82,26 @@ class ProfileScreenClass extends Component {
     }
     becomeHost = () => {
         this.context.set({ propertyFormData: null, edit: false, step: 1 })
-        this.props.navigation.navigate("HostPropertyStack")
+        this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider"})
     }
 
-    hostRestaurant = () => {
-        this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant', params:{
-            host: true
-          }})
-    }
+    // hostRestaurant = () => {
+    //     this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider", params: {
+    //         currentIndex: 1,
+    //     }})
+    // }
+
+    // hostExperience = () => {
+    //     this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider", params: {
+    //         currentIndex: 2,
+    //     }})
+    // }
+
+    // becomePhotographer = () => {
+    //     this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider", params: {
+    //         currentIndex: 3,
+    //     }})
+    // }
 
     render() {
         const {textH2Style, 
@@ -184,18 +196,16 @@ class ProfileScreenClass extends Component {
                                 description={"Credit Cards, Coupons and more"} 
                                 iconImage={require("./../../assets/images/profile/education/education.png")}
                             /> */}
+                            
                             {
                                 userIsLoggedIn &&
                                     <>
-                                    {
-                                        userIsLoggedIn && !roleHost && 
-                                        <ProfileComponent 
-                                            title={"Host your Home/Hotel"} 
-                                            description={"Credit Cards, Coupons and more"} 
-                                            iconImage={require("./../../assets/images/profile/location_hotel/location-hotel.png")}
-                                            onPress={this.becomeHost}
-                                        />
-                                    }
+                                    <ProfileComponent 
+                                        title={"Learn about Hosting"} 
+                                        description={"Features on Aura"} 
+                                        iconImage={require("./../../assets/images/profile/location_hotel/location-hotel.png")}
+                                        onPress={this.becomeHost}
+                                    />
                                     {
                                         userIsLoggedIn && !roleRestaurant &&
                                     

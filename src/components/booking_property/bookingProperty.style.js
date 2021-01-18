@@ -4,7 +4,7 @@ import colors from "../../colors";
 export const Styles = StyleSheet.create({
     parentView: {
         width: "100%",
-        height: 140,
+        height: 160,
         flexDirection: "row",
         marginTop: 15,
         borderRadius: 5,
