@@ -26,10 +26,10 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      email: "ferume@tapi.re", 
-      password: "123999_@ABCabc", 
-      // email: '',
-      // password: '',
+      // email: "ferume@tapi.re", 
+      // password: "123999_@ABCabc", 
+      email: '',
+      password: '',
       loading: false, 
       formErrors: [] 
     };
@@ -60,6 +60,7 @@ class LoginModal extends Component {
   }
   forgotPassword = () => {
     const {navigation} = this.props;
+    this.props.onDecline();
     navigation.navigate('Auth', {screen: 'Password'});
   }
   submit = async () => {

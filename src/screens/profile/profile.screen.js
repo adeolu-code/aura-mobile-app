@@ -85,6 +85,10 @@ class ProfileScreenClass extends Component {
         this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider"})
     }
 
+    hostExperience = () => {
+        this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
+    }
+
     // hostRestaurant = () => {
     //     this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider", params: {
     //         currentIndex: 1,
@@ -200,18 +204,22 @@ class ProfileScreenClass extends Component {
                             {
                                 userIsLoggedIn &&
                                     <>
-                                    <ProfileComponent 
-                                        title={"Learn about Hosting"} 
+                                    <ProfileComponent title={"Learn about Hosting"} 
                                         description={"Features on Aura"} 
                                         iconImage={require("./../../assets/images/profile/location_hotel/location-hotel.png")}
                                         onPress={this.becomeHost}
+                                    />
+                                    <ProfileComponent title={"Host an Experience"} 
+                                        description={"Features on Aura"} 
+                                        iconImage={require("./../../assets/images/profile/location_marina/location-marina.png")}
+                                        onPress={this.hostExperience}
                                     />
                                     {
                                         userIsLoggedIn && !roleRestaurant &&
                                     
                                         <ProfileComponent 
                                             title={"Host your Restaurant"} 
-                                            description={"Credit Cards, Coupons and more"} 
+                                            description={"Click to host your restaurant"} 
                                             iconImage={require("./../../assets/images/profile/location_food/location-food.png")}
                                             onPress={this.hostRestaurant}
                                         />
@@ -220,7 +228,7 @@ class ProfileScreenClass extends Component {
                                         userIsLoggedIn && !rolePhotograph
                                         && <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                         title={"Become a Photographer"} 
-                                        description={"Credit Cards, Coupons and more"} 
+                                        description={"click to become a photographer on Aura"} 
                                         iconImage={require("./../../assets/images/profile/camera/camera.png")}
                                     />
                                     }
@@ -268,7 +276,7 @@ class ProfileScreenClass extends Component {
                                     />
                                     <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                         title={"Terms of Service"} 
-                                        description={"Credit cards, coupons and more"} 
+                                        description={"Terms of using App"} 
                                         iconImage={require("./../../assets/images/profile/new_paper/news-paper.png")}
                                         onPress={() => this.props.navigation.navigate('Other', { screen: 'TermsOfService' }) }
                                     />

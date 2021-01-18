@@ -95,7 +95,8 @@ export const Styles = StyleSheet.create({
         paddingBottom: 10,
     },
     sliderImgContainer: {
-        width: '100%', height: 200, borderRadius: 10, overflow: 'hidden',marginLeft: 50,
+        width: '100%', height: 240, borderRadius: 10, overflow: 'hidden',
+        // marginLeft: 50,
     },
     overlayStyles: {
         position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.3)',
