@@ -43,11 +43,11 @@ class BottomTabSectionNoRecord extends Component {
                 activeTab={this.props.activeTab ?? 0}
                 onClick={(e) => this.props.onTopTabClick(e)} 
             />
-            <ScrollView>
+            {/* <ScrollView> */}
               {
                   this.props.render
               }
-            </ScrollView>
+            {/* </ScrollView> */}
             
         </View>
       </>

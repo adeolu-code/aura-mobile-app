@@ -10,8 +10,8 @@ import Header from "../../components/Header";
 import { MyText } from "../../utils/Index";
 
 export default class HostSlider extends Component{
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             imgArr: [
@@ -30,26 +30,51 @@ export default class HostSlider extends Component{
                 "Swipe left to go back to previous slider",
             ],
             readMoreText: [
-                "Read more about hosting a home or hotel",
-                "Read more about hosting a resturant",
-                "Read more about hosting an experience",
+                "As a host, you can host your hotels and apartments on Aura, give detailed information about them, add beautiful pictures of the properties. People get to see your properties and they are able to book them.",
+                "Sign up and host your restaurants on Aura, show the delicacies that you offer and People will order from you from this App.",
+                "Be a tour guide to people on various locations of the country. Upload images and describe how the tour experience will be. Aura makes it easy for people to see your tours and book for them."
             ],
             currentIndex: 0,
         };
     }
 
     indexChange = (index) => {
-        this.setState({ currentIndex: index})
-        
+        this.setState({ currentIndex: index});
+    }
+
+    handleNavigation = () => {
+        switch (this.state.currentIndex) {
+            case 0:
+                this.props.navigation.navigate("HostSteps")
+                break;
+            case 1:
+                this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant'})
+                break;
+            case 2:
+                btnText = "Host Experience";
+                break;
+        }
     }
 
     renderImages = () => {
-        const { imgArr } = this.state;
+        let { imgArr } = this.state;
         const { sliderImgContainer, overlayStyles } = Styles
         const { 
             textExtraBold, textH4Style, textCenter, textGrey, textH6Style,
             textGreen, textUnderline, textWhite,textBold
             } = GStyles
+        let btnText = "";
+        switch (this.state.currentIndex) {
+            case 0:
+                btnText = "Become A Host";
+                break;
+            case 1:
+                btnText = "Host Resturant";
+                break;
+            case 2:
+                btnText = "Host Experience";
+                break;
+        }
         return imgArr.map((item, index) => {
             return (
                 <View key={index}>
@@ -60,26 +85,33 @@ export default class HostSlider extends Component{
                         <View style={[Styles.dot, (this.state.currentIndex == 0 ? Styles.activeDot: Styles.inActiveDot)]}></View>
                         <View style={[Styles.dot, (this.state.currentIndex == 1 ? Styles.activeDot: Styles.inActiveDot)]}></View>
                         <View style={[Styles.dot, (this.state.currentIndex == 2 ? Styles.activeDot: Styles.inActiveDot)]}></View>
+                        {/* <View style={[Styles.dot, (this.state.currentIndex == 3 ? Styles.activeDot: Styles.inActiveDot)]}></View> */}
                     </View>
                     <View style={[Styles.textBodyView]}>
                         <MyText style={[textH4Style, textExtraBold, textCenter]}>
                             {this.state.titleText[this.state.currentIndex]}
                         </MyText>
-                        <MyText style={[textH6Style, textCenter, textGrey]}>
+                        <MyText style={[textH6Style, textCenter, textGrey, ]}>
                             {this.state.descriptionText[this.state.currentIndex]}
                         </MyText>
                         <MyText style={[textH6Style, textCenter, textGreen, textUnderline, {marginTop: 10}]}>
                             {this.state.readMoreText[this.state.currentIndex]}
                         </MyText>
                         {
-                            (this.state.currentIndex == this.state.imgArr.length - 1) &&
                             <TouchableOpacity 
-                                style={[Styles.nextButton, {marginTop: 30, backgroundColor: colors.black}]}
-                                onPress={() => this.props.navigation.navigate("HostSteps")}
+                                style={[Styles.nextButton, {marginTop: 30, backgroundColor: colors.black, marginRight: 20}]}
+                                onPress={() => this.handleNavigation()}
                             >
-                                <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Become A Host</MyText>
+                                <MyText style={[textWhite, textH4Style, textBold, textCenter]}>
+                                    {
+                                        btnText
+                                    }
+                                </MyText>
                             </TouchableOpacity>
                         }
+                        <TouchableOpacity>
+
+                        </TouchableOpacity>
                     </View>
                 </View>
             )
