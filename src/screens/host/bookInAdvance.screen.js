@@ -21,9 +21,13 @@ export default class BookInAdvance extends Component {
     }
     durations = [
         { name: 'Anytime', value: 0, description: '' },
-        { name: '3 months in advance', value: 3, description: '' },
-        { name: '6 months in advance', value: 6, description: '' },
-        { name: '9 months in advance', value: 9, description: '' },
+        { name: '1 day in advance', value: 1, description: '' },
+        { name: '2 days in advance', value: 2, description: '' },
+        { name: '3 days in advance', value: 3, description: '' },
+        // { name: '4 days in advance', value: 4, description: '' },
+        { name: '7 days in advance', value: 7, description: '' },
+        // { name: '6 months in advance', value: 6, description: '' },
+        // { name: '9 months in advance', value: 9, description: '' },
         { name: 'Dates unavailable by default', value: null, description: 'Your entire calendar will be blocked by default, which means you’ll have to manually unblock dates to get booked.' }
     ];
     getDuration = (value) => {

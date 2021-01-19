@@ -9,7 +9,9 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import LabelCheckbox from "../../components/label_checkbox/labelCheckbox.component";
 import DateTimePickerComponent from "../../components/date_time_picker/dateTimePicker.component";
 
-import { AppContext } from '../../../AppProvider'
+import { AppContext } from '../../../AppProvider';
+
+import moment from 'moment'
 
 
 
@@ -20,18 +22,22 @@ export default class NotifyHost extends Component {
         this.state = { fromValue: '', toValue: '', values: [] };
     }
     componentDidMount = () => {
-        const obj = {
-            hours: new Date().getHours(),
-            minutes: new Date().getMinutes(),
-            totalSeconds: new Date().getTime()
-        }
-        this.setState({ toValue: obj, fromValue: obj })
+        // const obj = {
+        //     hours: new Date().getHours(),
+        //     minutes: new Date().getMinutes(),
+        //     totalSeconds: new Date().getTime()
+        // }
+        // this.setState({ toValue: obj, fromValue: obj })
     }
     extractDateTime = (timeObj) => {
-        if(timeObj && timeObj.hours) {
-            const newDate = new Date(timeObj.totalSeconds)
+        if(timeObj) {
+            const newDate = new Date(moment(timeObj, "hh:mm:ss"))
             return newDate
         }
+        // if(timeObj && timeObj.hours) {
+        //     const newDate = new Date(timeObj.totalSeconds)
+        //     return newDate
+        // }
         return new Date()
     }
 
@@ -44,21 +50,27 @@ export default class NotifyHost extends Component {
     ];
     toValue = (date) => {
         // console.log(date)
-        const obj = {
-            hours: new Date(date).getHours(),
-            minutes: new Date(date).getMinutes(),
-            totalSeconds: new Date(date).getTime()
-        }
-        this.setState({ toValue: obj })
+        const toValue = moment(date, "hh:mm:ss").format("hh:mm:ss")
+        console.log(date, toValue)
+        this.setState({ toValue })
+        // const obj = {
+        //     hours: new Date(date).getHours(),
+        //     minutes: new Date(date).getMinutes(),
+        //     totalSeconds: new Date(date).getTime()
+        // }
+        // this.setState({ toValue: obj })
     }
     fromValue = (date) => {
-        // console.log(date)
-        const obj = {
-            hours: new Date(date).getHours(),
-            minutes: new Date(date).getMinutes(),
-            totalSeconds: new Date(date).getTime()
-        }
-        this.setState({ fromValue: obj })
+        
+        const fromValue = moment(date, "hh:mm:ss").format("hh:mm:ss")
+        console.log(date, fromValue)
+        this.setState({ fromValue })
+        // const obj = {
+        //     hours: new Date(date).getHours(),
+        //     minutes: new Date(date).getMinutes(),
+        //     totalSeconds: new Date(date).getTime()
+        // }
+        // this.setState({ fromValue: obj })
     }
     getDay = (value) => {
         const { values } = this.state
@@ -97,15 +109,23 @@ export default class NotifyHost extends Component {
         const { state, set } = this.context
         const { values, toValue, fromValue } = this.state
         const propertyFormData = state.propertyFormData
-        const obj = { ...propertyFormData, daysToNotifyHost: values[0].value}
-        // const obj = { ...propertyFormData, daysToNotifyHost: values[0].value, 
-        //     checkInTimeFrom: fromValue, checkInTimeTo: toValue }
+        // const obj = { ...propertyFormData, daysToNotifyHost: values[0].value}
+        const obj = { ...propertyFormData, daysToNotifyHost: values[0].value, 
+            checkInTimeFrom: fromValue, checkInTimeTo: toValue }
         console.log(obj)
         set({ propertyFormData: obj })
         this.props.navigation.navigate('BookingDuration')
     }
     componentDidMount = () => {
         const { state } = this.context
+
+        // const obj = {
+        //     hours: new Date().getHours(),
+        //     minutes: new Date().getMinutes(),
+        //     totalSeconds: new Date().getTime()
+        // }
+        // this.setState({ toValue: '', fromValue: '' })
+
         const ppty = state.propertyFormData;
         const day = this.days.find(item => item.value === ppty.daysToNotifyHost)
         if(day) {
@@ -136,7 +156,7 @@ export default class NotifyHost extends Component {
                                 {this.renderDays()}
                             </View>
                             
-                            {/* <MyText style={[textBold, textH4Style, {marginTop: 20, marginBottom: 10 }]}>When Can Guests Check In?</MyText>
+                            <MyText style={[textBold, textH4Style, {marginTop: 20, marginBottom: 10 }]}>When Can Guests Check In?</MyText>
                             <View style={[Styles.rowView]}>
                                 <MyText style={[textlightGreyTwo, textH4Style, {marginTop: 5, flex: 1}]}>From</MyText>
                                 <MyText style={[textlightGreyTwo, textH4Style, {marginTop: 5, flex: 1}]}>To</MyText>
@@ -158,7 +178,7 @@ export default class NotifyHost extends Component {
                                     format="hh:mm a"
                                     style={{flex: 1}}
                                 />
-                            </View> */}
+                            </View>
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, }]}>
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} disabled={this.state.values.length === 0} />

@@ -22,8 +22,8 @@ export default class SetPricing extends Component {
     }
 
     renderLoading = () => {
-        const { loading, submitting } = this.state;
-        if (loading || submitting) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 1000 }} />); }
+        const { loading, submitting, gettingCommissions } = this.state;
+        if (loading || submitting || gettingCommissions) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 1000 }} />); }
     }
 
     getCommissions = async () => {
@@ -61,9 +61,9 @@ export default class SetPricing extends Component {
         const { commissions } = this.state;
         const auraCommissionAmount = +text * (commissions.auraCommission / 100);
         const taxAmount = auraCommissionAmount * (commissions.tax / 100);
-        const tourDeductionInTotal = auraCommissionAmount + taxAmount;
+        const deductionInTotal = auraCommissionAmount + taxAmount;
 
-        this.setState({ price: text, commissionAndVAT: auraCommissionAmount, estEarning: (Math.floor(+text - tourDeductionInTotal)).toString() })
+        this.setState({ price: text, commissionAndVAT: deductionInTotal, estEarning: (Math.floor(+text - deductionInTotal)).toString() })
         // const vat = +text * (commissions.total/100)
         // const estEarning = +text - vat
         // this.setState({ price: text, commissionAndVAT: vat, estEarning })
@@ -206,7 +206,8 @@ export default class SetPricing extends Component {
                                     This is the default price you will charge guests for your property
                                 </MyText>
                                 <View style={[Styles.rowView, Styles.pricingInputParent]}>
-                                    <Input style={[Styles.pricingInput]} value={this.state.price} onChangeText={this.onPriceChange} />
+                                    <Input style={[Styles.pricingInput]} value={this.state.price} onChangeText={this.onPriceChange} 
+                                    keyboardType="numeric" disabled={this.state.gettingCommissions} />
                                     <View style={[Styles.pricingPicker, {backgroundColor: colors.lightGrey}]}>
                                         <Picker
                                             mode="dropdown"

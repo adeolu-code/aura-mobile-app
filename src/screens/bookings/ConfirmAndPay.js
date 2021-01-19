@@ -54,7 +54,7 @@ class ConfirmAndPay extends Component {
     console.log('confirm pay ', res)
     this.setState({ loading: false })
     if(res.isError || res.IsError) {
-      this.setState({ formErrors: [res.message] })
+      this.setState({ formErrors: [res.message || res.Message] })
     } else {
       this.props.navigation.navigate('HostPropertyStack', { screen: 'PaymentWebView', params: { house, booked, url: res.data }})
     }
@@ -111,6 +111,29 @@ class ConfirmAndPay extends Component {
             </View>
           )
       } 
+  }
+  getVat = () => {
+    const { deductions, booked } = this.state
+    if(booked) {
+      const auraCommissionAmount = +(booked.cost_Per_Night * booked.no_Of_Days) * (deductions.auraCommission / 100);
+      const taxAmount = auraCommissionAmount * (deductions.tax / 100);
+      const deductionInTotal = auraCommissionAmount + taxAmount;
+      return deductionInTotal
+    }
+    return 0
+    // this.setState({ price: text, commissionAndVAT: auraCommissionAmount, estEarning: (Math.floor(+text - tourDeductionInTotal)).toString() })
+
+    // formatAmount((booked.cost_Per_Night * booked.no_Of_Days)/((deductions.total)/100 + 1))
+  }
+
+  getAmount = () => {
+    const { booked } = this.state
+    if(booked) {
+      const amount = +(booked.cost_Per_Night * booked.no_Of_Days) - Number(this.getVat())
+      console.log(amount, booked.no_Of_Days, Number(this.getVat()))
+      return formatAmount(amount)
+    }
+    return 0
   }
 
   render() {
@@ -197,7 +220,8 @@ class ConfirmAndPay extends Component {
                   <MyText style={[textGrey, textH4Style]}>Amount ( * {booked.no_Of_Days} nights)</MyText>
                 </View>
                 {booked ? <View>
-                  <MyText style={[textH4Style, textSuccess, textH4Style, textBold]}>₦ {formatAmount(booked.cost_Per_Night * booked.no_Of_Days)}</MyText>
+                  <MyText style={[textH4Style, textSuccess, textH4Style, textBold]}>₦ {this.getAmount()}</MyText>
+                  {/* <MyText style={[textH4Style, textSuccess, textH4Style, textBold]}>₦ {formatAmount(booked.cost_Per_Night * booked.no_Of_Days)}</MyText> */}
                 </View> : <></>}
               </View>
               <View style={[flexRow, amountRow]}>
@@ -205,7 +229,8 @@ class ConfirmAndPay extends Component {
                   <MyText style={[textGrey, textH4Style]}>VAT and Other Charges</MyText>
                 </View>
                 {booked && deductions ?<View>
-                  <MyText style={[textH4Style, textSuccess, textH4Style, textBold]}>₦ {formatAmount((booked.cost_Per_Night * booked.no_Of_Days)/((deductions.total)/100 + 1))}</MyText>
+                  <MyText style={[textH4Style, textSuccess, textH4Style, textBold]}>₦ {formatAmount(this.getVat())}</MyText>
+                  {/* <MyText style={[textH4Style, textSuccess, textH4Style, textBold]}>₦ {formatAmount((booked.cost_Per_Night * booked.no_Of_Days)/((deductions.total)/100 + 1))}</MyText> */}
                 </View> : <></>}
               </View>
             </View>

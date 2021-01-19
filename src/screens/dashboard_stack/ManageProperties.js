@@ -14,6 +14,8 @@ import AllPropertiesTab from '../../components/dashboard/AllPropertiesTab';
 import HotelsTab from '../../components/dashboard/HotelsTab';
 import ApartmentsTab from '../../components/dashboard/ApartmentsTab';
 
+import { HOST } from '../../utils'
+
 const SCREEN_HEIGHT = Dimensions.get('screen').height
 class ManageProperties extends Component {
   static contextType = ManagePropertyContext;
@@ -25,7 +27,9 @@ class ManageProperties extends Component {
   linkToHost = () => {
     const { appContext } = this.props
     appContext.set({ propertyFormData: null, step: 1 })
-    this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+    // this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+    // this.context.set({ edit: false })
+    this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: HOST } })
   }
 
   renderLoading = () => {

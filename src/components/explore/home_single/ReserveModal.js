@@ -99,7 +99,10 @@ class ReserveModal extends Component {
     validate = () => {
         const { Arrival_Time_From, Arrival_Time_To, no_Of_Guest } = this.state.formData
         const { errors } = this.state
-        if(Arrival_Time_From === '' || Arrival_Time_To === '' || errors.length !== 0) {
+        // if(Arrival_Time_From === '' || Arrival_Time_To === '' || errors.length !== 0) {
+        //     return true
+        // }
+        if(errors.length !== 0) {
             return true
         }
         return false
@@ -119,9 +122,10 @@ class ReserveModal extends Component {
     const { visible, onDecline } = this.props;
     const { modalContainer, contentContainer, modalHeader, lineStyle, closeStyle, buttomStyle, container, itemCountContainer,
         headerStyle, mainHeader, checkInStyle, checkOutStyle, buttonStyle, buttonContainerStyle, timeContainer } = styles;
-    const { flexRow, textH2Style, textExtraBold, textDarkGrey, textCenter, textH5Style, textH6Style,
+    const { flexRow, textH2Style, textExtraBold, textDarkGrey, textCenter, textH5Style, textH6Style, textBold, textRight,
         textH4Style, textGrey, textH3Style } = GStyles;
     const { formData, house } = this.props
+    
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
             <View style={container}>
@@ -156,10 +160,14 @@ class ReserveModal extends Component {
                         </View>
                         <View style={[flexRow, { paddingHorizontal: 10, marginTop: 20}]}>
                             <View style={timeContainer}>
-                                <TimePicker receiveTime={this.setTimeIn} title="SELECT CHECK-IN TIME" />
+                                <MyText style={[textH6Style, textGrey, { marginBottom: 10}]}>CHECK-IN TIME</MyText>
+                                <MyText style={[textH4Style, textBold]}>{house && house.checkInTimeFrom ? moment(house.checkInTimeFrom, "hh:mm:ss").format('h:mm A') : '***'}</MyText>
+                                {/* <TimePicker receiveTime={this.setTimeIn} title="SELECT CHECK-IN TIME" /> */}
                             </View>
                             <View style={[timeContainer]}>
-                                <TimePicker receiveTime={this.setTimeOut} title="SELECT CHECK-OUT TIME" right />
+                                <MyText style={[textH6Style, textGrey, textRight, { marginBottom: 10}]}>CHECK-OUT TIME</MyText>
+                                <MyText style={[textH4Style, textBold, textRight]}>{house && house.checkInTimeTo ? moment(house.checkInTimeTo, "hh:mm:ss").format('h:mm A') : '**'}</MyText>
+                                {/* <TimePicker receiveTime={this.setTimeOut} title="SELECT CHECK-OUT TIME" right /> */}
                             </View>
                         </View>
                         <View style={{ paddingHorizontal: 20 }}>

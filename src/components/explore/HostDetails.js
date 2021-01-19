@@ -63,6 +63,7 @@ class HostDetails extends Component {
   getHost = async () => {
     const { house } = this.state;
     const response = await GetRequest(urls.identityBase, `${urls.v}user/?id=${house.hostId}`);
+    console.log('Use response ', response)
     // const response = await GetRequest(urls.identityBase, `${urls.v}user/?id=APd1249674b19a41a0a64e499e642de561`);
     if (response.isError) {
         errorMessage(response.message);
@@ -106,10 +107,10 @@ class HostDetails extends Component {
                   </View>
                   <View style={dashStyles} />
                   <View>
-                      <MyText style={[textExtraBold, textH2Style, textDarkBlue, {marginTop: 23}]}>About</MyText>
+                      {/* <MyText style={[textExtraBold, textH2Style, textDarkBlue, {marginTop: 23}]}>About</MyText>
                       <MyText style={[textH5Style, textGrey, {marginTop: 20}]}>
                             Quisque suscipit ipsum est, eu venenatis leo ornare eget. Ut porta facilisis elementum. Sed condimentum sed massa quis ullamcorper. Donec at scelerisque neque. Pellentesque sagittis, massa sodales sodales finibus, felis ligula tempus lorem, eu porttitor ex lacus vel felis.
-                      </MyText>
+                      </MyText> */}
                       <View style={About}>
                         <View style={[flexRow, textH5Style, textDarkBlue, { alignItems: "center"}]}>
                             <Icon type="MaterialCommunityIcons" name="home" style={{color: colors.darkBlue}} />
@@ -124,7 +125,7 @@ class HostDetails extends Component {
                         </View> */}
                       </View>
                   </View>
-                  <View style={dashStyles} />
+                  {/* <View style={dashStyles} />
                   <View>
                     <MyText style={[textExtraBold, textH2Style, textDarkBlue, {marginTop: 23, marginBottom: 30}]}>Information Provided</MyText>
                     <View style={[flexRow, textH5Style, {marginBottom: 30, alignItems: "center"}]}>
@@ -139,19 +140,19 @@ class HostDetails extends Component {
                         <Icon type="MaterialCommunityIcons" name="check-circle" style={{color: colors.skyBlue}} />
                         <MyText style={{marginLeft: 10}}>Phone Number</MyText>
                     </View>
-                  </View>
+                  </View> */}
                   <View style={dashStyles} />
                   <View>
                 {house ? 
                     <MoreListings {...this.props} house={house} navigateToHouse={navigateToHouse} /> : <Fragment />}
                   </View>
                   <View style={dashStyles} />
-                  <View style={[flexRow, textH5Style, {marginTop: 30, alignItems: "center", marginBottom: 30}]}>
+                  {/* <View style={[flexRow, textH5Style, {marginTop: 30, alignItems: "center", marginBottom: 30}]}>
                         <Icon type="Ionicons" name="flag" style={{color: colors.green}} />
                         <TouchableOpacity onPress={{}}>
                             <MyText style={[textUnderline, textDarkGreen, {marginLeft: 20}]}>Report This Listing</MyText>
                         </TouchableOpacity>
-                    </View>
+                  </View> */}
               </View>
             </ScrollView>
           </View>

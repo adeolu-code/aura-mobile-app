@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, View, ScrollView, Keyboard, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, View, ScrollView, Keyboard, TouchableOpacity, Platform } from 'react-native';
 import colors from '../../colors';
 import { CustomInput, MyText, CustomButton, PhoneNumberInput, Loading, Error, DatePicker } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
@@ -9,7 +9,7 @@ import PasswordError from '../../components/auth/PasswordError';
 import FormError from '../../components/auth/FormError';
 import { AppContext } from '../../../AppProvider';
 import { setContext, Request, urls, successMessage } from '../../utils';
-import { Icon } from 'native-base';
+import { Icon, Picker } from 'native-base';
 import { setToken } from '../../helpers';
 
 class signUp extends Component {
@@ -17,7 +17,7 @@ class signUp extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { loading: false, firstName: '', lastName: '', dateOfBirth: '', email: '', phoneNumber:'', password: '', country: '', passwordFocused: false,
+    this.state = { loading: false, firstName: '', lastName: '', dateOfBirth: '', email: '', phoneNumber:'', password: '', country: '', passwordFocused: false, gender: '',
     firstNameErrors: [], lastNameErrors: [], emailErrors: [], phoneErrors: [], passwordError: false, formErrors: [], acceptTerms: false,
     dobErrors: [] };
   }
@@ -49,6 +49,10 @@ class signUp extends Component {
     // console.log('Dob ', value, newDate)
     value ? this.setState({ dateOfBirth: newDate, dobErrors: [] }) : dateOfBirth ? this.setState({ dateOfBirth, dobErrors: [] }) : this.setState({ dobErrors: ['date of birth required'] })
     
+  }
+  onGenderChange = (value) => {
+    console.log(value)
+    this.setState(() => ({ gender: value }));
   }
   onChangeValue = (attrName, value) => {
     this.setState({ [attrName]: value });
@@ -99,13 +103,13 @@ class signUp extends Component {
     return number;
   }
   disabled = () => {
-    const { firstNameErrors, lastNameErrors, passwordError, phoneErrors, emailErrors,
+    const { firstNameErrors, lastNameErrors, passwordError, phoneErrors, emailErrors, gender,
       firstName, lastName, email, phoneNumber, password, dateOfBirth } = this.state;
       const regex = new RegExp(/^[0-9\b]+$/);
     // if(firstNameErrors.length !== 0  || lastNameErrors !== 0 || phoneErrors !== 0 || emailErrors.length !== 0 || passwordError) {
     //   return true
     // }
-    if (firstNameErrors.length > 0 || lastNameErrors > 0 || phoneErrors > 0 || emailErrors.length > 0 || passwordError) {
+    if (firstNameErrors.length > 0 || lastNameErrors > 0 || phoneErrors > 0 || emailErrors.length > 0 || passwordError || gender === '') {
       return true;
     }
     if (firstName === '' || lastName === '' || phoneNumber === '' || password === '' || dateOfBirth === '' || email === '' || !email.includes('@')) {
@@ -139,10 +143,10 @@ class signUp extends Component {
   submit = async () => {
     Keyboard.dismiss();
     // this.login()
-    const { firstName, lastName, email, password, acceptTerms, dateOfBirth } = this.state;
+    const { firstName, lastName, email, password, acceptTerms, dateOfBirth, gender } = this.state;
     this.setState({ loading: true, formErrors: [] });
     const number = this.formatNumber();
-    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms, dateOfBirth };
+    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms, dateOfBirth, gender };
     try {
       const res = await Request(urls.identityBase, `${urls.v}user/signup`, obj);
       console.log(res);
@@ -237,7 +241,7 @@ class signUp extends Component {
   render() {
     // eslint-disable-next-line prettier/prettier
     const { flexRow, textH5Style, textGrey, textH4Style } = GStyles;
-    const {inputContainer } = styles;
+    const {inputContainer, pickerStyles } = styles;
     const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors, dobErrors } = this.state;
     return (
       <>
@@ -261,6 +265,20 @@ class signUp extends Component {
                 <CustomInput placeholder='Email' label="Email" onChangeText={this.onChangeValue} value={this.state.email}
                 attrName="email" onBlur={this.onBlurEmail} />
                 {emailErrors.length !== 0 ? <FormError errorMessages={emailErrors} /> : <Fragment />}
+              </View>
+              <View style={inputContainer}>
+                <MyText style={[textGrey, textH4Style]}>Gender</MyText>
+                <View style={pickerStyles}>
+                  <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
+                  style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
+                  placeholder="Select Gender"
+                  selectedValue={this.state.gender}
+                  onValueChange={this.onGenderChange}>
+                    <Picker.Item label={'Choose gender'} value={''} />
+                    <Picker.Item label={'Male'} value={'Male'} />
+                    <Picker.Item label={'Female'} value={'Female'} />
+                  </Picker>
+                </View>
               </View>
               <View style={inputContainer}>
                 <MyText style={[textGrey, textH4Style, { marginBottom: 8}]}>Date of Birth</MyText>
@@ -325,6 +343,10 @@ const styles = StyleSheet.create({
   checkedStyle: {
     backgroundColor: colors.orange
   },
+  pickerStyles: {
+    borderWidth: 1, borderRadius: 5, height: 60, borderColor: colors.lightGreyOne, marginTop: 10, 
+    justifyContent: 'center'
+  }
 
 });
 

@@ -58,7 +58,7 @@ class HomeSingle extends Component {
           requestId: ''
         },
         loading: false, contact: false, showIdentityModal: false, shareIdModal: false,
-        booked: '', bookedDays: [], 
+        booked: '', bookedDays: [], toggle: true
     };
     const { house } = props.route.params;
     this.state.house = house;
@@ -234,7 +234,7 @@ class HomeSingle extends Component {
     const { house } = this.state
     this.setState({ gettingHouse: true })
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${house.id}`);
-    console.log('House Details ', res)
+    // console.log('House Details ', res)
     this.setState({ gettingHouse: false })
     if(res.isError) {
         const message = res.Message;
@@ -263,7 +263,7 @@ class HomeSingle extends Component {
     const { house } = this.state
     this.setState({ gettingReviews: true })
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/review/property/?propertyid=${house.id}`);
-    console.log('House Reviews ', res)
+    // console.log('House Reviews ', res)
     this.setState({ gettingReviews: false })
     if(res.isError) {
         const message = res.Message;
@@ -310,7 +310,7 @@ class HomeSingle extends Component {
         const message = res.Message || res.message;
     } else {
         const data = res.data;
-        this.setState({ bookedDays: data.bookedDays })
+        this.setState(() => ({ bookedDays: data.bookedDays, toggle: false }))
     }
   }
 
@@ -320,12 +320,24 @@ class HomeSingle extends Component {
     // }
   }
 
+  renderBottomMenu = () => {
+    const { userData } = this.context.state
+    const { house } = this.state
+    if(house) {
+      if((userData && userData.id !== house.hostId) || !userData) {
+        return (
+          <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
+        )
+      }
+    }
+  }
+
 
   render() {
     const { buttomContainer, placeAroundContainer, headerStyle, scrollContainer } = styles;
     const { imgStyle, textWhite, textH3Style, textDarkGrey, textExtraBold, textH2Style } = GStyles
 
-    const { house, houseRules, location, reviews, gettingReviews, comments } = this.state
+    const { house, houseRules, location, reviews, gettingReviews, comments, toggle } = this.state
     const { isLoggedIn } = this.context.state
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
@@ -348,7 +360,8 @@ class HomeSingle extends Component {
             </View>
         </ScrollView>
         <View style={buttomContainer}>
-            <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
+            {this.renderBottomMenu()}
+            {/* <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} /> */}
         </View>
         <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} next={this.openCheckOutModal} 
         bookedDays={this.state.bookedDays} />

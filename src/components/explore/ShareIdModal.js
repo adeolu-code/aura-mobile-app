@@ -15,11 +15,6 @@ import { MyText, CustomButton, Loading, Error } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Styles } from "../../screens/account_verification/accountVerification.style";
 
-import ImagePicker from 'react-native-image-crop-picker';
-import { prepareMedia, uploadImageApi } from "../../utils";
-import RNFetchBlob from "rn-fetch-blob";
-import { uploadIdentityImageApi } from "../../api/profile.api";
-
 import { Container, Content, Footer, Button, Icon, Toast } from "native-base";
 import { LabelInput } from "../label_input/labelInput.component";
 

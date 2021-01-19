@@ -149,11 +149,13 @@ class FilterModal extends Component {
     }
 
     renderOnlineOffline = () => {
+        
         const { property } = this.props;
+        
         const { tabThree, activeStyle, bgGreen, bgDanger } = styles
         const { textDarkBlue, textBold, flexRow } = GStyles
         if(property) {
-            if(property.status.toLowerCase() === 'published' && !property.isActive) {
+            if(property.status.toLowerCase() === 'reviewed' && !property.isActive) {
                 return (
                     <TouchableOpacity style={tabThree} onPress={this.goOnline.bind(this, true)}>
                         <View style={[flexRow, { alignItems: 'center'}]}>
@@ -165,7 +167,7 @@ class FilterModal extends Component {
                     </TouchableOpacity>
                 )
             }
-            if(property.status.toLowerCase() === 'published' && property.isActive) { 
+            if(property.status.toLowerCase() === 'reviewed' && property.isActive) { 
                 return (
                     <TouchableOpacity style={tabThree} onPress={this.goOnline.bind(this, false)}>
                         <View style={[flexRow, { alignItems: 'center'}]}>

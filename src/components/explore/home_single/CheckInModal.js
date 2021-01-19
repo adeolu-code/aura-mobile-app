@@ -35,7 +35,7 @@ class CheckInModal extends Component {
             const yr = newDate.getFullYear()
             const month = newDate.getMonth() + 1
             const day = newDate.getDate()
-            const date = `${yr}-${month}-${day < 10 ? "0"+day : day}`
+            const date = `${yr}-${month < 10 ? '0'+month : month}-${day < 10 ? "0"+day : day}`
             obj[`${date}`] = {selected: true, selectedColor: colors.lightGrey, textColor: colors.darkBlue, disabled: true, disableTouchEvent: true}
         })
         this.setState(() => ({ markedDates: { ...obj }, bookedDates: { ...obj }, toggle: false}), ()=>{

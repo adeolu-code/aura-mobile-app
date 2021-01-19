@@ -7,7 +7,7 @@ import GStyles from '../assets/styles/GeneralStyles';
 import { MyText, CustomButton } from '../utils/Index';
 import { AppContext } from '../../AppProvider';
 
-import { EXPERIENCE, PHOTOGRAPH, RESTAURANT } from '../utils'
+import { EXPERIENCE, PHOTOGRAPH, RESTAURANT, HOST } from '../utils'
 
 class TermsOfService extends Component {
     static contextType = AppContext
@@ -30,6 +30,9 @@ class TermsOfService extends Component {
             // this.props.navigation.navigate('TourStack', { screen: 'TourIdentityCard'})
             // this.props.navigation.navigate('TourStack', { screen: 'TourGuestRequirement'})
             this.props.navigation.navigate('TourStack', { screen: 'TourLocation'})
+            break;
+        case HOST:
+            this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
             break;
         default:
             break;

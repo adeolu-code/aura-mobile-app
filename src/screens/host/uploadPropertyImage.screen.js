@@ -24,26 +24,26 @@ export default class UploadPropertyImage extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     
-                    <Header {...this.props} title="Upload Quality Photos" sub={"Catch guests’ attention with a listing title that highlights what makes your place special."} />
+                    <Header {...this.props} title="Upload Quality Photos" sub={"Catch guests’ attention with high quality images."} />
                     
                     <Container style={[Styles.container, {marginTop: 180}]}>
                         <Content scrollEnabled>
-                            <Section 
+                            {/* <Section 
                                 style={{backgroundColor: colors.lightGreen, marginBottom: 40}} 
                                 label={"Hire A"}
                                 title={"Photographer"}
-                                desciption={"Lorem ipsum dolor sit amet, consectetur adipiscing."}
+                                desciption={"Get a photographer from Aura"}
                                 hireStyle={{backgroundColor: colors.fadedGreen,}}
                                 titleStyle={textWhite}
                                 desciptionStyle={textWhite}
                                 image={require("./../../assets/images/img_upload/photograph.png")}
-                                onPress={() => this.props.navigation.navigate('PickPropertyImage')}
-                            />
+                                onPress={() => this.props.navigation.navigate('ExploreAll', { tab: 'four' }) }
+                            /> */}
                             <Section 
                                 style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, borderColor: colors.grey, overflow: "hidden"}} 
                                 label={"I Can"}
                                 title={"Take My Own Pictures"}
-                                desciption={"Lorem ipsum dolor sit amet, consectetur adipiscing."}
+                                desciption={"Upload pictures from your gallery or take a picture."}
                                 hireStyle={{backgroundColor: colors.black,}}
                                 titleStyle={textBlack}
                                 desciptionStyle={textBlack}

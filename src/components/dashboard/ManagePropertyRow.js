@@ -27,7 +27,7 @@ class ManagePropertyRow extends Component {
         switch (status.toLowerCase()) {
             case 'saved':
                 return textOrange;
-            case 'published':
+            case 'reviewed':
                 return textGreen;
             case 'pending':
                 return textGrey;
