@@ -155,6 +155,7 @@ class BookingsScreen extends Component {
                       }}
                       renderItem={({item}, index) => {
                         const property = item;
+                        console.log(property)
                         return (
                         <BookingPropertyComponent 
                           key={index}

@@ -1,4 +1,4 @@
-export const BOOKINGS_SCREEN_DESCRIPTION = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
+export const BOOKINGS_SCREEN_DESCRIPTION = "";
 export const BOOKINGS_NO_BOOKINGS = "You have no bookings yet";
 
 // inbox

@@ -22,7 +22,7 @@ export const Styles = StyleSheet.create({
         // borderWidth: 1
     },
     imageStyle: {
-        height: 125,width: '100%',
+        height: 125,width: '100%', backgroundColor: colors.lightGrey,
         borderRadius: 8,
         marginTop: 3,
     },

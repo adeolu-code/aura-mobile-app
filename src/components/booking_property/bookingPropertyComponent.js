@@ -11,7 +11,6 @@ export default class BookingPropertyComponent extends Component {
     constructor(props) {
         super(props);
         consoleLog("props", props);
-        console.log(props)
         this.state = {}
     }
 
