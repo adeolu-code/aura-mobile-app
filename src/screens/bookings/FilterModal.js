@@ -23,10 +23,11 @@ class FilterModal extends Component {
     constructor(props) {
         super(props);
         this.state = { loading: false };
+        console.log("filter prop", props);
     }
 
     reportitem = (itemId) => {
-        this.props.navigation.navigate('Profile', {screen: 'Complaint',params: {itemId: itemId}});
+        this.props.navigation.navigate('Profile', {screen: 'Complaint',params: {propertyId: itemId}});
         this.props.onDecline();
     }
 
@@ -36,9 +37,10 @@ class FilterModal extends Component {
     }
 
     render() {
-        const { visible, onDecline, item, img, type } = this.props;
+        const { visible, onDecline, property, img, type } = this.props;
         const { textDarkGrey, textBold, textDanger, textDarkBlue } = GStyles;
         const { container, dash, tabOne, tabTwo, tabThree, tabFour,  imgStyle, container2, inActiveTab } = styles;
+        const item = property;
         return (
 
             <Modal visible={visible} onRequestClose={() => { }} transparent animationType="slide">
@@ -57,11 +59,11 @@ class FilterModal extends Component {
                             <View style={dash}></View>
                             <TouchableOpacity style={tabTwo} onPress={() => this.onPress(item.id)}>
                                 <MyText style={[textDarkBlue, textBold]}>
-                                        View {item.itemInfo.type}
+                                        View {item.propertyInfo.type}
                                 </MyText>
                             </TouchableOpacity>
                             <View style={dash}></View>
-                            <TouchableOpacity style={tabTwo} onPress={() => this.reportitem(item.itemInfo.id)}>
+                            <TouchableOpacity style={tabTwo} onPress={() => this.reportitem(item.propertyInfo.id)}>
                                 <MyText style={[textDarkBlue, textBold]}>
                                         Report Host
                                 </MyText>
