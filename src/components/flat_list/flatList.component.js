@@ -15,6 +15,7 @@ export default class FlatlistComponent extends Component {
     render() {
         return (
             <FlatList
+              contentContainerStyle={{ paddingHorizontal: 10, marginTop: 20}}
               refreshControl={
                   <RefreshControl 
                   onRefresh={async () => {

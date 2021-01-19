@@ -11,9 +11,8 @@ export default class BookingPropertyComponent extends Component {
     constructor(props) {
         super(props);
         consoleLog("props", props);
-        this.state = {
-
-        }
+        console.log(props)
+        this.state = {}
     }
 
     render() {
@@ -39,13 +38,9 @@ export default class BookingPropertyComponent extends Component {
 
         return (
             <>
-                <Pressable style={[Styles.parentView, {marginBottom: 5}]} onPress={() => this.props.onClick && this.props.onClick()}>
+                <Pressable style={[Styles.parentView, {marginBottom: 5 }]} onPress={() => this.props.onClick && this.props.onClick()}>
                     <View style={[Styles.imageView]}>
-                        <Image 
-                            source={this.props.image} 
-                            style={[Styles.imageStyle]} 
-                            resizeMode={"contain"} 
-                        />
+                        <Image source={this.props.image}  style={[Styles.imageStyle]} resizeMode={"cover"} />
                     </View>
                     <View style={[Styles.textSection]}>
                         <View style={[Styles.textView]}>

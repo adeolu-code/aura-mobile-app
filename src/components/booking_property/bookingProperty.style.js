@@ -3,32 +3,32 @@ import colors from "../../colors";
 
 export const Styles = StyleSheet.create({
     parentView: {
-        width: "100%",
+        width: "100%", 
+        backgroundColor: colors.white,
         height: 160,
         flexDirection: "row",
         marginTop: 15,
-        borderRadius: 5,
+        borderRadius: 8,
         shadowColor: colors.grey,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.8,
         shadowRadius: 1, 
         elevation: 2,
-        paddingLeft: 10,
-        paddingTop: 10,
+        paddingLeft: 15,
+        paddingTop: 15,
     },
     imageView: {
-        flex: 0.38
+        flex: 0.4, 
+        // borderWidth: 1
     },
     imageStyle: {
-        height: 117,
-        width: 120,
-        borderRadius: 10,
+        height: 125,width: '100%',
+        borderRadius: 8,
         marginTop: 3,
     },
     textSection: {
-        flexDirection: "row",
-        flex: 0.62,
-        padding: 10,
+        flexDirection: "row", flex: 0.62, paddingHorizontal: 10, 
+        // borderWidth: 1
     },
     textView: {
         flex: 0.9,
