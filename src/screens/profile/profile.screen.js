@@ -89,11 +89,9 @@ class ProfileScreenClass extends Component {
         this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
     }
 
-    // hostRestaurant = () => {
-    //     this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider", params: {
-    //         currentIndex: 1,
-    //     }})
-    // }
+    hostRestaurant = () => {
+        this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant'})
+    }
 
     // hostExperience = () => {
     //     this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider", params: {

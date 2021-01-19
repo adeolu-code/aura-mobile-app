@@ -496,19 +496,20 @@ class TermsOfService extends Component {
                         </MyText>
                     </View>
 
-                    {this.state.type ? <View >
-                        <View style={[flexRow, { justifyContent: 'space-between', marginVertical: 20}]}>
-                            <View style={{ width: '48%'}}>
-                                <CustomButton onPress={this.onAccept} buttonText="Accept" buttonStyle={{ elevation: 1}} />
-                            </View>
-                            <View style={{ width: '48%'}}>
-                                <CustomButton onPress={this.onDecline} buttonText="Decline" textStyle={{ color: colors.orange}}
-                                buttonStyle={{ elevation: 1, borderWidth: 1, borderColor: colors.orange, backgroundColor: colors.white}} />
-                            </View>
-                        </View>
-                    </View> : <></>}
+                    
                 </View>
             </ScrollView>
+            {this.state.type ? <View >
+                <View style={[flexRow, { justifyContent: 'space-between', marginVertical: 10, paddingHorizontal: 20}]}>
+                    <View style={{ width: '48%'}}>
+                        <CustomButton onPress={this.onAccept} buttonText="Accept" buttonStyle={{ elevation: 1}} />
+                    </View>
+                    <View style={{ width: '48%'}}>
+                        <CustomButton onPress={this.onDecline} buttonText="Decline" textStyle={{ color: colors.orange}}
+                        buttonStyle={{ elevation: 1, borderWidth: 1, borderColor: colors.orange, backgroundColor: colors.white}} />
+                    </View>
+                </View>
+            </View> : <></>}
         </SafeAreaView>
     );
   }
@@ -517,7 +518,8 @@ class TermsOfService extends Component {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20, paddingTop: 140
-    }
+    },
+
 });
 
 export default TermsOfService;
