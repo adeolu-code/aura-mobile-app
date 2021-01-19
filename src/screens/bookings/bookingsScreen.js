@@ -125,6 +125,7 @@ class BookingsScreen extends Component {
                         // if days left to checkin is in the future display
                         property['dayLeft'] = dayLeft > 0 ? dayLeft.toFixed(2) : 0;
                         property['checkInDate'] = checkInDate;
+                        property['index'] = index;
                         toBeRendered.push(property);
                       }
                     });
@@ -164,7 +165,7 @@ class BookingsScreen extends Component {
                           image={{uri: property.propertyInfo.image}}
                           isExpired= {property.isBookingExpired}
                           amount= {property.total_Cost}
-                          onEllipsePress={() => this.selectProperty(index)}
+                          onEllipsePress={() => this.selectProperty(property.index)}
                           date={property.checkInDate}
                           onClick={() => this.props.navigation.navigate("BookingDetail",{
                             title: property.propertyInfo.title,
@@ -200,6 +201,7 @@ class BookingsScreen extends Component {
                   const checkoutDayLeft = moment.duration(checkOutDate.diff(now)).asHours();
                   property['checkInDate'] = checkInDate;
                   property['checkOutDate'] = checkOutDate;
+                  property['index'] = index;
                   if (checkoutDayLeft < 1) {
                     // booking has expired
                     toBeRendered.push(property);
@@ -240,7 +242,7 @@ class BookingsScreen extends Component {
                             isExpired= {property.isBookingExpired}
                             amount= {property.total_Cost}
                             date={property.checkOutDate}
-                            onEllipsePress={() => this.selectProperty(index)}
+                            onEllipsePress={() => this.selectProperty(property.index)}
                             onClick={() => this.props.navigation.navigate("BookingDetail",{
                               title: property.propertyInfo.title,
                               propertyCategory: property.propertyInfo.type,
@@ -380,7 +382,9 @@ class BookingsScreen extends Component {
   }
 
   selectProperty = (index) => {
-    this.setState({property: this.state.properties[index], showFilterModal: true});
+    console.log("proper", this.state.properties[index]);
+    this.state.property = this.state.properties[index];
+    this.setState({showFilterModal: true});
   }
  
   closeFilterModal = () => {
@@ -458,9 +462,9 @@ class BookingsScreen extends Component {
             this.getRestaurantActiveRender(this.state.activeIndex)
           }, 100);
         }
-        this.setState({loading: true});
+        this.setState({loading: false});
       });
-      this.setState({loading: false, type: "experience"});
+      this.setState({type: "experience"});
   }
 
   getRestaurant = () => {
