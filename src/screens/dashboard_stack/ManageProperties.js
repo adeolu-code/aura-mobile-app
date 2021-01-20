@@ -14,6 +14,8 @@ import AllPropertiesTab from '../../components/dashboard/AllPropertiesTab';
 import HotelsTab from '../../components/dashboard/HotelsTab';
 import ApartmentsTab from '../../components/dashboard/ApartmentsTab';
 
+import TermsModal from '../../components/dashboard/TermsModal';
+
 import { HOST } from '../../utils'
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height
@@ -21,7 +23,7 @@ class ManageProperties extends Component {
   static contextType = ManagePropertyContext;
   constructor(props) {
     super(props);
-    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false };
+    this.state = { tabOneSelected: true, tabTwoSelected: false, tabThreeSelected: false, showFilterModal: false, showTermsModal: false, type: '' };
   }
 
   linkToHost = () => {
@@ -29,7 +31,8 @@ class ManageProperties extends Component {
     appContext.set({ propertyFormData: null, step: 1 })
     // this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
     // this.context.set({ edit: false })
-    this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: HOST } })
+    // this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: HOST } })
+    this.setState({ showTermsModal: true, type: HOST })
   }
 
   renderLoading = () => {
@@ -73,6 +76,9 @@ class ManageProperties extends Component {
   closeFilterModal = () => {
     this.setState({ showFilterModal: false });
   }
+  closeTermsModal = () => {
+    this.setState({ showTermsModal: false })
+  }
   render() {
     const { textSuccess, textWhite, textH5Style, textBold, } = GStyles;
     const { manageHeader, tabsContainer, tabStyle, activeTab } = styles;
@@ -107,6 +113,7 @@ class ManageProperties extends Component {
             <Icon name="home" />
           </Fab>
         </View>
+        <TermsModal visible={this.state.showTermsModal} onDecline={this.closeTermsModal} {...this.props} type={this.state.type} />
       </SafeAreaView>
     );
   }

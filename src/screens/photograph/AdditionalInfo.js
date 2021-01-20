@@ -34,28 +34,33 @@ class AdditionalInfo extends Component {
 
         const obj = { ...state.photographOnboard, additionalInformation }
         delete obj.longitude; delete obj.latitude
-
-        this.setState({ loading: true })
-        let res;
-        if(state.edit) {
-            delete obj.equipment
-            res = await Request(urls.photographyBase, `${urls.v}photographer`, obj, false, 'PUT')
-        } else {
-            res = await Request(urls.photographyBase, `${urls.v}photographer`, obj)
-        }
-        
-        this.setState({ loading: false })
-        if(res.isError || res.IsError) {
-            errorMessage(res.message)
-        } else {
+        try {
+            this.setState({ loading: true })
+            let res;
             if(state.edit) {
-                successMessage('Photographer details updated successfully !!')
-                this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
+                delete obj.equipment
+                res = await Request(urls.photographyBase, `${urls.v}photographer`, obj, false, 'PUT')
             } else {
-                this.props.navigation.navigate('PhotographStack', { screen: 'PhotographUploadImages', params: { photographer: res.data }})
+                res = await Request(urls.photographyBase, `${urls.v}photographer`, obj)
             }
             
+            this.setState({ loading: false })
+            if(res.isError || res.IsError) {
+                errorMessage(res.message)
+            } else {
+                if(state.edit) {
+                    successMessage('Photographer details updated successfully !!')
+                    this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
+                } else {
+                    this.props.navigation.navigate('PhotographStack', { screen: 'PhotographUploadImages', params: { photographer: res.data }})
+                }
+                
+            } 
+        } catch (error) {
+            console.log('Error ', error)
+            this.setState({ loading: false })
         }
+        
         
     }
     componentDidMount = () => {

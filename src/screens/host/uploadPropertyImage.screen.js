@@ -13,6 +13,9 @@ export default class UploadPropertyImage extends Component {
 
         this.state = {};
     }
+    componentDidMount = () => {
+        
+    }
 
 
     render() {
@@ -28,17 +31,17 @@ export default class UploadPropertyImage extends Component {
                     
                     <Container style={[Styles.container, {marginTop: 180}]}>
                         <Content scrollEnabled>
-                            {/* <Section 
+                            <Section 
                                 style={{backgroundColor: colors.lightGreen, marginBottom: 40}} 
                                 label={"Hire A"}
                                 title={"Photographer"}
-                                desciption={"Get a photographer from Aura"}
+                                desciption={"You can always use Aura photographers"}
                                 hireStyle={{backgroundColor: colors.fadedGreen,}}
                                 titleStyle={textWhite}
                                 desciptionStyle={textWhite}
                                 image={require("./../../assets/images/img_upload/photograph.png")}
-                                onPress={() => this.props.navigation.navigate('ExploreAll', { tab: 'four' }) }
-                            /> */}
+                                onPress={() => this.props.navigation.push('Other', { screen: 'HirePhotographers', params:{type: 'host'} }) }
+                            />
                             <Section 
                                 style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, borderColor: colors.grey, overflow: "hidden"}} 
                                 label={"I Can"}

@@ -8,7 +8,9 @@ import { Container, Content, Text, View } from "native-base";
 import { Image, SafeAreaView, TouchableOpacity } from "react-native";
 import Header from "../../components/Header";
 import { MyText } from "../../utils/Index";
-import { EXPERIENCE } from '../../utils';
+import { EXPERIENCE, HOST } from '../../utils';
+import TermsModal from '../../components/dashboard/TermsModal';
+
 
 export default class HostSlider extends Component{
     constructor(props) {
@@ -36,23 +38,29 @@ export default class HostSlider extends Component{
                 "Be a tour guide to people on various locations of the country. Upload images and describe how the tour experience will be. Aura makes it easy for people to see your tours and book for them."
             ],
             currentIndex: 0,
+            showTermsModal: false, type: ''
         };
     }
 
     indexChange = (index) => {
         this.setState({ currentIndex: index});
     }
+    closeTermsModal = () => {
+        this.setState({ showTermsModal: false })
+    }
 
     handleNavigation = () => {
         switch (this.state.currentIndex) {
             case 0:
-                this.props.navigation.navigate("HostSteps")
+                // this.props.navigation.navigate("HostSteps")
+                this.setState({ showTermsModal: true, type: HOST })
                 break;
             case 1:
                 this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant'})
                 break;
             case 2:
-                this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
+                this.setState({ showTermsModal: true, type: EXPERIENCE })
+                // this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
                 // btnText = "Host Experience";
                 break;
         }
@@ -140,7 +148,8 @@ export default class HostSlider extends Component{
                         </Swiper>
                     </Content>
                 </Container>
-                </SafeAreaView>
+                <TermsModal visible={this.state.showTermsModal} onDecline={this.closeTermsModal} {...this.props} type={this.state.type} />
+            </SafeAreaView>
             </>
             
         );

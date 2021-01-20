@@ -9,6 +9,7 @@ import PhotoSingleScreen from '../screens/explore/PhotoSingle';
 import TourSingleScreen from '../screens/explore/TourSingle';
 
 import TermsOfServiceScreen from '../screens/TermsOfService';
+import HirePhotographersScreen from '../screens/HirePhotographer';
 
 import FoodPaymentScreen from '../screens/explore/PaymentWebView';
 import TourPaymentScreen from '../screens/explore/PaymentTourWebView';
@@ -34,6 +35,7 @@ export function OtherStack() {
             <Stack.Screen name="PhotoSingle" component={PhotoSingleScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TourSingle" component={TourSingleScreen} options={{headerShown: false}}/>
             <Stack.Screen name="TermsOfService" component={TermsOfServiceScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="HirePhotographers" component={HirePhotographersScreen} options={{headerShown: false}}/>
             <Stack.Screen name="FoodPayment" component={FoodPaymentScreen} options={{headerShown: false}}/>
             <Stack.Screen name="TourPayment" component={TourPaymentScreen} options={{headerShown: false}}/>
         </Stack.Navigator>

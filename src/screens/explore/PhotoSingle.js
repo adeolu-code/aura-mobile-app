@@ -47,30 +47,40 @@ class PhotoSingle extends Component {
   getPhotographer = async () => {
     const { photo } = this.state
     this.setState({ gettingPhotographer: true })
-    const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/${photo.id}`);
-    console.log('Photographer ', res)
-    this.setState({ gettingPhotographer: false })
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-        const data = res.data;
-        if(data !== null) {
-          this.setState({ photo: data })
-        }
+    try {
+      const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/${photo.id}`);
+      console.log('Photographer ', res)
+      this.setState({ gettingPhotographer: false })
+      if(res.isError) {
+          const message = res.Message;
+      } else {
+          const data = res.data;
+          if(data !== null) {
+            this.setState({ photo: data })
+          }
+      }
+    } catch (error) {
+      this.setState({ gettingPhotographer: false })
     }
+    
   }
   getPortolio = async () => {
     const { photo } = this.state
     this.setState({ gettingPortofolio: true })
-    const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/photo/portfolio/${photo.id}`);
-    this.setState({ gettingPortofolio: false })
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-        const data = res.data;
-        if(data !== null) {
-          this.setState({ portofilo: data })
-        }
+
+    try {
+      const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/photo/portfolio/${photo.id}`);
+      this.setState({ gettingPortofolio: false })
+      if(res.isError) {
+          const message = res.Message;
+      } else {
+          const data = res.data;
+          if(data !== null) {
+            this.setState({ portofilo: data })
+          }
+      }
+    } catch (error) {
+      this.setState({ gettingPortofolio: false })
     }
   }
 

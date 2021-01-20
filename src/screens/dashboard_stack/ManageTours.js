@@ -18,6 +18,7 @@ import AllTours from '../../components/dashboard/AllTours';
 import ManageTourRow from '../../components/dashboard/ManageTourRow';
 
 import TourActionModal from '../../components/dashboard/TourActionModal';
+import TermsModal from '../../components/dashboard/TermsModal';
 
 import { shortenXterLength, formatAmount } from '../../helpers'
 
@@ -27,9 +28,10 @@ class ManageTours extends Component {
   static contextType = ManagePropertyContext;
   constructor(props) {
     super(props);
-    this.state = { tabOneSelected: true, showModal: false, loading: false, tours: [], page: 1, size: 5, totalItems: 0, 
-      pageCount: 0, loadMore: false, tour: null, modalImg: require('../../assets/images/no_experience.png'), refreshing: false, tour:'' };
-    this.state.tour = props.route?.tour
+    this.state = { tabOneSelected: true, showModal: false, loading: false, tours: [], page: 1, size: 5, totalItems: 0, active: true,
+      pageCount: 0, loadMore: false, tour: null, modalImg: require('../../assets/images/no_experience.png'), refreshing: false, tour:'', 
+      showTermsModal: false, type: '' };
+    this.state.tour = props.route.params?.tour
   }
 
   linkTo = (tour) => {
@@ -37,7 +39,9 @@ class ManageTours extends Component {
   }
   addTour = () => {
     this.context.set({ editTour: false })
-    this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
+
+    this.setState({ showTermsModal: true, type: EXPERIENCE })
+    // this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
   }
   renderLoading = () => {
       const { loading, refreshing } = this.state;
@@ -46,11 +50,10 @@ class ManageTours extends Component {
 
   componentDidMount = () => {
     this.getTours();
-    console.log('Component mounted')
-    if(this.state.tour) {
-      console.log('Got here')
-    }
 
+  }
+  closeTermsModal = () => {
+    this.setState({ showTermsModal: false })
   }
 
   getTours = async (more=false, refresh=false) => {
@@ -201,16 +204,18 @@ class ManageTours extends Component {
         </View>
         {this.renderTours()}
         {/* <AllTours {...this.props}  /> */}
-        <View style={{ flex: 1, borderWidth: 1 }}>
-          <Fab active={this.state.active} direction="up" 
-          style={{ backgroundColor: colors.orange }} 
-            position="bottomRight" onPress={this.addTour}>
-            <Icon name="add-circle" style={{ fontSize: 26 }} />
-          </Fab>
+        <View style={{ borderWidth: 1 }}>
+          
           <TourActionModal visible={this.state.showModal} onDecline={this.closeModal} tour={tour} refresh={this.onRefresh} 
           deleteTour={this.deleteTour} img={this.state.modalImg} 
           title={tour && tour.title ? tour.title : 'No title'} {...this.props} />
         </View>
+        <Fab active={this.state.active} direction="up" 
+          style={{ backgroundColor: colors.orange }} 
+            position="bottomRight" onPress={this.addTour}>
+            <Icon name="add-circle" style={{ fontSize: 26 }} />
+        </Fab>
+        <TermsModal visible={this.state.showTermsModal} onDecline={this.closeTermsModal} {...this.props} type={this.state.type} />
       </SafeAreaView>
     );
   }

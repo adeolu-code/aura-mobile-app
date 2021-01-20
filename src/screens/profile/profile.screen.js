@@ -15,13 +15,16 @@ import SignUpModal from "../../components/auth/SignUpModal";
 import { getNotificationSettingsApi } from "../../api/notifications.api";
 import { useNavigation } from "@react-navigation/native";
 
+import TermsModal from '../../components/dashboard/TermsModal';
+
+
 class ProfileScreenClass extends Component {
     static contextType = AppContext;
     constructor() {
         super();
         this.state = {
             showLoginModal: false,
-            showRegisterModal: false,
+            showRegisterModal: false, showTermsModal: false, type: ''
         };
     }
 
@@ -40,6 +43,7 @@ class ProfileScreenClass extends Component {
           });
     }
 
+
     init = () => {
         if (Object.keys(this.context.state.notificationSettings.messages).length == 0 && this.context.state.isLoggedIn) {
             // get notification settings, default length of notificationsettings.messages = 0
@@ -51,19 +55,22 @@ class ProfileScreenClass extends Component {
 
     openLoginModal = () => {
         this.setState({ showLoginModal: true })
-      }
+    }
 
-      closeLoginModal = () => {
+    closeLoginModal = () => {
         this.setState({ showLoginModal: false })
-      }
+    }
 
-      openSignUpModal = () => {
+    openSignUpModal = () => {
         this.setState({ showRegisterModal: true })
-      }
+    }
 
-      closeSignUpModal = () => {
+    closeSignUpModal = () => {
         this.setState({ showRegisterModal: false })
-      }
+    }
+    closeTermsModal = () => {
+        this.setState({ showTermsModal: false })
+    }
 
     onSignOut = async () => {
         await clearData()
@@ -82,11 +89,13 @@ class ProfileScreenClass extends Component {
     }
     becomeHost = () => {
         this.context.set({ propertyFormData: null, edit: false, step: 1 })
+        // this.setState({ showTermsModal: true, type: HOST })
         this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider"})
     }
 
     hostExperience = () => {
-        this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
+        this.setState({ showTermsModal: true, type: EXPERIENCE })
+        // this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
     }
 
     hostRestaurant = () => {
@@ -327,6 +336,7 @@ class ProfileScreenClass extends Component {
                         {...this.props} 
                         openLogin={this.openLoginModal} 
                     />
+                    <TermsModal visible={this.state.showTermsModal} onDecline={this.closeTermsModal} {...this.props} type={this.state.type} />
                 </Container>
             </SafeAreaView>
         );

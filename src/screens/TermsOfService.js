@@ -32,7 +32,7 @@ class TermsOfService extends Component {
             this.props.navigation.navigate('TourStack', { screen: 'TourLocation'})
             break;
         case HOST:
-            this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+            this.props.navigation.push("HostPropertyStack", { screen: "HostSteps" })
             break;
         default:
             break;

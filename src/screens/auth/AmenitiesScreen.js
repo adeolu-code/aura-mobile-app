@@ -55,25 +55,33 @@ class AmenitiesScreen extends Component {
   
   getAmmenities = async () => {
     this.setState({ loadingAmenities: true })
-    const res = await GetRequest(urls.listingBase, `${urls.v}listing/ammenity`);
-    if(res.isError) {
-        const message = res.message;
-        const error = [message]
-        this.setState({ errors: error, loadingAmenities: false })
-    } else {
-      this.setState({ amenities: res.data, loadingAmenities: false })
+    try {
+      const res = await GetRequest(urls.listingBase, `${urls.v}listing/ammenity`);
+      if(res.isError) {
+          const message = res.message;
+          const error = [message]
+          this.setState({ errors: error, loadingAmenities: false })
+      } else {
+        this.setState({ amenities: res.data, loadingAmenities: false })
+      }
+    } catch (error) {
+      this.setState({ loadingAmenities: false })
     }
   }
   getSafetyAmmenities = async () => {
     this.setState({ loadingSafetyAmenities: true })
-    const res = await GetRequest(urls.listingBase, `${urls.v}listing/safetyamenity`);
-    // console.log(res)
-    if(res.isError) {
-        const message = res.message;
-        const error = [message]
-        this.setState({ errors: error, loadingSafetyAmenities: false })
-    } else {
-      this.setState({ safetyAmenities: res.data, loadingSafetyAmenities: false })
+    try {
+      const res = await GetRequest(urls.listingBase, `${urls.v}listing/safetyamenity`);
+      // console.log(res)
+      if(res.isError) {
+          const message = res.message;
+          const error = [message]
+          this.setState({ errors: error, loadingSafetyAmenities: false })
+      } else {
+        this.setState({ safetyAmenities: res.data, loadingSafetyAmenities: false })
+      }
+    } catch (error) {
+      this.setState({ loadingSafetyAmenities: false })
     }
   }
   SavedScreen = () => {
@@ -107,48 +115,52 @@ class AmenitiesScreen extends Component {
     this.setState({ saving: true })
     const url = state.edit ? `${urls.v}listing/property/update` : `${urls.v}listing/property`
     const payload = state.edit ? this.updateObj(propertyFormData) : propertyFormData;
-    const res = await Request(urls.listingBase, url, payload);
-    console.log('Amenities updated ',res)
-    if(res.isError) {
-        const message = res.message;
-        const error = [message]
-        this.setState({ errors: error, saving: false })
-    } else {
-      const data = res.data
-      
-      if(state.isInApp) {
-        set({ propertyFormData: {...data, mainImage: propertyFormData.mainImage} })
-        const { propertyContext, appContext } = this.props
-        // If you are editing a property
-        if(state.edit) {
-          const properties = [ ...propertyContext.state.properties ]
-          const pptyArr = this.filterSetProperty(properties, data, propertyFormData)
-          propertyContext.set({ properties: pptyArr })
-          if(data.propertyType.name === 'Apartment') {
-              const apartments = [ ...propertyContext.state.apartments ]
-              const apsArr = this.filterSetProperty(apartments, data, propertyFormData)
-              console.log('App ',apsArr)
-              propertyContext.set({ apartments: apsArr })
+    try {
+      const res = await Request(urls.listingBase, url, payload);
+      if(res.isError) {
+          const message = res.message;
+          const error = [message]
+          this.setState({ errors: error, saving: false })
+      } else {
+        const data = res.data
+        
+        if(state.isInApp) {
+          set({ propertyFormData: {...data, mainImage: propertyFormData.mainImage} })
+          const { propertyContext, appContext } = this.props
+          // If you are editing a property
+          if(state.edit) {
+            const properties = [ ...propertyContext.state.properties ]
+            const pptyArr = this.filterSetProperty(properties, data, propertyFormData)
+            propertyContext.set({ properties: pptyArr })
+            if(data.propertyType.name === 'Apartment') {
+                const apartments = [ ...propertyContext.state.apartments ]
+                const apsArr = this.filterSetProperty(apartments, data, propertyFormData)
+                console.log('App ',apsArr)
+                propertyContext.set({ apartments: apsArr })
+            } else {
+                const hotels = [ ...propertyContext.state.hotels ]
+                const hotelsArr = this.filterSetProperty(hotels, data, propertyFormData)
+                propertyContext.set({ hotels: hotelsArr })
+            }
+            
           } else {
-              const hotels = [ ...propertyContext.state.hotels ]
-              const hotelsArr = this.filterSetProperty(hotels, data, propertyFormData)
-              propertyContext.set({ hotels: hotelsArr })
+            propertyContext.getAllProperties();
+            propertyContext.getHotels();
+            propertyContext.getApartments();
           }
-          
-        } else {
-          propertyContext.getAllProperties();
-          propertyContext.getHotels();
-          propertyContext.getApartments();
         }
+        // if you are adding property from sign up
+        if(!state.isInApp) {
+          set({ propertyFormData: null })
+          await getUserProfile()
+        } 
+        this.setState({ saving: false })
+        this.props.navigation.navigate('Saved');
       }
-      // if you are adding property from sign up
-      if(!state.isInApp) {
-        set({ propertyFormData: null })
-        await getUserProfile()
-      } 
+    } catch (error) {
       this.setState({ saving: false })
-      this.props.navigation.navigate('Saved');
     }
+    
   }
   filterSetProperty = (properties, data, propertyData) => {
 

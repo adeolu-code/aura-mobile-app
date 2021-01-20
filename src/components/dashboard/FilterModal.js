@@ -7,7 +7,7 @@ import {
     View,
     Image,
     TouchableOpacity, Alert,
-    Modal, TouchableWithoutFeedback,
+    Modal, TouchableWithoutFeedback, Pressable
 } from "react-native";
 import colors from "../../colors";
 import { MyText, CustomButton, Loading } from "../../utils/Index";
@@ -157,26 +157,26 @@ class FilterModal extends Component {
         if(property) {
             if(property.status.toLowerCase() === 'reviewed' && !property.isActive) {
                 return (
-                    <TouchableOpacity style={tabThree} onPress={this.goOnline.bind(this, true)}>
+                    <Pressable style={tabThree} onPress={this.goOnline.bind(this, true)}>
                         <View style={[flexRow, { alignItems: 'center'}]}>
                             <View style={[activeStyle, bgGreen ]}></View>
                             <MyText style={[textDarkBlue, textBold]}>
                                 Go Online
                             </MyText>
                         </View>
-                    </TouchableOpacity>
+                    </Pressable>
                 )
             }
             if(property.status.toLowerCase() === 'reviewed' && property.isActive) { 
                 return (
-                    <TouchableOpacity style={tabThree} onPress={this.goOnline.bind(this, false)}>
+                    <Pressable style={tabThree} onPress={this.goOnline.bind(this, false)}>
                         <View style={[flexRow, { alignItems: 'center'}]}>
                             <View style={[activeStyle, bgDanger ]}></View>
                             <MyText style={[textDarkBlue, textBold]}>
                                 Go Offline
                             </MyText>
                         </View>
-                    </TouchableOpacity>
+                    </Pressable>
                 )
             }
         }
@@ -202,25 +202,25 @@ class FilterModal extends Component {
                                         <MyText style={[textDarkGrey, textBold]}>{title}</MyText>
                                     </View>
                                 </View>
-                                <TouchableOpacity style={tabTwo} onPress={this.viewPhotos}>
+                                <Pressable style={tabTwo} onPress={this.viewPhotos}>
                                     <MyText style={[textDarkBlue, textBold]}>
                                         View/Edit Photos
                                     </MyText>
-                                </TouchableOpacity>
+                                </Pressable>
                                 <View style={[dash]}></View>
-                                <TouchableOpacity style={tabTwo} onPress={this.onEdit}>
+                                <Pressable style={tabTwo} onPress={this.onEdit}>
                                     <MyText style={[textDarkBlue, textBold]}>
                                             Edit Property
                                     </MyText>
-                                </TouchableOpacity>
+                                </Pressable>
                                 <View style={[dash]}></View>
                                 {this.renderOnlineOffline()}
                                 <View style={[dash]}></View>
-                                <TouchableOpacity style={tabFour} onPress={this.onDelete}>
+                                <Pressable style={tabFour} onPress={this.onDelete}>
                                     <MyText style={[textDanger, textBold]}>
                                         Delete
-                                </MyText>
-                                </TouchableOpacity>
+                                    </MyText>
+                                </Pressable>
                             </View>
                         </View>
                     </View>

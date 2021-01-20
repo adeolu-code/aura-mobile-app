@@ -22,20 +22,25 @@ class PhotoComponent extends Component {
         photoId: photo.id,
     };
     loading(true)
-    let res;
-    if(type === 'tour') {
-        obj.experienceId = id
-        res = await Request(urls.experienceBase,`${urls.v}experience/photo/cover`, obj )
-    } else {
-        obj.propertyId = id
-        res = await Request(urls.listingBase, `${urls.v}listing/photo/coverphoto/update`, obj )
-    }
-    if(res.isError || res.IsError) {
-        errorMessage(res.message)
+    try {
+        let res;
+        if(type === 'tour') {
+            obj.experienceId = id
+            res = await Request(urls.experienceBase,`${urls.v}experience/photo/cover`, obj )
+        } else {
+            obj.propertyId = id
+            res = await Request(urls.listingBase, `${urls.v}listing/photo/coverphoto/update`, obj )
+        }
+        if(res.isError || res.IsError) {
+            errorMessage(res.message)
+            loading(false)
+        } else {
+            refresh()
+        } 
+    } catch (error) {
         loading(false)
-    } else {
-        refresh()
     }
+    
   }
 
   removeImg = async () => {
@@ -58,18 +63,25 @@ class PhotoComponent extends Component {
     const { photo, loading, refresh, type } = this.props
     loading(true)
     let res;
-    if(type === 'tour') {
-        res = await Request(urls.experienceBase, `${urls.v}experience/photo/delete?photoId=${photo.id}`, null, false, 'DELETE');
-    } else {
-        res = await Request(urls.listingBase, `${urls.v}listing/photo?photoId=${photo.id}`, null, false, 'DELETE' )
-    }
-    if(res.isError || res.IsError) {
-        errorMessage(res.message)
+    try {
+        if(type === 'tour') {
+            res = await Request(urls.experienceBase, `${urls.v}experience/photo/delete?photoId=${photo.id}`, null, false, 'DELETE');
+        } else {
+            res = await Request(urls.listingBase, `${urls.v}listing/photo?photoId=${photo.id}`, null, false, 'DELETE' )
+        }
+        console.log('Res ', res)
+        if(res.isError || res.IsError) {
+            errorMessage(res.message)
+            loading(false)
+        } else {
+            refresh()
+            successMessage('Photo Deleted')
+        }
+    } catch (error) {
+        console.log(error)
         loading(false)
-    } else {
-        refresh()
-        successMessage('Photo Deleted')
     }
+    
   }
 
   render() {

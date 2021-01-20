@@ -204,19 +204,12 @@ async function getApi(url, type, headers ) {
    return data
 }
 async function postApi(url, method, headers, body) {
-   const response = await fetch(url, {
-      method, headers, body })
+   const response = await fetch(url, { method, headers, body })
    let data = response.json()
    return data
 }
 /* POST Request fetch function **/
-export async function Request(
-   Base,
-   Url,
-   Data,
-   PreparedData = false,
-   method = "POST",
- ) {
+export async function Request(Base, Url, Data, PreparedData = false, method = "POST") {
    //if PreparedData then no need to convert the data to json or multi part e.g is data being passed is already a form data
    //also change content type
    

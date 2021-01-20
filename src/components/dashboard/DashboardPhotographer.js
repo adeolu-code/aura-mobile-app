@@ -121,14 +121,19 @@ class DashboardPhotographer extends Component {
 
   getProfile = async () => {
     this.setState({ loading: true })
-    const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/profile`)
-    console.log('res ', res)
-    this.setState({ loading: false })
-    if(res.isError || res.IsError) {
-      errorMessage(res.message)
-    } else {
-      this.setState({ profile: res.data })
+    try {
+      const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/profile`)
+      console.log('res ', res)
+      this.setState({ loading: false })
+      if(res.isError || res.IsError) {
+        errorMessage(res.message)
+      } else {
+        this.setState({ profile: res.data })
+      }
+    } catch (error) {
+      this.setState({ loading: false })
     }
+    
   }
   profilePage = () => {
     const { profile } = this.state

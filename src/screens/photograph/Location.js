@@ -94,13 +94,24 @@ class Location extends Component {
     getSelectedLocation = (value) => {
         const { geometry } = value.details
         const data = value.data
-        const city = data.terms[data.terms.length - 2].value
-        console.log('Value ', value, city)
+        this.geocodeLocation(data.description)
+        // const city = data.terms[data.terms.length - 2].value
+        // console.log('Value ', value, city)
         // console.log(longitude: geometry.location.lng, latitude: geometry.location.lat)
     
-        this.setState(()=>({ street: data.description, city }), ()=>{
+        // this.setState(()=>({ street: data.description, city }), ()=>{
           
-        })
+        // })
+    }
+    geocodeLocation = async (address) => {
+        this.setState({ loading: true })
+        const res = await GetRequest(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_API_KEY}`, '')
+        this.setState({ loading: false })
+        const address_components = res.results[0].address_components
+        const st = address_components[address_components.length - 2].long_name
+        const city = address_components[address_components.length - 3]
+        console.log(city)
+        this.setState(()=>({ street: address, st, city: city ? city.long_name : '' }))
     }
     getGeolocation = async (cord) => {
         const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
@@ -226,7 +237,7 @@ class Location extends Component {
                                 <CountryPickerComponent getCountry={this.getCountry} defaultCountry={this.state.defaultCountry} />
                             </View>
                             <View style={{flex: 1, marginLeft: 10}}>
-                                <CustomInput label="State" placeholder=" " attrName="st"
+                                <CustomInput label="State" placeholder=" " attrName="st" disabled
                                 value={this.state.st} onChangeText={this.onChangeValue} />
                             </View>
                         </View>
