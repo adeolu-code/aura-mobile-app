@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center', width: '100%', display: 'flex', alignItems: 'center'
     },
     imgContainer: {
-        width:80, height: 80, borderRadius: 80, overflow:'hidden', marginBottom: 15
+        width:80, height: 80, borderRadius: 80, overflow:'hidden', marginBottom: 15, backgroundColor: colors.lightGrey
     },
     infoContainer: {
         marginTop: 25

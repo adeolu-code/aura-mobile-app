@@ -13,6 +13,7 @@ export let debug = false;
 // export let debug = true; 
 export const GLOBAL_PADDING = 20;
 export const SCREEN_HEIGHT = Dimensions.get('screen').height
+export const SCREEN_WIDTH = Dimensions.get('screen').width
 export const WHATSAPP_NUMBER = '+2348131167172';
 
 const CLIENT_ID = '0987654321'
@@ -239,7 +240,6 @@ export async function Request(Base, Url, Data, PreparedData = false, method = "P
    return new Promise(async (resolve, reject) => {
       try {
          const res = await fetch(Base + Url, { method, headers, body })
-
          if(res.status === 401 && Url !== 'user/changepassword/' && Url !== 'api/v1/user/otp/generate') {
             const apiDetails = {
                url: Base + Url, headers, type: method, body

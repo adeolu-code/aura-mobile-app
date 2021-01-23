@@ -27,7 +27,8 @@ import MorePlaces from '../../components/explore/MorePlaces';
 
 import { setContext, Request, urls, GetRequest, successMessage, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
-import { v4 as uuidv4 } from 'uuid';
+import 'react-native-get-random-values'
+import { v4 as uuidv4} from 'uuid';
 
 import LoginModal from '../../components/auth/LoginModal';
 import SignUpModal from '../../components/auth/SignUpModal';
@@ -43,7 +44,8 @@ class HomeSingle extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { showCheckInModal: false, showCheckOutModal: false, showReserveModal: false, showModal: false, house: null, loadingImages: false, photos: [], gettingHouse: false, gettingHouseRules: false,
+    this.state = { showCheckInModal: false, showCheckOutModal: false, showReserveModal: false, showModal: false, house: null, loadingImages: false, photos: [], 
+      gettingHouse: false, gettingHouseRules: false,
         houseId: '', houseRules: [], location: null, gettingReviews: false, reviews: [], hostDetails: false,
         gettingComments: false, comments: [], gettingCalendar: false, calendar: null, showLoginModal: false, showRegisterModal: false, 
         formData: {
@@ -63,7 +65,7 @@ class HomeSingle extends Component {
     const { house } = props.route.params;
     this.state.house = house;
     this.state.location = { longitude: house.longitude, latitude: house.latitude }
-    console.log('Housess ', house)
+    console.log('Houses single ', house)
     
   }
   
@@ -181,25 +183,29 @@ class HomeSingle extends Component {
     this.setState({ showReserveModal: false })
   }
   reserveSpace = async (formObj) => {
-    this.setState({ loading: true })
+    
     const { formData, house } = this.state;
     const requestId = uuidv4()
     const obj = { ...formData, requestId, property_Id: house.id, noofAvailableRooms: house.noofAvailableRooms, ...formObj }
-    
-    const res = await Request(urls.bookingBase, `${urls.v}bookings/property`, obj);
-    console.log('Reserve space ', res)
-    this.setState({ loading: false })
-    if(res.isError) {
-      const message = res.message;
-      errorMessage(message)
-    } else {
-      this.getCalendar()
-      successMessage('Space booked successfully!!')
-      this.setState({ booked: res.data })
-      setTimeout(() => {
-        this.checkVerification()
-      }, 50);
+    try {
+      this.setState({ loading: true })
+      const res = await Request(urls.bookingBase, `${urls.v}bookings/property`, obj);
+      this.setState({ loading: false })
+      if(res.isError || res.IsError) {
+        const message = res.message || res.Message;
+        errorMessage(message)
+      } else {
+        successMessage('Space booked successfully!!')
+        this.setState({ booked: res.data })
+        setTimeout(() => {
+          this.checkVerification()
+        }, 50);
+        this.getCalendar()
+      }
+    } catch (error) {
+      this.setState({ loading: false })
     }
+    
   }
   getPhotos = async () => {
     const { house } = this.state
@@ -234,7 +240,7 @@ class HomeSingle extends Component {
     const { house } = this.state
     this.setState({ gettingHouse: true })
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${house.id}`);
-    // console.log('House Details ', res)
+    console.log('House Details ', res)
     this.setState({ gettingHouse: false })
     if(res.isError) {
         const message = res.Message;
@@ -303,15 +309,20 @@ class HomeSingle extends Component {
   getCalendar = async () => {
     const { house } = this.state;
     this.setState({ gettingCalendar: true })
-    const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/calendar?PropertyId=${house.id}`);
-    console.log('House calendar ', res)
-    this.setState({ gettingCalendar: false })
-    if(res.isError || res.IsError) {
-        const message = res.Message || res.message;
-    } else {
-        const data = res.data;
-        this.setState(() => ({ bookedDays: data.bookedDays, toggle: false }))
+    try {
+      const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/calendar?PropertyId=${house.id}`);
+      // console.log('House calendar ', res)
+      this.setState({ gettingCalendar: false })
+      if(res.isError || res.IsError) {
+          const message = res.Message || res.message;
+      } else {
+          const data = res.data;
+          this.setState(() => ({ bookedDays: data.bookedDays, toggle: false }))
+      }
+    } catch (error) {
+      this.setState({ gettingCalendar: false })
     }
+    
   }
 
   componentDidUpdate = (prevProps, prevState) => {

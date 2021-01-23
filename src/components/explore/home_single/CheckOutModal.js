@@ -107,7 +107,7 @@ class CheckOutModal extends Component {
                     <View style={calendarContainer}>
                         {toggle ? <CalendarList
                             // Callback which gets executed when visible months change in scroll view. Default = undefined
-                            onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
+                            onVisibleMonthsChange={(months) => {}}
                             // Max amount of months allowed to scroll to the past. Default = 50
                             markedDates={this.state.markedDates}
 

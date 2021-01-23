@@ -15,8 +15,8 @@ class ReserveModal extends Component {
     constructor(props) {
         super(props);
         this.state = { formData: {
-                Arrival_Time_From: '',
-                Arrival_Time_To: '',
+                // Arrival_Time_From: '',
+                // Arrival_Time_To: '',
                 no_Of_Guest: 1, no_Of_Rooms: 1,
             }, errors: []
         };
@@ -111,9 +111,11 @@ class ReserveModal extends Component {
     submit = () => {
         const { formData } = this.state
         const { house } = this.props
-        // if(house && house.propertyType.name === 'Hotel') {
-        //     delete 
-        // }
+        
+        if(house && house.propertyType.name !== 'Hotel') {
+            delete formData.no_Of_Rooms
+        }
+        // console.log(formData)
         this.props.onDecline();
         this.props.submit(formData)
     }

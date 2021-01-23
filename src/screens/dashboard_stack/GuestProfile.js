@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, PermissionsAndroid, Platform } from 'react-native';
 import { MyText, CustomButton } from '../../utils/Index';
 import colors from '../../colors';
 import moment from 'moment';
-import { Icon } from 'native-base'
+import { Icon } from 'native-base';
+import RNFetchBlob from 'rn-fetch-blob';
+
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+
 
 import GuestHeader from '../../components/dashboard/GuestHeader';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import { formatAmount } from '../../helpers'
+import { successMessage, SCREEN_WIDTH } from '../../utils';
+
+import Pdf from 'react-native-pdf';
 
 class GuestProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = { reservation: '' };
+    this.state = { reservation: '', source: '' };
     const { reservation } = props.route.params;
+    console.log(reservation)
     this.state.reservation = reservation
   }
 
@@ -32,12 +40,172 @@ class GuestProfile extends Component {
               return textGrey
       }
   }
+//   requestStoragePermission = async () => {
+//     try {
+//       const granted = await PermissionsAndroid.request(
+//         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+//         {
+//           title: "Adsbarter Storage Permission",
+//           message:
+//             "Adsbarter App needs access to your storage " +
+//             "to store images",
+//           buttonNeutral: "Ask Me Later",
+//           buttonNegative: "Cancel",
+//           buttonPositive: "OK"
+//         }
+//       );
+//       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+//         console.log("You can use the storage");
+//         this.downloadImage()
+//       } else {
+//         console.log("storage permission denied");
+//         showMessage({ message: 'Storage permission denied', type: "danger", floating: true, duration: 4000 })
+//       }
+//     } catch (err) {
+//       console.warn(err);
+//     }
+//   };
+  downloadPdf = async (pdf) => {
+    const { reservation } = this.state;
+    const name = reservation.guest_Name.split(' ')[0]
+    const resId = reservation.id
+    const dirs = RNFetchBlob.fs.dirs
+    const filePath = `${dirs.DownloadDir}/invoice_${name}_${resId}.pdf`
+    RNFetchBlob.fs
+    .mv(pdf, filePath)
+    .then((res) => {
+      // the temp file path
+      successMessage('Download complete !! file saved in Downloads')
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+  }
+  requestPermissionAndroid = async () => {
+    const granted = await PermissionsAndroid.request(
+    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+            title: "Aura Storage Permission",
+            message:
+            "Aura App needs access to your storage " +
+            "to store images",
+            buttonNeutral: "Ask Me Later",
+            buttonNegative: "Cancel",
+            buttonPositive: "OK"
+        }
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        this.createPDF()
+    } else {
+        console.log("storage permission denied");
+    }
+        
+  }
 
+  requestPermissionIOS = async () => {
+    this.createPDF()
+  }
+
+  downloadInvoice = async () => {
+    if(Platform.OS === 'ios'){
+        this.requestPermissionIOS()
+    } else {
+        this.requestPermissionAndroid()
+    }
+  }
+  
+  createPDF = async () => {
+    const { reservation } = this.state
+    const checkInDate = moment(reservation.check_In_Date).format('ll')
+    const checkOutDate = moment(reservation.check_Out_Date).format('ll')
+    const dateBooked = moment(reservation.date_Booked).format('lll')
+    const checkInTime = moment(reservation.arrival_Time_From, "hh:mm:ss").format('hh:mm a')
+    const checkOutTime = moment(reservation.arrival_Time_To, "hh:mm:ss").format('hh:mm a')
+    const noOfRooms = reservation.no_Of_Rooms
+    const title = reservation.propertyInfo ? reservation.propertyInfo.title : ''
+    const type = reservation.propertyInfo.type
+    const cat = reservation.roomTypeInfo ? reservation.roomTypeInfo.name : ''
+    const amount = formatAmount(reservation.total_Cost)
+    const paymentMethod = reservation.payment_Method ? reservation.payment_Method : '-'
+    const html = `<div><h2>${type} Reservation Invoice</h2>
+    <hr />
+    <div style="display: flex; flex-direction: row; flex: 1">
+      <div><h3>${title}</h3></div>
+    </div>
+    <div style="display: flex; flex-direction: row; flex: 1">
+      <div style="flex: 1">
+        <p>Property Category</p>
+        <h4>${type}</h4>
+      </div>
+      <div style="flex: 1">
+        <p>Property Type</p>
+        <h4>${cat}</h4>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: row; flex: 1">
+      <div style="flex: 1">
+        <p>check in Date</p>
+        <h4>${checkInDate}</h4>
+      </div>
+      <div style="flex: 1">
+        <p>check out Date</p>
+        <h4>${checkOutDate}</h4>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: row; flex: 1">
+      <div style="flex: 1">
+        <p>check in</p>
+        <h4>${checkInTime}</h4>
+      </div>
+      <div style="flex: 1">
+        <p>check Out</p>
+        <h4>${checkOutTime}</h4>
+      </div>
+    </div>
+    
+    <div style="display: flex; flex-direction: row; flex: 1">
+      <div style="flex: 1">
+        <p> No of rooms </p>
+        <h4>${noOfRooms}</h4>
+      </div>
+      <div style="flex: 1">
+        <p>Date Booked</p>
+        <h4>${dateBooked}</h4>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: row; flex: 1; justify-content: center; align-items: center">
+      <div style="flex: 1">
+        <p>Payment method</p>
+      </div>
+      <div style="flex: 1">
+        <h4>${paymentMethod}</h4>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: row; flex: 1; justify-content: center; align-items: center">
+      <div style="flex: 1">
+        <p>Amount Paid</p>
+      </div>
+      <div style="flex: 1">
+        <h3 style="color: green">NGN ${amount}</h3>
+      </div>
+    </div>
+  </div>`
+    let options = {
+      html,
+      fileName: 'reservation',
+      directory: 'Documents',
+    };
+
+    let file = await RNHTMLtoPDF.convert(options)
+    this.downloadPdf(file.filePath)
+    // console.log(file.filePath);
+    // alert(file.filePath);
+  }
   render() {
     const { contentContainer, titleStyle, rowContainer, detailsContainer, downloadContainer, lowerContainer, buttonContainer } = styles;
     const { flexRow, upperCase, textH5Style, textH4Style, textBold, textGrey, textRight, textH6Style, 
         textSuccess, textUnderline } = GStyles
-    const { reservation } = this.state
+    const { reservation, source } = this.state
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         <GuestHeader {...this.props} reservation={reservation} />
@@ -80,8 +248,18 @@ class GuestProfile extends Component {
                                 <MyText  style={[textH4Style, textBold]}>{reservation.no_Of_Rooms} Rooms</MyText>
                             </View>
                             <View>
+                                <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Amount Per Night</MyText>
+                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>₦</MyText> {formatAmount(reservation.cost_Per_Night)} / night</MyText>
+                            </View>
+                        </View>
+                        <View style={[flexRow, rowContainer]}>
+                            <View>
+                                <MyText style={[textH5Style, textGrey, { marginBottom: 4}]}>No. of Days</MyText>
+                                <MyText  style={[textH4Style, textBold]}>{reservation.no_Of_Days} Day(s)</MyText>
+                            </View>
+                            <View>
                                 <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Amount Paid</MyText>
-                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>₦</MyText> {formatAmount(reservation.total_Cost)} / night</MyText>
+                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>₦</MyText> {formatAmount(reservation.total_Cost)}</MyText>
                             </View>
                         </View>
                         <View style={[flexRow, rowContainer]}>
@@ -95,12 +273,13 @@ class GuestProfile extends Component {
                             </View>
                         </View>
                     </View>
-
-                    <View style={[flexRow, downloadContainer]}>
+                    
+                    <TouchableOpacity style={[flexRow, downloadContainer]} onPress={this.downloadInvoice}>
                         <Image source={require('../../assets/images/icons/receipt/ic_receipt_24px.png')} />
-                        <MyText style={[textH4Style, textSuccess, textUnderline, { marginLeft: 5}]}>Tap here to Download Invoice</MyText>
-                    </View>
+                        <MyText style={[textH4Style, textSuccess, textUnderline, { marginLeft: 10}]}>Tap here to Download Invoice</MyText>
+                    </TouchableOpacity>
                 </View>
+
                 {/* <View style={lowerContainer}>
                     <View style={buttonContainer}>
                         <CustomButton buttonText="View Booking Information" buttonStyle={{elevation: 2}} />

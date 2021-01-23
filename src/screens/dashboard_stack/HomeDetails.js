@@ -129,7 +129,7 @@ class HomeDetails extends Component {
         {this.renderLoading()}
         <Header {...this.props} title={title} wrapperStyles={{ paddingBottom: 5}} sub={address} />
         <ScrollView>
-            <View style={[contentContainer, { paddingTop: title.length > 20 ? 160 : 140}]}>
+            <View style={[contentContainer, { paddingTop: title.length > 20 ? 190 : 150}]}>
                 <View style={imgContainer}>
                     <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
                 </View>

@@ -57,6 +57,19 @@ class ImageAndDetails extends Component {
             )
         }
     }
+    renderType = () => {
+        const { house } = this.props;
+        const {typeStyles, bgOrange, bgLightOrange } = styles
+        const { textH5Style, textWhite, textOrange } = GStyles
+        if(house) {
+            return (
+                <View style={[typeStyles, house.propertyType.name === 'Hotel' ? bgOrange : bgLightOrange]}>
+                    <MyText style={[textH5Style, house.propertyType.name === 'Hotel' ? textWhite : textOrange]}>{house.propertyType.name}</MyText>
+                </View>
+            )
+        }
+        
+    }
     renderProfileVerified = () => {
         const { house } = this.props;
         const { iconVerifiedContainer, verifiedStyle } = styles
@@ -90,6 +103,7 @@ class ImageAndDetails extends Component {
             imgStyle, textWhite, textH3Style, textSuccess, textH6Style, textDarkGrey } = GStyles
     const { currentIndex, photos } = this.state
     const { time, house, title, loading, openHostModal } = this.props;
+    // console.log(house)
 
     const imgUrl = house.hostPicture ? { uri: house.hostPicture } : require('../../assets/images/profile.png')
     return (
@@ -124,6 +138,7 @@ class ImageAndDetails extends Component {
                     </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}
 
                     {this.renderVerified()}
+                    {this.renderType()}
                     {/* <View style={[flexRow, verifyContainer]}>
                         <MyText style={[textWhite, textH3Style, { marginRight: 5}]}>Verified</MyText>
                         <View style={iconVerifiedContainer}>
@@ -209,6 +224,16 @@ const styles = StyleSheet.create({
     },
     verifiedStyle: {
         fontSize: 12, color: colors.white
+    },
+    typeStyles: {
+        position: 'absolute', top: 0, left:0, justifyContent: 'center', alignItems: 'center',
+        paddingVertical: 10, paddingHorizontal: 20, borderTopLeftRadius: 10, borderBottomRightRadius: 10
+    },
+    bgOrange: {
+        backgroundColor: colors.orange
+    },
+    bgLightOrange: {
+        backgroundColor: colors.lightOrange
     },
     countContainer: {
         borderRadius: 30, paddingHorizontal: 20, paddingTop:10, paddingBottom: 12, backgroundColor: 'rgba(0, 0, 0, 0.6)'

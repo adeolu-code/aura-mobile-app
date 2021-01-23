@@ -155,7 +155,7 @@ class BookingsScreen extends Component {
                       }}
                       renderItem={({item}, index) => {
                         const property = item;
-                        console.log(property)
+                        // console.log(property)
                         return (
                         <BookingPropertyComponent 
                           key={index}
@@ -177,7 +177,9 @@ class BookingsScreen extends Component {
                             checkIn: property.checkInDate.format("DD/MM/YYYY"),
                             amount: property.total_Cost,
                             image: {uri: property.propertyInfo.image},
-                            isExpired: property.isBookingExpired
+                            isExpired: property.isBookingExpired,
+                            guestName: property.guest_Name,
+                            bookingId: property.id
                           })}
                           {...this.props}
                         />

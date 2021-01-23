@@ -30,7 +30,7 @@ class MorePlaces extends Component {
         const { house } = this.props;
         const res = await GetRequest(urls.listingBase, 
         `${urls.v}listing/property/closeby/?id=${house.id}&pageSize=${pageSize}&Page=${currentPage}`);
-        console.log(res)
+        // console.log(res)
         more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
         if(res.isError || res.IsError) {
             const message = res.Message;
