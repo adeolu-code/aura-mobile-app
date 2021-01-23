@@ -37,7 +37,11 @@ export default class EditProfile extends Component {
         const newDate = new Date(value);
         // console.log('Dob ', value, newDate)
         this.setState({ dob: newDate })
-      }
+    }
+
+    pickGender = (e) => {
+        this.setState({ gender: e})
+    }
 
     onUpdateUser = async () => {
         let data = {
@@ -68,7 +72,7 @@ export default class EditProfile extends Component {
 
     render() {
         const {textCenter, textH3Style, textWhite, textBold,textGreen, textGrey, textH4Style} = GStyles;
-        consoleLog("emergencyContact", this.context.state.userData);
+        console.log("emergencyContact", this.context.state.userData);
         const { userData } = this.context.state
         return (
             <>
@@ -98,7 +102,7 @@ export default class EditProfile extends Component {
                             <EditInput 
                                 phone 
                                 label={"Phone Number"} 
-                                placeholder={this.state.phoneNumber || this.context.state.userData.phoneNumber.replace("+234","")} 
+                                placeholder={this.state.phoneNumber || (userData.phoneNumber ? userData.phoneNumber.replace("+234","") : '')} 
                                 itemStyle={Styles.phoneItem} 
                                 onChangeText={(e) => this.setState({phoneNumber: e})}
                             />
@@ -123,8 +127,9 @@ export default class EditProfile extends Component {
                                         picker 
                                         label={"Gender"} 
                                         itemStyle={{flex: 0.5}} 
-                                        onPickerChange={(e) => this.setState({gender: e})}
-                                        selectedOption={this.state.gender}
+                                        // onPickerChange={(e) => this.setState({gender: e})}
+                                        onPickerChange={this.pickGender}
+                                        selectedOption={this.state.gender || userData.gender}
                                     />
                                 </View>
                             </View>

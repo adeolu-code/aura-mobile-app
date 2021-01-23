@@ -145,7 +145,7 @@ class SuccessScreen extends Component {
             <View style={bottomRow}>
                 {
                   !this.state.finalScreen &&
-                  <TouchableOpacity><MyText style={[textGrey, textH5Style]} onPress={this.listScreen}>Don’t have access to your mail?{' '}
+                  <TouchableOpacity onPress={this.listScreen}><MyText style={[textGrey, textH5Style]} >Don’t have access to your mail?{' '}
                     <MyText style={[textSuccess, textBold, textUnderline]}>Skip This</MyText></MyText>
                   </TouchableOpacity>
                 }

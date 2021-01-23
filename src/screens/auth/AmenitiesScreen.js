@@ -10,7 +10,7 @@ import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 import { AppContext } from '../../../AppProvider';
 
-import { GetRequest, Request, errorMessage, urls } from '../../utils';
+import { GetRequest, Request, errorMessage, urls, SCREEN_HEIGHT } from '../../utils';
 
 
 class AmenitiesScreen extends Component {
@@ -25,7 +25,7 @@ class AmenitiesScreen extends Component {
 
   renderLoading = () => {
       const { loadingAmenities, loadingSafetyAmenities, saving, gettingHouse } = this.state;
-      if(loadingAmenities || loadingSafetyAmenities || saving || gettingHouse) { return (<Loading />) }
+      if(loadingAmenities || loadingSafetyAmenities || saving || gettingHouse) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT }} />) }
   }
   renderError = () => {
     const { errors } = this.state

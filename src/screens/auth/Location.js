@@ -14,7 +14,7 @@ import { AppContext } from '../../../AppProvider';
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker, ProviderPropType } from 'react-native-maps';
 
-import { GetRequest, errorMessage, GOOGLE_API_KEY } from '../../utils';
+import { GetRequest, errorMessage, GOOGLE_API_KEY, SCREEN_HEIGHT } from '../../utils';
 
 const { width, height } = Dimensions.get('window');
 
@@ -38,7 +38,7 @@ class Location extends Component {
   
   renderLoading = () => {
       const { loading } = this.state;
-      if(loading) { return (<Loading />) }
+      if(loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT }} />) }
   }
   
   AmenitiesScreen = () => {

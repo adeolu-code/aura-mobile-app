@@ -12,7 +12,7 @@ import { AppContext } from '../../../AppProvider'
 
 
 import MenuItems from './MenuItems';
-import { GetRequest, Request, urls, errorMessage } from '../../utils';
+import { GetRequest, Request, urls, errorMessage, successMessage } from '../../utils';
 
 if (
   Platform.OS === "android" &&
@@ -108,15 +108,22 @@ class DashboardPhotographer extends Component {
 
   publishProfile = async () => {
     const { profile } = this.state
-    this.setState({ loading: true })
-    const res = await Request(urls.photographyBase, `${urls.v}photographer/hostpublish`, { profileId: profile.id })
-    console.log('Res ',res)
-    this.setState({ loading: false })
-    if(res.isError || res.IsError) {
-      errorMessage(res.message)
-    } else {
-      // this.setState({ profile: res.data })
+    try {
+      this.setState({ loading: true })
+      const res = await Request(urls.photographyBase, `${urls.v}photographer/hostpublish?profileId=${profile.id}`)
+      // console.log('Res ',res)
+      this.setState({ loading: false })
+      if(res.isError || res.IsError) {
+        errorMessage(res.message)
+      } else {
+        this.getProfile()
+        successMessage('Profile pushed successfully !')
+        // this.setState({ profile: res.data })
+      }
+    } catch (error) {
+      this.setState({ loading: false })
     }
+    
   }
 
   getProfile = async () => {

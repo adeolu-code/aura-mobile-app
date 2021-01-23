@@ -92,6 +92,9 @@ class ProfileScreenClass extends Component {
         // this.setState({ showTermsModal: true, type: HOST })
         this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider"})
     }
+    becomePhotographer = () => {
+        this.setState({ showTermsModal: true, type: PHOTOGRAPH })
+    }
 
     hostExperience = () => {
         this.setState({ showTermsModal: true, type: EXPERIENCE })
@@ -237,6 +240,7 @@ class ProfileScreenClass extends Component {
                                         title={"Become a Photographer"} 
                                         description={"click to become a photographer on Aura"} 
                                         iconImage={require("./../../assets/images/profile/camera/camera.png")}
+                                        onPress={this.becomePhotographer}
                                     />
                                     }
                                     

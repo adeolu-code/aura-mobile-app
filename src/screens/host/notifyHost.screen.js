@@ -32,6 +32,7 @@ export default class NotifyHost extends Component {
     extractDateTime = (timeObj) => {
         if(timeObj) {
             const newDate = new Date(moment(timeObj, "hh:mm:ss"))
+            // console.log('new DATe ',newDate)
             return newDate
         }
         // if(timeObj && timeObj.hours) {
@@ -50,8 +51,8 @@ export default class NotifyHost extends Component {
     ];
     toValue = (date) => {
         // console.log(date)
-        const toValue = moment(date, "hh:mm:ss").format("hh:mm:ss")
-        console.log(date, toValue)
+        const toValue = moment(date, "hh:mm:ss").format("HH:mm:ss")
+        // console.log(date, toValue)
         this.setState({ toValue })
         // const obj = {
         //     hours: new Date(date).getHours(),
@@ -62,8 +63,8 @@ export default class NotifyHost extends Component {
     }
     fromValue = (date) => {
         
-        const fromValue = moment(date, "hh:mm:ss").format("hh:mm:ss")
-        console.log(date, fromValue)
+        const fromValue = moment(date, "hh:mm:ss").format("HH:mm:ss")
+        // console.log(date, fromValue)
         this.setState({ fromValue })
         // const obj = {
         //     hours: new Date(date).getHours(),
@@ -166,7 +167,7 @@ export default class NotifyHost extends Component {
                                     mode={"time"}
                                     onChange={this.fromValue}
                                     value={this.extractDateTime(this.state.fromValue)}
-                                    display="spinner"
+                                    display="clock"
                                     format="hh:mm a"
                                     style={{flex: 1, marginRight: 10}}
                                 />
@@ -174,7 +175,7 @@ export default class NotifyHost extends Component {
                                     mode={"time"}
                                     onChange={this.toValue}
                                     value={this.extractDateTime(this.state.toValue)}
-                                    display="spinner"
+                                    display="clock"
                                     format="hh:mm a"
                                     style={{flex: 1}}
                                 />

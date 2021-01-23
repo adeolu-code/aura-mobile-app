@@ -59,50 +59,59 @@ class ManagePropertyProvider extends Component {
     const type = propertyTypes.find(item => item.name.toLowerCase() === 'hotel')
 
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.listingBase, 
-      `${urls.v}listing/property/me/?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeHotelsPage}&Size=${perPage}`);
-      more ? this.set({ loadMoreHotels: false }) : this.set({ loadingHotels: false })
-      if(res.isError) {
-        reject(res.message)
-      } else {
-        const response = res.data
-        resolve(response)
-        const dataResult = response.data
-        let data = []
-        if(more) {
-          data = [ ...hotels, ...dataResult ]
+      try {
+        const res = await GetRequest(urls.listingBase, 
+        `${urls.v}listing/property/me/?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeHotelsPage}&Size=${perPage}`);
+        more ? this.set({ loadMoreHotels: false }) : this.set({ loadingHotels: false })
+        if(res.isError) {
+          reject(res.message)
         } else {
-          data = dataResult
+          const response = res.data
+          resolve(response)
+          const dataResult = response.data
+          let data = []
+          if(more) {
+            data = [ ...hotels, ...dataResult ]
+          } else {
+            data = dataResult
+          }
+          const pageHotelsCount =  Math.ceil(response.totalItems / perPage)
+          this.set({ hotels: data, activeHotelsPage: response.page, totalHotels: response.totalItems, pageHotelsCount })
         }
-        const pageHotelsCount =  Math.ceil(response.totalItems / perPage)
-        this.set({ hotels: data, activeHotelsPage: response.page, totalHotels: response.totalItems, pageHotelsCount })
+      } catch (error) {
+        more ? this.set({ loadMoreHotels: false }) : this.set({ loadingHotels: false })
       }
+      
     })
   }
   getApartments = async (more) => {
     const { userData, propertyTypes } = this.context.state
     const { activeApartmentsPage, perPage, apartments } = this.state
     more ? this.set({ loadMoreApartments: true }) : this.set({ loadingApartments: true })
-
+    
     const type = propertyTypes.find(item => item.name.toLowerCase() === 'apartment')
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.listingBase, 
-      `${urls.v}listing/property/me/?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeApartmentsPage}&Size=${perPage}`);
-      more ? this.set({ loadMoreApartments: false }) : this.set({ loadingApartments: false })
-      if(res.isError) {
-        reject(res.message)
-      } else {
-        const response = res.data
-        resolve(response)
-        const dataResult = response.data
-        let data = []
-        if(more) {
-          data = [ ...apartments, ...dataResult ]
-        } else {
-          data = dataResult
-        }
-        const pageApartmentsCount =  Math.ceil(response.totalItems / perPage)
-        this.set({ apartments: response.data, activeApartmentsPage: response.page, totalApartments: response.totalItems, pageApartmentsCount })
+      try {
+        const res = await GetRequest(urls.listingBase, 
+          `${urls.v}listing/property/me/?UserId=${userData.id}&PropertyTypeId=${type.id}&Page=${activeApartmentsPage}&Size=${perPage}`);
+          more ? this.set({ loadMoreApartments: false }) : this.set({ loadingApartments: false })
+          if(res.isError) {
+            reject(res.message)
+          } else {
+            const response = res.data
+            resolve(response)
+            const dataResult = response.data
+            let data = []
+            if(more) {
+              data = [ ...apartments, ...dataResult ]
+            } else {
+              data = dataResult
+            }
+            const pageApartmentsCount =  Math.ceil(response.totalItems / perPage)
+            this.set({ apartments: response.data, activeApartmentsPage: response.page, totalApartments: response.totalItems, pageApartmentsCount })
+          }
+      } catch (error) {
+        more ? this.set({ loadMoreApartments: false }) : this.set({ loadingApartments: false })
       }
     })
   }

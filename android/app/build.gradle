@@ -200,7 +200,7 @@ android {
 
     dexOptions {
         javaMaxHeapSize "3g"
-        jumboMode = true
+//        jumboMode = true
     }
 }
 
