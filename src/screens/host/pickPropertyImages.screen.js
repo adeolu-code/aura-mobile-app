@@ -8,7 +8,7 @@ import { Styles } from "./host.style";
 import colors from "../../colors";
 import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
-import { urls, Request, UploadRequest, uploadMultipleFile, uploadFile, errorMessage, GetRequest } from '../../utils';
+import { urls, Request, UploadRequest, uploadMultipleFile, uploadFile, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import PhotographTipsModal from '../../components/PhotographTipsModal';
 
@@ -33,9 +33,7 @@ export default class PickPropertyImage extends Component {
         const { propertyFormData } = this.context.state
         console.log(propertyFormData)
         if(propertyFormData && propertyFormData.mainImage) {
-            this.getPropertyPhotos(propertyFormData.id)
-            this.setState({ coverImage: { path: propertyFormData.mainImage.assetPath, }, 
-                additionalInformation:propertyFormData.mainImage.additionalInformation })
+            this.setState({ coverImage: { path: propertyFormData.mainImage.assetPath } })
         }
     }
     renderLoading = () => {
@@ -65,7 +63,7 @@ export default class PickPropertyImage extends Component {
         return images.map((item, index) => {
             return (
                 <View style={[Styles.miniSelectedImageView]} key={index}>
-                    <Image style={[Styles.miniSelectedImage]} source={{ uri: item.path || item.assetPath }} resizeMode="cover" />
+                    <Image style={[Styles.miniSelectedImage]} source={{ uri: item.path }} resizeMode="cover" />
                     <TouchableOpacity style={{ position: "absolute", alignSelf: "flex-end", right: 15, bottom: 10 }} onPress={this.removeImg.bind(this, index)}>
                         <Icon name={"trash-sharp"} style={[Styles.trashIcon]} />
                     </TouchableOpacity>
@@ -150,35 +148,24 @@ export default class PickPropertyImage extends Component {
     }
     
     submit = () => {
-        const { edit } = this.context.state
+        this.setState({ loading: true })
         const { images } = this.state
-        const imgs = images.filter(item => item.mime)
-        if(imgs.length !== 0) {
-            this.setState({ loading: true })
-            uploadMultipleFile(imgs)
-            .then((res) => {
-                if(!res.isError) {
-                    const data = res.data;
-                    const urls = data.map(item => item.displayUrl)
-                    this.updateOtherImages(urls)
-                } else {
-                    errorMessage('Failed to upload images, try again else contact support')
-                    this.setState({ loading: false })
-                }
-            })
-            .catch(error => {
-                console.log(error)
-                this.setState({ loading: false })
-                errorMessage('Failed to upload images, try again else contact support')
-            })
-        } else {
-            if(edit) {
-                this.props.navigation.navigate("PropertyDescription");
+        uploadMultipleFile(images)
+        .then((res) => {
+            if(!res.isError) {
+                const data = res.data;
+                const urls = data.map(item => item.displayUrl)
+                this.updateOtherImages(urls)
             } else {
-                errorMessage('Please add images')
+                errorMessage('Failed to upload images, try again else contact support')
+                this.setState({ loading: false })
             }
-        }
-        
+        })
+        .catch(error => {
+            console.log(error)
+            this.setState({ loading: false })
+            errorMessage('Failed to upload images, try again else contact support')
+        })
     }
     updateOtherImages = (imageUrls) => {
         const { propertyFormData } = this.context.state
@@ -244,19 +231,8 @@ export default class PickPropertyImage extends Component {
         })
     }
 
-    getPropertyPhotos = async (id) => {
-        this.setState({ loadingImages: true })
-        const res = await GetRequest(urls.listingBase, `${urls.v}listing/photo/property?propertyid=${id}`);
-        console.log('Photos ', res)
-        this.setState({ loadingImages: false })
-        if(res.isError || res.IsError) {
-            const message = res.Message || res.message;
-            errorMessage(message)
-        } else {
-            const imgData = res.data;
-            const images = imgData.filter(item => !item.isMain)
-            this.setState({ photos: imgData, images })
-        }
+    getPropertyPhotos = () => {
+        
     }
 
     renderCoverImage = () => {
@@ -287,7 +263,7 @@ export default class PickPropertyImage extends Component {
             textCenter,
             textOrange,
             textGreen,
-            textUnderline, flexRow, textH6Style, textDanger
+            textUnderline,
           } = GStyles;
         const { coverImage, isCaptured, additionalInformation } = this.state
         return (
@@ -318,10 +294,6 @@ export default class PickPropertyImage extends Component {
                                                     <Icon name={"add-circle-sharp"} style={[Styles.miniGalleryIcon]} />
                                                     <View>
                                                         <MyText style={[textUnderline, textOrange]}>Add Photo</MyText>
-                                                    </View>
-                                                    <View style={[flexRow, { paddingHorizontal: 8, marginTop: 15}]}>
-                                                        <Icon name="alert-circle" style={{ fontSize: 16, color: colors.danger, marginRight: 5 }} />
-                                                        <MyText style={[textH6Style, textDanger]}>Total Upload Limit Is 20mb!</MyText>
                                                     </View>
                                                 </TouchableOpacity>
                                                 {this.renderImages()}

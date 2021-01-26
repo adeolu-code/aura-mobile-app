@@ -38,21 +38,15 @@ class AmenitiesScreen extends Component {
     const ppty = state.propertyFormData;
     this.setState({ gettingHouse: true })
     const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${ppty.id}`);
-    console.log(res)
     this.setState({ gettingHouse: false })
     if(res.isError) {
         const message = res.Message;
     } else {
         const data = res.data;
         if(data !== null) {
-          let amenitiesValues = [];
-          let safetyAmenitiesValues = [];
-          if(data.amenity) {
-            amenitiesValues = data.amenity.map(item => item.id)
-          }
-          if(data.safetyAmenity) {
-            safetyAmenitiesValues = data.safetyAmenity.map(item => item.id)
-          }
+          
+          const amenitiesValues = data.amenity.map(item => item.id)
+          const safetyAmenitiesValues = data.safetyAmenity.map(item => item.id)
           this.setState({ amenitiesValues, safetyAmenitiesValues })
           set({ propertyFormData: { ...ppty, amenity: amenitiesValues, safetyAmenity: safetyAmenitiesValues } })
         }
@@ -161,37 +155,24 @@ class AmenitiesScreen extends Component {
           await getUserProfile()
         } 
         this.setState({ saving: false })
-        this.checkStep()
         this.props.navigation.navigate('Saved');
       }
     } catch (error) {
       this.setState({ saving: false })
     }
+    
   }
   filterSetProperty = (properties, data, propertyData) => {
 
-      const elementsIndex = properties.findIndex(element => element.id == propertyData.id )
-      let newArray = [...properties]
-      // newArray[elementsIndex] = {...newArray[elementsIndex], completed: !newArray[elementsIndex].completed}
-      newArray[elementsIndex] = {...data, mainImage: propertyData.mainImage }
-      console.log('Filter ', newArray)
-      return newArray
+    const elementsIndex = properties.findIndex(element => element.id == propertyData.id )
+    let newArray = [...properties]
+    // newArray[elementsIndex] = {...newArray[elementsIndex], completed: !newArray[elementsIndex].completed}
+    newArray[elementsIndex] = {...data, mainImage: propertyData.mainImage }
+    console.log('Filter ', newArray)
+    return newArray
 
-  }
-  checkStep = () => {
-    const { propertyFormData } = this.context.state;
-    if(propertyFormData) {
-      if(propertyFormData.pricePerNight && propertyFormData.mainImage) {
-        this.context.set({ step: 3})
-      } else if(propertyFormData.mainImage) {
-        this.context.set({ step: 2 })
-      } else {
-        this.context.set({ step: 1 })
-      }
-    }
-  }
+}
   componentDidMount = () => {
-    console.log(this.context.state.propertyFormData)
     this.getAmmenities()
     this.getSafetyAmmenities()
     const { state } = this.context
