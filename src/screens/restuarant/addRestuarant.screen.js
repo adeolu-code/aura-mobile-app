@@ -17,6 +17,7 @@ import Geolocation from 'react-native-geolocation-service';
 import AutoCompleteComponent from "../../components/explore/AutoCompleteComponent";
 import RadioButton from "../../components/explore/tour_single/RadioButton";
 import Item from "../../components/label_checkbox/labelCheckbox.component";
+// import { PERMISSIONS } from "react-native-permissions";
 
 const LabelCheckbox = Item;
 const restaurantObject = {
@@ -189,16 +190,18 @@ export default class AddRestaurant extends Component {
     }
 
     getRestaurant = () => {
+        this.setState({loading: true});
         getRestaurantApi().then(result => {
-            
             if (result != undefined) {
-                consoleLog(result);
-                this.setState({restaurant: result, hasData: true,});
+                consoleLog("update_res", "result", result);
+                this.setState({restaurant: result, hasData: true, loading: false});
                 this.state.restaurant.operations.map(operation => this.setState({["OP_" + operation.id]: true}));
                 this.state.restaurant.services.map(service => this.setState({["OS_" + service.id]: true}));
                 this.state.restaurant.openDays.map(openDay => this.setState({["OD_" + openDay.id]: true}));
             }
-        })
+        }).finally(err => {
+            this.setState({loading: false});
+        });
     }
 
     onAddLocation = () => {
@@ -253,6 +256,7 @@ export default class AddRestaurant extends Component {
         
         // get opening times
         let keys = Object.keys(this.state);
+        consoleLog("update_res", "keys", keys);
         if (!this.state.host) 
         {
             this.state.restaurant.openDays = [];
@@ -299,11 +303,25 @@ export default class AddRestaurant extends Component {
                 
             }
         });
-        console.log(JSON.stringify(this.state.restaurant));
+        consoleLog(JSON.stringify(this.state.restaurant));
         
-        const {restaurant} = this.state
+        const {restaurant} = this.state;
+        consoleLog("update_res", "restaurant", restaurant);
         if (restaurant.name == "" || restaurant.openDays.length == 0 || restaurant.services.length == 0) {
-            errorMessage("Please fill all field");
+            
+            if (restaurant.openDays.length == 0) {
+                errorMessage("Please fill Open Days");
+            }
+            else if (restaurant.name === "") {
+                errorMessage("Please fill Restaurant Name");
+            }
+            else if (restaurant.services.length == 0) {
+                errorMessage("Please fill Services offerred");
+            }
+            else {
+                errorMessage("Please fill all field");
+            }
+            
             this.setState({loading: false});
             return;
         }

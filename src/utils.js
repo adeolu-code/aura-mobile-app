@@ -9,7 +9,7 @@ import { urls as Urls } from "./urls";
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
-export let debug = false; 
+export let debug = true; 
 // export let debug = true; 
 export const GLOBAL_PADDING = 20;
 export const SCREEN_HEIGHT = Dimensions.get('screen').height
@@ -163,8 +163,10 @@ function PrepareData(Data, type = "json") {
   }
 }
 
-export function consoleLog(message, ...optionalParams) {
-   if (debug) console.log(message, optionalParams);
+export function consoleLog(period, message, ...optionalParams) {
+   if (period === undefined) period ="initial";
+
+   if (debug && period == "update_res") console.log(message, optionalParams);
 }
 
 export async function refreshToken(apiDetails) {
@@ -429,3 +431,12 @@ export async function uploadImageApi(data, single=true) {
 
     return res;
 }
+
+export function toTitleCase(str) {
+   return str.replace(
+     /\w\S*/g,
+     function(txt) {
+       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+     }
+   );
+ }
