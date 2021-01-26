@@ -109,7 +109,7 @@ class signUp extends Component {
     // if(firstNameErrors.length !== 0  || lastNameErrors !== 0 || phoneErrors !== 0 || emailErrors.length !== 0 || passwordError) {
     //   return true
     // }
-    if (firstNameErrors.length > 0 || lastNameErrors > 0 || phoneErrors > 0 || emailErrors.length > 0 || passwordError || gender === '') {
+    if (firstNameErrors.length > 0 || lastNameErrors > 0 || phoneErrors > 0 || emailErrors.length > 0 || passwordError) {
       return true;
     }
     if (firstName === '' || lastName === '' || phoneNumber === '' || password === '' || dateOfBirth === '' || email === '' || !email.includes('@')) {
@@ -143,10 +143,10 @@ class signUp extends Component {
   submit = async () => {
     Keyboard.dismiss();
     // this.login()
-    const { firstName, lastName, email, password, acceptTerms, dateOfBirth, gender } = this.state;
+    const { firstName, lastName, email, password, acceptTerms, dateOfBirth } = this.state;
     this.setState({ loading: true, formErrors: [] });
     const number = this.formatNumber();
-    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms, dateOfBirth, gender };
+    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms, dateOfBirth };
     try {
       const res = await Request(urls.identityBase, `${urls.v}user/signup`, obj);
       console.log(res);
@@ -266,7 +266,7 @@ class signUp extends Component {
                 attrName="email" onBlur={this.onBlurEmail} />
                 {emailErrors.length !== 0 ? <FormError errorMessages={emailErrors} /> : <Fragment />}
               </View>
-              <View style={inputContainer}>
+              {/* <View style={inputContainer}>
                 <MyText style={[textGrey, textH4Style]}>Gender</MyText>
                 <View style={pickerStyles}>
                   <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
@@ -279,7 +279,7 @@ class signUp extends Component {
                     <Picker.Item label={'Female'} value={'Female'} />
                   </Picker>
                 </View>
-              </View>
+              </View> */}
               <View style={inputContainer}>
                 <MyText style={[textGrey, textH4Style, { marginBottom: 8}]}>Date of Birth</MyText>
                 <DatePicker placeholder="DD/MM/YYYY" receiveData={this.getDob} />

@@ -121,6 +121,7 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
+    
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
@@ -132,10 +133,18 @@ android {
         applicationId "com.aura.transcorphotels.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
-        versionName "1.0.5"
+        versionCode 10
+        versionName "1.0.7"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary true
+    }
+    packagingOptions {
+       pickFirst 'lib/x86/libc++_shared.so'
+       pickFirst 'lib/x86_64/libjsc.so'
+       pickFirst 'lib/arm64-v8a/libjsc.so'
+       pickFirst 'lib/arm64-v8a/libc++_shared.so'
+       pickFirst 'lib/x86_64/libc++_shared.so'
+       pickFirst 'lib/armeabi-v7a/libc++_shared.so'
     }
     splits {
         abi {
@@ -191,6 +200,7 @@ android {
 
     dexOptions {
         javaMaxHeapSize "3g"
+//        jumboMode = true
     }
 }
 

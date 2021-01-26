@@ -23,6 +23,8 @@ function MyTabs() {
   const {imgStyle} = styles;
   return (
     <Tab.Navigator
+      lazy={true}
+      swipeEnabled={false}
       tabBarPosition="bottom"
       initialRouteName="Explore"
       timingConfig={{duration: 120}}

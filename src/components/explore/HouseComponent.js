@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity, Pressable} from 'react-native';
 import {MyText} from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import { Icon } from 'native-base';
@@ -42,7 +42,7 @@ class HouseComponent extends Component {
     const {title, img, location, price, onPress, rating } = this.props;
     return (
       <View>
-        <TouchableOpacity style={scrollItemContainer} onPress={onPress}>
+        <Pressable style={scrollItemContainer} onPress={onPress}>
           <View style={imgContainer}>
             <Image source={img} resizeMode="cover" style={[imgStyle, { borderRadius: 8}]} />
             {this.renderVerified()}
@@ -63,7 +63,7 @@ class HouseComponent extends Component {
             <StarComponent grey rating={rating} />
             <MyText style={[textGrey, textH4Style]}>{location}</MyText>
           </View>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     );
   }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Styles } from "./bookingsScreen.style";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
-import { ScrollView, Image, Pressable, TouchableOpacity, PermissionsAndroid } from "react-native";
+import { ScrollView, Image, Pressable, TouchableOpacity, PermissionsAndroid, Platform } from "react-native";
 import { View, Icon } from "native-base";
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
@@ -10,6 +10,15 @@ import colors from "../../colors";
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import moment from "moment";
 import { successMessage } from "../../utils";
+
+import { formatAmount } from '../../helpers'
+import { successMessage, SCREEN_WIDTH } from '../../utils';
+
+
+
+import RNFetchBlob from 'rn-fetch-blob';
+
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 export default class BookingsDetail extends Component {
     constructor() {
@@ -66,6 +75,105 @@ export default class BookingsDetail extends Component {
         // alert(file.filePath);
         successMessage("Invoice saved to Documents Directory. " + file.filePath);
       }
+    downloadPdf = async (pdf) => {
+        const { params } = this.props.route;
+        const name = params.guestName.split(' ')[0]
+        const resId = params.id
+        const dirs = RNFetchBlob.fs.dirs
+        const filePath = `${dirs.DownloadDir}/invoice_booking_${name}_${resId}.pdf`
+        RNFetchBlob.fs
+        .mv(pdf, filePath)
+        .then((res) => {
+            // the temp file path
+            successMessage('Download complete !! file saved in Downloads')
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+    requestPermissionAndroid = async () => {
+        const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            {
+                title: "Aura Storage Permission",
+                message:
+                "Aura App needs access to your storage " +
+                "to store images",
+                buttonNeutral: "Ask Me Later",
+                buttonNegative: "Cancel",
+                buttonPositive: "OK"
+            }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            this.createPDF()
+        } else {
+            console.log("storage permission denied");
+        }
+        
+    }
+    
+    requestPermissionIOS = async () => {
+        this.createPDF()
+    }
+    downloadInvoice = async () => {
+        if(Platform.OS === 'ios'){
+            this.requestPermissionIOS()
+        } else {
+            this.requestPermissionAndroid()
+        }
+    }
+    createPDF = async () => {
+        const { params } = this.props.route
+        const checkInDate = params.checkIn
+        const checkOutDate = params.checkOut
+        const time = params.time
+        const title = params.title
+        const type = params.propertyType || params.propertyCategory
+        const amount = formatAmount(params.amount)
+        const html = `<div><h2>${type} Booking Invoice</h2>
+        <hr />
+        <div style="display: flex; flex-direction: row; flex: 1">
+          <div><h3>${title}</h3></div>
+        </div>
+        <div style="display: flex; flex-direction: row; flex: 1">
+          <div style="flex: 1">
+            <p>Property Category</p>
+            <h4>${type}</h4>
+          </div>
+          <div style="flex: 1">
+            <p>Time</p>
+            <h4>${time}</h4>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row; flex: 1">
+          <div style="flex: 1">
+            <p>check in</p>
+            <h4>${checkInDate}</h4>
+          </div>
+          <div style="flex: 1">
+            <p>check out</p>
+            <h4>${checkOutDate}</h4>
+          </div>
+        </div>
+        
+        <div style="display: flex; flex-direction: row; flex: 1; justify-content: center; align-items: center">
+          <div style="flex: 1">
+            <p>Amount Paid</p>
+          </div>
+          <div style="flex: 1">
+            <h3 style="color: green">NGN ${amount}</h3>
+          </div>
+        </div>
+      </div>`
+        let options = {
+          html,
+          fileName: 'bookings',
+          directory: 'Documents',
+        };
+    
+        let file = await RNHTMLtoPDF.convert(options)
+        this.downloadPdf(file.filePath)
+    }
 
     render() {
         const { contentContainer, imgContainer, titleStyle, detailsContainer,rowContainer } = Styles;
@@ -117,9 +225,11 @@ export default class BookingsDetail extends Component {
                             </View>
                         </View>
                         <View style={[flexRow, rowContainer]}>
-                            <TouchableOpacity style={[Styles.pressable]} onPress={() => this.generatePDF(this.props.route.params.title, this.props.route.params.id, this.props.route.params.payment_Method, this.props.route.params.amount, this.props.route.params.checkIn, this.props.route.params.checkOut)}>
+                            <TouchableOpacity style={[Styles.pressable]} onPress={this.downloadInvoice}>
+          //onPress={() => this.generatePDF(this.props.route.params.title, this.props.route.params.id, this.props.route.params.payment_Method, this.props.route.params.amount, this.props.route.params.checkIn, this.props.route.params.checkOut)}
+                            // <Pressable style={[Styles.pressable]}>
                                 <View style={[Styles.invoiceView]}>
-                                    <Icon name={"ios-menu-sharp"} style={[Styles.icon]} />
+                                    <Icon name={"ios-menu-sharp"} style={[Styles.icon, { fontSize: 20, marginRight: 10}]} />
                                     <MyText style={[textH5Style, textRight, textGreen, textUnderline, textBold ,Styles.invoiceText]}>Tap Here to Download Invoice</MyText>
                                 </View>
                                 

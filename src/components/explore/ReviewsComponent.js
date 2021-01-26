@@ -47,9 +47,17 @@ class ReviewsComponent extends Component {
     }
     calculateAttrs = (name) => {
         const { reviews } = this.props
-        return reviews.reduce((sum, current) => sum + current[name], 0)
+        const cal = reviews.reduce((sum, current) => sum + current[name], 0)
+        const average = Number((cal/reviews.length).toFixed(2))
+        if(isNaN(average)) {
+            return 0
+        } else {
+            return average
+        }
+        // return reviews.reduce((sum, current) => sum + current[name], 0)
     }
     starRating = () => {
+        const total = this.calculateAttrs('totalRating')
         return this.calculateAttrs('totalRating')
     }
 

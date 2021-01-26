@@ -10,7 +10,7 @@ import Geolocation from 'react-native-geolocation-service';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { GOOGLE_API_KEY, GetRequest, errorMessage } from '../../utils';
+import { GOOGLE_API_KEY, GetRequest, errorMessage, SCREEN_HEIGHT } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
@@ -27,7 +27,7 @@ class LocationScreen extends Component {
     
     renderLoading = () => {
         const { loading } = this.state;
-        if(loading) { return (<Loading />) }
+        if(loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT }} />) }
     }
     requestLocationPermission = async () => {
         if(Platform.OS === 'android') {

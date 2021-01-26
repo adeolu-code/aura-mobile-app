@@ -21,11 +21,13 @@ class ReviewRow extends Component {
     return (
         <View style={[flexRow, reviewRow]}>
             <MyText style={[textH5Style, textDarkGrey, { flex: 1}]}>{title}</MyText>
-            <View style={[flexRow, { alignItems: 'center',justifyContent: 'flex-end', flex: 1.5}]}>
+            <View style={[flexRow, { alignItems: 'center',justifyContent: 'flex-end', flex: 1.5 }]}>
                 <View style={progressContainer}>
                     <View style={[progressStyle, { width: `${percent}%`}]}></View>
                 </View>
-                <MyText style={[textH5Style, textDarkGrey]}>{value}</MyText>
+                <View style={{ flex:1}}>
+                    <MyText style={[textH5Style, textDarkGrey]}>{value}</MyText>
+                </View>
             </View>
         </View>
     );
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
     },
     progressContainer: {
         backgroundColor: colors.lightGrey, height: 4, borderRadius: 10, width: '70%', marginHorizontal: 10, 
-        overflow: 'hidden'
+        overflow: 'hidden', flex: 6
     },
     progressStyle: {
         // width: '80%', 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, Pressable } from 'react-native';
 import GStyles from '../../../assets/styles/GeneralStyles';
 
 import { MyText } from '../../../utils/Index';
@@ -72,7 +72,7 @@ class ItemComponent extends Component {
     const { onPress, img, location, title, price, type, rating } = this.props
     return (
       <View>
-        <TouchableOpacity style={scrollItemContainer} onPress={onPress}>
+        <Pressable style={scrollItemContainer} onPress={onPress}>
           <View style={imgContainer}>
             <Image source={img} resizeMode="cover" style={[imgStyle, { borderRadius: 8 }]} />
             {this.renderVerified()}
@@ -86,7 +86,7 @@ class ItemComponent extends Component {
             <StarComponent grey rating={rating} />
             {this.renderLocation()}
           </View>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     );
   }

@@ -49,6 +49,7 @@ class ForgotPassword extends Component {
     this.setState({ loading: true, formErrors: [] })
     try {
       const res = await GetRequest(urls.identityBase, `${urls.v}user/forgotpassword/?email=${email}`);
+      this.setState({ loading: false })
       console.log('Res ',res);
       if (!res.isError) {
         this.props.navigation.navigate('Resend', { email })
@@ -57,7 +58,7 @@ class ForgotPassword extends Component {
       } else {
         const message = res.message;
         const error = [message]
-        this.setState({ formErrors: error, loading: false});
+        this.setState({ formErrors: error });
       }
     } catch (error) {
       console.log('Catched error ', error)

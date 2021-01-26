@@ -52,7 +52,7 @@ class EmailVerificationModal extends Component {
     }
     checkVerified = () => {
         this.setState({ loading: true, formErrors: [] })
-        this.context.getUserProfile(this.context.state.token)
+        this.context.getUserProfile(this.context.state.token.access_token)
         .then((res) => {
             this.setState({ loading: false })
             if(res.isEmailVerified) {
@@ -139,8 +139,7 @@ class EmailVerificationModal extends Component {
                                 </TouchableOpacity></MyText> : <></>}
                                 <View style={{paddingHorizontal: 20, paddingTop: 20, width: '100%'}}>
                                     {this.renderError()}
-                                    <CustomButton buttonText="I have verified my account" 
-                                    onPress={this.checkVerified} />
+                                    <CustomButton buttonText="I have verified my account" onPress={this.checkVerified} />
                                 </View>
                             </View>
                         </View>

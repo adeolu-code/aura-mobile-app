@@ -37,7 +37,11 @@ export default class EditProfile extends Component {
         const newDate = new Date(value);
         // console.log('Dob ', value, newDate)
         this.setState({ dob: newDate })
-      }
+    }
+
+    pickGender = (e) => {
+        this.setState({ gender: e})
+    }
 
     onUpdateUser = async () => {
         let data = {
@@ -46,7 +50,7 @@ export default class EditProfile extends Component {
             "phoneNumber": this.state.phoneNumber || this.context.state.userData.phoneNumber,
             "dateofBirth": this.state.dob || this.context.state.userData.dateofBirth,
             "country": this.state.country || this.context.state.userData.country,
-            "gender": this.state.gender || this.context.state.userData.gender,
+            "gender": this.state.gender ? this.stateGender() : '' || this.context.state.userData.gender,
             "address": this.state.address || this.context.state.userData.address,
             "emergencyContact": this.state.emergencyContact || this.context.state.userData.emergencyContact,
             "otherVerifiedPhoneNumbers": this.state.otherVerifiedPhoneNumbers || this.context.state.userData.otherVerifiedPhoneNumbers,
@@ -65,10 +69,30 @@ export default class EditProfile extends Component {
         const { loading } = this.state;
         if (loading) { return (<Loading />); }
     }
+    stateGender = () => {
+        const { gender } = this.state;
+        if(gender === 'male') {
+            return 0
+        } else if(gender === 'female') {
+            return 1
+        } else {
+            return ''
+        }
+    }
+    userDataGender = () => {
+        const { userData } = this.context.state;
+        if(userData.gender === 0) {
+            return 'male'
+        } else if(userData.gender === 1) {
+            return 'female'
+        } else {
+            return ''
+        }
+    }
 
     render() {
         const {textCenter, textH3Style, textWhite, textBold,textGreen, textGrey, textH4Style} = GStyles;
-        consoleLog("emergencyContact", this.context.state.userData);
+        console.log("emergencyContact", this.context.state.userData);
         const { userData } = this.context.state
         return (
             <>
@@ -98,7 +122,7 @@ export default class EditProfile extends Component {
                             <EditInput 
                                 phone 
                                 label={"Phone Number"} 
-                                placeholder={this.state.phoneNumber || this.context.state.userData.phoneNumber.replace("+234","")} 
+                                placeholder={this.state.phoneNumber || (userData.phoneNumber ? userData.phoneNumber.replace("+234","") : '')} 
                                 itemStyle={Styles.phoneItem} 
                                 onChangeText={(e) => this.setState({phoneNumber: e})}
                             />
@@ -123,8 +147,9 @@ export default class EditProfile extends Component {
                                         picker 
                                         label={"Gender"} 
                                         itemStyle={{flex: 0.5}} 
-                                        onPickerChange={(e) => this.setState({gender: e})}
-                                        selectedOption={this.state.gender}
+                                        // onPickerChange={(e) => this.setState({gender: e})}
+                                        onPickerChange={this.pickGender}
+                                        selectedOption={this.state.gender || this.userDataGender()}
                                     />
                                 </View>
                             </View>

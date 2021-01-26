@@ -6,7 +6,7 @@ import { Styles } from "./host.style";
 import colors from "../../colors";
 import { MyText, CustomButton, Loading, Error } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
-import { GLOBAL_PADDING, GetRequest, Request, urls } from "../../utils";
+import { GLOBAL_PADDING, GetRequest, Request, urls, SCREEN_HEIGHT } from "../../utils";
 import { RenderStars } from "../../components/render_stars/renderStars";
 
 import OtpModal from '../../components/dashboard/OtpModal';
@@ -28,7 +28,7 @@ export default class HostSteps extends Component {
 
     renderLoading = () => {
         const { loading } = this.state;
-        if (loading) { return (<Loading />); }
+        if (loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT}} />); }
     }
 
     renderError = () => {
@@ -56,25 +56,29 @@ export default class HostSteps extends Component {
     publishProperty = async () => {
         const { propertyFormData } = this.context.state;
         this.setState({ loading: true, errors: [] })
-        let res = await Request(urls.listingBase + urls.v, `listing/property/hostpublish?id=${propertyFormData.id}`);
-        this.setState({ loading: false })
-        console.log('publish  ', res)
-        if (res.isError || res.IsError) {
-            const message = res.message;
-            const error = [message]
-            console.log('Error ', error)
-            this.setState({ errors: error})
+        try {
+            let res = await Request(urls.listingBase + urls.v, `listing/property/hostpublish?id=${propertyFormData.id}`);
+            this.setState({ loading: false })
+            console.log('publish  ', res)
+            if (res.isError || res.IsError) {
+                const message = res.message;
+                const error = [message]
+                console.log('Error ', error)
+                this.setState({ errors: error})
+            } else {
+                this.setState({ message: 'Property submitted for review successfully!!'})
+                setTimeout(() => {
+                    this.setState({ message: ''})
+                }, 5000);
+                this.context.set({ propertyFormData: { ...propertyFormData, status: 'Pending' } })
+                /** update context **/
+                // let userData = this.context.state.userData;
+                // this.context.set({userData: {...userData, ...res.data}});
+            }
+        } catch (error) {
+            this.setState({ loading: false })
         }
-        else {
-            this.setState({ message: 'Property submitted for review successfully!!'})
-            setTimeout(() => {
-                this.setState({ message: ''})
-            }, 5000);
-            this.context.set({ propertyFormData: { ...propertyFormData, status: 'Pending' } })
-            /** update context **/
-            // let userData = this.context.state.userData;
-            // this.context.set({userData: {...userData, ...res.data}});
-        }
+        
     }
     
     publish = () => {
@@ -134,16 +138,21 @@ export default class HostSteps extends Component {
     }
     sendMail = async () => {
         const { userData } = this.context.state;
-        this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.identityBase, `${urls.v}email/verification/resend/${userData.username}`);
-        this.setState({ loading: false });
-        if (res.isError) {
-            const message = res.message;
-            const error = [message];
-            this.setState({ errors: error});
-        } else {
-            this.openEmailModal();
+        try {
+            this.setState({ loading: true, errors: [] });
+            const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
+            this.setState({ loading: false });
+            if (res.isError) {
+                const message = res.message;
+                const error = [message];
+                this.setState({ errors: error});
+            } else {
+                this.openEmailModal();
+            } 
+        } catch (error) {
+            this.setState({ loading: false })
         }
+        
     }
 
     getStarted = () => {
@@ -282,7 +291,7 @@ export default class HostSteps extends Component {
                         <Content>
                             {this.renderProperty()}
                             
-                            <Card title={"Facilities And Location"} cardStyles={{ paddingTop: 0, marginTop: -20}}
+                            <Card title={"Facilities And Location"} cardStyles={{ paddingTop: 0, marginTop: -15}}
                                 description={"Basic property facilities and location details of property"}
                                 completed={step > 1 ? true : false} edit={step > 1 ? true : false} step={1} 
                                 getStarted={step === 1 ? true : false}
