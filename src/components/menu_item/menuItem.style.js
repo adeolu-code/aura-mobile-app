@@ -10,7 +10,6 @@ export const Styles = StyleSheet.create({
         
     },
     parent: {
-        backgroundColor: colors.white,
         alignSelf: 'flex-end',
 
     },
@@ -34,4 +33,8 @@ export const Styles = StyleSheet.create({
         backgroundColor: colors.lightGreyOne,
         elevation: 10,
     },
+    itemsBackground: {
+        backgroundColor: colors.white, 
+        marginRight: 10,
+    }
 });

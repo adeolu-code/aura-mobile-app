@@ -12,7 +12,7 @@ import RenderNoRecord from '../../components/render_no_record/renderNoRecord';
 import { BOOKINGS_NO_BOOKINGS, BOOKINGS_SCREEN_DESCRIPTION } from '../../strings';
 import BookingPropertyComponent from '../../components/booking_property/bookingPropertyComponent';
 import { getPropertyBookingsApi } from '../../api/booking.api';
-import { setContext, consoleLog, GetRequest, urls, successMessage } from '../../utils';
+import { setContext, consoleLog, GetRequest, urls, successMessage, toTitleCase } from '../../utils';
 import moment from "moment";
 import FilterModal, {ExperienceFilterModal} from './FilterModal';
 import { Loading } from '../../utils/Index';
@@ -178,6 +178,7 @@ class BookingsScreen extends Component {
                             amount: property.total_Cost,
                             image: {uri: property.propertyInfo.image},
                             isExpired: property.isBookingExpired,
+                            id: property.id,
                             guestName: property.guest_Name,
                             bookingId: property.id
                           })}
@@ -255,7 +256,8 @@ class BookingsScreen extends Component {
                               checkIn: property.checkInDate.format("DD/MM/YYYY"),
                               amount: property.total_Cost,
                               image: {uri: property.propertyInfo.image},
-                              isExpired: property.isBookingExpired
+                              isExpired: property.isBookingExpired,
+                              id: property.id,
                             })}
                             {...this.props}
                         />;
@@ -385,7 +387,7 @@ class BookingsScreen extends Component {
   }
 
   selectProperty = (index) => {
-    console.log("proper", this.state.properties[index]);
+    log("proper", this.state.properties[index]);
     this.state.property = this.state.properties[index];
     this.setState({showFilterModal: true});
   }
@@ -493,8 +495,7 @@ class BookingsScreen extends Component {
               this.context.state.isLoggedIn ?
               <View style={MyStyle.row}>
                   <BottomTabSectionNoRecord
-                      title={"Bookings"}
-                      subTitle={this.state.type.toUpperCase()}
+                      title={toTitleCase(this.state.type) + " Bookings"}
                       tabs={["Upcoming", "Past"]} 
                       onTopTabClick={(index) => {
                         if (this.state.type == "host") {

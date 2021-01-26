@@ -26,22 +26,21 @@ export default class MenuItemComponent extends Component {
 
                 </TouchableOpacity>
                 {this.state.shown && 
-                    // <View style={[{backgroundColor: colors.white, }]}>
-
+                    <View style={[Styles.itemsBackground]}>
                         <TouchableWithoutFeedback style={[Styles.absoluteParent,Styles.content, ]}>
                             <>
                             {this.props.items && this.props.items.map((item, index) => {
                                 return (
-                                    <Button transparent onPress={() => {
+                                    <TouchableOpacity transparent  onPress={() => {
                                         this.props.onPress && this.props.onPress(index); this.setState({shown: false})
                                     }} style={[{paddingLeft: 10, paddingTop: 10, width: 100, height: 30, marginBottom: 5,  elevation: 5, zIndex: 10000}]}>
                                         <Text style={[Styles.itemText]}>{item}</Text>
-                                    </Button>
+                                    </TouchableOpacity>
                                 );
                             })}
                             </>
                         </TouchableWithoutFeedback>
-                    // </View>
+                    </View>
                 }
             </View>
         );
