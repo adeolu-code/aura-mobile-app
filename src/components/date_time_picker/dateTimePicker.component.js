@@ -32,9 +32,9 @@ export default class DateTimePickerComponent extends Component {
                     <DateTimePicker
                         mode={this.props.mode || "datetime"}
                         onChange={(e, selectedDate) => {
-                            console.log("e", selectedDate, e);
+                            console.log("e", selectedDate);
                             this.setState({showPicker: false})
-                            if (selectedDate !== undefined) {
+                            if (e != undefined) {
                                 this.props.onChange(selectedDate);
                                 this.setState({date: selectedDate})
                             }
