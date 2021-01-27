@@ -36,6 +36,12 @@ class FilterModal extends Component {
         this.props.onDecline();
     }
 
+    cancelBooking = (item) => {
+        this.props.navigation.navigate('CancelBookings', {booking: item});
+        this.props.onDecline();
+        
+    }
+
     render() {
         const { visible, onDecline, property, img, type } = this.props;
         const { textDarkGrey, textBold, textDanger, textDarkBlue } = GStyles;
@@ -50,7 +56,7 @@ class FilterModal extends Component {
                         <View style={container}>
                         <TouchableOpacity 
                             style={[tabTwo, (item.approval_Info.name == "Approved") ? tabTwo: inActiveTab]} 
-                            onPress={() => (item.approval_Info.name == "Approved") && this.onEdit}
+                            onPress={() => (item.approval_Info.name == "Approved") && this.cancelBooking(item)}
                         >
                                 <MyText style={[textDarkGrey, textBold]}>
                                         Cancel Booking

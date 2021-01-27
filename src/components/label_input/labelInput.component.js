@@ -27,9 +27,10 @@ export const LabelInput = (props) => {
     const icon = (props.icon == undefined) ? false : ((props.icon) ? props.icon : false);
     const textarea = (props.textarea == undefined) ? false : ((props.textarea) ? true : false);
     const secureText = (props.secureText == undefined) ? false : ((props.secureText) ? true : false);
+    const disabled = (props.disabled == undefined) ? false : ((props.disabled) ? true : false);
     if (dateTime) {
         return (
-            <Item stackedLabel style={[Styles.item, props.itemStyle]}>
+            <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={disabled}>
                 <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <DatePicker
@@ -65,7 +66,8 @@ export const LabelInput = (props) => {
                         selectedValue={props.selectedOption ? props.selectedOption : ""}
                         onValueChange={(e) => props.onPickerChange && props.onPickerChange(e)}
                         placeholder={props.placeholder}
-
+                        enabled={disabled}
+                        focusable={disabled}
                     >
                         {
                             props.pickerOptions != undefined ?
@@ -89,7 +91,7 @@ export const LabelInput = (props) => {
             };
          */
         return (
-            <Item stackedLabel style={[Styles.phoneItem, props.itemStyle]}>
+            <Item stackedLabel style={[Styles.phoneItem, props.itemStyle]} disabled={disabled}>
                 <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <IntlPhoneInput
@@ -111,7 +113,7 @@ export const LabelInput = (props) => {
     }
     else if (textarea) {
         return (
-            <Item stackedLabel style={[Styles.item, props.itemStyle]}>
+            <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={disabled}>
                 <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
                 <View style={[Styles.personalContentView, props.contentViewStyle]}>
                     <Textarea
@@ -139,7 +141,7 @@ export const LabelInput = (props) => {
     else 
     {
         return (
-            <Item stackedLabel style={[Styles.item, props.itemStyle]}>
+            <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={disabled}>
                 <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
                 <View style={[Styles.inputView]}>
                     <View style={[Styles.left, {width: (icon ? "90%": "100%" )}]}>
