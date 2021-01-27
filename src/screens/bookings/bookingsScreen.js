@@ -387,7 +387,7 @@ class BookingsScreen extends Component {
   }
 
   selectProperty = (index) => {
-    log("proper", this.state.properties[index]);
+    consoleLog("update_res", "proper", this.state.properties[index]);
     this.state.property = this.state.properties[index];
     this.setState({showFilterModal: true});
   }

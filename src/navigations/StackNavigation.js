@@ -101,6 +101,7 @@ import AddRestaurant from '../screens/restuarant/addRestuarant.screen';
 import RestaurantReviews from '../screens/restuarant/reviews.screen';
 
 import PhotosComponentScreen from '../screens/dashboard_stack/PhotosComponent';
+import { CancelBookings } from '../screens/bookings/cancelBooking.screen';
 
 
 const Stack = createStackNavigator();
@@ -150,6 +151,7 @@ export function BookingsStack() {
         <Stack.Navigator initialRouteName="Bookings" options={{ gestureEnabled: true }}>
             <Stack.Screen name="Bookings" component={BookingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="BookingDetail" component={BookingsDetail} options={{ headerShown: false }} />
+            <Stack.Screen name="CancelBookings" component={CancelBookings} options={{ headerShown: false }} />
             
         </Stack.Navigator>
     );

@@ -9,16 +9,11 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import colors from "../../colors";
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import moment from "moment";
-import { successMessage } from "../../utils";
-
+import { successMessage, SCREEN_WIDTH } from "../../utils";
 import { formatAmount } from '../../helpers'
-import { successMessage, SCREEN_WIDTH } from '../../utils';
-
-
 
 import RNFetchBlob from 'rn-fetch-blob';
 
-import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 export default class BookingsDetail extends Component {
     constructor() {
@@ -30,7 +25,7 @@ export default class BookingsDetail extends Component {
     }
 
     componentDidMount() {
-        this.requestPermissionAndroid();
+        // this.requestPermissionAndroid();
     }
 
     requestPermission = () => {
@@ -122,6 +117,7 @@ export default class BookingsDetail extends Component {
             this.requestPermissionAndroid()
         }
     }
+
     createPDF = async () => {
         const { params } = this.props.route
         const checkInDate = params.checkIn
@@ -221,13 +217,16 @@ export default class BookingsDetail extends Component {
                             </View>
                             <View>
                                 <MyText style={[textH5Style, textGrey, textRight, { marginBottom: 4}]}>Amount Paid</MyText>
-                                <MyText style={[textH4Style, textBold, textRight]}><MyText style={[textH6Style]}>NGN </MyText>{this.props.route.params.amount}</MyText>
+                                <MyText style={[textH4Style, textBold, textRight]}>
+                                    <MyText style={[textH6Style]}>NGN </MyText>
+                                    {this.props.route.params.amount}
+                                </MyText>
                             </View>
                         </View>
                         <View style={[flexRow, rowContainer]}>
-                            <TouchableOpacity style={[Styles.pressable]} onPress={this.downloadInvoice}>
-          //onPress={() => this.generatePDF(this.props.route.params.title, this.props.route.params.id, this.props.route.params.payment_Method, this.props.route.params.amount, this.props.route.params.checkIn, this.props.route.params.checkOut)}
-                            // <Pressable style={[Styles.pressable]}>
+                            <TouchableOpacity style={[Styles.pressable]} onPress={() => this.downloadInvoice()}>
+          {/* onPress={() => this.generatePDF(this.props.route.params.title, this.props.route.params.id, this.props.route.params.payment_Method, this.props.route.params.amount, this.props.route.params.checkIn, this.props.route.params.checkOut)} */}
+                            {/* <Pressable style={[Styles.pressable]}> */}
                                 <View style={[Styles.invoiceView]}>
                                     <Icon name={"ios-menu-sharp"} style={[Styles.icon, { fontSize: 20, marginRight: 10}]} />
                                     <MyText style={[textH5Style, textRight, textGreen, textUnderline, textBold ,Styles.invoiceText]}>Tap Here to Download Invoice</MyText>

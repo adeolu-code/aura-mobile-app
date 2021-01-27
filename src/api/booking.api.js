@@ -1,4 +1,4 @@
-import { urls, GetRequest, errorMessage, successMessage } from "../utils";
+import { urls, GetRequest, errorMessage, successMessage, consoleLog, Request } from "../utils";
 
 export async function getPropertyBookingsApi(data, endpoint="property") {
     if (endpoint == "property" || endpoint == "") endpoint = urls.property;
@@ -19,12 +19,27 @@ export async function getPropertyBookingsApi(data, endpoint="property") {
 export async function getExperienceApi(id, page=1,size=1, endpoint="experience") {
     
     let res = await GetRequest(urls.bookingBase + urls.v, urls.booking + endpoint  + "?Page="+page+"&Size="+size+"&userId=" + id , undefined, "GET");
-    console.log(urls.restaurantBase + urls.v, urls.restaurant + urls.order + urls.host + "?Page="+page+"&Size="+size);
+    consoleLog(urls.restaurantBase + urls.v, urls.restaurant + urls.order + urls.host + "?Page="+page+"&Size="+size);
     //
     if (res.isError) {
         errorMessage(res.message);
     }
     else {
+        return res.data;
+    }
+    
+    return;
+}
+
+export async function cancelBookingAPI(data) {
+    
+    let res = await Request(urls.bookingBase + urls.v, urls.booking + "cancellation/", data);
+    //
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        successMessage(res.message);
         return res.data;
     }
     
