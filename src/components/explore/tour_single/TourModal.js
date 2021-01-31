@@ -213,7 +213,7 @@ class TourModal extends Component {
                         <View style={[flexRow, {justifyContent: 'space-between'}]}>
                             <MyText style={[textDarkBlue, textH4Style]}>Amount * {this.state.count}</MyText>
                             <MyText style={[textH3Style, textExtraBold, textSuccess]}>
-                              ₦ {tour ? formatAmount(tour.pricePerGuest) : ''} / Night</MyText>
+                              ₦ {tour ? formatAmount(tour.pricePerGuest) : ''} / Person</MyText>
                         </View>
                         <View style={[flexRow, {justifyContent: 'space-between', marginTop: 30}]}>
                             <MyText style={[textDarkBlue, textH4Style, textBold]}>Total Amount</MyText>

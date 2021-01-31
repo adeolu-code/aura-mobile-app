@@ -26,6 +26,8 @@ import { setContext, Request, urls, GetRequest, refreshToken } from '../../utils
 import { AppContext } from '../../../AppProvider';
 import Geolocation from 'react-native-geolocation-service';
 
+import { formatAmount } from '../../helpers';
+
 
 class Index extends Component {
   static contextType = AppContext;
@@ -117,6 +119,7 @@ class Index extends Component {
   }
 
   componentDidMount = async () => {
+    // console.log(Number(23349).toLocaleString(undefined, { maximumFractionDigits: 3}))
     // const res = await refreshToken()
     // console.log('Token component ', res, this.context.state)
     // console.log('Explore ',this.context.state)

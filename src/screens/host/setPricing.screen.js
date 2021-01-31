@@ -11,7 +11,7 @@ import { GLOBAL_PADDING } from "../../utils";
 
 import { AppContext } from '../../../AppProvider';
 import { urls, Request, GetRequest, errorMessage, SCREEN_HEIGHT } from '../../utils';
-import { formatAmount } from '../../helpers'
+import { formatAmount, formatDecimal } from '../../helpers'
 
 export default class SetPricing extends Component {
     static contextType = AppContext
@@ -63,7 +63,11 @@ export default class SetPricing extends Component {
         const taxAmount = auraCommissionAmount * (commissions.tax / 100);
         const deductionInTotal = auraCommissionAmount + taxAmount;
 
-        this.setState({ price: text, commissionAndVAT: deductionInTotal, estEarning: (Math.floor(+text - deductionInTotal)).toString() })
+        const estEarning = +text - deductionInTotal
+        // console.log(formatAmount('20.3940'))
+
+        // this.setState({ price: text, commissionAndVAT: deductionInTotal, estEarning: (Math.floor(+text - deductionInTotal)).toString() })
+        this.setState({ price: text, commissionAndVAT: deductionInTotal, estEarning: formatDecimal(+text - deductionInTotal).toString() })
         // const vat = +text * (commissions.total/100)
         // const estEarning = +text - vat
         // this.setState({ price: text, commissionAndVAT: vat, estEarning })
