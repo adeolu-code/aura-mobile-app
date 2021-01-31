@@ -98,13 +98,22 @@ export const setUser = async (userData) => {
 }
 export const formatAmount = (amount) => {
     if (Number(amount) === 0 || amount) {
-        return Number(amount).toLocaleString(undefined, {
-            minimumFractionDigits: 0,
+        const num = Number(amount).toLocaleString(undefined, {
+            // minimumFractionDigits: 0,
             maximumFractionDigits: 2,
         });
+        // console.log('amount ', num)
+        return num
     }
     
     return '***';
+}
+
+export const formatDecimal = (amount) => {
+    if(!Number.isInteger(amount)) {
+        return +amount.toFixed(2)
+    }
+    return +amount
 }
 
 export const setToken = async (data) => {
