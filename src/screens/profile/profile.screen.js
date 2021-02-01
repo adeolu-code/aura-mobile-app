@@ -4,14 +4,20 @@ import { Container, Content, View, Separator, Text, Icon, Footer } from "native-
 import { Styles } from "./profile.style";
 import ProfileComponent from "./../../components/profile_item/profileItem.component";
 import { Image, Linking } from "react-native";
-import { MyText } from "../../utils/Index";
+import { MyText, Loading } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { AppContext } from "../../../AppProvider";
 import { clearData } from '../../helpers';
 import colors from "../../colors";
-import { GLOBAL_PADDING, setContext, debug, consoleLog, WHATSAPP_NUMBER, errorMessage, HOST, PHOTOGRAPH, RESTAURANT, EXPERIENCE } from "../../utils";
+import { GLOBAL_PADDING, setContext, debug, consoleLog, WHATSAPP_NUMBER, errorMessage, HOST, PHOTOGRAPH, 
+    RESTAURANT, EXPERIENCE, SCREEN_HEIGHT } from "../../utils";
 import LoginModal from "../../components/auth/LoginModal";
 import SignUpModal from "../../components/auth/SignUpModal";
+
+import OtpModal from '../../components/dashboard/OtpModal';
+import EmailVerificationModal from '../../components/dashboard/EmailVerificationModal';
+import ChangeNumberModal from '../../components/dashboard/ChangeNumberModal';
+
 import { getNotificationSettingsApi } from "../../api/notifications.api";
 import { useNavigation } from "@react-navigation/native";
 
@@ -24,8 +30,13 @@ class ProfileScreenClass extends Component {
         super();
         this.state = {
             showLoginModal: false,
-            showRegisterModal: false, showTermsModal: false, type: ''
+            showRegisterModal: false, showTermsModal: false, type: '',
+            showOtpModal: false, showEmailModal: false, showPhoneModal: false, close: true,
         };
+    }
+    renderLoading = () => {
+        const { loading } = this.state;
+        if (loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 100 }} />); }
     }
 
     componentDidMount() {
@@ -34,7 +45,6 @@ class ProfileScreenClass extends Component {
             // focused
             this.init();
           });
-        
     }
 
     componentWillUnmount() {
@@ -50,7 +60,6 @@ class ProfileScreenClass extends Component {
             //if (debug) console.log("focused")
             getNotificationSettingsApi(this.context);
         }
-        
     }
 
     openLoginModal = () => {
@@ -116,6 +125,83 @@ class ProfileScreenClass extends Component {
     //         currentIndex: 3,
     //     }})
     // }
+    openPhoneModal = () => {
+        this.setState({ loadModals: true, showPhoneModal: true });
+    }
+    closePhoneModal = () => {
+        this.setState({ showPhoneModal: false });
+    }
+    openOtpModal = () => {
+        this.setState({ showOtpModal: true });
+    }
+    closeOtpModal = (value) => {
+        this.setState({ showOtpModal: false });
+        if(value === 'success') {
+            this.hostExperience()
+        }
+    }
+    openEmailModal = () => {
+        this.setState({ showEmailModal: true });
+    }
+    closeEmailModal = (value) => {
+        this.setState({ showEmailModal: false });
+        if(value === 'success') {
+            this.hostExperience()
+        }
+    }
+    generateOtp = async () => {
+        this.setState({ loading: true, errors: [] });
+        try {
+            const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
+            this.setState({ loading: false });
+            if (res.IsError) {
+                const message = res.Message;
+                errorMessage(message)
+            } else {
+                this.openOtpModal()
+            }
+        } catch (error) {
+            this.setState({ loading: false })
+        }
+    }
+    sendMail = async () => {
+        const { userData } = this.context.state;
+        try {
+            this.setState({ loading: true, errors: [] });
+            const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
+            this.setState({ loading: false });
+            if (res.isError) {
+                const message = res.message;
+                errorMessage(message)
+            } else {
+                this.openEmailModal();
+            }
+        } catch (error) {
+            this.setState({ loading: false })
+        }
+    }
+    checkVerification = () => {
+        const { userData } = this.context.state;
+        if (userData.isPhoneVerified) {
+            if (userData.isEmailVerified) {
+                this.hostExperience()
+            } else {
+                this.sendMail();
+            }
+        } else {
+            // Got to OTP modal to verify phone
+            // If the person has phone number
+            if (userData.phoneNumber) {
+                this.generateOtp();
+            } else {
+                if (userData.isEmailVerified) {
+                    this.hostExperience()
+                } else {
+                    this.sendMail();
+                }
+            }
+        }
+    }
 
     render() {
         const {textH2Style, 
@@ -133,6 +219,7 @@ class ProfileScreenClass extends Component {
         const roleExperience = userData && userData.roles.find(item => item === EXPERIENCE)
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
+                {this.renderLoading()}
                 <Container>
                     <Content style={{flexGrow: 1}} scrollEnabled>
                     {
@@ -222,7 +309,7 @@ class ProfileScreenClass extends Component {
                                     <ProfileComponent title={"Host an Experience"} 
                                         description={"Features on Aura"} 
                                         iconImage={require("./../../assets/images/profile/location_marina/location-marina.png")}
-                                        onPress={this.hostExperience}
+                                        onPress={this.checkVerification}
                                     />
                                     {
                                         userIsLoggedIn && !roleRestaurant &&
@@ -341,14 +428,23 @@ class ProfileScreenClass extends Component {
                         openLogin={this.openLoginModal} 
                     />
                     <TermsModal visible={this.state.showTermsModal} onDecline={this.closeTermsModal} {...this.props} type={this.state.type} />
+                    <View>
+                        <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } close={this.state.close} />
+                        <OtpModal visible={this.state.showOtpModal} onDecline={this.closeOtpModal} { ...this.props } close={this.state.close}
+                        openEmail={this.openEmailModal} />
+                        <ChangeNumberModal visible={this.state.showPhoneModal} onDecline={this.closePhoneModal} { ...this.props } />
+                    </View>
                 </Container>
+
             </SafeAreaView>
         );
     }
 }
 
 const ProfileScreen = (props) => {
-    return (<ProfileScreenClass navigation={useNavigation()} {...props} />)
+    return (
+        <ProfileScreenClass navigation={useNavigation()} {...props} />
+    )
 }
 
 export default ProfileScreen;

@@ -48,6 +48,7 @@ class Index extends Component {
   getPlaces = async (more=false) => {
       more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
       const { activePage, perPage, places, selectedLocation, filterUrl } = this.state
+      console.log('active page ', activePage)
       let queryUrl = ''
       if(filterUrl) {
         queryUrl = `${filterUrl}&`
@@ -124,12 +125,12 @@ class Index extends Component {
   }
   
   selectState = (value) => {
-    this.setState(() => ({ selectedLocation: value }), () => {
+    this.setState(() => ({ selectedLocation: value, activePage: 1 }), () => {
       this.getPlaces()
     })
   }
   removeState = () => {
-    this.setState(() => ({ selectedLocation: ''}), () => {
+    this.setState(() => ({ selectedLocation: '', activePage: 1}), () => {
       this.getPlaces()
     } )
   }
@@ -151,7 +152,9 @@ class Index extends Component {
   }
 
   applyFilter = (value) => {
-    this.setFilterValues(value)
+    this.setState(() => ({ activePage: 1}), () => {
+      this.setFilterValues(value)
+    })
   }
   setFilterValues = (value) => {
     const { amenitiesValues, houseTypeValues, noOfBathrooms, noOfRooms, noOfBeds, minPrice, maxPrice, isVerified } = value
@@ -204,8 +207,10 @@ class Index extends Component {
     }
   }
   onRefresh = () => {
-    this.setState({ filterUrl: ''})
-    this.getPlaces();
+    this.setState(() => ({ filterUrl: '', activePage: 1}), ()=>{
+      this.getPlaces();
+    })
+    
   }
 
   render() {

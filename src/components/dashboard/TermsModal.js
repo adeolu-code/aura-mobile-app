@@ -5,7 +5,7 @@ import {
     View,
     Image,
     TouchableOpacity, Alert,
-    Modal, TouchableWithoutFeedback, ScrollView
+    Modal, TouchableWithoutFeedback, ScrollView, Platform
 } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
@@ -35,6 +35,7 @@ export default class TermsModal extends Component {
                 this.props.navigation.navigate('TourStack', { screen: 'TourLocation'})
                 break;
             case HOST:
+                this.context.set({ propertyFormData: null, step: 1 })
                 this.props.navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
                 break;
             default:
@@ -504,7 +505,7 @@ export default class TermsModal extends Component {
                             
                         </View>
                     </ScrollView>
-                    <View style={{ position: 'absolute', zIndex: 1000, bottom: 0, width: '100%', backgroundColor: colors.white}}>
+                    <View style={{ position: 'absolute', zIndex: 1000, bottom: 0, width: '100%', backgroundColor: colors.white, paddingBottom: 15}}>
                         <View style={[flexRow, { justifyContent: 'space-between', marginVertical: 10, paddingHorizontal: 20}]}>
                             <View style={{ width: '48%'}}>
                                 <CustomButton onPress={this.onAccept} buttonText="Accept" buttonStyle={{ elevation: 1}} />
@@ -525,7 +526,7 @@ export default class TermsModal extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 20, paddingTop: 140, marginBottom: 80
+        paddingHorizontal: 20, paddingTop: Platform.OS === 'ios' ? 150 : 140, marginBottom: 80
     },
 
 });

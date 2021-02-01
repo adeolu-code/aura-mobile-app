@@ -44,9 +44,14 @@ class AmenitiesScreen extends Component {
     } else {
         const data = res.data;
         if(data !== null) {
-          
-          const amenitiesValues = data.amenity.map(item => item.id)
-          const safetyAmenitiesValues = data.safetyAmenity.map(item => item.id)
+          let amenitiesValues = [];
+          let safetyAmenitiesValues = [];
+          if(data.amenity) {
+            amenitiesValues = data.amenity.map(item => item.id)
+          }
+          if(data.safetyAmenity) {
+            safetyAmenitiesValues = data.safetyAmenity.map(item => item.id)
+          }
           this.setState({ amenitiesValues, safetyAmenitiesValues })
           set({ propertyFormData: { ...ppty, amenity: amenitiesValues, safetyAmenity: safetyAmenitiesValues } })
         }
@@ -135,7 +140,7 @@ class AmenitiesScreen extends Component {
             if(data.propertyType.name === 'Apartment') {
                 const apartments = [ ...propertyContext.state.apartments ]
                 const apsArr = this.filterSetProperty(apartments, data, propertyFormData)
-                console.log('App ',apsArr)
+                // console.log('App ',apsArr)
                 propertyContext.set({ apartments: apsArr })
             } else {
                 const hotels = [ ...propertyContext.state.hotels ]
@@ -152,9 +157,10 @@ class AmenitiesScreen extends Component {
         // if you are adding property from sign up
         if(!state.isInApp) {
           set({ propertyFormData: null })
-          await getUserProfile()
         } 
+        await getUserProfile()
         this.setState({ saving: false })
+        this.checkStep()
         this.props.navigation.navigate('Saved');
       }
     } catch (error) {
@@ -164,14 +170,26 @@ class AmenitiesScreen extends Component {
   }
   filterSetProperty = (properties, data, propertyData) => {
 
-    const elementsIndex = properties.findIndex(element => element.id == propertyData.id )
-    let newArray = [...properties]
-    // newArray[elementsIndex] = {...newArray[elementsIndex], completed: !newArray[elementsIndex].completed}
-    newArray[elementsIndex] = {...data, mainImage: propertyData.mainImage }
-    console.log('Filter ', newArray)
-    return newArray
+      const elementsIndex = properties.findIndex(element => element.id == propertyData.id )
+      let newArray = [...properties]
+      // newArray[elementsIndex] = {...newArray[elementsIndex], completed: !newArray[elementsIndex].completed}
+      newArray[elementsIndex] = {...data, mainImage: propertyData.mainImage }
+      // console.log('Filter ', newArray)
+      return newArray
+  }
 
-}
+  checkStep = () => {
+    const { propertyFormData } = this.context.state;
+    if(propertyFormData) {
+      if(propertyFormData.pricePerNight && propertyFormData.mainImage) {
+        this.context.set({ step: 3})
+      } else if(propertyFormData.mainImage) {
+        this.context.set({ step: 2 })
+      } else {
+        this.context.set({ step: 1 })
+      }
+    }
+  }
   componentDidMount = () => {
     this.getAmmenities()
     this.getSafetyAmmenities()

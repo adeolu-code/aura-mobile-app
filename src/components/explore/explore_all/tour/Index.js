@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList, RefreshControl } from 'react-native';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
-import { MyText, Loading } from '../../../../utils/Index';
+import { MyText, Loading, Spinner } from '../../../../utils/Index';
 import colors from '../../../../colors';
 
 import { urls, GetRequest, errorMessage } from '../../../../utils';

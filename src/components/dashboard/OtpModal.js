@@ -150,7 +150,7 @@ class OtpModal extends Component {
         if(userData.isEmailVerified) {
             this.setState({ loading: false })
             if(close) {
-                onDecline()
+                onDecline('success')
             } else {
                 navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
             }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, TouchableOpacity } from "react-native";
+import { SafeAreaView, TouchableOpacity, Platform } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
@@ -162,23 +162,28 @@ export default class NotifyHost extends Component {
                                 <MyText style={[textlightGreyTwo, textH4Style, {marginTop: 5, flex: 1}]}>From</MyText>
                                 <MyText style={[textlightGreyTwo, textH4Style, {marginTop: 5, flex: 1}]}>To</MyText>
                             </View>
-                            <View style={[Styles.rowView]}>                            
-                                <DateTimePickerComponent 
-                                    mode={"time"}
-                                    onChange={this.fromValue}
-                                    value={this.extractDateTime(this.state.fromValue)}
-                                    display="clock"
-                                    format="hh:mm a"
-                                    style={{flex: 1, marginRight: 10}}
-                                />
-                                <DateTimePickerComponent 
-                                    mode={"time"}
-                                    onChange={this.toValue}
-                                    value={this.extractDateTime(this.state.toValue)}
-                                    display="clock"
-                                    format="hh:mm a"
-                                    style={{flex: 1}}
-                                />
+                            <View style={[Styles.rowView ]}>  
+                                <View style={{ width: '48%'}}>                          
+                                    <DateTimePickerComponent 
+                                        mode={"time"}
+                                        onChange={this.fromValue}
+                                        value={this.extractDateTime(this.state.fromValue)}
+                                        display={Platform.OS ? "spinner" : "clock"}
+                                        format="hh:mm a"
+                                        style={{flex: 1, marginRight: 10 }}
+                                    />
+                                </View>
+
+                                <View style={{ width: '50%'}}>
+                                    <DateTimePickerComponent 
+                                        mode={"time"}
+                                        onChange={this.toValue}
+                                        value={this.extractDateTime(this.state.toValue)}
+                                        display={Platform.OS ? "spinner" : "clock"}
+                                        format="hh:mm a"
+                                        style={{flex: 1}}
+                                    />
+                                </View>
                             </View>
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, }]}>

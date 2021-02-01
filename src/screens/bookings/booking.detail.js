@@ -9,7 +9,7 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import colors from "../../colors";
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import moment from "moment";
-import { successMessage, SCREEN_WIDTH } from "../../utils";
+import { successMessage, SCREEN_WIDTH, urls, GetRequest, errorMessage } from "../../utils";
 import { formatAmount } from '../../helpers'
 
 import RNFetchBlob from 'rn-fetch-blob';
@@ -25,6 +25,7 @@ export default class BookingsDetail extends Component {
     }
 
     componentDidMount() {
+        // this.getInvoice()
         // this.requestPermissionAndroid();
     }
 
@@ -75,15 +76,18 @@ export default class BookingsDetail extends Component {
         const name = params.guestName.split(' ')[0]
         const resId = params.id
         const dirs = RNFetchBlob.fs.dirs
-        const filePath = `${dirs.DownloadDir}/invoice_booking_${name}_${resId}.pdf`
+        const directory = Platform.OS === 'ios' ? dirs.DocumentDir : dirs.DownloadDir
+        const filePath = `${directory}/${Date.now()}_invoice_booking_${name}_${resId}.pdf`
+        // console.log(dirs.DownloadDir)
         RNFetchBlob.fs
         .mv(pdf, filePath)
         .then((res) => {
             // the temp file path
-            successMessage('Download complete !! file saved in Downloads')
+            successMessage(`Download complete !! file saved in ${Platform.OS === 'ios' ? 'Documents' : 'Downloads'}`)
         })
-        .catch((error) => {
-            console.log(error)
+        .catch((error, statusCode) => {
+            // console.log('Error message ', errorMessage.message)
+            errorMessage(error.message)
         })
     }
     requestPermissionAndroid = async () => {
@@ -168,7 +172,21 @@ export default class BookingsDetail extends Component {
         };
     
         let file = await RNHTMLtoPDF.convert(options)
+        console.log(file.filePath)
         this.downloadPdf(file.filePath)
+    }
+
+    getInvoice = async () => {
+        this.setState({ gettingInvoice: true })
+        const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/invoice/?id=${this.props.route.params.id}`);
+        console.log('Booking details ', res)
+        this.setState({ gettingInvoice: false })
+        if(res.isError) {
+            const message = res.Message;
+        } else {
+            const data = res.data;
+            console.log(data)
+        }
     }
 
     render() {

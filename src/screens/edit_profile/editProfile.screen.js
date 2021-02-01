@@ -50,7 +50,7 @@ export default class EditProfile extends Component {
             "phoneNumber": this.state.phoneNumber || this.context.state.userData.phoneNumber,
             "dateofBirth": this.state.dob || this.context.state.userData.dateofBirth,
             "country": this.state.country || this.context.state.userData.country,
-            "gender": this.state.gender || this.context.state.userData.gender,
+            "gender": this.state.gender ? this.stateGender() : '' || this.context.state.userData.gender,
             "address": this.state.address || this.context.state.userData.address,
             "emergencyContact": this.state.emergencyContact || this.context.state.userData.emergencyContact,
             "otherVerifiedPhoneNumbers": this.state.otherVerifiedPhoneNumbers || this.context.state.userData.otherVerifiedPhoneNumbers,
@@ -68,6 +68,27 @@ export default class EditProfile extends Component {
     renderLoading = () => {
         const { loading } = this.state;
         if (loading) { return (<Loading />); }
+    }
+
+    stateGender = () => {
+        const { gender } = this.state;
+        if(gender === 'male') {
+            return 0
+        } else if(gender === 'female') {
+            return 1
+        } else {
+            return ''
+        }
+    }
+    userDataGender = () => {
+        const { userData } = this.context.state;
+        if(userData.gender === 0) {
+            return 'male'
+        } else if(userData.gender === 1) {
+            return 'female'
+        } else {
+            return ''
+        }
     }
 
     render() {
@@ -129,7 +150,7 @@ export default class EditProfile extends Component {
                                         itemStyle={{flex: 0.5}} 
                                         // onPickerChange={(e) => this.setState({gender: e})}
                                         onPickerChange={this.pickGender}
-                                        selectedOption={this.state.gender || userData.gender}
+                                        selectedOption={this.state.gender || this.userDataGender()}
                                     />
                                 </View>
                             </View>

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView,Platform } from 'react-native';
 import {Icon, Picker} from 'native-base';
 import { CustomButton, MyText, CustomInput, ItemCountPicker } from '../../utils/Index';
 import colors from '../../colors';
@@ -209,8 +209,8 @@ class ListPropertyScreen extends Component {
                 <View style={{marginTop: 45}}>
                     <MyText style={[textGrey, textH4Style]}> Are You Listing As A Part Of A Company? </MyText>
                     <View style={picker}>
-                        <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                          style={{ width: undefined }} selectedValue={this.state.isCompanyListing} onValueChange={this.onCompanyChange}>
+                        <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />} placeholder="Choose category"
+                          style={{ width: Platform.OS === 'ios' ? '100%' : undefined }} selectedValue={this.state.isCompanyListing} onValueChange={this.onCompanyChange}>
                           <Picker.Item label="Choose Category" value=""/>
                           {this.categories.map((item, i) => {
                             return (
@@ -224,8 +224,8 @@ class ListPropertyScreen extends Component {
                 <View style={{marginTop: 45}}>
                     <MyText style={[textGrey, textH4Style]}> Is this set up as a dedicated guest space? </MyText>
                     <View style={picker}>
-                        <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                          style={{ width: undefined }} selectedValue={this.state.dedicatedGuestSpace} onValueChange={this.onGuestOnlyChange}>
+                        <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />} placeholder="Choose category"
+                          style={{ width: Platform.OS === 'ios' ? '100%' : undefined }} selectedValue={this.state.dedicatedGuestSpace} onValueChange={this.onGuestOnlyChange}>
                           <Picker.Item label="Choose Category" value=""/>
                           {this.dedicatedGuests.map((item, i) => {
                             return (

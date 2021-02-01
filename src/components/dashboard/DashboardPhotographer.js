@@ -10,6 +10,10 @@ import SelectImageModal from '../SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
 import { AppContext } from '../../../AppProvider'
 
+import OtpModal from './OtpModal';
+import EmailVerificationModal from './EmailVerificationModal';
+import ChangeNumberModal from './ChangeNumberModal';
+
 
 import MenuItems from './MenuItems';
 import { GetRequest, Request, urls, errorMessage, successMessage } from '../../utils';
@@ -25,7 +29,8 @@ class DashboardPhotographer extends Component {
   static contextType = AppContext
   constructor(props) {
     super(props);
-    this.state = { menuActive: false, loading: false, profile: '', selectModal: false };
+    this.state = { menuActive: false, loading: false, profile: '', selectModal: false, 
+    showOtpModal: false, showEmailModal: false, showPhoneModal: false, close: true, };
   }
 
   openMenu = () => {
@@ -103,6 +108,86 @@ class DashboardPhotographer extends Component {
           <MenuItems {...this.props} onPress={this.closeMenu} />
         </View>
       )
+    }
+  }
+
+  openPhoneModal = () => {
+    this.setState({ loadModals: true, showPhoneModal: true });
+  }
+  closePhoneModal = () => {
+    this.setState({ showPhoneModal: false });
+  }
+  openOtpModal = () => {
+      this.setState({ showOtpModal: true });
+  }
+  closeOtpModal = (value) => {
+    this.setState({ showOtpModal: false });
+    if(value === 'success') {
+      this.publishProfile()
+    }
+  }
+  openEmailModal = () => {
+      this.setState({ showEmailModal: true });
+  }
+  closeEmailModal = (value) => {
+      this.setState({ showEmailModal: false });
+      if(value === 'success') {
+        this.publishProfile()
+      }
+  }
+  generateOtp = async () => {
+      this.setState({ loading: true, errors: [] });
+      try {
+        const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
+        this.setState({ loading: false });
+        if (res.IsError) {
+            const message = res.Message;
+            errorMessage(message)
+        } else {
+            this.openOtpModal()
+        }
+      } catch (error) {
+        this.setState({ loading: false })
+      }
+      
+  }
+  sendMail = async () => {
+      const { userData } = this.context.state;
+      try {
+        this.setState({ loading: true, errors: [] });
+        const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
+        this.setState({ loading: false });
+        if (res.isError) {
+            const message = res.message;
+            errorMessage(message)
+        } else {
+            this.openEmailModal();
+        }
+      } catch (error) {
+        this.setState({ loading: false })
+      }
+  }
+  checkVerification = () => {
+    const { userData } = this.context.state;
+    if (!userData.isPhoneVerified) {
+        if (userData.isEmailVerified) {
+            this.publishProfile()
+        } else {
+            this.sendMail();
+        }
+    } else {
+        // Got to OTP modal to verify phone
+
+        // If the person has phone number
+        if (userData.phoneNumber) {
+            this.generateOtp();
+        } else {
+            if (userData.isEmailVerified) {
+              this.publishProfile()
+            } else {
+                this.sendMail();
+            }
+        }
     }
   }
 
@@ -195,7 +280,7 @@ class DashboardPhotographer extends Component {
     const { profile } = this.state
     if(profile && (profile.status === null || profile.status === "0")) {
       return (
-        <TouchableOpacity style={bankButtonStyle} onPress={this.publishProfile}>
+        <TouchableOpacity style={bankButtonStyle} onPress={this.checkVerification}>
           <MyText style={[textOrange, textH4Style]}>Publish Profile</MyText>
         </TouchableOpacity>
       )
@@ -275,6 +360,11 @@ class DashboardPhotographer extends Component {
             </View>
         </ScrollView>
         <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />
+        
+        <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } close={this.state.close} />
+        <OtpModal visible={this.state.showOtpModal} onDecline={this.closeOtpModal} { ...this.props } close={this.state.close}
+        openEmail={this.openEmailModal} />
+        <ChangeNumberModal visible={this.state.showPhoneModal} onDecline={this.closePhoneModal} { ...this.props } />
       </View>
       </>
     );

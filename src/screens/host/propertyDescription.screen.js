@@ -45,7 +45,8 @@ export default class PropertyDescription extends Component {
             } else {
                 const data = res.data
                 appContext.set({ propertyFormData: { ...propertyData, title: data.title, description: data.description }})
-                appContext.set({ step: appContext.state.step + 1 })
+                // appContext.set({ step: appContext.state.step + 1 })
+                this.checkStep()
 
                 const properties = [ ...propertyContext.state.properties ]
                 const pptyArr = this.filterSetProperty(properties, data, propertyData)
@@ -87,6 +88,18 @@ export default class PropertyDescription extends Component {
         const ppty = state.propertyFormData;
         if(ppty) {
             this.setState({ title: ppty.title, description: ppty.description })
+        }
+    }
+
+    checkStep = () => {
+        const { propertyContext, appContext } = this.props
+        const { propertyFormData } = appContext.state;
+        if(propertyFormData) {
+          if(propertyFormData.pricePerNight) {
+            appContext.set({ step: 4})
+          } else {
+            appContext.set({ step: 3 })
+          }
         }
     }
 

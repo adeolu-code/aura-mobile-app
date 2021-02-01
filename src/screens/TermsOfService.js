@@ -502,8 +502,8 @@ class TermsOfService extends Component {
                     
                 </View>
             </ScrollView>
-            {this.state.type ? <View >
-                <View style={[flexRow, { justifyContent: 'space-between', marginVertical: 10, paddingHorizontal: 20}]}>
+            {this.state.type ? <View>
+                <View style={[flexRow, { justifyContent: 'space-between', marginVertical: 10, paddingHorizontal: 20, paddingBottom: 20 }]}>
                     <View style={{ width: '48%'}}>
                         <CustomButton onPress={this.onAccept} buttonText="Accept" buttonStyle={{ elevation: 1}} />
                     </View>

@@ -11,7 +11,7 @@ import { setContext, Request, urls, GetRequest, PHOTOGRAPH, RESTAURANT, EXPERIEN
 import Header from '../../components/dashboard/DashboardHeader';
 
 import MenuItems from '../../components/dashboard/MenuItems';
-
+import TermsModal from '../../components/dashboard/TermsModal';
 
 
 if (
@@ -25,7 +25,7 @@ class HostScreen extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { showOtpModal: false, showEmailModal: false, errors: [], loading: false, menuActive: false };
+    this.state = { showOtpModal: false, showEmailModal: false, errors: [], loading: false, menuActive: false, showTermsModal: false, type: '' };
   }
   HostProperty = () => {
     this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSlider'});
@@ -83,7 +83,8 @@ class HostScreen extends Component {
     this.context.set({ isInApp: true, edit: false, propertyFormData: null })
     if (userData.isPhoneVerified) {
       if (userData.isEmailVerified) {
-        navigation.navigate('HostPropertyStack', {screen: 'HostSteps'});
+        this.openTermsModal()
+        // navigation.navigate('HostPropertyStack', {screen: 'HostSteps'});
       } else {
         this.sendMail();
       }
@@ -93,12 +94,19 @@ class HostScreen extends Component {
         this.generateOtp();
       } else {
         if (userData.isEmailVerified) {
-          navigation.navigate('HostPropertyStack', {screen: 'HostSteps'});
+          this.openTermsModal()
+          // navigation.navigate('HostPropertyStack', {screen: 'HostSteps'});
         } else {
           this.sendMail();
         }
       }
     }
+  }
+  openTermsModal = () => {
+    this.setState({ showTermsModal: true, type: HOST })
+  }
+  closeTermsModal = () => {
+    this.setState({ showTermsModal: false, type: '' })
   }
   
   openOtpModal = () => {
@@ -128,7 +136,7 @@ class HostScreen extends Component {
   sendMail = async () => {
       const { userData } = this.context.state;
       this.setState({ loading: true, errors: [] });
-      const res = await GetRequest(urls.identityBase, `${urls.v}email/verification/resend/${userData.username}`);
+      const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
       this.setState({ loading: false });
       if (res.isError) {
           const message = res.message;
@@ -179,33 +187,34 @@ class HostScreen extends Component {
           <Header {...this.props} title="Dashboard" onPress={this.openMenu} />
           {this.renderLoading()}
           <View style={contentContainer}>  
-          <ScrollView style={{flex: 1, backgroundColor: colors.white }}>
-              {/* <View style={{flex: 2}}>
-                  <MyText style={[textExtraBold, textH1Style, textDarkBlue]}>Dashboard</MyText>
-              </View> */}
-              
-              <View style={middleStyle}>
-                  <MyText style={[textGrey, textH4Style, textCenter]}>
-                      You have no property listed on Aura yet. Become a host to get started.
-                  </MyText>
-              </View>
-              <View style={buttonContainer}>
-                  {this.renderError()}
-                  <CustomButton buttonText='Become A Host' onPress={this.becomeAHost} 
-                  buttonStyle={{backgroundColor: colors.black}} textStyle={[textH4Style,{color: colors.white}]}/>
-                  <TouchableOpacity onPress={this.HostProperty}>
-                      <MyText style={[textUnderline, textGreen, textH5Style, {marginTop: 20}]}>Learn about Hosting</MyText>
-                  </TouchableOpacity>
+            <ScrollView style={{flex: 1, backgroundColor: colors.white }}>
+                {/* <View style={{flex: 2}}>
+                    <MyText style={[textExtraBold, textH1Style, textDarkBlue]}>Dashboard</MyText>
+                </View> */}
+                
+                <View style={middleStyle}>
+                    <MyText style={[textGrey, textH4Style, textCenter]}>
+                        You have no property listed on Aura yet. Become a host to get started.
+                    </MyText>
+                </View>
+                <View style={buttonContainer}>
+                    {this.renderError()}
+                    <CustomButton buttonText='Become A Host' onPress={this.becomeAHost} 
+                    buttonStyle={{backgroundColor: colors.black}} textStyle={[textH4Style,{color: colors.white}]}/>
+                    <TouchableOpacity onPress={this.HostProperty}>
+                        <MyText style={[textUnderline, textGreen, textH5Style, {marginTop: 20}]}>Learn about Hosting</MyText>
+                    </TouchableOpacity>
 
-                  {/* <CustomButton buttonText='Become A Photographer' onPress={this.becomeAHost} 
-                  buttonStyle={{backgroundColor: colors.black}} textStyle={[textH4Style,{color: colors.white}]}/> */}
-              </View>
-              <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } />
-              <OtpModal visible={this.state.showOtpModal} onDecline={this.closeOtpModal} { ...this.props } 
-              openEmail={this.openEmailModal} />
-              
-          </ScrollView>
+                    {/* <CustomButton buttonText='Become A Photographer' onPress={this.becomeAHost} 
+                    buttonStyle={{backgroundColor: colors.black}} textStyle={[textH4Style,{color: colors.white}]}/> */}
+                </View>
+                <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } />
+                <OtpModal visible={this.state.showOtpModal} onDecline={this.closeOtpModal} { ...this.props } 
+                openEmail={this.openEmailModal} />
+                
+            </ScrollView>
           </View>
+        <TermsModal visible={this.state.showTermsModal} onDecline={this.closeTermsModal} {...this.props} type={this.state.type} />
           
         </SafeAreaView>
       </>

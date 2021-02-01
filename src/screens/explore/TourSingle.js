@@ -157,6 +157,19 @@ class TourSingle extends Component {
         this.setState({ photos: imgData })
     }
   }
+  renderBottomMenu = () => {
+    const { userData } = this.context.state
+    const { tour } = this.state
+    if(tour) {
+      if((userData && userData.id !== tour.userId) || !userData) {
+        const price = tour ? `₦ ${formatAmount(tour.pricePerGuest)} /person` : '₦ 0'
+        return (
+          <BottomMenuComponent onPress={this.openCheckInModal} title='Reserve Space' price={price} />
+          // <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
+        )
+      }
+    }
+  }
   componentDidMount = () => {
     this.getTour();
     this.getPhotos();
@@ -187,7 +200,8 @@ class TourSingle extends Component {
                 </View>
             </ScrollView>
             <View style={buttonContainer}>
-                <BottomMenuComponent onPress={this.openCheckInModal} title='Reserve Space' price={price} />
+                {this.renderBottomMenu()}
+                {/* <BottomMenuComponent onPress={this.openCheckInModal} title='Reserve Space' price={price} /> */}
             </View>
             <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} next={this.openCheckOutModal} 
             bookedDays={this.state.bookedDays} />

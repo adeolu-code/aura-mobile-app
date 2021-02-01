@@ -180,12 +180,12 @@ class ReserveModal extends Component {
                         <View style={[flexRow, { paddingHorizontal: 10, marginTop: 20}]}>
                             <View style={timeContainer}>
                                 <MyText style={[textH6Style, textGrey, { marginBottom: 10}]}>CHECK-IN TIME</MyText>
-                                <MyText style={[textH4Style, textBold]}>{house && house.checkInTimeFrom ? moment(house.checkInTimeFrom, "hh:mm:ss").format('h:mm A') : '***'}</MyText>
+                                <MyText style={[textH4Style, textBold]}>{house && house.checkInTimeFrom ? moment(house.checkInTimeFrom, "hh:mm:ss").format('h:mm A') : '12:00 AM'}</MyText>
                                 {/* <TimePicker receiveTime={this.setTimeIn} title="SELECT CHECK-IN TIME" /> */}
                             </View>
                             <View style={[timeContainer]}>
                                 <MyText style={[textH6Style, textGrey, textRight, { marginBottom: 10}]}>CHECK-OUT TIME</MyText>
-                                <MyText style={[textH4Style, textBold, textRight]}>{house && house.checkInTimeTo ? moment(house.checkInTimeTo, "hh:mm:ss").format('h:mm A') : '**'}</MyText>
+                                <MyText style={[textH4Style, textBold, textRight]}>{house && house.checkInTimeTo ? moment(house.checkInTimeTo, "hh:mm:ss").format('h:mm A') : '11:00 PM'}</MyText>
                                 {/* <TimePicker receiveTime={this.setTimeOut} title="SELECT CHECK-OUT TIME" right /> */}
                             </View>
                         </View>

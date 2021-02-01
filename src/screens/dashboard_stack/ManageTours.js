@@ -11,6 +11,8 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 import { ManagePropertyContext } from '../../../ManagePropertyProvider';
 
+import { AppContext } from '../../../AppProvider'
+
 import { GetRequest, urls, Request, errorMessage, EXPERIENCE } from '../../utils';
 
 
@@ -20,17 +22,21 @@ import ManageTourRow from '../../components/dashboard/ManageTourRow';
 import TourActionModal from '../../components/dashboard/TourActionModal';
 import TermsModal from '../../components/dashboard/TermsModal';
 
+import OtpModal from '../../components/dashboard/OtpModal';
+import EmailVerificationModal from '../../components/dashboard/EmailVerificationModal';
+import ChangeNumberModal from '../../components/dashboard/ChangeNumberModal';
+
 import { shortenXterLength, formatAmount } from '../../helpers'
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height
 
 class ManageTours extends Component {
-  static contextType = ManagePropertyContext;
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = { tabOneSelected: true, showModal: false, loading: false, tours: [], page: 1, size: 5, totalItems: 0, active: true,
       pageCount: 0, loadMore: false, tour: null, modalImg: require('../../assets/images/no_experience.png'), refreshing: false, tour:'', 
-      showTermsModal: false, type: '' };
+      showTermsModal: false, type: '', showOtpModal: false, showEmailModal: false, showPhoneModal: false, close: true, };
     this.state.tour = props.route.params?.tour
   }
 
@@ -39,8 +45,8 @@ class ManageTours extends Component {
   }
   addTour = () => {
     this.context.set({ editTour: false })
-
-    this.setState({ showTermsModal: true, type: EXPERIENCE })
+    this.checkVerification()
+    // this.setState({ showTermsModal: true, type: EXPERIENCE })
     // this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
   }
   renderLoading = () => {
@@ -51,6 +57,9 @@ class ManageTours extends Component {
   componentDidMount = () => {
     this.getTours();
 
+  }
+  openTermsModal = () => {
+    this.setState({ showTermsModal: true, type: EXPERIENCE })
   }
   closeTermsModal = () => {
     this.setState({ showTermsModal: false })
@@ -95,6 +104,86 @@ class ManageTours extends Component {
   }
   closeModal = () => {
     this.setState({ showModal: false });
+  }
+  openPhoneModal = () => {
+    this.setState({ loadModals: true, showPhoneModal: true });
+  }
+  closePhoneModal = () => {
+    this.setState({ showPhoneModal: false });
+  }
+  openOtpModal = () => {
+      this.setState({ showOtpModal: true });
+  }
+  closeOtpModal = (value) => {
+    this.setState({ showOtpModal: false });
+    if(value === 'success') {
+      this.openTermsModal()
+    }
+  }
+  openEmailModal = () => {
+      this.setState({ showEmailModal: true });
+  }
+  closeEmailModal = (value) => {
+      this.setState({ showEmailModal: false });
+      if(value === 'success') {
+        this.openTermsModal()
+      }
+  }
+  generateOtp = async () => {
+      this.setState({ loading: true, errors: [] });
+      try {
+        const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
+        this.setState({ loading: false });
+        if (res.IsError) {
+            const message = res.Message;
+            errorMessage(message)
+        } else {
+            this.openOtpModal()
+        }
+      } catch (error) {
+        this.setState({ loading: false })
+      }
+      
+  }
+  sendMail = async () => {
+      const { userData } = this.context.state;
+      try {
+        this.setState({ loading: true, errors: [] });
+        const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
+        this.setState({ loading: false });
+        if (res.isError) {
+            const message = res.message;
+            errorMessage(message)
+        } else {
+            this.openEmailModal();
+        }
+      } catch (error) {
+        this.setState({ loading: false })
+      }
+  }
+  checkVerification = () => {
+    const { userData } = this.context.state;
+    // this.generateOtp();
+    if (userData.isPhoneVerified) {
+        if (userData.isEmailVerified) {
+            this.openTermsModal()
+        } else {
+            this.sendMail();
+        }
+    } else {
+        // Got to OTP modal to verify phone
+
+        // If the person has phone number
+        if (userData.phoneNumber) {
+            this.generateOtp();
+        } else {
+            if (userData.isEmailVerified) {
+              this.openTermsModal()
+            } else {
+                this.sendMail();
+            }
+        }
+    }
   }
   onEndReached = () => {
       const { page, size, pageCount, loadMore } = this.state
@@ -216,6 +305,12 @@ class ManageTours extends Component {
             <Icon name="add-circle" style={{ fontSize: 26 }} />
         </Fab>
         <TermsModal visible={this.state.showTermsModal} onDecline={this.closeTermsModal} {...this.props} type={this.state.type} />
+        <View>
+            <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } close={this.state.close} />
+            <OtpModal visible={this.state.showOtpModal} onDecline={this.closeOtpModal} { ...this.props } close={this.state.close}
+            openEmail={this.openEmailModal} />
+            <ChangeNumberModal visible={this.state.showPhoneModal} onDecline={this.closePhoneModal} { ...this.props } />
+        </View>
       </SafeAreaView>
     );
   }

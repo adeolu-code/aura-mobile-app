@@ -13,7 +13,7 @@ import GuestHeader from '../../components/dashboard/GuestHeader';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import { formatAmount } from '../../helpers'
-import { successMessage, SCREEN_WIDTH } from '../../utils';
+import { successMessage, SCREEN_WIDTH, GetRequest, urls } from '../../utils';
 
 import Pdf from 'react-native-pdf';
 
@@ -22,7 +22,7 @@ class GuestProfile extends Component {
     super(props);
     this.state = { reservation: '', source: '' };
     const { reservation } = props.route.params;
-    console.log(reservation)
+    console.log('Res ',reservation)
     this.state.reservation = reservation
   }
 
@@ -39,6 +39,19 @@ class GuestProfile extends Component {
           default:
               return textGrey
       }
+  }
+  getInvoice = async () => {
+    const { reservation } = this.state
+    this.setState({ gettingInvoice: true })
+    const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/invoice/?id=${reservation.id}`);
+    console.log('Booking details ', res)
+    this.setState({ gettingInvoice: false })
+    if(res.isError) {
+        const message = res.Message;
+    } else {
+        const data = res.data;
+        console.log(data)
+    }
   }
 //   requestStoragePermission = async () => {
 //     try {
@@ -70,14 +83,16 @@ class GuestProfile extends Component {
     const name = reservation.guest_Name.split(' ')[0]
     const resId = reservation.id
     const dirs = RNFetchBlob.fs.dirs
-    const filePath = `${dirs.DownloadDir}/invoice_${name}_${resId}.pdf`
+    const directory = Platform.OS === 'ios' ? dirs.DocumentDir : dirs.DownloadDir
+    const filePath = `${directory}/${Date.now()}_invoice_${name}_${resId}.pdf`
     RNFetchBlob.fs
     .mv(pdf, filePath)
     .then((res) => {
       // the temp file path
-      successMessage('Download complete !! file saved in Downloads')
+      successMessage(`Download complete !! file saved in ${Platform.OS === 'ios' ? 'Documents' : 'Downloads'}`)
     })
     .catch((error) => {
+        errorMessage(error.message)
         console.log(error)
     })
   }
@@ -200,6 +215,9 @@ class GuestProfile extends Component {
     this.downloadPdf(file.filePath)
     // console.log(file.filePath);
     // alert(file.filePath);
+  }
+  componentDidMount = () => {
+    //   this.getInvoice()
   }
   render() {
     const { contentContainer, titleStyle, rowContainer, detailsContainer, downloadContainer, lowerContainer, buttonContainer } = styles;

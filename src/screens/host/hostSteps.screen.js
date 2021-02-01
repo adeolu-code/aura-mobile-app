@@ -96,7 +96,7 @@ export default class HostSteps extends Component {
 
             // If the person has phone number
             if (userData.phoneNumber) {
-                this.openPhoneModal();
+                this.generateOtp();
             } else {
                 if (userData.isEmailVerified) {
                     this.publishProperty()
@@ -117,12 +117,18 @@ export default class HostSteps extends Component {
     }
     closeOtpModal = () => {
         this.setState({ showOtpModal: false });
+        if(value === 'success') {
+            this.publishProperty()
+        }
     }
-    openEmailModal = () => {
+    openEmailModal = (value) => {
         this.setState({ showEmailModal: true });
     }
     closeEmailModal = () => {
         this.setState({ showEmailModal: false });
+        if(value === 'success') {
+            this.publishProperty()
+        }
     }
     generateOtp = async () => {
         this.setState({ loading: true, errors: [] });
@@ -138,15 +144,19 @@ export default class HostSteps extends Component {
     }
     sendMail = async () => {
         const { userData } = this.context.state;
-        this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.identityBase, `${urls.v}email/verification/resend/${userData.username}`);
-        this.setState({ loading: false });
-        if (res.isError) {
-            const message = res.message;
-            const error = [message];
-            this.setState({ errors: error});
-        } else {
-            this.openEmailModal();
+        try {
+            this.setState({ loading: true, errors: [] });
+            const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
+            this.setState({ loading: false });
+            if (res.isError) {
+                const message = res.message;
+                const error = [message];
+                this.setState({ errors: error});
+            } else {
+                this.openEmailModal();
+            } 
+        } catch (error) {
+            this.setState({ loading: false })
         }
     }
 
