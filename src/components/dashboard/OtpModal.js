@@ -198,7 +198,7 @@ class OtpModal extends Component {
                                 
                                 <View style={topRow}>
                                     <MyText style={[textH4Style, textGrey, textCenter, { lineHeight: 25}]}>
-                                        An OTP code has been sent to <MyText style={[textBold]}>{userData.phoneNumber}</MyText> Kindly enter below the 6 digit code 
+                                        An OTP code has been sent to <MyText style={[textBold]}>{userData ? userData.phoneNumber : ''}</MyText> Kindly enter below the 6 digit code 
                                         or {' '}
                                         <TouchableOpacity onPress={this.openModal}>
                                             <MyText style={[textOrange, textUnderline, textBold, { marginBottom: -4}]}>Change Phone Number</MyText>

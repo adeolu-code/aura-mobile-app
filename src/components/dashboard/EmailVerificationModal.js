@@ -118,7 +118,7 @@ class EmailVerificationModal extends Component {
                             
                             <View style={topRow}>
                                 <MyText style={[textH4Style, textGrey, textCenter, { lineHeight: 25}]}>
-                                    A verification link has been sent to your email <MyText style={[textBold]}>{userData.email} </MyText>
+                                    A verification link has been sent to your email <MyText style={[textBold]}>{userData ? userData.email : ''} </MyText>
                                 </MyText>
                             
                             </View>
