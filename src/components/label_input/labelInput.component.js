@@ -66,9 +66,10 @@ export const LabelInput = (props) => {
                         selectedValue={props.selectedOption ? props.selectedOption : ""}
                         onValueChange={(e) => props.onPickerChange && props.onPickerChange(e)}
                         placeholder={props.placeholder}
-                        enabled={disabled}
-                        focusable={disabled}
-                    >
+                        // enabled={disabled}
+                        // focusable={disabled}
+                        enabled={props.disabled || true}
+                        focusable={props.disabled || true}>
                         {
                             props.pickerOptions != undefined ?
                             props.pickerOptions.map((option, index) => {
