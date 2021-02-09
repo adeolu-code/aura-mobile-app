@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, TextInput, PermissionsAndroid, Platform, Keyboard } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, TextInput, PermissionsAndroid, 
+    Platform, Keyboard, KeyboardAvoidingView } from 'react-native';
 import {Icon, Picker} from 'native-base';
 import { CustomButton, MyText, CustomInput, CountryPickerComponent, Loading } from '../../utils/Index';
 import {Input} from '../../components/auth/Input';
@@ -215,7 +216,7 @@ class LocationScreen extends Component {
         {this.renderLoading()}
         <Header { ...this.props } title={"Where Is Your Place Located"} />
           <ScrollView style={container} keyboardShouldPersistTaps="always">
-            <View style={{ flex: 1}}>
+            <KeyboardAvoidingView style={{ flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <View style={{marginTop: 18}}>
                     <MyText style={[textGrey, textH4Style]}>
                         Guests will only get your exact address once they’ve booked a reservation
@@ -272,7 +273,7 @@ class LocationScreen extends Component {
                 <View style={button}>
                     <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} />
                 </View>
-            </View>
+            </KeyboardAvoidingView>
           </ScrollView>
       </SafeAreaView>
     );

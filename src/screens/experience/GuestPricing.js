@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, Platform, Keyboard } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, Platform, 
+    Keyboard, KeyboardAvoidingView } from 'react-native';
 import {Icon, Picker} from 'native-base';
 import { CustomButton, MyText, Loading, CustomInput } from '../../utils/Index';
 import colors from '../../colors';
@@ -115,7 +116,7 @@ class GuestPricing extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
             <Header { ...this.props } title="Guest Pricing" />
-            <View style={container}>
+            <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
@@ -176,7 +177,7 @@ class GuestPricing extends Component {
                         </View>
                     </View>
                 </ScrollView>
-            </View>
+            </KeyboardAvoidingView>
             
         </SafeAreaView>
     );

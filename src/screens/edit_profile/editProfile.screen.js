@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from "react";
-import { StatusBar, Pressable, TouchableOpacity } from "react-native";
+import { StatusBar, Pressable, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 import colors from "../../colors";
@@ -100,6 +100,7 @@ export default class EditProfile extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Edit Personal Info" />
                     {this.renderLoading()}
+                    
                     <Container style={[Styles.container]}>
                         <Content scrollEnabled={true}>
                             <EditInput 
@@ -180,6 +181,7 @@ export default class EditProfile extends Component {
                             
                         </Footer>
                     </Container>
+                    
                 </SafeAreaView>
             </>
         );

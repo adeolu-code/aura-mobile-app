@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, Platform, Keyboard } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, 
+    Platform, Keyboard, KeyboardAvoidingView } from 'react-native';
 import {Icon, Picker} from 'native-base';
 import { CustomButton, MyText, Loading, CustomInput } from '../../utils/Index';
 import colors from '../../colors';
@@ -33,7 +34,7 @@ class Notes extends Component {
 
     updateExperience = async () => {
         // this.props.navigation.navigate('TourStack', { screen: 'TourGuestRequirement' })
-
+        Keyboard.dismiss()
         const { tourOnboard } = this.context.state
         this.setState({ loading: true, errors: [] });
         const obj = {
@@ -71,7 +72,7 @@ class Notes extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
             <Header { ...this.props } title="Notes" />
-            <View style={container}>
+            <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <View style={{ marginTop: 30}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
@@ -111,7 +112,7 @@ class Notes extends Component {
                         </View>
                     </View>
                 </ScrollView>
-            </View>
+            </KeyboardAvoidingView>
             
         </SafeAreaView>
     );

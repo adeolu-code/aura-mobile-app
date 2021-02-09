@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, TextInput, PermissionsAndroid, Platform, Keyboard } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, TextInput, PermissionsAndroid, 
+    Platform, Keyboard, KeyboardAvoidingView } from 'react-native';
 import {Icon, Picker} from 'native-base';
 import { CustomButton, MyText, CustomInput, CountryPickerComponent, Loading } from '../../utils/Index';
 import colors from '../../colors';
@@ -128,7 +129,7 @@ class Location extends Component {
         {this.renderLoading()}
         <Header { ...this.props } title={"Location"} />
 
-        <View style={container}>
+        <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <View style={{ marginTop: 40, zIndex: 1, backgroundColor: colors.white}}>
                 <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
                 <ProgressBar width={16.7} />
@@ -152,7 +153,7 @@ class Location extends Component {
             <View style={button}>
                 <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={!this.state.address} />
             </View>
-        </View>
+        </KeyboardAvoidingView>
 
       </SafeAreaView>
     );

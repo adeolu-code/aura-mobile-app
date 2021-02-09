@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Keyboard, KeyboardAvoidingView } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import { MyText, CustomButton, CustomInput, Error } from '../../utils/Index';
@@ -133,18 +133,18 @@ class UploadIdentityComponent extends Component {
       <View>
         <View style={modalContainer}>
           
-          <View style={[flexRow, headerStyle]}>
+          <KeyboardAvoidingView style={[flexRow, headerStyle]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
               <MyText style={[textH3Style, textExtraBold, textDarkGrey, textCenter]}>
                   {edit ? `Edit your document` : 'Choose Your Means Of Identification'}
               </MyText>
               {edit ? <TouchableOpacity onPress={() => {this.props.changeEdit()}}>
                 <Icon name="close" />
               </TouchableOpacity> : <></>}
-          </View>
+          </KeyboardAvoidingView>
           
           <ScrollView>
             <View style={{ flex: 1, paddingVertical: 30}}>
-                <Content style={{ flex: 1 }}>
+                <View style={{ flex: 1 }}>
                   <LabelInput label={"Choose ID Type To Add"} picker labelStyle={[textGrey]}
                       pickerOptions={this.props.idTypes.map(type => {
                           return {
@@ -159,7 +159,7 @@ class UploadIdentityComponent extends Component {
                     <LabelInput labelStyle={[textGrey]} label={"Enter Id Number"} value={this.state.identityNumber}
                     onChangeText={(e) => this.setState({identityNumber: e})} />
                   </View>
-                </Content>
+                </View>
                 
                 <View style={{ flex: 1, marginTop: 30, marginBottom: 30}}>
                   <View style={[Styles.imageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent"})]}>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, TouchableOpacity, Image, Keyboard  } from "react-native";
+import { SafeAreaView, Keyboard, KeyboardAvoidingView  } from "react-native";
 import { Styles } from "./host.style";
 import { Container, Content, View, Icon } from "native-base";
 import colors from "../../colors";
@@ -117,10 +117,11 @@ export default class PropertyDescription extends Component {
                     {this.renderLoading()}
                     <Header {...this.props}  title="Create A List Title" />
                     <Content>
-                        <Container style={[Styles.container, {marginTop: 120, flex: 1}]}>
+                        <KeyboardAvoidingView style={[Styles.container, {marginTop: 120, flex: 1}]} 
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}>
                             
-                            <View style={{ flex: 0.7 }}>
-                                <Content>
+                            <View style={{ flex: 1.3, marginBottom: 50}}>
+                                <View>
                                     <LabelInput onChangeText={(text)=>{ this.setState({ title: text })}}
                                         label={"Catch guests' attention with a listing title that highlights what makes your place special"}
                                         labelStyle={[textGrey, {marginBottom: 20}]} 
@@ -128,15 +129,15 @@ export default class PropertyDescription extends Component {
                                         value={this.state.title}
                                         textInputStyles={{ height: 100}}
                                     />
-                                </Content>
+                                </View>
                             </View>
                             
 
-                            <View style={{ flex: 0.8 }}>
+                            <View style={{ flex: 1, marginBottom: 60 }}>
                                 <MyText style={[textBold,textH2Style]}>
                                     Describe Your Properties
                                 </MyText>
-                                <Content>
+                                <View>
                                     <LabelInput onChangeText={(text)=>{ this.setState({ description: text })}}
                                         label={"Let guests know how available you'll be during their stay. For your safety , don't share your phone number or email until you have confirmed reservation."}
                                         labelStyle={[textGrey, {marginBottom: 20}]}
@@ -144,14 +145,14 @@ export default class PropertyDescription extends Component {
                                         value={this.state.description}
                                         textInputStyles={{ height: 100}}
                                     />
-                                </Content>
+                                </View>
                             </View>
 
-                            <View style={{ flex: 0.8, justifyContent: 'center' }}>
+                            <View style={{ flex: 1, justifyContent: 'center' }}>
                                 <CustomButton onPress={this.submit} buttonText="Next" buttonStyle={{ elevation: 2}} disabled={this.validate()}  />
                             </View>
                         
-                        </Container>
+                        </KeyboardAvoidingView>
                     </Content>
                 </SafeAreaView>
             </>

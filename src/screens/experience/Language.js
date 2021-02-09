@@ -69,7 +69,7 @@ class Language extends Component {
         const { textOrange, textH4Style, textBold } = GStyles
         if(languages.length !== 0) {
             return (<Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }} placeholder="Please Select a language"
                 selectedValue={this.state.languageOne}
                 onValueChange={this.onValueChange}>
                 {languages.map(item => {
@@ -92,7 +92,7 @@ class Language extends Component {
         const { textOrange, textH4Style, textBold } = GStyles
         if(languages.length !== 0) {
             return (<Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />}
-                style={{ width: undefined }}
+                style={{ width: Platform.OS === 'ios' ? '100%' : undefined }} placeholder="Please Select a language"
                 selectedValue={this.state.languageTwo}
                 onValueChange={this.onValueChangeTwo}>
                 {languages.map(item => {

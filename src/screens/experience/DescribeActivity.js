@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, Platform, Keyboard } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, Image, ScrollView, Platform, Keyboard, KeyboardAvoidingView } from 'react-native';
 import {Icon, Picker} from 'native-base';
 import { CustomButton, MyText, Loading, CustomInput } from '../../utils/Index';
 import colors from '../../colors';
@@ -213,7 +213,7 @@ class DescribeActivity extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
             <Header { ...this.props } title={this.renderTitle()} onPress={this.goBack} />
-            <View style={container}>
+            <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <View style={{ marginTop: count === 4 || count === 6 ? 75 : 30 }}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 4 / 6</MyText>
                     <ProgressBar width={16.7 * 4} />
@@ -238,7 +238,7 @@ class DescribeActivity extends Component {
 
                     </View>
                 </ScrollView>
-            </View>
+            </KeyboardAvoidingView>
             
         </SafeAreaView>
     );

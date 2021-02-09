@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, TextInput, PermissionsAndroid, Platform, Keyboard } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, TextInput, PermissionsAndroid, 
+    Platform, Keyboard, KeyboardAvoidingView } from 'react-native';
 import {Icon, Picker} from 'native-base';
 import { CustomButton, MyText, CustomInput, CountryPickerComponent, Loading } from '../../utils/Index';
 import {Input} from '../../components/auth/Input';
@@ -74,6 +75,7 @@ class MeetingLocation extends Component {
         return false
     }
     updateExperience = async () => {
+        Keyboard.dismiss()
         // this.props.navigation.navigate('TourNotes')
         const { tourOnboard } = this.context.state
         const { country, city, address, st, zipCode } = this.state
@@ -120,7 +122,7 @@ class MeetingLocation extends Component {
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
         <Header { ...this.props } title={"Where should guests meet you ?"} />
-        <View style={container}>
+        <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <View style={{ marginTop: 70}}>
                 <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                 <ProgressBar width={16.7 * 5} />
@@ -182,7 +184,7 @@ class MeetingLocation extends Component {
                     </View>
                 </View>
             </ScrollView>
-        </View>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     );
   }
