@@ -30,16 +30,16 @@ export const LabelInput = (props) => {
     const disabled = (props.disabled == undefined) ? false : ((props.disabled) ? true : false);
     if (dateTime) {
         return (
-            <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={disabled}>
+            <Item stackedLabel style={[Styles.item, props.itemStyle ]} disabled={disabled}>
                 <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
-                <View style={[Styles.personalContentView]}>
+                <View style={[Styles.personalContentView, disabled ? { backgroundColor: 'rgba(0,0,0,0.1)'} : '']}>
                     <DatePicker
                         defaultDate={props.defaultDate || new Date()}
                         maximumDate={props.maximumDate || new Date()}
                         style={[Styles.input, Styles.datePicker]}
                         
                         onDateChange={(selectedDate) => {
-                            consoleLog("e", selectedDate);
+                            // consoleLog("e", selectedDate);
                             if (selectedDate != undefined) {
                                 props.onChange(selectedDate);
                             }
@@ -144,7 +144,7 @@ export const LabelInput = (props) => {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={disabled}>
                 <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
-                <View style={[Styles.inputView]}>
+                <View style={[Styles.inputView, disabled ? { backgroundColor: 'rgba(0,0,0,0.1)'} : '']}>
                     <View style={[Styles.left, {width: (icon ? "90%": "100%" )}]}>
                         <Input 
                             placeholder={props.placeholder} 

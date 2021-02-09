@@ -398,7 +398,7 @@ export const errorMessage = (message, size) => {
    showMessage({
       message, floating: true,
       duration: 5000,
-      position: {bottom: 10, left: size ? size : 50, right: size ? size : 50},
+      position: {bottom: 10, left: size ? size : 30, right: size ? size : 50},
       style: { width: '100%', backgroundColor: 'white', paddingHorizontal: 0, borderWidth: 1, borderColor: colors.secondary },
       titleStyle: { textAlign: 'center', color: colors.secondary }
     });

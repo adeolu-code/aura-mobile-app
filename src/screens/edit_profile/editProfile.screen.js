@@ -93,7 +93,7 @@ export default class EditProfile extends Component {
 
     render() {
         const {textCenter, textH3Style, textWhite, textBold,textGreen, textGrey, textH4Style} = GStyles;
-        console.log("emergencyContact", this.context.state.userData);
+        // console.log("emergencyContact", this.context.state.userData);
         const { userData } = this.context.state
         return (
             <>
@@ -116,7 +116,7 @@ export default class EditProfile extends Component {
                             />
                             <EditInput 
                                 label={"Email"} 
-                                placeholder={"ode@g.com"} 
+                                placeholder={"ode@g.com"} disabled
                                 onChangeText={(e) => this.setState({email: e})}
                                 value={this.state.email || this.context.state.userData.email}
                             />

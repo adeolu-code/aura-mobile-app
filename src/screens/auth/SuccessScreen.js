@@ -54,7 +54,8 @@ class SuccessScreen extends Component {
       });
     }
     else {
-      this.props.navigation.navigate('List');
+      this.props.navigation.navigate('Tabs', { screen: 'Dashboard'})
+      // this.props.navigation.navigate('List');
     }
     
   }
@@ -71,7 +72,8 @@ class SuccessScreen extends Component {
       .then((res) => {
           this.setState({ loading: false })
           if(res.isEmailVerified) {
-              this.props.navigation.navigate('List');
+              // this.props.navigation.navigate('List');
+              this.props.navigation.navigate('Tabs', { screen: 'Dashboard'})
           } else {
               this.setState({ formErrors: ['Email verification failed']})
           }
@@ -145,7 +147,7 @@ class SuccessScreen extends Component {
             <View style={bottomRow}>
                 {
                   !this.state.finalScreen &&
-                  <TouchableOpacity onPress={this.listScreen}><MyText style={[textGrey, textH5Style]} >Don’t have access to your mail?{' '}
+                  <TouchableOpacity onPress={this.skip}><MyText style={[textGrey, textH5Style]} >Don’t have access to your mail?{' '}
                     <MyText style={[textSuccess, textBold, textUnderline]}>Skip This</MyText></MyText>
                   </TouchableOpacity>
                 }

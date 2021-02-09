@@ -137,7 +137,8 @@ class GuestPricing extends Component {
                                         <MyText style={[textWhite, textH3Style, textBold]}>₦</MyText>
                                     </View>
                                     <View style={{ flex: 1}}>
-                                        <CustomInput placeholder="0" attrName="pricePerGuest" value={this.state.pricePerGuest} onChangeText={this.onValueChange}
+                                        <CustomInput placeholder="0" attrName="pricePerGuest" value={this.state.pricePerGuest} 
+                                        onChangeText={this.onValueChange} keyType="numeric"
                                         textInputStyle={{ borderRadius: 0, borderTopRightRadius: 6, borderBottomRightRadius: 6}} />
                                     </View>
                                 </View>

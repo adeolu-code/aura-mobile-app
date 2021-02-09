@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, SafeAreaView,StyleSheet, TouchableOpacity } from 'react-native';
 import {Icon} from 'native-base';
-import { MyText } from './Index';
+import { MyText } from './MyText';
 import colors from '../colors';
 
 import GStyles from '../assets/styles/GeneralStyles';
