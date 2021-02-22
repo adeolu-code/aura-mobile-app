@@ -69,6 +69,7 @@ export default class RestaurantDashboardComponent extends Component {
         <View style={menuStyles}>
             <MenuItems {...this.props}                 
                 onPress={this.closeMenu} 
+                onPress={() => this.props.navigation.goBack()}
             />
         </View>
       )

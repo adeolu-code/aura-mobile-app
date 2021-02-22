@@ -273,11 +273,6 @@ export default class AddRestaurant extends Component {
 
         keys.map(key => {
             if (key.startsWith("OD_")) {
-                // let openDays = this.state.openDays.filter(x => {
-                //     if (x.id == key.split('_')[1] && this.state[key]) {
-                //         return JSON.stringify(x);
-                //     }
-                // })[0];
                 if (this.state[key]) {
                     let openDays = key.split("_")[1];
                     this.state.restaurant.openDays.push(openDays);
@@ -285,11 +280,6 @@ export default class AddRestaurant extends Component {
                 
             }
             else if (key.startsWith("OP_")) {
-                // let operation = this.state.operations.filter(x => {
-                //     if (x.id == key.split('_')[1] && this.state[key]) {
-                //         return JSON.stringify(x);
-                //     }
-                // })[0]
                 if (this.state[key]) {
                     let operation = key.split("_")[1];
                     this.state.restaurant.operations.push(operation);
@@ -298,11 +288,6 @@ export default class AddRestaurant extends Component {
             }
             
             else if (key.startsWith("OS_")) {
-                // let service = this.state.services.filter(x => {
-                //     if (x.id == key.split('_')[1] && this.state[key]) {
-                //         return JSON.stringify(x);
-                //     }
-                // })[0]
                 if (this.state[key]) {
                     let service = key.split("_")[1];
                     this.state.restaurant.services.push(service);
