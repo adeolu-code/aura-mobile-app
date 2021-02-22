@@ -104,6 +104,7 @@ export async function saveRestaurantApi(data) {
     
     let res = await Request(urls.restaurantBase + urls.v, urls.restaurant , data, false, "POST");
     //
+    
     if (res.isError) {
         errorMessage(res.message);
     }

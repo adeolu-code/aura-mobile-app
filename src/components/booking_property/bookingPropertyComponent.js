@@ -78,8 +78,8 @@ export default class BookingPropertyComponent extends Component {
                             ellipsis
                             &&
                              <Icon 
-                                style={[Styles.iconSection]} 
-                                name={"ios-ellipsis-vertical-sharp"} style={[Styles.icon]} 
+                                name={"ios-ellipsis-vertical-sharp"}
+                                style={[Styles.icon, Styles.iconSection, {padding: 5, flex: 0.15, height: 50}]} 
                                 onPress={() => this.props.onEllipsePress()}
                             />
                         }
