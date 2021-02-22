@@ -1,4 +1,4 @@
-import { urls, GetRequest, errorMessage, successMessage, Request } from "../utils";
+import { urls, GetRequest, errorMessage, successMessage, Request, consoleLog } from "../utils";
 
 export async function getChatListApi(host, data) {
     let url = "";
@@ -72,6 +72,7 @@ export async function messageUserApi(data, host) {
 export async function makeComplaintApi(data) {
 
     let res = await Request(urls.messagingBase + urls.messaging + urls.v, urls.complaints, data);
+    consoleLog("update_res", "result comp", res, data);
     if (res.isError) {
         errorMessage(res.message);
     }
