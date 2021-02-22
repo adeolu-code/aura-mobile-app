@@ -60,22 +60,11 @@ class MenuItems extends Component {
     const { set } = this.context
     set({ edit: false, currentDashboard: 3 })
     const { onPressRestaurant } = this.props;
-    if(onPressRestaurant) {
-      onPressRestaurant && onPressRestaurant()
-      this.props.navigation.navigate('RestaurantStack')
-    } else {
-      this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: RESTAURANT } })
-    }
+    this.props.navigation.navigate('RestaurantStack');
   }
 
   linkToHostRestaurant = () => {
     this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: RESTAURANT } });
-    // this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant', params:{
-    //   host: true
-    // }})
-  }
-  onPressRestaurant = () => {
-    this.props.navigation.navigate('RestaurantStack')
   }
 
   renderPhotograph = () => {
