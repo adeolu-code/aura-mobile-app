@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "411688971660",
+    "firebase_url": "https://aura-7da77.firebaseio.com",
+    "project_id": "aura-7da77",
+    "storage_bucket": "aura-7da77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411688971660:android:a8ff3e18025ee50caf7aa9",
+        "android_client_info": {
+          "package_name": "com.aura.transcorphotels.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411688971660-e3052a6ji02omc56bib7fan7ni05slgn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aura.transcorphotels.app",
+            "certificate_hash": "1a27c7078e4d0571f7f789690afaba2fb01128b2"
+          }
+        },
+        {
+          "client_id": "411688971660-sk7na5gu3pq2uqntmko314v4voant162.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS4cZjVmVgCd8CuE0sZd1BGfFM-BSO4Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411688971660-sk7na5gu3pq2uqntmko314v4voant162.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

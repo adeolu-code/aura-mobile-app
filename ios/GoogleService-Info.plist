@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>411688971660-66838qjcfb1sq8r11uh63hsa3vfe7e5d.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.411688971660-66838qjcfb1sq8r11uh63hsa3vfe7e5d</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>411688971660-e3052a6ji02omc56bib7fan7ni05slgn.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCnx5C5dHPjpufkOTAzd6I4UkXlqrDE65M</string>
+	<key>GCM_SENDER_ID</key>
+	<string>411688971660</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.aura.transcorphotels.app</string>
+	<key>PROJECT_ID</key>
+	<string>aura-7da77</string>
+	<key>STORAGE_BUCKET</key>
+	<string>aura-7da77.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:411688971660:ios:2ed72267b63bc823af7aa9</string>
+	<key>DATABASE_URL</key>
+	<string>https://aura-7da77.firebaseio.com</string>
+</dict>
+</plist>
