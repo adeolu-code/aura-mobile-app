@@ -249,6 +249,7 @@ export async function Request(Base, Url, Data, PreparedData = false, method = "P
             return refreshToken(apiDetails)
          } else {
             let data = res.json()
+            consoleLog("update_res", "data", data);
             resolve(data)
             // return data
          }

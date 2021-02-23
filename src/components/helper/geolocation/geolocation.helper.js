@@ -1,7 +1,8 @@
 import { GetRequest } from './../../../utils';
 import Geolocation from 'react-native-geolocation-service';
-import { PermissionsAndroid } from 'react-native';
+import { Dimensions, PermissionsAndroid } from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
+const { width, height } = Dimensions.get('window');
 
 /***
  * Dev: Emeka Dev :)
@@ -138,10 +139,12 @@ export class GeolocationHelper {
         });
 
         const locationObj = { 
-            longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, 
-          country: countryObj.long_name, 
-          address: formatted_address, 
-          district: localityObj.long_name
+            longitude: geometryloc.lng, 
+            latitude: geometryloc.lat, 
+            state: stateObj.long_name, 
+            country: countryObj.long_name, 
+            address: formatted_address, 
+            district: localityObj.long_name
         }
         return locationObj;
     }

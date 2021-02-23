@@ -15,11 +15,13 @@ export default class RadioButton extends Component {
         const { value } = this.state;
         
         const { flexRow } = GStyles;
-          const { radio, circle, checkedCircle } = styles
+		const { radio, circle, checkedCircle } = styles
+		// console.log("rendering", selectedOption);
 
 		return (
 			<View>
 				{options.map((item, index) => {
+					
 					return (
                         <View key={item.key} style={[flexRow, radio, this.props.style]}>
 							<TouchableOpacity
@@ -32,7 +34,7 @@ export default class RadioButton extends Component {
 									this.props.onPress && this.props.onPress(index);
 								}}
 							>
-								{value === item.key || selectedOption == item.key && <View style={checkedCircle} />}
+								{(value === item.key || selectedOption == item.key) && <View style={checkedCircle} />}
 							</TouchableOpacity>
                             <View style={{flex: 9, marginLeft: 20}}>
                                 <MyText>{item.text}</MyText>

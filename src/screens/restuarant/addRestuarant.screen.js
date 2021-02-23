@@ -17,6 +17,7 @@ import Geolocation from 'react-native-geolocation-service';
 import AutoCompleteComponent from "../../components/explore/AutoCompleteComponent";
 import RadioButton from "../../components/explore/tour_single/RadioButton";
 import Item from "../../components/label_checkbox/labelCheckbox.component";
+import { GeolocationHelper } from "../../components/helper/geolocation/geolocation.helper";
 // import { PERMISSIONS } from "react-native-permissions";
 
 const LabelCheckbox = Item;
@@ -54,6 +55,7 @@ export default class AddRestaurant extends Component {
             hasLocation: false,
             host: (props.route.params != undefined && props.route.params.host != undefined),
             showModal: false,
+            newNumber: 0,
         };
         
     }
@@ -107,7 +109,6 @@ export default class AddRestaurant extends Component {
     getGeolocation = async (cord) => {
         const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
         this.setState({ loading: false })
-        this.getAddressDetails(res.results[0])
     }
 
     getCountry = (country) => {
@@ -176,12 +177,18 @@ export default class AddRestaurant extends Component {
         const { geometry } = value.details
         const data = value.data
         const city = data.terms[data.terms.length - 2].value
-        console.log('Value ', JSON.stringify(data), city)
+        consoleLog("update_res",'Value ', JSON.stringify(data), city, value)
+        consoleLog("update_res",'Value or', value, geometry)
         // console.log(longitude: geometry.location.lng, latitude: geometry.location.lat)
-    
-        this.setState(()=>({ street: data.description, city, hasLocation: true }), ()=>{
-          
-        })
+        
+        GeolocationHelper.getGeolocation(GOOGLE_API_KEY, {longitude: geometry.location.lng, latitude: geometry.location.lat}).then(result => {
+            consoleLog("update_res", "result", result);
+            if (result) {
+                this.setState({state: result.addressDetails?.state, country: result.addressDetails?.country});
+            }
+        });
+        
+        this.setState(()=>({ street: data.description, city, hasLocation: true }), ()=>{  })
     }
 
     renderLoading = () => {
@@ -266,11 +273,6 @@ export default class AddRestaurant extends Component {
 
         keys.map(key => {
             if (key.startsWith("OD_")) {
-                // let openDays = this.state.openDays.filter(x => {
-                //     if (x.id == key.split('_')[1] && this.state[key]) {
-                //         return JSON.stringify(x);
-                //     }
-                // })[0];
                 if (this.state[key]) {
                     let openDays = key.split("_")[1];
                     this.state.restaurant.openDays.push(openDays);
@@ -278,11 +280,6 @@ export default class AddRestaurant extends Component {
                 
             }
             else if (key.startsWith("OP_")) {
-                // let operation = this.state.operations.filter(x => {
-                //     if (x.id == key.split('_')[1] && this.state[key]) {
-                //         return JSON.stringify(x);
-                //     }
-                // })[0]
                 if (this.state[key]) {
                     let operation = key.split("_")[1];
                     this.state.restaurant.operations.push(operation);
@@ -291,11 +288,6 @@ export default class AddRestaurant extends Component {
             }
             
             else if (key.startsWith("OS_")) {
-                // let service = this.state.services.filter(x => {
-                //     if (x.id == key.split('_')[1] && this.state[key]) {
-                //         return JSON.stringify(x);
-                //     }
-                // })[0]
                 if (this.state[key]) {
                     let service = key.split("_")[1];
                     this.state.restaurant.services.push(service);
@@ -332,6 +324,7 @@ export default class AddRestaurant extends Component {
         else {
             // hosting
             await saveRestaurantApi(this.state.restaurant).then(result => {
+                consoleLog("update_res", "result", result);
                 this.getRestaurant();
                 this.setState({loading: false});
                 // add restuarant to context
@@ -362,7 +355,7 @@ export default class AddRestaurant extends Component {
         const host = this.state.host;
         let countrySymbol = null;
         try {
-            countrySymbol = country ? country.cca2.toLowerCase() : null
+            countrySymbol = country ? country?.cca2?.toLowerCase() : null
         }
         catch {}
         
@@ -444,7 +437,8 @@ export default class AddRestaurant extends Component {
                                                     <MyText style={[textBold, textBlack, textH3Style, {padding: 10}]}>Add Location</MyText>
                                                     <MyText style={[textH4Style, colors.greyWhite, { marginBottom: 10}]}>Address</MyText>
                                                         <AutoCompleteComponent 
-                                                            locationDetails={this.getSelectedLocation} type={true} 
+                                                            locationDetails={this.getSelectedLocation} 
+                                                            type={true} 
                                                             autofocus={false} 
                                                             countrySymbol={countrySymbol} 
                                                             key={this.state.toggleAutoComplete} 
@@ -456,7 +450,7 @@ export default class AddRestaurant extends Component {
                                                             defaultCountry={this.state.defaultCountry} 
                                                         />
                                                         <LabelInput 
-                                                            placeholder={"Enter State"} 
+                                                            placeholder={this.state.hasLocation ? this.state.state : "Enter State"} 
                                                             input 
                                                             onChangeText={(val) => {
                                                                 consoleLog("state", val)
@@ -520,7 +514,7 @@ export default class AddRestaurant extends Component {
                                                             {key: "no", text: "No, add another number"},
                                                             
                                                         ]} 
-                                                        selectedOption={"yes"}
+                                                        selectedOption={this.state.newNumber == 0 ? "yes": "no"}
                                                         onPress={(e) => this.onSelectionChanged(e)}
                                                     />
                                                     {
