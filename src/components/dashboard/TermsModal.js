@@ -50,7 +50,7 @@ export default class TermsModal extends Component {
         const { container } = styles
         const { visible, onDecline } = this.props;
         return (
-            <Modal visible={visible} onRequestClose={() => { }} transparent animationType="slide">
+            <Modal visible={visible} onRequestClose={() => { }} transparent animationType="slide" statusBarTranslucent={true} >
                 <View style={{ backgroundColor: colors.white }}>
                     <Header {...this.props} title="Terms of Service" onPress={onDecline} />
                     <ScrollView>

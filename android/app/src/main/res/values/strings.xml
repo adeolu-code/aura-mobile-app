@@ -4,6 +4,7 @@
     <string name="facebook_app_id">355492845870779</string>
     <string name="server_client_id">745362274321-sptpssq375evl7b4s7q46hk8dgc7aao6.apps.googleusercontent.com</string>
     <!-- <string name="google_api_key">AIzaSyAFdkU_jxnwUKJ-Vg6iSz2XRiE_TUTVOZg</string> -->
+    <string moduleConfig="true" name="CodePushDeploymentKey">zm_4PjRrZR_I224zEupKexTL1diQQWwX8D8Fm</string>
 
     <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>

@@ -15,13 +15,14 @@ import { Root } from 'native-base';
 
 import { setNativeExceptionHandler } from "react-native-exception-handler";
 
-
+import codePush from "react-native-code-push";
 
 import FlashMessage from "react-native-flash-message";
 
-// LogBox.ignoreAllLogs()
+LogBox.ignoreAllLogs()
 
 export class App extends Component {
+
   
   render() {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
@@ -45,4 +46,4 @@ export class App extends Component {
   }
 }
 
-export default App;
+export default codePush(App);

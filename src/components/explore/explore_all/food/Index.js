@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList, RefreshControl } from 'react-native';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
-import { MyText, Loading, CustomInput, CustomButton } from '../../../../utils/Index';
+import { MyText, Loading, CustomInput, CustomButton, Spinner } from '../../../../utils/Index';
 import colors from '../../../../colors';
 
 import { Icon } from 'native-base';
