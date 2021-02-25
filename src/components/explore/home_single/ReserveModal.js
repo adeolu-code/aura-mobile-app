@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
 import { Icon } from 'native-base';
 import colors from '../../../colors';
 import GStyles from '../../../assets/styles/GeneralStyles';

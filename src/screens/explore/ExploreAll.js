@@ -18,7 +18,7 @@ import PhotographersComponent from '../../components/explore/explore_all/photogr
 import SearchToggle from '../../components/explore/SearchToggle';
 import SearchRestaurant from '../../components/explore/SearchRestaurant';
 
-
+import { SCREEN_WIDTH } from '../../utils'
 
 class ExploreAll extends Component {
   constructor(props) {
@@ -59,9 +59,24 @@ class ExploreAll extends Component {
   componentDidMount = () => {
       const { selectedTab } = this.state
       this.linkTo(selectedTab)
+      
       setTimeout(() => {
-        this.scrollViewRef.scrollTo({ x: this.tabs[selectedTab] - 20, y: 0, animated: true})
-      }, 50);
+        console.log('This tabs ', this.tabs)
+        this.shiftHeading(selectedTab)
+      }, 500);
+  }
+  shiftHeading = (tab) => {
+    if(tab !== 'one' || tab !== 'five') {
+        const remainingWidth = SCREEN_WIDTH - this.tabs[tab]?.width
+        const space = remainingWidth/2
+        this.scrollViewRef.scrollTo({ x: this.tabs[tab]?.x - space, y: 0, animated: true})
+    }
+    if(tab === 'one' ) {
+        this.scrollViewRef.scrollTo({ x: this.tabs[tab]?.x - 20, y: 0, animated: true})
+    }
+    if(tab === 'five') {
+        this.scrollViewRef.scrollTo({ x: this.tabs[tab]?.x - 20, y: 0, animated: true})
+    }
   }
   goBack = () => {
       this.props.navigation.goBack()
@@ -70,34 +85,44 @@ class ExploreAll extends Component {
     this.linkTo(value)
   }
   linkTo = (tab) => {
-    this.scrollViewRef.scrollTo({ x: this.tabs[tab] - 20, y: 0, animated: true})
     switch (tab) {
         case 'one':
-            this.setState({ tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, showSearch: true })
+            this.setState(() => ({ tabOne: true, tabTwo: false, tabThree: false, tabFour: false, tabFive: false, showSearch: true }), () => {
+                this.shiftHeading(tab)
+            })
             break;
         case 'two':
-            this.setState({ tabOne: false, tabTwo: true, tabThree: false, tabFour: false, tabFive: false, showSearch: true })
+            this.setState(() => ({ tabOne: false, tabTwo: true, tabThree: false, tabFour: false, tabFive: false, showSearch: true }),
+            () => {
+                this.shiftHeading(tab)
+            })
             break;
         case 'three':
-            this.setState({ tabOne: false, tabTwo: false, tabThree: true, tabFour: false, tabFive: false, showSearch: true })
+            this.setState(() => ({ tabOne: false, tabTwo: false, tabThree: true, tabFour: false, tabFive: false, showSearch: true }), () => {
+                this.shiftHeading(tab)
+            })
             break;
         case 'four':
-            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: true, tabFive: false, showSearch: false })
+            this.setState(() => ({ tabOne: false, tabTwo: false, tabThree: false, tabFour: true, tabFive: false, showSearch: false }), () => {
+                this.shiftHeading(tab)
+            })
             break;
         case 'five':
-            this.setState({ tabOne: false, tabTwo: false, tabThree: false, tabFour: false, tabFive: true, showSearch: false })
+            this.setState(() => ({ tabOne: false, tabTwo: false, tabThree: false, tabFour: false, tabFive: true, showSearch: false }), () => {
+                this.shiftHeading(tab)
+            })
             break;
         default:
             break;
     }
+    console.log('Got to here after switch')
   }
   onLayout = (tab, event) => {
-    // if (this.state.dimensions) return // layout was already called
     const layout = event.nativeEvent.layout;
     // console.log('Event ', event, tab,layout)
-    this.tabs[tab] = layout.x
-    // let {width, height} = event.nativeEvent.layout
-    // this.setState({dimensions: {width, height}})
+    // this.tabs[tab] = layout.x
+    this.tabs[tab] = {width:layout.width, x:layout.x}
+    // console.log(tab, this.tabs, layout)
   }
   renderTabs = () => {
     const { tabOne, tabTwo, tabThree, tabFour, tabFive } = this.state;
