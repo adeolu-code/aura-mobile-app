@@ -24,22 +24,32 @@ class BottomMenuComponent extends Component {
 
 
   render() {
-    const {   container, buttonStyle, buttonContainer } = styles;
-    const { flexRow, textExtraBold, textBold, textGrey, textH4Style, textSuccess, textH6Style } = GStyles;
+    const { container, buttonStyle, buttonContainer, divider } = styles;
+    const { flexRow, textExtraBold, textBold, textGrey, textH4Style, textSuccess, textH6Style, textH5Style } = GStyles;
     const { onPress, house } = this.props
     return (
-        <View style={[flexRow, container]}>
-            <View style={{flex: 1}}>
-                <MyText style={[textGrey, textH6Style]}>Price:</MyText>
-                <MyText style={[textSuccess, textH4Style, textBold]}>₦ {house ? formatAmount(house.pricePerNight) : '***'} / night</MyText>
-            </View>
-            <View style={{flex: 1}}>
-                <View style={buttonContainer}>
-                    <CustomButton buttonText="Check Availability" 
-                    buttonStyle={buttonStyle} onPress={onPress} />
+        <View style={[container]}>
+            <View style={[flexRow, ]}>
+                <View style={{flex: 1}}>
+                    <MyText style={[textGrey, textH6Style]}>Price:</MyText>
+                    <MyText style={[textSuccess, textH4Style, textBold]}>₦ {house ? formatAmount(house.pricePerNight) : '***'} / night</MyText>
+                </View>
+                <View style={{flex: 1}}>
+                    <View style={buttonContainer}>
+                        <CustomButton buttonText="Check Availability" 
+                        buttonStyle={buttonStyle} onPress={onPress} />
+                    </View>
                 </View>
             </View>
-            
+            <View style={divider} />
+            <View style={[flexRow]}>
+                <View style={{ flex: 1}}>
+                    <MyText style={[textGrey, textH6Style]}>Minimum usable day(s): <MyText style={[textBold]}>{house.minimumDaysUsable}</MyText></MyText>
+                </View>
+                <View style={{ flex: 1, alignItems: 'flex-end'}}>
+                    <MyText style={[textGrey, textH6Style]}>Maximum usable day(s): <MyText style={[textBold]}>{house.maximumDaysUsable}</MyText></MyText>
+                </View>
+            </View>
         </View>
     );
   }
@@ -61,7 +71,7 @@ const styles = StyleSheet.create({
         // marginVertical: 40
     },
     divider: {
-        width: '100%', height: 1, backgroundColor: colors.lightGrey,
+        width: '100%', height: 1, backgroundColor: colors.lightGrey, marginVertical: 10
     },
 });
 
