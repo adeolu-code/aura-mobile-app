@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, BackHandler, ScrollView } from 'react-native';
 import { Icon } from 'native-base';
 import colors from '../../../colors';
 import GStyles from '../../../assets/styles/GeneralStyles';
@@ -9,7 +9,7 @@ import TimePicker from './TimePicker'
 
 import moment from 'moment'
 import { formatAmount } from '../../../helpers'
-import { errorMessage } from '../../../utils';
+import { errorMessage, SCREEN_HEIGHT } from '../../../utils';
 
 
 
@@ -137,6 +137,31 @@ class ReserveModal extends Component {
         return diff
     }
 
+    backAction = () => {
+        // this.onDecline()
+        // Alert.alert("Hold on!", "Are you sure you want to go back?", [
+        //   {
+        //     text: "Cancel",
+        //     onPress: () => null,
+        //     style: "cancel"
+        //   },
+        //   { text: "YES", onPress: () => BackHandler.exitApp() }
+        // ]);
+        return true;
+    }
+
+    componentDidMount() {
+        // this.backHandler = BackHandler.addEventListener(
+        //   "hardwareBackPress",
+        //   this.backAction
+        // );
+    }
+
+    componentWillUnmount() {
+        // this.backHandler.remove();
+    }
+    
+
   render() {
     const { visible, onDecline } = this.props;
     const { modalContainer, contentContainer, modalHeader, lineStyle, closeStyle, buttomStyle, container, itemCountContainer,
@@ -146,7 +171,7 @@ class ReserveModal extends Component {
     const { formData, house } = this.props
     
     return (
-        <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
+        <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}} statusBarTranslucent>
             <View style={container}>
                 <View style={modalContainer}>
                     <View style={mainHeader}>
@@ -164,78 +189,81 @@ class ReserveModal extends Component {
                             </MyText>
                         </View>
                     </View>
-                    <View>
-                        <View style={[flexRow, contentContainer]}>
-                            <View style={checkInStyle}>
-                                <MyText style={[textH6Style, textGrey, { marginBottom: 10}]}>CHECK-IN</MyText>
-                                <MyText style={[textH4Style]}>{formData ? moment(new Date(formData.check_In_Date)).format('DD, MMM YYYY') : ''}</MyText>
-                                {/* <MyText style={[textH4Style]}>19, May 2020</MyText> */}
+                    <View style={{ maxHeight: SCREEN_HEIGHT-200}}>
+                        <ScrollView>
+                            <View style={[flexRow, contentContainer]}>
+                                <View style={checkInStyle}>
+                                    <MyText style={[textH6Style, textGrey, { marginBottom: 10}]}>CHECK-IN</MyText>
+                                    <MyText style={[textH4Style]}>{formData ? moment(new Date(formData.check_In_Date)).format('DD, MMM YYYY') : ''}</MyText>
+                                    {/* <MyText style={[textH4Style]}>19, May 2020</MyText> */}
+                                </View>
+                                <View style={checkOutStyle}>
+                                    <MyText style={[textH6Style, textGrey, { marginBottom: 10}]}>CHECK-OUT</MyText>
+                                    {/* <MyText style={[textH4Style]}>31, May 2020</MyText> */}
+                                    <MyText style={[textH4Style]}>{formData ? moment(new Date(formData.check_Out_Date)).format('DD, MMM YYYY') : ''}</MyText>
+                                </View>
                             </View>
-                            <View style={checkOutStyle}>
-                                <MyText style={[textH6Style, textGrey, { marginBottom: 10}]}>CHECK-OUT</MyText>
-                                {/* <MyText style={[textH4Style]}>31, May 2020</MyText> */}
-                                <MyText style={[textH4Style]}>{formData ? moment(new Date(formData.check_Out_Date)).format('DD, MMM YYYY') : ''}</MyText>
+                            <View style={[flexRow, { paddingHorizontal: 10, marginTop: 20}]}>
+                                <View style={timeContainer}>
+                                    <MyText style={[textH6Style, textGrey, { marginBottom: 10}]}>CHECK-IN TIME</MyText>
+                                    <MyText style={[textH4Style, textBold]}>{house && house.checkInTimeFrom ? moment(house.checkInTimeFrom, "hh:mm:ss").format('h:mm A') : '12:00 AM'}</MyText>
+                                    {/* <TimePicker receiveTime={this.setTimeIn} title="SELECT CHECK-IN TIME" /> */}
+                                </View>
+                                <View style={[timeContainer]}>
+                                    <MyText style={[textH6Style, textGrey, textRight, { marginBottom: 10}]}>CHECK-OUT TIME</MyText>
+                                    <MyText style={[textH4Style, textBold, textRight]}>{house && house.checkInTimeTo ? moment(house.checkInTimeTo, "hh:mm:ss").format('h:mm A') : '11:00 PM'}</MyText>
+                                    {/* <TimePicker receiveTime={this.setTimeOut} title="SELECT CHECK-OUT TIME" right /> */}
+                                </View>
                             </View>
-                        </View>
-                        <View style={[flexRow, { paddingHorizontal: 10, marginTop: 20}]}>
-                            <View style={timeContainer}>
-                                <MyText style={[textH6Style, textGrey, { marginBottom: 10}]}>CHECK-IN TIME</MyText>
-                                <MyText style={[textH4Style, textBold]}>{house && house.checkInTimeFrom ? moment(house.checkInTimeFrom, "hh:mm:ss").format('h:mm A') : '12:00 AM'}</MyText>
-                                {/* <TimePicker receiveTime={this.setTimeIn} title="SELECT CHECK-IN TIME" /> */}
+                            <View style={divider}></View>
+                            <View style={[flexRow, { paddingHorizontal: 10, marginTop: 20}]}>
+                                
+                                <View style={timeContainer}>
+                                    <MyText style={[textH6Style, textGrey, upperCase, { marginBottom: 10}]}>Minimum Usable Day(s)</MyText>
+                                    <MyText style={[textH4Style, textBold]}>{house ? formatAmount(house.minimumDaysUsable) : ''}</MyText>
+                                </View>
+                                <View style={[timeContainer]}>
+                                    <MyText style={[textH6Style, textGrey, textRight, upperCase, { marginBottom: 10}]}>Maximum Usable Day(s)</MyText>
+                                    <MyText style={[textH4Style, textBold, textRight]}>{house ? formatAmount(house.maximumDaysUsable) : ''}</MyText>
+                                </View>
                             </View>
-                            <View style={[timeContainer]}>
-                                <MyText style={[textH6Style, textGrey, textRight, { marginBottom: 10}]}>CHECK-OUT TIME</MyText>
-                                <MyText style={[textH4Style, textBold, textRight]}>{house && house.checkInTimeTo ? moment(house.checkInTimeTo, "hh:mm:ss").format('h:mm A') : '11:00 PM'}</MyText>
-                                {/* <TimePicker receiveTime={this.setTimeOut} title="SELECT CHECK-OUT TIME" right /> */}
-                            </View>
-                        </View>
-                        <View style={divider}></View>
-                        <View style={[flexRow, { paddingHorizontal: 10, marginTop: 20}]}>
+
                             
-                            <View style={timeContainer}>
-                                <MyText style={[textH6Style, textGrey, upperCase, { marginBottom: 10}]}>Minimum Usable Day(s)</MyText>
-                                <MyText style={[textH4Style, textBold]}>{house ? formatAmount(house.minimumDaysUsable) : ''}</MyText>
+                            <View style={[{paddingHorizontal: 20}]}>
+                                <View style={divider}></View>
+                                <View style={[flexRow, {justifyContent: 'space-between', marginTop: 20}]}>
+                                    <MyText style={[textH4Style]}>Amount * {this.checkTotal()}</MyText>
+                                    <MyText style={[textH3Style, textExtraBold, textSuccess]}>
+                                    ₦ {house ? formatAmount(house.pricePerNight) : ''} / Night</MyText>
+                                </View>
+                                <View style={divider}></View>
+                                <View style={[flexRow, {justifyContent: 'space-between', marginTop: 20}]}>
+                                    <MyText style={[textH4Style, textBold]}>Total Amount</MyText>
+                                    <MyText style={[textH3Style, textExtraBold, textSuccess]}>₦ {house ? formatAmount(house.pricePerNight * this.checkTotal() * this.state.formData.no_Of_Rooms) : ''}</MyText>
+                                </View>
+                                <View style={divider}></View>
                             </View>
-                            <View style={[timeContainer]}>
-                                <MyText style={[textH6Style, textGrey, textRight, upperCase, { marginBottom: 10}]}>Maximum Usable Day(s)</MyText>
-                                <MyText style={[textH4Style, textBold, textRight]}>{house ? formatAmount(house.maximumDaysUsable) : ''}</MyText>
-                            </View>
-                        </View>
+                            
+                            
 
-                        
-                        <View style={[{paddingHorizontal: 20}]}>
-                            <View style={divider}></View>
-                            <View style={[flexRow, {justifyContent: 'space-between', marginTop: 20}]}>
-                                <MyText style={[textH4Style]}>Amount * {this.checkTotal()}</MyText>
-                                <MyText style={[textH3Style, textExtraBold, textSuccess]}>
-                                ₦ {house ? formatAmount(house.pricePerNight) : ''} / Night</MyText>
+                            <View style={itemCountContainer}>
+                                <View>
+                                    <ItemCountPicker title="Guest" value={this.state.formData.no_Of_Guest} countValue={this.setCountValue} />
+                                </View>
+                                {house && house.propertyType.name === 'Hotel' ? <View>
+                                    <ItemCountPicker title="No of rooms" value={this.state.formData.no_Of_Rooms} countValue={this.setRoomsValue} />
+                                </View> : <></>}
                             </View>
-                            <View style={divider}></View>
-                            <View style={[flexRow, {justifyContent: 'space-between', marginTop: 20}]}>
-                                <MyText style={[textH4Style, textBold]}>Total Amount</MyText>
-                                <MyText style={[textH3Style, textExtraBold, textSuccess]}>₦ {house ? formatAmount(house.pricePerNight * this.checkTotal() * this.state.formData.no_Of_Rooms) : ''}</MyText>
+                            <View style={{ paddingHorizontal: 20 }}>
+                                {this.renderError()}
                             </View>
-                            <View style={divider}></View>
-                        </View>
-                        
-                        
-
-                        <View style={itemCountContainer}>
-                            <View>
-                                <ItemCountPicker title="Guest" value={this.state.formData.no_Of_Guest} countValue={this.setCountValue} />
+                            <View style={buttonContainerStyle}>
+                                <CustomButton buttonText="Reserve Space" disabled={this.validate()} buttonStyle={buttonStyle} onPress={this.submit} />
                             </View>
-                            {house && house.propertyType.name === 'Hotel' ? <View>
-                                <ItemCountPicker title="No of rooms" value={this.state.formData.no_Of_Rooms} countValue={this.setRoomsValue} />
-                            </View> : <></>}
-                        </View>
-                        <View style={{ paddingHorizontal: 20 }}>
-                            {this.renderError()}
-                        </View>
-                        <View style={buttonContainerStyle}>
-                            <CustomButton buttonText="Reserve Space" disabled={this.validate()} buttonStyle={buttonStyle} onPress={this.submit} />
-                        </View>
+                        </ScrollView>
                     </View>
                 </View>
+                
                 
             </View>
         </Modal>
@@ -248,19 +276,21 @@ const styles = StyleSheet.create({
         // flex: 1,
         // backgroundColor: colors.white, 
         backgroundColor: 'rgba(255, 255, 255, 0.9)', 
-        width: '100%', height: '100%',
-        justifyContent: 'flex-end'
+        width: '100%', 
+        height: '100%',
+        justifyContent: 'flex-end', 
+        // backgroundColor: colors.lightGrey
     },
     
     modalContainer: {
         backgroundColor: colors.white, borderTopLeftRadius: 15, borderTopRightRadius: 15,  elevation: 4,
         ...GStyles.shadow, 
         // overflow: 'hidden',
-        // flex: 1
-        // paddingHorizontal: 20
+        // flex: 1,
     },
     mainHeader: {
         backgroundColor: colors.white,borderTopLeftRadius: 15, borderTopRightRadius: 15,
+        // flex: 1
     },
     modalHeader: {
         marginTop: 20, alignItems: 'center', paddingHorizontal: 20,
@@ -279,7 +309,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20, paddingTop: 10, paddingBottom: 40, backgroundColor: colors.white, elevation: 6
     },
     buttonStyle: {
-        elevation: 2, borderRadius: 0
+        elevation: 2, borderRadius: 5
     },
     contentContainer: {
         borderBottomColor: colors.lightGrey, borderBottomWidth: 1, borderTopColor: colors.lightGrey,
