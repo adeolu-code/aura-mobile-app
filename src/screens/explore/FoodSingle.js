@@ -117,7 +117,7 @@ class FoodSingle extends Component {
     const { id } = this.state
     this.setState({ gettingReviews: true })
     const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/review/${id}`);
-    console.log('Restaurant Reviews ', res)
+    // console.log('Restaurant Reviews ', res)
     this.setState({ gettingReviews: false })
     if(res.isError) {
         const message = res.Message;
@@ -135,7 +135,7 @@ class FoodSingle extends Component {
     const { id } = this.state
     this.setState({ gettingRestaurant: true })
     const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/${id}`);
-    console.log('Restaurants Details ', res)
+    // console.log('Restaurants Details ', res)
     this.setState({ gettingRestaurant: false })
     if(res.isError) {
         const message = res.Message;
@@ -152,7 +152,7 @@ class FoodSingle extends Component {
     const { id } = this.state
     this.setState({ gettingMenus: true })
     const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/photo/menu/${id}`);
-    console.log('Restaurants menus ', res)
+    // console.log('Restaurants menus ', res)
     this.setState({ gettingMenus: false })
     if(res.isError) {
         const message = res.Message;
@@ -237,8 +237,7 @@ class FoodSingle extends Component {
         <BackHeader {...this.props} />
         <ScrollView>
             <View style={{marginBottom: 80}}>
-                <ImageAndDetails title="Ocean Basket" 
-                photos={this.state.menus} restaurant={restaurant} />
+                <ImageAndDetails title="Ocean Basket" photos={this.state.menus} restaurant={restaurant} />
                 <MenuSectionComponent restaurant={restaurant} menus={this.state.menus} categories={this.state.categories} onAdd={this.onAdd} />
                 {restaurant ? <AmenitiesComponent operations={restaurant.operations} title="Operations" /> : <></>}
                 {restaurant ? <ServicesComponent services={restaurant.services} title="Services" /> : <></>}

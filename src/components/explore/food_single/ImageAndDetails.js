@@ -20,6 +20,7 @@ class ImageAndDetails extends Component {
     this.state = { currentIndex: 1, loadingPhotos: false };
   }
     indexChange = (index) => {
+        console.log('Index ', index)
         this.setState({ currentIndex: index + 1})
     }
     renderPhotoLoading = () => {
@@ -115,9 +116,8 @@ class ImageAndDetails extends Component {
             <View style={contentContainer}>
                 
                 <View style={imgContainer}>
-                
-                    {!loading ?<Swiper style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
-                    showsPagination={false} onIndexChanged={this.indexChange} >
+                    {!loading && photos.length !== 0 ?<Swiper style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
+                    showsPagination={false} onIndexChanged={(index) => {this.indexChange(index)}} pagingEnabled={true} >
                         {this.renderImages()}
                     </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}
 

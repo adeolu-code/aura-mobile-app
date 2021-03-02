@@ -133,7 +133,7 @@ class ImageAndDetails extends Component {
                 <View style={imgContainer}>
                 
                     {!loading ?<Swiper style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
-                    showsPagination={false} onIndexChanged={this.indexChange} >
+                    showsPagination={false} onIndexChanged={this.indexChange} pagingEnabled >
                         {this.renderImages()}
                     </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}
 
