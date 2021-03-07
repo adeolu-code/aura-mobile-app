@@ -144,9 +144,11 @@ class LoginModal extends Component {
           this.socialApiCall('google', token.accessToken)
           
       } catch (error) {
-          console.log('Error ', error, error.code)
-          this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
+          console.log('Error ', error, error.code, error.message)
+          this.setState({ loading: false, formErrors: [error.message] })
+          // this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            // this.setState({ formErrors: [error.message]})
               // user cancelled the login flow
           } else if (error.code === statusCodes.IN_PROGRESS) {
               // operation (f.e. sign in) is in progress already
@@ -173,7 +175,8 @@ class LoginModal extends Component {
       }.bind(this),
       function(error) {
         console.log('Facebook Error ', "" + error)
-        this.setState({ loading: false, formErrors: ["" + error] })
+        // this.setState({ loading: false, formErrors: ["Login fail with error:" + error] })
+        this.setState({ loading: false, formErrors: ["Your account has not been configured for facebook login, please contact support"] })
       }.bind(this)
     );
   }

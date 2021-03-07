@@ -80,7 +80,8 @@ class SignUpModal extends Component {
           
       } catch (error) {
           console.log('Error ', error)
-          this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
+          // this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
+          this.setState({ loading: false, formErrors: [error.message] })
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
               // user cancelled the login flow
           } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -107,7 +108,8 @@ class SignUpModal extends Component {
       }.bind(this),
       function(error) {
         console.log('Error ', error)
-        this.setState({ loading: false, formErrors: ["" + error] })
+        this.setState({ loading: false, formErrors: ["Your account has not been configured for facebook login, please contact support"] })
+        // this.setState({ loading: false, formErrors: ["Login fail with error:" + error] })
       }.bind(this)
     );
   }
