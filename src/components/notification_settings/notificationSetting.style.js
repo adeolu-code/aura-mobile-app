@@ -5,7 +5,9 @@ export const Styles = StyleSheet.create({
     parentView: {
         flexDirection: "row",
         width: "100%",
-        padding: 10,
+        // padding: 10,
+        paddingHorizontal: 5,
+        paddingVertical: 20,
         borderBottomColor: colors.lightGrey,
         borderBottomWidth: 1,
     },

@@ -16,7 +16,8 @@ class PasswordError extends Component {
         { title: 'capitalLetter', description: 'Password should contain at least a capital letter', resolved: false},
         { title: 'smallLetter', description: 'Password should contain at least a small letter', resolved: false},
         { title: 'numberDigit', description: 'Password should contain at least a digit', resolved: false},
-        { title: 'specialCharacter', description: 'Password should contain at least a special character', resolved: false}
+        { title: 'specialCharacter', description: 'Password should contain at least a special character', resolved: false},
+        { title: 'minimumCharacter', description: 'Password length should be minimum of six characters', resolved: false}
     ]};
   }
 
@@ -38,6 +39,9 @@ class PasswordError extends Component {
         const numberDigit = this.checkNumber(letters)
         numberDigit ? this.setResolvedTrue('numberDigit') : this.setResolvedFalse('numberDigit')
 
+        const minimumCharacter = this.checkPasswordLength(letters);
+        minimumCharacter ? this.setResolvedTrue('minimumCharacter') : this.setResolvedFalse('minimumCharacter')
+        
         this.checkResolved();
 
         // console.log('Lowercase ',lowerCase, 'UpperCase ', upperCase, 'special xter ', specialXter, 'Number Digit ', numberDigit)
@@ -79,6 +83,12 @@ class PasswordError extends Component {
   checkNumber = (value) => {
     const format = /\d+/;
     return format.test(value)
+  }
+  checkPasswordLength = (value) => {
+    if(value.length > 6) {
+      return true
+    }
+    return false
   }
   setResolvedTrue = (type) => {
     const { errors } = this.state;

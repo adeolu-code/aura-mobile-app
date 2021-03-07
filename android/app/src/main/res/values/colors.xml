@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <color name="dark">#000000</color>
+    <color name="orange">#FD8323</color>
+    <color name="primary_dark">#000000</color>
+</resources>

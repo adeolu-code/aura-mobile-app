@@ -5,7 +5,7 @@ import { GLOBAL_PADDING } from "../../utils";
 export const Styles = StyleSheet.create({
     separator: {
         backgroundColor: colors.lightGrey,
-        maxHeight: 40,
+        maxHeight: 45,
     },
     separatorText: {
         color: colors.grey,
@@ -36,7 +36,8 @@ export const Styles = StyleSheet.create({
         flex: 0.7
     },
     descriptionText: {
-        padding: GLOBAL_PADDING,
+        // padding: GLOBAL_PADDING,
+        paddingHorizontal: 0
     },
     contentView: {
         padding: GLOBAL_PADDING,

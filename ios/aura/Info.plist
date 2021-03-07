@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CodePushDeploymentKey</key>
-	<string>zm_4PjRrZR_I224zEupKexTL1diQQWwX8D8Fm</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -33,6 +31,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CodePushDeploymentKey</key>
+	<string>zm_4PjRrZR_I224zEupKexTL1diQQWwX8D8Fm</string>
 	<key>FacebookAppID</key>
 	<string>355492845870779</string>
 	<key>FacebookDisplayName</key>
@@ -64,6 +64,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Will you allow this app access to camera?</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Will you allow this app access to contact?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Aura app needs your location ?</string>
 	<key>NSLocationAlwaysUsageDescription</key>

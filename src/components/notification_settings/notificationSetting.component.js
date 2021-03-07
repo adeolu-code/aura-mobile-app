@@ -9,8 +9,15 @@ export default class NotificationSettingsItem extends Component {
     constructor(props) {
         super();        
     }
+    state = { value: false }
+
+    changeState = (v) => {
+        this.props.onValueChange(v)
+    }
 
     render() {
+        const { initialState } = this.props
+        console.log('V ', initialState)
         const {textH4Style} = GeneralStyles;
         return(
             <View style={[Styles.parentView, this.props.style]}>
@@ -18,8 +25,9 @@ export default class NotificationSettingsItem extends Component {
                 <Switch 
                     style={[Styles.switch]} 
                     trackColor={colors.white} 
-                    thumbColor={colors.green} 
-                    onValueChange={(v) => {this.props.onValueChange(v)}}
+                    thumbColor={initialState ? colors.green : colors.lightGrey} 
+                    onValueChange={this.changeState}
+                    // onValueChange={(v) => {this.props.onValueChange(v)}}
                     value={this.props.initialState}
                 />
             </View>

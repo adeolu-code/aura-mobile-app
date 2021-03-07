@@ -75,10 +75,10 @@ export default class NotificationSettings extends Component {
                         
                         <Content scrollEnabled={true} style={[Styles.scrollView]}>
                             <Separator style={[Styles.separator]}>
-                                <MyText style={[Styles.separatorText]}>Messages</MyText>
+                                <MyText style={[Styles.separatorText, textH4Style]}>Messages</MyText>
                             </Separator>
                             <View style={[Styles.contentView]}>
-                                <MyText style={[Styles.descriptionText]}>
+                                <MyText style={[Styles.descriptionText, textH4Style]}>
                                     Receive messages from hosts and guests, including booking requests
                                 </MyText>
                                 <NotificationSettingsItem 
@@ -104,10 +104,10 @@ export default class NotificationSettings extends Component {
                                 />
                             </View>
                             <Separator style={[Styles.separator]}>
-                                <MyText style={[Styles.separatorText]}>Reminders</MyText>
+                                <MyText style={[Styles.separatorText, textH4Style]}>Reminders</MyText>
                             </Separator>
                             <View style={[Styles.contentView]}>
-                                <MyText style={[Styles.descriptionText]}>
+                                <MyText style={[Styles.descriptionText, textH4Style]}>
                                     Receive booking reminders, requests to write a review, pricing Notices, and other reminders related to your activities on Aura
                                 </MyText>
                                 <NotificationSettingsItem 
@@ -127,12 +127,12 @@ export default class NotificationSettings extends Component {
                                 />
                                 <NotificationSettingsItem 
                                     title={"Phone Calls"} 
-                                    initialState={this.state.reminderCalls}
+                                    initialState={this.state.reminderCalls} style={{ borderBottomWidth: 0 }}
                                     onValueChange={(v) => this.set({reminderCalls: v})} 
                                 />
                             </View>
                             <Separator style={[Styles.separator]}>
-                                <MyText style={[Styles.separatorText]}>Policy and Communications</MyText>
+                                <MyText style={[Styles.separatorText, textH4Style]}>Policy and Communications</MyText>
                             </Separator>
                             <View style={[Styles.contentView]}>
                                 <MyText style={[Styles.descriptionText]}>
@@ -154,7 +154,7 @@ export default class NotificationSettings extends Component {
                                     onValueChange={(v) => this.set({policyText: v})} 
                                 />
                                 <NotificationSettingsItem 
-                                    title={"Phone Calls"} 
+                                    title={"Phone Calls"} style={{ borderBottomWidth: 0 }}
                                     initialState={this.state.policyCalls}
                                     onValueChange={(v) => this.set({policyCalls: v})} 
                                 />

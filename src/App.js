@@ -15,6 +15,8 @@ import { Root } from 'native-base';
 
 import { setNativeExceptionHandler } from "react-native-exception-handler";
 
+import SplashScreen from 'react-native-splash-screen';
+
 import codePush from "react-native-code-push";
 
 import FlashMessage from "react-native-flash-message";
@@ -22,7 +24,9 @@ import FlashMessage from "react-native-flash-message";
 LogBox.ignoreAllLogs()
 
 export class App extends Component {
-
+  componentDidMount() {
+    SplashScreen.hide();
+  }
   
   render() {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));

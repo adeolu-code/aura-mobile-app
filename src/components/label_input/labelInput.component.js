@@ -20,7 +20,7 @@ import GStyles from '../../assets/styles/GeneralStyles';
  * 
  */
 export const LabelInput = (props) => {
-    const { textGrey } = GStyles
+    const { textGrey, textDarkGrey } = GStyles
     const dateTime = (props.dateTime == undefined) ? false : ((props.dateTime) ? true : false);
     const picker = (props.picker == undefined) ? false : ((props.picker) ? true : false);
     const phone = (props.phone == undefined) ? false : ((props.phone) ? true : false);
@@ -31,7 +31,7 @@ export const LabelInput = (props) => {
     if (dateTime) {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle ]} disabled={disabled}>
-                <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle, textDarkGrey]}>{props.label}</Label>
                 <View style={[Styles.personalContentView, disabled ? { backgroundColor: 'rgba(0,0,0,0.1)'} : '']}>
                     <DatePicker
                         defaultDate={props.defaultDate || new Date()}
@@ -93,7 +93,7 @@ export const LabelInput = (props) => {
          */
         return (
             <Item stackedLabel style={[Styles.phoneItem, props.itemStyle]} disabled={disabled}>
-                <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle, textDarkGrey]}>{props.label}</Label>
                 <View style={[Styles.personalContentView]}>
                     <IntlPhoneInput
                         onChangeText={({dialCode, unmaskedPhoneNumber}) => {
@@ -115,7 +115,7 @@ export const LabelInput = (props) => {
     else if (textarea) {
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={disabled}>
-                <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
+                <Label style={[Styles.label, props.labelStyle, textDarkGrey]}>{props.label}</Label>
                 <View style={[Styles.personalContentView, props.contentViewStyle]}>
                     <Textarea
                         rowSpan={props.rowSpan || 3}

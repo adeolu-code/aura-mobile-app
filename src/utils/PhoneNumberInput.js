@@ -6,7 +6,7 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  TouchableOpacity, Platform
+  TouchableOpacity, Platform, Pressable
 } from 'react-native';
 import CountryPicker, { DARK_THEME, getAllCountries } from 'react-native-country-picker-modal';
 import {Icon} from 'native-base';
@@ -23,6 +23,9 @@ class PhoneNumberInput extends Component {
       const country = countries.find((c) => (c.cca2 === this.state.cca2));
       this.props.getCountry(country)
     });
+  }
+  openPicker = () => {
+    this.setState({ showCountryPicker: true })
   }
   openModal = () => {
     this.setState({ showCountryPicker: true });
@@ -45,7 +48,7 @@ class PhoneNumberInput extends Component {
     const { flexRow, textWhite,textH4Style } = GStyles;
     const { pickerContainer } = styles;
     return (
-      <View style={[flexRow, pickerContainer]}>
+      <Pressable style={[flexRow, pickerContainer]} onPress={this.openPicker}>
         <CountryPicker onSelect={this.onSelect}
             translation='eng' countryCode={this.state.countryCode} withCallingCode={true} withFilter={true} withCallingCodeButton={false} 
             withFlagButton={true}  withCloseButton={true} containerButtonStyle={{ marginHorizontal: 0}}
@@ -53,7 +56,7 @@ class PhoneNumberInput extends Component {
             onClose={this.closeModal}
             visible={this.state.showCountryPicker} />
         <Icon name="chevron-down-outline" style={{ color: colors.grey, fontSize: 25}}  />
-      </View>
+      </Pressable>
     );
   }
 
