@@ -38,8 +38,12 @@ class FilterModal extends Component {
 
     cancelBooking = (item) => {
         this.props.navigation.navigate('CancelBookings', {booking: item});
+        this.props.onDecline();   
+    }
+
+    extendStay = (item) => {
+        this.props.navigation.navigate('Other', {screen: 'HomeSingle', params :{house: item}});
         this.props.onDecline();
-        
     }
 
     render() {
@@ -49,17 +53,26 @@ class FilterModal extends Component {
         const item = property;
         return (
 
-            <Modal visible={visible} onRequestClose={() => { }} transparent animationType="slide">
-                <TouchableWithoutFeedback onPress={() => onDecline()}>
+            <Modal visible={visible} onRequestClose={() => { }} animationType="slide">
+                <TouchableWithoutFeedback onPress={() => onDecline()} style={{backgroundColor: 'white'}}>
                     <>
                     <View style={container2}>
                         <View style={container}>
-                        <TouchableOpacity 
-                            style={[tabTwo, (item.approval_Info.name == "Approved") ? tabTwo: inActiveTab]} 
-                            onPress={() => (item.approval_Info.name == "Approved") && this.cancelBooking(item)}
-                        >
+                            <TouchableOpacity 
+                                style={[tabTwo, (item.approval_Info.name == "Approved") ? tabTwo: inActiveTab]} 
+                                onPress={() => (item.approval_Info.name == "Approved") && this.cancelBooking(item)}
+                            >
                                 <MyText style={[textDarkGrey, textBold]}>
                                         Cancel Booking
+                                </MyText>
+                            </TouchableOpacity>
+                            <View style={dash}></View>
+                            <TouchableOpacity 
+                                style={[tabTwo, (item.approval_Info.name == "Approved") ? tabTwo: inActiveTab]} 
+                                onPress={() => (item.approval_Info.name == "Approved") && this.extendStay(item)}
+                            >
+                                <MyText style={[textDarkGrey, textBold]}>
+                                        Extend Stay
                                 </MyText>
                             </TouchableOpacity>
                             <View style={dash}></View>

@@ -110,7 +110,7 @@ class BookingsScreen extends Component {
       this.setState(value);
   }
 
-  getActiveRender = (index=0) => {
+  getActiveRender = (index=this.state.activeIndex) => {
     // console.log("index sel", index);
       //handling rendering of screen based on user top bar selection
       const now = moment(new Date());
@@ -506,7 +506,8 @@ class BookingsScreen extends Component {
                       title={toTitleCase(this.state.type) + " Bookings"}
                       tabs={["Upcoming", "Past"]} 
                       onTopTabClick={(index) => {
-                        if (this.state.type == "host") {
+                        this.set({activeIndex: index});
+                        if (this.state.type == "Apartment" || this.state.type == "Hotels") {
                           this.getActiveRender(index);
                         }
                         else if (this.state.type == "restaurant") {
