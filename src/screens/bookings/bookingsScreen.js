@@ -17,12 +17,13 @@ import moment from "moment";
 import FilterModal, {ExperienceFilterModal} from './FilterModal';
 import { Loading } from '../../utils/Index';
 import MenuItemComponent from '../../components/menu_item/menuItem.component';
-import { View } from 'native-base';
+import { Text, View } from 'native-base';
 import { MyStyle } from '../../myStyle';
 import { PHOTOGRAPH, EXPERIENCE, RESTAURANT, HOST } from '../../utils'
 import { getRestaurantOrdersApi } from '../../api/restaurant.api';
 import { getExperienceApi } from "./../../api/booking.api";
 import FlatlistComponent from '../../components/flat_list/flatList.component';
+import {  Menu,  MenuOptions,  MenuOption, MenuTrigger,} from 'react-native-popup-menu';
 
 const illustration = require("./../../../assets/bookings-page-1-illustration.png");
 
@@ -87,7 +88,7 @@ class BookingsScreen extends Component {
     
 }
 
-  getProperty = (property=this.state.propertyType, url=urls.property) => {
+  getProperty = async (property=this.state.propertyType, url=urls.property) => {
     this.setState({loading: true});
     
     getPropertyBookingsApi({
@@ -445,12 +446,16 @@ class BookingsScreen extends Component {
     this.setState({loading: true});
     
     if (this.state.roles[index] == "Hotels") {
-      this.getProperty("Hotel");
-      this.setState({loading: false, type: "Hotels"});
+      this.getProperty("Hotel").then(result => {
+        this.setState({type: "Hotels"});
+      });
+      
     }
     else if (this.state.roles[index] == "Apartments") {
-      this.getProperty("Apartment");
-      this.setState({loading: false, type: "Apartments"});
+      this.getProperty("Apartment").then(result => {
+        this.setState({type: "Apartments"});
+      });
+      
     }
     else if (this.state.roles[index] == "Experience") {
       this.getExperience();
@@ -550,6 +555,10 @@ class BookingsScreen extends Component {
               items={this.getRoles()}
               onPress={(index) => this.itemChange(index)}
             />
+            {/* 
+            style={{marginLeft: 10, position: 'absolute', alignSelf: 'flex-end', top: 30, width: 150, marginRight: 5, zIndex: 3}}
+            */}
+            
         </SafeAreaView>
       </>
     );

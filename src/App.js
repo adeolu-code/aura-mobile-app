@@ -20,6 +20,7 @@ import SplashScreen from 'react-native-splash-screen';
 import codePush from "react-native-code-push";
 
 import FlashMessage from "react-native-flash-message";
+import { MenuProvider } from 'react-native-popup-menu';
 
 LogBox.ignoreAllLogs()
 
@@ -36,9 +37,11 @@ export class App extends Component {
         <ManagePropertyProvider>
           <Fragment>
             <Provider store={store}>
+              <MenuProvider>
               <Root>
                 <AppNavigation />
               </Root>
+              </MenuProvider>
             </Provider>
 
             <FlashMessage position="bottom" />
