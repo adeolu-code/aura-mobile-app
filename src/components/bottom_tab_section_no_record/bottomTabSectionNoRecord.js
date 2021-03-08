@@ -25,7 +25,7 @@ class BottomTabSectionNoRecord extends Component {
   }
 
   render() {
-      const { textH1Style, textExtraBold, textDarkBlue, textH5Style } = GStyles;
+      const { textH1Style, textExtraBold, textDarkBlue, textH5Style, textH2Style } = GStyles;
     return (
       <>
         <View style={[Styles.parentView, ]}>
