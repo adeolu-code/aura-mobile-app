@@ -75,6 +75,7 @@ export default class AddRestaurant extends Component {
     init = () => {
         this.setState({loading: true});
         getRestaurantOpenDaysApi().then(result => {
+            consoleLog("update_res",'getRestaurantOpenDaysApi ', result)
             if (result != undefined) {
                 this.setState({openDays: result});
             }
@@ -299,16 +300,11 @@ export default class AddRestaurant extends Component {
         
         const {restaurant} = this.state;
         consoleLog("update_res", "restaurant", restaurant);
-        if (restaurant.name == "" || restaurant.openDays.length == 0 || restaurant.services.length == 0) {
+        
+        if (restaurant.name == "") {
             
-            if (restaurant.openDays.length == 0) {
-                errorMessage("Please fill Open Days");
-            }
-            else if (restaurant.name === "") {
+            if (restaurant.name === "") {
                 errorMessage("Please fill Restaurant Name");
-            }
-            else if (restaurant.services.length == 0) {
-                errorMessage("Please fill Services offerred");
             }
             else {
                 errorMessage("Please fill all field");

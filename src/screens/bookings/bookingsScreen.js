@@ -71,6 +71,7 @@ class BookingsScreen extends Component {
 
   init = () => {
     this.getProperty("Apartment");
+    this.setState({type: "Apartment"});
   }
 
   getMore = () => {
@@ -445,11 +446,11 @@ class BookingsScreen extends Component {
     
     if (this.state.roles[index] == "Hotels") {
       this.getProperty("Hotel");
-      this.setState({loading: false, type: "host"});
+      this.setState({loading: false, type: "Hotels"});
     }
     else if (this.state.roles[index] == "Apartments") {
       this.getProperty("Apartment");
-      this.setState({loading: false, type: "host"});
+      this.setState({loading: false, type: "Apartments"});
     }
     else if (this.state.roles[index] == "Experience") {
       this.getExperience();
