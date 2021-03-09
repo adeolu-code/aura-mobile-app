@@ -32,7 +32,7 @@ class FilterModal extends Component {
     }
 
     onPress = () => {
-        this.props.onPress() && this.props.onPress();
+        this.props.onPress && this.props.onPress("viewProperty");
         this.props.onDecline();
     }
 
@@ -42,7 +42,7 @@ class FilterModal extends Component {
     }
 
     extendStay = (item) => {
-        this.props.navigation.navigate('Other', {screen: 'HomeSingle', params :{house: item}});
+        this.props.onPress && this.props.onPress("extendStay");
         this.props.onDecline();
     }
 

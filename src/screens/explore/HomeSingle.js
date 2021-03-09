@@ -37,6 +37,8 @@ import IdentityCardModal from '../../components/explore/IdentityCardModal';
 
 import SharedIdModal from '../../components/explore/ShareIdModal';
 
+import moment from "moment";
+
 const SCREEN_HEIGHT = Dimensions.get('screen').height
 
 
@@ -60,12 +62,20 @@ class HomeSingle extends Component {
           requestId: ''
         },
         loading: false, contact: false, showIdentityModal: false, shareIdModal: false,
-        booked: '', bookedDays: [], toggle: true
+        booked: '', bookedDays: [], toggle: true, extendStay: false,
     };
     const { house } = props.route.params;
     this.state.house = house;
     this.state.location = { longitude: house.longitude, latitude: house.latitude }
     console.log('Houses single ', house)
+    
+    if (props.route?.params?.extendStay) {
+      // if user is extending stay, load passed formData
+      // this.state.formData = props.route?.params?.formData;
+      this.state.extendStay = props.route?.params?.extendStay;
+      // // this.state.bookedDays = props.route?.params?.bookedDays;
+      // this.state.showCheckOutModal = true;
+    }
     
   }
   
@@ -297,18 +307,44 @@ class HomeSingle extends Component {
       if (gettingHouse || loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 1000 }} />); }
   }
 
-  componentDidMount = () => {
+  extendStayLoadHouseInfo = async () => {
     this.getHouse()
     this.getPhotos()
     this.getHouseRules()
     this.getReviews()
-    this.getCalendar()
+  }
+
+  componentDidMount = () => {
+    if (this.state.extendStay) {
+      this.getCalendar()
+      .then(() => {
+        if (this.state.extendStay) {
+          // if user is extending stay, load passed formData
+          this.setState({
+            showCheckOutModal: true, 
+            formData: this.props.route?.params?.formData, 
+          });
+        }
+      }).finally(() => extendStayLoadHouseInfo())
+      
+    }
+    else {
+      // origin structure
+      this.getHouse()
+      this.getPhotos()
+      this.getHouseRules()
+      this.getReviews()
+      this.getCalendar()
+    }
     // this.getAmenity()
   }
 
   getCalendar = async () => {
     const { house } = this.state;
     this.setState({ gettingCalendar: true })
+    if (this.state.extendStay) {
+      this.setState({loading: true});
+    }
     try {
       const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/calendar?PropertyId=${house.id}`);
       // console.log('House calendar ', res)
@@ -321,6 +357,11 @@ class HomeSingle extends Component {
       }
     } catch (error) {
       this.setState({ gettingCalendar: false })
+    }
+    finally {
+      if (this.state.extendStay) {
+        this.setState({loading: false});
+      }
     }
     
   }
@@ -377,8 +418,14 @@ class HomeSingle extends Component {
         <CheckInModal visible={this.state.showCheckInModal} onDecline={this.closeCheckInModal} next={this.openCheckOutModal} 
         bookedDays={this.state.bookedDays} />
 
-        <CheckOutModal visible={this.state.showCheckOutModal} onDecline={this.closeCheckOutModal} next={this.openReserveModal} 
-        back={this.openCheckInModal} checkInDate={this.state.formData.check_In_Date} bookedDays={this.state.bookedDays} />
+        <CheckOutModal 
+          visible={this.state.showCheckOutModal}
+          onDecline={this.closeCheckOutModal}
+          next={this.openReserveModal} 
+          back={(this.state.extendStay) ? () => this.props.navigation.goBack() : this.openCheckInModal} 
+          checkInDate={this.state.extendStay ? moment(this.state.formData.check_In_Date, "YYYY-MM-DD").add(1, 'days').format(): this.state.formData.check_In_Date} 
+          bookedDays={this.state.bookedDays} 
+        />
 
         <ReserveModal visible={this.state.showReserveModal} onDecline={this.closeReserveModal} back={this.openCheckOutModal} 
         formData={this.state.formData} submit={this.reserveSpace} house={this.state.house} />
