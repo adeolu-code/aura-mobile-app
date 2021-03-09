@@ -24,6 +24,7 @@ import { getRestaurantOrdersApi } from '../../api/restaurant.api';
 import { getExperienceApi } from "./../../api/booking.api";
 import FlatlistComponent from '../../components/flat_list/flatList.component';
 import {  Menu,  MenuOptions,  MenuOption, MenuTrigger,} from 'react-native-popup-menu';
+import { v4 as uuidv4} from 'uuid';
 
 const illustration = require("./../../../assets/bookings-page-1-illustration.png");
 
@@ -412,6 +413,31 @@ class BookingsScreen extends Component {
     this.props.navigation.navigate('Other', {screen: 'HouseSingle',params: {house: house.data, force:true}});
   }
 
+  extendStay = async () => {
+    this.setState({loading: true});
+    const house = await GetRequest(urls.listingBase + urls.v, urls.propertyById + this.state.property.propertyInfo.id);
+    this.setState({loading: false});
+    this.props.navigation.navigate('Other', {
+      screen: 'HouseSingle',
+      params: {
+        house: house.data,
+        force:true,
+        extendStay: true,
+        formData: {
+          Arrival_Time_From: this.state.property?.arrival_Time_From,
+          Arrival_Time_To: this.state.property?.arrival_Time_To,
+          check_In_Date: moment(this.state.property?.check_Out_Date, "YYYY-MM-DD").add(1, 'days').format(),
+          check_Out_Date: '',
+          is_Policy_Accepted: true,
+          no_Of_Guest: this.state.property?.no_Of_Guest,
+          noofAvailableRooms: house.data?.noofAvailableRooms,
+          property_Id: this.state.property.propertyInfo.id,
+          requestId: uuidv4()
+        },
+      }
+    });
+  }
+
   linkToSingleTour = () => {
     this.props.navigation.navigate('Other', { screen: 'TourSingle', params: { tourId: this.state.experience.experience_Id } })
   }
@@ -447,13 +473,13 @@ class BookingsScreen extends Component {
     
     if (this.state.roles[index] == "Hotels") {
       this.getProperty("Hotel").then(result => {
-        this.setState({type: "Hotels"});
+        this.setState({type: "Hotels", propertyType: "Hotel"});
       });
       
     }
     else if (this.state.roles[index] == "Apartments") {
       this.getProperty("Apartment").then(result => {
-        this.setState({type: "Apartments"});
+        this.setState({type: "Apartments", propertyType: "Apartment"});
       });
       
     }
@@ -503,7 +529,7 @@ class BookingsScreen extends Component {
               this.context.state.isLoggedIn ?
               <View style={MyStyle.row}>
                   <BottomTabSectionNoRecord
-                      title={toTitleCase(this.state.type) + " Bookings"}
+                      title={toTitleCase(this.state.type) + ""}
                       tabs={["Upcoming", "Past"]} 
                       onTopTabClick={(index) => {
                         this.set({activeIndex: index});
@@ -535,7 +561,17 @@ class BookingsScreen extends Component {
               type={this.state.property.propertyInfo.type}
               property={this.state.property}
               onDecline={() => this.closeFilterModal()}
-              onPress= {() => this.linkToSingleHouse()}
+              onPress= {(type) => {
+                switch(type) {
+                  case "viewProperty":
+                    this.linkToSingleHouse();
+                    break;
+                  case "extendStay":
+                    this.extendStay();
+                  default:
+                    break;
+                }
+              }}
               {...this.props}
             />
 
