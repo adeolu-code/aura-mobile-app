@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, View, ScrollView, Keyboard, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, View, ScrollView, Keyboard, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import colors from '../../colors';
 import { CustomInput, MyText, CustomButton, PhoneNumberInput, Loading, Error, DatePicker } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
@@ -250,7 +250,7 @@ class signUp extends Component {
           <Header title="Sign Up With Email" {...this.props} />
           {this.renderLoading()}
           <ScrollView keyboardShouldPersistTaps="always" >
-            <View style={styles.container}>              
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>              
               <View style={inputContainer}>
                 <CustomInput placeholder='First Name' label="First Name" onChangeText={this.onChangeValue} value={this.state.firstName}
                 attrName="firstName" onBlur={this.onBlurFirstName} />
@@ -308,7 +308,7 @@ class signUp extends Component {
                 {this.renderError()}
                 <CustomButton onPress={this.submit} disabled={this.disabled()} buttonText="Sign Up With Email"/>
               </View>
-            </View>
+            </KeyboardAvoidingView>
           </ScrollView>
         </SafeAreaView>
       </>

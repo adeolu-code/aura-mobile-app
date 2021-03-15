@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Image, Pressable} from 'react-native';
 import GeneralStyles from '../assets/styles/GeneralStyles';
 import {Spinner} from './Spinner';
 import {MyText} from './MyText';
@@ -72,7 +72,7 @@ class CustomButton extends Component {
     const buttonDisabledStyle = disabled || loading ? disabledStyles : '';
     return (
       <View style={[containerStyle]}>
-        <TouchableOpacity
+        <Pressable
           onPress={onPress}
           onPressIn={onPressIn}
           onPressOut={onPressOut}
@@ -85,7 +85,7 @@ class CustomButton extends Component {
             {this.renderSpinnerOrText()}
             {this.renderImage()}
           </View>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     );
   }

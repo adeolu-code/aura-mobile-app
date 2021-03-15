@@ -46,7 +46,7 @@ function MyTabs() {
         activeTintColor: colors.orange,
         inactiveTintColor: colors.darkBlue,
         style: {
-          height: Platform.OS === 'ios' ? 95 : 70,
+          height: Platform.OS === 'ios' ? 80 : 70,
           elevation: 3, ...GStyles.shadow,
         },
       }}>

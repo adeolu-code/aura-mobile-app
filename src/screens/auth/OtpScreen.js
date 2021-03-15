@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
+import { View, SafeAreaView,StyleSheet, TouchableOpacity, ScrollView, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { CustomButton, MyText, CustomInputNumber, Loading, Error } from '../../utils/Index';
 import colors from '../../colors';
 
@@ -165,7 +165,7 @@ class OtpScreen extends Component {
       <SafeAreaView style={{ flex: 1}}>
           <Header {...this.props} title="Authentication Code" />
           {this.renderLoading()}
-          <View style={container} >
+          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={container} >
             
             <View style={topRow}>
               <MyText style={[textH4Style, textGrey, { lineHeight: 25}]}>
@@ -199,7 +199,7 @@ class OtpScreen extends Component {
               {this.renderError()}
               <CustomButton onPress={this.SuccessScreen} buttonText="Next" buttonStyle={buttonStyle} onPress={this.verifyOtp} />
             </View>
-          </View>
+          </KeyboardAvoidingView>
       </SafeAreaView>
     );
   }
