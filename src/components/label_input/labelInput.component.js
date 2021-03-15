@@ -65,7 +65,7 @@ export const LabelInput = (props) => {
                     <Picker style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
                         selectedValue={props.selectedOption ? props.selectedOption : ""}
                         onValueChange={(e) => props.onPickerChange && props.onPickerChange(e)}
-                        placeholder={props.placeholder}
+                        placeholder={props.placeholder?.toString()}
                         // enabled={disabled}
                         // focusable={disabled}
                         enabled={props.disabled || true}
@@ -103,7 +103,7 @@ export const LabelInput = (props) => {
                         defaultCountry="NG" 
                         containerStyle={{height: 45}}
                         phoneInputStyle={{color: "black"}}
-                        placeholder={props.placeholder}
+                        placeholder={props.placeholder?.toString()}
                         
                     />
                 </View>
@@ -119,18 +119,18 @@ export const LabelInput = (props) => {
                 <View style={[Styles.personalContentView, props.contentViewStyle]}>
                     <Textarea
                         rowSpan={props.rowSpan || 3}
-                        placeholder={props.placeholder} 
+                        placeholder={props.placeholder?.toString()} 
                         style={[Styles.textarea, props.textInputStyles]}
-                        value={props.value}
+                        value={props.value.toString()}
                         onChangeText={(e) => props.onChangeText && props.onChangeText(e)}
                     />
                     
                     {/* <Input 
-                        placeholder={props.placeholder} 
+                        placeholder={props.placeholder?.toString()} 
                         style={[Styles.input, {height: 150}, props.textInputStyles]} 
                         maxLength={props.maxLength} 
                         multiline={true}
-                        value={props.value}
+                        value={props.value.toString()}
                         textAlignVertical="top"
                         onChangeText={props.onChangeText}
                     /> */}
@@ -147,10 +147,10 @@ export const LabelInput = (props) => {
                 <View style={[Styles.inputView, disabled ? { backgroundColor: 'rgba(0,0,0,0.1)'} : '']}>
                     <View style={[Styles.left, {width: (icon ? "90%": "100%" ), height: 40},]}>
                         <Input 
-                            placeholder={props.placeholder} 
+                            placeholder={props.placeholder?.toString()} 
                             style={[Styles.input]} 
                             maxLength={props.maxLength} 
-                            value={props.value}
+                            value={props.value.toString()}
                             onChangeText={(e) => { props.onChangeText && props.onChangeText(e);}}
                             keyboardType={props.keyboardType || "default"}
                             disabled={props.disabled || false}

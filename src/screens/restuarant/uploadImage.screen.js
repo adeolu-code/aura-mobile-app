@@ -4,8 +4,8 @@ import { Image, SafeAreaView, TouchableOpacity } from "react-native";
 import colors from "../../colors";
 import Header from "../../components/Header";
 import { MyText } from "../../utils/Index";
-import { Styles } from "./../host/host.style";
-import GStyles from "./../../assets/styles/GeneralStyles";
+import { Styles } from "../host/host.style";
+import GStyles from "../../assets/styles/GeneralStyles";
 
 export default class RestaurantUploadImage extends Component {
     constructor() {

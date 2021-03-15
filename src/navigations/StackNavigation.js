@@ -103,8 +103,9 @@ import RestaurantReviews from '../screens/restuarant/reviews.screen';
 import PhotosComponentScreen from '../screens/dashboard_stack/PhotosComponent';
 import { CancelBookings } from '../screens/bookings/cancelBooking.screen';
 import RestaurantEarnings from '../screens/restuarant/earnings.screen';
-import RestaurantUploadImage from '../screens/restuarant/uploadPropertyImage.screen';
+import RestaurantUploadImage from '../screens/restuarant/uploadImage.screen';
 import RestaurantMenu from '../screens/restuarant/restuarantMenu.screen';
+import RestaurantMenuDetail from '../screens/restuarant/menuDetail.screen';
 
 
 const Stack = createStackNavigator();
@@ -256,6 +257,7 @@ export function RestaurantStack() {
             <Stack.Screen name="RestaurantEarnings" component={RestaurantEarnings} options={{ headerShown: false }} />
             <Stack.Screen name="RestaurantUploadImage" component={RestaurantUploadImage} options={{ headerShown: false }} />
             <Stack.Screen name="RestaurantMenu" component={RestaurantMenu} options={{ headerShown: false }} />
+            <Stack.Screen name="RestaurantMenuDetail" component={RestaurantMenuDetail} options={{ headerShown: false }} />
         </Stack.Navigator>
     ) 
 }

@@ -388,7 +388,7 @@ export default class AddRestaurant extends Component {
                                     <MyText>Edit Restaurant</MyText>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
-                                    onPress={() => this.props.navigation.navigate('RestaurantMenu')}
+                                    onPress={() => this.props.navigation.navigate('RestaurantMenu', {id: this.state.restaurant.id})}
                                     style={[Styles.addIconView]}
                                 >
                                     <Icon name="menu" style={[Styles.addIcon,]} />

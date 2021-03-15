@@ -156,3 +156,32 @@ export async function getRestaurantCuisineApi() {
     
     return;
 }
+
+export async function getRestaurantPhotoMenuApi(profileId) {
+    
+    let res = await GetRequest(urls.restaurantBase + urls.v, urls.restaurant + urls.photoMenu + profileId, undefined, "GET");
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        return res.data;
+    }
+    
+    return;
+}
+
+export async function updateRestaurantPhotoMenuApi(profileId, data) {
+    
+    let res = await Request(urls.restaurantBase + urls.v, urls.restaurant + urls.photo + profileId, data, false, "PUT");
+    console.log("res", res);
+    
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        successMessage(res.message);
+        return res.data;
+    }
+    
+    return;
+}

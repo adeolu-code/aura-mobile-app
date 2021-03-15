@@ -1,8 +1,8 @@
 import { Container, Content, View } from "native-base";
 import React,{ Component } from "react";
-import { Pressable, RefreshControl, TouchableOpacity } from "react-native";
+import { Pressable, RefreshControl, TouchableOpacity,Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getRestaurantCuisineApi } from "../../api/restaurant.api";
+import { getRestaurantCuisineApi, getRestaurantPhotoMenuApi } from "../../api/restaurant.api";
 import GStyles from "../../assets/styles/GeneralStyles";
 import colors from "../../colors";
 import Header from "../../components/Header";
@@ -14,6 +14,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { consoleLog } from "../../utils";
 import { MyStyle } from "../../myStyle";
 import { LabelInput } from "../../components/label_input/labelInput.component";
+import { RoundButton } from "../../components/helper/components/round_button/roundButton.component";
 
 
 export default class RestaurantMenu extends Component {
@@ -26,6 +27,8 @@ export default class RestaurantMenu extends Component {
             cuisines: [],
             page: 1,
             size: 20,
+            id: props.route?.params?.id,
+            menus: []
         };
         this.onEndReachedCalledDuringMomentum = true;
     }
@@ -43,6 +46,13 @@ export default class RestaurantMenu extends Component {
             }
             this.setState({loading: false});
             
+        });
+
+        getRestaurantPhotoMenuApi(this.state.id).then(result => {
+            if (result != undefined) {
+                this.state.menus = result;
+                this.setState({});
+            }
         });
     }
 
@@ -63,12 +73,33 @@ export default class RestaurantMenu extends Component {
                         <Content scrollEnabled={true}>
                             <TouchableOpacity
                                 style={[MyStyle.nextButton, {height: 40, borderRadius: 5, marginBottom: 40}]}
-                                onPress={() => {}}
+                                onPress={() => {this.props.navigation.navigate('RestaurantUploadImage')}}
                             >
                                 <MyText style={[textH3Style, textCenter, textWhite, textBold]}>Upload Photos</MyText>
                             </TouchableOpacity>
                             <View style={[MyStyle.row]}>
-                                
+                                {
+                                    this.state.menus.map((menu, index) => {
+                                        return (
+                                            <RenderItem 
+                                                key={index}
+                                                id={menu.id}
+                                                cuisine={menu.cuisine}
+                                                meal={menu.mealName}
+                                                amount={menu.price}
+                                                navigation={this.props.navigation}
+                                                menu={menu}
+                                            />
+                                        );
+                                    })
+                                }
+                                <RenderItem 
+                                    id={0}
+                                    cuisine={"African"}
+                                    meal="Bread" 
+                                    amount="1000"
+                                    navigation={this.props.navigation}
+                                />
                             </View>
                         </Content>
                     </Container>
@@ -80,31 +111,39 @@ export default class RestaurantMenu extends Component {
 
 
 const RenderItem = (props)  => {
+    const uri = require("./../../assets/images/food_bg/food_bg.png");
     const {textH4Style, textOrange, textH2Style, textBold} = GStyles;
     return (
-        <View style={[Styles.itemParentView]}>
-            <Pressable style={[Styles.parentView, {marginBottom: 5}]}>
+        <View style={[Styles.itemParentView,{height: null}, MyStyle.pd10]}>
+            <View style={[MyStyle.fullWidth]}>
+            <View style={[]}>
+                <View style={[]}>
+                    <MyText style={[textH4Style, textBold]}>
+                        Meal: {props.meal}
+                    </MyText>
+                    <MyText style={[textH4Style, textBold]}>
+                        Cuisine: {props.cuisine}
+                    </MyText>
+                    <MyText style={[textH4Style, textBold]}>
+                        Price: NGN {props.amount}
+                    </MyText>
+                    <RoundButton label={"View"} onClick={() => props.navigation.navigate('RestaurantMenuDetail', {id: props.id, menu: props.menu})} />
+                </View>
+            </View>
+{/*                 
                 <View style={[Styles.textSection]}>
                     <View style={[Styles.textView]}>
-                        <MyText style={[textH4Style, textOrange,{padding: 0, paddingLeft: 2, paddingRight: 2}]}>
+                        <MyText style={[textH4Style, textBold]}>
                             Meal: {props.meal}
                         </MyText>
-                        <LabelInput 
-                            label={"Cuisine"} 
-                            picker
-                            itemStyle={{marginLeft: 5}}
-                            onPickerChange={(val) => this.setState({bankId: val})}
-                        />
-                        
-                        <MyText style={[textH4Style, textOrange, {padding: 0, paddingLeft: 2, paddingRight: 2}]}>
-                            Price: ₦ {props.amount}
+                        <MyText style={[textH4Style, textBold]}>
+                            Price: {props.amount}
                         </MyText>
-                        <MyText style={[{padding: 0, paddingLeft: 2, paddingRight: 2}]}>
-                            Date: {moment(props.date).format("DD/MM/YYYY")}
-                        </MyText>
+                        <RoundButton label={"Edit"} onClick={props.navigation.navigate('RestaurantMenuDetail', {id: props.id})} />
                     </View>
-                </View>
-            </Pressable>
+                </View> 
+*/}
+            </View>
         </View>
     );
 }

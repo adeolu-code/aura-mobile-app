@@ -25,6 +25,9 @@ export const MyStyle = StyleSheet.create({
     quarterWidth: {
         width: '24%',
     },
+    customWidth: (value) => {
+        return {width: value}
+    },
     //margin
     mt05: {
         margin: "5%",
@@ -34,6 +37,16 @@ export const MyStyle = StyleSheet.create({
     },
     mt15: {
         margin: "15%",
+    },
+    //padding
+    pd05: {
+        padding: "5%",
+    },
+    pd10: {
+        padding: "10%",
+    },
+    pd15: {
+        padding: "15%",
     },
     underline: {
         width: "100%",

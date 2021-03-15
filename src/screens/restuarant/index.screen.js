@@ -80,9 +80,9 @@ export default class RestaurantDashboardComponent extends Component {
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
     const { container, headerStyle, sectionStyle,contentStyle, iconContainer } = styles;
-    const dasboardDescription = `View summary of your reservations, comments, properties and ratings`
+    const dasboardDescription = `View summary of your orders, comments and ratings`
     const reservations = `All your reservations and their details`;
-    const properties = `Create property, edit your properties and view your properties`;
+    const properties = `Create property, edit your restuarant and view your restuarant details`;
     const reviews = `See all your ratings and reviews`;
     const earning = `View your details of your transactions and how much you have made in the app`
     const photograph = `Become a photographer to display your photos`
