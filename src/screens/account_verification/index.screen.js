@@ -18,14 +18,15 @@ export default class AccountVerification extends Component {
     }
 
     selectVerification = () => {
-        if (this.context.state.userData && this.context.state.userData.identificationDocument) {
-            // id doc approved
-            this.props.navigation.navigate('UploadVerification', {force:true}) 
+        // if (this.context.state.userData && this.context.state.userData.identificationDocument) {
+        //     // id doc approved
+        //     this.props.navigation.navigate('UploadVerification', {force:true}) 
 
-        }
-        else {
-            this.props.navigation.navigate('SelectVerification')
-        }
+        // }
+        // else {
+            
+        // }
+        this.props.navigation.navigate('SelectVerification')
         
     }
 

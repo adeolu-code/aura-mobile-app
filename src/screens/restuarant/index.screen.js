@@ -56,7 +56,7 @@ export default class RestaurantDashboardComponent extends Component {
     this.props.navigation.navigate('RestaurantReviews')
   }
   onPressEarning = () => {
-    this.props.navigation.navigate('Earnings')
+    this.props.navigation.navigate('RestaurantEarnings')
   }
   onPressPhotographer = () => {
     this.props.navigation.navigate('Other', { screen: 'TermsOfService' })
@@ -116,10 +116,10 @@ export default class RestaurantDashboardComponent extends Component {
                     <DashboardCardComponent title="Reviews and Ratings" description={reviews}
                     img={require('../../assets/images/dashboard_icons/review.png')} onPress={this.onPressRR} />
                 </View>
-                {/* <View style={sectionStyle}>
+                <View style={sectionStyle}>
                     <DashboardCardComponent title="My Earnings" description={earning} iconX onPress={this.onPressEarning}
                     img={require('../../assets/images/dashboard_icons/pay.png')} />
-                </View> */}
+                </View>
                 
                 
             </View>

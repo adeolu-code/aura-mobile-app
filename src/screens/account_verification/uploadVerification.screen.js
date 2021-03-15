@@ -117,8 +117,9 @@ export default class UploadVerification extends Component {
             textH4Style,
             textUnderline,
           } = GStyles;
+          consoleLog("update_res", this.context.state.userData)
           let uri = undefined;
-          if (!this.state.isIdenificationDocumentVerfied) {
+          if (!this.state.isIdenificationDocumentVerfied || this.state.isCaptured) {
               uri = this.state.imageOriginal;
           }
           else {
@@ -143,10 +144,18 @@ export default class UploadVerification extends Component {
                                                 </TouchableOpacity>
                                             </>   
                                         :
-                                            <Image 
-                                                source={uri}
-                                                style={[Styles.imageView]} 
-                                            />
+                                            <>
+                                                <Image 
+                                                    source={uri}
+                                                    style={[Styles.imageView]} 
+                                                />
+                                                {
+                                                    this.state.isIdenificationDocumentVerfied && !this.state.isCaptured && 
+                                                    <TouchableOpacity onPress={() => this.selectImage()}>
+                                                        <MyText style={[textUnderline, textOrange, {marginTop: 10, marginBottom: 10, height: 40}]}>Tap to Upload Picture of ID</MyText>
+                                                    </TouchableOpacity>
+                                                }
+                                            </>  
                                     }
                                     
                                 </View>
@@ -159,7 +168,7 @@ export default class UploadVerification extends Component {
                                     </TouchableOpacity>
                                 }
                                 {
-                                    !this.state.isCaptured && !this.state.isIdenificationDocumentVerfied &&
+                                    this.state.isCaptured &&
                                     <LabelInput
                                         label={"Enter Id Number"}
                                         onChangeText={(e) => this.setState({identityNumber: e})}
@@ -167,8 +176,6 @@ export default class UploadVerification extends Component {
                                 }
                         </Content>
                         {
-                            !this.state.isCaptured && !this.state.isIdenificationDocumentVerfied &&
-                        
                             <Footer style={[Styles.footer, Styles.transparentFooter,]}>
                                 <Button
                                     transparent 

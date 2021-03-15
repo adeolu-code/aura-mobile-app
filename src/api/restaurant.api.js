@@ -3,7 +3,8 @@ import { urls, GetRequest, errorMessage, successMessage, consoleLog, Request } f
 export async function getRestaurantOrdersApi(page=1,size=1, type="host") {
     
     let res = await GetRequest(urls.restaurantBase + urls.v, urls.restaurant + urls.order + ((type == "host") ? urls.host : urls.user) + "?Page="+page+"&Size="+size , undefined, "GET");
-    console.log(urls.restaurantBase + urls.v, urls.restaurant + urls.order + urls.host + "?Page="+page+"&Size="+size);
+    consoleLog("update_res",urls.restaurantBase + urls.v + urls.restaurant + urls.order + urls.host + "?Page="+page+"&Size="+size);
+    consoleLog("update_res", "res", res);
     //
     if (res.isError) {
         errorMessage(res.message);
@@ -133,6 +134,19 @@ export async function getRestaurantRevewApi() {
 export async function getRestaurantRatingApi() {
     
     let res = await GetRequest(urls.restaurantBase + urls.v, urls.restaurant + urls.restaurantRating, undefined, "GET");
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        return res.data;
+    }
+    
+    return;
+}
+
+export async function getRestaurantCuisineApi() {
+    
+    let res = await GetRequest(urls.restaurantBase + urls.v, urls.restaurant + urls.restaurantCuisine, undefined, "GET");
     if (res.isError) {
         errorMessage(res.message);
     }
