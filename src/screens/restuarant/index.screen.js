@@ -56,7 +56,7 @@ export default class RestaurantDashboardComponent extends Component {
     this.props.navigation.navigate('RestaurantReviews')
   }
   onPressEarning = () => {
-    this.props.navigation.navigate('Earnings')
+    this.props.navigation.navigate('RestaurantEarnings')
   }
   onPressPhotographer = () => {
     this.props.navigation.navigate('Other', { screen: 'TermsOfService' })
@@ -80,9 +80,9 @@ export default class RestaurantDashboardComponent extends Component {
   render() {
     const { textDarkGrey, textH4Style, textH1Style, textBold, textExtraBold } = GStyles;
     const { container, headerStyle, sectionStyle,contentStyle, iconContainer } = styles;
-    const dasboardDescription = `View summary of your reservations, comments, properties and ratings`
+    const dasboardDescription = `View summary of your orders, comments and ratings`
     const reservations = `All your reservations and their details`;
-    const properties = `Create property, edit your properties and view your properties`;
+    const properties = `Create property, edit your restuarant and view your restuarant details`;
     const reviews = `See all your ratings and reviews`;
     const earning = `View your details of your transactions and how much you have made in the app`
     const photograph = `Become a photographer to display your photos`
@@ -116,10 +116,10 @@ export default class RestaurantDashboardComponent extends Component {
                     <DashboardCardComponent title="Reviews and Ratings" description={reviews}
                     img={require('../../assets/images/dashboard_icons/review.png')} onPress={this.onPressRR} />
                 </View>
-                {/* <View style={sectionStyle}>
+                <View style={sectionStyle}>
                     <DashboardCardComponent title="My Earnings" description={earning} iconX onPress={this.onPressEarning}
                     img={require('../../assets/images/dashboard_icons/pay.png')} />
-                </View> */}
+                </View>
                 
                 
             </View>

@@ -8,4 +8,6 @@ export const urls = {
     restaurantOperation: "operation/",
     restaurantComment: "review/comment/host/",
     restaurantRating: "review/rating/host/",
+    photoMenu: "photo/menu/",
+    photo: "photo/",
 }

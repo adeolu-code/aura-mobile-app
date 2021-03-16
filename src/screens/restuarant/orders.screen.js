@@ -23,7 +23,7 @@ export default class RestaurantOrders extends Component {
             refreshing: false,
             orders: [],
             page: 1,
-            size: 5,
+            size: 20,
         };
         this.onEndReachedCalledDuringMomentum = true;
     }
@@ -50,7 +50,7 @@ export default class RestaurantOrders extends Component {
     }
 
     getMore = () => {
-        consoleLog("more");
+        consoleLog("update_res","more");
         if(!this.onEndReachedCalledDuringMomentum){
             this.state.page =  this.state.page + 1;
             this.state.size = this.state.size + 20;
@@ -107,7 +107,9 @@ export default class RestaurantOrders extends Component {
                                             />
                                         }}
                                         keyExtractor={(item) => item.id}
-                                        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                                        onMomentumScrollBegin={() => { 
+                                            this.onEndReachedCalledDuringMomentum = false; 
+                                        }}
                                     />
                                 :
                                 <NoContent text="No Orders" />

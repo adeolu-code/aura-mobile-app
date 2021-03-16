@@ -41,6 +41,7 @@ export default class AddRestaurant extends Component {
         super(props);
         this.state = {
             loading: false,
+            showModal: false,
             restaurantLocation: false,
             restaurantOpening: false,
             restaurantContact: false,
@@ -54,7 +55,6 @@ export default class AddRestaurant extends Component {
             country: null,
             hasLocation: false,
             host: (props.route.params != undefined && props.route.params.host != undefined),
-            showModal: false,
             newNumber: 0,
         };
         
@@ -387,6 +387,13 @@ export default class AddRestaurant extends Component {
                                     <Icon name="pencil" style={[Styles.addIcon,]} />
                                     <MyText>Edit Restaurant</MyText>
                                 </TouchableOpacity>
+                                <TouchableOpacity 
+                                    onPress={() => this.props.navigation.navigate('RestaurantMenu', {id: this.state.restaurant.id})}
+                                    style={[Styles.addIconView]}
+                                >
+                                    <Icon name="menu" style={[Styles.addIcon,]} />
+                                    <MyText>Restaurant Menu</MyText>
+                                </TouchableOpacity>
                                 {this.state.hasData && <MyText style={[textH3Style, textBold]}>Locations</MyText>}
                                 {
                                     this.state.hasData && this.state.restaurant.locations.map(restaurant => {
@@ -410,7 +417,9 @@ export default class AddRestaurant extends Component {
                             {
                                 this.state.showModal &&
                                 <Modal visible={this.state.showModal} 
-                                    onRequestClose={() => this.setState({showModal: false})} 
+                                    onRequestClose={() => {
+                                        //this.setState({showModal: false})
+                                    }} 
                                     transparent 
                                     animationType="slide"
                                 >
@@ -524,6 +533,9 @@ export default class AddRestaurant extends Component {
                                                             }}
                                                         />
                                                     }
+                                                    <MyText style={[textBold, textBlack, textH4Style, {padding: 10}]}>
+                                                        Operations
+                                                    </MyText>
                                                     {
                                                         this.state.operations && this.state.operations.map((operation, index) => 
                                                             {
@@ -551,6 +563,28 @@ export default class AddRestaurant extends Component {
                                                             value={this.state.restaurant.averageDeliveryFee}
                                                         />
                                                     }
+                                                    <MyText style={[textBold, textBlack, textH4Style, {padding: 10}]}>
+                                                        Seats
+                                                    </MyText>
+                                                    <LabelCheckbox
+                                                        label={"Are Seats available"}
+                                                        checked={this.state.restaurant.isSeatAvailable}
+                                                        onPress={() => {
+                                                            this.state.restaurant.isSeatAvailable = !this.state.restaurant.isSeatAvailable;
+                                                            this.setState({});
+                                                        }}
+                                                    />
+                                                    <MyText style={[textBold, textBlack, textH4Style, {padding: 10}]}>
+                                                        Alcohol
+                                                    </MyText>
+                                                    <LabelCheckbox
+                                                        label={"Is Alcohol available"}
+                                                        checked={this.state.restaurant.isAlcoholAllowed}
+                                                        onPress={() => {
+                                                            this.state.restaurant.isAlcoholAllowed = !this.state.restaurant.isAlcoholAllowed;
+                                                            this.setState({});
+                                                        }}
+                                                    />
                                                     <View style={[Styles.row, {width: '100%', }]}>
                                                         <TouchableOpacity 
                                                         style={[Styles.nextButton, {height: 40, borderRadius: 5}, Styles.halfWidth]}
