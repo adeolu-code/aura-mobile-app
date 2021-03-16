@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, Fragment } from 'react';
 import {
-  View,SafeAreaView,ScrollView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform, StatusBar, Image, RefreshControl
+  View,SafeAreaView,ImageBackground,StyleSheet,TouchableOpacity, PermissionsAndroid, Platform, StatusBar, Image, RefreshControl
 } from 'react-native';
 import {
   MyText,
@@ -11,6 +11,7 @@ import {
 } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import colors from '../../colors';
+import { ScrollView } from 'react-native-gesture-handler'
 
 import ScrollHeader from '../../components/explore/ScrollHeader';
 import ScrollContent from '../../components/explore/ScrollContent';
@@ -174,7 +175,7 @@ class Index extends Component {
       <View style={{flex: 1, backgroundColor: 'white' }}>
         <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
         
-        <ScrollView style={{position: 'relative', backgroundColor: colors.white}} 
+        <ScrollView style={{position: 'relative', backgroundColor: colors.white}}  decelerationRate={0.8}
             refreshControl={
               <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.refreshing}
               colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />

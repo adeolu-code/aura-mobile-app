@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, FlatList, RefreshControl } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView, Dimensions, RefreshControl } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import GStyles from '../../../../assets/styles/GeneralStyles';
 
 import { MyText, Loading, CustomInput, CustomButton, Spinner } from '../../../../utils/Index';
