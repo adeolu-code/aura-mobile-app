@@ -6,7 +6,7 @@ import { Styles } from "./accountVerification.style";
 import colors from "../../colors";
 import { LabelInput } from "../../components/label_input/labelInput.component";
 import GStyles from "./../../assets/styles/GeneralStyles";
-import { MyText } from "../../utils/Index";
+import { MyText, Loading } from "../../utils/Index";
 import { getIdentityTypesApi } from "../../api/users.api";
 import { AppContext } from "../../../AppProvider";
 import { consoleLog } from "../../utils";
@@ -20,6 +20,7 @@ export default class SelectVerification extends Component {
         this.state = {
             idTypes: [],
             selectedId: "",
+            loading: false,
         };
     }
 
@@ -33,13 +34,24 @@ export default class SelectVerification extends Component {
             this.setState({idTypes: this.context.state.idTypes, selectedId: result[0].id});
         }
         else {
+            this.setState({loading: true});
             getIdentityTypesApi().then(result => {
                 if (result != undefined) {
-                    this.setState({idTypes: result, selectedId: result[0].id});
+                    this.setState({idTypes: result, selectedId: result[0].id, loading: false});
                     this.context.set({idTypes: result})
                 }
             });
         }
+    }
+
+    renderLoading = () => {
+        const { loading } = this.state;
+        if (loading) { return (<Loading />); }
+    }
+
+    onNext = () => {
+        const idExists = this.context.state.userData && this.context.state.userData.identificationDocument;
+        this.props.navigation.navigate('UploadVerification', { selectedId: this.state.selectedId, force: idExists})
     }
 
     render() {
@@ -53,6 +65,7 @@ export default class SelectVerification extends Component {
                 <StatusBar translucent={true} backgroundColor="rgba(0,0,0,0)" />
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Choose Your Means Of Identification" />
+                    {this.renderLoading()}
                     <Container style={[Styles.selectVerificationContainer]}>
                         <Content>
                             <LabelInput
@@ -72,7 +85,7 @@ export default class SelectVerification extends Component {
                             <Button
                                 transparent 
                                 style={[Styles.nextButton,]}
-                                onPress={() => this.props.navigation.navigate('UploadVerification', { selectedId: this.state.selectedId})}
+                                onPress={() => this.onNext()}
                             >
                                 <MyText style={[textWhite, textH4Style, textBold]}>Next</MyText>
                             </Button>

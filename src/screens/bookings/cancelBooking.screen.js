@@ -1,4 +1,4 @@
-import { Container, Content, Footer, Item, Left, Right } from 'native-base';
+import { Container, Content, Footer, Item, Left, Right, View } from 'native-base';
 import React, { Component } from 'react';
 import {
     SafeAreaView,
@@ -48,6 +48,7 @@ export class CancelBookings extends Component {
     this.setState({loading: true});
     await getBankApi().then(result => {
         if (result != undefined) {
+            this.setState({loading: false});
             result.data.map(bank => {
                 this.setState({banks: [
                     ...this.state.banks,
@@ -58,7 +59,6 @@ export class CancelBookings extends Component {
     });
     
     getUserBankDetailsApi(this.context.state.userData.id).then(result => {
-        console.log("result", JSON.stringify(result), this.context.state.userData.id);
         if (result != undefined && result.data) {
             this.setState({
                 userBank: result.data,
@@ -71,9 +71,7 @@ export class CancelBookings extends Component {
             // no bannk record
             this.setState({isNewBank: true});
         }
-    })
-    
-    this.setState({loading: false});
+    });
 }
 
   onSubmit = () => {
@@ -109,6 +107,10 @@ export class CancelBookings extends Component {
     });
   }
 
+  addBank = () => {
+    this.props.navigation.navigate('Profile', {screen: 'Bank'});
+}
+
   render() {
     const {textCenter, textBold, textH3Style, 
         textWhite    } = GStyles;
@@ -135,41 +137,61 @@ export class CancelBookings extends Component {
                     <ItemInfo title="Deduction" amount={0} />
                     <ItemInfo title="Total Refund" amount={params.booking.total_Cost} />
                     <MyText style={[textH3Style, {marginTop: 20}]}>Account Deposit Details </MyText>
-                    <TouchableOpacity>
-                        <LabelInput 
-                            label={"Account Name"} 
-                            placeholder={this.state.userBank.accountName ? this.state.userBank.accountName : "Account Name"}
-                            itemStyle={{marginLeft: 5}}
-                            onChangeText={(val) => this.setState({accountName: val})}
-                        />  
-                        <LabelInput
-                            label={"Commercial Bank"} 
-                            picker
-                            placeholder={""}
-                            itemStyle={{marginLeft: 5}}
-                            pickerOptions={this.state.banks.sort(function(a, b) {
-                                var textA = a.label.toUpperCase();
-                                var textB = b.label.toUpperCase();
-                                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-                            })}
-                            selectedOption={this.state.userBank.bank != undefined 
-                                ? 
-                                    (this.state.selectedBank
-                                        ? this.state.selectedBank
-                                        : this.state.userBank.bank.id
-                                    ) 
-                                : 
-                                this.state.selectedBank}
-                            //
-                            onPickerChange={(val) => this.setState({bankId: val})}
-                        />  
-                        <LabelInput 
-                            label={"Account Number"} 
-                            placeholder={this.state.userBank.accountNumber != undefined ? this.state.userBank.accountNumber : "XXXXXXXXXXXX"}
-                            onChangeText={(val) => this.setState({accountNumber: val})}
-                                
-                        /> 
-                    </TouchableOpacity>
+                    <View>
+                        {
+                            this.state.accountNumber 
+                            ?
+                                <>
+                                    <LabelInput 
+                                        label={"Account Name"} 
+                                        placeholder={this.state.userBank.accountName ? this.state.userBank.accountName : "Account Name"}
+                                        itemStyle={{marginLeft: 5}}
+                                        onChangeText={(val) => this.setState({accountName: val})}
+                                    />  
+                                    <LabelInput
+                                        label={"Commercial Bank"} 
+                                        picker
+                                        placeholder={""}
+                                        itemStyle={{marginLeft: 5}}
+                                        pickerOptions={this.state.banks.sort(function(a, b) {
+                                            var textA = a.label.toUpperCase();
+                                            var textB = b.label.toUpperCase();
+                                            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+                                        })}
+                                        selectedOption={this.state.userBank.bank != undefined 
+                                            ? 
+                                                (this.state.selectedBank
+                                                    ? this.state.selectedBank
+                                                    : this.state.userBank.bank.id
+                                                ) 
+                                            : 
+                                            this.state.selectedBank}
+                                        //
+                                        onPickerChange={(val) => this.setState({bankId: val})}
+                                    />  
+                                    <LabelInput 
+                                        label={"Account Number"} 
+                                        placeholder={this.state.userBank.accountNumber != undefined ? this.state.userBank.accountNumber : "XXXXXXXXXXXX"}
+                                        onChangeText={(val) => this.setState({accountNumber: val})}
+                                            
+                                    /> 
+                                    <TouchableOpacity
+                                        style={[MyStyle.nextButton, {height: 40, borderRadius: 5}]}
+                                        onPress={() => this.addBank()}
+                                    >
+                                        <MyText style={[textH3Style, textCenter, textWhite, textBold]}>Edit Bank</MyText>
+                                    </TouchableOpacity>
+                                </>
+                            :
+                                <TouchableOpacity
+                                    style={[MyStyle.nextButton, {height: 40, borderRadius: 5}]}
+                                    onPress={() => this.addBank()}
+                                >
+                                    <MyText style={[textH3Style, textCenter, textWhite, textBold]}>Add Bank</MyText>
+                                </TouchableOpacity>
+
+                        }
+                    </View>
                 </Content>
                 <Footer style={[MyStyle.footer, MyStyle.transparent]}>
                     <TouchableOpacity

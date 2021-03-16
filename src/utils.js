@@ -167,7 +167,7 @@ function PrepareData(Data, type = "json") {
 export function consoleLog(period, message, ...optionalParams) {
    if (period === undefined) period ="initial";
 
-   if (debug && period == "update_res") console.log(message, optionalParams);
+   if (debug && period == "res_menu") console.log(message, optionalParams);
 }
 
 export async function refreshToken(apiDetails) {

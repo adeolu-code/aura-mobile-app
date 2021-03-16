@@ -24,6 +24,7 @@ export default class LabelCheckbox extends Component {
     render() {
         let {textH6Style} = GStyles;
         let props = this.props;
+        console.log("isAlcoholAllowed", props.checked);
         
         return (
             <TouchableOpacity 
