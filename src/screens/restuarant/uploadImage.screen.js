@@ -19,6 +19,7 @@ export default class RestaurantUploadImage extends Component {
 
 
     render() {
+        console.log("this.props.navigation?.route?.params?.nextScreen", this.props.route?.params?.nextScreen);
         const {
             textWhite,
             textBlack,
@@ -40,7 +41,7 @@ export default class RestaurantUploadImage extends Component {
                                 titleStyle={textWhite}
                                 desciptionStyle={textWhite}
                                 image={require("./../../assets/images/img_upload/photograph.png")}
-                                onPress={() => this.props.navigation.push('Other', { screen: 'HirePhotographers', params:{type: 'host'} }) }
+                                onPress={() => this.props.navigation.push('Other', { screen: 'HirePhotographers', params:{type: 'restaurant'} }) }
                             />
                             <Section 
                                 style={{backgroundColor: colors.white, borderStyle: "dashed", borderWidth: 1, borderColor: colors.grey, overflow: "hidden"}} 
@@ -51,7 +52,7 @@ export default class RestaurantUploadImage extends Component {
                                 titleStyle={textBlack}
                                 desciptionStyle={textBlack}
                                 image={require("./../../assets/images/img_upload/take_photo.png")}
-                                onPress={() => this.props.navigation.navigate('PickPropertyImage')}
+                                onPress={() => this.props.navigation.navigate(this.props.route?.params?.nextScreen, {new: this.props.route?.params?.new, profileId: this.props.route?.params?.profileId})}
                             />
 
                         </Content>

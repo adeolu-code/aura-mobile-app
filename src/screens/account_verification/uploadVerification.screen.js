@@ -7,7 +7,7 @@ import colors from "../../colors";
 import GStyles from "./../../assets/styles/GeneralStyles";
 import { MyText, Loading } from "../../utils/Index";
 import ImagePicker from 'react-native-image-crop-picker';
-import { prepareMedia, uploadImageApi, consoleLog } from "../../utils";
+import { prepareMedia, uploadImageApi, consoleLog, errorMessage } from "../../utils";
 import RNFetchBlob from "rn-fetch-blob";
 import { uploadIdentityImageApi } from "../../api/profile.api";
 import { LabelInput } from "../../components/label_input/labelInput.component";

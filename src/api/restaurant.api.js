@@ -1,4 +1,6 @@
 import { urls, GetRequest, errorMessage, successMessage, consoleLog, Request } from "../utils";
+import RNFetchBlob from "rn-fetch-blob";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export async function getRestaurantOrdersApi(page=1,size=1, type="host") {
     
@@ -174,6 +176,39 @@ export async function updateRestaurantPhotoMenuApi(profileId, data) {
     
     let res = await Request(urls.restaurantBase + urls.v, urls.restaurant + urls.photo + profileId, data, false, "PUT");
     console.log("res", res);
+    
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        successMessage(res.message);
+        return res.data;
+    }
+    
+    return;
+}
+
+export async function uploadRestaurantPhotoMenuApi(profileId, assetPath, data) {
+
+    let res = await Request(urls.restaurantBase + urls.v, urls.restaurant + urls.photo + "menu/multiple", data, false, "POST");
+    console.log("res", res, urls.restaurantBase + urls.v+ urls.restaurant + urls.photo + "menu");
+    
+    if (res.isError) {
+        errorMessage(res.message);
+    }
+    else {
+        successMessage(res.message);
+        return res.data;
+    }
+    
+    return;
+}
+
+export async function deleteRestaurantPhotoMenuApi(id) {
+    
+
+    let res = await GetRequest(urls.restaurantBase + urls.v, urls.restaurant + urls.photo + "?photoId=" + id, undefined, "DELETE");
+    
     
     if (res.isError) {
         errorMessage(res.message);

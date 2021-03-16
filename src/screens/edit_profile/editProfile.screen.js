@@ -59,7 +59,8 @@ export default class EditProfile extends Component {
             "zipCode": this.state.zipCode || this.context.state.userData.zipCode,
           }
           this.setState({loading: true});
-          data.otherVerifiedPhoneNumbers = JSON.stringify(data.otherVerifiedPhoneNumbers);
+        //   data.otherVerifiedPhoneNumbers = JSON.stringify(data.otherVerifiedPhoneNumbers);
+        data.otherVerifiedPhoneNumbers = data.otherVerifiedPhoneNumbers;
         //   if (data.otherVerifiedPhoneNumbers.length == 0) delete data.otherVerifiedPhoneNumbers;
           await editProfileApi(data, this.context);
           this.setState({loading: false});

@@ -30,6 +30,7 @@
     "number-to-locale-string-polyfill": "^1.0.9",
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "react-native-alert-pro": "^1.1.2",
     "react-native-awesome-alerts": "^1.4.2",
     "react-native-calendars": "^1.1128.0",
     "react-native-code-push": "^7.0.0",

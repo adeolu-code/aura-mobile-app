@@ -121,7 +121,7 @@ export const LabelInput = (props) => {
                         rowSpan={props.rowSpan || 3}
                         placeholder={props.placeholder?.toString()} 
                         style={[Styles.textarea, props.textInputStyles]}
-                        value={props.value.toString()}
+                        value={props.value && props.value.toString()}
                         onChangeText={(e) => props.onChangeText && props.onChangeText(e)}
                     />
                     
@@ -130,7 +130,7 @@ export const LabelInput = (props) => {
                         style={[Styles.input, {height: 150}, props.textInputStyles]} 
                         maxLength={props.maxLength} 
                         multiline={true}
-                        value={props.value.toString()}
+                        value={props.value && props.value.toString()}
                         textAlignVertical="top"
                         onChangeText={props.onChangeText}
                     /> */}
@@ -150,7 +150,7 @@ export const LabelInput = (props) => {
                             placeholder={props.placeholder?.toString()} 
                             style={[Styles.input]} 
                             maxLength={props.maxLength} 
-                            value={props.value.toString()}
+                            value={props.value && props.value.toString()}
                             onChangeText={(e) => { props.onChangeText && props.onChangeText(e);}}
                             keyboardType={props.keyboardType || "default"}
                             disabled={props.disabled || false}
