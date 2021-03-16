@@ -14,8 +14,7 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { AppContext } from '../../../AppProvider';
 import { setContext, urls, GetRequest } from '../../utils';
-
-
+import TermsModal from '../../components/dashboard/TermsModal';
 
 
 class EmailVerificationModal extends Component {
@@ -47,8 +46,12 @@ class EmailVerificationModal extends Component {
     }
     
     skip = async () => {
-        this.props.onDecline();
-        this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
+        if(this.props.next) {
+            this.props.onDecline('next');
+        } else {
+            this.props.onDecline();
+            this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
+        }
     }
     checkVerified = () => {
         this.setState({ loading: true, formErrors: [] })
@@ -56,10 +59,15 @@ class EmailVerificationModal extends Component {
         .then((res) => {
             this.setState({ loading: false })
             if(res.isEmailVerified) {
-                this.props.onDecline('success');
-                if(!this.props.close) {
-                    this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
+                if(this.props.next) {
+                    this.props.onDecline('next');
+                } else {
+                    this.props.onDecline('success');
+                    if(!this.props.close) {
+                        this.props.navigation.navigate('HostPropertyStack', {screen: 'HostSteps'})
+                    }
                 }
+                
             } else {
                 this.setState({ formErrors: ['Email verification failed']})
             }

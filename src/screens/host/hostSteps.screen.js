@@ -296,7 +296,7 @@ export default class HostSteps extends Component {
                         <Content>
                             {this.renderProperty()}
                             
-                            <Card title={"Facilities And Location"} cardStyles={{ paddingTop: 0, marginTop: -15}}
+                            <Card title={"Facilities And Location"} cardStyles={{ paddingTop: 0, marginTop: -5}}
                                 description={"Basic property facilities and location details of property"}
                                 completed={step > 1 ? true : false} edit={step > 1 ? true : false} step={1} 
                                 getStarted={step === 1 ? true : false}

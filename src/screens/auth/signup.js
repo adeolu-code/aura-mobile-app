@@ -250,7 +250,7 @@ class signUp extends Component {
           <Header title="Sign Up With Email" {...this.props} />
           {this.renderLoading()}
           <ScrollView keyboardShouldPersistTaps="always" >
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>              
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "padding"} style={styles.container}>              
               <View style={inputContainer}>
                 <CustomInput placeholder='First Name' label="First Name" onChangeText={this.onChangeValue} value={this.state.firstName}
                 attrName="firstName" onBlur={this.onBlurFirstName} />

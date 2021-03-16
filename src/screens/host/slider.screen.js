@@ -116,11 +116,11 @@ export default class HostSlider extends Component{
             this.setState({ loading: false })
         }
     }
-    checkVerification = () => {
+    checkVerification = (type) => {
         const { userData } = this.context.state;
         if (userData.isPhoneVerified) {
             if (userData.isEmailVerified) {
-                this.setState({ showTermsModal: true, type: EXPERIENCE })
+                this.setState({ showTermsModal: true, type })
             } else {
                 this.sendMail();
             }
@@ -131,7 +131,7 @@ export default class HostSlider extends Component{
                 this.generateOtp();
             } else {
                 if (userData.isEmailVerified) {
-                    this.setState({ showTermsModal: true, type: EXPERIENCE })
+                    this.setState({ showTermsModal: true, type })
                 } else {
                     this.sendMail();
                 }
@@ -143,13 +143,14 @@ export default class HostSlider extends Component{
         switch (this.state.currentIndex) {
             case 0:
                 // this.props.navigation.navigate("HostSteps")
-                this.setState({ showTermsModal: true, type: HOST })
+                // this.setState({ showTermsModal: true, type: HOST })
+                this.checkVerification(HOST)
                 break;
             case 1:
                 this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant'})
                 break;
             case 2:
-                this.checkVerification()
+                this.checkVerification(EXPERIENCE)
                 // this.setState({ showTermsModal: true, type: EXPERIENCE })
                 // this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
                 // btnText = "Host Experience";

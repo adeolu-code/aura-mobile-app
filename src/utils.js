@@ -9,8 +9,8 @@ import { urls as Urls } from "./urls";
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 
 let context = undefined;
-export let debug = true; 
 // export let debug = true; 
+export let debug = false; 
 export const GLOBAL_PADDING = 20;
 export const SCREEN_HEIGHT = Dimensions.get('screen').height
 export const SCREEN_WIDTH = Dimensions.get('screen').width

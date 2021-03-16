@@ -118,8 +118,11 @@ class HostScreen extends Component {
   openEmailModal = () => {
     this.setState({ showEmailModal: true });
   }
-  closeEmailModal = () => {
+  closeEmailModal = (value) => {
     this.setState({ showEmailModal: false });
+    if(value === 'next') {
+      this.openTermsModal()
+    }
   }
   generateOtp = async () => {
     this.setState({ loading: true, errors: [] });
@@ -208,7 +211,7 @@ class HostScreen extends Component {
                     {/* <CustomButton buttonText='Become A Photographer' onPress={this.becomeAHost} 
                     buttonStyle={{backgroundColor: colors.black}} textStyle={[textH4Style,{color: colors.white}]}/> */}
                 </View>
-                <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } />
+                <EmailVerificationModal visible={this.state.showEmailModal} onDecline={this.closeEmailModal} { ...this.props } next />
                 <OtpModal visible={this.state.showOtpModal} onDecline={this.closeOtpModal} { ...this.props } 
                 openEmail={this.openEmailModal} />
                 
