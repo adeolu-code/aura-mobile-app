@@ -185,7 +185,7 @@ class ImageAndDetails extends Component {
 
 const styles = StyleSheet.create({
     headerStyle: {
-        paddingTop: 70, paddingBottom: 15,
+        paddingTop: 78, paddingBottom: 15,
         backgroundColor: colors.white,
         paddingHorizontal: 20,
     },

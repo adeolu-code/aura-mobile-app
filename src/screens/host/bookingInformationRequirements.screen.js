@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
@@ -18,6 +18,7 @@ export default class BookingInformationRequirements extends Component {
 
         this.state = { bookingReqValues: [], bookingReqs: [], gettingBookingReq: false, toggleAddBookingReq: false,
         addInfoValue: '', addingInfo: false, loading: false, gettingHouse: false };
+        this.scrollViewRef = React.createRef();
     }
     guestProvisionList = [
         "Agree to your House Rules",
@@ -45,6 +46,7 @@ export default class BookingInformationRequirements extends Component {
         } else {
             const data = res.data;
             this.setState({ bookingReqs: data });
+            
             // console.log(data);
         }
     }
@@ -141,7 +143,13 @@ export default class BookingInformationRequirements extends Component {
         }
         if(toggleAddBookingReq) {
             return (
-                <View style={[flexRow, { flex: 1, alignItems: 'flex-end', marginTop: 10}]}>
+                <View style={[flexRow, { flex: 1, alignItems: 'flex-end', marginBottom: 30 }]} 
+                onLayout={event => {
+                    console.log('Layout ',event.nativeEvent.layout)
+                    this.layout = event.nativeEvent.layout
+                    // this.setState({ layout: event.nativeEvent.layout})
+                    
+                    }}>
                     <View style={{ flex: 8, paddingRight: 20}}>
                         <CustomInput placeholder=" " value={this.state.addInfoValue} attrName="addInfo" onChangeText={this.onChangeText} />
                     </View>
@@ -188,7 +196,17 @@ export default class BookingInformationRequirements extends Component {
     }
     toggleAddBookingReq = () => {
         const { toggleAddBookingReq } = this.state
-        this.setState({ toggleAddBookingReq: !toggleAddBookingReq })
+        this.setState(() => ({ toggleAddBookingReq: !toggleAddBookingReq }), () => {
+            if(this.state.toggleAddBookingReq) {
+                // this.scrollViewRef.current.scrollTo({x:20, y: this.yAxis, animated: true})
+                // this.scrollViewRef.current.scrollToEnd({ animated: true })
+                setTimeout(() => {
+                    this.scrollViewRef.current.scrollToEnd({ animated: true })
+                }, 5);
+            }
+            
+        })
+        
     }
 
     render() {
@@ -209,8 +227,8 @@ export default class BookingInformationRequirements extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Booking Information Requirements" />
-                    <Container style={[Styles.container,]}>
-                        <Content scrollEnabled>
+                    <Container style={[Styles.container,]} >
+                        <ScrollView ref={this.scrollViewRef} scrollEventThrottle={20}  >
                             <MyText style={[textH3Style, textExtraBold, { marginBottom: 5}]}>Guest Must Provide</MyText>
                             <MyText style={[textH5Style, textGrey, lineHeightText]}>
                                 Before Booking any apartment, users must provide any of the following informations
@@ -220,12 +238,12 @@ export default class BookingInformationRequirements extends Component {
                             </View>
                             
                             <TouchableOpacity onPress={this.toggleAddBookingReq}>
-                                <MyText style={[textUnderline,textOrange, textBold]}>Add Additional Requirement</MyText>
+                                <MyText style={[textUnderline,textOrange, textBold, { marginBottom: 15 }]}>Add Additional Requirement</MyText>
                             </TouchableOpacity>
 
                             {this.renderAddInfo()}
 
-                        </Content>
+                        </ScrollView>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} disabled={gettingBookingReq || addingInfo}
                                 onPress={this.submit} />

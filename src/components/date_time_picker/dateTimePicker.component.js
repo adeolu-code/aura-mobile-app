@@ -25,9 +25,8 @@ export default class DateTimePickerComponent extends Component {
         const { showPicker } = this.state
         if(showPicker) {
             return (
-                
-                    <DateTimePicker
-                            mode={this.props.mode || "datetime"}
+                <View>
+                    <DateTimePicker mode={this.props.mode || "datetime"}
                             onChange={(e, selectedDate) => {
                                 console.log("e", selectedDate);
                                 this.setState({showPicker: false})
@@ -39,7 +38,8 @@ export default class DateTimePickerComponent extends Component {
                             value={this.state.date|| this.props.value}
                             display={this.props.display || "calendar"}
                             
-                        />
+                    />
+                </View>
                 
             )
         }
@@ -49,7 +49,8 @@ export default class DateTimePickerComponent extends Component {
         const { textH4Style } = GStyles
         return (
             <>    
-            <View style={{ width: '100%'}}>    
+            <View style={{ width: '100%'}}>  
+              
                 <TouchableOpacity  style={[Styles.parent, this.props.style]} onPress={this.showPicker}>
                     <MyText style={[textH4Style]}>{Moment(this.props.value).format(this.props.format || "YYYY-MM-DD")}</MyText>
                 </TouchableOpacity>

@@ -191,7 +191,7 @@ export default class SetPricing extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header {...this.props}  title="Set Your Pricing"  />
-                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 100 : 130, padding: 0, paddingBottom: 10}]}>
+                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 105 : 130, padding: 0, paddingBottom: 10}]}>
                         <Content scrollEnabled>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start", paddingHorizontal: 20, paddingTop: 20}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>

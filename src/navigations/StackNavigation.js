@@ -47,6 +47,7 @@ import HostSlider from '../screens/host/slider.screen';
 import AddProfilePicture from '../screens/edit_profile/addProfilePic.screen';
 import ChangePassword from '../screens/edit_profile/changePassword.screen';
 import Complaint from '../screens/profile/complaints.screen';
+import SupportScreen from '../screens/profile/Support';
 
 
 import TitleDescriptionScreen from '../screens/photograph/TitleDescription';
@@ -188,6 +189,7 @@ export function ProfileStack() {
             <Stack.Screen name="AddProfilePicture" component={AddProfilePicture} options={{ headerShown: false }} />
             <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }} />
             <Stack.Screen name="Complaint" component={Complaint} options={{ headerShown: false }} />
+            <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
             
         </Stack.Navigator>
     );

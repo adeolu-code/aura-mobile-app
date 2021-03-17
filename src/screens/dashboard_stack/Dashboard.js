@@ -379,7 +379,7 @@ class Dashboard extends Component {
 
 const styles = StyleSheet.create({
   subHeaderContainer: {
-    paddingTop: Platform.OS === 'ios' ? 120 : 140, backgroundColor: colors.white, paddingBottom: 30,
+    paddingTop: Platform.OS === 'ios' ? 130 : 140, backgroundColor: colors.white, paddingBottom: 30,
     paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey, 
   },
   imgContainer: {

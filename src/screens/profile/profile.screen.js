@@ -347,7 +347,8 @@ class ProfileScreenClass extends Component {
                                 title={"Get Help"} 
                                 description={"Get 24/7 support, tools and information you need"} 
                                 iconImage={require("./../../assets/images/profile/question/question.png")}
-                                onPress={this.linkToWhatsapp}
+                                // onPress={this.linkToWhatsapp}
+                                onPress={() => this.props.navigation.navigate("Support")}
                             />
                             {/* {
                                 userIsLoggedIn &&

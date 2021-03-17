@@ -246,8 +246,8 @@ export default class HostSteps extends Component {
             return (
                 <View style={[Styles.reviewView, { paddingTop: 1, paddingBottom: 10}]}>
 
-                    <View style={{ width: '100%', marginBottom: 40}}>
-                        <TouchableOpacity style={[flexRow, Styles.propertyContainer]} >
+                    <View style={{ width: '100%', marginBottom: 30, marginTop: 10}}>
+                        <View style={[flexRow, Styles.propertyContainer]} >
                             <View style={Styles.imgContainer}>
                                 <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
                                 {this.renderVerified()}
@@ -271,7 +271,7 @@ export default class HostSteps extends Component {
                                     </View>
                                 </View>
                             </View>
-                        </TouchableOpacity>
+                        </View>
                     </View>
                     {this.renderSuccessMessage()}
                     {this.renderPublish()}

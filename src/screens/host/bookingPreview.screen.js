@@ -35,7 +35,7 @@ export default class BookingPreview extends Component {
                         {...this.props} 
                         title="Here’s How Guests Will Book With You" 
                     />
-                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 130 : 160 }]}>
+                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 140 : 160 }]}>
                         <Content scrollEnabled>
                             <Item 
                                 title={"Qualified Guests Find Your Listing"}

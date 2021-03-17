@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, TouchableOpacity } from "react-native";
+import { SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
@@ -18,6 +18,7 @@ export default class HouseRules extends Component {
 
         this.state = { houseRules: [], gettingHouseRules: false, houseRuleValues: [], toggleAddHouseRule: false,
             addInfoValue: '', addingInfo: false, };
+        this.scrollViewRef = React.createRef();
     }
 
     getHouseRules = async () => {
@@ -123,7 +124,14 @@ export default class HouseRules extends Component {
 
     toggleHouseRule= () => {
         const { toggleAddHouseRule } = this.state
-        this.setState({ toggleAddHouseRule: !toggleAddHouseRule })
+        this.setState(() => ({ toggleAddHouseRule: !toggleAddHouseRule }), () => {
+            if(this.state.toggleAddHouseRule) {
+                setTimeout(() => {
+                    this.scrollViewRef.current.scrollToEnd({ animated: true })
+                }, 5);
+            }
+        })
+
     }
 
     submit = () => {
@@ -145,9 +153,9 @@ export default class HouseRules extends Component {
                         sub={"Inform your guests about rules they need to follow if you are hosting them"}
                     />
                     <Container style={[Styles.container]}>
-                        <Content scrollEnabled>
+                        <ScrollView ref={this.scrollViewRef}>
                             <View style={{ paddingBottom: 100}}>
-                                <View style={[{marginTop: 50}]}>
+                                <View style={[{marginTop: 65}]}>
                                     {this.renderHouseRules()}
                                 </View>
                                 <TouchableOpacity onPress={this.toggleHouseRule}>
@@ -156,7 +164,7 @@ export default class HouseRules extends Component {
 
                                 {this.renderAddInfo()}
                             </View>
-                        </Content>
+                        </ScrollView>
                         <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
                                 onPress={this.submit} />

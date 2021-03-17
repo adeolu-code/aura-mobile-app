@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, TouchableOpacity, Platform } from "react-native";
+import { SafeAreaView, TouchableOpacity, Platform, ScrollView } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
@@ -20,6 +20,7 @@ export default class NotifyHost extends Component {
     constructor() {
         super();
         this.state = { fromValue: '', toValue: '', values: [] };
+        this.scrollViewRef = React.createRef();
     }
     componentDidMount = () => {
         // const obj = {
@@ -72,6 +73,9 @@ export default class NotifyHost extends Component {
         //     totalSeconds: new Date(date).getTime()
         // }
         // this.setState({ fromValue: obj })
+        setTimeout(() => {
+            this.scrollViewRef.current.scrollToEnd({ animated: true })
+        }, 50);
     }
     getDay = (value) => {
         const { values } = this.state
@@ -144,7 +148,7 @@ export default class NotifyHost extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="When Should We Notify You Before A Guest Shows Up" />
                     <Container style={[Styles.container, {marginTop: 200}]}>
-                        <Content scrollEnabled>
+                        <ScrollView ref={this.scrollViewRef}>
                             <View style={[Styles.rowView, {}]}>
 
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
@@ -162,8 +166,8 @@ export default class NotifyHost extends Component {
                                 <MyText style={[textlightGreyTwo, textH4Style, {marginTop: 5, flex: 1}]}>From</MyText>
                                 <MyText style={[textlightGreyTwo, textH4Style, {marginTop: 5, flex: 1}]}>To</MyText>
                             </View>
-                            <View style={[Styles.rowView ]}>  
-                                <View style={{ width: '48%'}}>                          
+                            <View style={[Styles.rowView,  ]}>  
+                                <View style={{ width: '48%' }}>                          
                                     <DateTimePickerComponent 
                                         mode={"time"}
                                         onChange={this.fromValue}
@@ -185,10 +189,13 @@ export default class NotifyHost extends Component {
                                     />
                                 </View>
                             </View>
-                        </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, }]}>
+                            <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, marginTop: 20 }]}>
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} disabled={this.state.values.length === 0} />
+                            </Footer>
+                        </ScrollView>
+                        {/* <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, }]}>
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} disabled={this.state.values.length === 0} />
-                        </Footer>
+                        </Footer> */}
                     </Container>
                 </SafeAreaView>
             </>

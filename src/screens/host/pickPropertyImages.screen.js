@@ -302,7 +302,7 @@ export default class PickPropertyImage extends Component {
                     <Container style={[Styles.container]}>
                         <Content>
                                 <TouchableOpacity onPress={this.openTipsModal}>
-                                    <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40}]}>See Photography Tips</MyText>
+                                    <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40, marginTop: 10}]}>See Photography Tips</MyText>
                                 </TouchableOpacity>
                                 <View style={[Styles.pickImageImageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent", justifyContent: 'flex-start'})]}>
                                     {

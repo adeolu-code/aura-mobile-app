@@ -7,6 +7,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { getToken, setToken } from './helpers';
 import { urls as Urls } from "./urls";
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
+import { navigationRef, isReadyRef } from './RootNavigation';
+
 
 let context = undefined;
 // export let debug = true; 
@@ -175,30 +177,32 @@ export async function refreshToken(apiDetails) {
    const headers = {
       ClientId: CLIENT_ID,
       ClientSecret: CLIENT_SECRET,
-      RefreshToken: tokenObj.refresh_token
+      RefreshToken: tokenObj?.refresh_token
    }
    headers["Content-Type"] = "application/json"
    headers["Access-Control-Allow-Origin"] = "*"
-   headers["Authorization"] = "Bearer " + tokenObj.access_token
+   headers["Authorization"] = "Bearer " + tokenObj?.access_token
    const url = `${urls.identityBase}${urls.v}auth/token/renew`
-
-   const response = await fetch(url, { method: 'GET', headers })
-   let data = await response.json()
-   if(data.isError) {
-      // Log user Out
-      context.logOut()
-      return data
-   } else {
-      // Set user data to context and to async storage
-      setToken(data.data)
-      context.set({ token: data.data })
-      // repeat the previous api call
-      if(apiDetails.type === 'GET') {
-         return getApi(apiDetails.url, apiDetails.type, apiDetails.headers)
+   
+      const response = await fetch(url, { method: 'GET', headers })
+      let data = await response.json()
+      if(data.isError) {
+         // Log user Out
+         context.logOut()
+         return data
       } else {
-         return postApi(apiDetails.url, apiDetails.type, apiDetails.headers, apiDetails.body)
+         // Set user data to context and to async storage
+         setToken(data.data)
+         context.set({ token: data.data })
+         // repeat the previous api call
+         if(apiDetails.type === 'GET') {
+            return getApi(apiDetails.url, apiDetails.type, apiDetails.headers)
+         } else {
+            return postApi(apiDetails.url, apiDetails.type, apiDetails.headers, apiDetails.body)
+         }
       }
-   }
+   
+   
 }
 
 async function getApi(url, type, headers ) {
@@ -219,7 +223,7 @@ export async function Request(Base, Url, Data, PreparedData = false, method = "P
    const token = await getUserToken();
    
    let headers = {}
-   consoleLog("url", Base+Url, Data)
+   // consoleLog("url", Base+Url, Data)
    
    if (!PreparedData) {
       headers["Content-Type"] = "application/json"
@@ -243,13 +247,25 @@ export async function Request(Base, Url, Data, PreparedData = false, method = "P
       try {
          const res = await fetch(Base + Url, { method, headers, body })
          if(res.status === 401 && Url !== 'user/changepassword/' && Url !== 'api/v1/user/otp/generate') {
+            console.log('Got here ')
             const apiDetails = {
                url: Base + Url, headers, type: method, body
             }
-            return refreshToken(apiDetails)
+            refreshToken(apiDetails)
+            .then((res) => {
+               resolve(res)
+            })
+            .catch((error) => {
+               reject(error)
+            })
+            // const value = await refreshToken(apiDetails)
+            // // resolve(value)
+            // return value
+            // return refreshToken(apiDetails)
          } else {
             let data = res.json()
-            consoleLog("update_res", "data", data);
+            // console.log("update_res", "data", data)
+            // consoleLog("update_res", "data", data);
             resolve(data)
             // return data
          }
@@ -295,6 +311,12 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
                url, headers, type
             }
             refreshToken(apiDetails)
+            .then((res) => {
+               resolve(res)
+            })
+            .catch((error) => {
+               reject(error)
+            })
          } else {
             let data = response.json()
             resolve(data)
