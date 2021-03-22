@@ -10,15 +10,18 @@ import GStyles from "./../../assets/styles/GeneralStyles";
 import { setContext, urls, GetRequest, Request, uploadMultipleFile, successMessage, errorMessage } from '../../utils';
 import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
+import { AppContext } from "../../../AppProvider";
 
 import moment from 'moment';
 
 export default class Support extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { subject: '', information: '', media: [], loading: false, formErrors: [], toggleFile: false, uploading: false,
-    selectModal: false, images: [] };
-  }
+    static contextType = AppContext;
+    constructor(props) {
+        super(props);
+        this.state = { subject: '', information: '', email: '', name: '', phoneNumber: '', media: [], loading: false, 
+        formErrors: [], toggleFile: false, uploading: false,
+        selectModal: false, images: [] };
+    }
 
     renderLoading = () => {
         const { loading } = this.state;
@@ -126,8 +129,7 @@ export default class Support extends Component {
             } else {
                 const message = res.message;
                 const error = [message]
-                errorMessage('Please login to continue');
-                // this.setState({ formErrors: error });
+                errorMessage('Something went wrong, please try again, if error continues please contact support');
                 // this.setState({ formErrors: error });
             }
         } catch (error) {
@@ -138,14 +140,40 @@ export default class Support extends Component {
     submit = async () => {
         Keyboard.dismiss()
         const { images } = this.state;
+        const { isLoggedIn } = this.context.state
         this.setState({ loading: true, formErrors: [] })
-        
-        if(images.length > 0) {
-            this.uploadFiles()
+        if(isLoggedIn) {
+            if(images.length > 0) {
+                this.uploadFiles()
+            } else {
+                this.submitReport()
+            }
         } else {
-            this.submitReport()
+            this.submitSupport()
         }
-        
+    }
+    submitSupport = async () => {
+        const { name, email, subject, information, phoneNumber } = this.state
+        const obj = {
+            subject, message: information, phoneNumber, email, name
+        }
+        try {
+            const res = await Request(urls.identityBase, `${urls.v}misc/contactform`, obj);
+            this.setState({ loading: false })
+            console.log('Res ',res);
+            if (!res.isError) {
+                this.setState({ toggleFile: false, information: '', subject: '', phoneNumber: '', email: '', name: ''})
+                successMessage('Your message has been received !')
+            } else {
+                const message = res.message;
+                const error = [message]
+                errorMessage('Something went wrong, please try again, if error continues please contact support');
+            }
+        } catch (error) {
+            console.log('Catched error ', error)
+            this.setState({ loading: false})
+        }
+
     }
     toggleAddFiles = () => {
         const { toggleFile } = this.state
@@ -202,6 +230,7 @@ export default class Support extends Component {
   render() {
     const { textOrange, textH4Style, textBold, textUnderline, flexRow } = GStyles
     const { toggleFile, uploading } = this.state
+    const { isLoggedIn } = this.context.state
     return (
         <>
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
@@ -212,21 +241,38 @@ export default class Support extends Component {
                     <View>
                         <MyText style={[textOrange, textH4Style ]}>Please fill in the form below to get in touch with us.</MyText>
                     </View>
-                    <View style={styles.inputContainer}>
+                    {!isLoggedIn && <View>
+                        <View style={[styles.inputContainer, { marginTop: 10}]}>
+                            <CustomInput placeholder="Name" label="" onChangeText={this.onChangeValue} 
+                            value={this.state.name}
+                            attrName="name" />
+                        </View>
+                        <View style={[styles.inputContainer, { marginTop: 10}]}>
+                            <CustomInput placeholder="Email" label="" onChangeText={this.onChangeValue} 
+                            value={this.state.email}
+                            attrName="email" />
+                        </View>
+                        <View style={[styles.inputContainer, { marginTop: 10}]}>
+                            <CustomInput placeholder="Phone Number" label="" onChangeText={this.onChangeValue} 
+                            value={this.state.phoneNumber}
+                            attrName="phoneNumber" />
+                        </View>
+                    </View>}
+                    <View style={[styles.inputContainer, { marginTop: 10}]}>
                         <CustomInput placeholder="Subject" label="" onChangeText={this.onChangeValue} value={this.state.subject}
                         attrName="subject" />
                     </View>
                     <View style={styles.inputContainer}>
                         <CustomInput placeholder="Hi, I would like to ..." label="" multiline textInputStyle={{ height: 200}}
                         onChangeText={this.onChangeValue} value={this.state.information}
-                        attrName="information" />
+                        attrName="information" textAlignVertical="top" />
                     </View>
-                    <TouchableOpacity onPress={this.toggleAddFiles} style={[flexRow, { marginTop: 20}]}>
+                    {isLoggedIn && <TouchableOpacity onPress={this.toggleAddFiles} style={[flexRow, { marginTop: 20}]}>
                         <Icon type="Feather" name="file-text" style={{ fontSize: 20, color: colors.orange, marginRight: 10}} />
                         <MyText style={[textUnderline,textOrange, textBold, { marginBottom: 15 }]}>
                             {toggleFile ? 'Cancel Files upload' : 'Attach Files' }
                         </MyText>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                     { uploading && <MyText style={[textOrange, textH4Style, textBold, { marginBottom: 10 }]}>Uploading...</MyText>}
                     {this.renderAttachFile()}
 

@@ -43,15 +43,21 @@ export default class BookingPreview extends Component {
                             />
                             <Item 
                                 title={"You Set Controls For Who Can Book"}
-                                content={"To book available dates without having to send a request, guests must agree to your rules and meet all the requirements you set."}
+                                // content={"To book available dates without having to send a request, guests must agree to your rules and meet all the requirements you set."}
+                                content={"For guest’s to successfully book your property, guests must agree to your rules and meet all the requirements you set."}
                             />
-                            <Item 
+                            {/* <Item 
                                 title={"You Set Controls For Who Can Book"}
                                 content={"To book available dates without having to send a request, guests must agree to your rules and meet all the requirements you set."}
-                            />
-                            <Item 
+                            /> */}
+                            {/* <Item 
                                 title={"You’re Protected Throughout"}
                                 content={"In the rare case there are issues, Aura has you covered with 24/7 customer support, a $1,000,000 Host Guarantee, and completely penalty-free cancellations if you’re uncomfortable with a reservation."}
+                                image
+                            /> */}
+                            <Item 
+                                title={"Once a guest reserves, you get notified"}
+                                content={"You will immediately get a notification email with information on the guest’s reservation. You will need to accept the reservation before a confirmation email is sent to the guest. Guests must receive confirmation within 24 hours of sending a request."}
                                 image
                             />
                         </Content>

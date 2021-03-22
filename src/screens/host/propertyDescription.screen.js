@@ -106,7 +106,7 @@ export default class PropertyDescription extends Component {
 
     render () {
         const {
-            textBlack, textBold, textH4Style, textGrey,
+            textBlack, textBold, textH4Style, textGrey, textDanger,
             textH2Style,
             textWhite,
             textCenter
@@ -145,6 +145,8 @@ export default class PropertyDescription extends Component {
                                         value={this.state.description}
                                         textInputStyles={{ height: 100}}
                                     />
+                                    <MyText style={[textDanger, { marginTop: 10}]}>* Reminder: Never exchange any phone numbers or ask for direct payment. 
+                                        Doing so may expose you to the risk of fraud and may get your account restricted *</MyText>
                                 </View>
                             </View>
 
