@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Pressable} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Pressable, Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import GeneralStyles from '../assets/styles/GeneralStyles';
 import moment from 'moment';
@@ -24,10 +24,10 @@ class DatePicker extends Component {
     if (this.state.show) {
       return (
         <View>
-          <Pressable style={{ borderWidth: 1, alignSelf: 'flex-end', paddingVertical: 1, 
+          {Platform.OS === 'ios' && <Pressable style={{ borderWidth: 1, alignSelf: 'flex-end', paddingVertical: 1, 
           paddingHorizontal: 7, borderRadius: 5, marginTop: 5, borderColor: colors.orange }} onPress={this.closeDate}>
             <MyText style={[textOrange, textH4Style]}>x</MyText>
-          </Pressable>
+          </Pressable>}
           <DateTimePicker
             value={this.state.date}
             mode={this.state.mode}
@@ -65,11 +65,18 @@ class DatePicker extends Component {
       const day = moment(date).format('DD');
       const month = moment(date).format('MM');
       const year = moment(date).format('YYYY');
+      if(Platform.OS !== 'ios') {
+        this.setState({ show: false })
+      }
       this.setState({
         value: `${day}/${month}/${year}`,
-        date,
+        date
         // show: false,
       });
+      // if(Platform.OS === 'ios') {
+      //   this.setState({ date })
+      // }
+      
       this.props.receiveData(moment(date));
     }
   };

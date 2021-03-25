@@ -23,7 +23,6 @@ class RecentReservationsTab extends Component {
     }
     renderLoadMore = () => {
         const { state } = this.props.reservationsContext;
-        console.log(state)
         const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles;
         if (state.loadMoreReservations) {
             return (

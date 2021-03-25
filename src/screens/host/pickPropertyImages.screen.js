@@ -91,8 +91,9 @@ export default class PickPropertyImage extends Component {
             if(coverImage.size && coverImage.mime) {
                 this.uploadCover()
             } else {
-                this.setState({ loading: true })
-                this.updateCoverPhoto(coverImage.path)
+                this.setState({ isCaptured: true })
+                // this.setState({ loading: true })
+                // this.updateCoverPhoto(coverImage.path)
             }
         }
     }
@@ -126,7 +127,7 @@ export default class PickPropertyImage extends Component {
         const { set } = this.context
 
         const obj = {
-            propertyId: propertyFormData.id, additionalInformation, isMain: true, imageName: imgUrl
+            propertyId: propertyFormData.id, additionalInformation, isMain: false, imageName: imgUrl
         }
         // if(propertyFormData.mainImage) {
         //     obj.id = propertyFormData.mainImage.id
@@ -138,6 +139,9 @@ export default class PickPropertyImage extends Component {
             if(res.isError || res.IsError) {
                 errorMessage('Failed to update cover image, try again else contact support')
             } else {
+                if(propertyFormData.mainImage) {
+                    this.makeCoverImage(res.data, propertyFormData.id)
+                }
                 this.setState({ isCaptured: true,  })
                 const mainImage = res.data
                 set({ propertyFormData: {...propertyFormData, mainImage }})
@@ -148,6 +152,20 @@ export default class PickPropertyImage extends Component {
             this.setState({ loading: false })
         })
     }
+
+    makeCoverImage = async (photo, id) => {
+        const obj = { photoId: photo.id, propertyId: id };
+        try {
+            const res = await Request(urls.listingBase, `${urls.v}listing/photo/coverphoto/update`, obj )
+            if(res.isError || res.IsError) {     
+                
+            } else {
+                
+            } 
+        } catch (error) {
+            
+        }
+      }
     
     submit = () => {
         const { edit } = this.context.state

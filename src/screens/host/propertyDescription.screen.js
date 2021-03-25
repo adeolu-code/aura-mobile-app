@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, Keyboard, KeyboardAvoidingView  } from "react-native";
+import { SafeAreaView, Keyboard, KeyboardAvoidingView, Platform  } from "react-native";
 import { Styles } from "./host.style";
 import { Container, Content, View, Icon } from "native-base";
 import colors from "../../colors";
@@ -117,7 +117,7 @@ export default class PropertyDescription extends Component {
                     {this.renderLoading()}
                     <Header {...this.props}  title="Create A List Title" />
                     <Content>
-                        <KeyboardAvoidingView style={[Styles.container, {marginTop: 100, flex: 1}]} 
+                        <KeyboardAvoidingView style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 100 : 120, flex: 1}]} 
                         behavior={Platform.OS === "ios" ? "padding" : "height"}>
                             
                             <View style={{ flex: 1.3, marginBottom: 50}}>

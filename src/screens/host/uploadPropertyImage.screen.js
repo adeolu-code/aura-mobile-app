@@ -1,6 +1,6 @@
 import { Container, Content, View } from "native-base";
 import React, { Component } from "react";
-import { Image, SafeAreaView, TouchableOpacity } from "react-native";
+import { Image, SafeAreaView, TouchableOpacity, Platform } from "react-native";
 import colors from "../../colors";
 import Header from "../../components/Header";
 import { MyText } from "../../utils/Index";
@@ -29,7 +29,7 @@ export default class UploadPropertyImage extends Component {
                     
                     <Header {...this.props} title="Upload Quality Photos" sub={"Catch guests’ attention with high quality images."} />
                     
-                    <Container style={[Styles.container, {marginTop: 120}]}>
+                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 120 : 150}]}>
                         <Content scrollEnabled>
                             <Section 
                                 style={{backgroundColor: colors.lightGreen, marginBottom: 40}} 

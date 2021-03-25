@@ -25,6 +25,8 @@ export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs";
 export const GOOGLE_SEARCH_KEY = 'AIzaSyDeW1aTWlO-Azt-kFGAIxHsQJflNCY_9mM';
 
 const UNAUTHORIZED_MESSAGE = 'user is unauthorised to perform action'
+export const EXPIRED_TOKEN = "access code generation failed";
+export const EXPIRED_MESSAGE = 'Your session has expired, please log in to continue'
 
 export const PHOTOGRAPH = 'Photographer';
 export const RESTAURANT = 'Restaurant';
@@ -136,8 +138,7 @@ const getUserToken = async () => {
 export function setContext(appContext) {
     if (context === undefined) {
       context = appContext;
-    }
-    else {
+    } else {
       context.state = appContext.state;
     }
 }

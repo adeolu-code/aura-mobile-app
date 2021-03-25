@@ -186,14 +186,14 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 120,
+    marginTop: Platform.OS === 'ios' ? 140 : 155,
     flex: 1, 
     // borderWidth: 1, borderColor: 'red',
   },
   button: {
     // marginTop: 150,
     // marginBottom: 86, 
-    flex: 1.5, justifyContent: 'flex-end', paddingBottom: 10
+    flex: 1.5, justifyContent: 'flex-end', paddingBottom: 20
     // borderWidth: 1
   },
   imgContainer: {

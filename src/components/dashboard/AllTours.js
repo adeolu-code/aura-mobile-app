@@ -34,11 +34,11 @@ class AllTours extends Component {
     onEndReached = () => {
         const { set, state, getAllProperties } = this.props.propertyContext
         if(state.activePropertiesPage < state.pagePropertiesCount && !state.loadMoreProperties) {
-            set({ activePropertiesPage: state.activePropertiesPage + 1 })
-            console.log('Got here ', state)
-            getAllProperties(true)
+            set({ activePropertiesPage: state.activePropertiesPage + 1 }, () => {
+                getAllProperties(true)
+            })
         }
-        console.log('End reached')
+        // console.log('End reached')
     }
     renderLoadMore = () => {
         const { state } = this.props.propertyContext
@@ -67,8 +67,9 @@ class AllTours extends Component {
         )
     }
     onRefresh = () => {
+        const { set, state, getAllProperties } = this.props.propertyContext
         this.setState({ refreshing: true })
-        this.props.propertyContext.getAllProperties()
+        getAllProperties()
         .finally(() => {
             this.setState({ refreshing: false })
         })

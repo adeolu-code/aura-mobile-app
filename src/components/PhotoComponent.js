@@ -5,7 +5,7 @@ import { AppContext } from "../../AppProvider";
 import colors from '../colors';
 import { MyText } from "../utils/Index";
 import GStyles from "../assets/styles/GeneralStyles";
-import { urls, GetRequest, errorMessage, Request, successMessage } from '../utils';
+import { urls, GetRequest, errorMessage, Request, successMessage, EXPIRED_TOKEN } from '../utils';
 import { Icon } from 'native-base'
 
 
@@ -32,7 +32,11 @@ class PhotoComponent extends Component {
             res = await Request(urls.listingBase, `${urls.v}listing/photo/coverphoto/update`, obj )
         }
         if(res.isError || res.IsError) {
-            errorMessage(res.message)
+            if(res.message === EXPIRED_TOKEN) {
+                errorMessage(EXPIRED_MESSAGE)
+            } else {
+                errorMessage(res.message)
+            }
             loading(false)
         } else {
             refresh()

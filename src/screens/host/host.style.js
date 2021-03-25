@@ -5,7 +5,7 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 export const Styles = StyleSheet.create({
     container: {
-        marginTop: Platform.OS === 'ios' ? 120 : 145,
+        marginTop: Platform.OS === 'ios' ? 120 : 150,
         padding: GLOBAL_PADDING,
         paddingBottom: 10,
     },

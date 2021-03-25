@@ -36,10 +36,19 @@ class ApartmentsTab extends Component {
   onEndReached = () => {
     const { set, state, getApartments } = this.props.propertyContext
     if(state.activeApartmentsPage < state.pageApartmentCount && !state.loadMoreApartments) {
-      set({ activeApartmentsPage: state.activeApartmentsPage + 1 })
-      getApartments(true)
+      set({ activeApartmentsPage: state.activeApartmentsPage + 1 }, () => { getApartments(true) })
     }
     // console.log('End reached')
+  }
+  onRefresh = () => {
+    const { set, getApartments } = this.props.propertyContext
+    set({ activeApartmentsPage: 1 }, () => {
+      this.setState({ refreshing: true })
+      getApartments()
+      .finally(() => {
+          this.setState({ refreshing: false })
+      })
+    })
   }
   renderLoadMore = () => {
     const { state } = this.props.propertyContext
@@ -69,13 +78,7 @@ class ApartmentsTab extends Component {
     )
     
   }
-  onRefresh = () => {
-      this.setState({ refreshing: true })
-      this.props.propertyContext.getApartments()
-      .finally(() => {
-          this.setState({ refreshing: false })
-      })
-  }
+  
   renderApartments = () => {
       const { apartments } = this.props.propertyContext.state
       return (

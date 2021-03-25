@@ -3,10 +3,9 @@ import { Styles } from "./host.style";
 import { Footer, Container, Content, } from "native-base";
 import { MyText, Switch, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
-import { TouchableOpacity, SafeAreaView, ScrollView, View } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View, Platform } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
-import TipViewComponent from "../../components/tip_view/tipView.component";
 import {Calendar} from 'react-native-calendars';
 
 import { AppContext } from '../../../AppProvider';
@@ -186,7 +185,7 @@ export default class PropertyAvailability extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header {...this.props} title="Property Availability Dates" />
-                    <View style={[Styles.container, {marginTop: 90}]}>
+                    <View style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 90 : 120}]}>
                         <ScrollView>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>

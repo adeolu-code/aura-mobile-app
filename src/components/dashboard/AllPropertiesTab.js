@@ -34,9 +34,10 @@ class AllPropertiesTab extends Component {
     }
     onEndReached = () => {
         const { set, state, getAllProperties } = this.props.propertyContext
+        // console.log('State ', state)
         if(state.activePropertiesPage < state.pagePropertiesCount && !state.loadMoreProperties) {
-            set({ activePropertiesPage: state.activePropertiesPage + 1 })
-            getAllProperties(true)
+            set({ activePropertiesPage: state.activePropertiesPage + 1 }, () => { getAllProperties(true) })
+            // getAllProperties(true)
         }
     }
     renderLoadMore = () => {
@@ -66,11 +67,15 @@ class AllPropertiesTab extends Component {
         )
     }
     onRefresh = () => {
-        this.setState({ refreshing: true })
-        this.props.propertyContext.getAllProperties()
-        .finally(() => {
-            this.setState({ refreshing: false })
+        const { set, getAllProperties } = this.props.propertyContext
+        set({ activePropertiesPage: 1 }, () => { 
+            this.setState({ refreshing: true })
+            getAllProperties()
+            .finally(() => {
+                this.setState({ refreshing: false })
+            })
         })
+        
     }
     renderProperties = () => {
         const { properties } = this.props.propertyContext.state

@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 110,
+    marginTop: 145,
     flex: 1,
   },
 //   picker: {

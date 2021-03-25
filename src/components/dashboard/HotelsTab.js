@@ -48,10 +48,20 @@ class HotelsTab extends Component {
   onEndReached = () => {
     const { set, state, getHotels } = this.props.propertyContext
     if(state.activeHotelsPage < state.pageHotelsCount && !state.loadMoreHotels) {
-      set({ activeHotelsPage: state.activeHotelsPage + 1 })
-      getHotels(true)
+      set({ activeHotelsPage: state.activeHotelsPage + 1 }, () => {
+        getHotels(true)
+      })
     }
-    // console.log('End reached')
+  }
+  onRefresh = () => {
+    const { set, getHotels } = this.props.propertyContext
+    set({ activeApartmentsPage: 1 }, () => {
+      this.setState({ refreshing: true })
+      getHotels()
+      .finally(() => {
+          this.setState({ refreshing: false })
+      })
+    })
   }
   renderItem = ({item}) => {
     const { rowContainer } = styles
@@ -69,13 +79,7 @@ class HotelsTab extends Component {
     )
     
   }
-  onRefresh = () => {
-      this.setState({ refreshing: true })
-      this.props.propertyContext.getHotels()
-      .finally(() => {
-          this.setState({ refreshing: false })
-      })
-  }
+  
   renderHotels = () => {
       const { hotels } = this.props.propertyContext.state
       return (

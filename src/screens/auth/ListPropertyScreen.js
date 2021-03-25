@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 80,
+    marginTop: Platform.OS === 'ios' ? 80 : 100,
     flex: 1,
   },
   picker: {

@@ -19,10 +19,15 @@ class ManagePropertyProvider extends Component {
   static contextType = AppContext;
   state = defaultContext;
   
-  set = (value) => {
+  set = (value, callBack) => {
     this.setState(()=>(value), () => {
-      setContext({state: this.state});
+      if(callBack) {
+        callBack(value)
+      } 
     })
+    // this.setState(()=>(value), () => {
+    //   setContext({state: this.state});
+    // })
   };
 
 
@@ -126,8 +131,8 @@ class ManagePropertyProvider extends Component {
       <ManagePropertyContext.Provider
         value={{
           state: context,
-          set: (value) => {
-            return this.set(value);
+          set: (value, callBack) => {
+            return this.set(value, callBack);
           },
           getState: (key)=> this.state[key],
           getAllProperties: (more=false) => {

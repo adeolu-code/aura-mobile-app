@@ -16,10 +16,15 @@ class ReviewsProvider extends Component {
   static contextType = AppContext;
   state = defaultContext;
 
-  set = (value) => {
+  set = (value, callBack) => {
     this.setState(()=>(value), () => {
-      setContext({state: this.state});
-    });
+      if(callBack) {
+        callBack(value)
+      } 
+    })
+    // this.setState(()=>(value), () => {
+    //   setContext({state: this.state});
+    // });
   };
 
   getReviews = async (more) => {
@@ -27,7 +32,6 @@ class ReviewsProvider extends Component {
       this.set({ loadingReviews: true });
       const res = await GetRequest(urls.listingBase, `${urls.v}listing/review/comment/host`);
       this.set({ loadingReviews: false })
-      console.log('reviews ',res)
       if (res.isError || res.IsError) {
         reject(res.message);
       } else {
@@ -43,7 +47,7 @@ class ReviewsProvider extends Component {
       this.set({ loadingRatings: true });
       const res = await GetRequest(urls.listingBase, `${urls.v}listing/review/rating/host`);
       this.set({ loadingRatings: false })
-      console.log('Ratings',res)
+      // console.log('Ratings',res)
       if (res.isError || res.IsError) {
         reject(res.message);
       } else {
@@ -60,8 +64,8 @@ class ReviewsProvider extends Component {
       <ReviewsContext.Provider
         value={{
           state: context,
-          set: (value) => {
-            return this.set(value);
+          set: (value, callBack) => {
+            return this.set(value, callBack);
           },
           getState: (key)=> this.state[key],
           getReviews: () => {

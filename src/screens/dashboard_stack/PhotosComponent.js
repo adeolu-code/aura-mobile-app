@@ -15,7 +15,7 @@ import PhotographTipsModal from '../../components/PhotographTipsModal';
 
 
 import { AppContext } from '../../../AppProvider';
-import { urls, GetRequest, errorMessage, uploadMultipleFile, uploadFile, Request, successMessage, } from '../../utils';
+import { urls, GetRequest, errorMessage, uploadMultipleFile, uploadFile, Request, successMessage, EXPIRED_TOKEN, EXPIRED_MESSAGE } from '../../utils';
 
 import { formatAmount } from '../../helpers'
 
@@ -126,9 +126,15 @@ class PhotosComponent extends Component {
       }
       this.setState({ loading: false })
       if(res.isError || res.IsError) {
-        errorMessage(res.message)
+        if(res.message === EXPIRED_TOKEN) {
+          errorMessage(EXPIRED_MESSAGE)
+          this.props.navigation.navigate('Tabs', {screen: 'Dashboard', params: { screen: 'DashboardView'} })
+        } else {
+          errorMessage(res.message)
+        }
       } else {
         this.setState({ photos: res.data })
+        console.log('photos ', res.data)
       }
     } catch (error) {
       this.setState({ loading:false })

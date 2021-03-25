@@ -192,7 +192,7 @@ class ManageTours extends Component {
             this.getTours(true)
           })
       }
-      console.log('End reached')
+      // console.log('End reached')
   }
   renderLoadMore = () => {
       const { loadMore } = this.state
