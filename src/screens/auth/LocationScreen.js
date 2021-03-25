@@ -216,8 +216,8 @@ class LocationScreen extends Component {
         {this.renderLoading()}
         <Header { ...this.props } title={"Where Is Your Place Located"} />
           <ScrollView style={container} keyboardShouldPersistTaps="always">
-            <KeyboardAvoidingView style={{ flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                <View style={{marginTop: 18}}>
+            <KeyboardAvoidingView style={{ flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "padding"}>
+                <View style={{marginTop: 0}}>
                     <MyText style={[textGrey, textH4Style]}>
                         Guests will only get your exact address once they’ve booked a reservation
                     </MyText>
@@ -283,7 +283,7 @@ class LocationScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    paddingHorizontal: 24, marginTop: 160,
+    paddingHorizontal: 24, marginTop: 110,
     flex: 1, flexGrow: 1
   },
   picker: {
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
       marginTop: 10,
   },
   button: {
-      marginTop: 140, flex: 1, marginBottom: 40
+      marginTop: 100, flex: 1, marginBottom: 40
     },
     imageView: {
         justifyContent: 'center',

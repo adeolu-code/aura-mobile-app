@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Styles } from "./host.style";
-import { Footer, Container, Content, View, Switch, Input, Picker } from "native-base";
+import { Input, Picker } from "native-base";
 import { MyText, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
-import { TouchableOpacity, StatusBar, SafeAreaView, StyleSheet, Keyboard, Platform } from "react-native";
+import { SafeAreaView, StyleSheet, Keyboard, Platform, View, ScrollView } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors"; 
 import TipViewComponent from "../../components/tip_view/tipView.component";
@@ -191,8 +191,8 @@ export default class SetPricing extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header {...this.props}  title="Set Your Pricing"  />
-                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 105 : 130, padding: 0, paddingBottom: 10}]}>
-                        <Content scrollEnabled>
+                    <View style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 105 : 130, padding: 0, paddingBottom: 10}]}>
+                        <ScrollView>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start", paddingHorizontal: 20, paddingTop: 20}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
                                     <MyText style={[textGrey]}>
@@ -243,16 +243,9 @@ export default class SetPricing extends Component {
                             <View style={{marginBottom: 20, marginTop: 40, paddingHorizontal: 21}}>
                                 <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} disabled={this.state.price === ''} />
                             </View>
-                        </Content>
-                        {/* <Footer style={[Styles.footer, Styles.transparentFooter, InternalStyles.pad]}>
-                            <TouchableOpacity
-                                style={[Styles.nextButton, {marginTop: 10}]}
-                                onPress={() => this.props.navigation.navigate('GuestPolicy')}
-                            >
-                                <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Next</MyText>
-                            </TouchableOpacity>
-                        </Footer> */}
-                    </Container>
+                        </ScrollView>
+                        
+                    </View>
                 </SafeAreaView>
             </>
         )

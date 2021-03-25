@@ -70,7 +70,7 @@ class BottomMenuComponent extends Component {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20, elevation: 4, width: '100%', backgroundColor: colors.white,
-        paddingTop: 15, paddingBottom: 25
+        paddingTop: 15, paddingBottom: 18
     },
     
     contentContainer: {

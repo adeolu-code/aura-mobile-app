@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native';
 import { MyText, Loading } from '../../utils/Index';
 import colors from '../../colors';
 
@@ -357,7 +357,7 @@ class DashboardTour extends Component {
 
 const styles = StyleSheet.create({
   subHeaderContainer: {
-    paddingTop: 140, backgroundColor: colors.white, paddingBottom: 30,
+    paddingTop: Platform.OS === 'ios' ? 90 : 120, backgroundColor: colors.white, paddingBottom: 30,
     paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey
   },
   imgContainer: {

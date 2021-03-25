@@ -79,7 +79,7 @@ class ReservationsTour extends Component {
 
 const styles = StyleSheet.create({
     reservationHeader: {
-        position: 'absolute', backgroundColor: colors.white, paddingTop: Platform.OS === 'ios' ? 160 : 130,
+        position: 'absolute', backgroundColor: colors.white, paddingTop: Platform.OS === 'ios' ? 130 : 130,
          width: '100%', paddingHorizontal: 20, zIndex: 1
     }, 
     tabsContainer: {

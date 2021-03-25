@@ -2,9 +2,10 @@ import { StyleSheet, Dimensions } from 'react-native';
 import colors from '../../colors';
 import SmallScreenStyles from './SmallerScreenStyles';
 const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 const checkScreen = () => {
-  if(width <= 360) {
+  if(width <= 360 || height <= 667) {
     return SmallScreenStyles
   }
   return {}
@@ -166,15 +167,15 @@ const styles = StyleSheet.create({
   },
   textXlStyle: {
     fontSize: 40,
-    // ...checkScreen().textXlStyle
+    ...checkScreen().textXlStyle
   },
   textH1Style: {
     fontSize: 32,
-    // ...checkScreen().textH1Style
+    ...checkScreen().textH1Style
   },
   textLgStyle: {
     fontSize: 28,
-    // ...checkScreen().textLgStyle
+    ...checkScreen().textLgStyle
   },
   textHStyle: {
     fontSize: 24,
@@ -189,26 +190,26 @@ const styles = StyleSheet.create({
   },
   textH4Style: {
     fontSize: 16,
-    // ...checkScreen().textH4Style
+    ...checkScreen().textH4Style
   },
   textH5Style: {
     fontSize: 14,
-    // ...checkScreen().textH5Style
+    ...checkScreen().textH5Style
   },
   textFont13: {
     fontSize: 13,
   },
   textH6Style: {
     fontSize: 12,
-    // ...checkScreen().textH6Style
+    ...checkScreen().textH6Style
   },
   textH7Style: {
     fontSize: 10,
-    // ...checkScreen().textH7Style
+    ...checkScreen().textH7Style
   },
   textH8Style: {
     fontSize: 8,
-    // ...checkScreen().textH8Style
+    ...checkScreen().textH8Style
   },
   marginVerticalSmall: {
     marginVertical: 10,

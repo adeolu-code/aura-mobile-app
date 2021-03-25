@@ -1,6 +1,6 @@
 import DateTimePicker  from '@react-native-community/datetimepicker';
 // import { View } from 'native-base';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, Pressable } from 'react-native';
 import  React, { Component, Fragment } from 'react';
 import colors from '../../colors';
 import { MyText } from '../../utils/Index';
@@ -17,19 +17,26 @@ export default class DateTimePickerComponent extends Component {
         }
     }
 
-    
+    closePicker = () => {
+        this.setState({ showPicker: false })
+    }
     showPicker = () => {
         this.setState({showPicker: true})
     }
     renderPicker = () => {
         const { showPicker } = this.state
+        const { textOrange, textH4Style } = GStyles
         if(showPicker) {
             return (
                 <View>
+                    <Pressable style={{ borderWidth: 1, alignSelf: 'flex-end', paddingVertical: 1, 
+                    paddingHorizontal: 7, borderRadius: 5, marginTop: 5, borderColor: colors.orange }} onPress={this.closePicker}>
+                        <MyText style={[textOrange, textH4Style]}>x</MyText>
+                    </Pressable>
                     <DateTimePicker mode={this.props.mode || "datetime"}
                             onChange={(e, selectedDate) => {
                                 console.log("e", selectedDate);
-                                this.setState({showPicker: false})
+                                // this.setState({showPicker: false})
                                 if (selectedDate !== undefined) {
                                     this.props.onChange(selectedDate);
                                     this.setState({date: selectedDate})

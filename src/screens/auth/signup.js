@@ -151,7 +151,12 @@ class signUp extends Component {
       const res = await Request(urls.identityBase, `${urls.v}user/signup`, obj);
       console.log(res);
       if (res.isError) {
-        this.setState({ formErrors: res.data, loading: false });
+        if(res.code === "-1") {
+          this.setState({ formErrors: [res.message], loading: false });
+        } else {
+          this.setState({ formErrors: res.data, loading: false });
+        }
+        
       } else {
         this.getUserDetails(res.data.authentication.access_token);
         this.context.set({ token: res.data.authentication })
@@ -304,7 +309,7 @@ class signUp extends Component {
                   <MyText style={[textH5Style, textGrey]}>I agree to the terms and conditions</MyText>
                 </TouchableOpacity>
               </View>
-              <View style={{ paddingTop: 30 }}>
+              <View style={{ paddingTop: 20, paddingBottom: 30 }}>
                 {this.renderError()}
                 <CustomButton onPress={this.submit} disabled={this.disabled()} buttonText="Sign Up With Email"/>
               </View>

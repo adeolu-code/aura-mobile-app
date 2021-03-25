@@ -29,7 +29,7 @@ export default class UploadPropertyImage extends Component {
                     
                     <Header {...this.props} title="Upload Quality Photos" sub={"Catch guests’ attention with high quality images."} />
                     
-                    <Container style={[Styles.container, {marginTop: 180}]}>
+                    <Container style={[Styles.container, {marginTop: 120}]}>
                         <Content scrollEnabled>
                             <Section 
                                 style={{backgroundColor: colors.lightGreen, marginBottom: 40}} 

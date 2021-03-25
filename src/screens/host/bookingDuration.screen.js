@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Styles } from "./host.style";
-import { View, Footer, Container, Content } from "native-base";
+import { Footer, Container, Content } from "native-base";
 import { MyText, ItemCountPicker, CustomButton } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import IncrementingInput from "../../components/incrementing_input/incrementingInput.component";
-import { TouchableOpacity, StatusBar, SafeAreaView } from "react-native";
+import { TouchableOpacity, StatusBar, SafeAreaView, ScrollView, View } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
 
@@ -54,8 +54,8 @@ export default class BookingDuration extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="How Long Can a Guest Stay?" />
-                    <Container style={[Styles.container, {marginTop: 200}]}>
-                        <Content scrollEnabled>
+                    <View style={[Styles.container, {marginTop: 100, flex: 1}]}>
+                        <View style={{flex: 2}}>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
                                     <MyText style={[textGrey]}>
@@ -69,11 +69,11 @@ export default class BookingDuration extends Component {
                                  label={"Nights Minimum"}
                                  onValueChange={() => {}}
                             />*/}
-                        </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter]}>
+                        </View>
+                        <View style={[{ flex: 1 }]}>
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} disabled={!maxNoOfNights || !minNoOfNights} />
-                        </Footer>
-                    </Container>
+                        </View>
+                    </View>
                 </SafeAreaView>
             </>
         )

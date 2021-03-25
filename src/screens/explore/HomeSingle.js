@@ -467,7 +467,7 @@ const styles = StyleSheet.create({
         // marginVertical: 30
     },
     buttomContainer: {
-        position: 'absolute', bottom: Platform.OS === 'ios' ? 20 : 0, width: '100%', zIndex: 50
+        position: 'absolute', bottom: Platform.OS === 'ios' ? 0 : 0, width: '100%', zIndex: 50
     }
     
 });

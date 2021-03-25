@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Platform, View } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, Platform, View, ScrollView } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, Footer } from "native-base";
 import colors from "../../colors";
@@ -30,8 +30,8 @@ export default class GuestPolicy extends Component {
                         {...this.props} 
                         title="Aura Cancellation Policy" 
                     />
-                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 90 : 120 }]}>
-                        <Content scrollEnabled>
+                    <View style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 90 : 120 }]}>
+                        <ScrollView >
                             <MyText style={[textH4Style, textGrey]}>
                                 Guests are entitled to free cancellation if they cancel their booking not more than 48 hours after booking, 
                                 and at least 14 days before check-in (time shown in the confirmation email) Where guests cancel their booking 
@@ -54,12 +54,13 @@ export default class GuestPolicy extends Component {
                                 check in time (shown in the confirmation email), they are entitled to no refund. 
                                 Where guests choose to check-out early after check-in, the unspent nights are not refunded.
                             </MyText>
-                            <View style={{ marginBottom: 70}}></View>
-                        </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
-                            <CustomButton buttonText="I Understand" buttonStyle={{ elevation: 2, ...GStyles.shadow }} onPress={this.submit} />
-                        </Footer>
-                    </Container>
+                            <View style={{ marginBottom: 50}}></View>
+                            <View style={[Styles.footer, {borderRadius: 5, marginBottom: 20}]}>
+                                <CustomButton buttonText="I Understand" buttonStyle={{ elevation: 2, ...GStyles.shadow }} onPress={this.submit} />
+                            </View>
+                        </ScrollView>
+                        
+                    </View>
                 </SafeAreaView>
             </>
         );

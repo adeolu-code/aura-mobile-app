@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, Image, Platform } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, Image, Platform, View, ScrollView } from "react-native";
 import Header from "../../components/Header";
-import { Container, Content, View, Icon, Footer } from "native-base";
+import { Container, Content, Icon, Footer } from "native-base";
 import colors from "../../colors";
 import { Styles } from "./host.style";
 import { MyText, CustomButton } from "../../utils/Index";
@@ -35,8 +35,8 @@ export default class BookingPreview extends Component {
                         {...this.props} 
                         title="Here’s How Guests Will Book With You" 
                     />
-                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 140 : 160 }]}>
-                        <Content scrollEnabled>
+                    <View style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 140 : 160 }]}>
+                        <ScrollView scrollEnabled>
                             <Item 
                                 title={"Qualified Guests Find Your Listing"}
                                 content={"Anyone who wants to book with you would need to confirm their contact information, provide payment details and tell you about their trip."}
@@ -60,13 +60,14 @@ export default class BookingPreview extends Component {
                                 content={"You will immediately get a notification email with information on the guest’s reservation. You will need to accept the reservation before a confirmation email is sent to the guest. Guests must receive confirmation within 24 hours of sending a request."}
                                 image
                             />
-                        </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
-                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
-                                onPress={() => this.props.navigation.navigate('NotifyHost')} />
-                            
-                        </Footer>
-                    </Container>
+                            <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, marginTop: 10}]}>
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
+                                    onPress={() => this.props.navigation.navigate('NotifyHost')} />
+                                
+                            </Footer>
+                        </ScrollView>
+                        
+                    </View>
                 </SafeAreaView>
             </>
         );

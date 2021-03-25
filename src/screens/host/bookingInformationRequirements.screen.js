@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback, ScrollView, View } from "react-native";
 import Header from "../../components/Header";
-import { Container, Content, View, Icon, Footer } from "native-base";
+import { Container, Content, Icon, Footer } from "native-base";
 import colors from "../../colors";
 import { Styles } from "./host.style";
 import { MyText, CheckBox, CustomButton, CustomInput, Loading } from "../../utils/Index";
@@ -227,7 +227,7 @@ export default class BookingInformationRequirements extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="Booking Information Requirements" />
-                    <Container style={[Styles.container,]} >
+                    <View style={[Styles.container,]} >
                         <ScrollView ref={this.scrollViewRef} scrollEventThrottle={20}  >
                             <MyText style={[textH3Style, textExtraBold, { marginBottom: 5}]}>Guest Must Provide</MyText>
                             <MyText style={[textH5Style, textGrey, lineHeightText]}>
@@ -243,12 +243,13 @@ export default class BookingInformationRequirements extends Component {
 
                             {this.renderAddInfo()}
 
+                            <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} disabled={gettingBookingReq || addingInfo}
+                                    onPress={this.submit} />
+                            </Footer>
                         </ScrollView>
-                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
-                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} disabled={gettingBookingReq || addingInfo}
-                                onPress={this.submit} />
-                        </Footer>
-                    </Container>
+                        
+                    </View>
                 </SafeAreaView>
             </>
         );

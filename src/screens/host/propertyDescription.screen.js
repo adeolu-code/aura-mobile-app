@@ -117,7 +117,7 @@ export default class PropertyDescription extends Component {
                     {this.renderLoading()}
                     <Header {...this.props}  title="Create A List Title" />
                     <Content>
-                        <KeyboardAvoidingView style={[Styles.container, {marginTop: 120, flex: 1}]} 
+                        <KeyboardAvoidingView style={[Styles.container, {marginTop: 100, flex: 1}]} 
                         behavior={Platform.OS === "ios" ? "padding" : "height"}>
                             
                             <View style={{ flex: 1.3, marginBottom: 50}}>
@@ -150,7 +150,7 @@ export default class PropertyDescription extends Component {
                                 </View>
                             </View>
 
-                            <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <View style={{ flex: 1, justifyContent: 'center', paddingBottom: 30 }}>
                                 <CustomButton onPress={this.submit} buttonText="Next" buttonStyle={{ elevation: 2}} disabled={this.validate()}  />
                             </View>
                         

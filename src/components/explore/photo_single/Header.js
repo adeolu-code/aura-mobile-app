@@ -8,6 +8,8 @@ import { MyText } from '../../../utils/Index';
 import { Icon } from 'native-base';
 
 import colors from '../../../colors';
+import { SCREEN_HEIGHT } from '../../../utils'
+
 
 class Header extends Component {
   constructor(props) {
@@ -42,7 +44,7 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
     headerStyle: {
-        paddingTop: 70, paddingBottom: 15,
+        paddingTop: SCREEN_HEIGHT <= 667 ? 50 : 40, paddingBottom: 15,
         backgroundColor: colors.white,
         justifyContent: 'space-between', paddingHorizontal: 20,
     },

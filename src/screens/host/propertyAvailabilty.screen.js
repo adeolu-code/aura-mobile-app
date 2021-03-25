@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Styles } from "./host.style";
-import { Footer, Container, Content, View, } from "native-base";
+import { Footer, Container, Content, } from "native-base";
 import { MyText, Switch, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
-import { TouchableOpacity, StatusBar, SafeAreaView } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
 import TipViewComponent from "../../components/tip_view/tipView.component";
@@ -186,8 +186,8 @@ export default class PropertyAvailability extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header {...this.props} title="Property Availability Dates" />
-                    <Container style={[Styles.container, {marginTop: 140}]}>
-                        <Content scrollEnabled>
+                    <View style={[Styles.container, {marginTop: 90}]}>
+                        <ScrollView>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
                                     <MyText style={[textGrey]}>
@@ -244,11 +244,11 @@ export default class PropertyAvailability extends Component {
                             <View style={{marginBottom: 20, marginTop: 40}}>
                                 <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} />
                             </View>
-                        </Content>
+                        </ScrollView>
                         {/* <Footer style={[Styles.footer, Styles.transparentFooter]}>
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} />
                         </Footer> */}
-                    </Container>
+                    </View>
                 </SafeAreaView>
             </>
         )

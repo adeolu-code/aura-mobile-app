@@ -27,7 +27,7 @@ import ConfirmAndPayModal from '../../components/explore/food_single/ConfirmAndP
 import LoginModal from '../../components/auth/LoginModal';
 import SignUpModal from '../../components/auth/SignUpModal';
 
-import { setContext, Request, urls, GetRequest, successMessage, errorMessage, GOOGLE_API_KEY } from '../../utils';
+import { setContext, Request, urls, GetRequest, successMessage, SCREEN_HEIGHT, errorMessage, GOOGLE_API_KEY } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 
 
@@ -178,6 +178,7 @@ class FoodSingle extends Component {
     this.getRestaurant()
     this.getMenus()
     this.getReviews()
+    console.log('Screen height ', SCREEN_HEIGHT)
   }
 
   renderLocations = () => {

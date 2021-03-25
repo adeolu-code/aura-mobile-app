@@ -23,8 +23,6 @@ class Header extends Component {
         this.props.navigation.goBack();
       }
     }
-    
-    
   }
 
   renderSubTitle = () => {
@@ -46,7 +44,7 @@ class Header extends Component {
     return (
       <View style={[container, wrapperStyles]}>
         <TouchableOpacity style={iconContainer} onPress={this.goBack}>
-            <Icon type="Feather" name="chevron-left" style={iconStyle} />
+          <Icon type="Feather" name="chevron-left" style={iconStyle} />
         </TouchableOpacity>
         <View style={titleContainer}>
             <MyText style={[textLgStyle, textExtraBold]}>{title}</MyText>
@@ -59,9 +57,11 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%', paddingVertical: 20, backgroundColor: colors.white, paddingHorizontal: 20, 
-        paddingTop: Platform.OS === 'ios' ? 50 : 30,
+        width: '100%', backgroundColor: colors.white, paddingHorizontal: 20, 
+        paddingTop: Platform.OS === 'ios' ? 30 : 30,
+        paddingBottom: Platform.OS === 'ios' ? 10 : 10,
         position: 'absolute', top: 0, zIndex: 100, 
+        // borderWidth: 1
         // marginTop: 10
     },
     iconContainer:{

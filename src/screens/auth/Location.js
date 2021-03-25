@@ -162,7 +162,7 @@ class Location extends Component {
           <View style={container}>
               <View style={{flex: 1, height: '100%'}}>
                 
-                    <View style={{marginTop: 18, flex: 4 }}>
+                    <View style={{marginTop: 14, flex: 4 }}>
                         <MyText style={[textGrey, textH5Style]}>
                             Guests will only get your exact address once they’ve booked a reservation
                         </MyText>
@@ -186,14 +186,14 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 160,
+    marginTop: 120,
     flex: 1, 
     // borderWidth: 1, borderColor: 'red',
   },
   button: {
     // marginTop: 150,
     // marginBottom: 86, 
-    flex: 1,
+    flex: 1.5, justifyContent: 'flex-end', paddingBottom: 10
     // borderWidth: 1
   },
   imgContainer: {

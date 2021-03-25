@@ -29,35 +29,35 @@ const styles = StyleSheet.create({
   },
   textHStyle: {
     // fontSize: 24,
-    fontSize: 20,
+    fontSize: 22,
   },
   textH2Style: {
     // fontSize: 22,
-    fontSize: 18,
+    fontSize: 19,
   },
   textH3Style: {
     // fontSize: 18,
-    fontSize: 14,
+    fontSize: 16,
   },
   textH4Style: {
     // fontSize: 16,
-    fontSize: 12,
+    fontSize: 14,
   },
   textH5Style: {
     // fontSize: 14,
-    fontSize: 10,
+    fontSize: 12,
   },
   textH6Style: {
     // fontSize: 12,
-    fontSize: 8,
+    fontSize: 10,
   },
   textH7Style: {
     // fontSize: 10,
-    fontSize: 7
+    fontSize: 8
   },
   textH8Style: {
     // fontSize: 8,
-    fontSize: 6
+    fontSize: 7
   },
   marginVerticalSmall: {
     marginVertical: 10,

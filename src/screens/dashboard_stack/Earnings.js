@@ -278,7 +278,7 @@ class Earnings extends Component {
 
 const styles = StyleSheet.create({
   subHeaderContainer: {
-    paddingTop: 150, backgroundColor: colors.white, paddingBottom: 30,
+    paddingTop: 120, backgroundColor: colors.white, paddingBottom: 30,
     paddingHorizontal: 20, borderBottomWidth: 4, borderBottomColor: colors.lightGrey
   },
   imgContainer: {

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Pressable} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import GeneralStyles from '../assets/styles/GeneralStyles';
 import moment from 'moment';
 import {MyText} from './MyText';
+import colors from '../colors';
 
 class DatePicker extends Component {
   state = {
@@ -13,17 +14,29 @@ class DatePicker extends Component {
     mode: 'date',
     value: '',
   };
+
+  closeDate = () => {
+    this.setState({ show: false })
+  }
   
   renderPicker = () => {
+    const { flexRow, textOrange, textH4Style } = GeneralStyles
     if (this.state.show) {
       return (
-        <DateTimePicker
-          value={this.state.date}
-          mode={this.state.mode}
-          onChange={this.setDate}
-          maximumDate={this.renderEighteenYrs()}
-          minimumDate={this.renderMinDate()}
-        />
+        <View>
+          <Pressable style={{ borderWidth: 1, alignSelf: 'flex-end', paddingVertical: 1, 
+          paddingHorizontal: 7, borderRadius: 5, marginTop: 5, borderColor: colors.orange }} onPress={this.closeDate}>
+            <MyText style={[textOrange, textH4Style]}>x</MyText>
+          </Pressable>
+          <DateTimePicker
+            value={this.state.date}
+            mode={this.state.mode}
+            onChange={this.setDate}
+            maximumDate={this.renderEighteenYrs()}
+            minimumDate={this.renderMinDate()}
+          />
+          
+        </View>
       );
     }
   };
@@ -54,7 +67,8 @@ class DatePicker extends Component {
       const year = moment(date).format('YYYY');
       this.setState({
         value: `${day}/${month}/${year}`,
-        show: false,
+        date,
+        // show: false,
       });
       this.props.receiveData(moment(date));
     }

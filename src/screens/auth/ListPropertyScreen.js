@@ -181,7 +181,7 @@ class ListPropertyScreen extends Component {
     const { textGrey, textH5Style, textH4Style, lineHeightText} = GStyles;
     const { noofAvailableRooms, noofBeds, noofRooms, noofBathrooms } = this.state
     return (
-      <SafeAreaView style={{ flex: 1}}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
         <Header {...this.props} title={"List A Property In Minutes"} />
           <ScrollView style={container}>
             <View>
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 110,
+    marginTop: 80,
     flex: 1,
   },
   picker: {

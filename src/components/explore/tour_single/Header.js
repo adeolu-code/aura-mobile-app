@@ -10,6 +10,8 @@ import { Icon } from 'native-base';
 import colors from '../../../colors';
 
 import StarComponent from '../../StarComponent';
+import { SCREEN_HEIGHT } from '../../../utils'
+
 
 
 class Header extends Component {
@@ -191,7 +193,7 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
     headerStyle: {
-        paddingTop: 70, paddingBottom: 15,
+        paddingTop: SCREEN_HEIGHT <= 667 ? 50 : 40, paddingBottom: 15,
         backgroundColor: colors.white,
         paddingHorizontal: 20,
     },

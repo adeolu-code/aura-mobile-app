@@ -11,7 +11,8 @@ import { Icon } from 'native-base';
 import colors from '../../colors';
 
 import StarComponent from '../../components/StarComponent';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { SCREEN_HEIGHT } from '../../utils'
+
 
 
 class ImageAndDetails extends Component {
@@ -185,7 +186,7 @@ class ImageAndDetails extends Component {
 
 const styles = StyleSheet.create({
     headerStyle: {
-        paddingTop: 78, paddingBottom: 15,
+        paddingTop: SCREEN_HEIGHT <= 667 ? 50 : 30, paddingBottom: 15,
         backgroundColor: colors.white,
         paddingHorizontal: 20,
     },

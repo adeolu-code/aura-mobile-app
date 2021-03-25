@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
+import { SafeAreaView, TouchableOpacity, ScrollView, View } from "react-native";
 import Header from "../../components/Header";
-import { Container, Content, View, Icon, Footer } from "native-base";
+import { Container, Content, Icon, Footer } from "native-base";
 import colors from "../../colors";
 import { Styles } from "./host.style";
 import { MyText, CheckBox, CustomButton, CustomInput } from "../../utils/Index";
@@ -139,7 +139,7 @@ export default class HouseRules extends Component {
         const { houseRuleValues } = this.state
         const propertyFormData = state.propertyFormData
         const obj = { ...propertyFormData, houseRules: houseRuleValues }
-        console.log(obj)
+        // console.log(obj)
         set({ propertyFormData: obj })
         this.props.navigation.navigate('BookingPreview')
     }
@@ -152,10 +152,10 @@ export default class HouseRules extends Component {
                     <Header {...this.props} title="House Rules Of Need To Know" 
                         sub={"Inform your guests about rules they need to follow if you are hosting them"}
                     />
-                    <Container style={[Styles.container]}>
+                    <View style={[Styles.container]}>
                         <ScrollView ref={this.scrollViewRef}>
-                            <View style={{ paddingBottom: 100}}>
-                                <View style={[{marginTop: 65}]}>
+                            <View style={{ paddingBottom: 40}}>
+                                <View style={[{marginTop: 40}]}>
                                     {this.renderHouseRules()}
                                 </View>
                                 <TouchableOpacity onPress={this.toggleHouseRule}>
@@ -164,12 +164,13 @@ export default class HouseRules extends Component {
 
                                 {this.renderAddInfo()}
                             </View>
+                            <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
+                                    onPress={this.submit} />
+                            </Footer>
                         </ScrollView>
-                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
-                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
-                                onPress={this.submit} />
-                        </Footer>
-                    </Container>
+                        
+                    </View>
                 </SafeAreaView>
             </>
         );

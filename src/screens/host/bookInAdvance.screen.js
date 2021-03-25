@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import { Styles } from "./host.style";
-import { View, Footer, Container, Content } from "native-base";
 import { MyText, CustomButton, CheckBox } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
-import IncrementingInput from "../../components/incrementing_input/incrementingInput.component";
-import { TouchableOpacity, StatusBar, SafeAreaView } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View } from "react-native";
 import Header from "../../components/Header";
 import colors from "../../colors";
-import LabelCheckbox from "../../components/label_checkbox/labelCheckbox.component";
-import TipViewComponent from "../../components/tip_view/tipView.component";
 
 import { AppContext } from '../../../AppProvider'
 
@@ -95,8 +91,8 @@ export default class BookInAdvance extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="How Far In Advance Can A Guest Book?" />
-                    <Container style={[Styles.container, {marginTop: 160}]}>
-                        <Content scrollEnabled>
+                    <View style={[Styles.container, {marginTop: 120}]}>
+                        <ScrollView>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen]}>Tips: </MyText>
                                     <MyText style={[textGrey]}>
@@ -106,11 +102,12 @@ export default class BookInAdvance extends Component {
                             </View>
                             {/* <TipViewComponent text={"At least 2 days’ notice can help you plan for a guest’s arrival, but you might miss out on last minutes trips."} /> */}
                             {this.renderDurations()}
-                        </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter]}>
-                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} disabled={this.state.values.length === 0} />
-                        </Footer>
-                    </Container>
+                            <View style={[{marginTop: 40}]}>
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} disabled={this.state.values.length === 0} />
+                            </View>
+                        </ScrollView>
+                        
+                    </View>
                 </SafeAreaView>
             </>
         )
