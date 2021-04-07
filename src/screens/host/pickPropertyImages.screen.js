@@ -263,18 +263,23 @@ export default class PickPropertyImage extends Component {
     }
 
     getPropertyPhotos = async (id) => {
-        this.setState({ loadingImages: true })
-        const res = await GetRequest(urls.listingBase, `${urls.v}listing/photo/property?propertyid=${id}`);
-        console.log('Photos ', res)
-        this.setState({ loadingImages: false })
-        if(res.isError || res.IsError) {
-            const message = res.Message || res.message;
-            errorMessage(message)
-        } else {
-            const imgData = res.data;
-            const images = imgData.filter(item => !item.isMain)
-            this.setState({ photos: imgData, images })
+        try {
+          this.setState({ loadingImages: true })
+            const res = await GetRequest(urls.listingBase, `${urls.v}listing/photo/property?propertyid=${id}`);
+            console.log('Photos ', res)
+            this.setState({ loadingImages: false })
+            if(res.isError || res.IsError) {
+                const message = res.Message || res.message;
+                errorMessage(message)
+            } else {
+                const imgData = res.data;
+                const images = imgData.filter(item => !item.isMain)
+                this.setState({ photos: imgData, images })
+            }  
+        } catch (error) {
+            this.setState({ loadingImages: false })
         }
+        
     }
 
     renderCoverImage = () => {

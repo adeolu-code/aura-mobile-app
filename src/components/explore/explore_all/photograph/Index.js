@@ -56,23 +56,27 @@ class Index extends Component {
 
   getPhotographers = async (more=false) => {
       const { perPage, activePage } = this.state
-      this.setState({ loading: true })
-      const res = await GetRequest(urls.photographyBase, 
-      `${urls.v}photographer/all?Size=${perPage}&Page=${activePage}`);
-      console.log('Res places', res)
-      more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
-      if(res.isError) {
-        const message = res.Message;
-      } else {
-        const dataResult = res.data.data
-        let data = []
-        if(more) {
-          data = [...places, ...dataResult]
+      try {
+        this.setState({ loading: true })
+        const res = await GetRequest(urls.photographyBase, 
+        `${urls.v}photographer/all?Size=${perPage}&Page=${activePage}`);
+        console.log('Res places', res)
+        more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
+        if(res.isError) {
+          const message = res.Message;
         } else {
-          data = dataResult
+          const dataResult = res.data.data
+          let data = []
+          if(more) {
+            data = [...places, ...dataResult]
+          } else {
+            data = dataResult
+          }
+          const pageCount =  Math.ceil(res.data.totalItems / perPage)
+          this.setState({ photographers: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
         }
-        const pageCount =  Math.ceil(res.data.totalItems / perPage)
-        this.setState({ photographers: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
+      } catch (error) {
+        
       }
   }
   onEndReached = () => {

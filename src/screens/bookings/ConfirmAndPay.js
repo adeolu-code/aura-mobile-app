@@ -61,43 +61,55 @@ class ConfirmAndPay extends Component {
   }
   getBooked = async () => {
     const { bookedId } = this.state
-    this.setState({ loading: true })
-    const res = await GetRequest(urls.bookingBase,  `${urls.v}bookings/property/${bookedId}`);
-    console.log('Booked details ', res)
-    this.setState({ loading: false })
-    if(res.isError) {
-        const message = res.Message;
-        errorMessage(message)
-    } else {
-        const data = res.data;
-        this.setState({ booked: data })
+    try {
+      this.setState({ loading: true })
+      const res = await GetRequest(urls.bookingBase,  `${urls.v}bookings/property/${bookedId}`);
+      console.log('Booked details ', res)
+      this.setState({ loading: false })
+      if(res.isError) {
+          const message = res.Message;
+          errorMessage(message)
+      } else {
+          const data = res.data;
+          this.setState({ booked: data })
+      }
+    } catch (error) {
+      this.setState({ loading: false })
     }
   }
 
   getPaymentMethods = async () => {
-    this.setState({ gettingPayments: true })
-    const res = await GetRequest(urls.paymentBase,  `${urls.v}pay/methods`);
-    console.log('Payments ', res)
-    this.setState({ gettingPayments: false })
-    if(res.isError) {
-        const message = res.Message;
-        errorMessage(message)
-    } else {
-        const data = res.data;
-        this.setState({ paymentTypes: data })
+    try {
+      this.setState({ gettingPayments: true })
+      const res = await GetRequest(urls.paymentBase,  `${urls.v}pay/methods`);
+      console.log('Payments ', res)
+      this.setState({ gettingPayments: false })
+      if(res.isError) {
+          const message = res.Message;
+          errorMessage(message)
+      } else {
+          const data = res.data;
+          this.setState({ paymentTypes: data })
+      }
+    } catch (error) {
+      this.setState({ gettingPayments: false })
     }
   }
   getDeductions = async () => {
-    this.setState({ gettingDeductions: true })
-    const res = await GetRequest(urls.paymentBase,  `${urls.v}deduction/commissioning/retrieve?partner=host&country=Nigeria`);
-    console.log('Deductions ', res)
-    this.setState({ gettingDeductions: false })
-    if(res.isError) {
-        const message = res.Message;
-        errorMessage(message)
-    } else {
-        const data = res.data;
-        this.setState({ deductions: data })
+    try {
+      this.setState({ gettingDeductions: true })
+      const res = await GetRequest(urls.paymentBase,  `${urls.v}deduction/commissioning/retrieve?partner=host&country=Nigeria`);
+      console.log('Deductions ', res)
+      this.setState({ gettingDeductions: false })
+      if(res.isError) {
+          const message = res.Message;
+          errorMessage(message)
+      } else {
+          const data = res.data;
+          this.setState({ deductions: data })
+      }
+    } catch (error) {
+      this.setState({ gettingDeductions: false })
     }
   }
 

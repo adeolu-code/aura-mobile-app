@@ -14,7 +14,7 @@ import { MyText, CustomButton, CustomInputNumber, Loading, Error } from "../../u
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 
-import { Request, GetRequest, urls } from '../../utils'
+import { GetRequest, urls } from '../../utils'
 
 
 
@@ -42,29 +42,37 @@ class ThemeListModal extends Component {
     }
 
     getThemeList = async () => {
-        this.setState({ loading: true, errors: [] });
-        // const res = await GetRequest(urls.experienceBase, `${urls.v}experience/themeCategory/list`);
-        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/theme/list`);
-        this.setState({ loading: false });
-        if (res.isError || res.IsError) {
-            const message = res.message;
-            const error = [message];
-            this.setState({ errors: error});
-        } else {
-            this.setState({ lists: res.data })
-            this.props.getThemes(res.data)
+        try {
+            this.setState({ loading: true, errors: [] });
+            // const res = await GetRequest(urls.experienceBase, `${urls.v}experience/themeCategory/list`);
+            const res = await GetRequest(urls.experienceBase, `${urls.v}experience/theme/list`);
+            this.setState({ loading: false });
+            if (res.isError || res.IsError) {
+                const message = res.message;
+                const error = [message];
+                this.setState({ errors: error});
+            } else {
+                this.setState({ lists: res.data })
+                this.props.getThemes(res.data)
+            }
+        } catch (error) {
+            
         }
     }
     getSubCatThemeList = async (id) => {
-        this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/theme/list?ThemeCategoryId=${id}`);
-        this.setState({ loading: false });
-        if (res.isError || res.IsError) {
-            const message = res.message;
-            const error = [message];
-            this.setState({ errors: error});
-        } else {
-            this.setState({ subLists: res.data })
+        try {
+            this.setState({ loading: true, errors: [] });
+            const res = await GetRequest(urls.experienceBase, `${urls.v}experience/theme/list?ThemeCategoryId=${id}`);
+            this.setState({ loading: false });
+            if (res.isError || res.IsError) {
+                const message = res.message;
+                const error = [message];
+                this.setState({ errors: error});
+            } else {
+                this.setState({ subLists: res.data })
+            } 
+        } catch (error) {
+            
         }
     }
     selectList = (listValue) => {

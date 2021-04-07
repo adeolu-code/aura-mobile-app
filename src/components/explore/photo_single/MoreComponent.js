@@ -24,17 +24,20 @@ class MoreComponent extends Component {
         }
     }
     getPhotographers = async () => {
-        const { photo } = this.props
-        this.setState({ loading: true })
-        const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/all?Size=5&Page=1`);
-        this.setState({ loading: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            const data = res.data.data
-
-            const photographers = data.filter(item => item.id !== photo.id)
-            this.setState({ photographers })
+        try {
+            const { photo } = this.props
+            this.setState({ loading: true })
+            const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/all?Size=5&Page=1`);
+            this.setState({ loading: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data.data
+                const photographers = data.filter(item => item.id !== photo.id)
+                this.setState({ photographers })
+            }
+        } catch (error) {
+            
         }
     }
     renderEmpty = () => {

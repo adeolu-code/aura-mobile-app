@@ -83,10 +83,14 @@ class Location extends Component {
   }
   getGeolocation = async () => {
     const { region } = this.state
-    this.setState({ loading: true })
-    const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${region.latitude},${region.longitude}&key=${GOOGLE_API_KEY}`)
-    this.setState({ loading: false })
-    this.getAddressDetails(res.results[0])
+    try {
+      this.setState({ loading: true })
+      const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${region.latitude},${region.longitude}&key=${GOOGLE_API_KEY}`)
+      this.setState({ loading: false })
+      this.getAddressDetails(res.results[0])
+    } catch (error) {
+      this.setState({ loading: false })
+    }
     // console.log('Res ', res)
   }
   getAddressDetails = (res) => {

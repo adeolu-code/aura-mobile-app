@@ -7,7 +7,7 @@ import { Styles } from "../host/host.style";
 import colors from "../../colors";
 import { MyText, CustomInput, Error, CustomButton, Loading } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
-import { setContext, urls, GetRequest, Request, uploadMultipleFile, successMessage, errorMessage } from '../../utils';
+import { setContext, urls, Request, uploadMultipleFile, successMessage, errorMessage } from '../../utils';
 import SelectImageModal from '../../components/SelectImageModal';
 import ImagePicker from 'react-native-image-crop-picker';
 import { AppContext } from "../../../AppProvider";

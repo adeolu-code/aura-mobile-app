@@ -46,6 +46,7 @@ class Index extends Component {
   }
 
   getPlaces = async (more=false) => {
+    try {
       more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
       const { activePage, perPage, places, selectedLocation, filterUrl } = this.state
       console.log('active page ', activePage)
@@ -78,6 +79,9 @@ class Index extends Component {
         const pageCount =  Math.ceil(res.data.totalItems / perPage)
         this.setState({ places: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
       }
+    } catch (error) {
+      
+    }
   }
   linkHouse = (house) => {
     this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })

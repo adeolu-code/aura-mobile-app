@@ -11,7 +11,7 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 
 import { AppContext } from '../../../AppProvider';
-import { urls, GetRequest, errorMessage } from '../../utils';
+import { urls, errorMessage } from '../../utils';
 
 import { formatAmount } from '../../helpers'
 

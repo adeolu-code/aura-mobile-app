@@ -53,19 +53,22 @@ class ShareIdModal extends Component {
     this.setState({loading: true});
     const { booked, house } = this.props
     const obj = { bookingId: booked.id}
-    const res = await Request(urls.bookingBase,  `${urls.v}bookings/property/shareid`, obj);
-    this.setState({loading: false });
-    console.log('Share id ', res)
-    if(res.isError) {
-        const message = res.Message;
-        this.setState({ formErrors: [message]})
-    } else {
-        this.props.onDecline()
-        const data = res.data;
-        successMessage('Your Id was shared successfully!!')
-        this.props.navigation.navigate('HostPropertyStack', { screen: 'ConfirmAndPay', params: { house, bookedId: booked.id }})
+    try {
+      const res = await Request(urls.bookingBase,  `${urls.v}bookings/property/shareid`, obj);
+      this.setState({loading: false });
+      console.log('Share id ', res)
+      if(res.isError) {
+          const message = res.Message;
+          this.setState({ formErrors: [message]})
+      } else {
+          this.props.onDecline()
+          const data = res.data;
+          successMessage('Your Id was shared successfully!!')
+          this.props.navigation.navigate('HostPropertyStack', { screen: 'ConfirmAndPay', params: { house, bookedId: booked.id }})
+      }
+    } catch (error) {
+      this.setState({loading: false });
     }
-    
   }
 
   getIdTypes = () => {
@@ -84,17 +87,21 @@ class ShareIdModal extends Component {
 
   getIdentityInfo = async (types) => {
     const { userData } = this.context.state
-    const res = await GetRequest(urls.identityBase,  `${urls.v}user/identity/display/${userData.id}`);
-    this.setState({loading: false });
-    console.log('User identity', res)
-    this.setState({ loading: false })
-    if(res.isError) {
-        const message = res.Message;
-        this.setState({ formErrors: [message]})
-    } else {
-        const data = res.data;
-        const idType = types.find((item) => item.id === data.identityTypeId)
-        this.setState({ identityInfo: {...data, idTypeName: idType.name } })
+    try {
+      const res = await GetRequest(urls.identityBase,  `${urls.v}user/identity/display/${userData.id}`);
+      this.setState({loading: false });
+      console.log('User identity', res)
+      this.setState({ loading: false })
+      if(res.isError) {
+          const message = res.Message;
+          this.setState({ formErrors: [message]})
+      } else {
+          const data = res.data;
+          const idType = types.find((item) => item.id === data.identityTypeId)
+          this.setState({ identityInfo: {...data, idTypeName: idType.name } })
+      }
+    } catch (error) {
+      
     }
   }
   

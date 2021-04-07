@@ -91,7 +91,11 @@ class OtpModal extends Component {
     sendMail = async () => {
         const { userData } = this.context.state
         // this.setState({ loading: true, formErrors: [] })
-        const res = await GetRequest(urls.identityBase, `api/v1/user/email/verification/resend/${userData.username}`);
+        try {
+            const res = await GetRequest(urls.identityBase, `api/v1/user/email/verification/resend/${userData.username}`);
+        } catch (error) {
+            
+        }
         // this.setState({ loading: false })
         // if(res.isError) {
         //     const message = res.message;
@@ -103,19 +107,23 @@ class OtpModal extends Component {
     }
     resendCode = async () => {
         this.setState({ loading: true, formErrors: [] })
-        const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
-        console.log(res)
-        if(res.IsError) {
-            const message = res.Message;
-            const error = [message]
-            this.setState({ formErrors: error})
-        } else {
-            this.setState({ message: 'OTP resent successfully!!'})
-            setTimeout(() => {
-                this.setState({ message: ''})
-            }, 5000);
+        try {
+            const res = await Request(urls.identityBase, 'api/v1/user/otp/generate');
+            console.log(res)
+            if(res.IsError) {
+                const message = res.Message;
+                const error = [message]
+                this.setState({ formErrors: error})
+            } else {
+                this.setState({ message: 'OTP resent successfully!!'})
+                setTimeout(() => {
+                    this.setState({ message: ''})
+                }, 5000);
+            }
+            this.setState({ loading: false }) 
+        } catch (error) {
+            
         }
-        this.setState({ loading: false })
     }
     verifyOtp = async () => {
         Keyboard.dismiss()
@@ -129,18 +137,22 @@ class OtpModal extends Component {
             numbers.map((item, i) => {
                 numberString = numberString+item
             })
-            const obj = { Otp: numberString }
-            const res = await GetRequest(urls.identityBase, `${urls.v}user/otp/verify?Otp=${numberString}`);
-            console.log(res)
-            if(res.isError) {
-                const message = res.message;
-                const error = [message]
-                this.setState({ formErrors: error, loading: false })
-            } else {
-                const obj = { ...state.userData, isPhoneVerified: true }
-                set({ userData: obj })
-                this.checkEmailVerification()
-                await setUser(obj)
+            try {
+                const obj = { Otp: numberString }
+                const res = await GetRequest(urls.identityBase, `${urls.v}user/otp/verify?Otp=${numberString}`);
+                console.log(res)
+                if(res.isError) {
+                    const message = res.message;
+                    const error = [message]
+                    this.setState({ formErrors: error, loading: false })
+                } else {
+                    const obj = { ...state.userData, isPhoneVerified: true }
+                    set({ userData: obj })
+                    this.checkEmailVerification()
+                    await setUser(obj)
+                } 
+            } catch (error) {
+                
             }
         }
     }

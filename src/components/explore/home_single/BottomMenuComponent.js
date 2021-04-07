@@ -11,10 +11,7 @@ import colors from '../../../colors';
 
 import { formatAmount } from '../../../helpers';
 
-import { urls, GetRequest } from '../../../utils';
-
-
-
+import { urls } from '../../../utils';
 
 class BottomMenuComponent extends Component {
   constructor(props) {

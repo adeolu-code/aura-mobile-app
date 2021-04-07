@@ -53,6 +53,8 @@ class PaymentTourWebView extends Component {
       } else {
         this.setState({ verified: true, loading: false  })
       }
+    })
+    .catch(error => {
       
     })
     

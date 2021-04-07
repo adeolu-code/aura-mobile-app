@@ -5,7 +5,7 @@ import { MyText, Loading, CustomButton } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import HouseComponent from './HouseComponent';
 import ScrollHeader from './ScrollHeader';
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 
@@ -26,19 +26,22 @@ class MoreListings extends Component {
     }
 
     getPlaces = async () => {
-        this.setState({ loading: true })
-        const { house } = this.props;
-        const res = await GetRequest(urls.listingBase,
-        `${urls.v}listing/property/search/available/?userid=${house.hostId}`);
-        console.log('More Listings ', res)
-        this.setState({ loading: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            this.setState({ places: res.data.data })
-            if (res.data.data.length !== 0) {
-                this.setState({ noDot: false })
+        try {
+            this.setState({ loading: true })
+            const { house } = this.props;
+            const res = await GetRequest(urls.listingBase,
+            `${urls.v}listing/property/search/available/?userid=${house.hostId}`);
+            this.setState({ loading: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                this.setState({ places: res.data.data })
+                if (res.data.data.length !== 0) {
+                    this.setState({ noDot: false })
+                }
             }
+        } catch (error) {
+            
         }
     }
 

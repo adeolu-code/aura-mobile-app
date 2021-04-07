@@ -138,16 +138,21 @@ class HostScreen extends Component {
   }
   sendMail = async () => {
       const { userData } = this.context.state;
-      this.setState({ loading: true, errors: [] });
-      const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
-      this.setState({ loading: false });
-      if (res.isError) {
-          const message = res.message;
-          const error = [message];
-          this.setState({ errors: error});
-      } else {
-        this.openEmailModal();
+      try {
+        this.setState({ loading: true, errors: [] });
+        const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
+        this.setState({ loading: false });
+        if (res.isError) {
+            const message = res.message;
+            const error = [message];
+            this.setState({ errors: error});
+        } else {
+          this.openEmailModal();
+        }
+      } catch (error) {
+        this.setState({ loading: false });
       }
+      
   }
 
   openMenu = () => {

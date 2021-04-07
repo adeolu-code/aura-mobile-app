@@ -43,14 +43,18 @@ class FilterModal extends Component {
   }
 
   getCuisines = async () => {
-    this.setState({ gettingCuisines: true })
-    const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/operation/cuisine`);
-    console.log('Cuisines ', res)
-    this.setState({ gettingCuisines: false })
-    if(res.isError || res.IsError) {
-      this.setState({ errors: [res.message || res.Message]})
-    } else {
-      this.setState({ cuisines: res.data })
+    try {
+      this.setState({ gettingCuisines: true })
+      const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/operation/cuisine`);
+      console.log('Cuisines ', res)
+      this.setState({ gettingCuisines: false })
+      if(res.isError || res.IsError) {
+        this.setState({ errors: [res.message || res.Message]})
+      } else {
+        this.setState({ cuisines: res.data })
+      }
+    } catch (error) {
+      
     }
   }
   

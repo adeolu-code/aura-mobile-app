@@ -5,7 +5,7 @@ import { MyText, Loading } from '../../../utils/Index';
 // import GStyles from '../../../assets/styles/GeneralStyles';
 import PhotoComponent from './PhotoComponent';
 
-import { Request, GetRequest, urls } from '../../../utils';
+import { GetRequest, urls } from '../../../utils';
 import { shortenXterLength, formatAmount } from '../../../helpers'
 class ScrollContent extends Component {
     constructor(props) {
@@ -17,18 +17,22 @@ class ScrollContent extends Component {
         if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 1000 }} />); }
     }
     getTours = async (more=false) => {
-        this.setState({ loading: true })
-        const { tourId } = this.props
-        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/get/list/?status=Adminpublished&Page=1&Size=4`);
-        console.log('Res tours', res)
-        this.setState({ loading: false })
-        if(res.isError) {
-            const message = res.Message;
-            errorMessage(message)
-        } else {
-            const dataResult = res.data.data
-            const tours = dataResult.filter(item => item.id !== tourId)
-            this.setState({ tours })
+        try {
+            this.setState({ loading: true })
+            const { tourId } = this.props
+            const res = await GetRequest(urls.experienceBase, `${urls.v}experience/get/list/?status=Adminpublished&Page=1&Size=4`);
+            console.log('Res tours', res)
+            this.setState({ loading: false })
+            if(res.isError) {
+                const message = res.Message;
+                errorMessage(message)
+            } else {
+                const dataResult = res.data.data
+                const tours = dataResult.filter(item => item.id !== tourId)
+                this.setState({ tours })
+            }
+        } catch (error) {
+            
         }
     }
     linkTo = (tour) => {

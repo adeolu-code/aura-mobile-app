@@ -7,7 +7,7 @@ import colors from '../../colors';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { GOOGLE_API_KEY, GetRequest, errorMessage } from '../../utils';
+import { GOOGLE_API_KEY, errorMessage } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 import ProgressBar from '../../components/ProgressBar'

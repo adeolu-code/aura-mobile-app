@@ -62,10 +62,11 @@ class HostDetails extends Component {
 
   getHost = async () => {
     const { house } = this.state;
-    const response = await GetRequest(urls.identityBase, `${urls.v}user/?id=${house.hostId}`);
-    console.log('Use response ', response)
-    // const response = await GetRequest(urls.identityBase, `${urls.v}user/?id=APd1249674b19a41a0a64e499e642de561`);
-    if (response.isError) {
+    try {
+      const response = await GetRequest(urls.identityBase, `${urls.v}user/?id=${house.hostId}`);
+      console.log('Use response ', response)
+      // const response = await GetRequest(urls.identityBase, `${urls.v}user/?id=APd1249674b19a41a0a64e499e642de561`);
+      if (response.isError) {
         errorMessage(response.message);
       } else { 
         const data = response.data;
@@ -77,6 +78,9 @@ class HostDetails extends Component {
         const signUpYear = signUpDate.getFullYear();
         this.setState({ host: data, firstName: firstName, lastName: lastName, profilePicture: profilePicture, location: location, signUpDate: signUpYear });
       }
+    } catch (error) {
+      
+    }
   }
 
   render() {

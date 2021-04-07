@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from "react";
-import { setContext, Request, GetRequest, urls, consoleLog } from "./src/utils";
+import { setContext, GetRequest, urls, consoleLog } from "./src/utils";
 
 import { AppContext } from './AppProvider';
 
@@ -36,24 +36,27 @@ class ManagePropertyProvider extends Component {
     const { activePropertiesPage, perPage, properties } = this.state
     more ? this.set({ loadMoreProperties: true }) : this.set({ loadingAllProperties: true })
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.listingBase,  `${urls.v}listing/property/me/?UserId=${userData.id}&Page=${activePropertiesPage}&Size=${perPage}`);
-      more ? this.set({ loadMoreProperties: false }) : this.set({ loadingAllProperties: false })
-      consoleLog("Properties", res);
-      if(res.isError) {
-        reject(res.message)
-      } else {
-        const response = res.data
-        resolve(response)
-        const dataResult = response.data
-        let data = []
-        if(more) {
-          data = [...properties, ...dataResult]
+      try {
+        const res = await GetRequest(urls.listingBase,  `${urls.v}listing/property/me/?UserId=${userData.id}&Page=${activePropertiesPage}&Size=${perPage}`);
+        more ? this.set({ loadMoreProperties: false }) : this.set({ loadingAllProperties: false })
+        if(res.isError) {
+          reject(res.message)
         } else {
-          data = dataResult
+          const response = res.data
+          resolve(response)
+          const dataResult = response.data
+          let data = []
+          if(more) {
+            data = [...properties, ...dataResult]
+          } else {
+            data = dataResult
+          }
+          // console.log('All properties ', res.data)
+          const pagePropertiesCount =  Math.ceil(response.totalItems / perPage)
+          this.set({ properties: data, activePropertiesPage: response.page, totalProperties: response.totalItems, pagePropertiesCount })
         }
-        console.log('All properties ', res.data)
-        const pagePropertiesCount =  Math.ceil(response.totalItems / perPage)
-        this.set({ properties: data, activePropertiesPage: response.page, totalProperties: response.totalItems, pagePropertiesCount })
+      } catch (error) {
+        
       }
     })
   }

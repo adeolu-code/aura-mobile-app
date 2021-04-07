@@ -50,6 +50,7 @@ class Index extends Component {
     console.log('End reached')
   }
   getRestaurants = async (more=false) => {
+    try {
       more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
       const { activePage, perPage, restaurants, filterUrl } = this.state
       let queryUrl = ''
@@ -73,6 +74,9 @@ class Index extends Component {
         const pageCount =  Math.ceil(res.data.totalItems / perPage)
         this.setState({ restaurants: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.size, pageCount })
       }
+    } catch (error) {
+      
+    }
   }
   renderItem = ({item}) => {
     let mealName = item.mealName ? item.mealName : ''

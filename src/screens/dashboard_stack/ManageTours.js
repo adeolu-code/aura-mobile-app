@@ -66,25 +66,29 @@ class ManageTours extends Component {
   }
 
   getTours = async (more=false, refresh=false) => {
-    const { page, size, tours } = this.state
-    more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
-    if(refresh) { this.setState({ refreshing: true })}
-    const res = await GetRequest(urls.experienceBase, `${urls.v}experience/me?Page=${page}&Size=${size}`)
-    console.log('Tours ', res)
-    more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
-    this.setState({ refreshing: false })
-    if(res.isError || res.IsError) {
-      errorMessage(res.message || res.Message)
-    } else {
-      let data = []
-      const dataResult = res.data.data
-      if(more) {
-        data = [...tours, ...dataResult]
+    try {
+      const { page, size, tours } = this.state
+      more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
+      if(refresh) { this.setState({ refreshing: true })}
+      const res = await GetRequest(urls.experienceBase, `${urls.v}experience/me?Page=${page}&Size=${size}`)
+      console.log('Tours ', res)
+      more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
+      this.setState({ refreshing: false })
+      if(res.isError || res.IsError) {
+        errorMessage(res.message || res.Message)
       } else {
-        data = dataResult
+        let data = []
+        const dataResult = res.data.data
+        if(more) {
+          data = [...tours, ...dataResult]
+        } else {
+          data = dataResult
+        }
+        const pageCount =  Math.ceil(res.data.totalItems / size)
+        this.setState({ tours: data, page: res.data.page, totalItems: res.data.totalItems, pageCount })
       }
-      const pageCount =  Math.ceil(res.data.totalItems / size)
-      this.setState({ tours: data, page: res.data.page, totalItems: res.data.totalItems, pageCount })
+    } catch (error) {
+      
     }
   }
 

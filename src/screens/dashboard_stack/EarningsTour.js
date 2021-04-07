@@ -65,46 +65,58 @@ class Earnings extends Component {
 
 
   getEarnings = async () => {
-    this.setState({ gettingEarnings: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/experience/host/earnings`);
-    this.setState({ gettingEarnings: false })
-    console.log('Earnings ', response)
-    if (response.isError) {
-      errorMessage(response.message)
-    } else {  
-      const data = response.data;
-      
-      const weekly = data.weeklyEarnings;
-      const total = data.totalEarnings;
-      this.setState({ weeklyEarnings: weekly, totalEarnings: total});
+    try {
+      this.setState({ gettingEarnings: true })
+      const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/experience/host/earnings`);
+      this.setState({ gettingEarnings: false })
+      console.log('Earnings ', response)
+      if (response.isError) {
+        errorMessage(response.message)
+      } else {  
+        const data = response.data;
+        
+        const weekly = data.weeklyEarnings;
+        const total = data.totalEarnings;
+        this.setState({ weeklyEarnings: weekly, totalEarnings: total});
+      }
+    } catch (error) {
+      this.setState({ gettingEarnings: false })
     }
+    
   }
 
   getBankAccount = async () => {
     const { userData } = this.context.state
-    this.setState({ gettingBankAccount: true })
-    const response = await GetRequest(urls.identityBase, `${urls.v}user/bankaccount?userId=${userData.id}`);
-    this.setState({ gettingBankAccount: false })
-    console.log('Account ', response)
-    if (response.isError) {
-      errorMessage(response.message)
-    } else {  
-      const data = response.data;
-      this.setState({ bankDetails: data});
+    try {
+      this.setState({ gettingBankAccount: true })
+      const response = await GetRequest(urls.identityBase, `${urls.v}user/bankaccount?userId=${userData.id}`);
+      this.setState({ gettingBankAccount: false })
+      console.log('Account ', response)
+      if (response.isError) {
+        errorMessage(response.message)
+      } else {  
+        const data = response.data;
+        this.setState({ bankDetails: data});
+      }
+    } catch (error) {
+      this.setState({ gettingBankAccount: false })
     }
   }
 
   getTransactions = async () => {
     const { userData } = this.context.state
-    this.setState({ gettingTransactions: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property?hostId=${userData.id}&Page=1&pageSize=5`);
-    this.setState({ gettingTransactions: false })
-    console.log('Transactions ', response)
-    if (response.isError) {
-      errorMessage(response.message)
-    } else {  
-      const data = response.data;
-      this.setState({ transactions: data.data});
+    try {
+      this.setState({ gettingTransactions: true })
+      const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property?hostId=${userData.id}&Page=1&pageSize=5`);
+      this.setState({ gettingTransactions: false })
+      if (response.isError) {
+        errorMessage(response.message)
+      } else {  
+        const data = response.data;
+        this.setState({ transactions: data.data});
+      }
+    } catch (error) {
+      this.setState({ gettingTransactions: false })
     }
   }
 

@@ -9,7 +9,7 @@ import { Styles } from "../host/host.style";
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { GOOGLE_API_KEY, GetRequest, errorMessage, Request, urls } from '../../utils';
+import { GOOGLE_API_KEY, errorMessage, Request, urls } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 

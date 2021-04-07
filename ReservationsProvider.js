@@ -38,25 +38,28 @@ class ReservationsProvider extends Component {
 
     return new Promise( async (resolve, reject) => {
       this.set({ loadingReservations: true });
-
-      const res = await GetRequest(urls.bookingBase,
-      `${urls.v}bookings/property/host/recent/reservations/?Page=${reservationsPage}&Size=${perPage}`);
-
-      more ? this.set({ loadMoreReservations: false }) : this.set({ loadingReservations: false });
-      console.log('Recent reservations ',res)
-      if (res.isError) {
-        reject(res.message);
-      } else {
-        resolve(res);
-        const dataResult = res.data;
-        let data = [];
-        if (more) {
-          data = [ ...reservations, ...dataResult ]
+      try {
+        const res = await GetRequest(urls.bookingBase,
+        `${urls.v}bookings/property/host/recent/reservations/?Page=${reservationsPage}&Size=${perPage}`);
+  
+        more ? this.set({ loadMoreReservations: false }) : this.set({ loadingReservations: false });
+        console.log('Recent reservations ',res)
+        if (res.isError) {
+          reject(res.message);
         } else {
-          data = dataResult;
+          resolve(res);
+          const dataResult = res.data;
+          let data = [];
+          if (more) {
+            data = [ ...reservations, ...dataResult ]
+          } else {
+            data = dataResult;
+          }
+          const pageCountReservations =  Math.ceil(res.totalItems / perPage)
+          this.set({ reservations: data, reservationsPage: res.page, totalReservations: res.totalItems, pageCountReservations });
         }
-        const pageCountReservations =  Math.ceil(res.totalItems / perPage)
-        this.set({ reservations: data, reservationsPage: res.page, totalReservations: res.totalItems, pageCountReservations });
+      } catch (error) {
+        reject(error)
       }
     });
   }
@@ -65,24 +68,29 @@ class ReservationsProvider extends Component {
     const { concludedReservationsPage, perPage, concludedReservations } = this.state;
 
     return new Promise( async (resolve, reject) => {
-      this.set({ loadingConReservations: true });
-      const res = await GetRequest(urls.bookingBase,
-      `${urls.v}bookings/property/host/concluded/reservations/?Page=${concludedReservationsPage}&Size=${perPage}`);
-      more ? this.set({ loadMoreConcluded: false }) : this.set({ loadingConReservations: false });
-      if (res.isError) {
-        reject(res.message);
-      } else {
-        resolve(res);
-        const dataResult = res.data;
-        let data = [];
-        if (more) {
-          data = [ ...concludedReservations, ...dataResult ]
+      try {
+        this.set({ loadingConReservations: true });
+        const res = await GetRequest(urls.bookingBase,
+        `${urls.v}bookings/property/host/concluded/reservations/?Page=${concludedReservationsPage}&Size=${perPage}`);
+        more ? this.set({ loadMoreConcluded: false }) : this.set({ loadingConReservations: false });
+        if (res.isError) {
+          reject(res.message);
         } else {
-          data = dataResult;
+          resolve(res);
+          const dataResult = res.data;
+          let data = [];
+          if (more) {
+            data = [ ...concludedReservations, ...dataResult ]
+          } else {
+            data = dataResult;
+          }
+          const pageConcludedCount =  Math.ceil(res.totalItems / perPage)
+          this.set({ concludedReservations: data, concludedReservationsPage: res.page, totalConReservations: res.totalItems, pageConcludedCount});
         }
-        const pageConcludedCount =  Math.ceil(res.totalItems / perPage)
-        this.set({ concludedReservations: data, concludedReservationsPage: res.page, totalConReservations: res.totalItems, pageConcludedCount});
-    }
+      } catch (error) {
+        reject(error)
+      }
+      
     });
   }
 

@@ -16,7 +16,7 @@ import { Icon } from 'native-base';
 import { AppContext } from '../../../AppProvider'
 import moment from "moment";
 
-import { urls, Request, GetRequest, successMessage } from '../../utils'
+import { urls, Request, successMessage } from '../../utils'
 
 class FilterModal extends Component {
     static contextType = AppContext;

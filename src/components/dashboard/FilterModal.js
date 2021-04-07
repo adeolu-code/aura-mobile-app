@@ -15,7 +15,7 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { AppContext } from '../../../AppProvider'
 
-import { urls, Request, GetRequest, successMessage } from '../../utils'
+import { urls, Request, successMessage } from '../../utils'
 
 class FilterModal extends Component {
     static contextType = AppContext;

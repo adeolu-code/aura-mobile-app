@@ -29,32 +29,40 @@ class ReviewsTourProvider extends Component {
 
   getReviews = async (more) => {
     return new Promise( async (resolve, reject) => {
-      this.set({ loadingReviews: true });
-      const res = await GetRequest(urls.experienceBase, `${urls.v}experience/review/comment/host`);
-      this.set({ loadingReviews: false })
-      console.log('reviews ',res)
-      if (res.isError || res.IsError) {
-        reject(res.message);
-      } else {
-        resolve(res);
-        const dataResult = res.data;
-        this.set({ reviews: dataResult });
+      try {
+        this.set({ loadingReviews: true });
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/review/comment/host`);
+        this.set({ loadingReviews: false })
+        // console.log('reviews ',res)
+        if (res.isError || res.IsError) {
+          reject(res.message);
+        } else {
+          resolve(res);
+          const dataResult = res.data;
+          this.set({ reviews: dataResult });
+        }
+      } catch (error) {
+        reject(error)
       }
     });
   }
 
   getRatings = async () => {
     return new Promise( async (resolve, reject) => {
-      this.set({ loadingRatings: true });
-      const res = await GetRequest(urls.experienceBase, `${urls.v}experience/review/rating/host`);
-      this.set({ loadingRatings: false })
-      console.log('Ratings',res)
-      if (res.isError || res.IsError) {
-        reject(res.message);
-      } else {
-        resolve(res);
-        const dataResult = res.data;
-        this.set({ ratings: dataResult });
+      try {
+        this.set({ loadingRatings: true });
+        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/review/rating/host`);
+        this.set({ loadingRatings: false })
+        console.log('Ratings',res)
+        if (res.isError || res.IsError) {
+          reject(res.message);
+        } else {
+          resolve(res);
+          const dataResult = res.data;
+          this.set({ ratings: dataResult });
+        }
+      } catch (error) {
+        reject(error)
       }
     });
   }

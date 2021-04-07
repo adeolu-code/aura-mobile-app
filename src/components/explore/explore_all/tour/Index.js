@@ -36,6 +36,7 @@ class Index extends Component {
   }
   
   getTours = async (more=false) => {
+    try {
       more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
       const { activePage, perPage, tours } = this.state
       const { filterUrl } = this.state
@@ -61,6 +62,9 @@ class Index extends Component {
         const pageCount =  Math.ceil(res.data.totalItems / perPage)
         this.setState({ tours: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
       }
+    } catch (error) {
+      
+    }
   }
   renderItem = ({item}) => {
     let title = item.title ? item.title : ''

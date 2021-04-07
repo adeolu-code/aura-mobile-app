@@ -29,32 +29,41 @@ class HomeDetails extends Component {
     }
     getReservation = async () => {
         const { propertyId } = this.state
-        this.setState({ gettingReservations: true })
-        const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/ByProperty/?propertyId=${propertyId}`);
-        console.log('Reserve details ', res)
-        this.setState({ gettingReservations: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            const data = res.data;
-            if(data !== null) {
-              this.setState({ reservations: data })
+        try {
+            this.setState({ gettingReservations: true })
+            const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/ByProperty/?propertyId=${propertyId}`);
+            console.log('Reserve details ', res)
+            this.setState({ gettingReservations: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data;
+                if(data !== null) {
+                this.setState({ reservations: data })
+                }
             }
+        } catch (error) {
+            this.setState({ gettingReservations: false })
         }
+        
     }
     getHouse = async () => {
         const { propertyId } = this.state
-        this.setState({ gettingHouse: true })
-        const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${propertyId}`);
-        console.log('House Details ', res)
-        this.setState({ gettingHouse: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            const data = res.data;
-            if(data !== null) {
-              this.setState({ house: data })
+        try {
+            this.setState({ gettingHouse: true })
+            const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${propertyId}`);
+            console.log('House Details ', res)
+            this.setState({ gettingHouse: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data;
+                if(data !== null) {
+                this.setState({ house: data })
+                }
             }
+        } catch (error) {
+            this.setState({ gettingHouse: false })
         }
     }
     

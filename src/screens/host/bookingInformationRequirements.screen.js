@@ -37,18 +37,21 @@ export default class BookingInformationRequirements extends Component {
     }
 
     getBookingReq = async () => {
-        this.setState({ gettingBookingReq: true })
-        const res = await GetRequest(urls.listingBase, `${urls.v}listing/bookingrequirement`);
-        this.setState({ gettingBookingReq: false})
-        if(res.IsError || res.isError) {
-            console.log(res.error)
-            // errorMessage('Something went wrong, please try again')
-        } else {
-            const data = res.data;
-            this.setState({ bookingReqs: data });
-            
-            // console.log(data);
+        try {
+            this.setState({ gettingBookingReq: true })
+            const res = await GetRequest(urls.listingBase, `${urls.v}listing/bookingrequirement`);
+            this.setState({ gettingBookingReq: false})
+            if(res.IsError || res.isError) {
+                console.log(res.error)
+                // errorMessage('Something went wrong, please try again')
+            } else {
+                const data = res.data;
+                this.setState({ bookingReqs: data });
+            } 
+        } catch (error) {
+            this.setState({ gettingBookingReq: false})
         }
+        
     }
     getBookingValue = (id) => {
         const { bookingReqValues } = this.state;
@@ -173,21 +176,26 @@ export default class BookingInformationRequirements extends Component {
     getHouse = async () => {
         const { state, set } = this.context
         const ppty = state.propertyFormData;
-        this.setState({ gettingHouse: true })
-        const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${ppty.id}`);
-        this.setState({ gettingHouse: false })
-        // console.log('Get house ', res)
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            const data = res.data;
-            if(data !== null) {
-              const bookingReqValues = data.bookingRequirements ? data.bookingRequirements.map(item => item.id) : []
-              const houseRules = data.houseRules ? data.houseRules.map(item => item.id) : []
-              this.setState({ bookingReqValues })
-              set({ propertyFormData: { ...ppty, houseRules, bookingRequirements: bookingReqValues } })
+        try {
+            this.setState({ gettingHouse: true })
+            const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${ppty.id}`);
+            this.setState({ gettingHouse: false })
+            // console.log('Get house ', res)
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data;
+                if(data !== null) {
+                const bookingReqValues = data.bookingRequirements ? data.bookingRequirements.map(item => item.id) : []
+                const houseRules = data.houseRules ? data.houseRules.map(item => item.id) : []
+                this.setState({ bookingReqValues })
+                set({ propertyFormData: { ...ppty, houseRules, bookingRequirements: bookingReqValues } })
+                }
             }
+        } catch (error) {
+            this.setState({ gettingHouse: false })
         }
+        
       }
 
     componentDidMount = () => {

@@ -8,7 +8,7 @@ import colors from '../../colors';
 
 import GStyles from '../../assets/styles/GeneralStyles';
 import { AppContext } from '../../../AppProvider';
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, urls, GetRequest } from '../../utils';
 
 
 class SuccessScreen extends Component {
@@ -85,20 +85,24 @@ class SuccessScreen extends Component {
   }
   resendMail = async () => {
       const { userData } = this.context.state
-      this.setState({ loading: true, formErrors: [] })
-      const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
-      console.log(res)
-      if(res.isError) {
-          const message = res.message;
-          const error = [message]
-          this.setState({ formErrors: error})
-      } else {
-          this.setState({ message: 'Email verification link resent successfully!!'})
-          setTimeout(() => {
-              this.setState({ message: ''})
-          }, 5000);
+      try {
+        this.setState({ loading: true, formErrors: [] })
+        const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
+        console.log(res)
+        if(res.isError) {
+            const message = res.message;
+            const error = [message]
+            this.setState({ formErrors: error})
+        } else {
+            this.setState({ message: 'Email verification link resent successfully!!'})
+            setTimeout(() => {
+                this.setState({ message: ''})
+            }, 5000);
+        }
+        this.setState({ loading: false })
+      } catch (error) {
+        this.setState({ loading: false })
       }
-      this.setState({ loading: false })
   }
 
   render() {

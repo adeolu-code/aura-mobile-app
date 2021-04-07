@@ -14,7 +14,7 @@ import { MyText, CustomButton, CustomInputNumber, Loading, Error } from "../../u
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 
-import { Request, GetRequest, urls } from '../../utils'
+import { GetRequest, urls } from '../../utils'
 
 
 
@@ -37,16 +37,21 @@ class AddDetailsModal extends Component {
     }
 
     getProvisionList = async () => {
-        this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/experienceprovision/list`);
-        this.setState({ loading: false });
-        if (res.isError || res.IsError) {
-            const message = res.message;
-            const error = [message];
-            this.setState({ errors: error});
-        } else {
-            this.setState({ lists: res.data })
-            this.props.getProvisions(res.data)
+        
+        try {
+            this.setState({ loading: true, errors: [] });
+            const res = await GetRequest(urls.experienceBase, `${urls.v}experience/experienceprovision/list`);
+            this.setState({ loading: false });
+            if (res.isError || res.IsError) {
+                const message = res.message;
+                const error = [message];
+                this.setState({ errors: error});
+            } else {
+                this.setState({ lists: res.data })
+                this.props.getProvisions(res.data)
+            }
+        } catch (error) {
+            
         }
     }
     

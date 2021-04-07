@@ -7,7 +7,7 @@ import colors from '../../colors';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { GetRequest, errorMessage, Request, urls, } from '../../utils';
+import { errorMessage, Request, urls, } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 
@@ -91,17 +91,20 @@ class Theme extends Component {
     if(editTour) {
         obj.id = tourOnboard.id
     }
-    const url = editTour ? `${urls.v}Experience/update` : `${urls.v}Experience`
-    const res = await Request(urls.experienceBase, url, obj );
-    console.log('create experience ', res)
-    this.setState({ loading: false });
-    if (res.isError || res.IsError) {
-        errorMessage(res.message || res.Message)
-    } else {
-        this.context.set({ tourOnboard: { ...tourOnboard, ...obj, ...res.data }})
-        this.props.navigation.navigate('TourStack', { screen: 'TourStepTwo', params: { experience: res.data }})
-    }   
-    
+    try {
+        const url = editTour ? `${urls.v}Experience/update` : `${urls.v}Experience`
+        const res = await Request(urls.experienceBase, url, obj );
+        console.log('create experience ', res)
+        this.setState({ loading: false });
+        if (res.isError || res.IsError) {
+            errorMessage(res.message || res.Message)
+        } else {
+            this.context.set({ tourOnboard: { ...tourOnboard, ...obj, ...res.data }})
+            this.props.navigation.navigate('TourStack', { screen: 'TourStepTwo', params: { experience: res.data }})
+        }  
+    } catch (error) {
+        this.setState({ loading: false });
+    }
     
   }
   componentDidMount = () => {
@@ -110,11 +113,6 @@ class Theme extends Component {
     // console.log(tourOnboard)
     // this.getThemeCatById()
   }
-//   getThemeCatById = async () => {
-//     const { tourOnboard } = this.context.state
-//     const res = await GetRequest(urls.experienceBase, `${urls.v}experience/themeCategory?id=${tourOnboard.themeId}`);
-//     console.log(res)
-//   }
 
   render() {
     const { container, button, selectStyle } = styles;

@@ -45,9 +45,14 @@ class Location extends Component {
         })
     }
     getGeolocation = async (cord) => {
-        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
-        this.setState({ loading: false })
-        this.getAddressDetails(res.results[0])
+        try {
+            const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
+            this.setState({ loading: false })
+            this.getAddressDetails(res.results[0])
+        } catch (error) {
+            
+        }
+        
     }
     getCountry = (country) => {
         this.setState({ country, toggleAutoComplete: !this.state.toggleAutoComplete, city: '' })

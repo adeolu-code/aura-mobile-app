@@ -115,62 +115,75 @@ class FoodSingle extends Component {
   }
   getReviews = async () => {
     const { id } = this.state
-    this.setState({ gettingReviews: true })
-    const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/review/${id}`);
-    // console.log('Restaurant Reviews ', res)
-    this.setState({ gettingReviews: false })
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-        const data = res.data;
-        if(Array.isArray(data) && data.length !== 0) {
-          const reviews = data.map(item => item.rating)
-          this.setState({ reviews })
-        }
-        this.setState({ comments: data })
+    try {
+      this.setState({ gettingReviews: true })
+      const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/review/${id}`);
+      // console.log('Restaurant Reviews ', res)
+      this.setState({ gettingReviews: false })
+      if(res.isError) {
+          const message = res.Message;
+      } else {
+          const data = res.data;
+          if(Array.isArray(data) && data.length !== 0) {
+            const reviews = data.map(item => item.rating)
+            this.setState({ reviews })
+          }
+          this.setState({ comments: data })
+      }
+    } catch (error) {
+      this.setState({ gettingReviews: false })
     }
   }
 
   getRestaurant = async () => {
     const { id } = this.state
-    this.setState({ gettingRestaurant: true })
-    const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/${id}`);
-    // console.log('Restaurants Details ', res)
-    this.setState({ gettingRestaurant: false })
-    if(res.isError) {
-        const message = res.Message;
-        errorMessage(message)
-    } else {
-        const data = res.data;
-        
-        if(data !== null) {
-          this.setState({ restaurant: data })
-        }
+    try {
+      this.setState({ gettingRestaurant: true })
+      const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/${id}`);
+      // console.log('Restaurants Details ', res)
+      this.setState({ gettingRestaurant: false })
+      if(res.isError) {
+          const message = res.Message;
+          errorMessage(message)
+      } else {
+          const data = res.data;
+          
+          if(data !== null) {
+            this.setState({ restaurant: data })
+          }
+      }
+    } catch (error) {
+      this.setState({ gettingRestaurant: false })
     }
   }
   getMenus = async () => {
     const { id } = this.state
     this.setState({ gettingMenus: true })
-    const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/photo/menu/${id}`);
-    // console.log('Restaurants menus ', res)
-    this.setState({ gettingMenus: false })
-    if(res.isError) {
-        const message = res.Message;
-        errorMessage(message)
-    } else {
-        const data = res.data;
-        const arr = []
-        data.filter((item, i) => {
-          const lookforItem = arr.find(menu => menu === item.category)
-          if(lookforItem === undefined) {
-            arr.push(item.category)
+    try {
+      const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/photo/menu/${id}`);
+      // console.log('Restaurants menus ', res)
+      this.setState({ gettingMenus: false })
+      if(res.isError) {
+          const message = res.Message;
+          errorMessage(message)
+      } else {
+          const data = res.data;
+          const arr = []
+          data.filter((item, i) => {
+            const lookforItem = arr.find(menu => menu === item.category)
+            if(lookforItem === undefined) {
+              arr.push(item.category)
+            }
+          })
+          if(data !== null) {
+            this.setState({ menus: data })
           }
-        })
-        if(data !== null) {
-          this.setState({ menus: data })
-        }
-        this.setState({ categories: arr })
+          this.setState({ categories: arr })
+      }
+    } catch (error) {
+      this.setState({ gettingMenus: false })
     }
+    
   }
   
 

@@ -10,7 +10,7 @@ import moment from 'moment';
 
 import { formatAmount } from '../../../helpers'
 
-import { urls, GetRequest, Request } from '../../../utils'
+import { urls, Request } from '../../../utils'
 
 
 
@@ -79,16 +79,21 @@ class OrderFoodModal extends Component {
                 unitCost: food.price, deliveryFee: restaurant.averageDeliveryFee, serviceCharge: 0
             }]
         }
-        this.setState({ loading: true })
-        const res = await Request(urls.restaurantBase, `${urls.v}restaurant/orders/${restaurant.id}`, obj);
-        console.log('orders ', res)
-        this.setState({ loading: false })
-        if(res.isError || res.IsError) {
-            this.setState({ errors: [res.message]})
-        } else {
-            this.props.onDecline();
-            this.props.next(res.data)
+        try {
+            this.setState({ loading: true })
+            const res = await Request(urls.restaurantBase, `${urls.v}restaurant/orders/${restaurant.id}`, obj);
+            console.log('orders ', res)
+            this.setState({ loading: false })
+            if(res.isError || res.IsError) {
+                this.setState({ errors: [res.message]})
+            } else {
+                this.props.onDecline();
+                this.props.next(res.data)
+            }
+        } catch (error) {
+            this.setState({ loading: false })
         }
+        
     }
 
     renderName = () => {

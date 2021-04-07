@@ -21,7 +21,7 @@ import BottomMenuComponent from "./BottomMenuComponent";
 import moment from 'moment';
 import { formatAmount } from '../../../helpers';
 
-import { urls, GetRequest, Request, SCREEN_HEIGHT } from '../../../utils'
+import { urls, Request, SCREEN_HEIGHT } from '../../../utils'
 
 class TourModal extends Component {
   constructor(props) {
@@ -92,16 +92,21 @@ class TourModal extends Component {
       start_Date: formData.check_In_Date,
       end_Date: formData.check_Out_Date
     }
-    this.setState({ loading: true })
-    const res = await Request(urls.bookingBase, `${urls.v}bookings/experience`, obj);
-    console.log('order details ', res)
-    this.setState({ loading: false })
-    if(res.isError || res.IsError) {
-        this.setState({ errors: [res.message || res.Message]})
-    } else {
-        this.props.onDecline();
-        this.props.next(res.data)
+    try {
+      this.setState({ loading: true })
+      const res = await Request(urls.bookingBase, `${urls.v}bookings/experience`, obj);
+      console.log('order details ', res)
+      this.setState({ loading: false })
+      if(res.isError || res.IsError) {
+          this.setState({ errors: [res.message || res.Message]})
+      } else {
+          this.props.onDecline();
+          this.props.next(res.data)
+      }
+    } catch (error) {
+      this.setState({ loading: false })
     }
+    
   }
 
   componentDidMount = () => {

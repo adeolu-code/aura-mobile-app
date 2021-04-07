@@ -23,7 +23,7 @@ import SearchToggle from '../../components/explore/SearchToggle';
 
 import AutoCompleteComponent from '../../components/explore/AutoCompleteComponent';
 
-import { setContext, Request, urls, GetRequest, refreshToken } from '../../utils';
+import { setContext, Request, urls, refreshToken } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import Geolocation from 'react-native-geolocation-service';
 

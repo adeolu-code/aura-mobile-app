@@ -73,6 +73,7 @@ class Index extends Component {
   }
 
   getPhotographers = async (more=false) => {
+    try {
       const { perPage, activePage } = this.state
       this.setState({ loading: true })
       const res = await GetRequest(urls.photographyBase, 
@@ -92,6 +93,9 @@ class Index extends Component {
         const pageCount =  Math.ceil(res.data.totalItems / perPage)
         this.setState({ photographers: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
       }
+    } catch (error) {
+      
+    }
   }
   onEndReached = () => {
     const { pageCount, activePage, loadMore } = this.state

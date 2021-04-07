@@ -84,20 +84,24 @@ class GuestPricing extends Component {
     }
 
     getDeductions = async () => {
-        this.setState({ gettingDeductions: true })
-        const res = await GetRequest(urls.paymentBase,  `${urls.v}deduction/commissioning/retrieve?partner=host&country=Nigeria`);
-        console.log('Deductions ', res)
-        this.setState({ gettingDeductions: false })
-        if(res.isError || res.IsError) {
-            errorMessage(res.Message || res.message)
-        } else {
-            const data = res.data;
-            this.setState(() => ({ deductions: data }), () => {
-                const { tourOnboard, editTour } = this.context.state;
-                if(editTour) {
-                    this.onValueChange('pricePerGuest', tourOnboard.pricePerGuest.toString())
-                } 
-            })
+        try {
+            this.setState({ gettingDeductions: true })
+            const res = await GetRequest(urls.paymentBase,  `${urls.v}deduction/commissioning/retrieve?partner=host&country=Nigeria`);
+            console.log('Deductions ', res)
+            this.setState({ gettingDeductions: false })
+            if(res.isError || res.IsError) {
+                errorMessage(res.Message || res.message)
+            } else {
+                const data = res.data;
+                this.setState(() => ({ deductions: data }), () => {
+                    const { tourOnboard, editTour } = this.context.state;
+                    if(editTour) {
+                        this.onValueChange('pricePerGuest', tourOnboard.pricePerGuest.toString())
+                    } 
+                })
+            }
+        } catch (error) {
+            this.setState({ gettingDeductions: false })
         }
     }
     

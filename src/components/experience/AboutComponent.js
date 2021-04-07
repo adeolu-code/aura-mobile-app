@@ -9,7 +9,7 @@ import { Icon } from 'native-base';
 import colors from '../../colors';
 
 import { AppContext } from '../../../AppProvider';
-import { urls, Request, GetRequest, errorMessage } from '../../utils'
+import { urls, Request, errorMessage } from '../../utils'
 
 class AboutComponent extends Component {
     static contextType = AppContext
@@ -33,16 +33,21 @@ class AboutComponent extends Component {
                 picture: userData.profilePicture,
                 story: this.state.story
             }
-            const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
-            console.log('update experience ', res)
-            this.props.loading(false)
-            if (res.isError || res.IsError) {
-                errorMessage(res.message || res.Message)
-            } else {
-                this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-                this.props.getValue(this.state.story)
-                this.props.setCount({ count: 3 })
-            }  
+            try {
+                const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
+                console.log('update experience ', res)
+                this.props.loading(false)
+                if (res.isError || res.IsError) {
+                    errorMessage(res.message || res.Message)
+                } else {
+                    this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+                    this.props.getValue(this.state.story)
+                    this.props.setCount({ count: 3 })
+                }
+            } catch (error) {
+                this.props.loading(false)
+            }
+              
     }
 
     componentDidMount = () => {

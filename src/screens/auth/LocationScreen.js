@@ -110,19 +110,27 @@ class LocationScreen extends Component {
         // })
     }
     geocodeLocation = async (address) => {
-        this.setState({ loading: true })
-        const res = await GetRequest(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_API_KEY}`, '')
-        this.setState({ loading: false })
-        const address_components = res.results[0].address_components
-        const st = address_components[address_components.length - 2].long_name
-        const city = address_components[address_components.length - 3]
-        console.log(city)
-        this.setState(()=>({ address, st, city: city ? city.long_name : '' }))
+        try {
+            this.setState({ loading: true })
+            const res = await GetRequest(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_API_KEY}`, '')
+            this.setState({ loading: false })
+            const address_components = res.results[0].address_components
+            const st = address_components[address_components.length - 2].long_name
+            const city = address_components[address_components.length - 3]
+            console.log(city)
+            this.setState(()=>({ address, st, city: city ? city.long_name : '' }))
+        } catch (error) {
+            this.setState({ loading: false })
+        }
     }
     getGeolocation = async (cord) => {
-        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
-        this.setState({ loading: false })
-        this.getAddressDetails(res.results[0])
+        try {
+            const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
+            this.setState({ loading: false })
+            this.getAddressDetails(res.results[0])
+        } catch (error) {
+            
+        }
     }
     getCountry = (country) => {
         this.setState({ country, toggleAutoComplete: !this.state.toggleAutoComplete, city: '' })
@@ -146,10 +154,14 @@ class LocationScreen extends Component {
             errorMessage('Please fill all fields')
         } else {
             const { address, country, st, city } = this.state;
-            this.setState({ loading: true })
-            const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?address=${address},${city},${country.name}&key=${GOOGLE_API_KEY}`)
-            this.setState({ loading: false })
-            this.getAddressDetails(res.results[0])
+            try {
+                this.setState({ loading: true })
+                const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?address=${address},${city},${country.name}&key=${GOOGLE_API_KEY}`)
+                this.setState({ loading: false })
+                this.getAddressDetails(res.results[0])
+            } catch (error) {
+                this.setState({ loading: false })
+            }
         }
     }
 

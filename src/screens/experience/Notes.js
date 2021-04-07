@@ -8,7 +8,7 @@ import colors from '../../colors';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { GetRequest, errorMessage, Request, urls } from '../../utils';
+import { errorMessage, Request, urls } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 
@@ -41,15 +41,20 @@ class Notes extends Component {
             notes: this.state.notes,
             id: tourOnboard.id
         }
-        const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
-        console.log('update experience ', res)
-        this.setState({ loading: false });
-        if (res.isError || res.IsError) {
-            errorMessage(res.message || res.Message)
-        } else {
-            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-            this.props.navigation.navigate('TourStack', { screen: 'TourGuestRequirement' })
-        }  
+        try {
+           const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
+            console.log('update experience ', res)
+            this.setState({ loading: false });
+            if (res.isError || res.IsError) {
+                errorMessage(res.message || res.Message)
+            } else {
+                this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+                this.props.navigation.navigate('TourStack', { screen: 'TourGuestRequirement' })
+            }  
+        } catch (error) {
+            this.setState({ loading: false });
+        }
+         
     }
 
   

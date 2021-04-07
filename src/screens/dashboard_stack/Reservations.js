@@ -11,7 +11,7 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 import ReservationMainRow from '../../components/dashboard/ReservationMainRow';
 import { AppContext } from '../../../AppProvider';
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, Request, urls } from '../../utils';
 
 
 import { ReservationsContext, ReservationsConsumer } from '../../../ReservationsProvider';

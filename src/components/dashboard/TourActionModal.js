@@ -15,7 +15,7 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { AppContext } from '../../../AppProvider'
 
-import { urls, Request, GetRequest, successMessage } from '../../utils'
+import { urls, Request, successMessage } from '../../utils'
 
 class TourActionModal extends Component {
     static contextType = AppContext;
@@ -111,18 +111,22 @@ class TourActionModal extends Component {
 
     publishTour = async () => {
         const { tour, onDecline, refresh } = this.props
-        this.setState({ loading: true })
-        const res = await Request(urls.experienceBase, `${urls.v}experience/publish?id=${tour.id}`)
-        this.setState({ loading: false })
-        if(res.isError || res.IsError) {
-            const message = res.message || res.Message
-            this.setState({ errors: [message]})
-        } else {
-            onDecline()
-            refresh()
-            setTimeout(() => {
-                successMessage('Tour has been sent to Admin for review')
-            }, 10);
+        try {
+            this.setState({ loading: true })
+            const res = await Request(urls.experienceBase, `${urls.v}experience/publish?id=${tour.id}`)
+            this.setState({ loading: false })
+            if(res.isError || res.IsError) {
+                const message = res.message || res.Message
+                this.setState({ errors: [message]})
+            } else {
+                onDecline()
+                refresh()
+                setTimeout(() => {
+                    successMessage('Tour has been sent to Admin for review')
+                }, 10);
+            }
+        } catch (error) {
+            this.setState({ loading: false })
         }
     }
     changeActiveState = (properties, isActive) => {

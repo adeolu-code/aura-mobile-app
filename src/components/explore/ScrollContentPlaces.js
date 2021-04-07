@@ -5,7 +5,7 @@ import { MyText, Loading, CustomButton } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import HouseComponent from './HouseComponent';
 import ScrollHeader from './ScrollHeader';
-import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
+import { setContext, urls, GetRequest, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 import HostDetails from './HostDetails';

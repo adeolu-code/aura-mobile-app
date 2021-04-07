@@ -57,17 +57,21 @@ class ScrollContent extends Component {
         this.getPlaces(stateObj.long_name)
     }
     getPlaces = async (st) => {
-        const res = await GetRequest(urls.listingBase, 
-        `${urls.v}listing/property/search/available/?State=${st}&Size=4&Page=1`);
-        // console.log('Res ', res)
-        this.setState({ loading: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            this.setState({ places: res.data.data })
-            if(res.data.data.length !== 0) {
-                this.setState({ noDot: false })
-            }
+        try {
+            const res = await GetRequest(urls.listingBase, 
+            `${urls.v}listing/property/search/available/?State=${st}&Size=4&Page=1`);
+            // console.log('Res ', res)
+            this.setState({ loading: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                this.setState({ places: res.data.data })
+                if(res.data.data.length !== 0) {
+                    this.setState({ noDot: false })
+                }
+            } 
+        } catch (error) {
+            
         }
     }
 

@@ -18,7 +18,7 @@ import { uploadIdentityImageApi } from "../../api/profile.api";
 import colors from '../../colors';
 
 import { AppContext } from '../../../AppProvider';
-import { urls, Request, GetRequest, errorMessage } from '../../utils'
+import { urls, errorMessage } from '../../utils'
 
 class UploadIdentityComponent extends Component {
   constructor(props) {

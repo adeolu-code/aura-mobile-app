@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from "react";
-import { setContext, Request, GetRequest, urls } from "./src/utils";
+import { setContext, GetRequest, urls } from "./src/utils";
 
 import { setUser, clearData } from './src/helpers';
 
@@ -50,45 +50,57 @@ class AppProvider extends Component {
 
   getUserProfile = (token) => {
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.identityBase, `${urls.v}user/me`, token);
-      if (res.IsError || res.isError) {
-        await clearData()
-        this.set({ userData: undefined, isLoggedIn: false })
-        reject(res.message)
-      } else {
-        await setUser(res.data)
-        resolve(res.data)
-        this.set({ userData: res.data, isLoggedIn: true })
-        this.getPropertyTypes()
+      try {
+        const res = await GetRequest(urls.identityBase, `${urls.v}user/me`, token);
+        if (res.IsError || res.isError) {
+          await clearData()
+          this.set({ userData: undefined, isLoggedIn: false })
+          reject(res.message)
+        } else {
+          await setUser(res.data)
+          resolve(res.data)
+          this.set({ userData: res.data, isLoggedIn: true })
+          this.getPropertyTypes()
+        }
+      } catch (error) {
+        reject(error)
       }
     })
   }
   getPropertyTypes = () => {
     this.set({ gettingPropertyTypes: true})
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.listingBase, `${urls.v}listing/propertytype`);
-      // console.log("property types", res);
-      if (res.IsError || res.isError) {
-        this.set({ gettingPropertyTypes: false})
-        reject(res.message)
-      } else {
-        this.set({ propertyTypes: res.data, gettingPropertyTypes: false })
-        const name = res.data[0].name.toLowerCase()
-        this.getRoomTypes(name)
-        resolve(res.data)
+      try {
+        const res = await GetRequest(urls.listingBase, `${urls.v}listing/propertytype`);
+        // console.log("property types", res);
+        if (res.IsError || res.isError) {
+          this.set({ gettingPropertyTypes: false})
+          reject(res.message)
+        } else {
+          this.set({ propertyTypes: res.data, gettingPropertyTypes: false })
+          const name = res.data[0].name.toLowerCase()
+          this.getRoomTypes(name)
+          resolve(res.data)
+        }
+      } catch (error) {
+        reject(error)
       }
     })
   }
   getRoomTypes = (type) => {
     this.set({ gettingRoomTypes: true})
     return new Promise( async (resolve, reject) => {
-      const res = await GetRequest(urls.listingBase, `${urls.v}listing/roomtype/${type}`);
-      if (res.IsError || res.isError) {
-        this.set({ gettingRoomTypes: false})
-        reject(res.message)
-      } else {
-        this.set({ roomTypes: res.data, gettingRoomTypes: false })
-        resolve(res.data)
+      try {
+        const res = await GetRequest(urls.listingBase, `${urls.v}listing/roomtype/${type}`);
+        if (res.IsError || res.isError) {
+          this.set({ gettingRoomTypes: false})
+          reject(res.message)
+        } else {
+          this.set({ roomTypes: res.data, gettingRoomTypes: false })
+          resolve(res.data)
+        }
+      } catch (error) {
+        
       }
     })
   }

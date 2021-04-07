@@ -45,20 +45,29 @@ export default class PickImages extends Component {
     }
     getPhotos = async (id) => {
         this.setState({ loadingImages: true })
-        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/experience?experienceid=${id}`);
-        console.log('Photos tour ', res)
-        this.setState({ loadingImages: false })
-        if(res.isError || res.IsError) {
-            const message = res.Message || res.message;
-            errorMessage(message)
-        } else {
-            const imgData = res.data;
-            const images = imgData.filter(item => !item.isMain)
-            this.setState({ photos: imgData, images })
+        try {
+            const res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/experience?experienceid=${id}`);
+            console.log('Photos tour ', res)
+            this.setState({ loadingImages: false })
+            if(res.isError || res.IsError) {
+                const message = res.Message || res.message;
+                errorMessage(message)
+            } else {
+                const imgData = res.data;
+                const images = imgData.filter(item => !item.isMain)
+                this.setState({ photos: imgData, images })
+            }
+        } catch (error) {
+            this.setState({ loadingImages: false })
         }
+        
     }
     deletePhoto = async (id) => {
-        const res = await Request(urls.experienceBase, `${urls.v}experience/photo/delete?photoId=${id}`, null, false, 'DELETE');
+        try {
+            const res = await Request(urls.experienceBase, `${urls.v}experience/photo/delete?photoId=${id}`, null, false, 'DELETE');
+        } catch (error) {
+            
+        }
     }
     renderLoading = () => {
         const { loading } = this.state;
@@ -164,7 +173,12 @@ export default class PickImages extends Component {
             photoId: data.id,
             experienceId: data.experienceId
         }
-        await Request(urls.experienceBase,`${urls.v}experience/photo/cover`, obj )
+        try {
+            await Request(urls.experienceBase,`${urls.v}experience/photo/cover`, obj )
+        } catch (error) {
+            
+        }
+        
         // const res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/experience?experienceid=${data.}`)
         // if(res.isError || res.IsError) {
 

@@ -110,14 +110,18 @@ class Portfolio extends Component {
   }
 
   getPortfolio = async () => {
-    this.setState({ loading: true })
-    const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/photo/portfolio/${this.state.profile.id}`)
-    console.log('res photo ', res)
-    this.setState({ loading: false })
-    if(res.isError || res.IsError) {
-      errorMessage(res.message)
-    } else {
-      this.setState({ portfolio: res.data })
+    try {
+      this.setState({ loading: true })
+      const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/photo/portfolio/${this.state.profile.id}`)
+      console.log('res photo ', res)
+      this.setState({ loading: false })
+      if(res.isError || res.IsError) {
+        errorMessage(res.message)
+      } else {
+        this.setState({ portfolio: res.data })
+      }
+    } catch (error) {
+      this.setState({ loading: false })
     }
   }
 

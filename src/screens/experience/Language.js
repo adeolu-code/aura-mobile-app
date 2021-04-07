@@ -29,21 +29,25 @@ class Language extends Component {
     }
     getLanguageList = async () => {
         this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/language/list`);
-        console.log(res)
-        this.setState({ loading: false });
-        if (res.isError || res.IsError) {
-            errorMessage(res.message);
-        } else {
-            
-            const obj = { description: '', name: 'Please Select a language', id: null }
-            this.setState({ languages: [obj, ...res.data] })
-            const { tourOnboard, editTour } = this.context.state;
-            if(editTour) {
-                const lOne = res.data.find(item => item.id === tourOnboard.languageId[0])
-                const lTwo = res.data.find(item => item.id === tourOnboard.languageId[1])
-                this.setState({ languageOne: lOne.id, languageTwo: lTwo.id })
+        try {
+            const res = await GetRequest(urls.experienceBase, `${urls.v}experience/language/list`);
+            console.log(res)
+            this.setState({ loading: false });
+            if (res.isError || res.IsError) {
+                errorMessage(res.message);
+            } else {
+                
+                const obj = { description: '', name: 'Please Select a language', id: null }
+                this.setState({ languages: [obj, ...res.data] })
+                const { tourOnboard, editTour } = this.context.state;
+                if(editTour) {
+                    const lOne = res.data.find(item => item.id === tourOnboard.languageId[0])
+                    const lTwo = res.data.find(item => item.id === tourOnboard.languageId[1])
+                    this.setState({ languageOne: lOne.id, languageTwo: lTwo.id })
+                }
             }
+        } catch (error) {
+            this.setState({ loading: false });
         }
     }
 

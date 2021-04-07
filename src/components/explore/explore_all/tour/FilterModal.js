@@ -8,7 +8,7 @@ import { MyText, CustomButton, CheckBox, Switch, ItemCountPicker, CustomInput } 
 import colors from '../../../../colors';
 import {Input } from '../../../auth/Input';
 
-import { urls, GetRequest } from '../../../../utils';
+import { urls } from '../../../../utils';
 import { AppContext } from '../../../../../AppProvider';
 
 import { Icon, Picker } from 'native-base';

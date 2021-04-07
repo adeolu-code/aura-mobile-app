@@ -177,15 +177,19 @@ export default class BookingsDetail extends Component {
     }
 
     getInvoice = async () => {
-        this.setState({ gettingInvoice: true })
-        const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/invoice/?id=${this.props.route.params.id}`);
-        console.log('Booking details ', res)
-        this.setState({ gettingInvoice: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            const data = res.data;
-            console.log(data)
+        try {
+            this.setState({ gettingInvoice: true })
+            const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/invoice/?id=${this.props.route.params.id}`);
+            console.log('Booking details ', res)
+            this.setState({ gettingInvoice: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data;
+                console.log(data)
+            }
+        } catch (error) {
+            
         }
     }
 

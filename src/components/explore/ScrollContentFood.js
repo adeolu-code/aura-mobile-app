@@ -5,7 +5,7 @@ import GStyles from '../../assets/styles/GeneralStyles';
 import FoodComponent from './FoodComponent';
 import ScrollHeader from './ScrollHeader';
 
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 

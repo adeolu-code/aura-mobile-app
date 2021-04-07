@@ -65,16 +65,20 @@ class Dashboard extends Component {
 
 
   getEarnings = async () => {
-    this.setState({ gettingEarnings: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/host/earnings`);
-    this.setState({ gettingEarnings: false })
-    if (response.isError) {
-      errorMessage(response.message)
-    } else {  
-      const data = response.data;
-      const weekly = data.weeklyEarnings;
-      const total = data.totalEarnings;
-      this.setState({ weeklyEarnings: weekly, totalEarnings: total});
+    try {
+      this.setState({ gettingEarnings: true })
+      const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/host/earnings`);
+      this.setState({ gettingEarnings: false })
+      if (response.isError) {
+        errorMessage(response.message)
+      } else {  
+        const data = response.data;
+        const weekly = data.weeklyEarnings;
+        const total = data.totalEarnings;
+        this.setState({ weeklyEarnings: weekly, totalEarnings: total});
+      }
+    } catch (error) {
+      this.setState({ gettingEarnings: false })
     }
   }
 
@@ -126,15 +130,19 @@ class Dashboard extends Component {
   }
 
   getReservations = async () => {
-    this.setState({ gettingReservations: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/host/reservation/overview`);
-    this.setState({ gettingReservations: false })
-    if (response.isError) {
-      errorMessage(response.message)
-    } else { 
-      const data = response.data;
-      this.setState({ reservations: data});
-      console.log(data, 'reservation');
+    try {
+      this.setState({ gettingReservations: true })
+      const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/host/reservation/overview`);
+      this.setState({ gettingReservations: false })
+      if (response.isError) {
+        errorMessage(response.message)
+      } else { 
+        const data = response.data;
+        this.setState({ reservations: data});
+        console.log(data, 'reservation');
+      }
+    } catch (error) {
+      this.setState({ gettingReservations: false })
     }
   }
 
@@ -182,16 +190,19 @@ class Dashboard extends Component {
   }
 
   getComments = async () => {
-    this.setState({ gettingComments: true })
-    const response = await GetRequest(urls.listingBase, `${urls.v}listing/review/comment/host/overview`);
-    this.setState({ gettingComments: false})
-    if (response.isError) {
-      errorMessage(response.message)
-    } else { 
-      const data = response.data;
-      this.setState({ comments: data });
+    try {
+      this.setState({ gettingComments: true })
+      const response = await GetRequest(urls.listingBase, `${urls.v}listing/review/comment/host/overview`);
+      this.setState({ gettingComments: false})
+      if (response.isError) {
+        errorMessage(response.message)
+      } else { 
+        const data = response.data;
+        this.setState({ comments: data });
+      }
+    } catch (error) {
+      this.setState({ gettingComments: false })
     }
-    
   }
 
   renderComments = () => {
@@ -242,14 +253,18 @@ class Dashboard extends Component {
   }
 
   getRatings = async () => {
-    this.setState({ gettingRatings: true })
-    const response = await GetRequest(urls.listingBase, `${urls.v}listing/review/rating/host/overview`);
-    this.setState({ gettingRatings: false })
-    if (response.isError || response.IsError) {
-       errorMessage(response.message || response.Message) 
-    } else { 
-      const data = response.data;
-      this.setState({ ratings: data });
+    try {
+      this.setState({ gettingRatings: true })
+      const response = await GetRequest(urls.listingBase, `${urls.v}listing/review/rating/host/overview`);
+      this.setState({ gettingRatings: false })
+      if (response.isError || response.IsError) {
+        errorMessage(response.message || response.Message) 
+      } else { 
+        const data = response.data;
+        this.setState({ ratings: data });
+      }
+    } catch (error) {
+      this.setState({ gettingRatings: false })
     }
   }
 

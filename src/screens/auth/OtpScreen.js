@@ -94,19 +94,24 @@ class OtpScreen extends Component {
   }
   resendCode = async () => {
       this.setState({ loading: true, errors: [] })
-      const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
-      console.log('Resend ',res)
-      this.setState({ loading: false })
-      if(res.IsError) {
-          const message = res.Message;
-          const error = [message]
-          this.setState({ errors: error})
-      } else {
-          this.setState({ message: 'OTP resent successfully!!'})
-          setTimeout(() => {
-              this.setState({ message: ''})
-          }, 5000);
+      try {
+        const res = await Request(urls.identityBase, `${urls.v}user/otp/generate`);
+        console.log('Resend ',res)
+        this.setState({ loading: false })
+        if(res.IsError) {
+            const message = res.Message;
+            const error = [message]
+            this.setState({ errors: error})
+        } else {
+            this.setState({ message: 'OTP resent successfully!!'})
+            setTimeout(() => {
+                this.setState({ message: ''})
+            }, 5000);
+        }
+      } catch (error) {
+        this.setState({ loading: false })
       }
+      
   }
   verifyOtp = async () => {
       Keyboard.dismiss()
@@ -115,6 +120,7 @@ class OtpScreen extends Component {
       if(numbers.length < 6) {
           this.setState({ errors: ['Please fill out the code']})
       } else {
+        try {
           this.setState({ loading: true, errors: [] })
           let numberString = ''
           numbers.map((item, i) => {
@@ -133,18 +139,23 @@ class OtpScreen extends Component {
             if (this.state.finalScreen == undefined) {
               /** only do emailc check if next screen is specified */
               this.checkEmailVerification();
-            }
-            else {
+            } else {
               this.successScreen();
             }
-            
             await setUser(obj);
           }
+        } catch (error) {
+          
+        }
       }
   }
   sendMail = async () => {
     const { userData } = this.context.state
-    const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
+    try {
+      const res = await GetRequest(urls.identityBase, `${urls.v}user/email/verification/resend/${userData.username}`);
+    } catch (error) {
+      
+    }
   }
   checkEmailVerification = () => {
     this.sendMail()

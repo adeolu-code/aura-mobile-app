@@ -23,7 +23,7 @@ import { Styles } from "../../screens/account_verification/accountVerification.s
 import { Container, Content, Footer, Button, Icon } from "native-base";
 import { LabelInput } from "../../components/label_input/labelInput.component";
 
-import { setContext, Request, urls } from '../../utils';
+import { setContext, urls } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { getIdentityTypesApi } from "../../api/users.api";
 

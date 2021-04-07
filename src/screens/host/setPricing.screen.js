@@ -29,32 +29,42 @@ export default class SetPricing extends Component {
     getCommissions = async () => {
         const { state } = this.context
         const propertyFormData = state.propertyFormData
-        this.setState({ gettingCommissions: true })
-        const res = await GetRequest(urls.paymentBase, `${urls.v}deduction/commissioning/retrieve?partner=host&country=${propertyFormData.country}`);
-        this.setState({ gettingCommissions: false })
-        if(res.IsError || res.isError) {
-            errorMessage('something is not right')
-        } else {
-            this.setState({ commissions: res.data })
-            const { state } = this.context
-            const ppty = state.propertyFormData;
-            if(ppty && state.edit) {
-                this.onPriceChange(""+ppty.pricePerNight)
+        try {
+            this.setState({ gettingCommissions: true })
+            const res = await GetRequest(urls.paymentBase, `${urls.v}deduction/commissioning/retrieve?partner=host&country=${propertyFormData.country}`);
+            this.setState({ gettingCommissions: false })
+            if(res.IsError || res.isError) {
+                errorMessage('something is not right')
+            } else {
+                this.setState({ commissions: res.data })
+                const { state } = this.context
+                const ppty = state.propertyFormData;
+                if(ppty && state.edit) {
+                    this.onPriceChange(""+ppty.pricePerNight)
+                }
             }
+        } catch (error) {
+            this.setState({ gettingCommissions: false })
         }
+        
     }
     getAveragePrice = async () => {
         const { state } = this.context
         const propertyFormData = state.propertyFormData
-        this.setState({ gettingAveragePrice: true })
-        const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/averagePrice/?propertyId=${propertyFormData.id}`);
-        this.setState({ gettingAveragePrice: false })
-        console.log(res)
-        if(res.IsError || res.isError) {
-            errorMessage('something is not right')
-        } else {
-            this.setState({ averagePrice: res.data })
+        try {
+            this.setState({ gettingAveragePrice: true })
+            const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/averagePrice/?propertyId=${propertyFormData.id}`);
+            this.setState({ gettingAveragePrice: false })
+            console.log(res)
+            if(res.IsError || res.isError) {
+                errorMessage('something is not right')
+            } else {
+                this.setState({ averagePrice: res.data })
+            }
+        } catch (error) {
+            this.setState({ gettingAveragePrice: false })
         }
+        
     }
 
     onPriceChange = (text) => {

@@ -39,15 +39,19 @@ class FilterModal extends Component {
   }
 
   getAmmenities = async () => {
-    this.setState({ loadingAmenities: true })
-    const res = await GetRequest(urls.listingBase, `api/v1/listing/ammenity`);
-    // console.log(res)
-    if(res.isError) {
-        const message = res.message;
-        const error = [message]
-        this.setState({ errors: error, loadingAmenities: false })
-    } else {
-      this.setState({ amenities: res.data, loadingAmenities: false })
+    try {
+      this.setState({ loadingAmenities: true })
+      const res = await GetRequest(urls.listingBase, `api/v1/listing/ammenity`);
+      // console.log(res)
+      if(res.isError) {
+          const message = res.message;
+          const error = [message]
+          this.setState({ errors: error, loadingAmenities: false })
+      } else {
+        this.setState({ amenities: res.data, loadingAmenities: false })
+      }
+    } catch (error) {
+      
     }
   }
   renderAmmenities = () => {
@@ -83,15 +87,19 @@ class FilterModal extends Component {
   }
 
   getHouseType = async () => {
-    this.setState({ loadingHouseType: true })
-    const res = await GetRequest(urls.listingBase, `api/v1/listing/propertytype`);
-    // console.log(res)
-    if(res.isError) {
-        const message = res.message;
-        const error = [message]
-        this.setState({ errors: error, loadingHouseType: false })
-    } else {
-      this.setState({ houseTypes: res.data, loadingHouseType: false })
+    try {
+      this.setState({ loadingHouseType: true })
+      const res = await GetRequest(urls.listingBase, `api/v1/listing/propertytype`);
+      // console.log(res)
+      if(res.isError) {
+          const message = res.message;
+          const error = [message]
+          this.setState({ errors: error, loadingHouseType: false })
+      } else {
+        this.setState({ houseTypes: res.data, loadingHouseType: false })
+      }
+    } catch (error) {
+      
     }
   }
   renderHouseType = () => {

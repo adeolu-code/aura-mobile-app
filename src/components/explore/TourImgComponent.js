@@ -5,7 +5,7 @@ import { MyText, Loading, CustomButton } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import FoodComponent from './FoodComponent';
 
-import { urls, GetRequest, Request } from '../../utils'
+import { urls, GetRequest } from '../../utils'
 import colors from '../../colors';
 
 class TourImgComponent extends Component {

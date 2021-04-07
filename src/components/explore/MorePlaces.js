@@ -5,7 +5,7 @@ import { MyText, Loading, CustomButton, Spinner } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import HouseComponent from './HouseComponent';
 import ScrollHeader from './ScrollHeader';
-import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
+import { setContext, urls, GetRequest, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 
@@ -25,31 +25,34 @@ class MorePlaces extends Component {
     }
     
     getPlaces = async (more=false) => {
-        more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
-        const { currentPage, pageSize, places } = this.state;
-        const { house } = this.props;
-        const res = await GetRequest(urls.listingBase, 
-        `${urls.v}listing/property/closeby/?id=${house.id}&pageSize=${pageSize}&Page=${currentPage}`);
-        // console.log(res)
-        more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
-        if(res.isError || res.IsError) {
-            const message = res.Message;
-            errorMessage(message)
-        } else {
-            const dataResult = res.data.data
-            let data = []
-            if(more) {
-                data = [...places, ...dataResult]
+        try {
+            more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
+            const { currentPage, pageSize, places } = this.state;
+            const { house } = this.props;
+            const res = await GetRequest(urls.listingBase, 
+            `${urls.v}listing/property/closeby/?id=${house.id}&pageSize=${pageSize}&Page=${currentPage}`);
+            // console.log(res)
+            more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
+            if(res.isError || res.IsError) {
+                const message = res.Message;
+                errorMessage(message)
             } else {
-                data = dataResult
+                const dataResult = res.data.data
+                let data = []
+                if(more) {
+                    data = [...places, ...dataResult]
+                } else {
+                    data = dataResult
+                }
+                const pageCount =  Math.ceil(res.data.totalItems / pageSize)
+                this.setState({ places: data, currentPage: res.data.page, totalItems: res.data.totalItems, pageSize: res.data.pageSize, pageCount })
+                if(dataResult !== 0) {
+                    this.setState({ noDot: false })
+                }
             }
-            const pageCount =  Math.ceil(res.data.totalItems / pageSize)
-            this.setState({ places: data, currentPage: res.data.page, totalItems: res.data.totalItems, pageSize: res.data.pageSize, pageCount })
-            if(dataResult !== 0) {
-                this.setState({ noDot: false })
-            }
+        } catch (error) {
+            
         }
-        
     }
     onEndReached = () => {
         

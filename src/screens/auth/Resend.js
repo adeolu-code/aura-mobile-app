@@ -14,7 +14,7 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import Header from '../../components/Header';
 
-import { setContext, Request, urls, GetRequest } from '../../utils';
+import { setContext, urls, GetRequest } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 // import Dashboard from "../dashboard_stack/Dashboard";
 
@@ -61,20 +61,24 @@ class Resend extends Component {
   }
   resendMail = async () => {
       const { email } = this.state
-      this.setState({ loading: true, formErrors: [] })
-      const res = await GetRequest(urls.identityBase, `${urls.v}user/forgotpassword/?email=${email}`);
-      console.log(res)
-      if(res.isError) {
-          const message = res.message;
-          const error = [message]
-          this.setState({ formErrors: error})
-      } else {
-          this.setState({ message: 'Email resent successfully!!'})
-          setTimeout(() => {
-              this.setState({ message: ''})
-          }, 5000);
+      try {
+        this.setState({ loading: true, formErrors: [] })
+        const res = await GetRequest(urls.identityBase, `${urls.v}user/forgotpassword/?email=${email}`);
+        console.log(res)
+        if(res.isError) {
+            const message = res.message;
+            const error = [message]
+            this.setState({ formErrors: error})
+        } else {
+            this.setState({ message: 'Email resent successfully!!'})
+            setTimeout(() => {
+                this.setState({ message: ''})
+            }, 5000);
+        }
+        this.setState({ loading: false })
+      } catch (error) {
+        this.setState({ loading: false })
       }
-      this.setState({ loading: false })
   }
 
   componentWillUnmount = () => {

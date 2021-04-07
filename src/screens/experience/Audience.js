@@ -32,38 +32,46 @@ class Audience extends Component {
     }
     createAudience = async () => {
         const { name, description, audience } = this.state
-        this.setState({ loading: true })
-        const obj = { name, description: description ? description : name, code: name.slice(0,2)}
-        const res = await Request(urls.experienceBase, `${urls.v}experience/audience`, obj );
-        console.log('Create audience ', res)
-        if (res.isError || res.IsError) {
-            errorMessage(res.message || res.Message);
-            this.setState({ loading: false })
-        } else {
-            const getRes = await GetRequest(urls.experienceBase, `${urls.v}experience/audience/list`);
-            if(getRes.data && getRes.data.length !== 0) {
-                const a = getRes.data.find(item => item.name === name )
-                this.setState(() => ({ audienceId: a.id, audience: getRes.data }), () => {
-                    this.updateExperience()
-                })
+        try {
+            this.setState({ loading: true })
+            const obj = { name, description: description ? description : name, code: name.slice(0,2)}
+            const res = await Request(urls.experienceBase, `${urls.v}experience/audience`, obj );
+            console.log('Create audience ', res)
+            if (res.isError || res.IsError) {
+                errorMessage(res.message || res.Message);
+                this.setState({ loading: false })
             } else {
-                this.updateExperience()
-            }
+                const getRes = await GetRequest(urls.experienceBase, `${urls.v}experience/audience/list`);
+                if(getRes.data && getRes.data.length !== 0) {
+                    const a = getRes.data.find(item => item.name === name )
+                    this.setState(() => ({ audienceId: a.id, audience: getRes.data }), () => {
+                        this.updateExperience()
+                    })
+                } else {
+                    this.updateExperience()
+                }
+                
+            } 
+        } catch (error) {
             
         }
     }
     getAudienceList = async () => {
-        this.setState({ loading: true, errors: [] });
-        const res = await GetRequest(urls.experienceBase, `${urls.v}experience/audience/list`);
-        this.setState({ loading: false });
-        if (res.isError || res.IsError) {
-            errorMessage(res.message);
-        } else {
-            const { tourOnboard, editTour } = this.context.state;
-            if(editTour) {
-                this.setState({ audienceId: tourOnboard.audienceId })
-            }
-            this.setState({ audience: res.data })
+        try {
+            this.setState({ loading: true, errors: [] });
+            const res = await GetRequest(urls.experienceBase, `${urls.v}experience/audience/list`);
+            this.setState({ loading: false });
+            if (res.isError || res.IsError) {
+                errorMessage(res.message);
+            } else {
+                const { tourOnboard, editTour } = this.context.state;
+                if(editTour) {
+                    this.setState({ audienceId: tourOnboard.audienceId })
+                }
+                this.setState({ audience: res.data })
+            } 
+        } catch (error) {
+            
         }
     }
 
@@ -79,15 +87,19 @@ class Audience extends Component {
             audienceName: a.name,
             id: tourOnboard.id
         }
-        const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
-        console.log('update experience ', res)
-        this.setState({ loading: false });
-        if (res.isError || res.IsError) {
-            errorMessage(res.message || res.Message)
-        } else {
-            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-            this.props.navigation.navigate('TourStack', { screen: 'TourDescribeActivity' })
-        }  
+        try {
+            const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
+            console.log('update experience ', res)
+            this.setState({ loading: false });
+            if (res.isError || res.IsError) {
+                errorMessage(res.message || res.Message)
+            } else {
+                this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+                this.props.navigation.navigate('TourStack', { screen: 'TourDescribeActivity' })
+            }  
+        } catch (error) {
+            this.setState({ loading: false });
+        }
     }
 
     submit = () => {

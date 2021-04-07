@@ -29,26 +29,34 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height
         gettingStates: false, stateValue: '', areaValue: '' };
     }
     getStates = async () => {
-      this.setState({ gettingStates: true })
-      const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/operation/states`);
-      console.log('Res states ', res)
-      this.setState({ gettingStates: false })
-      if(res.isError || res.IsError) {
-        errorMessage(res.message || res.Message)
-      } else {
-        const obj = { name: 'Select your city', id:''}
-        this.setState({ sts: [obj, ...res.data] })
+      try {
+        this.setState({ gettingStates: true })
+        const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/operation/states`);
+        console.log('Res states ', res)
+        this.setState({ gettingStates: false })
+        if(res.isError || res.IsError) {
+          errorMessage(res.message || res.Message)
+        } else {
+          const obj = { name: 'Select your city', id:''}
+          this.setState({ sts: [obj, ...res.data] })
+        }
+      } catch (error) {
+        
       }
     }
     getAreas = async (state) => {
-      this.setState({ gettingAreas: true })
-      const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/operation/areas/${state}`);
-      this.setState({ gettingAreas: false })
-      if(res.isError || res.IsError) {
-        errorMessage(res.message || res.Message)
-      } else {
-        const obj = { name: 'Select your area', id:'null'}
-        this.setState({ areas: [obj, ...res.data] })
+      try {
+        this.setState({ gettingAreas: true })
+        const res = await GetRequest(urls.restaurantBase, `${urls.v}restaurant/operation/areas/${state}`);
+        this.setState({ gettingAreas: false })
+        if(res.isError || res.IsError) {
+          errorMessage(res.message || res.Message)
+        } else {
+          const obj = { name: 'Select your area', id:'null'}
+          this.setState({ areas: [obj, ...res.data] })
+        }
+      } catch (error) {
+        
       }
     }
     onStateChange = (value) => {
@@ -170,27 +178,30 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height
     }
 
     getRestaurants = async (more=false) => {
-      more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
-      const { activePage, perPage, restaurants, areaValue, stateValue } = this.state
-      
-      const res = await GetRequest(urls.restaurantBase, 
-        `${urls.v}restaurant/?State=${stateValue}&city=${areaValue}&Size=${perPage}&Page=${activePage}`);
-      console.log('Res restaurants', res)
-      more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
+      try {
+        more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
+        const { activePage, perPage, restaurants, areaValue, stateValue } = this.state
+        const res = await GetRequest(urls.restaurantBase, 
+          `${urls.v}restaurant/?State=${stateValue}&city=${areaValue}&Size=${perPage}&Page=${activePage}`);
+        console.log('Res restaurants', res)
+        more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
 
-      if(res.isError || res.IsError) {
-        const message = res.Message || res.message;
-        errorMessage(message)
-      } else {
-        const dataResult = res.data.items
-        let data = []
-        if(more) {
-          data = [...restaurants, ...dataResult]
+        if(res.isError || res.IsError) {
+          const message = res.Message || res.message;
+          errorMessage(message)
         } else {
-          data = dataResult
+          const dataResult = res.data.items
+          let data = []
+          if(more) {
+            data = [...restaurants, ...dataResult]
+          } else {
+            data = dataResult
+          }
+          const pageCount =  Math.ceil(res.data.totalItems / perPage)
+          this.setState({ restaurants: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.size, pageCount })
         }
-        const pageCount =  Math.ceil(res.data.totalItems / perPage)
-        this.setState({ restaurants: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.size, pageCount })
+      } catch (error) {
+        
       }
     }
 

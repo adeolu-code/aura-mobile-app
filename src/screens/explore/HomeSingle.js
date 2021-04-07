@@ -219,77 +219,97 @@ class HomeSingle extends Component {
   }
   getPhotos = async () => {
     const { house } = this.state
-    this.setState({ loadingImages: true })
-    const res = await GetRequest(urls.listingBase, 
-    `${urls.v}listing/photo/property/?PropertyId=${house.id}&Size=6&Page=1`);
-    this.setState({ loadingImages: false })
-    if(res.isError) {
-        const message = res.Message;
-        errorMessage(message)
-    } else {
-        const imgData = res.data;
-        const arr = []
-        imgData.filter(item => {
-            const obj = {uri: item.assetPath}
-            arr.push(obj)
-        })
-        this.setState({ photos: arr})
+    try {
+      this.setState({ loadingImages: true })
+      const res = await GetRequest(urls.listingBase, 
+      `${urls.v}listing/photo/property/?PropertyId=${house.id}&Size=6&Page=1`);
+      this.setState({ loadingImages: false })
+      if(res.isError) {
+          const message = res.Message;
+          errorMessage(message)
+      } else {
+          const imgData = res.data;
+          const arr = []
+          imgData.filter(item => {
+              const obj = {uri: item.assetPath}
+              arr.push(obj)
+          })
+          this.setState({ photos: arr})
+      }
+    } catch (error) {
+      this.setState({ loadingImages: false })
     }
   }
   getAmenity = async () => {
-    const res = await GetRequest(urls.listingBase,  `${urls.v}listing/houserule`);
-    
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-        const data = res.data;
-        console.log('Data ', res)
+    try {
+      const res = await GetRequest(urls.listingBase,  `${urls.v}listing/houserule`);
+      if(res.isError) {
+          const message = res.Message;
+      } else {
+          const data = res.data;
+          console.log('Data ', res)
+      }
+    } catch (error) {
+      
     }
   }
   getHouse = async () => {
     const { house } = this.state
-    this.setState({ gettingHouse: true })
-    const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${house.id}`);
-    console.log('House Details ', res)
-    this.setState({ gettingHouse: false })
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-        const data = res.data;
-        if(data !== null) {
-          this.setState({ house: data })
-        }
+    try {
+      this.setState({ gettingHouse: true })
+      const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${house.id}`);
+      console.log('House Details ', res)
+      this.setState({ gettingHouse: false })
+      if(res.isError) {
+          const message = res.Message;
+      } else {
+          const data = res.data;
+          if(data !== null) {
+            this.setState({ house: data })
+          }
+      }
+    } catch (error) {
+      this.setState({ gettingHouse: false })
     }
   }
   getHouseRules = async () => {
     const { house } = this.state
-    this.setState({ gettingHouseRules: true })
-    const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/houserules/?propertyid=${house.id}`);
-    // console.log('House Rules ', res)
-    this.setState({ gettingHouseRules: false })
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-        const data = res.data;
-        this.setState({ houseRules: data.rules })
+    try {
+      this.setState({ gettingHouseRules: true })
+      const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/houserules/?propertyid=${house.id}`);
+      // console.log('House Rules ', res)
+      this.setState({ gettingHouseRules: false })
+      if(res.isError) {
+          const message = res.Message;
+      } else {
+          const data = res.data;
+          this.setState({ houseRules: data.rules })
+      }
+    } catch (error) {
+      this.setState({ gettingHouseRules: false })
     }
+    
   }
 
   getReviews = async () => {
     const { house } = this.state
-    this.setState({ gettingReviews: true })
-    const res = await GetRequest(urls.listingBase, `${urls.v}listing/review/property/?propertyid=${house.id}`);
-    // console.log('House Reviews ', res)
-    this.setState({ gettingReviews: false })
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-        const data = res.data;
-        if(Array.isArray(data) && data.length !== 0) {
-          const reviews = data.map(item => item.rating)
-          this.setState({ reviews })
-        }
-        this.setState({ comments: data })
+    try {
+      this.setState({ gettingReviews: true })
+      const res = await GetRequest(urls.listingBase, `${urls.v}listing/review/property/?propertyid=${house.id}`);
+      // console.log('House Reviews ', res)
+      this.setState({ gettingReviews: false })
+      if(res.isError) {
+          const message = res.Message;
+      } else {
+          const data = res.data;
+          if(Array.isArray(data) && data.length !== 0) {
+            const reviews = data.map(item => item.rating)
+            this.setState({ reviews })
+          }
+          this.setState({ comments: data })
+      }
+    } catch (error) {
+      this.setState({ gettingReviews: false })
     }
   }
 

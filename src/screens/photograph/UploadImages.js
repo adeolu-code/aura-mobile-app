@@ -141,14 +141,19 @@ export default class UploadImages extends Component {
         })
     }
     getPortfolio = async () => {
-        this.setState({ loading: true })
-        const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/photo/portfolio/${this.state.photographer.id}`)
-        this.setState({ loading: false })
-        if(res.isError || res.IsError) {
-        //   errorMessage(res.message)
-        } else {
-            this.makeCoverImage(res.data[0])
+        try {
+            this.setState({ loading: true })
+            const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/photo/portfolio/${this.state.photographer.id}`)
+            this.setState({ loading: false })
+            if(res.isError || res.IsError) {
+            //   errorMessage(res.message)
+            } else {
+                this.makeCoverImage(res.data[0])
+            }
+        } catch (error) {
+            this.setState({ loading: false })
         }
+        
     }
     makeCoverImage = async (photo) => {
         const obj = {

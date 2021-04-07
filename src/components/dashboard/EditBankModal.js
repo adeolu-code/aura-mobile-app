@@ -73,35 +73,44 @@ class EditBankModal extends Component {
     }
 
     getBank = async () => {
-        this.setState({ gettingBanks: true })
-        const response = await GetRequest(urls.identityBase, `${urls.v}bank`);
-        this.setState({ gettingBanks: false })
-        console.log('Bank response ', response)
-        if (response.isError) {
-            errorMessage(response.message)
-        } else {  
-            const data = response.data;
-            this.setState({ banks: data.sort(this.compare) });
+        try {
+            this.setState({ gettingBanks: true })
+            const response = await GetRequest(urls.identityBase, `${urls.v}bank`);
+            this.setState({ gettingBanks: false })
+            console.log('Bank response ', response)
+            if (response.isError) {
+                errorMessage(response.message)
+            } else {  
+                const data = response.data;
+                this.setState({ banks: data.sort(this.compare) });
+            } 
+        } catch (error) {
+            errorMessage(error.message)
         }
     }
 
     resolveBankDetails = async () => {
         const { accountNumber, bankId } = this.state
-        this.setState({ resolving: true, formErrors: [] })
-        const response = await GetRequest(urls.identityBase, 
-            `${urls.v}bank/resolveaccount?accountNumber=${accountNumber}&bankId=${bankId}`);
-        this.setState({ resolving: false })
-        console.log('resolve account ', response)
-        if(typeof response === 'string') {
-            this.setState({ formErrors: [response]})
-        } else {
-            if (response.isError) {
-                this.setState({ formErrors: [response.message]})
-            } else {  
-                const data = response.data;
-                this.setState({ accountName: data.accountName });
-            } 
+        try {
+            this.setState({ resolving: true, formErrors: [] })
+            const response = await GetRequest(urls.identityBase, 
+                `${urls.v}bank/resolveaccount?accountNumber=${accountNumber}&bankId=${bankId}`);
+            this.setState({ resolving: false })
+            console.log('resolve account ', response)
+            if(typeof response === 'string') {
+                this.setState({ formErrors: [response]})
+            } else {
+                if (response.isError) {
+                    this.setState({ formErrors: [response.message]})
+                } else {  
+                    const data = response.data;
+                    this.setState({ accountName: data.accountName });
+                } 
+            }
+        } catch (error) {
+            
         }
+        
     }
 
     renderPickerItem = () => {
@@ -151,19 +160,24 @@ class EditBankModal extends Component {
         const obj = {
             accountName, accountNumber, bankId, id: bankDetails.id
         }
-        const response = await Request(urls.identityBase, `${urls.v}user/bankaccount`, obj, false, 'PATCH');
-        this.setState({ loading: false })
-        console.log('Submit response', response)
-        if (response.isError) {
-            this.setState({ formErrors: [response.message] })
-        } else {  
-            const data = response.data;
-            this.props.refresh(data)
-            this.props.onDecline()
-            setTimeout(() => {
-                successMessage('Bank Details Updated Successfully')
-            }, 20);
+        try {
+            const response = await Request(urls.identityBase, `${urls.v}user/bankaccount`, obj, false, 'PATCH');
+            this.setState({ loading: false })
+            console.log('Submit response', response)
+            if (response.isError) {
+                this.setState({ formErrors: [response.message] })
+            } else {  
+                const data = response.data;
+                this.props.refresh(data)
+                this.props.onDecline()
+                setTimeout(() => {
+                    successMessage('Bank Details Updated Successfully')
+                }, 20);
+            } 
+        } catch (error) {
+            this.setState({ loading: false })
         }
+        
     }
 
     createAccount = async () => {
@@ -172,18 +186,22 @@ class EditBankModal extends Component {
         const obj = {
             accountName, accountNumber, bankId, userId: userData.id
         }
-        const response = await Request(urls.identityBase, `${urls.v}user/bankaccount`, obj);
-        this.setState({ loading: false })
-        console.log('Submit response', response)
-        if (response.isError) {
-            this.setState({ formErrors: [response.message] })
-        } else {  
-            const data = response.data;
-            this.props.refresh(data)
-            this.props.onDecline()
-            setTimeout(() => {
-                successMessage('Bank Details added Successfully')
-            }, 20);
+        try {
+            const response = await Request(urls.identityBase, `${urls.v}user/bankaccount`, obj);
+            this.setState({ loading: false })
+            console.log('Submit response', response)
+            if (response.isError) {
+                this.setState({ formErrors: [response.message] })
+            } else {  
+                const data = response.data;
+                this.props.refresh(data)
+                this.props.onDecline()
+                setTimeout(() => {
+                    successMessage('Bank Details added Successfully')
+                }, 20);
+            }
+        } catch (error) {
+            this.setState({ loading: false })
         }
     }
     componentDidMount = () => {

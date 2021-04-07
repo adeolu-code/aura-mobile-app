@@ -7,7 +7,7 @@ import colors from '../../colors';
 
 import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
-import { GetRequest, errorMessage, Request, urls } from '../../utils';
+import { errorMessage, Request, urls } from '../../utils';
 
 import { AppContext } from '../../../AppProvider';
 
@@ -51,25 +51,29 @@ class GuestRequirements extends Component {
 
     updateExperience = async () => {
         // this.props.navigation.navigate('TourStack', { screen: 'TourNumberOfGuests' })
-
-        const { tourOnboard } = this.context.state;
-        const { activityLevel, skillLevel, minimumAge } = this.state
-        this.setState({ loading: true, errors: [] });
-        const obj = {
-            activityLevel, 
-            skillLevel,
-            minimumAge,
-            id: tourOnboard.id
+        try {
+            const { tourOnboard } = this.context.state;
+            const { activityLevel, skillLevel, minimumAge } = this.state
+            this.setState({ loading: true, errors: [] });
+            const obj = {
+                activityLevel, 
+                skillLevel,
+                minimumAge,
+                id: tourOnboard.id
+            }
+            const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
+            console.log('update experience ', res)
+            this.setState({ loading: false });
+            if (res.isError || res.IsError) {
+                errorMessage(res.message || res.Message)
+            } else {
+                this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+                this.props.navigation.navigate('TourStack', { screen: 'TourNumberOfGuests' })
+            }
+        } catch (error) {
+            
         }
-        const res = await Request(urls.experienceBase, `${urls.v}experience/update`, obj );
-        console.log('update experience ', res)
-        this.setState({ loading: false });
-        if (res.isError || res.IsError) {
-            errorMessage(res.message || res.Message)
-        } else {
-            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-            this.props.navigation.navigate('TourStack', { screen: 'TourNumberOfGuests' })
-        }  
+          
     }
 
     renderPickerItem = () => {

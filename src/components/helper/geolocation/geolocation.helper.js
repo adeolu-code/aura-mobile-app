@@ -100,10 +100,14 @@ export class GeolocationHelper {
     * 
     */
     static getGeolocation = async (GOOGLE_API_KEY, region={longitude: 0, latitude: 0}) => {
-        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${region.latitude},${region.longitude}&key=${GOOGLE_API_KEY}`)
-        return {
-            addressDetails: GeolocationHelper.getAddressDetails(res.results[0]),
-        };
+        try {
+            const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${region.latitude},${region.longitude}&key=${GOOGLE_API_KEY}`)
+            return {
+                addressDetails: GeolocationHelper.getAddressDetails(res.results[0]),
+            };
+        } catch (error) {
+            
+        }
         // console.log('Res ', res)
     }
     /***

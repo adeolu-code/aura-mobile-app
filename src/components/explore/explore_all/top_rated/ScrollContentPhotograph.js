@@ -47,25 +47,29 @@ class ScrollContent extends Component {
         }
     }
     getTopRatedPlaces = async (more=false) => {
-        more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
-        const { activePage, perPage, places } = this.state
-        
-        const res = await GetRequest(urls.listingBase, 
-        `${urls.v}listing/property/toprated/?pageSize=${perPage}&Page=${activePage}`);
-        console.log('Res places', res)
-        more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            const dataResult = res.data.data
-            let data = []
-            if(more) {
-                data = [...places, ...dataResult]
+        try {
+            more ? this.setState({ loadMore: true }) : this.setState({ loading: true })
+            const { activePage, perPage, places } = this.state
+            
+            const res = await GetRequest(urls.listingBase, 
+            `${urls.v}listing/property/toprated/?pageSize=${perPage}&Page=${activePage}`);
+            console.log('Res places', res)
+            more ? this.setState({ loadMore: false }) : this.setState({ loading: false })
+            if(res.isError) {
+                const message = res.Message;
             } else {
-                data = dataResult
+                const dataResult = res.data.data
+                let data = []
+                if(more) {
+                    data = [...places, ...dataResult]
+                } else {
+                    data = dataResult
+                }
+                const pageCount =  Math.ceil(res.data.totalItems / perPage)
+                this.setState({ places: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
             }
-            const pageCount =  Math.ceil(res.data.totalItems / perPage)
-            this.setState({ places: data, activePage: res.data.page, totalItems: res.data.totalItems, perPage: res.data.pageSize, pageCount })
+        } catch (error) {
+            
         }
     }
 
@@ -81,10 +85,10 @@ class ScrollContent extends Component {
         const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
         if(loadMore) {
             return (
-            <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
-                <Spinner size={20} color={colors.orange} />
-                <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
-            </View>
+                <View style={[flexRow, { justifyContent: 'center', alignItems: 'center', flex: 1}]}>
+                    <Spinner size={20} color={colors.orange} />
+                    <MyText style={[textH4Style, textCenter, textOrange, textBold, { marginLeft: 10}]}>Loading....</MyText>
+                </View>
             )
         }
     }

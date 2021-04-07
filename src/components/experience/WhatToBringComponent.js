@@ -7,7 +7,7 @@ import { MyText, CustomButton, CustomInput } from '../../utils/Index';
 import { Icon } from 'native-base';
 
 import colors from '../../colors';
-import { urls, Request, GetRequest, errorMessage } from '../../utils'
+import { urls, Request, errorMessage } from '../../utils'
 
 
 import { AppContext } from '../../../AppProvider';
@@ -53,16 +53,21 @@ class AddDetailsComponent extends Component {
             id: tourOnboard.id,
             guestShouldBring: ansOne ? null : this.state.values
         }
-        const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
-        console.log('update experience ', res)
-        this.props.loading(false)
-        if (res.isError || res.IsError) {
-            errorMessage(res.message || res.Message)
-        } else {
-            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-            this.props.getValue(this.state.values)
-            this.props.setCount({ count: 6 })
-        }  
+        try {
+            const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
+            console.log('update experience ', res)
+            this.props.loading(false)
+            if (res.isError || res.IsError) {
+                errorMessage(res.message || res.Message)
+            } else {
+                this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+                this.props.getValue(this.state.values)
+                this.props.setCount({ count: 6 })
+            }
+        } catch (error) {
+            this.props.loading(false)
+        }
+          
     }
 
     addItem = () => {

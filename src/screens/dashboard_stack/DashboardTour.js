@@ -60,34 +60,44 @@ class DashboardTour extends Component {
   }
   
   getReservations = async () => {
-    this.setState({ gettingReservations: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/experience/host/reservation/overview`);
-    this.setState({ gettingReservations: false })
-    if (response.isError || response.IsError) {
-      errorMessage(response.message || response.Message)
-    } else { 
-      const data = response.data;
-      this.setState({ reservations: data});
-      console.log(data, 'reservation');
+    try {
+      this.setState({ gettingReservations: true })
+      const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/experience/host/reservation/overview`);
+      this.setState({ gettingReservations: false })
+      if (response.isError || response.IsError) {
+        errorMessage(response.message || response.Message)
+      } else { 
+        const data = response.data;
+        this.setState({ reservations: data});
+        console.log(data, 'reservation');
+      }
+    } catch (error) {
+      this.setState({ gettingReservations: false })
     }
   }
 
   getEarnings = async () => {
-    this.setState({ gettingEarnings: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/experience/host/earnings`);
-    console.log(response)
-    this.setState({ gettingEarnings: false })
-    if (response.isError || response.IsError) {
-      errorMessage(response.message || response.Message)
-    } else {  
-      const data = response.data;
-      const weekly = data.weeklyEarnings;
-      const total = data.totalEarnings;
-      this.setState({ weeklyEarnings: weekly, totalEarnings: total});
+    try {
+      this.setState({ gettingEarnings: true })
+      const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/experience/host/earnings`);
+      console.log(response)
+      this.setState({ gettingEarnings: false })
+      if (response.isError || response.IsError) {
+        errorMessage(response.message || response.Message)
+      } else {  
+        const data = response.data;
+        const weekly = data.weeklyEarnings;
+        const total = data.totalEarnings;
+        this.setState({ weeklyEarnings: weekly, totalEarnings: total});
+      }
+    } catch (error) {
+      this.setState({ gettingEarnings: false })
     }
+    
   }
 
   getRatings = async () => {
+    try {
       this.setState({ gettingRatings: true })
       const res = await GetRequest(urls.experienceBase, `${urls.v}experience/review/rating/host/overview`);
       this.setState({ gettingRatings: false })
@@ -98,16 +108,23 @@ class DashboardTour extends Component {
         this.setState({ ratings: data });
         console.log(data);
       }
+    } catch (error) {
+      this.setState({ gettingRatings: false })
+    }
   }
   getComments = async () => {
-    this.setState({ gettingComments: true })
-    const response = await GetRequest(urls.experienceBase, `${urls.v}experience/review/comment/host/overview`);
-    this.setState({ gettingComments: false})
-    if (response.isError) {
-      errorMessage(response.message)
-    } else { 
-      const data = response.data;
-      this.setState({ comments: data });
+    try {
+      this.setState({ gettingComments: true })
+      const response = await GetRequest(urls.experienceBase, `${urls.v}experience/review/comment/host/overview`);
+      this.setState({ gettingComments: false})
+      if (response.isError) {
+        errorMessage(response.message)
+      } else { 
+        const data = response.data;
+        this.setState({ comments: data });
+      }
+    } catch (error) {
+      this.setState({ gettingComments: false })
     }
   }
 

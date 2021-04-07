@@ -407,35 +407,43 @@ class BookingsScreen extends Component {
   }
 
   linkToSingleHouse = async () => {
-    this.setState({loading: true});
-    const house = await GetRequest(urls.listingBase + urls.v, urls.propertyById + this.state.property.propertyInfo.id);
-    this.setState({loading: false});
-    this.props.navigation.navigate('Other', {screen: 'HouseSingle',params: {house: house.data, force:true}});
+    try {
+      this.setState({loading: true});
+      const house = await GetRequest(urls.listingBase + urls.v, urls.propertyById + this.state.property.propertyInfo.id);
+      this.setState({loading: false});
+      this.props.navigation.navigate('Other', {screen: 'HouseSingle',params: {house: house.data, force:true}});
+    } catch (error) {
+      
+    }
   }
 
   extendStay = async () => {
-    this.setState({loading: true});
-    const house = await GetRequest(urls.listingBase + urls.v, urls.propertyById + this.state.property.propertyInfo.id);
-    this.setState({loading: false});
-    this.props.navigation.navigate('Other', {
-      screen: 'HouseSingle',
-      params: {
-        house: house.data,
-        force:true,
-        extendStay: true,
-        formData: {
-          Arrival_Time_From: this.state.property?.arrival_Time_From,
-          Arrival_Time_To: this.state.property?.arrival_Time_To,
-          check_In_Date: moment(this.state.property?.check_Out_Date, "YYYY-MM-DD").add(1, 'days').format(),
-          check_Out_Date: '',
-          is_Policy_Accepted: true,
-          no_Of_Guest: this.state.property?.no_Of_Guest,
-          noofAvailableRooms: house.data?.noofAvailableRooms,
-          property_Id: this.state.property.propertyInfo.id,
-          requestId: uuidv4()
-        },
-      }
-    });
+    try {
+      this.setState({loading: true});
+      const house = await GetRequest(urls.listingBase + urls.v, urls.propertyById + this.state.property.propertyInfo.id);
+      this.setState({loading: false});
+      this.props.navigation.navigate('Other', {
+        screen: 'HouseSingle',
+        params: {
+          house: house.data,
+          force:true,
+          extendStay: true,
+          formData: {
+            Arrival_Time_From: this.state.property?.arrival_Time_From,
+            Arrival_Time_To: this.state.property?.arrival_Time_To,
+            check_In_Date: moment(this.state.property?.check_Out_Date, "YYYY-MM-DD").add(1, 'days').format(),
+            check_Out_Date: '',
+            is_Policy_Accepted: true,
+            no_Of_Guest: this.state.property?.no_Of_Guest,
+            noofAvailableRooms: house.data?.noofAvailableRooms,
+            property_Id: this.state.property.propertyInfo.id,
+            requestId: uuidv4()
+          },
+        }
+      });
+    } catch (error) {
+      this.setState({loading: false });
+    }
   }
 
   linkToSingleTour = () => {

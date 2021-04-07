@@ -5,7 +5,7 @@ import { AppContext } from "../../../AppProvider";
 import colors from '../../colors';
 import { MyText } from "../../utils/Index";
 import GStyles from "./../../assets/styles/GeneralStyles";
-import { urls, GetRequest, errorMessage, Request } from '../../utils';
+import { urls, errorMessage, Request } from '../../utils';
 import { Icon } from 'native-base'
 
 
@@ -23,13 +23,18 @@ class PhotoComponent extends Component {
         photographerProfileId: photo.photographerProfileId
     }
     loading(true)
-    const res = await Request(urls.photographyBase, `${urls.v}photographer/photo/portfolio/coverphoto`, obj )
-    if(res.isError || res.IsError) {
-        errorMessage(res.message)
+    try {
+        const res = await Request(urls.photographyBase, `${urls.v}photographer/photo/portfolio/coverphoto`, obj )
+        if(res.isError || res.IsError) {
+            errorMessage(res.message)
+            loading(false)
+        } else {
+            refresh()
+        }
+    } catch (error) {
         loading(false)
-    } else {
-        refresh()
     }
+    
   }
 
   removeImg = async () => {

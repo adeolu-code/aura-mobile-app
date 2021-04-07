@@ -30,11 +30,12 @@ const SplashScreen = (props) => {
     const context = useContext(AppContext);
 
     const checkVersion = async () => {
-        const res = await GetRequest(urls.identityBase, `${urls.v}auth/version`)
+        
         // console.log('Check version ', res)
         try {
+            const res = await GetRequest(urls.identityBase, `${urls.v}auth/version`)
             if(res.isError) {
-
+                
             } else {
                 if(Platform.OS === 'android') {
                     checkAndroid(res.data)
@@ -43,27 +44,9 @@ const SplashScreen = (props) => {
                 }
             }
         } catch (error) {
-            errorMessage(error.message)
+            console.log('Error from version check ', error)
+            // errorMessage(error.message)
         }
-        
-        // http.get('versions')
-        // .then((res) => {
-        //   const data =  res.data;
-        //   if(Platform.OS === 'android') {
-        //     this.checkAndroid(data.android)
-        //   } else {
-        //     this.checkIOS(data.ios)
-        //   }
-        //   console.log('Res ', res)
-        // })
-        // .catch(error => {
-        //   console.log(error)
-        //   this.checkLogin()
-        //   Notifications.events().registerNotificationOpened( (notification: Notification, completion: () => void) => {
-        //     console.log("Notification opened by device user", notification.payload);
-        //     completion();
-        //   });
-        // })
     }
     const checkAndroid = (versionNumber) => {
         if(versionNumber !== AppVersion.android) {
@@ -133,20 +116,6 @@ const SplashScreen = (props) => {
         if(request === 'granted') {
             getCurrentPos();
         }
-        // request(PERMISSIONS.IOS.LOCATION_ALWAYS)
-        // .then((result) => {
-        //     console.log('Request permissions ios ', result)
-        //     switch (result) {
-        //     case 'granted':
-        //         getCurrentPos();
-        //         break;
-        //     default:
-        //         break;
-        //     }
-        // })
-        // .catch((error) => {
-        //     console.log('Permissions catched error ', error)
-        // });
     }
     const getCurrentPos = async () => {
         Geolocation.getCurrentPosition(
@@ -192,18 +161,7 @@ const SplashScreen = (props) => {
         setContext(context)
         checkLogin()
         requestLocationPermission()
-        // setTimeout(() => {
-        //     // console.log("timer out", play, new Date().getMinutes(), new Date().getSeconds());
-        //     setPlay(false);
-        //     navigateToTab(props);
-        // }, splashTimeout);
     }, [])
-
-    // setTimeout(() => {
-    //     // console.log("timer out", play, new Date().getMinutes(), new Date().getSeconds());
-    //     setPlay(false);
-    //     navigateToTab(props);
-    // }, splashTimeout);
 
     return (
         <Container>

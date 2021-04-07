@@ -36,25 +36,29 @@ class AmenitiesScreen extends Component {
   getHouse = async () => {
     const { state, set } = this.context
     const ppty = state.propertyFormData;
-    this.setState({ gettingHouse: true })
-    const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${ppty.id}`);
-    this.setState({ gettingHouse: false })
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-        const data = res.data;
-        if(data !== null) {
-          let amenitiesValues = [];
-          let safetyAmenitiesValues = [];
-          if(data.amenity) {
-            amenitiesValues = data.amenity.map(item => item.id)
+    try {
+      this.setState({ gettingHouse: true })
+      const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${ppty.id}`);
+      this.setState({ gettingHouse: false })
+      if(res.isError) {
+          const message = res.Message;
+      } else {
+          const data = res.data;
+          if(data !== null) {
+            let amenitiesValues = [];
+            let safetyAmenitiesValues = [];
+            if(data.amenity) {
+              amenitiesValues = data.amenity.map(item => item.id)
+            }
+            if(data.safetyAmenity) {
+              safetyAmenitiesValues = data.safetyAmenity.map(item => item.id)
+            }
+            this.setState({ amenitiesValues, safetyAmenitiesValues })
+            set({ propertyFormData: { ...ppty, amenity: amenitiesValues, safetyAmenity: safetyAmenitiesValues } })
           }
-          if(data.safetyAmenity) {
-            safetyAmenitiesValues = data.safetyAmenity.map(item => item.id)
-          }
-          this.setState({ amenitiesValues, safetyAmenitiesValues })
-          set({ propertyFormData: { ...ppty, amenity: amenitiesValues, safetyAmenity: safetyAmenitiesValues } })
-        }
+      }
+    } catch (error) {
+      
     }
   }
   

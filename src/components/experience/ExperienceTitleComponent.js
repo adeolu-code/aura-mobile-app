@@ -9,7 +9,7 @@ import { Icon } from 'native-base';
 import colors from '../../colors';
 
 import { AppContext } from '../../../AppProvider';
-import { urls, Request, GetRequest, errorMessage } from '../../utils'
+import { urls, Request, errorMessage } from '../../utils'
 
 
 
@@ -28,16 +28,20 @@ class ExperienceTitleComponent extends Component {
             id: tourOnboard.id,
             title: this.state.title
         }
-        const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
-        console.log('update experience ', res)
-        this.props.loading(false)
-        if (res.isError || res.IsError) {
-            errorMessage(res.message || res.Message)
-        } else {
-            this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
-            this.props.getValue(this.state.title)
-            this.props.navigation.navigate('TourAddImages')
-        }  
+        try {
+            const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
+            console.log('update experience ', res)
+            this.props.loading(false)
+            if (res.isError || res.IsError) {
+                errorMessage(res.message || res.Message)
+            } else {
+                this.context.set({ tourOnboard: { ...tourOnboard, ...res.data }})
+                this.props.getValue(this.state.title)
+                this.props.navigation.navigate('TourAddImages')
+            }   
+        } catch (error) {
+            this.props.loading(false)
+        }
     }
 
     

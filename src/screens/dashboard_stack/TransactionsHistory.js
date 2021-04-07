@@ -68,23 +68,26 @@ class TransactionsHistory extends Component {
   getTransactions = async (more=false) => {
     const { userData } = this.context.state
     const { transactions, activePage, pageSize } = this.state
-    
-    more ? this.setState({ loadMore: true }) : this.setState({ gettingTransactions: true })
-    const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property?hostId=${userData.id}&Page=${activePage}&pageSize=${pageSize}`);
-    more ? this.setState({ loadMore: false }) : this.setState({ gettingTransactions: false })
-    if (response.isError) {
-      errorMessage(response.message)
-    } else {  
-      const dataResult = response.data.data
-      let data = []
-      if(more) {
-          data = [...transactions, ...dataResult]
-      } else {
-          data = dataResult
+    try {
+      more ? this.setState({ loadMore: true }) : this.setState({ gettingTransactions: true })
+      const response = await GetRequest(urls.bookingBase, `${urls.v}bookings/property?hostId=${userData.id}&Page=${activePage}&pageSize=${pageSize}`);
+      more ? this.setState({ loadMore: false }) : this.setState({ gettingTransactions: false })
+      if (response.isError) {
+        errorMessage(response.message)
+      } else {  
+        const dataResult = response.data.data
+        let data = []
+        if(more) {
+            data = [...transactions, ...dataResult]
+        } else {
+            data = dataResult
+        }
+        const pageCount =  Math.ceil(response.data.totalItems / pageSize)
+        this.setState({ transactions: data, activePage: response.data.page, 
+          totalItems: response.data.totalItems, pageSize: response.data.pageSize, pageCount });
       }
-      const pageCount =  Math.ceil(response.data.totalItems / pageSize)
-      this.setState({ transactions: data, activePage: response.data.page, 
-        totalItems: response.data.totalItems, pageSize: response.data.pageSize, pageCount });
+    } catch (error) {
+      
     }
   }
 

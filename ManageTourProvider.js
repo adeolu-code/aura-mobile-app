@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from "react";
-import { setContext, Request, GetRequest, urls, consoleLog } from "./src/utils";
+import { setContext, GetRequest, urls, consoleLog } from "./src/utils";
 
 import { AppContext } from './AppProvider';
 

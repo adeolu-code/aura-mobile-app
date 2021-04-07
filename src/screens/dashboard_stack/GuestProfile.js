@@ -42,16 +42,21 @@ class GuestProfile extends Component {
   }
   getInvoice = async () => {
     const { reservation } = this.state
-    this.setState({ gettingInvoice: true })
-    const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/invoice/?id=${reservation.id}`);
-    console.log('Booking details ', res)
-    this.setState({ gettingInvoice: false })
-    if(res.isError) {
-        const message = res.Message;
-    } else {
-        const data = res.data;
-        console.log(data)
+    try {
+      this.setState({ gettingInvoice: true })
+      const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/invoice/?id=${reservation.id}`);
+      console.log('Booking details ', res)
+      this.setState({ gettingInvoice: false })
+      if(res.isError) {
+          const message = res.Message;
+      } else {
+          const data = res.data;
+          console.log(data)
+      }
+    } catch (error) {
+      this.setState({ gettingInvoice: false })
     }
+    
   }
 //   requestStoragePermission = async () => {
 //     try {

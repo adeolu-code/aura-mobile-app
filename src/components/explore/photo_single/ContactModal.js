@@ -29,11 +29,15 @@ class ContactModal extends Component {
         }
     }
     getGeolocation = async () => {
-        const { photo } = this.props
-        this.setState({ loading: true })
-        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?address=${photo.address.street}&key=${GOOGLE_API_KEY}`)
-        this.setState({ loading: false })
-        this.setLocation(res.results[0])
+        try {
+            const { photo } = this.props
+            this.setState({ loading: true })
+            const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?address=${photo.address.street}&key=${GOOGLE_API_KEY}`)
+            this.setState({ loading: false })
+            this.setLocation(res.results[0])
+        } catch (error) {
+            
+        }
     }
 
     setLocation = (result) => {

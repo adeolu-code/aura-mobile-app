@@ -108,8 +108,12 @@ export default class AddRestaurant extends Component {
     };
 
     getGeolocation = async (cord) => {
-        const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
-        this.setState({ loading: false })
+        try {
+            const res = await GetRequest('https://maps.googleapis.com/maps/', `api/geocode/json?latlng=${cord.latitude},${cord.longitude}&key=${GOOGLE_API_KEY}`)
+            this.setState({ loading: false }) 
+        } catch (error) {
+            this.setState({ loading: false })
+        }
     }
 
     getCountry = (country) => {

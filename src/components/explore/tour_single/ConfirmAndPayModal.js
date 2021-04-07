@@ -50,33 +50,40 @@ class ConfirmAndPayModal extends Component {
           transactionType: "EXPERIENCE",
           payee: orderDetails.host_Id
         }
-        const res = await Request(urls.paymentBase,  `${urls.v}pay`, obj);
-        console.log('confirm pay ', res)
-        this.setState({ loading: false })
-        if(res.isError || res.IsError) {
-          this.setState({ formErrors: [res.message || res.Message] })
-        } else {
-            this.props.onDecline()
-            this.props.navigation.navigate('Other', { screen: 'TourPayment', params: { tour, orderDetails, url: res.data }})
+        try {
+            const res = await Request(urls.paymentBase,  `${urls.v}pay`, obj);
+            console.log('confirm pay ', res)
+            this.setState({ loading: false })
+            if(res.isError || res.IsError) {
+            this.setState({ formErrors: [res.message || res.Message] })
+            } else {
+                this.props.onDecline()
+                this.props.navigation.navigate('Other', { screen: 'TourPayment', params: { tour, orderDetails, url: res.data }})
+            }
+        } catch (error) {
+            this.setState({ loading: false })
         }
       }
 
     
     getPaymentMethods = async () => {
-        this.setState({ gettingPayments: true })
-        const res = await GetRequest(urls.paymentBase,  `${urls.v}pay/methods`);
-        this.setState({ gettingPayments: false })
-        if(res.isError) {
-            const message = res.Message;
-            errorMessage(message)
-        } else {
-            const data = res.data;
-            this.setState({ paymentTypes: data })
+        try {
+            this.setState({ gettingPayments: true })
+            const res = await GetRequest(urls.paymentBase,  `${urls.v}pay/methods`);
+            this.setState({ gettingPayments: false })
+            if(res.isError) {
+                const message = res.Message;
+                errorMessage(message)
+            } else {
+                const data = res.data;
+                this.setState({ paymentTypes: data })
+            } 
+        } catch (error) {
+            
         }
     }
 
     componentDidMount = () => {
-        console.log('Mounted')
         this.getPaymentMethods()
     }
     onDecline = () => {

@@ -53,8 +53,8 @@ class PaymentWebView extends Component {
       } else {
         this.setState({ verified: true, loading: false  })
       }
-      
     })
+    .catch(error => {})
     
   }
   cancel = () => {

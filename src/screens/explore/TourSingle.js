@@ -114,47 +114,61 @@ class TourSingle extends Component {
   }
   getTour = async () => {
     const { id } = this.state
-    this.setState({ gettingTour: true })
-    const res = await GetRequest(urls.experienceBase, `${urls.v}experience/${id}`);
-    console.log('tours Details ', res)
-    this.setState({ gettingTour: false })
-    if(res.isError) {
-        const message = res.Message;
-        errorMessage(message)
-    } else {
-        const data = res.data;
-        
-        if(data !== null) {
-          this.setState({ tour: data })
-        }
+    try {
+      this.setState({ gettingTour: true })
+      const res = await GetRequest(urls.experienceBase, `${urls.v}experience/${id}`);
+      console.log('tours Details ', res)
+      this.setState({ gettingTour: false })
+      if(res.isError) {
+          const message = res.Message;
+          errorMessage(message)
+      } else {
+          const data = res.data;
+          
+          if(data !== null) {
+            this.setState({ tour: data })
+          }
+      }
+    } catch (error) {
+      this.setState({ gettingTour: false })
     }
+    
   }
 
   getCalendar = async () => {
     const { id } = this.state;
-    this.setState({ gettingCalendar: true })
-    const res = await GetRequest(urls.experienceBase, `${urls.v}experience/calendar?ExperienceId=${id}`);
-    console.log('Experience calendar ', res)
-    this.setState({ gettingCalendar: false })
-    if(res.isError || res.IsError) {
-      const message = res.Message || res.message;
-    } else {
-        const data = res.data;
-        this.setState({ bookedDays: data.bookedDays })
+    try {
+      this.setState({ gettingCalendar: true })
+      const res = await GetRequest(urls.experienceBase, `${urls.v}experience/calendar?ExperienceId=${id}`);
+      console.log('Experience calendar ', res)
+      this.setState({ gettingCalendar: false })
+      if(res.isError || res.IsError) {
+        const message = res.Message || res.message;
+      } else {
+          const data = res.data;
+          this.setState({ bookedDays: data.bookedDays })
+      }
+    } catch (error) {
+      this.setState({ gettingCalendar: false })
     }
+    
   }
   getPhotos = async () => {
     const { id } = this.state
-    this.setState({ loadingImages: true })
-    const res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/experience?experienceid=${id}`);
-    console.log('Photos tour ', res)
-    this.setState({ loadingImages: false })
-    if(res.isError) {
-        const message = res.Message || res.message;
-        errorMessage(message)
-    } else {
-        const imgData = res.data;
-        this.setState({ photos: imgData })
+    try {
+      this.setState({ loadingImages: true })
+      const res = await GetRequest(urls.experienceBase, `${urls.v}experience/photo/experience?experienceid=${id}`);
+      console.log('Photos tour ', res)
+      this.setState({ loadingImages: false })
+      if(res.isError) {
+          const message = res.Message || res.message;
+          errorMessage(message)
+      } else {
+          const imgData = res.data;
+          this.setState({ photos: imgData })
+      }
+    } catch (error) {
+      this.setState({ loadingImages: false })
     }
   }
   renderBottomMenu = () => {

@@ -78,20 +78,24 @@ class EmailVerificationModal extends Component {
     }
     resendMail = async () => {
         const { userData } = this.context.state
-        this.setState({ loading: true, formErrors: [] })
-        const res = await GetRequest(urls.identityBase, `api/v1/user/email/verification/resend/${userData.username}`);
-        console.log(res)
-        if(res.isError) {
-            const message = res.message;
-            const error = [message]
-            this.setState({ formErrors: error})
-        } else {
-            this.setState({ message: 'Email verification link resent successfully!!'})
-            setTimeout(() => {
-                this.setState({ message: ''})
-            }, 5000);
+        try {
+            this.setState({ loading: true, formErrors: [] })
+            const res = await GetRequest(urls.identityBase, `api/v1/user/email/verification/resend/${userData.username}`);
+            if(res.isError) {
+                const message = res.message;
+                const error = [message]
+                this.setState({ formErrors: error})
+            } else {
+                this.setState({ message: 'Email verification link resent successfully!!'})
+                setTimeout(() => {
+                    this.setState({ message: ''})
+                }, 5000);
+            }
+            this.setState({ loading: false })  
+        } catch (error) {
+            
         }
-        this.setState({ loading: false })
+        
     }
     
 

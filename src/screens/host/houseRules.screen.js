@@ -22,18 +22,21 @@ export default class HouseRules extends Component {
     }
 
     getHouseRules = async () => {
-        this.setState({ gettingHouseRules: true })
-        const res = await GetRequest(urls.listingBase, `${urls.v}listing/houserule`);
-        this.setState({ gettingHouseRules: false})
-        if(res.IsError || res.isError) {
-            console.log(res.error)
-            // errorMessage('Something went wrong, please try again')
-        } else {
-            const data = res.data;
-            this.setState({ houseRules: data });
-
-            // console.log(data);
+        try {
+            this.setState({ gettingHouseRules: true })
+            const res = await GetRequest(urls.listingBase, `${urls.v}listing/houserule`);
+            this.setState({ gettingHouseRules: false})
+            if(res.IsError || res.isError) {
+                console.log(res.error)
+                // errorMessage('Something went wrong, please try again')
+            } else {
+                const data = res.data;
+                this.setState({ houseRules: data });
+            }
+        } catch (error) {
+            this.setState({ gettingHouseRules: false})
         }
+        
     }
     getHouseRule = (id) => {
         const { houseRuleValues } = this.state;

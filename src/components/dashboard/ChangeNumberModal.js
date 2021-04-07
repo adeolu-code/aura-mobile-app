@@ -14,7 +14,7 @@ import { MyText, CustomButton, CustomInputNumber, PhoneNumberInput, Loading, Err
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { AppContext } from '../../../AppProvider';
-import { setContext, Request, GetRequest, urls } from '../../utils';
+import { setContext, Request, urls } from '../../utils';
 import { setUser } from '../../helpers';
 
 
@@ -52,23 +52,26 @@ class ChangeNumberModal extends Component {
     update = async () => {
         const number = this.formatNumber();
         const obj = { phoneNumber: number }
-        this.setState({ loading: true })
-        let res = await Request(urls.identityBase + urls.v , 'user/update', obj);
-        this.setState({ loading: false })
-        console.log('Res update ', res)
-        if (res.isError || res.IsError) {
-            const message = res.Message;
-            const error = [message]
-            this.setState({ formErrors: error})
-        }
-        else {
-            this.setState({ message: 'Phone number updated successfully!!'})
-            setTimeout(() => {
-                this.setState({ message: ''})
-            }, 5000);
-            /** update context **/
-            let userData = this.context.state.userData;
-            this.context.set({userData: {...userData, ...res.data}});
+        try {
+            this.setState({ loading: true })
+            let res = await Request(urls.identityBase + urls.v , 'user/update', obj);
+            this.setState({ loading: false })
+            console.log('Res update ', res)
+            if (res.isError || res.IsError) {
+                const message = res.Message;
+                const error = [message]
+                this.setState({ formErrors: error})
+            } else {
+                this.setState({ message: 'Phone number updated successfully!!'})
+                setTimeout(() => {
+                    this.setState({ message: ''})
+                }, 5000);
+                /** update context **/
+                let userData = this.context.state.userData;
+                this.context.set({userData: {...userData, ...res.data}});
+            } 
+        } catch (error) {
+            this.setState({ loading: false })
         }
     }
     formatNumber = () => {

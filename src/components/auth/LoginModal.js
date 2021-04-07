@@ -115,18 +115,22 @@ class LoginModal extends Component {
 
   socialApiCall = async (type, token) => {
     const obj = { userType: 0, token }
-    const res = await Request(urls.identityBase, `api/v1/auth/user/login/${type}`, obj);
-    // console.log(res)
-    if(res.isError) {
-      const message = res.message;
-      const error = [message]
-      this.setState({ formErrors: error})
-    } else {
-      this.getUserDetails(res.data.access_token);
-      this.context.set({ token: res.data })
-      await setToken(res.data)
+    try {
+      const res = await Request(urls.identityBase, `api/v1/auth/user/login/${type}`, obj);
+      // console.log(res)
+      if(res.isError) {
+        const message = res.message;
+        const error = [message]
+        this.setState({ formErrors: error})
+      } else {
+        this.getUserDetails(res.data.access_token);
+        this.context.set({ token: res.data })
+        await setToken(res.data)
+      }
+      // this.setState({ loading: false })
+    } catch (error) {
+      
     }
-    // this.setState({ loading: false })
   }
 
   loginWithGoogle = async () => {

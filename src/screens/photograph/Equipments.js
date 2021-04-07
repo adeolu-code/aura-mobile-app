@@ -20,21 +20,25 @@ export default class Equipments extends Component {
     }
 
     getEquipments = async () => {
-        this.setState({ gettingEquipments: true })
-        const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/equipment`);
-        console.log('Equipments ', res)
-        this.setState({ gettingEquipments: false})
-        if(res.IsError || res.isError) {
-            console.log(res.error)
-            // errorMessage('Something went wrong, please try again')
-        } else {
-            const data = res.data;
-            this.setState({ equipments: data });
-            if(this.context.state.edit && this.context.state.photographOnboard.equipment) {
-                const equip = this.context.state.photographOnboard.equipment;
-                const equipmentValues = equip.map(item => item.id )
-                this.setState({ equipmentValues })
-            }
+        try {
+            this.setState({ gettingEquipments: true })
+            const res = await GetRequest(urls.photographyBase, `${urls.v}photographer/equipment`);
+            console.log('Equipments ', res)
+            this.setState({ gettingEquipments: false})
+            if(res.IsError || res.isError) {
+                console.log(res.error)
+                // errorMessage('Something went wrong, please try again')
+            } else {
+                const data = res.data;
+                this.setState({ equipments: data });
+                if(this.context.state.edit && this.context.state.photographOnboard.equipment) {
+                    const equip = this.context.state.photographOnboard.equipment;
+                    const equipmentValues = equip.map(item => item.id )
+                    this.setState({ equipmentValues })
+                }
+            } 
+        } catch (error) {
+            this.setState({ gettingEquipments: false})
         }
     }
     getEquipment = (id) => {
@@ -66,19 +70,24 @@ export default class Equipments extends Component {
         this.setState({ [attrName]: value });
     }
     saveNewEquipment = async () => {
-        this.setState({ addingInfo: true })
-        const obj = { name: this.state.name, description: this.state.description }
-        const res = await Request(urls.photographyBase, `${urls.v}photographer/equipment`, obj);
-        console.log('Equipment ', res)
-        this.setState({ addingInfo: false})
-        if(res.IsError || res.isError) {
-            console.log(res.error)
-            errorMessage(res.message)
-        } else {
-            const data = res.data;
-            this.setState({ name: '', description: ''})
-            this.getEquipments()
+        try {
+            this.setState({ addingInfo: true })
+            const obj = { name: this.state.name, description: this.state.description }
+            const res = await Request(urls.photographyBase, `${urls.v}photographer/equipment`, obj);
+            console.log('Equipment ', res)
+            this.setState({ addingInfo: false})
+            if(res.IsError || res.isError) {
+                console.log(res.error)
+                errorMessage(res.message)
+            } else {
+                const data = res.data;
+                this.setState({ name: '', description: ''})
+                this.getEquipments()
+            }  
+        } catch (error) {
+            this.setState({ addingInfo: false})
         }
+        
     }
     renderEquipments = () => {
         const { equipments, gettingEquipments } = this.state;

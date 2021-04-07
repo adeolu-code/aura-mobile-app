@@ -67,18 +67,6 @@ export default class AddProfilePicture extends Component {
             }
         });
     }
-    // getUser = async () => {
-    //     const { set } = this.context
-    //     this.setState({ loading: true })
-    //     const res = await GetRequest(urls.identityBase, `${urls.v}user/me`)
-    //     console.log('res ', res)
-    //     this.setState({ loading: false })
-    //     if(res.isError || res.IsError) {
-    //         errorMessage(res.message)
-    //     } else {
-    //         set({ userData: res.data })
-    //     }
-    // }
 
     selectImage = () => {
         ImagePicker.openPicker({

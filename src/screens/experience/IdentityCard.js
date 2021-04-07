@@ -51,17 +51,21 @@ class IdentityCard extends Component {
 
   getIdentityInfo = async (types) => {
     const { userData } = this.context.state
-    const res = await GetRequest(urls.identityBase,  `${urls.v}user/identity/display/${userData.id}`);
-    this.setState({loading: false });
-    console.log('User identity', res)
-    this.setState({ loading: false })
-    if(res.isError) {
-        const message = res.Message;
-        errorMessage(message)
-    } else {
-        const data = res.data;
-        const idType = types.find((item) => item.id === data.identityTypeId)
-        this.setState({ identityInfo: {...data, idTypeName: idType.name } })
+    try {
+      const res = await GetRequest(urls.identityBase,  `${urls.v}user/identity/display/${userData.id}`);
+      this.setState({loading: false });
+      console.log('User identity', res)
+      this.setState({ loading: false })
+      if(res.isError) {
+          const message = res.Message;
+          errorMessage(message)
+      } else {
+          const data = res.data;
+          const idType = types.find((item) => item.id === data.identityTypeId)
+          this.setState({ identityInfo: {...data, idTypeName: idType.name } })
+      }
+    } catch (error) {
+      this.setState({loading: false });
     }
   }
   

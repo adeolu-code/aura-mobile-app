@@ -141,26 +141,30 @@ export default class TourCalendar extends Component {
     getCalendar = async () => {
         const { state, set } = this.context
         const ppty = state.propertyFormData;
-        this.setState({ gettingCalendar: true })
-        const res = await GetRequest(urls.experienceBase, `${urls.v}listing/property/calendar/?propertyId=${ppty.id}`);
-        this.setState({ gettingCalendar: false })
-        if(res.isError) {
-            const message = res.Message;
-        } else {
-            const data = res.data;
-            if(data !== null) {
-                const bookedDays = data.bookedDays
-                console.log(bookedDays)
-                bookedDays.filter(item => {
-                    const newDate = new Date(item)
-                    const yr = newDate.getFullYear()
-                    const month = newDate.getMonth() + 1
-                    const day = newDate.getDate()
-                    const date = `${yr}-${month}-${day < 10 ? "0"+day : day}`
-                    this.toggleSelectedDate(date)
-                })
+        try {
+            this.setState({ gettingCalendar: true })
+            const res = await GetRequest(urls.experienceBase, `${urls.v}listing/property/calendar/?propertyId=${ppty.id}`);
+            this.setState({ gettingCalendar: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data;
+                if(data !== null) {
+                    const bookedDays = data.bookedDays
+                    bookedDays.filter(item => {
+                        const newDate = new Date(item)
+                        const yr = newDate.getFullYear()
+                        const month = newDate.getMonth() + 1
+                        const day = newDate.getDate()
+                        const date = `${yr}-${month}-${day < 10 ? "0"+day : day}`
+                        this.toggleSelectedDate(date)
+                    })
+                }
             }
+        } catch (error) {
+            this.setState({ gettingCalendar: false })
         }
+        
     }
 
     componentDidMount = () => {
