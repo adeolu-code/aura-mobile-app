@@ -325,7 +325,7 @@ export default class PickImages extends Component {
                         sub={!isCaptured ? "Upload cover image" : "Upload other images for this tour"}
                     />
                     <ScrollView>
-                    <Container style={[Styles.container]}>
+                    <View style={[Styles.container]}>
                         <Content>
                                 <TouchableOpacity onPress={this.openTipsModal}>
                                     <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40}]}>See Photography Tips</MyText>
@@ -376,7 +376,7 @@ export default class PickImages extends Component {
                         </Content>
                         
                         <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />
-                    </Container>
+                    </View>
                     
                     </ScrollView>
                     <PhotographTipsModal visible={this.state.showTipsModal} onDecline={this.closeTipsModal} />

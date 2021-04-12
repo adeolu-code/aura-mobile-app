@@ -197,7 +197,6 @@ class ThemeListModal extends Component {
 
                             <View style={[flexRow, itemsContainer]}>
                                 {this.renderThemes()}
-                                
                             </View>
                             
                             <View style={{ borderWidth: 1, borderColor: colors.lightGrey, borderRadius: 10, marginVertical: 20}}>

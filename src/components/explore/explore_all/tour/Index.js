@@ -124,7 +124,7 @@ class Index extends Component {
   setFilterValues = (value) => {
     const { pricePerGuest, location } = value
     const filter = {
-      pricePerGuest, state: location
+      pricePerGuest, State: location
     }
     this.setState(() => ({ filter }), () => {
       const url = this.createUrl()
