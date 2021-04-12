@@ -135,22 +135,22 @@ class Location extends Component {
         <Header { ...this.props } title={"Location"} />
 
         <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-            <View style={{ marginTop: 40, zIndex: 1, backgroundColor: colors.white}}>
+            <View style={{ marginTop: 40, zIndex: 10, backgroundColor: colors.white}}>
                 <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
                 <ProgressBar width={16.7} />
                 <ProgressBar width={50} />
 
             </View>
             
-            <View style={{ flex: 1, justifyContent: 'center'}}>
+            <View style={{ flex: 1, justifyContent: 'center', zIndex:1}}>
                 <View style={{ height: 85, width: '100%', marginBottom: 30, flexDirection: 'row', zIndex: 0}}>
                     <CountryPickerComponent getCountry={this.getCountry} defaultCountry={this.state.defaultCountry} />
                 </View>
-                <View style={[{ paddingHorizontal: 1, elevation: 3}]}>
+                <View style={[{ paddingHorizontal: 1, elevation: 3, zIndex: 20}]}>
                     <MyText style={[textH4Style, textGrey, { marginBottom: 15}]}>Which city will you host your experience in ?</MyText>
                     <AutoCompleteComponent locationDetails={this.getSelectedLocation} type={false} autofocus={false} 
                     countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} 
-                    placeholder={this.state.address} />
+                    placeholder={this.state.address} wrapper={styles.autoCompleteStyle} />
                 </View>
                 
             </View>
@@ -171,9 +171,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
+    autoCompleteStyle: {
+        backgroundColor: colors.white,
+    },
   
     button: {
-        flex: 1, marginBottom: 40, justifyContent: 'flex-end'
+        flex: 1, marginBottom: 40, justifyContent: 'flex-end', 
+        // borderWidth: 1, 
+        // zIndex: 0,
+        // backgroundColor: colors.lightGrey
     },
 });
 

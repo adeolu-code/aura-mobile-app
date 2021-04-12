@@ -19,7 +19,7 @@ class FilterModal extends Component {
   constructor(props) {
     super(props);
     this.state = { loadingAmenities: false, amenities: [], amenitiesValues: [], 
-        loadingHouseType: false, houseTypes: [], houseTypeValues:[], noOfBathrooms: '', noOfRooms: '', noOfBeds: '', 
+        loadingHouseType: false, houseTypes: [], houseTypeValues:[], NoofBathrooms: '', NoofBedroom: '', NoofAvailableRooms: '', 
         minPrice: 0, maxPrice: 500000, max: 500000, isVerified: '', toggleComponent: false,
         contentBody : {
           one: false, two: false, three: false, four: false, five: false
@@ -29,13 +29,13 @@ class FilterModal extends Component {
   }
 
   setNoOfBathroom = (value) => {
-    this.setState({ noOfBathrooms: value })
+    this.setState({ NoofBathrooms: value > 10 ? 10 : value })
   }
   setNoOfBedroom = (value) => {
-    this.setState({ noOfRooms: value })
+    this.setState({ NoofBedroom: value > 10 ? 10 : value })
   }
   setNoOfBeds = (value) => {
-    this.setState({ noOfBeds: value })
+    this.setState({ NoofAvailableRooms: value > 10 ? 10 : value })
   }
 
   getAmmenities = async () => {
@@ -143,8 +143,9 @@ class FilterModal extends Component {
     this.setState({ isVerified: bool})
   }
   applyFilter = () => {
-    const { amenitiesValues, houseTypeValues, noOfBathrooms, noOfRooms, noOfBeds, minPrice, maxPrice, isVerified } = this.state
-    const obj = { amenitiesValues, houseTypeValues, noOfBathrooms, noOfRooms, noOfBeds, minPrice, maxPrice, isVerified }
+    const { amenitiesValues, houseTypeValues, NoofBathrooms, NoofBedroom, NoofAvailableRooms, minPrice, maxPrice, isVerified } = this.state
+    const obj = { amenitiesValues, houseTypeValues : houseTypeValues.length === 2 ? [] : houseTypeValues, NoofBathrooms, NoofBedroom, NoofAvailableRooms, minPrice, maxPrice, isVerified }
+    // console.log('Obj ', obj)
     this.props.filter(obj)
     this.props.onDecline();
   }
@@ -152,7 +153,7 @@ class FilterModal extends Component {
     this.setState(() => ({ toggleComponent: true }), () => {
         this.setState({ toggleComponent: false })
     })
-    this.setState({ amenitiesValues: [], houseTypeValues:[], noOfBathrooms: 0, noOfRooms: 0, noOfBeds: 0, 
+    this.setState({ amenitiesValues: [], houseTypeValues:[], NoofBathrooms: 0, NoofBedroom: 0, NoofAvailableRooms: 0, 
         minPrice: 0, maxPrice: 500000, isVerified: false })
     this.props.clearFilter()
   }
@@ -178,7 +179,7 @@ class FilterModal extends Component {
         textGreen, textGrey, textH6Style, textBlack, textH5Style } = GStyles
     const { closeStyle, modalContainer, modalHeader, body, property, divider, bottomMenu, bottomContainer, buttonStyle,
          contentContainer, buttonContainer, showContainer, hideContainer } = styles
-    const { toggleComponent, noOfBathrooms, noOfBeds, noOfRooms, contentBody } = this.state
+    const { toggleComponent, NoofBathrooms, NoofAvailableRooms, NoofBedroom, contentBody } = this.state
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
                 
@@ -233,9 +234,9 @@ class FilterModal extends Component {
                         <Header title="Rooms & Beds"  subtitle="Filter by the number of rooms & beds you want" 
                         onPress={this.setVisibility.bind(this, 'three')} collapsed={contentBody.three} />
                         {!toggleComponent ? <View style={[contentBody.three ? hideContainer : showContainer, { marginTop: 10, marginBottom: 20} ]}>
-                            <ItemCountPicker title="Beds" countValue={this.setNoOfBeds} value={noOfBeds} />
-                            <ItemCountPicker title="Bedroom" countValue={this.setNoOfBedroom} value={noOfRooms} />
-                            <ItemCountPicker title="Bathroom" countValue={this.setNoOfBathroom} value={noOfBathrooms} />
+                            <ItemCountPicker title="Bed(s)" countValue={this.setNoOfBeds} value={NoofAvailableRooms} />
+                            <ItemCountPicker title="Bedroom(s)" countValue={this.setNoOfBedroom} value={NoofBedroom} />
+                            <ItemCountPicker title="Bathroom(s)" countValue={this.setNoOfBathroom} value={NoofBathrooms} />
                         </View> : <></>}
                     </View>
 

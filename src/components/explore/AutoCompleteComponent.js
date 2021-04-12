@@ -30,20 +30,20 @@ class AutoCompleteComponent extends Component {
 
   render() {
     const { flexRow, textH6Style, textAccent, textWhite, textH4Style } = GStyles;
-    const { container, countryContainer, searchContainer, iconStyle } = styles
+    const { countryContainer, searchContainer, iconStyle } = styles
     const { autoCompleteStyles, autoCompleteActiveStyles } = autoStyles;
     // const activeStyles = this.props.active ? autoCompleteActiveStyles : autoCompleteStyles
     const activeStyles = autoCompleteActiveStyles
 
 
-    const { title, countrySymbol, location, placeholder, type, autofocus } = this.props
+    const { title, countrySymbol, location, placeholder, type, autofocus, wrapper } = this.props
 
     const homePlace = {
         description: location ? location.city : '',
         geometry: { location: { lat: location ? location.latitude : 0, lng: location ? location.longitude : 0 } },
     };
     return (
-        <View style={[flexRow]}>
+        <View style={[flexRow, wrapper]}>
             
             <GooglePlacesAutocomplete
                 autoFocus={true}

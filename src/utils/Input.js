@@ -102,7 +102,8 @@ class CustomInput extends Component {
             autoCapitalize={autoCapitalize || 'none'}
             placeholder={placeholder || 'Placeholder'}
             onChange={onChange}
-            keyboardType={keyboard} multiline={multiline}
+            keyboardType={keyboard} 
+            multiline={multiline}
             placeholderTextColor={placeholderColor || 'rgba(99, 99, 99, 0.7)'} textAlignVertical={textAlignVertical || "center"}
           />
           {this.renderSpinner()}

@@ -24,9 +24,9 @@ class Index extends Component {
       selectedLocation: '', filter: {
         ammenities: '', 
         PropertyTypeId: '', 
-        noOfBathrooms: '', 
-        noOfRooms: '', 
-        noOfBeds: '', 
+        NoofBathrooms: '', 
+        NoofBedroom: '', 
+        NoofAvailableRooms: '', 
         minPrice: '', 
         maxPrice: '', 
         isVerified: ''
@@ -161,11 +161,11 @@ class Index extends Component {
     })
   }
   setFilterValues = (value) => {
-    const { amenitiesValues, houseTypeValues, noOfBathrooms, noOfRooms, noOfBeds, minPrice, maxPrice, isVerified } = value
+    const { amenitiesValues, houseTypeValues, NoofBathrooms, NoofBedroom, NoofAvailableRooms, minPrice, maxPrice, isVerified } = value
     const filter = {
       ammenities: amenitiesValues.join(), 
       PropertyTypeId: houseTypeValues.join(), 
-      noOfBathrooms, noOfRooms, noOfBeds, minPrice, maxPrice,isVerified
+      NoofBathrooms, NoofBedroom, NoofAvailableRooms, minPrice, maxPrice,isVerified
     }
     this.setState(() => ({ filter }), () => {
       const url = this.createUrl()
@@ -197,9 +197,9 @@ class Index extends Component {
     const obj = {
       ammenities: '', 
       PropertyTypeId: '', 
-      noOfBathrooms: '', 
-      noOfRooms: '', 
-      noOfBeds: '', 
+      NoofBathrooms: '', 
+      NoofBedroom: '', 
+      NoofAvailableRooms: '', 
       minPrice: '', 
       maxPrice: '', 
       isVerified: ''

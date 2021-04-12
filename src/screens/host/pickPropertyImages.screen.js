@@ -322,55 +322,55 @@ export default class PickPropertyImage extends Component {
                         sub={!isCaptured ? "Upload cover image" : "Upload other images of property"}
                     />
                     <ScrollView>
-                    <Container style={[Styles.container]}>
-                        <Content>
-                                <TouchableOpacity onPress={this.openTipsModal}>
-                                    <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40, marginTop: 10}]}>See Photography Tips</MyText>
-                                </TouchableOpacity>
-                                <View style={[Styles.pickImageImageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent", justifyContent: 'flex-start'})]}>
-                                    {
-                                        !isCaptured ?
-                                            <> 
-                                                {this.renderCoverImage()}
-                                            </>   
-                                        :
-                                            <View style={[Styles.picturesRowView]}>
-                                                <TouchableOpacity style={[ Styles.centerItems, 
-                                                    {backgroundColor: colors.lightOrange, width: '46.5%', borderRadius: 10, height: 150, marginTop: 5, marginBottom: 20}]}
-                                                    onPress={this.openSelectModal.bind(this, false)}>
-                                                    <Icon name={"add-circle-sharp"} style={[Styles.miniGalleryIcon]} />
-                                                    <View>
-                                                        <MyText style={[textUnderline, textOrange]}>Add Photo</MyText>
-                                                    </View>
-                                                    <View style={[flexRow, { paddingHorizontal: 8, marginTop: 15}]}>
-                                                        <Icon name="alert-circle" style={{ fontSize: 16, color: colors.danger, marginRight: 5 }} />
-                                                        <MyText style={[textH6Style, textDanger]}>Total Upload Limit Is 20mb!</MyText>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                {this.renderImages()}
-                                                
+                        <View style={[Styles.container]}>
+                            <Content>
+                                    <TouchableOpacity onPress={this.openTipsModal}>
+                                        <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40, marginTop: 10}]}>See Photography Tips</MyText>
+                                    </TouchableOpacity>
+                                    <View style={[Styles.pickImageImageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent", justifyContent: 'flex-start'})]}>
+                                        {
+                                            !isCaptured ?
+                                                <> 
+                                                    {this.renderCoverImage()}
+                                                </>   
+                                            :
+                                                <View style={[Styles.picturesRowView]}>
+                                                    <TouchableOpacity style={[ Styles.centerItems, 
+                                                        {backgroundColor: colors.lightOrange, width: '46.5%', borderRadius: 10, height: 150, marginTop: 5, marginBottom: 20}]}
+                                                        onPress={this.openSelectModal.bind(this, false)}>
+                                                        <Icon name={"add-circle-sharp"} style={[Styles.miniGalleryIcon]} />
+                                                        <View>
+                                                            <MyText style={[textUnderline, textOrange]}>Add Photo</MyText>
+                                                        </View>
+                                                        <View style={[flexRow, { paddingHorizontal: 8, marginTop: 15}]}>
+                                                            <Icon name="alert-circle" style={{ fontSize: 16, color: colors.danger, marginRight: 5 }} />
+                                                            <MyText style={[textH6Style, textDanger]}>Total Upload Limit Is 20mb!</MyText>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                    {this.renderImages()}
+                                                    
 
-                                            </View>
-                                            
-                                    }
-                                    
-                                </View>
-                                {!isCaptured ? <View style={{ marginTop: 20}}>
-                                    <CustomInput label="Cover Image description (optional)" placeholder=" " 
-                                    value={additionalInformation} onChangeText={(text) => { this.setState({ additionalInformation: text })}} />
-                                </View> : <></>}
-                                <View style={{ marginTop: 60}}>
-                                    {
-                                        !isCaptured ?
-                                            <CustomButton buttonText={coverImage ? "Next" : "Choose A Cover Picture"} onPress={this.submitCover} buttonStyle={{elevation: 2}} />
-                                        :
-                                        // <CustomButton buttonText="Next" onPress={() => this.props.navigation.navigate('AddProfilePicture')} buttonStyle={{elevation: 2}} />
-                                        <CustomButton buttonText="Next" onPress={this.submit} buttonStyle={{elevation: 2}} />
-                                    }
-                                </View>
-                        </Content>
-                        <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />
-                    </Container>
+                                                </View>
+                                                
+                                        }
+                                        
+                                    </View>
+                                    {!isCaptured ? <View style={{ marginTop: 20}}>
+                                        <CustomInput label="Cover Image description (optional)" placeholder=" " 
+                                        value={additionalInformation} onChangeText={(text) => { this.setState({ additionalInformation: text })}} />
+                                    </View> : <></>}
+                                    <View style={{ marginTop: 60}}>
+                                        {
+                                            !isCaptured ?
+                                                <CustomButton buttonText={coverImage ? "Next" : "Choose A Cover Picture"} onPress={this.submitCover} buttonStyle={{elevation: 2}} />
+                                            :
+                                            // <CustomButton buttonText="Next" onPress={() => this.props.navigation.navigate('AddProfilePicture')} buttonStyle={{elevation: 2}} />
+                                            <CustomButton buttonText="Next" onPress={this.submit} buttonStyle={{elevation: 2}} />
+                                        }
+                                    </View>
+                            </Content>
+                            <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />
+                        </View>
                     </ScrollView>
                     <PhotographTipsModal visible={this.state.showTipsModal} onDecline={this.closeTipsModal} />
                 </SafeAreaView>

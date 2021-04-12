@@ -7,7 +7,7 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Modal, TouchableWithoutFeedback, ScrollView, Dimensions, Keyboard
+    Modal, TouchableWithoutFeedback, ScrollView, Dimensions, Keyboard,
 } from "react-native";
 import colors from "../colors";
 import { MyText, CustomButton, CustomInputNumber, Loading, Error } from "../utils/Index";
@@ -44,29 +44,29 @@ class PhotographTipsModal extends Component {
 
             <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
                
-                
-                    <View style={modalContainer}>
+                <View style={modalContainer}>
+                    
                         
+                        <View style={container} >
+                            <View style={[flexRow, modalHeader]}>
+                                <View style={{ flex: 6, alignItems: 'center'}}>
+                                    <View style={lineStyle}></View>
+                                </View>
+                                <TouchableOpacity style={closeStyle} onPress={onDecline}>
+                                    <Icon type="Feather" name="x" />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={headerStyle}>
+                                <MyText style={[textH3Style, textExtraBold, textOrange, textCenter]}>Photo Tips</MyText>
+                            </View>
                             
-                            <View style={container} >
-                                <View style={[flexRow, modalHeader]}>
-                                    <View style={{ flex: 6, alignItems: 'center'}}>
-                                        <View style={lineStyle}></View>
-                                    </View>
-                                    <TouchableOpacity style={closeStyle} onPress={onDecline}>
-                                        <Icon type="Feather" name="x" />
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={headerStyle}>
-                                    <MyText style={[textH3Style, textExtraBold, textOrange, textCenter]}>Photo Tips</MyText>
-                                </View>
-                                
-                                <View style={{ marginBottom: 10}}>
-                                    <MyText style={[textH3Style, textBold, textGrey]}>
-                                        These easy tips will help you get the best of your home photography
-                                    </MyText>
-                                </View>
-                                
+                            <View style={{ marginBottom: 10}}>
+                                <MyText style={[textH3Style, textBold, textGrey]}>
+                                    These easy tips will help you get the best of your home photography
+                                </MyText>
+                            </View>
+                            
+                            <ScrollView>
                                 <View style={{ borderWidth: 1, borderColor: colors.lightGrey, borderRadius: 10, marginVertical: 20}}>
                                     <View style={{ paddingVertical: 20,paddingHorizontal: 20, borderBottomColor: colors.lightGrey, borderBottomWidth: 1}}>
                                         <MyText style={[textH4Style, textGrey]}>
@@ -86,13 +86,13 @@ class PhotographTipsModal extends Component {
                                         </MyText>
                                     </View>
                                 </View>
-                            </View>
-                            
-                        
+                            </ScrollView>
+
+
                         </View>
+                        
+                </View>
                     
-                
-                
             </Modal>
         );
     }
