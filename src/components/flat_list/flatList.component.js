@@ -37,7 +37,7 @@ export default class FlatlistComponent extends Component {
             data={this.props.data || []}
             renderItem={this.props.renderItem}
             keyExtractor={(item) => item.id}
-            onEndReached={() => this.props.onEndReached && this.props.onEndReached()}
+            onEndReached={() => {this.props.onEndReached && this.props.onEndReached()}}
             onEndReachedThreshold={0.8}
             // extraData={selectedId}
           />

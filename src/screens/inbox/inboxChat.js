@@ -40,7 +40,7 @@ export default class InboxChat extends Component {
         this.getChatConvo();
         this.interval = setInterval(() => {
             this.getChatConvo();
-        }, 60000);
+        }, 3000);
     }
       
     getChatConvo = () => {
@@ -48,7 +48,9 @@ export default class InboxChat extends Component {
         propertyId: this.props.route.params.propertyId,
         userId: this.props.route.params.userId,
         }).then(result => {
-            this.setState({convo: result,});
+            
+            consoleLog("res_menu", "sort", result);
+            this.setState({convo: result.sort((a, b) => new Date(a.dateSent) - new Date(b.dateSent))});
         })
     };
 

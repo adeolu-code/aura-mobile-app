@@ -452,22 +452,11 @@ class BookingsScreen extends Component {
 
   getRoles = () => {
     const elem = [];
-    const roleExpreince = this.context.state.userData.roles.indexOf(EXPERIENCE);
-    if (roleExpreince != -1) {
-      elem.push("Experience");
-    }
-
-    const roleRestaurant = this.context.state.userData.roles.indexOf(RESTAURANT);
-    if (roleRestaurant != -1) {
-      elem.push("Restaurant");
-    }
-
-    const roleHost = this.context.state.userData.roles.indexOf(HOST);
-    if (roleHost != -1) {
-      elem.push("Hotels");
-      elem.push("Apartments");
-    }
-
+    elem.push("Experience");
+    elem.push("Restaurant");
+    elem.push("Hotels");
+    elem.push("Apartments");
+    
     this.state.roles = elem;
     return elem;
   }

@@ -56,13 +56,16 @@ export default class AddRestaurant extends Component {
             hasLocation: false,
             host: (props.route.params != undefined && props.route.params.host != undefined),
             newNumber: 0,
+            showLocationFillError: false,
         };
         
     }
 
     componentDidMount() {
         this.init();
-        this.state.restaurant.contactPhoneNumber = this.context.state.userData.phoneNumber;
+        if (this.context.state.userData && this.context.state.userData.phoneNumber) {
+            this.state.restaurant.contactPhoneNumber = this.context.state.userData.phoneNumber;
+        }
         
         if (!this.state.host) {
             this.getRestaurant();
@@ -82,6 +85,13 @@ export default class AddRestaurant extends Component {
         });
         getRestaurantOpenTimeApi().then(result => {
             if (result != undefined) {
+                if (this.state.restaurant.openTime == "") {
+                    this.state.restaurant.openTime = result[0].name;
+                }
+                if (this.state.restaurant.closeTime == "") {
+                    this.state.restaurant.closeTime = result[0].name;
+                }
+                
                 this.setState({openTime: result});
             }
         });
@@ -217,12 +227,16 @@ export default class AddRestaurant extends Component {
     }
 
     onAddLocation = () => {
-        this.setState({restaurantLocation: false, });
         
         if (this.state.state == '' || this.state.country == '' || this.state.street == '' || this.state.city == '' || this.state.zipcode == '') {
             errorMessage('All fields are required.');
+            this.setState({showLocationFillError: true});
             return;
         }
+
+        this.setState({restaurantLocation: false,showLocationFillError: false, restaurantContact: true});
+
+
         if (!this.state.host) this.setState({loading: true});
 
         this.state.restaurant.locations.push({
@@ -232,6 +246,7 @@ export default class AddRestaurant extends Component {
             city: this.state.city,
             zipCode: this.state.zipcode,
         });
+        
         if (this.state.host) {
             this.setState({
                 restaurantLocation: false,
@@ -274,6 +289,12 @@ export default class AddRestaurant extends Component {
             this.state.restaurant.openDays = [];
             this.state.restaurant.services = [];
             this.state.restaurant.operations = [];
+        }
+
+        if (this.state.restaurant.contactPhoneNumber == "") {
+            errorMessage("The contact phone number is required.");
+            this.setState({loading: false});
+            return;
         }
 
         keys.map(key => {
@@ -324,9 +345,9 @@ export default class AddRestaurant extends Component {
         else {
             // hosting
             await saveRestaurantApi(this.state.restaurant).then(result => {
-                consoleLog("update_res", "result", result);
+                consoleLog("res_menu", "result", result, this.state.restaurant);
                 this.getRestaurant();
-                this.setState({loading: false});
+                this.setState({loading: false, host: false});
                 // add restuarant to context
                 if (this.context.state.userData && this.context.state.userData.roles) {
                     this.context.state.userData.roles.push(RESTAURANT);
@@ -350,7 +371,7 @@ export default class AddRestaurant extends Component {
     }
 
     render() {
-        const {textCenter, textH3Style, textWhite, textBold, textBlack, textUnderline, textH4Style} = GStyles;
+        const {textCenter, textH3Style, textWhite, textBold, textBlack, textUnderline, textH4Style,} = GStyles;
         const { country } = this.state;
         const host = this.state.host;
         let countrySymbol = null;
@@ -384,20 +405,26 @@ export default class AddRestaurant extends Component {
                                     <Icon name="add-outline" style={[Styles.addIcon]} />
                                     <MyText>Add {!host && 'more '}location</MyText>
                                 </TouchableOpacity>
-                                <TouchableOpacity 
-                                    onPress={() => this.setState({restaurantContact: true, showModal: true})}
-                                    style={[Styles.addIconView]}
-                                >
-                                    <Icon name="pencil" style={[Styles.addIcon,]} />
-                                    <MyText>Edit Restaurant</MyText>
-                                </TouchableOpacity>
-                                <TouchableOpacity 
-                                    onPress={() => this.props.navigation.navigate('RestaurantMenu', {id: this.state.restaurant.id})}
-                                    style={[Styles.addIconView]}
-                                >
-                                    <Icon name="menu" style={[Styles.addIcon,]} />
-                                    <MyText>Restaurant Menu</MyText>
-                                </TouchableOpacity>
+                                {
+                                    !host &&
+                                    <TouchableOpacity 
+                                        onPress={() => this.setState({restaurantContact: true, showModal: true})}
+                                        style={[Styles.addIconView]}
+                                    >
+                                        <Icon name="pencil" style={[Styles.addIcon,]} />
+                                        <MyText>Edit Restaurant</MyText>
+                                    </TouchableOpacity>
+                                }
+                                {
+                                    !host &&
+                                    <TouchableOpacity 
+                                        onPress={() => this.props.navigation.navigate('RestaurantMenu', {id: this.state.restaurant.id})}
+                                        style={[Styles.addIconView]}
+                                    >
+                                        <Icon name="menu" style={[Styles.addIcon,]} />
+                                        <MyText>Restaurant Menu</MyText>
+                                    </TouchableOpacity>
+                                }
                                 {this.state.hasData && <MyText style={[textH3Style, textBold]}>Locations</MyText>}
                                 {
                                     this.state.hasData && this.state.restaurant.locations.map(restaurant => {
@@ -488,7 +515,7 @@ export default class AddRestaurant extends Component {
                                                         style={[Styles.nextButton, {height: 40, borderRadius: 5}, Styles.halfWidth]}
                                                         onPress={() => {
                                                             this.onAddLocation();
-                                                            this.setState({restaurantContact: true})
+                                                            
                                                         }}
                                                         >
                                                             <MyText style={[textH3Style, textCenter, textWhite, textBold]}>
@@ -498,7 +525,7 @@ export default class AddRestaurant extends Component {
                                                         <TouchableOpacity 
                                                         style={[Styles.nextButton, {height: 40, borderRadius: 5, marginLeft: 5, backgroundColor: colors.veryLightGrey}, Styles.halfWidth]}
                                                         onPress={() => {
-                                                            this.setState({restaurantLocation: false});
+                                                            this.setState({restaurantLocation: false,showModal: false});
                                                             if (!this.state.host) {
                                                                 this.setState({restaurantContact: false, restaurantLocation: false, restaurantOpening: false, showModal: false})
                                                             }
@@ -506,7 +533,12 @@ export default class AddRestaurant extends Component {
                                                         >
                                                             <MyText style={[textH3Style, textCenter, textBlack, textBold]}>Cancel</MyText>
                                                         </TouchableOpacity>
+                                                        
                                                     </View>
+                                                    {
+                                                        this.state.showLocationFillError &&
+                                                        <MyText style={[textH3Style, textCenter, {color: 'red'}]}>Please fill all fields</MyText>
+                                                    }
                                                 </>
                                                 }
 
@@ -550,6 +582,7 @@ export default class AddRestaurant extends Component {
                                                                 checked={this.state[key]}
                                                                 onPress={() => {
                                                                     const currentState = !this.state[key];
+                                                                    consoleLog("res_menu", currentState, this.state[key], key);
 
                                                                     this.setState({[key]: currentState})
                                                                 }}
@@ -558,7 +591,7 @@ export default class AddRestaurant extends Component {
                                                         )
                                                     }
                                                     {
-                                                        this.state["OP_3040d51f505849fd9f05a684a72eea09"] != undefined &&
+                                                        this.state["OP_3040d51f505849fd9f05a684a72eea09"] != undefined && this.state["OP_3040d51f505849fd9f05a684a72eea09"] &&
                                                         <LabelInput 
                                                             input
                                                             placeholder={"Average Delivery fee"}
@@ -603,7 +636,7 @@ export default class AddRestaurant extends Component {
                                                         <TouchableOpacity 
                                                         style={[Styles.nextButton, {height: 40, borderRadius: 5, marginLeft: 5, backgroundColor: colors.veryLightGrey}, Styles.halfWidth]}
                                                         onPress={() => {
-                                                            this.setState({restaurantContact: false});
+                                                            this.setState({restaurantContact: false, showModal: false});
                                                             if (!this.state.host) {
                                                                 this.setState({restaurantContact: false, restaurantLocation: false, restaurantOpening: false, showModal: false})
                                                             }
