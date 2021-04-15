@@ -242,6 +242,7 @@ export default class RestaurantMenuDetail extends Component {
                                                         this.state.menu.price=val;
                                                         this.setState({});
                                                     }}
+                                                    keyboardType={"numeric"}
                                                 />
                                                 <LabelInput 
                                                     label="Description"

@@ -67,7 +67,7 @@ class HomeSingle extends Component {
     const { house } = props.route.params;
     this.state.house = house;
     this.state.location = { longitude: house.longitude, latitude: house.latitude }
-    console.log('Houses single ', house)
+    
     
     if (props.route?.params?.extendStay) {
       // if user is extending stay, load passed formData
@@ -78,11 +78,33 @@ class HomeSingle extends Component {
     }
     
   }
+
+  sendContactEmail = async () => {
+    const res = await Request(urls.postOfficeBase, `api/messaging/email`, {
+      "sender": "Aura",
+      "recipient": house.hostEmail,
+      "subject": "A Guest Would Like to Contact You.",
+      "message": `
+      Hi ${house.hostName},
+
+        A guest has shown an interest to contact you for your ${house.propertyType.description} with id ${house.id}.
+    
+        Thanks,
+        Aura
+      `,
+      "retry": 1
+    });
+    if(res.isError || res.IsError) {
+      const message = res.message || res.Message;
+      errorMessage(message);
+    }
+  };
   
   contactHost = () => {
     const { state } = this.context;
     this.setState({ contact: true })
     if(state.isLoggedIn) {
+
       this.linkToChat()
     } else {
       this.setState({ showLoginModal: true})
@@ -96,7 +118,8 @@ class HomeSingle extends Component {
       userImage: house.hostPicture ? {uri: house.hostPicture} : undefined,
       // chatId: '',
       propertyId: house.id,
-      userId: house.hostId,
+      userId: this.context.state.userData.id,
+      hostId: house.hostId,
       roleHost: 'Host',
       host: true
     })

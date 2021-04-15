@@ -107,6 +107,7 @@ export async function saveRestaurantApi(data) {
     try {
         let res = await Request(urls.restaurantBase + urls.v, urls.restaurant , data, false, "POST");
         if (res.isError) {
+            consoleLog("res_menu", res);
             errorMessage(res.message);
         } else {
             successMessage(res.message);
@@ -123,6 +124,7 @@ export async function getRestaurantRevewApi() {
     try {
         let res = await GetRequest(urls.restaurantBase + urls.v, urls.restaurant + urls.restaurantComment, undefined, "GET");
         if (res.isError) {
+            
             errorMessage(res.message);
         } else {
             return res.data;

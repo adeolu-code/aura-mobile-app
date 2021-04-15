@@ -39,35 +39,9 @@ export default class MenuItemComponent extends Component {
                                 );
                             })}
                         </>
-                        {/* <MenuOption onSelect={() => alert(`Save`)} text='Save' />
-                        <MenuOption onSelect={() => alert(`Delete`)} >
-                        <Text style={{color: 'red'}}>Delete</Text>
-                        </MenuOption>
-                        <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' /> */}
                     </MenuOptions>
                 </Menu>
-                {/* <TouchableOpacity onPress={() => this.setState({shown: !this.state.shown})} style={[{width:30, alignSelf: 'flex-end'}]}>
-                    <Icon name="ios-menu" color={[ Styles.icon,this.props.color]} />
-
-                </TouchableOpacity>
-                {this.state.shown && 
-                    <View style={[Styles.itemsBackground]}>
-                        
-                        <TouchableWithoutFeedback style={[Styles.absoluteParent,Styles.content, ]}>
-                            <>
-                            {this.props.items && this.props.items.map((item, index) => {
-                                return (
-                                    <TouchableOpacity transparent  onPress={() => {
-                                        this.props.onPress && this.props.onPress(index); this.setState({shown: false})
-                                    }} style={[{paddingLeft: 10, paddingTop: 10, width: 100, height: 30, marginBottom: 5,  elevation: 5, zIndex: 10000}]}>
-                                        <Text style={[Styles.itemText]}>{item}</Text>
-                                    </TouchableOpacity>
-                                );
-                            })}
-                            </>
-                        </TouchableWithoutFeedback>
-                    </View>
-                } */}
+                
             </View>
         );
     }

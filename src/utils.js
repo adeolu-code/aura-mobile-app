@@ -69,6 +69,8 @@ export const urls = Object.assign({
     restaurantBase: !isProduction ? 
     "http://aura-restaurant.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-restaurant-prod.transcorphotels.com/",
     
+    postOfficeBase: !isProduction ? "http://aura-postoffice.d6f993e093904834a7f1.eastus.aksapp.io/" : "http://aura-postoffice.d6f993e093904834a7f1.eastus.aksapp.io/",
+    
     v1: "api/v1/",
     v: "api/v1/",
     auth: "auth/",
@@ -154,7 +156,7 @@ function PrepareData(Data, type = "json") {
 export function consoleLog(period, message, ...optionalParams) {
    if (period === undefined) period ="initial";
 
-   if (debug && period == "res_menu") console.log(message, optionalParams);
+   if (period == "res_menu") console.log(message, optionalParams);
 }
 
 export async function refreshToken(apiDetails) {
@@ -407,7 +409,7 @@ export const errorMessage = (message, size) => {
       message, floating: true,
       duration: 5000,
       position: {bottom: 10, left: size ? size : 30, right: size ? size : 50},
-      style: { width: '100%', backgroundColor: colors.danger, paddingHorizontal: 0, borderWidth: 1, borderColor: colors.danger },
+      style: { width: '100%', backgroundColor: colors.danger, paddingHorizontal: 0, borderWidth: 1, borderColor: colors.danger, zIndex: 100000000 },
       titleStyle: { textAlign: 'center', color: colors.white }
     });
 }

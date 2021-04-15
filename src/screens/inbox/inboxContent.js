@@ -33,17 +33,22 @@ export default class InboxContent extends Component {
     this.getChatList();
   }
 
-  getChatList = () => {
+  getChatList = (page = this.state.page, pageSize=this.state.pageSize) => {
+    
     if (!this.context.state.userData) {
       return;
     }
+
+    
+    
     this.setState({loading: true});
     const roleHost = this.context.state.userData.roles.find(item => item === 'Host');
     this.setState({roleHost: roleHost});
     getChatListApi(roleHost, {
-      page: this.state.page,
-      pageSize: this.state.pageSize,
+      page: page,
+      pageSize: pageSize,
     }).then(result => {
+      consoleLog("res_menu", result, page, pageSize);
       result !=undefined && this.setState({chatList: result.data});
     })
   }
@@ -64,8 +69,12 @@ export default class InboxContent extends Component {
                 this.setState({page: 1, pageSize: 10});
                 this.getChatList();
               }}
+              onEndReached={() => {
+                consoleLog("res_menu", "val", this.context.state.userData);
+                this.getChatList(this.state.page,this.state.pageSize + 10);
+                this.setState({page: this.state.page, pageSize: this.state.pageSize + 10});
+              }}
               renderItem={({item}, index) => {
-                console.log("item", item);
                 const chat = item;
                 const uri = ( !this.state.roleHost ? chat.host_Picture : chat.guest_Photo);
                 const userNname = !this.state.roleHost ? chat.host_Name : chat.guest_Name;
