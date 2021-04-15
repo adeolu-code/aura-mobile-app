@@ -450,3 +450,29 @@ export function toTitleCase(str) {
      }
    );
  }
+
+ export const myFilter = (source, key, match="id", type="match", searchArea=undefined) => {
+   let result = [];
+   consoleLog("res_menu", "result", key, searchArea, source,match,type);
+   
+   if (Array.isArray(source)) {
+     if (type === "match") {
+       result = (source.filter(x => x[match].toString().toUpperCase() == key.toString().toUpperCase()));
+     }
+     else if (type === "includes") {
+         source.filter(x => {
+           if (!searchArea) {
+             searchArea = Object.keys(x);
+           }
+           searchArea.map(sourceKey => {
+             if (x[sourceKey] && x[sourceKey].toString().toUpperCase().includes(key.toUpperCase())) {
+               result.push(x);
+             }
+           });
+       });
+     }
+   }
+ 
+   consoleLog("res_menu", "result", result);
+   return result;
+ }
