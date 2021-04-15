@@ -68,6 +68,7 @@ export default class InboxContent extends Component {
 
 
   render() {
+    const defaultImage = require("./../../assets/images/profile.png");
     return (
       <>
         <View style={[Styles.parentView]}>
@@ -93,14 +94,14 @@ export default class InboxContent extends Component {
               }}
               renderItem={({item}, index) => {
                 const chat = item;
-                const uri = ( !this.state.roleHost ? chat.host_Picture : chat.guest_Photo);
+                const uri = ((!this.state.roleHost ? chat.host_Picture : chat.guest_Photo) );
                 const userNname = !this.state.roleHost ? chat.host_Name : chat.guest_Name;
                 
                 return (
                   <InboxMessage 
                       {...this.props}
                       key={index}
-                      imageSource={uri ? {uri: uri} : undefined}
+                      imageSource={uri ? {uri: uri} : defaultImage}
                       messageContent={chat.message_Body}
                       messageSender={userNname}
                       time={moment(chat.dateSent).fromNow()}
@@ -108,7 +109,7 @@ export default class InboxContent extends Component {
                       onPress={() => this.props.navigation.navigate("InboxChat", {
                         name: !this.state.roleHost ? chat.host_Name : chat.guest_Name,
                         status: "Online",
-                        userImage: uri ? {uri: uri} : undefined,
+                        userImage: uri ? {uri: uri} : defaultImage,
                         chatId: chat.id,
                         propertyId: chat.property_Id,
                         userId: chat.user_Id,
