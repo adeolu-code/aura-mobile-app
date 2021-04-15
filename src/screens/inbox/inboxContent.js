@@ -5,7 +5,7 @@ import { AppContext } from "../../../AppProvider";
 import InboxMessage from "../../components/inbox_message/inboxMessage";
 import { ScrollView } from "react-native";
 import { getChatListApi } from "../../api/chat.api";
-import { consoleLog } from "../../utils";
+import { consoleLog, myFilter } from "../../utils";
 import { INBOX_NO_UNREAD_MESSAGES } from "../../strings";
 import RenderNoRecord from "../../components/render_no_record/renderNoRecord";
 import moment from "moment";
@@ -22,6 +22,8 @@ export default class InboxContent extends Component {
       page: 1,
       pageSize: 10,
       loading: false,
+      originalChatList: [],
+      filtered: false,
     };
   }
 
@@ -49,8 +51,19 @@ export default class InboxContent extends Component {
       pageSize: pageSize,
     }).then(result => {
       consoleLog("res_menu", result, page, pageSize);
-      result !=undefined && this.setState({chatList: result.data});
+      result !=undefined && this.setState({chatList: result.data, originalChatList: result.data});
     })
+  }
+
+  filterChat = (value) => {
+    consoleLog("res_menu", value);
+    if (value) {
+      const filtered = myFilter(this.state.originalChatList, value, "property_Title", "includes", ['property_Title', 'property_Type', 'host_Name', 'guest_Name']);
+      this.setState({chatList: (filtered), filtered: true});
+    }
+    else {
+      this.setState({chatList: this.state.originalChatList, filtered: false});
+    }
   }
 
 
@@ -59,7 +72,7 @@ export default class InboxContent extends Component {
       <>
         <View style={[Styles.parentView]}>
             <Item style={[Styles.item]}>
-                <Input placeholder={"Search"} style={[Styles.input]}   />
+                <Input placeholder={"Search"} style={[Styles.input]} onChangeText={(e) => this.filterChat(e)}   />
                 <Icon name={"search"} style={[Styles.icon]} />
             </Item>
             <FlatlistComponent 
@@ -70,9 +83,13 @@ export default class InboxContent extends Component {
                 this.getChatList();
               }}
               onEndReached={() => {
-                consoleLog("res_menu", "val", this.context.state.userData);
-                this.getChatList(this.state.page,this.state.pageSize + 10);
-                this.setState({page: this.state.page, pageSize: this.state.pageSize + 10});
+                
+                if (!this.state.filtered) {
+                  consoleLog("res_menu", "val", this.context.state.userData);
+                  this.getChatList(this.state.page,this.state.pageSize + 10);
+                  this.setState({page: this.state.page, pageSize: this.state.pageSize + 10});
+                }
+                
               }}
               renderItem={({item}, index) => {
                 const chat = item;
@@ -89,7 +106,7 @@ export default class InboxContent extends Component {
                       time={moment(chat.dateSent).fromNow()}
                       newMessageCount={!chat.is_Read ? 1 : 0}
                       onPress={() => this.props.navigation.navigate("InboxChat", {
-                        name: chat.host_Name || chat.guest_Name,
+                        name: !this.state.roleHost ? chat.host_Name : chat.guest_Name,
                         status: "Online",
                         userImage: uri ? {uri: uri} : undefined,
                         chatId: chat.id,
