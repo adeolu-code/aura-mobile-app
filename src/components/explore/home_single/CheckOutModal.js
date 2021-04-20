@@ -29,7 +29,7 @@ class CheckOutModal extends Component {
     this.props.back()
   }
   componentDidUpdate = (prevProps, prevState) => {
-    console.log('House calendar ', this.props.bookedDays.length, prevProps.bookedDays.length, this.state.markedDates);
+    // console.log('House calendar ', this.props.bookedDays.length, prevProps.bookedDays.length, this.state.markedDates);
     if(this.props.bookedDays.length !== prevProps.bookedDays.length) {
         let obj = {}
         this.props.bookedDays.filter(item => {

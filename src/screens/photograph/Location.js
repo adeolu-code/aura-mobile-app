@@ -260,7 +260,7 @@ class Location extends Component {
                                 value={this.state.city} onChangeText={this.onChangeValue} />
                             </View>
                             <View style={{flex: 1, marginLeft: 10}}>
-                                <CustomInput label="Zip Code" placeholder=" " attrName="zipCode"
+                                <CustomInput label="Zip Code" placeholder=" " attrName="zipCode" keyType="numeric"
                                 value={this.state.zipCode} onChangeText={this.onChangeValue} />
                             </View>
                         </View>

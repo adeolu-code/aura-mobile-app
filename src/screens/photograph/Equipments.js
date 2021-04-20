@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, ScrollView, StyleSheet, Platform } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, View, Icon, Footer } from "native-base";
 import colors from "../../colors";
@@ -124,7 +124,7 @@ export default class Equipments extends Component {
         }
         if(toggleAddEquipment) {
             return (
-                <View>
+                <View style={{ width: '100%'}}>
                     <View style={{ flex: 8 }}>
                         <CustomInput placeholder="Equipment Description" value={this.state.description} attrName="description" onChangeText={this.onChangeText} />
                     </View>
@@ -165,11 +165,12 @@ export default class Equipments extends Component {
         return(
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="Equipment Available On The Go" />
-                    <Container style={[Styles.container]}>
-                        <Content scrollEnabled>
-                            <View style={{ paddingBottom: 100}}>
-                                <View style={[{marginTop: 50}]}>
+                    <Header {...this.props} title="Equipment Available On The Go" wrapperStyles={{ position: 'relative'}} />
+                    <View style={[pStyles.container]}>
+                        <ScrollView>
+                            
+                            <View style={{ paddingBottom: 30}}>
+                                <View style={[{marginTop: 10}]}>
                                     {this.renderEquipments()}
                                 </View>
                                 <TouchableOpacity onPress={this.toggleAddEquipment} style={[flexRow, { marginTop: 20, alignItems: 'center'}]}>
@@ -179,14 +180,23 @@ export default class Equipments extends Component {
 
                                 {this.renderAddInfo()}
                             </View>
-                        </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
-                            <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
-                                onPress={this.submit} />
-                        </Footer>
-                    </Container>
+                            <View style={[{borderRadius: 5, marginBottom: 50}]}>
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
+                                    onPress={this.submit} />
+                            </View>
+                        </ScrollView>
+                    </View>
                 </SafeAreaView>
             </>
         );
     }
 }
+
+const pStyles = StyleSheet.create({
+    container: {
+        // marginTop: Platform.OS === 'ios' ? 120 : 150,
+        paddingHorizontal: 20,
+        paddingBottom: 140, 
+        // borderWidth: 1
+    }
+});

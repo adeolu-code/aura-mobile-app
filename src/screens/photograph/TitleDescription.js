@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, TouchableOpacity, Image, Keyboard  } from "react-native";
+import { SafeAreaView, TouchableOpacity, Image, Keyboard, ScrollView  } from "react-native";
 import { Styles } from "../host/host.style";
 import { Container, Content, View, Icon } from "native-base";
 import colors from "../../colors";
@@ -59,7 +59,7 @@ class TitleDescription extends Component {
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
             {this.renderLoading()}
             <Header {...this.props}  title="Give Your Craft A Title" />
-            <Content>
+            <ScrollView>
                 <Container style={[Styles.container, {marginTop: 120, flex: 1}]}>
                     
                     <View style={{ flex: 0.4 }}>
@@ -93,7 +93,7 @@ class TitleDescription extends Component {
                     </View>
                 
                 </Container>
-            </Content>
+            </ScrollView>
         </SafeAreaView>
       </>
     );

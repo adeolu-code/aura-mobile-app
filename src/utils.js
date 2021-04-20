@@ -288,12 +288,13 @@ export async function GetRequest(Base, Url, accessToken, type = "GET", data=unde
       let search = new URLSearchParams(data).toString();
       
       url = url+"?"+search;
-      consoleLog("get data", data, url);
+      // consoleLog("get data", data, url);
     }
    return new Promise(async (resolve, reject) => {
       try {
          const response = await fetch(url, { method: type, headers })
-         if(response.status === 401) {
+         // console.log('Url ', Url)
+         if(response.status === 401 && !Url.includes('user/?id')) {
             const apiDetails = {
                url, headers, type
             }

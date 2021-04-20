@@ -67,7 +67,7 @@ class HostDetails extends Component {
       console.log('Use response ', response)
       // const response = await GetRequest(urls.identityBase, `${urls.v}user/?id=APd1249674b19a41a0a64e499e642de561`);
       if (response.isError) {
-        errorMessage(response.message);
+        // errorMessage(response.message);
       } else { 
         const data = response.data;
         const firstName = data.firstName;

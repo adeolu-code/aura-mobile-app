@@ -34,12 +34,13 @@ class AdditionalInfo extends Component {
 
         const obj = { ...state.photographOnboard, additionalInformation }
         delete obj.longitude; delete obj.latitude
+        console.log('Obj ', state.photographOnboard)
         try {
             this.setState({ loading: true })
             let res;
             if(state.edit) {
                 delete obj.equipment
-                res = await Request(urls.photographyBase, `${urls.v}photographer`, obj, false, 'PUT')
+                res = await Request(urls.photographyBase, `${urls.v}photographer/${obj.id}`, obj, false, 'PUT')
             } else {
                 res = await Request(urls.photographyBase, `${urls.v}photographer`, obj)
             }
