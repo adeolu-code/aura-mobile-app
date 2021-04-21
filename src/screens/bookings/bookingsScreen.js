@@ -465,6 +465,7 @@ class BookingsScreen extends Component {
     this.setState({showExperience: true, experience: this.state.properties[index]});
   }
 
+
   itemChange = (index) => {
     this.setState({loading: true});
     
