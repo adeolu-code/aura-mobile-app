@@ -112,7 +112,9 @@ class ProfileScreenClass extends Component {
 
     hostRestaurant = () => {
         this.setState({ showTermsModal: true, type: RESTAURANT })
-        this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant'})
+        this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant', params:{
+            host: true
+          }})
     }
 
     // hostExperience = () => {
