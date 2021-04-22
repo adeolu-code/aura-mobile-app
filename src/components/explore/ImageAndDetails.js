@@ -111,7 +111,7 @@ class ImageAndDetails extends Component {
         <View>
             <View style={[flexRow, headerStyle]}>
                 <View style={{flex: 6 }}>
-                    <MyText style={[textExtraBold, textLgStyle]}>{title}</MyText>
+                    <MyText style={[textExtraBold, textLgStyle, textDarkGrey]}>{title}</MyText>
                     <View style={starContainer}>
                         <StarComponent style={iconStyle} grey rating={house.rating} />
                     </View>
@@ -186,7 +186,8 @@ class ImageAndDetails extends Component {
 
 const styles = StyleSheet.create({
     headerStyle: {
-        paddingTop: SCREEN_HEIGHT <= 667 ? 50 : 30, paddingBottom: 15,
+        // paddingTop: SCREEN_HEIGHT <= 667 ? 50 : 30, 
+        paddingBottom: 15,
         backgroundColor: colors.white,
         paddingHorizontal: 20,
     },

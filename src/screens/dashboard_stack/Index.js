@@ -66,7 +66,8 @@ class Index extends Component {
             default:
               return (
                 <View style={{ flex: 1 }}>
-                  <DashboardComponent {...this.props} />
+                  <HostScreen {...this.props} />
+                  {/* <DashboardComponent {...this.props} /> */}
                 </View>
               );
           }

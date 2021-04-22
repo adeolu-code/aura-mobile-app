@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import colors from "../../colors";
 import { GLOBAL_PADDING } from "../../utils";
+import GStyles from '../../assets/styles/GeneralStyles'
 
 export const Styles = StyleSheet.create({
     subHeaderContainer: {
@@ -67,6 +68,7 @@ export const Styles = StyleSheet.create({
         width: '100%',
         paddingRight: GLOBAL_PADDING,
         paddingLeft: GLOBAL_PADDING,
+        // borderWidth: 1
     },
     headerStyle: {
         marginBottom: 30, backgroundColor: colors.white, position: 'absolute', top: 0,zIndex: 10,
@@ -79,7 +81,9 @@ export const Styles = StyleSheet.create({
         marginBottom: 25
     },
     contentStyle: {
-        zIndex: 1, paddingVertical: 0, paddingHorizontal: 20, marginTop:20
+        zIndex: 1, paddingVertical: 0, 
+        paddingHorizontal: 20, 
+        marginTop:20
     },
     iconContainer: {
       height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',
@@ -110,8 +114,9 @@ export const Styles = StyleSheet.create({
       alignSelf: 'center'
     },
     pizzaImage: {
-      height:150,
-      width: 250,
+      height:250,
+      // width: 250,
+      width: '100%',
       borderColor: colors.orange,
       borderWidth: 4,
       borderRadius: 20,
@@ -122,15 +127,14 @@ export const Styles = StyleSheet.create({
       color: colors.white, 
       borderRadius: 100, 
       marginRight: 20, 
-      fontSize: 21,
+      fontSize: 23, paddingLeft: 2, paddingTop: 1
     },
     addIconView: {
-      flexDirection: 'row', 
+      flexDirection: 'row', ...GStyles.shadow,
       elevation: 2, 
       borderRadius: 5, 
       marginBottom: 10, 
-      padding: 10, 
-      marginTop: 10
+      marginTop: 10, backgroundColor: colors.white, paddingVertical: 12, paddingHorizontal: 16
     },
     nextButton: {
       backgroundColor: colors.orange,

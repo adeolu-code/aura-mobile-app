@@ -145,7 +145,7 @@ export const LabelInput = (props) => {
             <Item stackedLabel style={[Styles.item, props.itemStyle, {marginBottom: 20}]} disabled={disabled}>
                 <Label style={[Styles.label, props.labelStyle, textGrey]}>{props.label}</Label>
                 <View style={[Styles.inputView, disabled ? { backgroundColor: 'rgba(0,0,0,0.1)'} : '']}>
-                    <View style={[Styles.left, {width: (icon ? "90%": "100%" ), height: 40},]}>
+                    <View style={[Styles.left, {width: (icon ? "90%": "100%" ), height: 55, paddingHorizontal: 10},]}>
                         <Input 
                             placeholder={props.placeholder?.toString()} 
                             style={[Styles.input]} 

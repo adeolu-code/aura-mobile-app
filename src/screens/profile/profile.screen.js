@@ -10,7 +10,7 @@ import { AppContext } from "../../../AppProvider";
 import { clearData } from '../../helpers';
 import colors from "../../colors";
 import { GLOBAL_PADDING, setContext, debug, consoleLog, WHATSAPP_NUMBER, errorMessage, HOST, PHOTOGRAPH, 
-    RESTAURANT, EXPERIENCE, SCREEN_HEIGHT } from "../../utils";
+    RESTAURANT, EXPERIENCE, SCREEN_HEIGHT, GetRequest, Request } from "../../utils";
 import LoginModal from "../../components/auth/LoginModal";
 import SignUpModal from "../../components/auth/SignUpModal";
 
@@ -83,7 +83,7 @@ class ProfileScreenClass extends Component {
 
     onSignOut = async () => {
         await clearData()
-        this.context.set({ userData: null, isLoggedIn: false, currentDashboard: 1})
+        this.context.set({ userData: null, isLoggedIn: false, currentDashboard: 0 })
         this.props.navigation.navigate('Tabs', {screen: 'Dashboard', params: { screen: 'DashboardView'} })
     }
     linkToWhatsapp = () => {
@@ -112,9 +112,9 @@ class ProfileScreenClass extends Component {
 
     hostRestaurant = () => {
         this.setState({ showTermsModal: true, type: RESTAURANT })
-        this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant', params:{
-            host: true
-          }})
+        // this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant', params:{
+        //     host: true
+        //   }})
     }
 
     // hostExperience = () => {

@@ -16,7 +16,7 @@ import { CustomInput, MyText, CustomButton, Loading, Error } from "../../utils/I
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { setUser, setToken } from '../../helpers';
-import { setContext, Request, urls } from '../../utils';
+import { setContext, Request, urls, HOST } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { GOOGLE_WEB_CLIENTID } from '../../strings'
 import ForgotPassword from "../../screens/auth/ForgotPassword";
@@ -100,13 +100,20 @@ class LoginModal extends Component {
   }
 
   getUserDetails = (token) => {
+    const { set } = this.context
     this.context.getUserProfile(token)
-    .then(() => {
+    .then((res) => {
+      const roleHost = res.roles.find(item => item === HOST)
+      if(roleHost) {
+        set({ currentDashboard: 1})
+      }
+
       const { close } = this.props
       if(close) {
         this.setState({ loading: false })
         this.props.onDecline(true)
       }
+      
     })
     .catch((error) => {
       this.setState({ formErrors: ['Something went wrong please try again'], loading: false })

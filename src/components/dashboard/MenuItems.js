@@ -16,12 +16,13 @@ class MenuItems extends Component {
     super(props);
     this.state = { active: false };
   }
-  linkToDashboard = () => {
+  linkToPhotographerDashboard = () => {
     const { set } = this.context
     set({ currentDashboard: 2 })
     this.props.onPress()
   }
   linkToPhotographer = () => {
+    // this.props.onPress closes the menu item
     this.props.onPress()
     const { set } = this.context
     set({ edit: false })
@@ -32,7 +33,14 @@ class MenuItems extends Component {
       this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: PHOTOGRAPH } })
     }
   }
+  linkToExperienceDashboard = () => {
+    // this.linkToExperience()
+    const { set } = this.context
+    set({ currentDashboard: 4 })
+    this.props.onPress()
+  }
   linkToExperience = () => {
+    // this.props.onPress closes the menu item
     this.props.onPress()
     const { set } = this.context
     set({ edit: false })
@@ -43,19 +51,21 @@ class MenuItems extends Component {
       this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
     }
   }
-  linkToExperienceDashboard = () => {
-    // this.linkToExperience()
-    const { set } = this.context
-    set({ currentDashboard: 4 })
-    this.props.onPress()
-  }
+  
   linkToHost = () => {
     const { set } = this.context
     set({ currentDashboard: 1 })
     this.props.onPress()
   }
+  linkToBecomeHost = () => {
+    this.props.onPress()
+    const { set } = this.context
+    set({ edit: false })
+    this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: HOST } })
+  }
 
   linkToRestaurantDashboard = () => {
+    // this.props.onPress closes the menu item
     this.props.onPress()
     const { set } = this.context
     set({ edit: false, currentDashboard: 3 })
@@ -74,7 +84,7 @@ class MenuItems extends Component {
     const { itemRow, iconStyle } = styles
     if(rolePhotograph && currentDashboard !== 2) {
       return (
-        <TouchableOpacity style={[flexRow, itemRow]} onPress={this.linkToDashboard}>
+        <TouchableOpacity style={[flexRow, itemRow]} onPress={this.linkToPhotographerDashboard}>
           <View>
             <Icon name="camera-alt" type="MaterialIcons" style={iconStyle} />
           </View>
@@ -106,6 +116,16 @@ class MenuItems extends Component {
             <Icon name="home" type="MaterialIcons" style={iconStyle} />
           </View>
           <MyText style={[textH4Style]}>Host Dashboard</MyText>
+        </TouchableOpacity>
+      )
+    }
+    if(!roleHost) {
+      return (
+        <TouchableOpacity style={[flexRow, itemRow]} onPress={this.linkToBecomeHost}>
+          <View>
+            <Icon name="home" type="MaterialIcons" style={iconStyle} />
+          </View>
+          <MyText style={[textH4Style]}>Become a Host</MyText>
         </TouchableOpacity>
       )
     }

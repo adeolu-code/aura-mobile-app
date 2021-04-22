@@ -27,7 +27,10 @@ export default class TermsModal extends Component {
                 this.props.navigation.navigate('PhotographStack', { screen: 'TitleDescription'})
                 return;
             case RESTAURANT:
-                this.props.navigation.navigate('RestaurantStack', { screen: 'RestaurantDashboardComponent'})
+                // this.props.navigation.navigate('RestaurantStack', { screen: 'RestaurantDashboardComponent'})
+                this.props.navigation.navigate('RestaurantStack', {screen: 'AddRestaurant', params:{
+                    host: true
+                }})
                 break;
             case EXPERIENCE:
                 // this.props.navigation.navigate('TourStack', { screen: 'TourIdentityCard'})

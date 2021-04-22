@@ -165,24 +165,35 @@ class Location extends Component {
         const addressComponents = res.address_components
         
         let countryObj = null;
-        let stateObj = null
+        let stateObj = null;
+        let cityObj = null;
+        let streetObj = null;
         addressComponents.filter(item => {
             const types = item.types
             const foundCountry = types.find(item => item === 'country')
             const foundState = types.find(item => item === 'administrative_area_level_1')
+            const foundCity = types.find(x => x === 'locality')
+            const foundStr = types.find(x => ( x === 'route' ))
             if(foundCountry) {
                 countryObj = item
             }
             if(foundState) {
                 stateObj = item
             }
+            if(foundCity) {
+                cityObj = item
+            }
+            if(foundStr) {
+                streetObj = item
+            }
         })
         const { set, state } = this.context
         const { zipCode, city, street } = this.state
         if(state.photographOnboard) {
-            const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj.long_name, 
-                country: countryObj.long_name, city, zipCode, street }
+            const locationObj = { longitude: geometryloc.lng, latitude: geometryloc.lat, state: stateObj?.long_name, 
+                country: countryObj?.long_name, city: city ? city : cityObj?.long_name, zipCode, street: street ? street : streetObj?.long_name }
             const obj = { ...state.photographOnboard, ...locationObj }
+            console.log(obj)
             set({ photographOnboard: obj })
             this.props.navigation.navigate('PhotographStack', { screen: 'PhotographLocationMap'})
         } else {

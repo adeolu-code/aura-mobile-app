@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, LayoutAnimation, UIManager, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, LayoutAnimation, UIManager, Platform, SafeAreaView } from 'react-native';
 import { Card, MyText } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import DashboardCardComponent from './../../components/dashboard/DashboardCardComponent';
@@ -90,10 +90,11 @@ export default class RestaurantDashboardComponent extends Component {
     return (
       <>
       {this.renderMenuItems()}
+      <Header {...this.props} title="Restaurant Dashboard" onPress={this.openMenu}  />
       <View style={[container, {backgroundColor: 'white'}]}>
-        <Header {...this.props} title="Resturant Dashboard" onPress={this.openMenu}  />
-        <ScrollView style={{marginTop: 0, height: '80%'}} >
-            <View style={[contentStyle, {paddingBottom: 20}]}>
+        
+        <ScrollView style={{marginTop: 0, }} >
+            <View style={[contentStyle, {paddingBottom: 20, paddingHorizontal: 2}]}>
                 
                 {/* <View style={sectionStyle}>
                     <DashboardCardComponent title="Dashboard" description={dasboardDescription} iconX iconName="grid-outline" type="Ionicons"

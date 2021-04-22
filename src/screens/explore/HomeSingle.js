@@ -437,7 +437,7 @@ class HomeSingle extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
-        <BackHeader {...this.props} />
+        <BackHeader {...this.props} wrapperStyles={{ position: 'relative' }} />
         <ScrollView>
             <View>
                 <ImageAndDetails imgArr={this.state.photos} house={house} title={house.title} photos={this.state.photos}

@@ -181,7 +181,7 @@ export default class Equipments extends Component {
                                 {this.renderAddInfo()}
                             </View>
                             <View style={[{borderRadius: 5, marginBottom: 50}]}>
-                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} disabled={this.state.equipmentValues.length === 0}
                                     onPress={this.submit} />
                             </View>
                         </ScrollView>

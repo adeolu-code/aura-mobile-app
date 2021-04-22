@@ -371,7 +371,7 @@ export default class AddRestaurant extends Component {
     }
 
     render() {
-        const {textCenter, textH3Style, textWhite, textBold, textBlack, textUnderline, textH4Style,} = GStyles;
+        const {textCenter, textH3Style, textWhite, textBold, textBlack, textUnderline, textH4Style, textH2Style} = GStyles;
         const { country } = this.state;
         const host = this.state.host;
         let countrySymbol = null;
@@ -387,32 +387,24 @@ export default class AddRestaurant extends Component {
                     {this.renderLoading()}
                     <Container style={[Styles.container, {marginTop: 140}]}>
                         <Content scrollEnabled={true} style={{marginBottom: 20}}>
-                            <Image 
-                                source={require("./../../assets/images/pizza.jpg")} 
+                            <Image source={require("./../../assets/images/pizza.jpg")} 
                                 style={[Styles.center, Styles.pizzaImage]}
                             />
-                            <View>
-                                <LabelInput 
-                                    placeholder="Restaurant Name" 
-                                    input 
-                                    value={this.state.restaurant.name}
+                            <View style={{paddingHorizontal: 2}}>
+                                <LabelInput placeholder="Restaurant Name" input value={this.state.restaurant.name}
                                     onChangeText={(text) => this.setState({restaurant: {...this.state.restaurant, ...{name: text}}})}
                                 />
-                                <TouchableOpacity 
-                                    onPress={() => this.setState({restaurantLocation: true, showModal: true})}
-                                    style={[Styles.addIconView]}
-                                >
+                                <TouchableOpacity onPress={() => this.setState({restaurantLocation: true, showModal: true})}
+                                    style={[Styles.addIconView ]}>
                                     <Icon name="add-outline" style={[Styles.addIcon]} />
-                                    <MyText>Add {!host && 'more '}location</MyText>
+                                    <MyText style={[textH4Style]}>Add {!host && 'more '}location</MyText>
                                 </TouchableOpacity>
                                 {
                                     !host &&
-                                    <TouchableOpacity 
-                                        onPress={() => this.setState({restaurantContact: true, showModal: true})}
-                                        style={[Styles.addIconView]}
-                                    >
+                                    <TouchableOpacity  onPress={() => this.setState({restaurantContact: true, showModal: true})}
+                                        style={[Styles.addIconView]} >
                                         <Icon name="pencil" style={[Styles.addIcon,]} />
-                                        <MyText>Edit Restaurant</MyText>
+                                        <MyText style={[textH4Style]}>Edit Restaurant</MyText>
                                     </TouchableOpacity>
                                 }
                                 {
@@ -459,19 +451,22 @@ export default class AddRestaurant extends Component {
                                         if (!this.state.host) {
                                             this.setState({restaurantContact: false, restaurantLocation: false, restaurantOpening: false})
                                         }
-                                }}>
+                                    }}>
                                         <View style={[{
-                                            backgroundColor: colors.white, 
+                                            backgroundColor: 'rgba(0,0,0,0.5)', 
                                             width: '100%', 
                                             height: '100%', 
-                                            padding: 30,
+                                            // paddingTop: 60,
                                             justifyContent: 'center',
-                                            alignNBItems: 'center',
+                                            // alignNBItems: 'center',
+                                            // alignItems: 'flex-end'
                                         }]}>
-                                            <Content>
+                                            <Content style={{ backgroundColor: colors.white, paddingHorizontal: 25, paddingVertical: 20, 
+                                                borderTopLeftRadius: 8, borderTopRightRadius: 8, overflow: 'hidden' }}>
                                                 { this.state.restaurantLocation && <>
-                                                    <MyText style={[textBold, textBlack, textH3Style, {padding: 10}]}>Add Location</MyText>
-                                                    <MyText style={[textH4Style, colors.greyWhite, { marginBottom: 10}]}>Address</MyText>
+                                                    <MyText style={[textBold, textBlack, textH2Style, {paddingBottom: 20}]}>Add Location</MyText>
+                                                    <MyText style={[textH4Style, colors.greyWhite, { marginBottom: 10, marginTop: 20}]}>Address</MyText>
+                                                    <View style={{ paddingHorizontal: 2, marginBottom: 20}}>
                                                         <AutoCompleteComponent 
                                                             locationDetails={this.getSelectedLocation} 
                                                             type={true} 
@@ -480,6 +475,7 @@ export default class AddRestaurant extends Component {
                                                             key={this.state.toggleAutoComplete} 
                                                             placeholder={this.state.street} 
                                                         />
+                                                    </View>
                                                     <View style={[Styles.row, {width: '100%', }]}>
                                                         <CountryPickerComponent
                                                             getCountry={this.getCountry} 
@@ -766,9 +762,8 @@ export default class AddRestaurant extends Component {
                                 }}
                             />
                         </Content>
-                        <Footer style={[MyStyle.transparent,]}>
-                            <TouchableOpacity 
-                            style={[Styles.nextButton, {height: 40, borderRadius: 5}]}
+                        <Footer style={[MyStyle.transparent, { marginBottom: 16}]}>
+                            <TouchableOpacity style={[Styles.nextButton, {height: 50, borderRadius: 5}]}
                             onPress={() => {this.setState({loading: true}); this.saveRestaurant()}}
                             >
                                 <MyText style={[textH3Style, textCenter, textWhite, textBold]}>{'Submit'}</MyText>

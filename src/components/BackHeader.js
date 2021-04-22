@@ -32,7 +32,7 @@ class BackHeader extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%', paddingTop: Platform.OS === 'ios' ? 30 : 20, backgroundColor: colors.white, paddingHorizontal: 20,
+        width: '100%', paddingTop: Platform.OS === 'ios' ? 30 : 35, backgroundColor: colors.white, paddingHorizontal: 20,
         position: 'absolute', top: 0, zIndex: 100, paddingBottom: 0
     },
     iconContainer:{

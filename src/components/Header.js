@@ -39,7 +39,7 @@ class Header extends Component {
 
   render() {
     const { iconStyle, iconContainer, titleContainer, container } = styles;
-    const { textExtraBold, textLgStyle } = GStyles
+    const { textExtraBold, textLgStyle, textDarkGrey } = GStyles
     const { title, wrapperStyles } = this.props
     return (
       <View style={[container, wrapperStyles]}>
@@ -47,7 +47,7 @@ class Header extends Component {
           <Icon type="Feather" name="chevron-left" style={iconStyle} />
         </TouchableOpacity>
         <View style={titleContainer}>
-            <MyText style={[textLgStyle, textExtraBold]}>{title}</MyText>
+            <MyText style={[textLgStyle, textExtraBold, textDarkGrey]}>{title}</MyText>
         </View>
         {this.renderSubTitle()}
       </View>

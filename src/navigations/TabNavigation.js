@@ -5,7 +5,9 @@ import {Image, StyleSheet, Platform } from 'react-native';
 import GStyles from '../assets/styles/GeneralStyles';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../utils';
 
+console.log(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 import {
   DashboardStack,
@@ -31,7 +33,7 @@ function MyTabs() {
       tabBarOptions={{
         showIcon: true,
         labelStyle: {
-          fontSize: 10,
+          fontSize: SCREEN_WIDTH <= 360 || SCREEN_HEIGHT <= 667 ? 8 : 10,
           textTransform: 'uppercase',
           fontFamily: 'Nunito-Regular',
           marginTop: 0,
