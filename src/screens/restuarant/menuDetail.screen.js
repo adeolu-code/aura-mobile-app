@@ -239,8 +239,11 @@ export default class RestaurantMenuDetail extends Component {
                                                     label="Price"
                                                     value={this.state.menu?.price}
                                                     onChangeText={(val) => {
-                                                        this.state.menu.price=val;
-                                                        this.setState({});
+                                                        if (val > 0) {
+                                                            this.state.menu.price=val;
+                                                            this.setState({});
+                                                        }
+                                                        
                                                     }}
                                                     keyboardType={"numeric"}
                                                 />
