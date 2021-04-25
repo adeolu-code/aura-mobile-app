@@ -128,7 +128,7 @@ class LoginModal extends Component {
       if(res.isError) {
         const message = res.message;
         const error = [message]
-        this.setState({ formErrors: error})
+        this.setState({ formErrors: error, loading: false })
       } else {
         this.getUserDetails(res.data.access_token);
         this.context.set({ token: res.data })
@@ -136,14 +136,15 @@ class LoginModal extends Component {
       }
       // this.setState({ loading: false })
     } catch (error) {
-      
+      this.setState({ loading: false })
     }
   }
 
   loginWithGoogle = async () => {
       this.setState({ loading: true, formErrors: [] })
       GoogleSignin.configure({
-        webClientId: '745362274321-sptpssq375evl7b4s7q46hk8dgc7aao6.apps.googleusercontent.com',
+        webClientId: '411688971660-sk7na5gu3pq2uqntmko314v4voant162.apps.googleusercontent.com',
+        // webClientId: '745362274321-sptpssq375evl7b4s7q46hk8dgc7aao6.apps.googleusercontent.com',
       });
       try {
           await GoogleSignin.hasPlayServices();
@@ -152,7 +153,8 @@ class LoginModal extends Component {
           // await GoogleSignin.signOut();
           const token = await GoogleSignin.getTokens();
           console.log('USer token ', token)
-          this.socialApiCall('google', token.accessToken)
+          // this.socialApiCall('google', token.accessToken)
+          this.socialApiCall('google', token.idToken)
           
       } catch (error) {
           console.log('Error ', error, error.code, error.message)

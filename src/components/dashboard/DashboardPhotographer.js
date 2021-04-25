@@ -380,6 +380,8 @@ const styles = StyleSheet.create({
     },
     contentStyle: {
       zIndex: 1, paddingVertical: 20, paddingHorizontal: 20, 
+      paddingBottom: 150,
+      // borderWidth: 1 
       // marginTop:140
     },
     menuStyles: {
@@ -394,7 +396,7 @@ const styles = StyleSheet.create({
       width: '45%', alignItems: 'center'
     },
     profileText: {
-      flex: 3, flexDirection: 'column', justifyContent: 'space-between', paddingVertical: 5,
+      flex: 2.8, flexDirection: 'column', justifyContent: 'space-between', paddingVertical: 5,
     },
     imgContainer: {
       width: 70, height: 70,  borderColor: colors.orange, borderWidth: 2,borderRadius: 70,

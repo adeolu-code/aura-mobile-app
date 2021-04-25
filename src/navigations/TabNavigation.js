@@ -33,7 +33,7 @@ function MyTabs() {
       tabBarOptions={{
         showIcon: true,
         labelStyle: {
-          fontSize: SCREEN_WIDTH <= 360 || SCREEN_HEIGHT <= 667 ? 8 : 10,
+          fontSize: SCREEN_WIDTH <= 360 || SCREEN_HEIGHT <= 667 ? 7 : 10,
           textTransform: 'uppercase',
           fontFamily: 'Nunito-Regular',
           marginTop: 0,

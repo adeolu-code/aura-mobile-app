@@ -62,7 +62,7 @@ class TitleDescription extends Component {
             <ScrollView>
                 <Container style={[Styles.container, {marginTop: 120, flex: 1}]}>
                     
-                    <View style={{ flex: 0.4 }}>
+                    <View style={{ flex: 0.5 }}>
                         <Content>
                             <LabelInput onChangeText={(text)=>{ this.setState({ title: text })}}
                                 label={"Catch guests’ attention with a listing title that highlights what makes your place special."}
@@ -88,7 +88,7 @@ class TitleDescription extends Component {
                         </Content>
                     </View>
 
-                    <View style={{ flex: 0.3,  }}>
+                    <View style={{ flex: 0.2,  }}>
                         <CustomButton onPress={this.submit} buttonText="Next" buttonStyle={{ elevation: 2}} disabled={this.validate()}  />
                     </View>
                 

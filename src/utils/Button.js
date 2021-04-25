@@ -5,6 +5,7 @@ import {Spinner} from './Spinner';
 import {MyText} from './MyText';
 import {Icon} from 'native-base';
 import colors from '../colors';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils';
 
 class CustomButton extends Component {
   renderImage() {
@@ -110,7 +111,8 @@ const styles = StyleSheet.create({
   },
   buttonTextStyles: {
     color: colors.white,
-    fontSize: 17, fontFamily: 'Nunito-SemiBold'
+    fontSize: SCREEN_WIDTH <= 360 || SCREEN_HEIGHT <= 667 ? 14 : 17, 
+    fontFamily: 'Nunito-SemiBold'
   },
   imageContainerStyle: {
     marginLeft: 10,

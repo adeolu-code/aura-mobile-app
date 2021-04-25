@@ -10,7 +10,7 @@ import { AppContext } from "../../../AppProvider";
 import { clearData } from '../../helpers';
 import colors from "../../colors";
 import { GLOBAL_PADDING, setContext, debug, consoleLog, WHATSAPP_NUMBER, errorMessage, HOST, PHOTOGRAPH, 
-    RESTAURANT, EXPERIENCE, SCREEN_HEIGHT, GetRequest, Request } from "../../utils";
+    RESTAURANT, EXPERIENCE, SCREEN_HEIGHT, GetRequest, Request, urls } from "../../utils";
 import LoginModal from "../../components/auth/LoginModal";
 import SignUpModal from "../../components/auth/SignUpModal";
 
@@ -31,7 +31,7 @@ class ProfileScreenClass extends Component {
         this.state = {
             showLoginModal: false,
             showRegisterModal: false, showTermsModal: false, type: '',
-            showOtpModal: false, showEmailModal: false, showPhoneModal: false, close: true,
+            showOtpModal: false, showEmailModal: false, showPhoneModal: false, close: true, loading: false
         };
     }
     renderLoading = () => {
@@ -164,6 +164,7 @@ class ProfileScreenClass extends Component {
                 this.openOtpModal()
             }
         } catch (error) {
+            console.log('Error ', error)
             this.setState({ loading: false })
         }
     }
@@ -194,7 +195,7 @@ class ProfileScreenClass extends Component {
         } else {
             // Got to OTP modal to verify phone
             // If the person has phone number
-            if (userData.phoneNumber) {
+            if (!userData.phoneNumber) {
                 this.generateOtp();
             } else {
                 if (userData.isEmailVerified) {

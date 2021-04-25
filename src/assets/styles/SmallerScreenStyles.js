@@ -21,11 +21,11 @@ const styles = StyleSheet.create({
   },
   textH1Style: {
     // fontSize: 32,
-    fontSize: 28,
+    fontSize: 23,
   },
   textLgStyle: {
     // fontSize: 28,
-    fontSize: 24,
+    fontSize: 22,
   },
   textHStyle: {
     // fontSize: 24,
@@ -33,15 +33,15 @@ const styles = StyleSheet.create({
   },
   textH2Style: {
     // fontSize: 22,
-    fontSize: 19,
+    fontSize: 16,
   },
   textH3Style: {
     // fontSize: 18,
-    fontSize: 16,
+    fontSize: 14,
   },
   textH4Style: {
     // fontSize: 16,
-    fontSize: 14,
+    fontSize: 13,
   },
   textH5Style: {
     // fontSize: 14,

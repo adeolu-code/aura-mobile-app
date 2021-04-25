@@ -13,6 +13,7 @@ import colors from '../colors';
 import GStyles from '../assets/styles/GeneralStyles';
 import LoginModal from '../components/auth/LoginModal';
 import SignUpModal from '../components/auth/SignUpModal';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../utils'
 
 class PlaceHolderComponent extends Component {
   constructor(props) {
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   accountStyle: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 25, marginBottom: Platform.OS === 'ios' ? 80 : 25
+    marginVertical: 25, marginBottom: Platform.OS === 'ios' ? 80 : SCREEN_WIDTH <= 360 || SCREEN_HEIGHT <= 667 ? 60 : 40
   },
   container: {
     alignSelf: 'center',
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     backgroundColor: colors.white,
-    elevation: 2,
+    elevation: 2, 
   },
   btnText: { color: colors.success, marginLeft: 5 },
 });

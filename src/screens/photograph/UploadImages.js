@@ -289,7 +289,7 @@ export default class UploadImages extends Component {
                         sub={!isCaptured ? "Upload cover image" : "Series of your best works you would like to share with clients or guests"}
                     />
                     <ScrollView>
-                        <Container style={[Styles.container]}>
+                        <View style={[Styles.container]}>
                             <Content>
                                 <TouchableOpacity onPress={this.openTipsModal}>
                                     <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40, marginTop: 20}]}>See Photography Tips</MyText>
@@ -320,7 +320,7 @@ export default class UploadImages extends Component {
                                     <CustomInput label="Cover Image description (optional)" placeholder=" " 
                                     value={additionalInformation} onChangeText={(text) => { this.setState({ additionalInformation: text })}} />
                                 </View> : <></>}
-                                <View style={{ marginTop: 60}}>
+                                <View style={{ marginTop: 60, marginBottom: 20}}>
                                     {
                                         !isCaptured ?
                                             <CustomButton buttonText={coverImage ? "Next" : "Choose A Cover Picture"} onPress={this.submitCover} buttonStyle={{elevation: 2}} />
@@ -329,7 +329,7 @@ export default class UploadImages extends Component {
                                 </View> 
                             </Content>
                             <SelectImageModal visible={this.state.selectModal} onDecline={this.closeSelectModal} onPressCamera={this.cameraSelected} onPressGallery={this.gallerySelected} />
-                        </Container>
+                        </View>
                     </ScrollView>
                     <PhotographTipsModal visible={this.state.showTipsModal} onDecline={this.closeTipsModal} />
                 </SafeAreaView>

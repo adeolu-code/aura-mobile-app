@@ -135,14 +135,14 @@ class Location extends Component {
         <Header { ...this.props } title={"Location"} />
 
         <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-            <View style={{ marginTop: 40, zIndex: 10, backgroundColor: colors.white}}>
+            <View style={{ marginTop: 30, zIndex: 10, backgroundColor: colors.white}}>
                 <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
                 <ProgressBar width={16.7} />
                 <ProgressBar width={50} />
 
             </View>
             
-            <View style={{ flex: 1, justifyContent: 'center', zIndex:1}}>
+            <View style={{ flex: 1, justifyContent: 'center', zIndex:1, marginTop: 20}}>
                 <View style={{ height: 85, width: '100%', marginBottom: 30, flexDirection: 'row', zIndex: 0}}>
                     <CountryPickerComponent getCountry={this.getCountry} defaultCountry={this.state.defaultCountry} />
                 </View>

@@ -15,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "411688971660-e3052a6ji02omc56bib7fan7ni05slgn.apps.googleusercontent.com",
+          "client_id": "411688971660-ppukq22fek1u1o73pilrln3pabtkk1pq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aura.transcorphotels.app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "411688971660-see21ql6o5sctbvlkooqoi3qft5pdhk9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.aura.transcorphotels.app",
@@ -38,6 +46,13 @@
             {
               "client_id": "411688971660-sk7na5gu3pq2uqntmko314v4voant162.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "411688971660-66838qjcfb1sq8r11uh63hsa3vfe7e5d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aura.transcorphotels.app"
+              }
             }
           ]
         }

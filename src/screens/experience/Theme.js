@@ -125,12 +125,12 @@ class Theme extends Component {
             <Header { ...this.props } title="Your Theme" />
             
             <View style={container}>
-                <View style={{ marginTop: 40}}>
+                <View style={{ marginTop: 25}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
                     <ProgressBar width={16.7} />
                     <ProgressBar width={100} />
                 </View>
-                <View style={{ flex: 1, marginTop: 40 }}>
+                <View style={{ flex: 1, marginTop: 20 }}>
                 
                     <View style={[{ paddingHorizontal: 1 }]}>
                    
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     },
     selectStyle: {
         backgroundColor: colors.white, borderRadius: 10, elevation: 2, width: '100%',
-        paddingHorizontal: 10, paddingVertical: 15, marginTop: 40,
+        paddingHorizontal: 10, paddingVertical: 15, marginTop: 20,
         justifyContent: 'center', alignItems: 'center', ...GStyles.shadow
     }
 });

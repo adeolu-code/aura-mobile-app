@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
   },
   textH3Style: {
     fontSize: 18,
+    ...checkScreen().textH3Style
   },
   textH4Style: {
     fontSize: 16,
