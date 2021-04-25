@@ -545,7 +545,7 @@ export default class AddRestaurant extends Component {
                                                     <MyText style={[textBold, textUnderline]}>{this.state.restaurant.contactPhoneNumber || this.context.state.userData.phoneNumber}
                                                     </MyText>
                                                     <RadioButton 
-                                                        style={[{marginTop: 30}]}
+                                                        style={[{marginTop: 30, padding: 20, marginBottom: 10}]}
                                                         options={[
                                                             {key: "yes", text: "Yes, my customers can contact me on this number"},
                                                             {key: "no", text: "No, add another number"},
