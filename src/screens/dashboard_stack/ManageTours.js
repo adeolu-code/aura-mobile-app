@@ -285,8 +285,8 @@ class ManageTours extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
-        <Header {...this.props} title="Manage Tours" wrapperStyles={{ paddingBottom: 5}} />
-        <View style={manageHeader}>
+        <Header {...this.props} title="Manage Tours" wrapperStyles={{ paddingBottom: 5, position: 'relative'}} />
+        {/* <View style={manageHeader}>
             <View style={tabsContainer}>
                 <TouchableWithoutFeedback onPress={this.selectTabOne}>
                   <View style={[tabStyle, tabOneSelected ? activeTab : '']} >
@@ -294,7 +294,7 @@ class ManageTours extends Component {
                   </View>
                 </TouchableWithoutFeedback>
             </View>
-        </View>
+        </View> */}
         {this.renderTours()}
         {/* <AllTours {...this.props}  /> */}
         <View style={{ borderWidth: 1 }}>
@@ -336,7 +336,9 @@ const styles = StyleSheet.create({
         backgroundColor: colors.green, borderRadius: 6,
     },
     contentContainer: {
-        paddingTop:Platform.OS === 'ios' ? 180 : 210, paddingHorizontal: 20, paddingBottom:30,
+        // paddingTop:Platform.OS === 'ios' ? 180 : 210, 
+        paddingTop: 10,
+        paddingHorizontal: 20, paddingBottom:120,
     },
     rowContainer: {
         marginBottom: 20,

@@ -44,7 +44,7 @@ class SafetyOverview extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             <Header { ...this.props } title="Overview" />
             <View style={container}>
-                <View style={{ marginTop: 30}}>
+                <View style={{ marginTop: 20}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 6</MyText>
                     <ProgressBar width={100} />
                     <ProgressBar width={12.5} />

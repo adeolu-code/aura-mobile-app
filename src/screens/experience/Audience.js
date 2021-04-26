@@ -153,8 +153,8 @@ class Audience extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
             <Header { ...this.props } title="Audience" />
-            <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                <View style={{ marginTop: 30}}>
+            <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "padding"}>
+                <View style={{ marginTop: 20}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 3 / 6</MyText>
                     <ProgressBar width={16.7 * 3} />
                     <ProgressBar width={100} />

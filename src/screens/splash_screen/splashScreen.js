@@ -4,7 +4,7 @@ import { Image, TouchableOpacity, PermissionsAndroid, Platform, StatusBar, Alert
 import { Styles } from "./splashScreenStyle";
 
 import Geolocation from 'react-native-geolocation-service';
-import { setContext, Request, urls, GetRequest, errorMessage } from '../../utils';
+import { setContext, Request, urls, GetRequest, errorMessage, HOST } from '../../utils';
 import { getUser, getToken } from '../../helpers';
 import { AppContext } from '../../../AppProvider';
 import DeviceInfo from 'react-native-device-info';
@@ -147,6 +147,10 @@ const SplashScreen = (props) => {
             .catch((error) => {
                 console.log('Error caught ', error)
             })
+            const roleHost = userData.roles.find(item => item === HOST)
+            if(roleHost) {
+                context.set({ currentDashboard: 1})
+            }
             context.set({ userData, token, isLoggedIn: true })
             // console.log('check login userData ', userData, token)
             // if(expired) {

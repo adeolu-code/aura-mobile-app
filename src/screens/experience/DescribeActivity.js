@@ -214,7 +214,7 @@ class DescribeActivity extends Component {
             {this.renderLoading()}
             <Header { ...this.props } title={this.renderTitle()} onPress={this.goBack} />
             <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                <View style={{ marginTop: count === 4 || count === 6 ? 75 : 30 }}>
+                <View style={{ marginTop: count === 4 || count === 6 ? 55 : 20 }}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 4 / 6</MyText>
                     <ProgressBar width={16.7 * 4} />
                     <ProgressBar width={percent} />

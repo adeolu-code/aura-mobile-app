@@ -133,32 +133,35 @@ class Location extends Component {
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
         <Header { ...this.props } title={"Location"} />
+        <ScrollView style={{ flex: 1}} keyboardShouldPersistTaps="always">
+            <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "padding"}>
+                
+                <View style={{ marginTop: 20, zIndex: 10, backgroundColor: colors.white}}>
+                    <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
+                    <ProgressBar width={16.7} />
+                    <ProgressBar width={50} />
 
-        <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-            <View style={{ marginTop: 30, zIndex: 10, backgroundColor: colors.white}}>
-                <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
-                <ProgressBar width={16.7} />
-                <ProgressBar width={50} />
-
-            </View>
-            
-            <View style={{ flex: 1, justifyContent: 'center', zIndex:1, marginTop: 20}}>
-                <View style={{ height: 85, width: '100%', marginBottom: 30, flexDirection: 'row', zIndex: 0}}>
-                    <CountryPickerComponent getCountry={this.getCountry} defaultCountry={this.state.defaultCountry} />
-                </View>
-                <View style={[{ paddingHorizontal: 1, elevation: 3, zIndex: 20}]}>
-                    <MyText style={[textH4Style, textGrey, { marginBottom: 15}]}>Which city will you host your experience in ?</MyText>
-                    <AutoCompleteComponent locationDetails={this.getSelectedLocation} type={false} autofocus={false} 
-                    countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} 
-                    placeholder={this.state.address} wrapper={styles.autoCompleteStyle} />
                 </View>
                 
-            </View>
-            
-            <View style={button}>
-                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={!this.state.address} />
-            </View>
-        </KeyboardAvoidingView>
+                <View style={{ flex: 1, justifyContent: 'center', zIndex:1,  marginTop: 30}}>
+                    <View style={{ height: 85, width: '100%', marginBottom: 30, flexDirection: 'row', zIndex: 0}}>
+                        <CountryPickerComponent getCountry={this.getCountry} defaultCountry={this.state.defaultCountry} />
+                    </View>
+                    <View style={[{ paddingHorizontal: 1, elevation: 3, zIndex: 20}]}>
+                        <MyText style={[textH4Style, textGrey, { marginBottom: 15}]}>Which city will you host your experience in ?</MyText>
+                        <AutoCompleteComponent locationDetails={this.getSelectedLocation} type={false} autofocus={false} 
+                        countrySymbol={countrySymbol} key={this.state.toggleAutoComplete} 
+                        placeholder={this.state.address} wrapper={styles.autoCompleteStyle} />
+                    </View>
+                    
+                </View>
+                
+                <View style={button}>
+                    <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.next} disabled={!this.state.address} />
+                </View>
+                
+            </KeyboardAvoidingView>
+        </ScrollView>
 
       </SafeAreaView>
     );
@@ -176,7 +179,7 @@ const styles = StyleSheet.create({
     },
   
     button: {
-        flex: 1, marginBottom: 40, justifyContent: 'flex-end', 
+        flex: 1, marginBottom: 40, justifyContent: 'flex-end', marginTop: 60,
         // borderWidth: 1, 
         // zIndex: 0,
         // backgroundColor: colors.lightGrey

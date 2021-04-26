@@ -141,13 +141,13 @@ class Language extends Component {
             {/* {this.renderLoading()} */}
             <Header { ...this.props } title="Language" />
             <View style={container}>
-                <View style={{ marginTop: 30}}>
+                <View style={{ marginTop: 20}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 3 / 6</MyText>
                     <ProgressBar width={16.7 * 3} />
                     <ProgressBar width={50} />
                 </View>
                 <ScrollView>
-                    <View style={{ flex: 1, marginTop: 30 }}>
+                    <View style={{ flex: 1, marginTop: 20 }}>
                         <View>
                             <MyText style={[textH3Style, textGrey, textBold, { marginBottom: 15, marginTop: 15}]}>
                                 What's your primary language?

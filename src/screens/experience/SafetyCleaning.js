@@ -43,7 +43,7 @@ class SafetyCleaning extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             <Header { ...this.props } title="Follow cleaning protocols" />
             <View style={container}>
-                <View style={{ marginTop: 30}}>
+                <View style={{ marginTop: 20}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 6</MyText>
                     <ProgressBar width={100} />
                     <ProgressBar width={12.5 * 5} />

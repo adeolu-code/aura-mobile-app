@@ -261,7 +261,7 @@ class Duration extends Component {
             {this.renderLoading()}
             <Header { ...this.props } title="Duration" />
             <View style={container}>
-                <View style={{ marginTop: 30}}>
+                <View style={{ marginTop: 20}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
                     <ProgressBar width={12.5 * 5} />

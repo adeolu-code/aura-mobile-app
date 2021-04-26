@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         // marginTop: 10
     },
     iconContainer:{
-        marginBottom: Platform.OS === 'ios' ? 6 : 10, 
+        marginBottom: Platform.OS === 'ios' ? 6 : 4, 
         // borderWidth: 1
     },
     iconStyle: {

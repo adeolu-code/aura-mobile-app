@@ -116,8 +116,11 @@ const styles = StyleSheet.create({
         flex: 1, marginBottom: 40, marginTop: 20, justifyContent: 'flex-end', paddingHorizontal: 10
     },
     imageContainer: {
-        borderRadius: 300, borderColor: colors.orange, borderWidth: 4, width: '78%', height: 285, overflow: 'hidden',
-        padding: 20
+        borderRadius: 300, borderColor: colors.orange, borderWidth: 4,  overflow: 'hidden',
+        padding: 20,
+        // height: 285,
+        // width: '78%',
+        width: 250, height: 250,
     },
     textContainer: {
         paddingHorizontal: 10

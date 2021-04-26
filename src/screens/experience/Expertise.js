@@ -74,7 +74,7 @@ class Expertise extends Component {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             <Header { ...this.props } title="Expertise" />
             <View style={container}>
-                <View style={{ marginTop: 30}}>
+                <View style={{ marginTop: 20}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 2 / 6</MyText>
                     <ProgressBar width={16.7 * 2} />
                     <ProgressBar width={25*2} />
