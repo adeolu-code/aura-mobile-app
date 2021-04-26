@@ -371,7 +371,7 @@ export default class AddRestaurant extends Component {
     }
 
     render() {
-        const {textCenter, textH3Style, textWhite, textBold, textBlack, textUnderline, textH4Style, textH2Style} = GStyles;
+        const {textCenter, textH3Style, textWhite, textBold, textBlack, textUnderline, textH4Style, textH2Style, shadow} = GStyles;
         const { country } = this.state;
         const host = this.state.host;
         let countrySymbol = null;
@@ -391,7 +391,7 @@ export default class AddRestaurant extends Component {
                                 style={[Styles.center, Styles.pizzaImage]}
                             />
                             <View style={{paddingHorizontal: 2}}>
-                                <LabelInput placeholder="Restaurant Name" input value={this.state.restaurant.name}
+                                <LabelInput placeholder="Restaurant Name" input value={this.state.restaurant.name} keyboardType="default"
                                     onChangeText={(text) => this.setState({restaurant: {...this.state.restaurant, ...{name: text}}})}
                                 />
                                 <TouchableOpacity onPress={() => this.setState({restaurantLocation: true, showModal: true})}
@@ -403,7 +403,7 @@ export default class AddRestaurant extends Component {
                                     !host &&
                                     <TouchableOpacity  onPress={() => this.setState({restaurantContact: true, showModal: true})}
                                         style={[Styles.addIconView]} >
-                                        <Icon name="pencil" style={[Styles.addIcon,]} />
+                                        <Icon name="pencil" style={[Styles.addIcon]} />
                                         <MyText style={[textH4Style]}>Edit Restaurant</MyText>
                                     </TouchableOpacity>
                                 }
@@ -476,13 +476,10 @@ export default class AddRestaurant extends Component {
                                                             placeholder={this.state.street} 
                                                         />
                                                     </View>
-                                                    <View style={[Styles.row, {width: '100%', }]}>
-                                                        <CountryPickerComponent
-                                                            getCountry={this.getCountry} 
-                                                            defaultCountry={this.state.defaultCountry} 
-                                                        />
-                                                        <LabelInput 
-                                                            placeholder={this.state.hasLocation ? this.state.state : "Enter State"} 
+                                                    <View style={[Styles.row, {width: '100%'}]}>
+                                                        <CountryPickerComponent getCountry={this.getCountry} touchWrapper={{height:55}}
+                                                        defaultCountry={this.state.defaultCountry} />
+                                                        <LabelInput placeholder={this.state.hasLocation ? this.state.state : "Enter State"} 
                                                             input 
                                                             onChangeText={(val) => {
                                                                 consoleLog("state", val)
@@ -506,9 +503,9 @@ export default class AddRestaurant extends Component {
                                                             itemStyle={Styles.halfWidth}
                                                         />
                                                     </View>
-                                                    <View style={[Styles.row, {width: '100%', }]}>
+                                                    <View style={[Styles.row, {width: '100%', marginTop: 30}]}>
                                                         <TouchableOpacity 
-                                                        style={[Styles.nextButton, {height: 40, borderRadius: 5}, Styles.halfWidth]}
+                                                        style={[Styles.nextButton, {height: 50, borderRadius: 5}, Styles.halfWidth]}
                                                         onPress={() => {
                                                             this.onAddLocation();
                                                             
@@ -518,8 +515,7 @@ export default class AddRestaurant extends Component {
                                                                 {this.state.edit ? 'Submit' : 'Next'}
                                                             </MyText>
                                                         </TouchableOpacity>
-                                                        <TouchableOpacity 
-                                                        style={[Styles.nextButton, {height: 40, borderRadius: 5, marginLeft: 5, backgroundColor: colors.veryLightGrey}, Styles.halfWidth]}
+                                                        <TouchableOpacity style={[Styles.nextButton, {height: 50, borderRadius: 5, marginLeft: 5, backgroundColor: colors.veryLightGrey}, Styles.halfWidth, shadow ]}
                                                         onPress={() => {
                                                             this.setState({restaurantLocation: false,showModal: false});
                                                             if (!this.state.host) {
@@ -539,7 +535,7 @@ export default class AddRestaurant extends Component {
                                                 }
 
                                                 { this.state.restaurantContact && <>
-                                                    <MyText style={[textBold, textBlack, textH3Style, {padding: 10}]}>
+                                                    <MyText style={[textBold, textBlack, textH2Style, {paddingBottom: 20}]}>
                                                         Contact Number at Restaurant
                                                     </MyText>
                                                     <MyText style={[textBold, textUnderline]}>{this.state.restaurant.contactPhoneNumber || this.context.state.userData.phoneNumber}

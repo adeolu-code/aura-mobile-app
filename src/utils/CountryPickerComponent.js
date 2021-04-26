@@ -72,7 +72,7 @@ class CountryPickerComponent extends Component {
               onClose={this.closeModal}
               visible={this.state.showCountryPicker} />
           {/* <Icon name="chevron-down-outline" style={{ color: colors.grey, fontSize: 25}}  /> */}
-          <TouchableOpacity style={touchContainer} onPress={this.openModal}>
+          <TouchableOpacity style={[touchContainer, this.props.touchWrapper]} onPress={this.openModal}>
             {this.renderValue()}
             <Icon name="chevron-down-outline" style={{ color: colors.grey, fontSize: 22, marginLeft: 10}}  />
           </TouchableOpacity>
