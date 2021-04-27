@@ -152,7 +152,7 @@ export const LabelInput = (props) => {
                             maxLength={props.maxLength} 
                             value={props.value && props.value.toString()}
                             onChangeText={(e) => { props.onChangeText && props.onChangeText(e);}}
-                            keyboardType={props.keyboardType || "number-pad"}
+                            keyboardType={props.keyboardType || "default"}
                             disabled={props.disabled || false}
                             secureTextEntry={secureText}
                         />

@@ -22,6 +22,7 @@ import { getNotificationSettingsApi } from "../../api/notifications.api";
 import { useNavigation } from "@react-navigation/native";
 
 import TermsModal from '../../components/dashboard/TermsModal';
+import LabelCheckbox from "../../components/label_checkbox/labelCheckbox.component";
 
 
 class ProfileScreenClass extends Component {

@@ -263,11 +263,11 @@ export default class RestaurantMenuDetail extends Component {
                                                         this.setState({});
                                                     }}
                                                 />
-                                                <LabelCheckbox label={"Cover Photo?"} checked={this.state.menu?.isCoverPhoto} onPress={(val) => {
+                                                {/* <LabelCheckbox label={"Cover Photo?"} checked={this.state.menu?.isCoverPhoto} onPress={(val) => {
                                                     
                                                     this.state.menu.isCoverPhoto = !this.state.menu.isCoverPhoto;
                                                     this.setState({});
-                                                }} />
+                                                }} />*/}
                                             </View>
                                         </View>
                                     </View>
@@ -277,7 +277,7 @@ export default class RestaurantMenuDetail extends Component {
                         <Footer style={[MyStyle.transparent]}>
                             <RoundButton label="Save" onClick={() => this.onSave()} />
                         </Footer>
-                    </Container>
+                    </Container> 
                 </SafeAreaView>
             </>
         );
