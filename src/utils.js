@@ -114,7 +114,10 @@ const getUserToken = async () => {
 	try {
       let token = await AsyncStorage.getItem("token");
       token = JSON.parse(token);
-		return token.access_token;
+      if(token) {
+         return token.access_token;
+      }
+		return null
 	} catch (error) {
 		return error;
 	}
@@ -161,6 +164,7 @@ export function consoleLog(period, message, ...optionalParams) {
 
 export async function refreshToken(apiDetails) {
    const tokenObj = await getToken();
+   // console.log('Token Obj ', tokenObj)
    const headers = {
       ClientId: CLIENT_ID,
       ClientSecret: CLIENT_SECRET,
@@ -228,6 +232,7 @@ export async function Request(Base, Url, Data, PreparedData = false, method = "P
    } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
    } 
+   console.log('Token ', token, headers)
    const body = !PreparedData ? PrepareData(Data) : Data
 
    return new Promise(async (resolve, reject) => {

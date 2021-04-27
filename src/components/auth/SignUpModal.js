@@ -12,11 +12,11 @@ import {
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { GoogleSignin } from '@react-native-community/google-signin';
 import colors from "../../colors";
-import { MyText, CustomButton, Loading, Error } from "../../utils/Index";
+import { MyText, CustomButton, Loading, Error, } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
-import { setUser } from '../../helpers';
-import { setContext, Request, urls } from '../../utils';
+import { setUser, setToken } from '../../helpers';
+import { setContext, Request, urls, HOST } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 
 
@@ -47,40 +47,80 @@ class SignUpModal extends Component {
     }
   }
   getUserDetails = (token) => {
+    const { set } = this.context
     this.context.getUserProfile(token)
-    .then(() => {})
+    .then((res) => {
+      const roleHost = res.roles.find(item => item === HOST)
+      if(roleHost) {
+        set({ currentDashboard: 1})
+      }
+      const { close } = this.props
+      if(close) {
+        this.setState({ loading: false })
+        this.props.onDecline(true)
+      }
+      
+    })
     .catch((error) => {
       this.setState({ formErrors: ['Something went wrong please try again'], loading: false })
     })
   }
+  // getUserDetails = (token) => {
+  //   this.context.getUserProfile(token)
+  //   .then(() => {})
+  //   .catch((error) => {
+  //     this.setState({ formErrors: ['Something went wrong please try again'], loading: false })
+  //   })
+  // }
   socialApiCall = async (type, token) => {
     const obj = { userType: 0, token }
     try {
       const res = await Request(urls.identityBase, `api/v1/auth/user/login/${type}`, obj);
-      console.log(res)
+      // console.log(res)
       if(res.isError) {
         const message = res.message;
         const error = [message]
-        this.setState({ formErrors: error})
+        this.setState({ formErrors: error, loading: false })
       } else {
         this.getUserDetails(res.data.access_token);
+        this.context.set({ token: res.data })
+        await setToken(res.data)
       }
-      this.setState({ loading: false })
+      // this.setState({ loading: false })
     } catch (error) {
       this.setState({ loading: false })
     }
   }
+  // socialApiCall = async (type, token) => {
+  //   const obj = { userType: 0, token }
+  //   try {
+  //     const res = await Request(urls.identityBase, `api/v1/auth/user/login/${type}`, obj);
+  //     console.log(res)
+  //     if(res.isError) {
+  //       const message = res.message;
+  //       const error = [message]
+  //       this.setState({ formErrors: error})
+  //     } else {
+  //       this.getUserDetails(res.data.access_token);
+  //     }
+  //     this.setState({ loading: false })
+  //   } catch (error) {
+  //     this.setState({ loading: false })
+  //   }
+  // }
   loginWithGoogle = async () => {
       this.setState({ loading: true, formErrors: [] })
-      GoogleSignin.configure();
+      GoogleSignin.configure({
+        webClientId: '411688971660-sk7na5gu3pq2uqntmko314v4voant162.apps.googleusercontent.com',
+      });
       try {
           await GoogleSignin.hasPlayServices();
-          // const userInfo = await GoogleSignin.signIn();
+          const userInfo = await GoogleSignin.signIn();
           // console.log('USer info ', userInfo)
           // await GoogleSignin.signOut();
           const token = await GoogleSignin.getTokens();
           console.log('USer token ', token)
-          this.socialApiCall('google', token.accessToken)
+          this.socialApiCall('google', token.idToken)
           
       } catch (error) {
           console.log('Error ', error)
@@ -97,6 +137,7 @@ class SignUpModal extends Component {
           }
       }
   }
+
   loginWithFacebook = () => {
     this.setState({ loading: true, formErrors: [] })
     LoginManager.logInWithPermissions(["public_profile", "email"]).then(
@@ -106,14 +147,15 @@ class SignUpModal extends Component {
         } else {
           AccessToken.getCurrentAccessToken()
           .then((data) => {
+            console.log(data)
             this.socialApiCall('facebook', data.accessToken)
           })
         }
       }.bind(this),
       function(error) {
-        console.log('Error ', error)
-        this.setState({ loading: false, formErrors: ["Your account has not been configured for facebook login, please contact support"] })
+        console.log('Facebook Error ', "" + error)
         // this.setState({ loading: false, formErrors: ["Login fail with error:" + error] })
+        this.setState({ loading: false, formErrors: ["Your account has not been configured for facebook login, please contact support"] })
       }.bind(this)
     );
   }
