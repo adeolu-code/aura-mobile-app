@@ -212,7 +212,7 @@ class ProfileScreenClass extends Component {
         const {textH2Style, 
             textCenter, textBold, textH3Style, 
             textH6Style, textOrange, textH1Style,
-            textWhite, textH4Style, textExtraBold, textFont13, textGrey
+            textWhite, textH4Style, textExtraBold, textFont13, textGrey, textDarkGrey
         } = GStyles;
         const {userData} = this.context.state;
         // consoleLog("user", this.context.state.userData,this.context.state.isLoggedIn, this.context.state.token)
@@ -229,8 +229,8 @@ class ProfileScreenClass extends Component {
                     <Content style={{flexGrow: 1}} scrollEnabled>
                     {
                         userIsNotLoggedIn &&
-                        <View style={[{paddingBottom: 30, paddingTop: 15, borderBottomColor: colors.lightGrey, borderBottomWidth: 1, paddingLeft: GLOBAL_PADDING, paddingRight: GLOBAL_PADDING}]}>
-                            <MyText style={[textH1Style, textBold]}>Profile</MyText>
+                        <View style={[{paddingBottom: 25, paddingTop: 40, borderBottomColor: colors.lightGrey, borderBottomWidth: 1, paddingLeft: GLOBAL_PADDING, paddingRight: GLOBAL_PADDING}]}>
+                            <MyText style={[textH1Style, textExtraBold, textDarkGrey]}>Profile</MyText>
                         </View>
                     }
                     {
@@ -403,16 +403,16 @@ class ProfileScreenClass extends Component {
                     </Content>
                     {
                             userIsNotLoggedIn &&
-                            <Footer style={[Styles.transparentFooter, Styles.footer]}>
+                            <Footer style={[Styles.transparentFooter, Styles.footer, { marginBottom: 50, paddingTop: 0}]}>
                                 <View style={{flex: 1, padding: GLOBAL_PADDING}}>
                                     <TouchableOpacity
-                                        style={[Styles.loginSignupBtn, {marginTop: 10,backgroundColor: colors.orange}]}
+                                        style={[ {backgroundColor: colors.orange, paddingVertical: 15, borderRadius:10}]}
                                         onPress={() => this.setState({showRegisterModal: true})}
                                     >
                                         <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Sign Up</MyText>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={[Styles.loginSignupBtn, {marginTop: 10, backgroundColor: colors.black}]}
+                                        style={[{marginTop: 20, backgroundColor: colors.black, paddingVertical: 15, borderRadius:10}]}
                                         onPress={() => this.setState({showLoginModal: true})}
                                     >
                                         <MyText style={[textWhite, textH4Style, textBold, textCenter]}>Login</MyText>

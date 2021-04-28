@@ -371,7 +371,7 @@ export default class AddRestaurant extends Component {
     }
 
     render() {
-        const {textCenter, textH3Style, textWhite, textBold, textBlack, textUnderline, textH4Style, textH2Style, shadow} = GStyles;
+        const {textCenter, textH3Style, textWhite, textBold, textBlack, textUnderline, textH4Style, textH2Style, shadow, textOrange} = GStyles;
         const { country } = this.state;
         const host = this.state.host;
         let countrySymbol = null;
@@ -535,13 +535,21 @@ export default class AddRestaurant extends Component {
                                                 }
 
                                                 { this.state.restaurantContact && <>
-                                                    <MyText style={[textBold, textBlack, textH2Style, {paddingBottom: 20}]}>
+                                                    <MyText style={[textBold, textBlack, textH2Style, {paddingBottom: 10}]}>
                                                         Contact Number at Restaurant
                                                     </MyText>
-                                                    <MyText style={[textBold, textUnderline]}>{this.state.restaurant.contactPhoneNumber || this.context.state.userData.phoneNumber}
+                                                    <MyText style={[textH4Style]}>Your customers will call on this number for general enquiries</MyText>
+
+                                                    <MyText style={[textH4Style, { marginTop: 10}]}>Can Customers Call you on {' '}
+                                                        <MyText style={[textBold, textOrange]}> 
+                                                        {this.state.restaurant.contactPhoneNumber || this.context.state.userData.phoneNumber}</MyText> 
                                                     </MyText>
+
+                                                    {/* <MyText style={[textBold, textUnderline]}>
+                                                        {this.state.restaurant.contactPhoneNumber || this.context.state.userData.phoneNumber}
+                                                    </MyText> */}
                                                     <RadioButton 
-                                                        style={[{marginTop: 30, padding: 20, marginBottom: 10}]}
+                                                        style={[{marginTop: 10, padding: 20, paddingLeft: 0, marginBottom: 10}]}
                                                         options={[
                                                             {key: "yes", text: "Yes, my customers can contact me on this number"},
                                                             {key: "no", text: "No, add another number"},
@@ -561,7 +569,7 @@ export default class AddRestaurant extends Component {
                                                             }}
                                                         />
                                                     }
-                                                    <MyText style={[textBold, textBlack, textH4Style, {padding: 10}]}>
+                                                    <MyText style={[textBold, textBlack, textH3Style, {padding: 10, paddingLeft: 0}]}>
                                                         Operations
                                                     </MyText>
                                                     {
@@ -592,7 +600,7 @@ export default class AddRestaurant extends Component {
                                                             value={this.state.restaurant.averageDeliveryFee}
                                                         />
                                                     }
-                                                    <MyText style={[textBold, textBlack, textH4Style, {padding: 10}]}>
+                                                    <MyText style={[textBold, textBlack, textH3Style, {padding: 10,  paddingLeft: 0}]}>
                                                         Seats
                                                     </MyText>
                                                     <LabelCheckbox
@@ -603,7 +611,7 @@ export default class AddRestaurant extends Component {
                                                             this.setState({});
                                                         }}
                                                     />
-                                                    <MyText style={[textBold, textBlack, textH4Style, {padding: 10}]}>
+                                                    <MyText style={[textBold, textBlack, textH3Style, {padding: 10, paddingLeft: 0}]}>
                                                         Alcohol
                                                     </MyText>
                                                     <LabelCheckbox

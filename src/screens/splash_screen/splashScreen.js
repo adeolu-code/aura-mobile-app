@@ -4,8 +4,8 @@ import { Image, TouchableOpacity, PermissionsAndroid, Platform, StatusBar, Alert
 import { Styles } from "./splashScreenStyle";
 
 import Geolocation from 'react-native-geolocation-service';
-import { setContext, Request, urls, GetRequest, errorMessage, HOST } from '../../utils';
-import { getUser, getToken } from '../../helpers';
+import { setContext, Request, urls, GetRequest, errorMessage, HOST, CLIENT_ID, CLIENT_SECRET } from '../../utils';
+import { getUser, getToken, setToken } from '../../helpers';
 import { AppContext } from '../../../AppProvider';
 import DeviceInfo from 'react-native-device-info';
 
@@ -137,12 +137,40 @@ const SplashScreen = (props) => {
     //     const diff = moment(tokenObj.expires_in).diff(moment(), 'days')
     // }
 
+    const renewToken = async (token) => {
+        try {
+            const headers = {
+                ClientId: CLIENT_ID,
+                ClientSecret: CLIENT_SECRET,
+                RefreshToken: token.refresh_token
+            }
+            headers["Content-Type"] = "application/json"
+            headers["Access-Control-Allow-Origin"] = "*"
+            headers["Authorization"] = `Bearer ${token.access_token}`
+            const url = `${urls.identityBase}${urls.v}auth/token/renew`
+             
+            const response = await fetch(url, { method: 'GET', headers })
+            let data = await response.json()
+            console.log('renew Token ', data)
+            if(data.isError) {
+                return data
+            } else {
+                // Set user data to context and to async storage
+                setToken(data.data)
+                context.set({ token: data.data })
+                
+            }
+        } catch (error) {
+            
+        }
+    }
+
     const checkLogin = async () => {
         const userData = await getUser()
         const token = await getToken()
         console.log('User await ', userData, token)
         if(userData && token && token.access_token) {
-            
+            renewToken(token)
             context.getUserProfile(token.access_token)
             .catch((error) => {
                 console.log('Error caught ', error)

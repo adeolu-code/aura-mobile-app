@@ -55,7 +55,7 @@ class Location extends Component {
         
     }
     getCountry = (country) => {
-        this.setState({ country, toggleAutoComplete: !this.state.toggleAutoComplete, city: '' })
+        this.setState({ country, toggleAutoComplete: !this.state.toggleAutoComplete, city: '', address: '' })
     }
     
     
@@ -134,7 +134,7 @@ class Location extends Component {
         {this.renderLoading()}
         <Header { ...this.props } title={"Location"} />
         <ScrollView style={{ flex: 1}} keyboardShouldPersistTaps="always">
-            <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "padding"}>
+            <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "position"}>
                 
                 <View style={{ marginTop: 20, zIndex: 10, backgroundColor: colors.white}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>

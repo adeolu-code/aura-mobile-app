@@ -21,20 +21,25 @@ export default class MenuItemComponent extends Component {
 
     render() {
         return (
-            <View style={[Styles.parent, this.props.style]}>
-                <Menu style={[{width:30, alignSelf: 'flex-end'}]}>
+            <View style={[Styles.parent, this.props.style ]}>
+                <Menu style={[{ alignSelf: 'flex-end'}]}>
                     <MenuTrigger>
-                        <Icon name="ios-menu" color={[ Styles.icon,this.props.color, {width: 40}]} />
+                        <View style={{ height: 40, width: 40, backgroundColor: colors.white, borderRadius: 5, justifyContent: 'center',alignItems: 'center', 
+      borderWidth: 1, borderColor: colors.lightGrey, }}>
+                            <Icon name="menu" style={{ fontSize: 27, color: colors.grey }} />
+                        </View>
                     </MenuTrigger>
-                    <MenuOptions>
+                    <MenuOptions style={{ paddingBottom: 10, borderRadius: 8,}} customStyles={{ optionsContainer: {
+                            borderRadius: 8, padding: 5 },
+                        }} >
                         <>
                             {this.props.items && this.props.items.map((item, index) => {
                                 return (
                                     <MenuOption onSelect={() => {
                                         this.props.onPress && this.props.onPress(index); 
                                         this.setState({shown: false})
-                                    }} style={[{paddingLeft: 10, paddingTop: 10, width: 100, height: 30, marginBottom: 5,  elevation: 5, zIndex: 10000}]}>
-                                        <Text style={[Styles.itemText]}>{item}</Text>
+                                    }} style={[{paddingLeft: 10, paddingTop: 10, height: 30, marginBottom: 5,  elevation: 5, zIndex: 10000}]}>
+                                        <MyText style={[Styles.itemText, GStyles.textH4Style]}>{item}</MyText>
                                     </MenuOption>
                                 );
                             })}

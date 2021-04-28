@@ -25,16 +25,16 @@ class BottomTabSectionNoRecord extends Component {
   }
 
   render() {
-      const { textH1Style, textExtraBold, textDarkBlue, textH5Style, textH2Style } = GStyles;
+      const { textH1Style, textExtraBold, textDarkBlue, textH5Style, textH2Style, textLgStyle } = GStyles;
     return (
       <>
-        <View style={[Styles.parentView, ]}>
-            <MyText style={[textExtraBold, textH1Style, textDarkBlue, {marginTop: 10}, this.props.myTextTitle ]}>
-                {this.props.title}
+        <View style={[Styles.parentView,]}>
+            <MyText style={[textExtraBold, textLgStyle, textDarkBlue, {marginTop: 10, paddingLeft: 10}, this.props.myTextTitle ]}>
+                {this.props.title} Bookings
             </MyText>
             { 
               this.props.subTitle &&
-                <MyText style={[textH5Style, textDarkBlue, {marginTop: 10, marginBottom: 10}, this.props.myTextTitle ]}>
+                <MyText style={[textH5Style, textDarkBlue, {marginTop: 10, marginBottom: 10, paddingLeft: 10}, this.props.myTextTitle ]}>
                     {this.props.subTitle}
                 </MyText>
             }

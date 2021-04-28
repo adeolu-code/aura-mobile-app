@@ -18,8 +18,8 @@ export const SCREEN_HEIGHT = Dimensions.get('screen').height
 export const SCREEN_WIDTH = Dimensions.get('screen').width
 export const WHATSAPP_NUMBER = '+2348131167172';
 
-const CLIENT_ID = '0987654321'
-const CLIENT_SECRET = '1234567890'
+export const CLIENT_ID = '0987654321'
+export const CLIENT_SECRET = '1234567890'
 
 export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs"; 
 export const GOOGLE_SEARCH_KEY = 'AIzaSyDeW1aTWlO-Azt-kFGAIxHsQJflNCY_9mM';
@@ -255,11 +255,19 @@ export async function Request(Base, Url, Data, PreparedData = false, method = "P
             // return value
             // return refreshToken(apiDetails)
          } else {
-            let data = res.json()
+            
+            // let data = await res.text()
+            // console.log('data ', data)
+            res.json()
+            .then((data) => {
+               resolve(data)
+            }).catch(err => {
+               reject(err)
+            })
+            // let data = res.json()
             // console.log("update_res", "data", data)
-            // consoleLog("update_res", "data", data);
-            resolve(data)
-            // return data
+            // resolve(data)
+            // return data 
          }
       } catch (error) {
          reject(error)

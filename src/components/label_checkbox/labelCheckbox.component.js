@@ -6,6 +6,7 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { MyText } from "../../utils/Index";
 import {CheckBox} from '@metasys96/react-native-form-fields';
 import { consoleLog } from "../../utils";
+import colors from "../../colors";
 
 /**
  * #props
@@ -32,20 +33,15 @@ export default class LabelCheckbox extends Component {
 
 
     render() {
-        let {textH5Style} = GStyles;
+        let {textH5Style, textH4Style} = GStyles;
         let {props} = this;
         console.log("isAlcoholAllowed", props.checked);
         
         return (
             <>
-                <TouchableOpacity 
-                    style={[Styles.rowView, Styles.itemView, {marginBottom: -5}]}
-                    onPress={() => {
-                        
-
-                    }} 
-                >
-                    <CheckBox label={props.label} isChecked={props.checked} onChange={(e) => {
+                <TouchableOpacity style={[Styles.rowView, Styles.itemView, {marginBottom: -5 }]}
+                    onPress={() => {}} >
+                    <CheckBox label={props.label} isChecked={props.checked} labelStyle={{ fontSize: 17, marginLeft: 10, color: colors.fadedBlack}} onChange={(e) => {
                         if (e == true) {
                             props.onPress && props.onPress();
                         }
@@ -53,7 +49,7 @@ export default class LabelCheckbox extends Component {
                     }} />
                     
                 </TouchableOpacity>
-                <View style={[{marginLeft: 20}]}>
+                <View style={[{marginLeft: 20, }]}>
                     {/* <MyText>{props.label}</MyText> */}
                     {
                         props.description && 

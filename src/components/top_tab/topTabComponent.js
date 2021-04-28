@@ -47,7 +47,7 @@ class TopTab extends Component {
       const activeTab = this.state.activeTab;
     return (
       <>
-        <View style={[Styles.topTabParent, this.props.parentStyle]}>
+        <View style={[Styles.topTabParent, this.props.parentStyle, { marginTop: 20}]}>
             {
                 this.props.tabs.map((tab, index) => {
                     return (

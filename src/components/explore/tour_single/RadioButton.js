@@ -14,7 +14,7 @@ export default class RadioButton extends Component {
 		const { options, selectedOption } = this.props;
         const { value } = this.state;
         
-        const { flexRow } = GStyles;
+        const { flexRow, textH5Style } = GStyles;
 		const { radio, circle, checkedCircle } = styles
 		// console.log("rendering", selectedOption);
 
@@ -36,8 +36,8 @@ export default class RadioButton extends Component {
 							>
 								{(value === item.key || selectedOption == item.key) && <View style={checkedCircle} />}
 							</TouchableOpacity>
-                            <View style={{flex: 9, marginLeft: 20}}>
-                                <MyText>{item.text}</MyText>
+                            <View style={{flex: 9, marginLeft: 10}}>
+                                <MyText style={[textH5Style]}>{item.text}</MyText>
                             </View>
 						</View>
 					);
