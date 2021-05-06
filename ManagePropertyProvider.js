@@ -116,7 +116,7 @@ class ManagePropertyProvider extends Component {
               data = dataResult
             }
             const pageApartmentsCount =  Math.ceil(response.totalItems / perPage)
-            this.set({ apartments: response.data, activeApartmentsPage: response.page, totalApartments: response.totalItems, pageApartmentsCount })
+            this.set({ apartments: data, activeApartmentsPage: response.page, totalApartments: response.totalItems, pageApartmentsCount })
           }
       } catch (error) {
         more ? this.set({ loadMoreApartments: false }) : this.set({ loadingApartments: false })

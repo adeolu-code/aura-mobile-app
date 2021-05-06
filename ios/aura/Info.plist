@@ -28,6 +28,14 @@
 				<string>fb355492845870779</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.411688971660-66838qjcfb1sq8r11uh63hsa3vfe7e5d</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -63,7 +71,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Will you allow this app access to camera?</string>
+	<string>This allows users easily take pictures of themselves for their Profile image and also of their properties to showcase and attract guests, To take pictures of their food or menue to drive orders and of their events/experience to aid booking.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Will you allow this app access to contact?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -75,7 +83,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location is required to access listings around you</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Will you allow this app to access your photos?</string>
+	<string>This lets you add an image to your profile page and also showcase beautiful images of your properties to attract guests, this also lets you showcase your meal offerings and increase orders and also lets you showcase pictures of your events and experiences to aid booking.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-Bold.ttf</string>

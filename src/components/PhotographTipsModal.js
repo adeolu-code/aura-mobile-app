@@ -19,17 +19,7 @@ import { Icon } from 'native-base';
 class PhotographTipsModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false, formErrors: [] };
-    }
-    openModal = () => {
-        this.setState({ showModal: true })
-    }
-    closeModal = () => {
-        this.setState({ showModal: false })
-    }
-    renderLoading = () => {
-        const { loading } = this.state;
-        if(loading) { return (<Loading />) }
+        this.state = { loading: false };
     }
     
 

@@ -9,6 +9,7 @@ import { urls as Urls } from "./urls";
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 import { navigationRef, isReadyRef } from './RootNavigation';
 
+// const isProduction = true
 const isProduction = false
 let context = undefined;
 // export let debug = true; 
@@ -37,7 +38,7 @@ export const HOST = 'Host';
 
 export const urls = Object.assign({
    identityBase: !isProduction ? 
-   "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/" : 'https://aura-identity-prod.transcorphotels.com/identity',
+   "http://aura-identity-service.d6f993e093904834a7f1.eastus.aksapp.io/identity/" : 'https://aura-identity-prod.transcorphotels.com/identity/',
    
     bookingBase: !isProduction ? 
     "http://aura-booking-service.d6f993e093904834a7f1.eastus.aksapp.io/" : "https://aura-booking-prod.transcorphotels.com/",
@@ -232,7 +233,7 @@ export async function Request(Base, Url, Data, PreparedData = false, method = "P
    } else if (token != undefined && token !== null) {
       headers["Authorization"] = "Bearer " + token
    } 
-   console.log('Token ', token, headers)
+   // console.log('Token ', token, headers)
    const body = !PreparedData ? PrepareData(Data) : Data
 
    return new Promise(async (resolve, reject) => {
@@ -257,7 +258,7 @@ export async function Request(Base, Url, Data, PreparedData = false, method = "P
          } else {
             
             // let data = await res.text()
-            // console.log('data ', data)
+            // console.log('res ', res)
             res.json()
             .then((data) => {
                resolve(data)

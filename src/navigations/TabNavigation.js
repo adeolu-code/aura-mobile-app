@@ -7,7 +7,7 @@ import GStyles from '../assets/styles/GeneralStyles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../utils';
 
-console.log(SCREEN_WIDTH, SCREEN_HEIGHT)
+// console.log(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 import {
   DashboardStack,

@@ -9,29 +9,30 @@ import Header from '../../components/Header';
 import GStyles from '../../assets/styles/GeneralStyles';
 import GuestRow from '../../components/dashboard/GuestsRow';
 
-import { GetRequest, urls } from '../../utils'
+import { GetRequest, urls, SCREEN_HEIGHT } from '../../utils'
 import { formatAmount } from '../../helpers';
 import moment from 'moment'
 
 class HomeDetails extends Component {
     constructor(props) {
         super(props);
-        this.state = { reservations: [], gettingReservations: false, propertyId: '', house: '', gettingHouse: false };
-        const { propertyId } = props.route.params;
+        this.state = { reservations: [], gettingReservations: false, propertyId: '', house: '', gettingHouse: false, recent: true };
+        const { propertyId, recent } = props.route.params;
         this.state.propertyId = propertyId;
+        this.state.recent = recent
     }
     renderLoading = () => {
         const { loading, gettingReservations, gettingHouse } = this.state;
-        if (gettingReservations || gettingHouse ) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
+        if (gettingReservations || gettingHouse ) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 100 }} />); }
     }
     linkToGuest = (reservation) => {
         this.props.navigation.navigate('GuestProfile', { reservation })
     }
     getReservation = async () => {
-        const { propertyId } = this.state
+        const { propertyId, recent } = this.state
         try {
             this.setState({ gettingReservations: true })
-            const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/ByProperty/?propertyId=${propertyId}`);
+            const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/ByProperty/?propertyId=${propertyId}&isRecent=${recent}`);
             console.log('Reserve details ', res)
             this.setState({ gettingReservations: false })
             if(res.isError) {
@@ -136,9 +137,9 @@ class HomeDetails extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
-        <Header {...this.props} title={title} wrapperStyles={{ paddingBottom: 5}} sub={address} />
+        <Header {...this.props} title={title} wrapperStyles={{ paddingBottom: 5, position: 'relative'}} sub={address} />
         <ScrollView>
-            <View style={[contentContainer, { paddingTop: title.length > 20 ? 190 : 150}]}>
+            <View style={[contentContainer]}>
                 <View style={imgContainer}>
                     <Image source={imgUrl} resizeMode="cover" style={imgStyle} />
                 </View>
@@ -194,7 +195,9 @@ class HomeDetails extends Component {
 }
 const styles = StyleSheet.create({
     contentContainer: {
-        paddingHorizontal: 20, paddingTop: 150, borderBottomColor: colors.lightGrey, borderBottomWidth: 4, paddingBottom: 20
+        // paddingTop: 150,
+        paddingTop: 15,
+        paddingHorizontal: 20, borderBottomColor: colors.lightGrey, borderBottomWidth: 4, paddingBottom: 20
     },
     imgContainer: {
         width: '100%', height: 220, borderRadius: 8, overflow: 'hidden',backgroundColor: colors.lightGrey, borderWidth: 1,

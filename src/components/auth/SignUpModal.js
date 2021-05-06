@@ -119,13 +119,13 @@ class SignUpModal extends Component {
           // console.log('USer info ', userInfo)
           // await GoogleSignin.signOut();
           const token = await GoogleSignin.getTokens();
-          console.log('USer token ', token)
+          // console.log('USer token ', token)
           this.socialApiCall('google', token.idToken)
           
       } catch (error) {
           console.log('Error ', error)
-          // this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
-          this.setState({ loading: false, formErrors: [error.message] })
+          this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
+          // this.setState({ loading: false, formErrors: [error.message] })
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
               // user cancelled the login flow
           } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -192,11 +192,11 @@ class SignUpModal extends Component {
                 <View style={dashStyles}></View>
               </View>
               <View>
-                <CustomButton
+                {/* <CustomButton
                   buttonText="Sign Up With Facebook" buttonStyle={buttonStyle} onPress={this.loginWithFacebook}
                   socialImg={require('../../assets/images/icons/facebook/facebook.png')}
                   textStyle={{ color: colors.darkGrey }}
-                />
+                /> */}
                 <CustomButton
                   buttonText="Sign Up With Google" buttonStyle={buttonStyle} onPress={this.loginWithGoogle}
                   socialImg={require('../../assets/images/icons/google/google.png')}

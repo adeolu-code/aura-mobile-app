@@ -88,7 +88,7 @@ class ScrollContentPlaces extends Component {
                 return (
                     <View style={scrollItemContainer} key={item.id}>
                         <HouseComponent img={imgUrl} onPress={this.linkToHouse.bind(this, item)} rating={item.rating}
-                        title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} />
+                        title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} propertyId={item.propertyId} />
                     </View>
                 )
             })

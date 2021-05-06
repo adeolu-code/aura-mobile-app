@@ -35,6 +35,14 @@ class ManagePropertyRow extends Component {
                 return textFadedBlack;
         }
     }
+    renderPropertyId = () => {
+        const { textH5Style, textExtraBold} = GStyles
+        if(this.props.propertyId) {
+            return (
+                <MyText style={[textH5Style]}>Unique Id: <MyText style={[textExtraBold]}>{this.props.propertyId}</MyText> </MyText>
+            )
+        }
+    }
     render() {
         const { container, imgContainer, rightContainer, typeStyle, iconStyle, activeStyle, bgDanger, bgGreen } = styles
         const { flexRow, imgStyle, textBold, textH4Style, textH5Style, textGrey, textFadedBlack,
@@ -57,9 +65,10 @@ class ManagePropertyRow extends Component {
                                     <Icon name="ellipse" style={iconStyle} />
                                     <MyText style={[textH5Style, textGrey]}>{propertyType}</MyText>
                                 </View>
-                                <View style={[flexRow, { alignItems: 'center' }]}>
+                                <View style={[flexRow, { alignItems: 'center', justifyContent: 'space-between' }]}>
                                     <MyText style={[textH5Style, textExtraBold, this.textColor()]}>
                                         {status}</MyText>
+                                    {this.renderPropertyId()}
                                 </View>
                             </View>
                             <TouchableOpacity onPress={this.openFilterModal} style={{flex: 1.4, }}>

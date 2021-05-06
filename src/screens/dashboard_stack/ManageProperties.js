@@ -49,9 +49,15 @@ class ManageProperties extends Component {
 
   componentDidMount = () => {
     const { propertyContext } = this.props
-    propertyContext.getAllProperties()
-    propertyContext.getHotels()
-    propertyContext.getApartments()
+    const { set, state, getHotels, getAllProperties, getApartments } = propertyContext
+    // propertyContext.getAllProperties()
+    set({ activePropertiesPage: 1 }, () => { getAllProperties() })
+    // propertyContext.getHotels()
+    set({ activeHotelsPage: 1 }, () => {
+      getHotels()
+    })
+    set({ activeApartmentsPage: 1 }, () => { getApartments() })
+    // propertyContext.getApartments()
 
   }
 
@@ -100,7 +106,7 @@ class ManageProperties extends Component {
     const { tabOneSelected, tabTwoSelected, tabThreeSelected } = this.state;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-        <Header {...this.props} title="Manage Properties" wrapperStyles={{ paddingBottom: 5}} />
+        <Header {...this.props} title="Manage Properties" wrapperStyles={{ paddingBottom: 5, position: 'relative' }} />
         <View style={manageHeader}>
             <View style={tabsContainer}>
                 <TouchableWithoutFeedback onPress={this.selectTabOne}>
@@ -136,7 +142,10 @@ class ManageProperties extends Component {
 
 const styles = StyleSheet.create({
     manageHeader: {
-        position: 'absolute', backgroundColor: colors.white, paddingTop: Platform.OS === 'ios' ? 110 : 110, width: '100%', paddingHorizontal: 20, zIndex: 1,
+        // position: 'absolute', 
+        backgroundColor: colors.white, 
+        // paddingTop: Platform.OS === 'ios' ? 110 : 110, 
+        width: '100%', paddingHorizontal: 20, zIndex: 1,
     }, 
     tabsContainer: {
         display: 'flex', flexDirection: 'row', backgroundColor: colors.lighterGreen, borderRadius: 6, padding: 4,
@@ -149,7 +158,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.green, borderRadius: 6,
     },
     contentContainer: {
-        paddingTop: 210, paddingHorizontal: 20, paddingBottom:30,
+        // paddingTop: 210, 
+        paddingHorizontal: 20, paddingBottom:30,
     },
     rowContainer: {
         marginBottom: 20,

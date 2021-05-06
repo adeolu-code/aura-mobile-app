@@ -18,6 +18,7 @@ import { Icon } from 'native-base';
 import { setUser, setToken } from '../../helpers';
 import { setContext, Request, urls, HOST } from '../../utils';
 import { AppContext } from '../../../AppProvider';
+import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
 import { GOOGLE_WEB_CLIENTID } from '../../strings'
 import ForgotPassword from "../../screens/auth/ForgotPassword";
 
@@ -26,10 +27,10 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      // email: "ferume@tapi.re", 
-      // password: "123999_@ABCabc", 
-      email: '',
-      password: '',
+      email: "ferume@tapi.re", 
+      password: "123999_@ABCabc", 
+      // email: '',
+      // password: '',
       loading: false, 
       formErrors: [] 
     };
@@ -70,7 +71,7 @@ class LoginModal extends Component {
     const obj = { username: email, password }
     try {
       const res = await Request(urls.identityBase, `${urls.v}auth/user/login`, obj)
-      console.log('Res ',res)
+      // console.log('Res ',res)
       if(!res.isError) {
         this.getUserDetails(res.data.access_token);
         this.context.set({ token: res.data })
@@ -152,14 +153,14 @@ class LoginModal extends Component {
           console.log('USer info ', userInfo)
           // await GoogleSignin.signOut();
           const token = await GoogleSignin.getTokens();
-          console.log('USer token ', token)
+          // console.log('USer token ', token)
           // this.socialApiCall('google', token.accessToken)
           this.socialApiCall('google', token.idToken)
           
       } catch (error) {
           console.log('Error ', error, error.code, error.message)
-          this.setState({ loading: false, formErrors: [error.message] })
-          // this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
+          // this.setState({ loading: false, formErrors: [error.message] })
+          this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
             // this.setState({ formErrors: [error.message]})
               // user cancelled the login flow
@@ -202,6 +203,48 @@ class LoginModal extends Component {
 
   onDecline = () => {
     this.props.onDecline(false)
+  }
+  onAppleButtonPress = async () => {
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        // requestedOperation: AppleAuthRequestOperation.LOGIN,
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+        // requestedScopes: [
+        //   AppleAuthRequestScope.EMAIL,
+        //   AppleAuthRequestScope.FULL_NAME
+        // ],
+      });
+      // const { identityToken } = appleAuthRequestResponse;
+      console.log('Apple token ',appleAuthRequestResponse)
+    } catch (error) {
+      console.log('Error ', error)
+      // if (error.code === AppleAuthError.CANCELED) {
+      //   // user cancelled Apple Sign-in
+    
+      // } else {
+      //   // other unknown error
+      // }
+    }
+  }
+
+  renderAppleLogin = () => {
+    if(Platform.OS === 'ios') {
+      return (
+        <View style={{ borderWidth: 1, borderRadius: 10, marginTop: 10, alignItems: 'center', overflow: 'hidden'}}>
+          <AppleButton
+            buttonStyle={AppleButton.Style.DEFAULT}
+            buttonType={AppleButton.Type.SIGN_IN}
+            style={{
+              width: '100%', // You must specify a width
+              height: 45, // You must specify a height
+              fontFamily: 'Nunito-Bold'
+            }}
+            onPress={() => this.onAppleButtonPress()}
+          />
+        </View>
+      )
+    }
   }
 
   render() {
@@ -251,13 +294,14 @@ class LoginModal extends Component {
                   <View style={dashStyles}></View>
                 </View>
                 <View style={socialContainer}>
-                  <CustomButton buttonText="Log In With Facebook" buttonStyle={buttonStyle} onPress={this.loginWithFacebook}
+                  {/* <CustomButton buttonText="Log In With Facebook" buttonStyle={buttonStyle} onPress={this.loginWithFacebook}
                   socialImg={require('../../assets/images/icons/facebook/facebook.png')}
-                    textStyle={{ color: colors.darkGrey }}  />
+                    textStyle={{ color: colors.darkGrey }}  /> */}
                   <CustomButton buttonText="Log In With Google" buttonStyle={buttonStyle} onPress={this.loginWithGoogle}
                   socialImg={require('../../assets/images/icons/google/google.png')}
                     textStyle={{ color: colors.darkGrey }}
                   />
+                  {this.renderAppleLogin()}
                 </View>
 
                 <View>

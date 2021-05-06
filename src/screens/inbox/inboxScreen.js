@@ -49,14 +49,14 @@ class InboxScreenClass extends Component {
   render() {
     return (
       <>
-          <ScrollView>
+          <ScrollView style={{paddingTop: 20}}>
             {
               this.context.state.isLoggedIn ?
                 <BottomTabSectionNoRecord
                     title={"Inbox"}
                     tabs={["Messages", "Notifications"]} 
                     onTopTabClick={(index) => this.onTopTabClick(index)}
-                    render={this.state.toBeRendered}
+                    render={this.state.toBeRendered} noInbox={true}
                 />
                 
               :

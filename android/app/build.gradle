@@ -78,7 +78,9 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+    // entryFile: "index.js",
+    enableHermes: true,
+    // enableHermes: false,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -120,7 +122,7 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
  * and the benefits of using Hermes will therefore be sharply reduced.
  */
-def enableHermes = project.ext.react.get("enableHermes", false);
+def enableHermes = project.ext.react.get("enableHermes", true);
 
 android {
     
@@ -135,9 +137,9 @@ android {
         applicationId "com.aura.transcorphotels.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 27
+        versionCode 29
         // versionCode 3145745
-        versionName "1.0.22"
+        versionName "1.0.24"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary true
     }
@@ -245,7 +247,8 @@ dependencies {
 //        exclude group: 'com.google.android.gms', module: 'play-services-base'
 //        exclude group: 'com.google.android.gms', module: 'play-services-maps'
 //    }
-   implementation 'com.google.android.gms:play-services-base:17.2.1'
+//    implementation 'com.google.android.gms:play-services-base:17.2.1'
+   implementation 'com.google.android.gms:play-services-base:17.6.0'
 //    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 }
 

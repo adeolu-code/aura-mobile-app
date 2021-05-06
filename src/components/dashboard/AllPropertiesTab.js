@@ -62,7 +62,7 @@ class AllPropertiesTab extends Component {
             <View style={rowContainer}>
                 <ManagePropertyRow title={title} img={imgUrl} openModal={this.openFilterModal.bind(this, item)} location={location} 
                 status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} item={item}
-                onPress={this.linkToSingleHome.bind(this, item)} />
+                onPress={this.linkToSingleHome.bind(this, item)} propertyId={item.propertyId} />
             </View>
         )
     }
@@ -80,7 +80,7 @@ class AllPropertiesTab extends Component {
     renderProperties = () => {
         const { properties } = this.props.propertyContext.state
         return (
-            <FlatList
+            <FlatList style={{ marginBottom: 150}}
                 refreshControl={
                     <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.refreshing}
                     colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
@@ -137,7 +137,9 @@ class AllPropertiesTab extends Component {
 
 const styles = StyleSheet.create({
     contentContainer: {
-        paddingTop: Platform.OS === 'ios' ? 185 : 210, paddingHorizontal: 20, paddingBottom:30,
+        // paddingTop: Platform.OS === 'ios' ? 185 : 210, 
+        paddingTop: 20,
+        paddingHorizontal: 20, paddingBottom:30,
     },
     rowContainer: {
         marginBottom: 20, borderRadius: 6, 

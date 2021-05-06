@@ -15,6 +15,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1EFBF439A1D86CC27395A7CC /* libPods-Aura-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 075D045942ECB6828EB27B65 /* libPods-Aura-tvOSTests.a */; };
 		2705D4AC258CE20B001984E5 /* geoservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2705D4AB258CE20B001984E5 /* geoservice.swift */; };
+		277D3D9C264184860042659D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 277D3D9B264184860042659D /* GoogleService-Info.plist */; };
 		27F7F555259202F100952DCA /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27F7F554259202F100952DCA /* AppCenter-Config.plist */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -78,7 +79,10 @@
 		24E76D97F79B64CC1BA09224 /* Pods-Aura-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aura-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Aura-tvOS/Pods-Aura-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		2705D4AA258CE20A001984E5 /* Aura-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Aura-Bridging-Header.h"; sourceTree = "<group>"; };
 		2705D4AB258CE20B001984E5 /* geoservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geoservice.swift; sourceTree = "<group>"; };
+		272D7C2426441517009A98FB /* AuraDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AuraDebug.entitlements; path = Aura/AuraDebug.entitlements; sourceTree = "<group>"; };
 		2750D93981D3496FA6DC8955 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		277D3D9B264184860042659D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		277D3E002642C33D0042659D /* AuraRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AuraRelease.entitlements; path = Aura/AuraRelease.entitlements; sourceTree = "<group>"; };
 		27F7F554259202F100952DCA /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		28F65375831B49D196DD317D /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		297DA114362844D8A3759BE2 /* Oxygen-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oxygen-Bold.ttf"; path = "../assets/fonts/Oxygen-Bold.ttf"; sourceTree = "<group>"; };
@@ -192,6 +196,9 @@
 		13B07FAE1A68108700A75B9A /* Aura */ = {
 			isa = PBXGroup;
 			children = (
+				272D7C2426441517009A98FB /* AuraDebug.entitlements */,
+				277D3E002642C33D0042659D /* AuraRelease.entitlements */,
+				277D3D9B264184860042659D /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -421,6 +428,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 9DQSGZAD72;
 						LastSwiftMigration = 1130;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -476,6 +484,7 @@
 				A7EA52DCD09D4379A6B52674 /* Nunito-BoldItalic.ttf in Resources */,
 				0D9FEA4434F240AE8D0426E9 /* Nunito-ExtraBold.ttf in Resources */,
 				48E33E64E01F43CCAC0024B3 /* Nunito-ExtraBoldItalic.ttf in Resources */,
+				277D3D9C264184860042659D /* GoogleService-Info.plist in Resources */,
 				414817AB2AAA4FFF83B0E1DB /* Nunito-ExtraLight.ttf in Resources */,
 				49D30CF1D9CB45D19498F338 /* Nunito-ExtraLightItalic.ttf in Resources */,
 				27F7F555259202F100952DCA /* AppCenter-Config.plist in Resources */,
@@ -884,12 +893,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1.0.11;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_ENTITLEMENTS = Aura/AuraDebug.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 1.0.13;
+				DEVELOPMENT_TEAM = 9DQSGZAD72;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Aura/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.11;
+				MARKETING_VERSION = 1.0.13;
+				"OTHER_CFLAGS[arch=*]" = "-fstack-protector-all";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -897,6 +909,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aura.transcorphotels.app;
 				PRODUCT_NAME = Aura;
+				PROVISIONING_PROFILE_SPECIFIER = "App Aura App Store Production";
 				SWIFT_OBJC_BRIDGING_HEADER = "Aura-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -910,13 +923,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Aura/AuraRelease.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.0.11;
+				CURRENT_PROJECT_VERSION = 1.0.13;
 				DEVELOPMENT_TEAM = 9DQSGZAD72;
 				INFOPLIST_FILE = Aura/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.11;
+				MARKETING_VERSION = 1.0.13;
+				"OTHER_CFLAGS[arch=*]" = "-fstack-protector-all";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

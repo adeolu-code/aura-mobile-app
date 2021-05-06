@@ -30,7 +30,7 @@ class BottomTabSectionNoRecord extends Component {
       <>
         <View style={[Styles.parentView,]}>
             <MyText style={[textExtraBold, textLgStyle, textDarkBlue, {marginTop: 10, paddingLeft: 10}, this.props.myTextTitle ]}>
-                {this.props.title} Bookings
+                {this.props.title}{ this.props.noInbox ? '' : ' Bookings' }
             </MyText>
             { 
               this.props.subTitle &&

@@ -37,9 +37,9 @@ class HouseComponent extends Component {
       scrollItemContainer,
     } = styles;
     const {
-      imgStyle, flexRow, textSuccess, textExtraBold, textH3Style, textDarkGrey, marginBottomSmall, textGrey, textH4Style,
+      imgStyle, flexRow, textSuccess, textExtraBold, textH3Style, textDarkGrey, marginBottomSmall, textGrey, textH4Style, textH5Style
     } = GStyles;
-    const {title, img, location, price, onPress, rating } = this.props;
+    const {title, img, location, price, onPress, rating, propertyId } = this.props;
     return (
       <View>
         <Pressable style={scrollItemContainer} onPress={onPress}>
@@ -62,6 +62,7 @@ class HouseComponent extends Component {
             </MyText>
             <StarComponent grey rating={rating} />
             <MyText style={[textGrey, textH4Style]}>{location}</MyText>
+            {propertyId ? <MyText style={[textGrey, textH5Style, { marginTop: 5}]}>Unique Id: <MyText style={[textExtraBold]}>{propertyId}</MyText></MyText> : <></>}
           </View>
         </Pressable>
       </View>

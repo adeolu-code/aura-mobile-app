@@ -35,7 +35,7 @@ class ApartmentsTab extends Component {
   }
   onEndReached = () => {
     const { set, state, getApartments } = this.props.propertyContext
-    if(state.activeApartmentsPage < state.pageApartmentCount && !state.loadMoreApartments) {
+    if(state.activeApartmentsPage < state.pageApartmentsCount && !state.loadMoreApartments) {
       set({ activeApartmentsPage: state.activeApartmentsPage + 1 }, () => { getApartments(true) })
     }
     // console.log('End reached')
@@ -73,7 +73,7 @@ class ApartmentsTab extends Component {
         <View style={rowContainer}>
             <ManagePropertyRow title={title} img={imgUrl} openModal={this.openFilterModal.bind(this, item)} location={location} 
             status={item.status} {...this.props} propertyType={item.propertyType.name} roomType={item.roomType.name} 
-            onPress={this.linkToSingleHome.bind(this, item)} item={item} />
+            onPress={this.linkToSingleHome.bind(this, item)} item={item} propertyId={item.propertyId} />
         </View>
     )
     
@@ -82,7 +82,7 @@ class ApartmentsTab extends Component {
   renderApartments = () => {
       const { apartments } = this.props.propertyContext.state
       return (
-          <FlatList
+          <FlatList style={{ marginBottom: 150}}
             refreshControl={
                 <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.refreshing}
                 colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
@@ -137,7 +137,9 @@ class ApartmentsTab extends Component {
 
 const styles = StyleSheet.create({
     contentContainer: {
-      paddingTop: Platform.OS === 'ios' ? 185 : 210, paddingHorizontal: 20, paddingBottom:30,
+      // paddingTop: Platform.OS === 'ios' ? 185 : 210, 
+      paddingTop: 20,
+      paddingHorizontal: 20, paddingBottom:30,
     },
     rowContainer: {
       marginBottom: 20,

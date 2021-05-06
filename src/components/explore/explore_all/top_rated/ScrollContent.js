@@ -90,7 +90,7 @@ class ScrollContent extends Component {
         return (
             <View style={scrollItemContainer}>
                 <HouseComponent img={imgUrl} verified={item.isVerified} title={title} location={item.state} onPress={this.linkToHouse.bind(this, item)}
-                price={`₦ ${formattedAmount} / night`} {...this.props} rating={item.rating} />
+                price={`₦ ${formattedAmount} / night`} {...this.props} rating={item.rating} propertyId={item.propertyId} />
             </View>
         )
     }
@@ -126,6 +126,7 @@ class ScrollContent extends Component {
         </View>
         {this.renderLoading()}
         <FlatList
+            showsHorizontalScrollIndicator={false}
             horizontal={true}
             ListFooterComponent={
                 <>

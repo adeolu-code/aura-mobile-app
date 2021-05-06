@@ -11,7 +11,7 @@ import GStyles from '../../assets/styles/GeneralStyles';
 
 import ReservationMainRow from '../../components/dashboard/ReservationMainRow';
 import { AppContext } from '../../../AppProvider';
-import { setContext, Request, urls } from '../../utils';
+import { setContext, Request, urls, SCREEN_HEIGHT } from '../../utils';
 
 
 import { ReservationsContext, ReservationsConsumer } from '../../../ReservationsProvider';
@@ -27,7 +27,7 @@ class Reservations extends Component {
   }
   renderLoading = () => {
     const { loading } = this.state;
-    if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
+    if (loading) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 100 }} />); }
 }
   componentDidMount () {
     const { reservationsContext } = this.props;
@@ -54,11 +54,11 @@ class Reservations extends Component {
 
   render() {
     const { textGrey, textH3Style, textH4Style, textSuccess, textWhite, textH5Style, textH6Style, textBold, } = GStyles;
-    const { reservationHeader, tabsContainer, tabStyle, rightTabStyle, activeTab, contentContainer, rowContainer } = styles;
+    const { reservationHeader, tabsContainer, tabStyle, rightTabStyle, activeTab, rowContainer } = styles;
     const { tabOneSelected } = this.state;
     return (
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-              <Header {...this.props} title="Reservations" wrapperStyles={{ paddingBottom: 5}} 
+              <Header {...this.props} title="Reservations" wrapperStyles={{ paddingBottom: 5, position: 'relative'}} 
               sub="Bookings Made By Clients For Apartments And Hotels" />
               <View style={reservationHeader}>
                   <View style={tabsContainer}>
@@ -79,21 +79,22 @@ class Reservations extends Component {
 
 const styles = StyleSheet.create({
     reservationHeader: {
-        position: 'absolute', backgroundColor: colors.white, paddingTop: Platform.OS === 'ios' ? 120 : 130,
-         width: '100%', paddingHorizontal: 20, zIndex: 1
+        // position: 'absolute', 
+        backgroundColor: colors.white, 
+        // paddingTop: Platform.OS === 'ios' ? 120 : 130,
+         width: '100%', paddingHorizontal: 20, zIndex: 1, 
+        //  borderWidth: 1
     }, 
     tabsContainer: {
         display: 'flex', flexDirection: 'row', backgroundColor: colors.lighterGreen, borderRadius: 6, padding: 4,
-        marginTop: 30
+        // marginTop: 30,
+        marginTop: 10
     },
     tabStyle: {
         flex: 1, paddingVertical: 12, justifyContent: 'center', alignItems: 'center'
     },
     activeTab: {
         backgroundColor: colors.green, borderRadius: 6
-    },
-    contentContainer: {
-        paddingTop: 250,
     },
     rowContainer: {
         marginBottom: 20

@@ -33,7 +33,7 @@ class ConcludedReservationsTab extends Component {
         }
     }
     linkToReserve = (reservation) => {
-      this.props.navigation.navigate('HomeDetails', { propertyId: reservation.propertyId } )
+      this.props.navigation.navigate('HomeDetails', { propertyId: reservation.propertyId, recent: false } )
     }
     onEndReached = () => {
         // const { set, state, getConcludedReservations } = this.props.reservationsContext;
@@ -67,6 +67,7 @@ class ConcludedReservationsTab extends Component {
               //     {this.renderLoadMore()}
               //   </>
               // }
+              style={{ marginBottom: 200}}
               ListEmptyComponent={this.renderEmptyContainer()}
               data={concludedReservations}
               renderItem={this.renderItem}
@@ -82,7 +83,7 @@ class ConcludedReservationsTab extends Component {
         const { emptyContainerStyle } = styles;
         const { imgStyle, textCenter, textOrange, textBold, textH4Style } = GStyles;
         const { state } = this.props.reservationsContext;
-        if (state.concludedReservations.length === 0 && !state.loadingConReservations) {
+        if (state.concludedReservations && state.concludedReservations.length === 0 && !state.loadingConReservations) {
             return (
             <View style={{ flex: 1, paddingVertical: 60}}>
                 <View style={emptyContainerStyle}>
@@ -109,7 +110,9 @@ class ConcludedReservationsTab extends Component {
   
   const styles = StyleSheet.create({
       contentContainer: {
-        paddingTop: Platform.OS === 'ios' ? 220 : 250, paddingHorizontal: 20, paddingBottom:30,
+        // paddingTop: Platform.OS === 'ios' ? 220 : 250,
+        paddingTop: 20, 
+        paddingHorizontal: 20, paddingBottom:30,
       },
       rowContainer: {
           marginBottom: 20, paddingHorizontal: 1, paddingVertical: 1

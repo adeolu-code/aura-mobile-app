@@ -64,6 +64,15 @@ class ItemComponent extends Component {
       )
     }
   }
+  renderPropertyId = () => {
+    const { propertyId } = this.props;
+    const { textSuccess, textExtraBold, textH4Style, textGrey, textH5Style } = GStyles;
+    if(propertyId) {
+      return (
+        <MyText style={[textGrey, textH5Style, { marginTop: 5}]}>Unique Id: <MyText style={[textExtraBold]}>{propertyId}</MyText></MyText>
+      )
+    }
+  }
 
   render() {
     const { imgStyle, textDarkGrey, textSuccess, textExtraBold, textH4Style,marginBottomSmall, textGrey, 
@@ -85,6 +94,7 @@ class ItemComponent extends Component {
             </MyText>
             <StarComponent grey rating={rating} />
             {this.renderLocation()}
+            {this.renderPropertyId()}
           </View>
         </Pressable>
       </View>

@@ -8,19 +8,21 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
-
 import GuestHeader from '../../components/dashboard/GuestHeader';
 import GStyles from '../../assets/styles/GeneralStyles';
 
 import { formatAmount } from '../../helpers'
 import { successMessage, SCREEN_WIDTH, GetRequest, urls } from '../../utils';
 
+import CancellationPolicyModal from '../../components/CancellationPolicyModal';
+import CashRefundModal from '../../components/dashboard/CashRefundModal';
+
 import Pdf from 'react-native-pdf';
 
 class GuestProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = { reservation: '', source: '' };
+    this.state = { reservation: '', source: '', showPolicyModal: false, showFormModal: false };
     const { reservation } = props.route.params;
     console.log('Res ',reservation)
     this.state.reservation = reservation
@@ -120,6 +122,18 @@ class GuestProfile extends Component {
         console.log("storage permission denied");
     }
         
+  }
+  openPolicyModal = () => {
+    this.setState({ showPolicyModal: true })
+  }
+  closePolicyModal = () => {
+    this.setState({ showPolicyModal: false })
+  }
+  openFormModal = () => {
+    this.setState({ showFormModal: true, showPolicyModal: false })
+  }
+  closeFormModal = () => {
+    this.setState({ showFormModal: false })
   }
 
   requestPermissionIOS = async () => {
@@ -224,6 +238,17 @@ class GuestProfile extends Component {
   componentDidMount = () => {
     //   this.getInvoice()
   }
+  renderDeclineBooking = () => {
+    const { reservation } = this.state
+    if(reservation.approval_Info.name.toLowerCase() !== 'expired' && 
+    reservation.approval_Info.name.toLowerCase() !== 'cancelled' && reservation.approval_Info.name.toLowerCase() !== 'pending') {
+      return (
+        <View style={styles.buttonContainer}>
+            <CustomButton buttonText="Decline Booking" onPress={this.openPolicyModal} buttonStyle={{backgroundColor: colors.darkGrey, elevation: 2}} />
+        </View>
+      )
+    }
+  }
   render() {
     const { contentContainer, titleStyle, rowContainer, detailsContainer, downloadContainer, lowerContainer, buttonContainer } = styles;
     const { flexRow, upperCase, textH5Style, textH4Style, textBold, textGrey, textRight, textH6Style, 
@@ -303,16 +328,19 @@ class GuestProfile extends Component {
                     </TouchableOpacity>
                 </View>
 
-                {/* <View style={lowerContainer}>
-                    <View style={buttonContainer}>
+                <View style={lowerContainer}>
+                    {/* <View style={buttonContainer}>
                         <CustomButton buttonText="View Booking Information" buttonStyle={{elevation: 2}} />
-                    </View>
-                    <View style={buttonContainer}>
-                        <CustomButton buttonText="Decline Booking" buttonStyle={{backgroundColor: colors.darkGrey, elevation: 2}} />
-                    </View>
-                </View> */}
+                    </View> */}
+                    {this.renderDeclineBooking()}
+                    {/* <View style={buttonContainer}>
+                        <CustomButton buttonText="Decline Booking" onPress={this.openPolicyModal} buttonStyle={{backgroundColor: colors.darkGrey, elevation: 2}} />
+                    </View> */}
+                </View>
             </View>
         </ScrollView>
+        <CancellationPolicyModal visible={this.state.showPolicyModal} onDecline={this.closePolicyModal} next={this.openFormModal} />
+        <CashRefundModal visible={this.state.showFormModal} onDecline={this.closeFormModal} reservation={this.state.reservation} />
       </SafeAreaView>
     );
   }
