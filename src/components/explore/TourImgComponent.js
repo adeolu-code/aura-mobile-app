@@ -100,7 +100,7 @@ class TourImgComponent extends Component {
           </View>
         </View>
         {tours && tours.length !== 0 ? <View style={{ marginTop: 20 }}>
-          <CustomButton buttonText="Find More Tour" iconName="arrow-right" onPress={this.linkToTours} />
+          <CustomButton buttonText="Find More Tours" iconName="arrow-right" onPress={this.linkToTours} />
         </View> : <></>}
       </View>
     );

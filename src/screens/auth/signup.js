@@ -146,7 +146,7 @@ class signUp extends Component {
     const { firstName, lastName, email, password, acceptTerms, dateOfBirth } = this.state;
     this.setState({ loading: true, formErrors: [] });
     const number = this.formatNumber();
-    const obj = { firstName, lastName, email, phoneNumber: number, password, acceptTerms, dateOfBirth };
+    const obj = { firstName, lastName, email: email.trim(), phoneNumber: number, password, acceptTerms, dateOfBirth };
     try {
       const res = await Request(urls.identityBase, `${urls.v}user/signup`, obj);
       console.log(res);

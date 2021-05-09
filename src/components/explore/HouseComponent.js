@@ -7,6 +7,7 @@ import { Icon } from 'native-base';
 import colors from '../../colors';
 
 import StarComponent from '../StarComponent';
+import FastImage from 'react-native-fast-image'
 
 
 class HouseComponent extends Component {
@@ -44,7 +45,7 @@ class HouseComponent extends Component {
       <View>
         <Pressable style={scrollItemContainer} onPress={onPress}>
           <View style={imgContainer}>
-            <Image source={img} resizeMode="cover" style={[imgStyle, { borderRadius: 8}]} />
+            <FastImage source={img} resizeMode="cover" style={[imgStyle, { borderRadius: 8}]} />
             {this.renderVerified()}
           </View>
           <View style={contentContainer}>

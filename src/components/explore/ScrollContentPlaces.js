@@ -25,13 +25,15 @@ class ScrollContentPlaces extends Component {
         this.props.navigation.navigate('Other', { screen: 'HouseSingle', params: { house } })
     }
     
-    getPlaces = async (long, lat) => {
+    getPlaces = async (refresh=false) => {
         this.setState({ loading: true })
         // const res = await GetRequest(urls.listingBase, 
         // `${urls.v}listing/property/search/available/?Longitude=${long}&Latitude=${lat}&Size=4&Page=1`);
+        if(refresh) {
+            this.props.loading(true)
+        }
         try {
-           const res = await GetRequest(urls.listingBase, 
-                `${urls.v}listing/property/search/available/?Size=4&Page=1`);
+           const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/search/available/?Size=4&Page=1`);
             // console.log('Res places', res)
             this.setState({ loading: false })
             if(res.isError) {
@@ -43,9 +45,16 @@ class ScrollContentPlaces extends Component {
                     this.setState({ noDot: false })
                 }
             } 
+            if(refresh) {
+                this.props.loading(false)
+            }
         } catch (error) {
             this.setState({ loading: false })
+            if(refresh) {
+                this.props.loading(false)
+            }
             errorMessage(error.message)
+
         }
         
     }
@@ -65,7 +74,7 @@ class ScrollContentPlaces extends Component {
     }
     componentDidUpdate = (prevProps, prevState) => {
         if(prevProps.refresh !== this.props.refresh) {
-            this.getPlaces()
+            this.getPlaces(true)
             // const { location } = this.context.state;
             // if(location) {
             //     this.getPlaces(location.longitude, location.latitude)
