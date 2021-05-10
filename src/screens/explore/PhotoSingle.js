@@ -98,7 +98,7 @@ class PhotoSingle extends Component {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
             {this.renderLoading()}
-            <BackHeader {...this.props} />
+            <BackHeader {...this.props} wrapperStyles={{ position: 'relative'}} />
             <ScrollView>
                 <View>
                     <Header title={title} location={location} />

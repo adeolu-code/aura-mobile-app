@@ -248,7 +248,7 @@ class FoodSingle extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
-        <BackHeader {...this.props} />
+        <BackHeader {...this.props} wrapperStyles={{ position: 'relative'}} />
         <ScrollView>
             <View style={{marginBottom: 80}}>
                 <ImageAndDetails title="Ocean Basket" photos={this.state.menus} restaurant={restaurant} />

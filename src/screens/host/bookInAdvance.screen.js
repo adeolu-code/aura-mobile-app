@@ -90,8 +90,8 @@ export default class BookInAdvance extends Component {
         return (
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="How Far In Advance Can A Guest Book?" />
-                    <View style={[Styles.container, {marginTop: 120}]}>
+                    <Header {...this.props} title="How Far In Advance Can A Guest Book?" wrapperStyles={{ position: 'relative'}} />
+                    <View style={[Styles.container, {marginTop: 10}]}>
                         <ScrollView>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen]}>Tips: </MyText>

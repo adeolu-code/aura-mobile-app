@@ -152,10 +152,10 @@ export default class HouseRules extends Component {
         return(
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="House Rules Of Need To Know" 
+                    <Header {...this.props} title="House Rules Of Need To Know" wrapperStyles={{ position: 'relative'}}
                         sub={"Inform your guests about rules they need to follow if you are hosting them"}
                     />
-                    <View style={[Styles.container]}>
+                    <View style={[Styles.container, { marginTop: 0}]}>
                         <ScrollView ref={this.scrollViewRef}>
                             <View style={{ paddingBottom: 40}}>
                                 <View style={[{marginTop: 40}]}>

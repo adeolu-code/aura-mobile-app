@@ -32,10 +32,10 @@ export default class BookingPreview extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header 
-                        {...this.props} 
+                        {...this.props} wrapperStyles={{ position: 'relative'}}
                         title="Here’s How Guests Will Book With You" 
                     />
-                    <View style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 140 : 160 }]}>
+                    <View style={[Styles.container, {marginTop:0 }]}>
                         <ScrollView scrollEnabled>
                             <Item 
                                 title={"Qualified Guests Find Your Listing"}

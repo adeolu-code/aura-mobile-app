@@ -162,7 +162,7 @@ class Location extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
-        <Header {...this.props} title={"Did We Get Your Location Right?"} />
+        <Header {...this.props} title={"Did We Get Your Location Right?"} wrapperStyles={{ position: 'relative'}} />
           <View style={container}>
               <View style={{flex: 1, height: '100%'}}>
                 
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: Platform.OS === 'ios' ? 140 : 155,
+    // marginTop: Platform.OS === 'ios' ? 140 : 155,
     flex: 1, 
     // borderWidth: 1, borderColor: 'red',
   },

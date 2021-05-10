@@ -276,10 +276,10 @@ class AmenitiesScreen extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
-        <Header {...this.props} title="Amenities Available At Your Place" />
+        <Header {...this.props} title="Amenities Available At Your Place" wrapperStyles={{ position: 'relative'}} />
           <ScrollView style={container}>
             <View>
-                <View style={{marginTop: 20}}>
+                <View style={{marginTop: 10}}>
                   {this.renderAmmenities()}
                     {/* <MyText style={[textOrange, textH5Style, textBold,textUnderline]}>
                         Add Additional Amenities
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 145,
+    // marginTop: 145,
     flex: 1,
   },
 //   picker: {

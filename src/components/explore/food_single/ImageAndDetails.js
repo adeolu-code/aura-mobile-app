@@ -140,7 +140,8 @@ class ImageAndDetails extends Component {
 
 const styles = StyleSheet.create({
     headerStyle: {
-        paddingTop: SCREEN_HEIGHT <= 667 ? 50 : 30, paddingBottom: 15,
+        // paddingTop: SCREEN_HEIGHT <= 667 ? 50 : 30, 
+        paddingBottom: 15,
         backgroundColor: colors.white,
         paddingHorizontal: 20,
     },

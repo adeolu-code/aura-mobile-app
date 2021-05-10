@@ -182,10 +182,10 @@ class ListPropertyScreen extends Component {
     const { noofAvailableRooms, noofBeds, noofRooms, noofBathrooms } = this.state
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-        <Header {...this.props} title={"List A Property In Minutes"} />
+        <Header {...this.props} title={"List A Property In Minutes"} wrapperStyles={{ position: 'relative'}} />
           <ScrollView style={container}>
             <View>
-                <View style={{marginTop: 42}}>
+                <View style={{marginTop: 12}}>
                     <MyText style={textGrey}>Choose A Type Of Property</MyText>
                     {this.renderPropertyLists()}
                 </View>
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: Platform.OS === 'ios' ? 80 : 100,
+    // marginTop: Platform.OS === 'ios' ? 80 : 100,
     flex: 1,
   },
   picker: {

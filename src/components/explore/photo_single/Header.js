@@ -44,7 +44,8 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
     headerStyle: {
-        paddingTop: SCREEN_HEIGHT <= 667 ? 50 : 40, paddingBottom: 15,
+        // paddingTop: SCREEN_HEIGHT <= 667 ? 50 : 40, 
+        paddingBottom: 15,
         backgroundColor: colors.white,
         justifyContent: 'space-between', paddingHorizontal: 20,
     },

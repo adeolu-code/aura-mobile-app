@@ -53,8 +53,8 @@ export default class BookingDuration extends Component {
         return (
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="How Long Can a Guest Stay?" />
-                    <View style={[Styles.container, {marginTop: 100, flex: 1}]}>
+                    <Header {...this.props} title="How Long Can a Guest Stay?" wrapperStyles={{ position: 'relative'}} />
+                    <View style={[Styles.container, {marginTop: 10, flex: 1}]}>
                         <View style={{flex: 2}}>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>

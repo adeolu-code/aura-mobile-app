@@ -226,7 +226,7 @@ class LocationScreen extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
-        <Header { ...this.props } title={"Where Is Your Place Located"} />
+        <Header { ...this.props } title={"Where Is Your Place Located"} wrapperStyles={{ position: 'relative'}} />
           <ScrollView style={container} keyboardShouldPersistTaps="always">
             <KeyboardAvoidingView style={{ flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "padding"}>
                 <View style={{marginTop: 0}}>
@@ -295,7 +295,8 @@ class LocationScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    paddingHorizontal: 24, marginTop: 110,
+    paddingHorizontal: 24, 
+    marginTop: 10,
     flex: 1, flexGrow: 1
   },
   picker: {

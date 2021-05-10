@@ -234,8 +234,8 @@ export default class BookingInformationRequirements extends Component {
         return(
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="Booking Information Requirements" />
-                    <View style={[Styles.container,]} >
+                    <Header {...this.props} title="Booking Information Requirements" wrapperStyles={{ position: 'relative'}} />
+                    <View style={[Styles.container, { marginTop: 0}]} >
                         <ScrollView ref={this.scrollViewRef} scrollEventThrottle={20}  >
                             <MyText style={[textH3Style, textExtraBold, { marginBottom: 5}]}>Guest Must Provide</MyText>
                             <MyText style={[textH5Style, textGrey, lineHeightText]}>

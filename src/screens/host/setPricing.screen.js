@@ -200,8 +200,8 @@ export default class SetPricing extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
-                    <Header {...this.props}  title="Set Your Pricing"  />
-                    <View style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 105 : 130, padding: 0, paddingBottom: 10}]}>
+                    <Header {...this.props}  title="Set Your Pricing" wrapperStyles={{ position: 'relative'}}  />
+                    <View style={[Styles.container, {marginTop: 0, padding: 0, paddingBottom: 10}]}>
                         <ScrollView>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start", paddingHorizontal: 20, paddingTop: 20}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
@@ -250,7 +250,7 @@ export default class SetPricing extends Component {
                                     </Picker>
                                 </View>
                             </View>
-                            <View style={{marginBottom: 20, marginTop: 40, paddingHorizontal: 21}}>
+                            <View style={{marginBottom: 60, marginTop: 40, paddingHorizontal: 21}}>
                                 <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} disabled={this.state.price === ''} />
                             </View>
                         </ScrollView>

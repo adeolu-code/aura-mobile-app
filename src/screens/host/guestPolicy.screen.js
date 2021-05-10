@@ -27,10 +27,10 @@ export default class GuestPolicy extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header 
-                        {...this.props} 
+                        {...this.props} wrapperStyles={{ position: 'relative'}}
                         title="Aura Cancellation Policy" 
                     />
-                    <View style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 90 : 120 }]}>
+                    <View style={[Styles.container, {marginTop: 0 }]}>
                         <ScrollView >
                             <MyText style={[textH4Style, textGrey]}>
                                 Guests are entitled to free cancellation if they cancel their booking not more than 48 hours after booking, 
