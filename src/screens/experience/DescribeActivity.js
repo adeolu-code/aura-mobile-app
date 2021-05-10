@@ -212,9 +212,9 @@ class DescribeActivity extends Component {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
-            <Header { ...this.props } title={this.renderTitle()} onPress={this.goBack} />
+            <Header { ...this.props } title={this.renderTitle()} onPress={this.goBack} wrapperStyles={{ position: 'relative'}} />
             <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                <View style={{ marginTop: count === 4 || count === 6 ? 55 : 20 }}>
+                <View style={{ marginTop: count === 4 || count === 6 ? 45 : 10 }}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 4 / 6</MyText>
                     <ProgressBar width={16.7 * 4} />
                     <ProgressBar width={percent} />
@@ -248,7 +248,8 @@ class DescribeActivity extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 24, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

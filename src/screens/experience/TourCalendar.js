@@ -188,9 +188,9 @@ export default class TourCalendar extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
-                    <Header {...this.props} title="Set your experience availability" />
+                    <Header {...this.props} title="Set your experience availability" wrapperStyles={{ position: 'relative'}} />
                     <View style={[container]}>
-                        <View style={{ marginTop: 50}}>
+                        <View>
                             <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                             <ProgressBar width={16.7 * 5} />
                             <ProgressBar width={12.5 * 6} />
@@ -271,7 +271,8 @@ export default class TourCalendar extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 24, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
     skipStyle: {

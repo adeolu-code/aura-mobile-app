@@ -200,7 +200,7 @@ export default class PickImages extends Component {
                     this.setState({ loading: false })
                 } else {
                     const data = res.data;
-                    const urls = data.map(item => item.displayUrl)
+                    const urls = data.uploaded.map(item => item.displayUrl)
                     this.updateOtherImages(urls)
                 } 
             } catch (error) {
@@ -224,7 +224,7 @@ export default class PickImages extends Component {
         }
         Request(urls.experienceBase, `${urls.v}experience/photo/multiple/upload`, obj )
         .then((res) => {
-            console.log('Res ', res)
+            console.log('Update other images Res ', res)
             this.props.navigation.navigate("TourMeetingLocation");
         })
         .catch(error => {
@@ -322,10 +322,10 @@ export default class PickImages extends Component {
                     {this.renderLoading()}
                     <Header 
                         {...this.props} title="Upload Your Photos" 
-                        sub={!isCaptured ? "Upload cover image" : "Upload other images for this tour"}
+                        sub={!isCaptured ? "Upload cover image" : "Upload other images for this tour"} wrapperStyles={{ position: 'relative'}}
                     />
                     <ScrollView>
-                    <View style={[Styles.container]}>
+                    <View style={[Styles.container, { marginTop: 0}]}>
                         <Content>
                                 <TouchableOpacity onPress={this.openTipsModal}>
                                     <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40}]}>See Photography Tips</MyText>

@@ -60,9 +60,9 @@ class Success extends Component {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
-            <Header { ...this.props } title="You are Done" />
+            <Header { ...this.props } title="You are Done" wrapperStyles={{ position: 'relative'}} />
             <View style={container}>
-                <View style={{ marginTop: 30}}>
+                <View>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 6</MyText>
                     <ProgressBar width={100} />
                     <ProgressBar width={12.5 * 8} />
@@ -108,7 +108,8 @@ class Success extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 20, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 20, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

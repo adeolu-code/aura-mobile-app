@@ -21,7 +21,7 @@ class ScrollContent extends Component {
         return (
             <View style={comingSoonContainer}>
                 <View style={comingSoonImg}>
-                    <Image source={require('../../../../assets/images/photo/pic2.png')} style={imgStyle} />
+                    <Image source={require('../../../../assets/images/pizza.jpg')} style={imgStyle} />
                 </View>
                 <MyText style={[textExtraBold, textH3Style, textOrange, textCenter]}>Coming Soon</MyText>
             </View>

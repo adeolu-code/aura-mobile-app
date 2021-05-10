@@ -59,7 +59,7 @@ class LocationComponent extends Component {
     if(region && region.latitude !== null && region.longitude !== null) {
       return (
         <View style={[mapContainer]}>
-          <MapView region={this.state.region} onRegionChange={this.onRegionChange} minZoomLevel={15} scrollEnabled={false}
+          <MapView region={this.state.region} onRegionChange={this.onRegionChange} minZoomLevel={15} 
             style={{ height: '100%', width: '100%'}} >
             {markers.map(marker => (
               <Marker key={marker.key} coordinate={marker.coordinate} pinColor={marker.color} />
@@ -78,14 +78,17 @@ class LocationComponent extends Component {
   render() {
     const {  contentContainer, divider, container, mapContainer, headerStyle } = styles;
     const { textH2Style, textExtraBold,  textH4Style, imgStyle  } = GStyles;
-    const { wrapper, noDivider, address } = this.props
+    const { wrapper, noDivider, address, house } = this.props
+    const city = house.district ? `${house.district}, ` : '';
+    const st = house.state ? `${house.state}` : '';
     return (
         <View style={[container, wrapper]}>
             <View style={headerStyle}>
                 <MyText style={[textH2Style, textExtraBold]}>Location</MyText>
             </View>
             <View style={contentContainer}>
-                <MyText style={[textH4Style]}>{address}</MyText>
+                {/* <MyText style={[textH4Style]}>{address}</MyText> */}
+                <MyText style={[textH4Style]}>{city} {st}</MyText>
                 <View style={mapContainer}>
                     {this.renderMapView()}
                 </View>

@@ -16,16 +16,19 @@ import { successMessage, SCREEN_WIDTH, GetRequest, urls } from '../../utils';
 
 import CancellationPolicyModal from '../../components/CancellationPolicyModal';
 import CashRefundModal from '../../components/dashboard/CashRefundModal';
+import BookingInfoModal from '../../components/dashboard/BookingInfoModal';
 
 import Pdf from 'react-native-pdf';
 
 class GuestProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = { reservation: '', source: '', showPolicyModal: false, showFormModal: false };
-    const { reservation } = props.route.params;
-    console.log('Res ',reservation)
+    this.state = { reservation: '', house: null, source: '', showPolicyModal: false, showFormModal: false, showBookingInfoModal: false };
+    const { reservation, house } = props.route.params;
+    // console.log('Res ',reservation)
+    console.log('Res house',house)
     this.state.reservation = reservation
+    this.state.house = house
   }
 
   statusColor = () => {
@@ -138,6 +141,13 @@ class GuestProfile extends Component {
 
   requestPermissionIOS = async () => {
     this.createPDF()
+  }
+
+  openBookingInfo = () => {
+    this.setState({ showBookingInfoModal: true })
+  }
+  closeBookingInfoModal = () => {
+    this.setState({ showBookingInfoModal: false })
   }
 
   downloadInvoice = async () => {
@@ -329,9 +339,9 @@ class GuestProfile extends Component {
                 </View>
 
                 <View style={lowerContainer}>
-                    {/* <View style={buttonContainer}>
-                        <CustomButton buttonText="View Booking Information" buttonStyle={{elevation: 2}} />
-                    </View> */}
+                    <View style={buttonContainer}>
+                        <CustomButton buttonText="View Booking Information" buttonStyle={{elevation: 2}} onPress={this.openBookingInfo} />
+                    </View>
                     {this.renderDeclineBooking()}
                     {/* <View style={buttonContainer}>
                         <CustomButton buttonText="Decline Booking" onPress={this.openPolicyModal} buttonStyle={{backgroundColor: colors.darkGrey, elevation: 2}} />
@@ -341,6 +351,8 @@ class GuestProfile extends Component {
         </ScrollView>
         <CancellationPolicyModal visible={this.state.showPolicyModal} onDecline={this.closePolicyModal} next={this.openFormModal} />
         <CashRefundModal visible={this.state.showFormModal} onDecline={this.closeFormModal} reservation={this.state.reservation} />
+        <BookingInfoModal visible={this.state.showBookingInfoModal} onDecline={this.closeBookingInfoModal} 
+        reservation={this.state.reservation} house={this.state.house} />
       </SafeAreaView>
     );
   }

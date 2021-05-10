@@ -96,9 +96,9 @@ class NumberOfGuests extends Component {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
-            <Header { ...this.props } title="Group Size" />
+            <Header { ...this.props } title="Group Size" wrapperStyles={{ position: 'relative'}} />
             <View style={container}>
-                <View style={{ marginTop: 20}}>
+                <View>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
                     <ProgressBar width={12.5 * 4} />
@@ -143,7 +143,8 @@ class NumberOfGuests extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 24, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

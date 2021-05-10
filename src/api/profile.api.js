@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { urls, Request, successMessage, errorMessage, GetRequest } from "../utils";
+import { getToken } from '../helpers';
 
 export async function editProfileApi(data, context) {
     try {
@@ -10,8 +11,10 @@ export async function editProfileApi(data, context) {
             successMessage(res.message);
             /** update context **/
             let userData = context.state.userData;
-            data.otherVerifiedPhoneNumbers = JSON.parse(data.otherVerifiedPhoneNumbers);
+            // data.otherVerifiedPhoneNumbers = JSON.parse(data.otherVerifiedPhoneNumbers);
             context.set({userData: {...userData, ...data}});
+            const token = await getToken()
+            context.getUserProfile(token.access_token)
         }
         return res;
     } catch (error) {

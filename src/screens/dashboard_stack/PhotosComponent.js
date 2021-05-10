@@ -172,7 +172,7 @@ class PhotosComponent extends Component {
           this.setState({ loading: false })
         } else {
           const data = res.data;
-          const urls = data.map(item => item.fileName)
+          const urls = data.uploaded.map(item => item.fileName)
           this.updateOtherImages(urls)
         }
       } catch (error) {
@@ -218,7 +218,7 @@ class PhotosComponent extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
-        <Header {...this.props} title={title} wrapperStyles={{ paddingBottom: 5}} sub="Upload your own pictures" />
+        <Header {...this.props} title={title} wrapperStyles={{ paddingBottom: 5, position: 'relative'}} sub="Upload your own pictures" />
         <ScrollView>
           <View style={contentContainer}>
             
@@ -263,7 +263,7 @@ class PhotosComponent extends Component {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    paddingHorizontal: 20, paddingTop: 150, borderBottomColor: colors.lightGrey, borderBottomWidth: 4, paddingBottom: 20
+    paddingHorizontal: 20, paddingTop: 10, borderBottomColor: colors.lightGrey, borderBottomWidth: 4, paddingBottom: 20
   },
   picTextContainer: {
     width: '48%'

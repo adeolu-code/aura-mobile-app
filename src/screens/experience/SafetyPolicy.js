@@ -41,9 +41,9 @@ class SafetyPolicy extends Component {
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
-            <Header { ...this.props } title="Policy" />
+            <Header { ...this.props } title="Policy" wrapperStyles={{ position: 'relative'}} />
             <View style={container}>
-                <View style={{ marginTop: 20}}>
+                <View>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 6</MyText>
                     <ProgressBar width={100} />
                     <ProgressBar width={12.5 * 7} />
@@ -123,7 +123,8 @@ class SafetyPolicy extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 20, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 20, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

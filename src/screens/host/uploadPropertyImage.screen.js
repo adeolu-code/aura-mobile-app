@@ -27,9 +27,10 @@ export default class UploadPropertyImage extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     
-                    <Header {...this.props} title="Upload Quality Photos" sub={"Catch guests’ attention with high quality images."} />
+                    <Header {...this.props} title="Upload Quality Photos" wrapperStyles={{ position: 'relative'}}
+                    sub={"Catch guests’ attention with high quality images."} />
                     
-                    <Container style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 120 : 150}]}>
+                    <Container style={[Styles.container, {marginTop: 0}]}>
                         <Content scrollEnabled>
                             <Section 
                                 style={{backgroundColor: colors.lightGreen, marginBottom: 40}} 

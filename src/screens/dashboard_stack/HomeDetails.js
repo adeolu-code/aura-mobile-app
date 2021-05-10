@@ -26,7 +26,7 @@ class HomeDetails extends Component {
         if (gettingReservations || gettingHouse ) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 100 }} />); }
     }
     linkToGuest = (reservation) => {
-        this.props.navigation.navigate('GuestProfile', { reservation })
+        this.props.navigation.navigate('GuestProfile', { reservation, house: this.state.house })
     }
     getReservation = async () => {
         const { propertyId, recent } = this.state

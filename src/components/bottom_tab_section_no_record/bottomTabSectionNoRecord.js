@@ -28,7 +28,7 @@ class BottomTabSectionNoRecord extends Component {
       const { textH1Style, textExtraBold, textDarkBlue, textH5Style, textH2Style, textLgStyle } = GStyles;
     return (
       <>
-        <View style={[Styles.parentView,]}>
+        <View style={[Styles.parentView,{ marginTop: 30}]}>
             <MyText style={[textExtraBold, textLgStyle, textDarkBlue, {marginTop: 10, paddingLeft: 10}, this.props.myTextTitle ]}>
                 {this.props.title}{ this.props.noInbox ? '' : ' Bookings' }
             </MyText>

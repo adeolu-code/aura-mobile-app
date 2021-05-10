@@ -586,7 +586,7 @@ class BookingsScreen extends Component {
             />
           }
            <MenuItemComponent 
-              style={{marginLeft: 10, position: 'absolute', alignSelf: 'flex-end', top: 20, width: '50%', right: 30, zIndex: 3}} 
+              style={{marginLeft: 10, position: 'absolute', alignSelf: 'flex-end', top: 50, width: '50%', right: 30, zIndex: 3 }} 
               items={this.getRoles()}
               onPress={(index) => this.itemChange(index)}
             />

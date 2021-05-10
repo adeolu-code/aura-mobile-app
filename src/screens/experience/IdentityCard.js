@@ -28,7 +28,7 @@ class IdentityCard extends Component {
   getIdTypes = () => {
     this.setState({ loading: true })
     getIdentityTypesApi().then(result => {
-      console.log(result)
+      // console.log(result)
         if (result != undefined) {
             this.setState({idTypes: result});
             this.context.set({idTypes: result})
@@ -144,9 +144,9 @@ class IdentityCard extends Component {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
-            <Header { ...this.props } title="Verify Document" />
+            <Header { ...this.props } title="Verify Document" wrapperStyles={{ position: 'relative'}} />
             <View style={container}>
-                <View style={{ marginTop: 30}}>
+                <View style={{ marginTop: 0}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 6</MyText>
                     <ProgressBar width={100} />
                     <ProgressBar width={12.5 * 8} />
@@ -174,7 +174,8 @@ class IdentityCard extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 20, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 20, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

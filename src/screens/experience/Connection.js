@@ -58,9 +58,9 @@ class Connection extends Component {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
-            <Header { ...this.props } title="Connection" />
+            <Header { ...this.props } title="Connection" wrapperStyles={{ position: 'relative'}} />
             <View style={container}>
-                <View style={{ marginTop: 20}}>
+                <View>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 2 / 6</MyText>
                     <ProgressBar width={16.7 * 2} />
                     <ProgressBar width={25*4} />
@@ -121,7 +121,8 @@ class Connection extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 24, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

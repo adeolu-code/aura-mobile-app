@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         borderRadius: 5, overflow: 'hidden',
-        width: '95%',
+        width: '95%',backgroundColor: colors.white
     },
     container2: {
         backgroundColor: 'rgba(0, 0, 0, 0.3)', 

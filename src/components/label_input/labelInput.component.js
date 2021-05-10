@@ -57,11 +57,11 @@ export const LabelInput = (props) => {
             <Picker.Item key={2} value={"female"} label={"Female"} />,
             
         ];
-        console.log(props.pickerOptions, props.selectedOption)
+        // console.log(props.pickerOptions, props.selectedOption)
         return (
             <Item stackedLabel style={[Styles.item, props.itemStyle]} disabled={props.disabled || false}>
                 <Label style={[Styles.label, props.labelStyle]}>{props.label}</Label>
-                <View style={[Styles.personalContentView, { padding: 0}]}>
+                <View style={[Styles.personalContentView, { height: 52, padding: 0}]}>
                     <Picker style={{ width: Platform.OS === 'ios' ? '100%' : undefined }}
                         selectedValue={props.selectedOption ? props.selectedOption : ""}
                         onValueChange={(e) => props.onPickerChange && props.onPickerChange(e)}

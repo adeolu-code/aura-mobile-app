@@ -72,9 +72,9 @@ class Expertise extends Component {
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
-            <Header { ...this.props } title="Expertise" />
+            <Header { ...this.props } title="Expertise" wrapperStyles={{ position: 'relative'}} />
             <View style={container}>
-                <View style={{ marginTop: 20}}>
+                <View style={{ marginTop: 0}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 2 / 6</MyText>
                     <ProgressBar width={16.7 * 2} />
                     <ProgressBar width={25*2} />
@@ -180,7 +180,8 @@ class Expertise extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 24, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

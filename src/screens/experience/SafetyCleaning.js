@@ -41,9 +41,9 @@ class SafetyCleaning extends Component {
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
-            <Header { ...this.props } title="Follow cleaning protocols" />
+            <Header { ...this.props } title="Follow cleaning protocols" wrapperStyles={{ position: 'relative'}} />
             <View style={container}>
-                <View style={{ marginTop: 20}}>
+                <View>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 6 / 6</MyText>
                     <ProgressBar width={100} />
                     <ProgressBar width={12.5 * 5} />
@@ -99,7 +99,8 @@ class SafetyCleaning extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 20, marginTop: 110,
+        paddingHorizontal: 20, 
+        // marginTop: 110,
         flex: 1, flexGrow: 1
     },
   

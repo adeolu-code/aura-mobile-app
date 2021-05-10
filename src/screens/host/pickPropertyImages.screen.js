@@ -177,7 +177,7 @@ export default class PickPropertyImage extends Component {
             .then((res) => {
                 if(!res.isError) {
                     const data = res.data;
-                    const urls = data.map(item => item.displayUrl)
+                    const urls = data.uploaded.map(item => item.displayUrl)
                     this.updateOtherImages(urls)
                 } else {
                     errorMessage('Failed to upload images, try again else contact support')
@@ -318,11 +318,11 @@ export default class PickPropertyImage extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header 
-                        {...this.props} title="Upload Your Pictures" 
+                        {...this.props} title="Upload Your Pictures" wrapperStyles={{ position: 'relative'}}
                         sub={!isCaptured ? "Upload cover image" : "Upload other images of property"}
                     />
                     <ScrollView>
-                        <View style={[Styles.container]}>
+                        <View style={[Styles.container, { marginTop: 0}]}>
                             <Content>
                                     <TouchableOpacity onPress={this.openTipsModal}>
                                         <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40, marginTop: 10}]}>See Photography Tips</MyText>

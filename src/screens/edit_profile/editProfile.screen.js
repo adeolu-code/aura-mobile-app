@@ -23,7 +23,8 @@ export default class EditProfile extends Component {
 
         this.state = {
             email: "",
-            dob: new Date("2002-10-31"),
+            dob: '',
+            // dob: new Date("2002-10-31"),
             firstName: "",
             lastName: "",
             phoneNumber: "",
@@ -33,10 +34,8 @@ export default class EditProfile extends Component {
     }
 
     getDob = (value) => {
-        const { dob } = this.state
         const newDate = new Date(value);
-        // console.log('Dob ', value, newDate)
-        this.setState({ dob: newDate })
+        this.setState({ dob: `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}` })
     }
 
     pickGender = (e) => {
@@ -49,19 +48,18 @@ export default class EditProfile extends Component {
             "lastName": this.state.lastName || this.context.state.userData.lastName,
             "phoneNumber": this.state.phoneNumber || this.context.state.userData.phoneNumber,
             "dateofBirth": this.state.dob || this.context.state.userData.dateofBirth,
-            "country": this.state.country || this.context.state.userData.country,
+            // "country": this.state.country || this.context.state.userData.country,
             "gender": this.state.gender ? this.stateGender() : '' || this.context.state.userData.gender,
-            "address": this.state.address || this.context.state.userData.address,
+            // "address": this.state.address || this.context.state.userData.address,
             "emergencyContact": this.state.emergencyContact || this.context.state.userData.emergencyContact,
-            "otherVerifiedPhoneNumbers": this.state.otherVerifiedPhoneNumbers || this.context.state.userData.otherVerifiedPhoneNumbers,
-            "city": this.state.city || this.context.state.userData.city,
-            "state": this.state.state || this.context.state.userData.state,
-            "zipCode": this.state.zipCode || this.context.state.userData.zipCode,
+            // "otherVerifiedPhoneNumbers": this.state.otherVerifiedPhoneNumbers || this.context.state.userData.otherVerifiedPhoneNumbers,
+            
+            // "city": this.state.city || this.context.state.userData.city,
+            // "state": this.state.state || this.context.state.userData.state,
+            // "zipCode": this.state.zipCode || this.context.state.userData.zipCode,
           }
           this.setState({loading: true});
-        //   data.otherVerifiedPhoneNumbers = JSON.stringify(data.otherVerifiedPhoneNumbers);
-        data.otherVerifiedPhoneNumbers = data.otherVerifiedPhoneNumbers;
-        //   if (data.otherVerifiedPhoneNumbers.length == 0) delete data.otherVerifiedPhoneNumbers;
+          data.otherVerifiedPhoneNumbers = data.otherVerifiedPhoneNumbers;
           await editProfileApi(data, this.context);
           this.setState({loading: false});
     }
@@ -74,9 +72,9 @@ export default class EditProfile extends Component {
     stateGender = () => {
         const { gender } = this.state;
         if(gender === 'male') {
-            return 0
+            return "0"
         } else if(gender === 'female') {
-            return 1
+            return "1"
         } else {
             return ''
         }
@@ -99,10 +97,10 @@ export default class EditProfile extends Component {
         return (
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="Edit Personal Info" />
+                    <Header {...this.props} title="Edit Personal Info" wrapperStyles={{ position:'relative'}} />
                     {this.renderLoading()}
                     
-                    <Container style={[Styles.container]}>
+                    <Container style={[Styles.container, { marginTop: 0}]}>
                         <Content scrollEnabled={true}>
                             <EditInput 
                                 label={"First Name"} 
@@ -130,12 +128,12 @@ export default class EditProfile extends Component {
                                 onChangeText={(e) => this.setState({phoneNumber: e})}
                             />
                             <View style={[Styles.personalInfo]}>
-                                {/* <View style={{ flex: 1}}>
+                                <View style={{ flex: 2}}>
                                     <MyText style={[textGrey, textH4Style, { marginBottom: 8}]}>Date of Birth</MyText>
                                     <DatePicker placeholder="DD/MM/YYYY" receiveData={this.getDob} 
                                     defaultValue={new Date(this.context.state.userData.dateofBirth) || new Date()} />
-                                </View> */}
-                                <EditInput 
+                                </View>
+                                {/* <EditInput 
                                     dateTime 
                                     label={"Date of Birth"} 
                                     defaultDate={new Date(this.context.state.userData.dateofBirth) || new Date()}
@@ -144,25 +142,27 @@ export default class EditProfile extends Component {
                                     onChange={(e) => {
                                         this.setState({dob: new Date(e)});
                                     }}
-                                />
+                                /> */}
                                 <View style={{ flex: 1}}>
                                     <EditInput 
                                         picker 
                                         label={"Gender"} 
-                                        itemStyle={{flex: 0.5}} 
+                                        itemStyle={{flex: 0.5, height: 50}} 
                                         // onPickerChange={(e) => this.setState({gender: e})}
                                         onPickerChange={this.pickGender}
                                         selectedOption={this.state.gender || this.userDataGender()}
                                     />
                                 </View>
                             </View>
-                            <EditInput 
-                                phone 
-                                label={"Emergency Contact"} 
-                                placeholder={this.state.emergencyContact || (this.context.state.userData.emergencyContact && this.context.state.userData.emergencyContact.replace("+234",""))} 
-                                itemStyle={Styles.phoneItem} 
-                                onChangeText={(e) => this.setState({emergencyContact: e})}
-                            />
+                            <View style={{ flex: 1, marginBottom: 120}}>
+                                <EditInput 
+                                    phone 
+                                    label={"Emergency Contact"} 
+                                    placeholder={this.state.emergencyContact || (this.context.state.userData.emergencyContact && this.context.state.userData.emergencyContact.replace("+234",""))} 
+                                    itemStyle={Styles.phoneItem} 
+                                    onChangeText={(e) => this.setState({emergencyContact: e})}
+                                />
+                            </View>
                             {/* <TouchableOpacity style={[Styles.nextOfKinView]}>
                                 <Left>
                                     <MyText style={[textGreen]}>Add next of Kin</MyText>
@@ -174,7 +174,7 @@ export default class EditProfile extends Component {
                         </Content>
                         <Footer style={[Styles.footer, Styles.transparentFooter]}>
                             <TouchableOpacity 
-                                style={[Styles.nextButton, {height: 40, borderRadius: 5}]}
+                                style={[Styles.nextButton, {height: 50, borderRadius: 5}]}
                                 onPress={() => this.onUpdateUser()}
                             >
                                 <MyText style={[textH3Style, textCenter, textWhite, textBold]}>Save Changes</MyText>

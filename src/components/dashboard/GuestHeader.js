@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20, borderBottomWidth: 3, borderBottomColor: colors.lightGrey, paddingBottom: 35,
         position: 'absolute', top: 0, width: '100%', zIndex: 100, backgroundColor: colors.white, 
-        paddingTop: Platform.OS === 'ios' ? 30 : 0
+        paddingTop: Platform.OS === 'ios' ? 30 : 20
     },
     headerContainer: {
         justifyContent: 'center', width: '100%', display: 'flex', alignItems: 'center'

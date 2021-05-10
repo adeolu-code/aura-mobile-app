@@ -115,9 +115,9 @@ export default class PropertyDescription extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
-                    <Header {...this.props}  title="Create A List Title" />
+                    <Header {...this.props}  title="Create A List Title" wrapperStyles={{ position: 'relative'}} />
                     <Content>
-                        <KeyboardAvoidingView style={[Styles.container, {marginTop: Platform.OS === 'ios' ? 100 : 120, flex: 1}]} 
+                        <KeyboardAvoidingView style={[Styles.container, {marginTop: 0, flex: 1}]} 
                         behavior={Platform.OS === "ios" ? "padding" : "height"}>
                             
                             <View style={{ flex: 1.3, marginBottom: 50}}>

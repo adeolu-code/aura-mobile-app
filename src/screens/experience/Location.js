@@ -132,11 +132,11 @@ class Location extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
-        <Header { ...this.props } title={"Location"} />
+        <Header { ...this.props } title={"Location"} wrapperStyles={{ position: 'relative'}} />
         <ScrollView style={{ flex: 1}} keyboardShouldPersistTaps="always">
             <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "position"}>
                 
-                <View style={{ marginTop: 20, zIndex: 10, backgroundColor: colors.white}}>
+                <View style={{ marginTop: 0, zIndex: 10, backgroundColor: colors.white}}>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 1 / 6</MyText>
                     <ProgressBar width={16.7} />
                     <ProgressBar width={50} />
@@ -171,7 +171,8 @@ class Location extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 24, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
     autoCompleteStyle: {

@@ -76,9 +76,9 @@ class Notes extends Component {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
-            <Header { ...this.props } title="Notes" />
+            <Header { ...this.props } title="Notes" wrapperStyles={{ position: 'relative'}} />
             <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                <View style={{ marginTop: 20}}>
+                <View>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                     <ProgressBar width={16.7 * 5} />
                     <ProgressBar width={12.5 * 2} />
@@ -127,7 +127,8 @@ class Notes extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 24, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

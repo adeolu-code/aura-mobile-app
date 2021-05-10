@@ -38,7 +38,7 @@ class AddPhoto extends Component {
         id: tourOnboard.id
     }
     const res = await Request(urls.experienceBase, `${urls.v}Experience/update`, obj );
-    console.log('update experience ', res)
+    // console.log('update experience ', res)
     this.setState({ loading: false });
     if (res.isError || res.IsError) {
         errorMessage(res.message || res.Message)
@@ -60,9 +60,9 @@ class AddPhoto extends Component {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
             {this.renderLoading()}
-            <Header { ...this.props } title="Photos" />
+            <Header { ...this.props } title="Photos" wrapperStyles={{ position: 'relative'}} />
             <View style={container}>
-                <View style={{ marginTop: 20}}>
+                <View>
                     <MyText style={[textOrange, textBold, textH3Style]}>Step 4 / 6</MyText>
                     <ProgressBar width={16.7 * 4} />
                     <ProgressBar width={100} />
@@ -123,7 +123,8 @@ class AddPhoto extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 24, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   

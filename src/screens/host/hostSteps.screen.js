@@ -288,11 +288,11 @@ export default class HostSteps extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header 
-                        {...this.props} 
+                        {...this.props} wrapperStyles={{ position: 'relative'}}
                         title="Host A Home Or Hotel" 
                         goBackTo={(this.props.route.params && this.props.route.params.force) ? "Profile" : undefined} 
                     />
-                    <Container style={[Styles.container, {padding: 0 }]}>
+                    <Container style={[Styles.container, {padding: 0, marginTop: 10 }]}>
                         <Content>
                             {this.renderProperty()}
                             

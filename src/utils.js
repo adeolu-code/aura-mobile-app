@@ -9,8 +9,8 @@ import { urls as Urls } from "./urls";
 // import { AppContext, AppConsumer, AppProvider } from '../AppProvider';
 import { navigationRef, isReadyRef } from './RootNavigation';
 
-const isProduction = true
-// const isProduction = false
+// const isProduction = true
+const isProduction = false
 let context = undefined;
 // export let debug = true; 
 export let debug = false; 

@@ -125,9 +125,9 @@ class MeetingLocation extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
-        <Header { ...this.props } title={"Where should guests meet you ?"} />
+        <Header { ...this.props } title={"Where should guests meet you ?"} wrapperStyles={{ position: 'relative'}} />
         <KeyboardAvoidingView style={container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-            <View style={{ marginTop: 50}}>
+            <View style={{ marginTop: 0}}>
                 <MyText style={[textOrange, textBold, textH3Style]}>Step 5 / 6</MyText>
                 <ProgressBar width={16.7 * 5} />
                 <ProgressBar width={12.5 * 1} />
@@ -197,7 +197,8 @@ class MeetingLocation extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        paddingHorizontal: 24, marginTop: Platform.OS === 'ios' ? 80 : 100,
+        paddingHorizontal: 24, 
+        // marginTop: Platform.OS === 'ios' ? 80 : 100,
         flex: 1, flexGrow: 1
     },
   picker: {

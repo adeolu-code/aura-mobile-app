@@ -33,7 +33,7 @@ class DatePicker extends Component {
             mode={this.state.mode}
             onChange={this.setDate}
             maximumDate={this.renderEighteenYrs()}
-            minimumDate={this.renderMinDate()}
+            // minimumDate={this.renderMinDate()}
           />
           
         </View>
