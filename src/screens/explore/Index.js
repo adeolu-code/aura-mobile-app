@@ -231,7 +231,7 @@ class Index extends Component {
                   and teaching people on activities you love in your own city.
                   </MyText>
                 <View style={tourContentStyle}>
-                  <TourImgComponent {...this.props} />
+                  <TourImgComponent {...this.props} refresh={this.state.refreshPlaces} />
                 </View>
               </View>
 

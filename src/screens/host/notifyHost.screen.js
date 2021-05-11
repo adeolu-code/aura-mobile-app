@@ -147,7 +147,7 @@ export default class NotifyHost extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="When Should We Notify You Before A Guest Shows Up" wrapperStyles={{ position: 'relative'}} />
-                    <Container style={[Styles.container, {marginTop: 0}]}>
+                    <View style={[Styles.container, {marginTop: 0}]}>
                         <ScrollView ref={this.scrollViewRef}>
                             <View style={[Styles.rowView, {}]}>
 
@@ -196,7 +196,7 @@ export default class NotifyHost extends Component {
                         {/* <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, }]}>
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} disabled={this.state.values.length === 0} />
                         </Footer> */}
-                    </Container>
+                    </View>
                 </SafeAreaView>
             </>
         );

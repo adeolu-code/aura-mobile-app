@@ -250,7 +250,7 @@ export default class SetPricing extends Component {
                                     </Picker>
                                 </View>
                             </View>
-                            <View style={{marginBottom: 60, marginTop: 40, paddingHorizontal: 21}}>
+                            <View style={{marginBottom: 160, marginTop: 40, paddingHorizontal: 21}}>
                                 <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, ...GStyles.shadow}} onPress={this.submit} disabled={this.state.price === ''} />
                             </View>
                         </ScrollView>

@@ -138,9 +138,9 @@ android {
         applicationId "com.aura.transcorphotels.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 31
+        versionCode 33
         // versionCode 3145745
-        versionName "1.0.26"
+        versionName "1.0.28"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary true
     }

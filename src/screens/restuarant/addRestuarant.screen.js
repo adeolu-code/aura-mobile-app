@@ -403,7 +403,10 @@ export default class AddRestaurant extends Component {
                                     !host &&
                                     <TouchableOpacity  onPress={() => this.setState({restaurantContact: true, showModal: true})}
                                         style={[Styles.addIconView]} >
-                                        <Icon name="pencil" style={[Styles.addIcon]} />
+                                        <View style={{width: 25, height: 25, backgroundColor: colors.orange, justifyContent: 'center', alignItems: 'center',
+                                            borderRadius: 40, marginRight: 20}}>
+                                            <Icon name="pencil" style={[ { fontSize: 16, color: colors.white }]} />
+                                        </View>
                                         <MyText style={[textH4Style]}>Edit Restaurant</MyText>
                                     </TouchableOpacity>
                                 }
@@ -413,8 +416,11 @@ export default class AddRestaurant extends Component {
                                         onPress={() => this.props.navigation.navigate('RestaurantMenu', {id: this.state.restaurant.id})}
                                         style={[Styles.addIconView]}
                                     >
-                                        <Icon name="menu" style={[Styles.addIcon,]} />
-                                        <MyText>Restaurant Menu</MyText>
+                                         <View style={{width: 25, height: 25, backgroundColor: colors.orange, justifyContent: 'center', alignItems: 'center',
+                                            borderRadius: 40, marginRight: 20}}>
+                                            <Icon name="menu" style={[{ fontSize: 16, color: colors.white }]} />
+                                        </View>
+                                        <MyText style={[textH4Style]}>Restaurant Menu</MyText>
                                     </TouchableOpacity>
                                 }
                                 {this.state.hasData && <MyText style={[textH3Style, textBold]}>Locations</MyText>}
@@ -422,13 +428,13 @@ export default class AddRestaurant extends Component {
                                     this.state.hasData && this.state.restaurant.locations.map(restaurant => {
                                         return (
                                             <NBItem style={{paddingBottom: 10, paddingTop: 10}}>
-                                                <Body style={{minWidth: 120}}>
-                                                    <MyText>{restaurant.street} {restaurant.state} {restaurant.country}</MyText>
+                                                <Body style={{minWidth: 120, paddingLeft: 0}}>
+                                                    <MyText style={[textH4Style]}>{restaurant.street} {restaurant.state} {restaurant.country}</MyText>
                                                 </Body>
                                                 <Right>
                                                     <Icon 
                                                         name="trash" 
-                                                        style={{color: colors.orange}} 
+                                                        style={{color: colors.orange, fontSize: 24}} 
                                                         onPress={() => this.initRemoveLocation(restaurant.street, restaurant.state, restaurant.country)}
                                                     />
                                                 </Right>
@@ -499,6 +505,7 @@ export default class AddRestaurant extends Component {
                                                         <LabelInput 
                                                             placeholder={"Enter Zipcode"} 
                                                             input 
+                                                            keyboardType="numeric"
                                                             onChangeText={(val) => this.setState({zipcode: val})} 
                                                             itemStyle={Styles.halfWidth}
                                                         />
@@ -622,9 +629,9 @@ export default class AddRestaurant extends Component {
                                                             this.setState({});
                                                         }}
                                                     />
-                                                    <View style={[Styles.row, {width: '100%', }]}>
+                                                    <View style={[Styles.row, {width: '100%', marginTop: 20}]}>
                                                         <TouchableOpacity 
-                                                        style={[Styles.nextButton, {height: 40, borderRadius: 5}, Styles.halfWidth]}
+                                                        style={[Styles.nextButton, {height: 50, borderRadius: 5}, Styles.halfWidth]}
                                                         onPress={() => this.setState({
                                                             restaurantOpening: true, restaurantContact: false
                                                         })}
@@ -634,7 +641,7 @@ export default class AddRestaurant extends Component {
                                                             </MyText>
                                                         </TouchableOpacity>
                                                         <TouchableOpacity 
-                                                        style={[Styles.nextButton, {height: 40, borderRadius: 5, marginLeft: 5, backgroundColor: colors.veryLightGrey}, Styles.halfWidth]}
+                                                        style={[Styles.nextButton, {height: 50, borderRadius: 5, marginLeft: 5, backgroundColor: colors.veryLightGrey}, Styles.halfWidth]}
                                                         onPress={() => {
                                                             this.setState({restaurantContact: false, showModal: false});
                                                             if (!this.state.host) {
@@ -648,7 +655,7 @@ export default class AddRestaurant extends Component {
                                                 </>}
                                                 
                                                 { this.state.restaurantOpening && <>
-                                                    <MyText style={[textBold, textBlack, textH3Style, {padding: 10}]}>
+                                                    <MyText style={[textBold, textBlack, textH3Style, {padding: 10, paddingLeft: 0}]}>
                                                         Opening Hours
                                                     </MyText>
                                                     {
@@ -666,44 +673,48 @@ export default class AddRestaurant extends Component {
                                                     }
                                                     {
                                                         this.state.openTime && 
-                                                        <LabelInput 
-                                                            picker 
-                                                            label={"From"}
-                                                            pickerOptions={this.state.openTime.map((time, index) => {
-                                                                let key = time.id;
-                                                                return {value: time.name, label: time.name};
-                                                                })
-                                                            }
-                                                            onPickerChange={(sel) => {
-                                                                this.state.restaurant.openTime = sel;
-                                                                this.setState({});
-                                                            }}
-                                                            selectedOption={
-                                                                this.state.restaurant.openTime
-                                                            }
+                                                        <View style={{ flexDirection: 'row',  width: '100%'}}>
+                                                            <View style={{ flex: 1}}>
+                                                                <LabelInput 
+                                                                    picker 
+                                                                    label={"From"}
+                                                                    pickerOptions={this.state.openTime.map((time, index) => {
+                                                                        let key = time.id;
+                                                                        return {value: time.name, label: time.name};
+                                                                        })
+                                                                    }
+                                                                    onPickerChange={(sel) => {
+                                                                        this.state.restaurant.openTime = sel;
+                                                                        this.setState({});
+                                                                    }}
+                                                                    selectedOption={
+                                                                        this.state.restaurant.openTime
+                                                                    }
 
-                                                        />
+                                                                />
+                                                            </View>
+                                                            <View style={{ flex: 1}}>
+                                                                <LabelInput 
+                                                                    picker 
+                                                                    label={"To"}
+                                                                    pickerOptions={this.state.openTime.map((time, index) => {
+                                                                        let key = time.id;
+                                                                        return {value: time.name, label: time.name};
+                                                                        })
+                                                                    }
+                                                                    onPickerChange={(sel) => {
+                                                                        this.state.restaurant.closeTime = sel;
+                                                                        this.setState({});
+                                                                    }}
+                                                                    selectedOption={
+                                                                        this.state.restaurant.closeTime
+                                                                    }
+                                                                    itemStyle={{marginBottom: 10}}
+                                                                />
+                                                            </View>
+                                                        </View>
                                                     }
-                                                    {
-                                                        this.state.openTime && 
-                                                        <LabelInput 
-                                                            picker 
-                                                            label={"To"}
-                                                            pickerOptions={this.state.openTime.map((time, index) => {
-                                                                let key = time.id;
-                                                                return {value: time.name, label: time.name};
-                                                                })
-                                                            }
-                                                            onPickerChange={(sel) => {
-                                                                this.state.restaurant.closeTime = sel;
-                                                                this.setState({});
-                                                            }}
-                                                            selectedOption={
-                                                                this.state.restaurant.closeTime
-                                                            }
-                                                            itemStyle={{marginBottom: 10}}
-                                                        />
-                                                    }
+                                                    
                                                     {
                                                         this.state.services && this.state.services.length > 0 && <MyText style={[textBlack, textH3Style]}>Services</MyText>
                                                     }
@@ -722,7 +733,7 @@ export default class AddRestaurant extends Component {
                                                     }
                                                     <View style={[Styles.row, {width: '100%', }]}>
                                                         <TouchableOpacity 
-                                                        style={[Styles.nextButton, {height: 40, borderRadius: 5},]}
+                                                        style={[Styles.nextButton, {height: 50, borderRadius: 5, marginTop: 20},]}
                                                         onPress={() => this.setState({
                                                             restaurantContact: false, restaurantLocation: false, restaurantOpening: false,
                                                             showModal: false,

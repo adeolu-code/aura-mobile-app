@@ -127,7 +127,7 @@ class Index extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
-        <Header { ...this.props } title="Photographers On Aura" onPress={this.goBack} />
+        <Header { ...this.props } title="Photographers On Aura" onPress={this.goBack} wrapperStyles={{ position: 'relative'}} />
         <View style={contentMainContainer}>
           
           
@@ -164,7 +164,7 @@ class Index extends Component {
 
 const styles = StyleSheet.create({
   contentMainContainer: {
-    marginTop: 130,
+    // marginTop: 130,
   },
   container: {
     paddingHorizontal: 20

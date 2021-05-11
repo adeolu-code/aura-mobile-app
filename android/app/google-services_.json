@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "411688971660-02nk1h3usnto8l9tg9guan0b1iu02rlq.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.aura.transcorphotels.app",
-            "certificate_hash": "de23a55976c9847d1662d8428456b85bef43e149"
-          }
-        },
-        {
           "client_id": "411688971660-ppukq22fek1u1o73pilrln3pabtkk1pq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

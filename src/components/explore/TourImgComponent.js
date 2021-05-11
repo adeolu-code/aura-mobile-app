@@ -48,6 +48,11 @@ class TourImgComponent extends Component {
   componentDidMount = () => {
     this.getTours()
   }
+  componentDidUpdate = (prevProps, prevState) => {
+      if(prevProps.refresh !== this.props.refresh) {
+        this.getTours()
+      }
+  }
   renderFirst = () => {
     const { tours } = this.state
     if(tours.length > 0) {

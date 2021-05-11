@@ -24,7 +24,7 @@ import FlashMessage from "react-native-flash-message";
 import { MenuProvider } from 'react-native-popup-menu';
 
 const errorHandler = (e, isFatal) => {
-  console.log('Called')
+  // console.log('Called')
   if (isFatal) {
     reporter(e);
     Alert.alert(
@@ -41,7 +41,7 @@ const errorHandler = (e, isFatal) => {
       }]
     );
   } else {
-    console.log(e); // So that we can see it in the ADB logs in case of Android if needed
+    console.log('Error Handler from general error picker ',e); // So that we can see it in the ADB logs in case of Android if needed
   }
 };
 

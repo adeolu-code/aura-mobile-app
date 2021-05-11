@@ -91,7 +91,7 @@ export default class RestaurantDashboardComponent extends Component {
       <>
       {this.renderMenuItems()}
       <Header {...this.props} title="Restaurant Dashboard" onPress={this.openMenu}  />
-      <View style={[container, {backgroundColor: 'white'}]}>
+      <View style={[container, {backgroundColor: 'white', marginBottom: 120}]}>
         
         <ScrollView style={{marginTop: 0, }} >
             <View style={[contentStyle, {paddingBottom: 20, paddingHorizontal: 2}]}>

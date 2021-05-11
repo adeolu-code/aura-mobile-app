@@ -184,7 +184,7 @@ class FilterModal extends Component {
 
     render() {
         const { visible, onDecline, title, img } = this.props;
-        const { textDarkGrey, textBold, textDanger, textDarkBlue } = GStyles;
+        const { textDarkGrey, textBold, textDanger, textDarkBlue, textCenter, textH4Style, textH5Style } = GStyles;
         const { container, dash, tabOne, tabTwo, tabThree, tabFour,  imgStyle, container2 } = styles;
         return (
 
@@ -198,18 +198,18 @@ class FilterModal extends Component {
                                     <View style={imgStyle}>
                                         <Image source={img} style={{width: '100%', height: '100%'}} />
                                     </View>
-                                    <View style={{marginTop: 20}}>
-                                        <MyText style={[textDarkGrey, textBold]}>{title}</MyText>
+                                    <View style={{marginTop: 20, paddingHorizontal:10}}>
+                                        <MyText style={[textDarkGrey, textBold, textCenter, textH5Style]}>{title}</MyText>
                                     </View>
                                 </View>
                                 <Pressable style={tabTwo} onPress={this.viewPhotos}>
-                                    <MyText style={[textDarkBlue, textBold]}>
+                                    <MyText style={[textDarkBlue, textBold, textH5Style]}>
                                         View/Edit Photos
                                     </MyText>
                                 </Pressable>
                                 <View style={[dash]}></View>
                                 <Pressable style={tabTwo} onPress={this.onEdit}>
-                                    <MyText style={[textDarkBlue, textBold]}>
+                                    <MyText style={[textDarkBlue, textBold, textH5Style]}>
                                             Edit Property
                                     </MyText>
                                 </Pressable>
@@ -217,7 +217,7 @@ class FilterModal extends Component {
                                 {this.renderOnlineOffline()}
                                 <View style={[dash]}></View>
                                 <Pressable style={tabFour} onPress={this.onDelete}>
-                                    <MyText style={[textDanger, textBold]}>
+                                    <MyText style={[textDanger, textBold, textH5Style]}>
                                         Delete
                                     </MyText>
                                 </Pressable>

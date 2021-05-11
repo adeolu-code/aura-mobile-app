@@ -13,8 +13,8 @@ import { AppContext } from '../../../AppProvider'
 
 export default class HouseRules extends Component {
     static contextType = AppContext
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = { houseRules: [], gettingHouseRules: false, houseRuleValues: [], toggleAddHouseRule: false,
             addInfoValue: '', addingInfo: false, };
@@ -149,6 +149,7 @@ export default class HouseRules extends Component {
 
     render() {
         const { textOrange, textBold, textUnderline, textDarkGrey } = GStyles;
+        const { gettingHouseRules } = this.state
         return(
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
@@ -157,8 +158,8 @@ export default class HouseRules extends Component {
                     />
                     <View style={[Styles.container, { marginTop: 0}]}>
                         <ScrollView ref={this.scrollViewRef}>
-                            <View style={{ paddingBottom: 40}}>
-                                <View style={[{marginTop: 40}]}>
+                            <View style={{ paddingBottom: 0,}}>
+                                <View style={[{marginTop: 0}]}>
                                     {this.renderHouseRules()}
                                 </View>
                                 <TouchableOpacity onPress={this.toggleHouseRule}>
@@ -167,10 +168,10 @@ export default class HouseRules extends Component {
 
                                 {this.renderAddInfo()}
                             </View>
-                            <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
-                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} 
+                            <View style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2, marginTop: 20}} disabled={gettingHouseRules}
                                     onPress={this.submit} />
-                            </Footer>
+                            </View>
                         </ScrollView>
                         
                     </View>

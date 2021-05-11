@@ -55,7 +55,7 @@ export default class GuestPolicy extends Component {
                                 Where guests choose to check-out early after check-in, the unspent nights are not refunded.
                             </MyText>
                             <View style={{ marginBottom: 50}}></View>
-                            <View style={[Styles.footer, {borderRadius: 5, marginBottom: 20}]}>
+                            <View style={[Styles.footer, {borderRadius: 5, marginBottom: 150}]}>
                                 <CustomButton buttonText="I Understand" buttonStyle={{ elevation: 2, ...GStyles.shadow }} onPress={this.submit} />
                             </View>
                         </ScrollView>

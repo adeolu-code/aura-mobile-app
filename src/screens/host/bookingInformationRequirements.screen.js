@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback, ScrollView, View } from "react-native";
+import { StatusBar, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback, ScrollView, View, FlatList } from "react-native";
 import Header from "../../components/Header";
 import { Container, Content, Icon, Footer } from "native-base";
 import colors from "../../colors";
@@ -109,16 +109,28 @@ export default class BookingInformationRequirements extends Component {
             </>
         )
     }
+    renderItem = ({ item }) => {
+        return (
+            <LockItem label={item.requirement} />
+        )
+    }
     renderBookingReqWithUserId = () => {
         const { bookingReqs, gettingBookingReq } = this.state
         if(bookingReqs.length !== 0 && !gettingBookingReq) {
             const filtered = bookingReqs.filter(item => !item.userId)
-            return filtered.map((item, index) => {
-                let key = "FL_"+index;
-                return (
-                    <LockItem label={item.requirement} key={key} />
-                ) 
-            })
+            return (
+                <FlatList
+                    data={filtered}
+                    renderItem={this.renderItem}
+                    keyExtractor={(item, i) => "FL_"+i}
+                />
+            )
+            // return filtered.map((item, index) => {
+            //     let key = "FL_"+index;
+            //     return (
+            //         <LockItem label={item.requirement} key={key} />
+            //     ) 
+            // })
         }
     }
     renderBookingReqWithoutUserId = () => {
@@ -186,10 +198,10 @@ export default class BookingInformationRequirements extends Component {
             } else {
                 const data = res.data;
                 if(data !== null) {
-                const bookingReqValues = data.bookingRequirements ? data.bookingRequirements.map(item => item.id) : []
-                const houseRules = data.houseRules ? data.houseRules.map(item => item.id) : []
-                this.setState({ bookingReqValues })
-                set({ propertyFormData: { ...ppty, houseRules, bookingRequirements: bookingReqValues } })
+                    const bookingReqValues = data.bookingRequirements ? data.bookingRequirements.map(item => item.id) : []
+                    const houseRules = data.houseRules ? data.houseRules.map(item => item.id) : []
+                    this.setState({ bookingReqValues })
+                    set({ propertyFormData: { ...ppty, houseRules, bookingRequirements: bookingReqValues } })
                 }
             }
         } catch (error) {
@@ -230,12 +242,13 @@ export default class BookingInformationRequirements extends Component {
             textUnderline,
             textDarkGrey,
           } = GStyles;
-        const { gettingBookingReq, addingInfo } = this.state
+        const { gettingBookingReq, addingInfo, gettingHouse } = this.state
         return(
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
+                    {this.renderLoading()}
                     <Header {...this.props} title="Booking Information Requirements" wrapperStyles={{ position: 'relative'}} />
-                    <View style={[Styles.container, { marginTop: 0}]} >
+                    <View style={[Styles.container, { marginTop: 0,marginBottom: 180}]} >
                         <ScrollView ref={this.scrollViewRef} scrollEventThrottle={20}  >
                             <MyText style={[textH3Style, textExtraBold, { marginBottom: 5}]}>Guest Must Provide</MyText>
                             <MyText style={[textH5Style, textGrey, lineHeightText]}>
@@ -251,10 +264,10 @@ export default class BookingInformationRequirements extends Component {
 
                             {this.renderAddInfo()}
 
-                            <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
-                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} disabled={gettingBookingReq || addingInfo}
+                            <View style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
+                                <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} disabled={gettingBookingReq || addingInfo || gettingHouse}
                                     onPress={this.submit} />
-                            </Footer>
+                            </View>
                         </ScrollView>
                         
                     </View>
