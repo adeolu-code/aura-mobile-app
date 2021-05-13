@@ -165,7 +165,7 @@ class BookingsScreen extends Component {
                           title={property.propertyInfo.title} 
                           location={property.propertyInfo.location || ""} 
                           type={property.propertyInfo.type}
-                          dayLeft={property.dayLeft}
+                          dayLeft={property.no_Of_Days}
                           image={{uri: property.propertyInfo.image}}
                           isExpired= {property.isBookingExpired}
                           amount= {property.total_Cost}
@@ -244,7 +244,8 @@ class BookingsScreen extends Component {
                             title={property.propertyInfo.title} 
                             location={property.propertyInfo.location || ""} 
                             type={property.propertyInfo.type}
-                            dayLeft={0}
+                            // dayLeft={0}
+                            dayLeft={property.no_Of_Days}
                             image={{uri: property.propertyInfo.image}}
                             isExpired= {property.isBookingExpired}
                             amount= {property.total_Cost}
