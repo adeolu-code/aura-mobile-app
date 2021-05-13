@@ -16,7 +16,7 @@ import { Icon } from 'native-base';
 import { AppContext } from '../../../AppProvider'
 import moment from "moment";
 
-import { urls, Request, successMessage } from '../../utils'
+import { urls, Request, successMessage, consoleLog } from '../../utils'
 
 class FilterModal extends Component {
     static contextType = AppContext;
@@ -37,6 +37,7 @@ class FilterModal extends Component {
     }
 
     cancelBooking = (item) => {
+        consoleLog("res_menu", "navigating to cancel");
         this.props.navigation.navigate('CancelBookings', {booking: item});
         this.props.onDecline();   
     }

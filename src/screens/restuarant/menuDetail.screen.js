@@ -88,75 +88,90 @@ export default class RestaurantMenuDetail extends Component {
     onSave = async () => {
         this.setState({loading: true});
         let imageResult = undefined;
-        
-        if (this.state.isCaptured) {
-            // upload image first to storage
-            const {image} = this.state;
-            const filename = image.uri.substr(image.uri.lastIndexOf("/")).replace("/","");
-            imageResult = await uploadImageApi([
-                { 
-                    name : 'File', filename : filename, type: image.mime, data: RNFetchBlob.wrap(decodeURIComponent(Platform.OS == "ios" ? String(image.uri).replace("file://","") : String(image.uri)))
-                },
-                {
-                    name: 'FileName', 
-                    data: String(filename),
-                 }
-            ]).then(result => {
-                result = JSON.parse(result.data);
-                return result;
-            });
-        }
+        try {
 
         
-        if (this.state.isEdit) {
             if (this.state.isCaptured) {
-                this.state.menu.assetPath = imageResult.data.fileName;
-            }
-
-            console.log("menu", this.state.menu);
-            await updateRestaurantPhotoMenuApi(this.state.menu?.id, this.state.menu);
-        }
-        else {
-            let data = {
-                "category": this.state.menu.category,
-                "mealName": this.state.menu.mealName,
-                "cuisine": this.state.menu.cuisine,
-                "price": this.state.menu.price,
-                "isCoverPhoto": this.state.menu.isCoverPhoto,
-                "profileId": this.props.route.params.profileId,
-                "description": this.state.menu.description,
-                "assetPath": this.state.menu.assetPath
-            }
-
-            if (imageResult.isError == false) {
-                data.assetPath = imageResult.data.fileName;
-                
-                
-                uploadRestaurantPhotoMenuApi(this.props.route.params.profileId, imageResult.data.fileName, {
-                    "profileId": this.props.route.params.profileId,
-                    "description": data.description,
-                    "photos": [
-                        imageResult.data.fileName
-                    ]
-                }).then(uploadResult => {
-                    
-                    if (uploadResult && !uploadResult.isError) {
-                        // update photo menu with details
-                        updateRestaurantPhotoMenuApi(uploadResult[uploadResult.length - 1].id, data).then(result => { 
-                            if (result) {
-                                this.state.menu = menuItem;
-                                this.setState({});
-                            } 
-                        })
+                // upload image first to storage
+                const {image} = this.state;
+                const filename = image.uri.substr(image.uri.lastIndexOf("/")).replace("/","");
+                imageResult = await uploadImageApi([
+                    { 
+                        name : 'File', filename : filename, type: image.mime, data: RNFetchBlob.wrap(decodeURIComponent(Platform.OS == "ios" ? String(image.uri).replace("file://","") : String(image.uri)))
+                    },
+                    {
+                        name: 'FileName', 
+                        data: String(filename),
                     }
-                })
+                ]).then(result => {
+                    result = JSON.parse(result.data);
+                    return result;
+                });
             }
             else {
-                errorMessage(imageResult.message || FILE_NOT_UPLOADED);
+                errorMessage("Please select menu picture.");
+                this.setState({loading: false});
+                return;
             }
-        }
 
-        this.setState({loading: false});
+            
+            if (this.state.isEdit) {
+                if (this.state.isCaptured) {
+                    this.state.menu.assetPath = imageResult.data.fileName;
+                }
+
+                console.log("menu", this.state.menu);
+                await updateRestaurantPhotoMenuApi(this.state.menu?.id, this.state.menu);
+            }
+            else {
+                let data = {
+                    "category": this.state.menu.category,
+                    "mealName": this.state.menu.mealName,
+                    "cuisine": this.state.menu.cuisine,
+                    "price": this.state.menu.price,
+                    "isCoverPhoto": this.state.menu.isCoverPhoto,
+                    "profileId": this.props.route.params.profileId,
+                    "description": this.state.menu.description,
+                    "assetPath": this.state.menu.assetPath
+                }
+
+                if (imageResult.isError == false) {
+                    data.assetPath = imageResult.data.fileName;
+                    
+                    
+                    uploadRestaurantPhotoMenuApi(this.props.route.params.profileId, imageResult.data.fileName, {
+                        "profileId": this.props.route.params.profileId,
+                        "description": data.description,
+                        "photos": [
+                            imageResult.data.fileName
+                        ]
+                    }).then(uploadResult => {
+                        
+                        if (uploadResult && !uploadResult.isError) {
+                            // update photo menu with details
+                            updateRestaurantPhotoMenuApi(uploadResult[uploadResult.length - 1].id, data).then(result => { 
+                                if (result) {
+                                    this.state.menu = menuItem;
+                                    this.setState({});
+                                    this.props.navigation.goBack();
+                                    this.props.navigation.goBack();
+                                } 
+                            })
+                        }
+                    })
+                }
+                else {
+                    errorMessage(imageResult.message || FILE_NOT_UPLOADED);
+                }
+            }
+
+            this.setState({loading: false});
+        }
+        catch{
+            errorMessage("An error occurred. Please verify all fields are filled.");
+            this.setState({loading: false});
+            return;
+        }
     }
 
     selectImage = async () => {
@@ -263,11 +278,11 @@ export default class RestaurantMenuDetail extends Component {
                                                         this.setState({});
                                                     }}
                                                 />
-                                                {/* <LabelCheckbox label={"Cover Photo?"} checked={this.state.menu?.isCoverPhoto} onPress={(val) => {
+                                                <LabelCheckbox label={"Cover Photo?"} checked={this.state.menu?.isCoverPhoto} onPress={(val) => {
                                                     
                                                     this.state.menu.isCoverPhoto = !this.state.menu.isCoverPhoto;
                                                     this.setState({});
-                                                }} />*/}
+                                                }} />
                                             </View>
                                         </View>
                                     </View>
