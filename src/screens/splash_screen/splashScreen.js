@@ -49,14 +49,14 @@ const SplashScreen = (props) => {
         }
     }
     const checkAndroid = (versionNumber) => {
-        if(versionNumber !== AppVersion.android) {
+        if(versionNumber > AppVersion.android) {
           const bundleId = DeviceInfo.getBundleId();
           const url = `${AndroidStoreUrl}${bundleId}`
           alertMessage(url)
         }
     }
     const checkIOS = (versionNumber) => {
-        if(versionNumber !== AppVersion.ios) {
+        if(versionNumber > AppVersion.ios) {
           const url = `${IOSStoreUrl}`
           alertMessage(url)
         } 

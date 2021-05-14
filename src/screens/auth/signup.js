@@ -245,7 +245,7 @@ class signUp extends Component {
   }
   render() {
     // eslint-disable-next-line prettier/prettier
-    const { flexRow, textH5Style, textGrey, textH4Style } = GStyles;
+    const { flexRow, textH5Style, textGrey, textH4Style, textOrange } = GStyles;
     const {inputContainer, pickerStyles } = styles;
     const { firstNameErrors, lastNameErrors, emailErrors, phoneErrors, dobErrors } = this.state;
     return (
@@ -308,6 +308,9 @@ class signUp extends Component {
                 <TouchableOpacity onPress={this.linkToTerms}>
                   <MyText style={[textH5Style, textGrey]}>I agree to the terms and conditions</MyText>
                 </TouchableOpacity>
+              </View>
+              <View>
+                <MyText style={[textH4Style]}>N/B: <MyText style={[textOrange]}>You must be 18 and above to use app</MyText></MyText>
               </View>
               <View style={{ paddingTop: 20, paddingBottom: 30 }}>
                 {this.renderError()}

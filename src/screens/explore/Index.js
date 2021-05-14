@@ -175,7 +175,7 @@ class Index extends Component {
                 colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
             } >
             
-              <ImageBackground source={require('../../assets/images/mask/mask.png')} style={[headerBg]}>
+              <ImageBackground source={require('../../assets/images/mask/aura-landing.png')} style={[headerBg]}>
                 <MyText style={[ textWhite, textExtraBold, textH1Style, marginBottomSmall, marginTopLarge ]}>
                   Book unique places
                 </MyText>

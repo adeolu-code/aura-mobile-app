@@ -160,15 +160,18 @@ class LoginModal extends Component {
       } catch (error) {
           console.log('Error ', error, error.code, error.message)
           // this.setState({ loading: false, formErrors: [error.message] })
-          this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
+          this.setState({ loading: false })
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            // this.setState({ formErrors: [error.message]})
+            this.setState({ formErrors: ['Authentication cancelled']})
               // user cancelled the login flow
           } else if (error.code === statusCodes.IN_PROGRESS) {
+            this.setState({ formErrors: ['Something went error, Please try again, if it persists please contact support.']})
               // operation (f.e. sign in) is in progress already
           } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            this.setState({ formErrors: ['Google services not available on gadget']})
               // play services not available or outdated
           } else {
+            this.setState({ formErrors: ['Something went error, Please try again, if it persists please contact support.']})
               // some other error happened
           }
       }
@@ -194,6 +197,36 @@ class LoginModal extends Component {
       }.bind(this)
     );
   }
+
+  onAppleButtonPress = async () => {
+    this.setState({ loading: true, formErrors: [] })
+    try {
+      
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        // requestedOperation: AppleAuthRequestOperation.LOGIN,
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+        // requestedScopes: [
+        //   AppleAuthRequestScope.EMAIL,
+        //   AppleAuthRequestScope.FULL_NAME
+        // ],
+      });
+      const { identityToken } = appleAuthRequestResponse;
+      this.socialApiCall('apple',identityToken)
+      // console.log('Apple token ',appleAuthRequestResponse)
+    } catch (error) {
+      // console.log('Error ', error)
+      this.setState({ loading: false })
+      if (error.code === appleAuth.Error.CANCELED) {
+        this.setState({ formErrors: ['User canceled Apple Sign in.']})
+        console.warn('User canceled Apple Sign in.');
+      } else {
+        this.setState({ formErrors: ['Something went error, Please try again, if it persists please contact support.']})
+        console.error(error);
+      }
+    }
+  }
+
   // componentDidMount() {
   //   // setContext(this.context);
   // }
@@ -204,29 +237,7 @@ class LoginModal extends Component {
   onDecline = () => {
     this.props.onDecline(false)
   }
-  onAppleButtonPress = async () => {
-    try {
-      const appleAuthRequestResponse = await appleAuth.performRequest({
-        // requestedOperation: AppleAuthRequestOperation.LOGIN,
-        requestedOperation: appleAuth.Operation.LOGIN,
-        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-        // requestedScopes: [
-        //   AppleAuthRequestScope.EMAIL,
-        //   AppleAuthRequestScope.FULL_NAME
-        // ],
-      });
-      // const { identityToken } = appleAuthRequestResponse;
-      console.log('Apple token ',appleAuthRequestResponse)
-    } catch (error) {
-      console.log('Error ', error)
-      // if (error.code === AppleAuthError.CANCELED) {
-      //   // user cancelled Apple Sign-in
-    
-      // } else {
-      //   // other unknown error
-      // }
-    }
-  }
+  
 
   renderAppleLogin = () => {
     if(Platform.OS === 'ios') {

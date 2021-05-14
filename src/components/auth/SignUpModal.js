@@ -17,6 +17,7 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { setUser, setToken } from '../../helpers';
 import { setContext, Request, urls, HOST } from '../../utils';
+import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
 import { AppContext } from '../../../AppProvider';
 
 
@@ -125,14 +126,17 @@ class SignUpModal extends Component {
       } catch (error) {
           console.log('Error ', error)
           this.setState({ loading: false, formErrors: ['Something went error, Please try again, if it persists please contact support.'] })
-          // this.setState({ loading: false, formErrors: [error.message] })
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            this.setState({ formErrors: ['Authentication cancelled']})
               // user cancelled the login flow
           } else if (error.code === statusCodes.IN_PROGRESS) {
+            this.setState({ formErrors: ['Something went error, Please try again, if it persists please contact support.']})
               // operation (f.e. sign in) is in progress already
           } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            this.setState({ formErrors: ['Google services not available on gadget']})
               // play services not available or outdated
           } else {
+            this.setState({ formErrors: ['Something went error, Please try again, if it persists please contact support.']})
               // some other error happened
           }
       }
@@ -158,6 +162,51 @@ class SignUpModal extends Component {
         this.setState({ loading: false, formErrors: ["Your account has not been configured for facebook login, please contact support"] })
       }.bind(this)
     );
+  }
+  onAppleButtonPress = async () => {
+    this.setState({ loading: true, formErrors: [] })
+    try {
+      
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        // requestedOperation: AppleAuthRequestOperation.LOGIN,
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+        // requestedScopes: [
+        //   AppleAuthRequestScope.EMAIL,
+        //   AppleAuthRequestScope.FULL_NAME
+        // ],
+      });
+      const { identityToken } = appleAuthRequestResponse;
+      this.socialApiCall('apple',identityToken)
+      // console.log('Apple token ',appleAuthRequestResponse)
+    } catch (error) {
+      this.setState({ loading: false })
+      if (error.code === appleAuth.Error.CANCELED) {
+        this.setState({ formErrors: ['User canceled Apple Sign in.']})
+        console.warn('User canceled Apple Sign in.');
+      } else {
+        this.setState({ formErrors: ['Something went error, Please try again, if it persists please contact support.']})
+        console.error(error);
+      }
+    }
+  }
+  renderAppleLogin = () => {
+    if(Platform.OS === 'ios') {
+      return (
+        <View style={{ borderWidth: 1, borderRadius: 10, marginTop: 10, alignItems: 'center', overflow: 'hidden'}}>
+          <AppleButton
+            buttonStyle={AppleButton.Style.DEFAULT}
+            buttonType={AppleButton.Type.SIGN_UP}
+            style={{
+              width: '100%', // You must specify a width
+              height: 45, // You must specify a height
+              fontFamily: 'Nunito-Bold'
+            }}
+            onPress={() => this.onAppleButtonPress()}
+          />
+        </View>
+      )
+    }
   }
 
   render() {
@@ -202,6 +251,7 @@ class SignUpModal extends Component {
                   socialImg={require('../../assets/images/icons/google/google.png')}
                   textStyle={{ color: colors.darkGrey }}
                 />
+                {this.renderAppleLogin()}
               </View>
               <View>
                 {this.renderError()}
