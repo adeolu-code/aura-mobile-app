@@ -27,8 +27,8 @@ export default class BookingPropertyComponent extends Component {
         if (this.props.isExpired) {
             daysLeft =  "Expired";
         }
-        else {
-            daysLeft =  "";
+        else{
+            daysLeft =  "Day(s) " + daysLeft;
         }
 
         const def = (this.props.def == undefined) ? true : ((this.props.def) ? def : true);
