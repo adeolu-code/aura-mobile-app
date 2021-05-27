@@ -8,7 +8,8 @@ export async function getPropertyBookingsApi(data, endpoint="property") {
         let res = await GetRequest(urls.bookingBase + urls.v, urls.booking + endpoint, undefined, "GET", data);
         //console.log("this.context.state.idTypes", res, res.isError);
         if (res.isError) {
-            errorMessage(res.message);
+            //errorMessage(res.message);
+            console.log(res.message);
         } else {
             return res.data;
         }
