@@ -191,7 +191,7 @@ class FoodSingle extends Component {
     this.getRestaurant()
     this.getMenus()
     this.getReviews()
-    console.log('Screen height ', SCREEN_HEIGHT)
+    
   }
 
   renderLocations = () => {
@@ -209,8 +209,12 @@ class FoodSingle extends Component {
   }
 
   onAdd = (item) => {
-    const { selectedFoods } = this.state;
-    const arr = [ ...selectedFoods ];
+    // console.log('Item added ', item)
+    // const { selectedFoods } = this.state;
+    // const arr = [ ...selectedFoods ];
+    // arr.push(item)
+    // this.setState({ selectedFoods: arr })
+
     if(arr.length > 0) {
       const getFirstId = arr[0].id
       if(item.id === getFirstId) {
@@ -246,7 +250,7 @@ class FoodSingle extends Component {
     const { restaurant, mountPayModal } = this.state
     const { textH2Style, textExtraBold } = GStyles
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
+      <View style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
         <BackHeader {...this.props} wrapperStyles={{ position: 'relative'}} />
         <ScrollView>
@@ -279,7 +283,7 @@ class FoodSingle extends Component {
         
         {mountPayModal ? <ConfirmAndPayModal visible={this.state.payModal} onDecline={this.onClosePayModal} {...this.props} goBack={this.openModal}
         foods={this.state.selectedFoods} restaurant={this.state.restaurant} orderDetails={this.state.orderDetails} /> : <></>}
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -290,8 +294,8 @@ const styles = StyleSheet.create({
       paddingHorizontal: 20
   },
   buttomContainer: {
-    position: 'absolute', bottom: 0, width: '100%', zIndex: 50
-}
+      position: 'absolute', bottom: 0, width: '100%', zIndex: 50, paddingBottom: 10,
+  }
 });
 
 export default FoodSingle;

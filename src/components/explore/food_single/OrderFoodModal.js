@@ -293,10 +293,10 @@ const styles = StyleSheet.create({
         // borderWidth: 1
     },
     buttonContainerStyle: {
-        paddingHorizontal: 20, paddingTop: 10, paddingBottom: 20, backgroundColor: colors.white, elevation: 6
+        paddingHorizontal: 20, paddingTop: 10, paddingBottom: 50, backgroundColor: colors.white, elevation: 6
     },
     buttonStyle: {
-        elevation: 2, borderRadius: 0
+        elevation: 2, 
     },
     contentContainer: {
         flex: 1.7

@@ -22,6 +22,12 @@ class BottomMenuComponent extends Component {
     this.state = {};
   }
 
+//   renderGroupedFoods = () => {
+//       const { foods } = this.props
+//       const obj = {}
+      
+//   }
+
   renderPrice = () => {
       const { foods, onRemove } = this.props;
       const { flexRow, textExtraBold, textBold, textGrey, textH4Style, textSuccess, textH6Style, textH5Style } = GStyles;
@@ -50,7 +56,7 @@ class BottomMenuComponent extends Component {
     return (
         <View style={[flexRow, container]}>
             <View style={{flex: 1.5}}>
-                {this.renderPrice()}
+                {/* {this.renderPrice()} */}
                 {/* <Icon name="cart" />
                 <MyText style={[textGrey, textH6Style]}>Price:</MyText>
                 <MyText style={[textSuccess, textH4Style, textBold]}>₦ {house ? formatAmount(house.pricePerNight) : '***'} / plate</MyText> */}

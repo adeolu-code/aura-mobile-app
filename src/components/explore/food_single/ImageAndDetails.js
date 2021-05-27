@@ -88,6 +88,12 @@ class ImageAndDetails extends Component {
             imgStyle, textWhite, textH3Style, textSuccess, textH6Style, textDarkGrey } = GStyles
     const { currentIndex } = this.state
     const { time, restaurant, title, loading, photos } = this.props;
+    let rating
+    if(restaurant.rating > 5) {
+        rating = restaurant.rating/10 * 5
+    } else {
+        rating = restaurant.rating
+    }
 
     // const imgUrl = restaurant.hostPicture ? { uri: restaurant.hostPicture } : require('../../../assets/images/profile.png')
     return (
@@ -96,7 +102,7 @@ class ImageAndDetails extends Component {
                 <View style={{flex: 6 }}>
                     <MyText style={[textExtraBold, textLgStyle]}>{restaurant ? restaurant.name : ''}</MyText>
                     <View style={starContainer}>
-                        <StarComponent style={iconStyle} grey rating={restaurant ? restaurant.rating : 0} />
+                        <StarComponent style={iconStyle} grey rating={restaurant ? rating : 0} />
                     </View>
                     <MyText style={[textH4Style, textGrey]}>
                         {restaurant && restaurant.locations ? `${restaurant.locations[0].city}, ${restaurant.locations[0].state}` : '**'}

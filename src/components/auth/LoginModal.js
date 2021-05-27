@@ -125,7 +125,7 @@ class LoginModal extends Component {
     const obj = { userType: 0, token }
     try {
       const res = await Request(urls.identityBase, `api/v1/auth/user/login/${type}`, obj);
-      // console.log(res)
+      console.log(res)
       if(res.isError) {
         const message = res.message;
         const error = [message]
@@ -185,7 +185,7 @@ class LoginModal extends Component {
         } else {
           AccessToken.getCurrentAccessToken()
           .then((data) => {
-            console.log(data)
+            console.log('facebook ',data)
             this.socialApiCall('facebook', data.accessToken)
           })
         }
@@ -212,6 +212,7 @@ class LoginModal extends Component {
         // ],
       });
       const { identityToken } = appleAuthRequestResponse;
+      console.log('Apple response ',appleAuthRequestResponse)
       this.socialApiCall('apple',identityToken)
       // console.log('Apple token ',appleAuthRequestResponse)
     } catch (error) {
