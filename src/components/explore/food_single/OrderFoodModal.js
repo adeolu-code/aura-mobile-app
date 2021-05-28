@@ -8,7 +8,7 @@ import { MyText, CustomButton, ItemCountPicker, Error, CustomInput, Loading } fr
 
 import moment from 'moment';
 
-import { formatAmount } from '../../../helpers'
+import { formatAmount, notEmpty, shortenXterLength } from '../../../helpers'
 
 import { urls, Request } from '../../../utils'
 
@@ -18,7 +18,28 @@ class OrderFoodModal extends Component {
     constructor(props) {
         super(props);
         this.state = { errors: [], operationValue: '', orderedForMobile: '', orderedForName: '', orderedForAddress: '', 
-        delivery: false, loading: false };
+        delivery: false, loading: false, groupedFoods: {} };
+    }
+    componentDidUpdate = (prevProps, prevState) => {
+        if(this.props.foods.length !== prevProps.foods.length) {
+            this.groupFoods()
+        }
+    }
+    groupFoods = () => {
+        const { foods } = this.props
+        if(foods.length > 0) {
+            const obj = {}
+            foods.forEach(food => {
+                if(obj[food.id]) {
+                    obj[food.id] = [...obj[food.id], food]
+                } else {
+                    obj[food.id] = [food]
+                }
+            });
+            this.setState({ groupedFoods: obj })
+        } else if(foods.length === 0) {
+            this.setState({ groupedFoods: {} })
+        }
     }
     onValueChange = (value) => {
         this.setState({ operationValue: value })
@@ -39,9 +60,11 @@ class OrderFoodModal extends Component {
         if(loading) { return (<Loading wrapperStyles={{ width: '100%', height: '100%', zIndex: 1000}} />) }
     }
     
-    setCountValue = (value) => {
-        const { foods } = this.props
-        const obj = { item: foods[0], count: value }
+    setCountValue = (value, food) => {
+        // const { foods } = this.props
+        // const obj = { item: foods[0], count: value }
+        // this.props.setCount(obj)
+        const obj = { item: food, count: value }
         this.props.setCount(obj)
     }
     onDecline = () => {
@@ -67,18 +90,28 @@ class OrderFoodModal extends Component {
         // this.props.next()
         Keyboard.dismiss()
         const { foods, restaurant } = this.props
-        const food = foods[0]
+        const { groupedFoods } = this.state
+        // const food = foods[0]
         const { orderedForAddress, orderedForMobile, orderedForName } = this.state
+        const keys = Object.keys(groupedFoods)
+        const orders = keys.map((item) => {
+            const values = groupedFoods[item]
+            const food = values[0]
+            return { menuId: food.id, quantity: values.length, 
+                unitCost: food.price, deliveryFee: restaurant.averageDeliveryFee, serviceCharge: 0 }
+        })
         const obj = {
             orderedForAddress,
             orderedForMobile,
             orderedForName,
-            orders: [{
-                menuId: food.id,
-                quantity: foods.length, 
-                unitCost: food.price, deliveryFee: restaurant.averageDeliveryFee, serviceCharge: 0
-            }]
+            orders
+            // orders: [{
+            //     menuId: food.id,
+            //     quantity: foods.length, 
+            //     unitCost: food.price, deliveryFee: restaurant.averageDeliveryFee, serviceCharge: 0
+            // }]
         }
+        // console.log(obj)
         try {
             this.setState({ loading: true })
             const res = await Request(urls.restaurantBase, `${urls.v}restaurant/orders/${restaurant.id}`, obj);
@@ -103,11 +136,13 @@ class OrderFoodModal extends Component {
         }
     }
     renderFood = () => {
-        const { foods } = this.props;
         const { imgStyle, textExtraBold, textH4Style, textH5Style, flexRow, textGrey } = GStyles
         const { foodContainer, leftContainer, imgContainer, contentContainer } = styles
-        if(foods.length > 0) {
-            const food = foods[0];
+        const { groupedFoods } = this.state
+        const keys = Object.keys(groupedFoods)
+        return keys.map((item) => {
+            const values = groupedFoods[item]
+            const food = values[0]
             const imgUrl = food.assetPath ? { uri: food.assetPath } : require('../../../assets/images/no_food.png')
             return (
                 <View style={[flexRow, foodContainer]}>
@@ -117,30 +152,37 @@ class OrderFoodModal extends Component {
                         </View>
                     </View>
                     <View style={contentContainer}>
-                        <MyText style={[textH4Style, textExtraBold, { marginBottom: 6 }]}>{food.mealName}</MyText>
-                        <MyText style={[textH5Style, textGrey, { marginBottom: 16 }]}>{food.description}</MyText>
+                        <MyText style={[textH4Style, textExtraBold, { marginBottom: 2, marginTop: -3, paddingTop: 0 }]}>{food.mealName}</MyText>
+                        <MyText style={[textH5Style, textGrey, { marginBottom: 5 }]}>{shortenXterLength(food.description,30)}</MyText>
                         {/* <MyText style={[textExtraBold, textSuccess, textH5Style]}>₦ {formatAmount(item.price)} / plate</MyText> */}
                     </View>
                 </View>
             )
-        }
+        })
+        
     }
 
     renderCountPicker = () => {
-        const { foods } = this.props;
-        if(foods.length > 0) {
-            const food = foods[0];
+        const { groupedFoods } = this.state
+        const keys = Object.keys(groupedFoods)
+        return keys.map((item) => {
+            const values = groupedFoods[item]
+            const firstValue = values[0]
+            const title = `${firstValue.mealName}`
+            const subtitle = `@ ₦${firstValue.price}`
             return (
-                <ItemCountPicker title={food.mealName} value={foods.length} countValue={this.setCountValue}  />
+                <ItemCountPicker title={title} subtitle={subtitle} value={values.length} countValue={(value) => {this.setCountValue(value, firstValue)}}  />
             )
-        }
+        })
+        
     }
     totalAmount = () => {
         const { foods, restaurant } = this.props;
         const { delivery } = this.state
         if(foods.length > 0) {
-            const food = foods[0];
-            let price = food.price * foods.length
+            let price = foods.reduce((sum, current) => sum + current.price, 0);;
+            // const food = foods[0];
+            // let price = food.price * foods.length
             if(delivery) {
                 price += restaurant.averageDeliveryFee
             }
@@ -150,12 +192,14 @@ class OrderFoodModal extends Component {
     renderTotal = () => {
         const { foods } = this.props;
         const { textH3Style, textBold, textExtraBold, textSuccess, textH4Style, flexRow, textGrey} = GStyles
+        
         if(foods.length > 0) {
             const food = foods[0];
             return (
                 <View style={[flexRow, styles.totalContainer]}>
                     <MyText style={[textH4Style, textGrey ]}>
-                        <MyText style={[textBold]}>Total Amount</MyText> ( {food.price} * {foods.length} )</MyText>
+                        {/* <MyText style={[textBold]}>Total Amount</MyText> ( {food.price} * {foods.length} )</MyText> */}
+                        <MyText style={[textBold]}>Total Amount</MyText> </MyText>
                     <MyText style={[textH3Style, textExtraBold, textSuccess ]}>₦ {this.totalAmount()}</MyText>
                 </View>
             )
@@ -212,7 +256,7 @@ class OrderFoodModal extends Component {
                     <View style={{ flex: 1}}>
                         <ScrollView keyboardShouldPersistTaps="always">
                             {this.renderFood()}
-                            <View style={{ paddingHorizontal: 25 }}>
+                            <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
                                 <MyText style={[textH3Style, textBold, textGrey ]}>Delivery Options</MyText>
                                 <View style={picker}>
                                     {restaurant ? <Picker mode="dropdown" Icon={<Icon name="md-arrow-down" />} 
@@ -299,10 +343,11 @@ const styles = StyleSheet.create({
         elevation: 2, 
     },
     contentContainer: {
-        flex: 1.7
+        flex: 4, 
+        // borderWidth: 1
     },
     foodContainer: {
-        paddingVertical: 20, 
+        paddingTop: 10, 
         // borderWidth: 1, 
         paddingHorizontal: 25
     },
@@ -311,7 +356,8 @@ const styles = StyleSheet.create({
         // borderWidth: 1
     },
     imgContainer: {
-        width: 100, height: 60, borderRadius: 8, overflow: 'hidden', elevation: 1, backgroundColor: colors.lightGrey
+        width: 50, height: 40, borderRadius: 8, overflow: 'hidden', elevation: 1, backgroundColor: colors.lightGrey,
+        ...GStyles.shadow
     },
     
     itemCountContainer: {

@@ -91,9 +91,9 @@ export default class BookInAdvance extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="How Far In Advance Can A Guest Book?" wrapperStyles={{ position: 'relative'}} />
-                    <View style={[Styles.container, {marginTop: 10}]}>
+                    <View style={[Styles.container, {marginTop: 0, marginBottom: 160}]}>
                         <ScrollView>
-                            <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
+                            <View style={[Styles.rowView, {flexWrap: "wrap", marginTop: 0, alignItems: "flex-start"}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen]}>Tips: </MyText>
                                     <MyText style={[textGrey]}>
                                     At least 2 days’ notice can help you plan for a guest’s arrival, but you might miss out on last minutes trips.

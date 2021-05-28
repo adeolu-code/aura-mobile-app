@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 require('number-to-locale-string-polyfill');
 
-export const isEmpty = obj => {
+export const notEmpty = obj => {
     for (const key in obj) {
         if (obj.hasOwnProperty(key))
             return false;

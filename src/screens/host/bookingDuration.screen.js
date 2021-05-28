@@ -54,7 +54,8 @@ export default class BookingDuration extends Component {
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header {...this.props} title="How Long Can a Guest Stay?" wrapperStyles={{ position: 'relative'}} />
-                    <View style={[Styles.container, {marginTop: 10, flex: 1}]}>
+                    
+                    <View style={[Styles.container, {marginTop: 10, flex: 1, marginBottom: 50, paddingTop: 5}]}>
                         <View style={{flex: 2}}>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
@@ -74,6 +75,7 @@ export default class BookingDuration extends Component {
                             <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.submit} disabled={!maxNoOfNights || !minNoOfNights} />
                         </View>
                     </View>
+                    
                 </SafeAreaView>
             </>
         )

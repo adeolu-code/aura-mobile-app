@@ -189,7 +189,7 @@ export default class PropertyAvailability extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header {...this.props} title="Property Availability Dates" wrapperStyles={{ position: 'relative'}} />
-                    <View style={[Styles.container, {marginTop: 0}]}>
+                    <View style={[Styles.container, {marginTop: 0, marginBottom: 160, paddingTop: 5}]}>
                         <ScrollView>
                             <View style={[Styles.rowView, {flexWrap: "wrap", alignItems: "flex-start"}]}>
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>

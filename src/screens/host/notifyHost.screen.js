@@ -146,10 +146,10 @@ export default class NotifyHost extends Component {
         return(
             <>
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
-                    <Header {...this.props} title="When Should We Notify You Before A Guest Shows Up" wrapperStyles={{ position: 'relative'}} />
-                    <View style={[Styles.container, {marginTop: 0}]}>
+                    <Header {...this.props} title="When Should We Notify You Before A Guest Shows Up" wrapperStyles={{ position: 'relative' }} />
+                    <View style={[Styles.container, {marginTop: 0, marginBottom: 160, paddingTop: 5 }]}>
                         <ScrollView ref={this.scrollViewRef}>
-                            <View style={[Styles.rowView, {}]}>
+                            <View style={[Styles.rowView, { marginTop: 0}]}>
 
                                 <MyText style={[textH4Style]}><MyText style={[textGreen, textBold]}>Tips: </MyText>
                                     <MyText style={[textGrey]}>

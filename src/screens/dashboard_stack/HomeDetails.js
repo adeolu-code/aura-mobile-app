@@ -33,7 +33,7 @@ class HomeDetails extends Component {
         try {
             this.setState({ gettingReservations: true })
             const res = await GetRequest(urls.bookingBase, `${urls.v}bookings/property/ByProperty/?propertyId=${propertyId}&isRecent=${recent}`);
-            console.log('Reserve details ', res)
+            // console.log('Reserve details ', res)
             this.setState({ gettingReservations: false })
             if(res.isError) {
                 const message = res.Message;
@@ -53,7 +53,7 @@ class HomeDetails extends Component {
         try {
             this.setState({ gettingHouse: true })
             const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${propertyId}`);
-            console.log('House Details ', res)
+            // console.log('House Details ', res)
             this.setState({ gettingHouse: false })
             if(res.isError) {
                 const message = res.Message;
@@ -113,7 +113,13 @@ class HomeDetails extends Component {
     displayAmount = () => {
         const { reservations } = this.state
         if(reservations.length !== 0) {
-            return formatAmount(reservations.reduce((sum, current) => sum + current.total_Cost, 0))
+            return formatAmount(reservations.reduce((sum, current) => {
+                if(current.is_Paid) {
+                    return sum + current.total_Cost
+                } else {
+                    return sum
+                }
+            }, 0))
         }
         return 0
     }

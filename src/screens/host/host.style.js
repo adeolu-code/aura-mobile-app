@@ -242,7 +242,7 @@ export const Styles = StyleSheet.create({
         overflow: "hidden"
     },
     previewIconParent: {
-        flex: 0.1,
+        flex: 0.15,
     },
     alertIcon: {
         backgroundColor: colors.white,
@@ -255,7 +255,7 @@ export const Styles = StyleSheet.create({
         fontSize: 18,
     },
     middleSection: {  
-        flex: 0.85
+        flex: 0.80
     },
     previewTitle: {
         marginTop: 0,marginLeft: 0,marginBottom: 5,

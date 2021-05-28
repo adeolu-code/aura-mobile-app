@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   textLgStyle: {
     // fontSize: 28,
-    fontSize: 22,
+    fontSize: 19,
   },
   textHStyle: {
     // fontSize: 24,

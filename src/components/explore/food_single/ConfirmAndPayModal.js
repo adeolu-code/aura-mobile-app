@@ -95,6 +95,44 @@ class ConfirmAndPayModal extends Component {
         this.props.goBack()
     }
 
+    renderPlates = () => {
+        const { textBold, textH4Style } = GStyles
+        const { orderDetails } = this.props
+        if(orderDetails) {
+            return orderDetails.orders.map((item) => {
+                return (
+                    <MyText style={[textBold, textH4Style]}>{item.mealName}</MyText>
+                )
+            })
+        }
+    }
+
+    renderItems = () => {
+        const { textBold, textH4Style, flexRow, textH5Style, textGrey } = GStyles
+        const { orderDetails } = this.props
+        if(orderDetails) {
+            return orderDetails.orders.map((item) => {
+                return (
+                    <View style={[flexRow, styles.checkRow, { borderTopWidth: 0, marginTop: 10}]}>
+                        <View style={{ alignItems: 'center'}}>
+                            <MyText style={[textBold, textH4Style]}>
+                                ₦ {formatAmount(item.unitCost)}
+                            </MyText>
+                        </View>
+                        <View style={{ alignItems: 'center'}}>
+                            <MyText style={[textBold, textH4Style]}>
+                                {item.quantity}
+                            </MyText>
+                        </View>
+                        <View style={{ alignItems: 'center'}}>
+                            <MyText style={[textBold, textH4Style]}>₦ {formatAmount(item.deliveryFee)}</MyText>
+                        </View>
+                    </View>
+                )
+            })
+        }
+    }
+
   render() {
     const { visible, onDecline } = this.props;
     const { modalContainer, contentContainer, modalHeader, lineStyle, closeStyle, buttomStyle, container, itemCountContainer,
@@ -179,27 +217,29 @@ class ConfirmAndPayModal extends Component {
                                         <MyText style={[textH5Style, textGrey]}>PLATE</MyText>
                                     </View>
                                     <View style={{ flex: 1.6}}>
-                                        <MyText style={[textBold, textH4Style]}>{orderDetails ? orderDetails.orders[0].mealName : '****'}</MyText>
+                                        {this.renderPlates()}
+                                        {/* <MyText style={[textBold, textH4Style]}>{orderDetails ? orderDetails.orders[0].mealName : '****'}</MyText> */}
                                     </View>
                                 </View>
                                 <View style={[flexRow, styles.checkRow, { borderTopWidth: 0, marginTop: 10}]}>
                                     <View style={{ alignItems: 'center'}}>
                                         <MyText style={[textH5Style,textGrey, { marginBottom: 30}]}>AMOUNT</MyText>
-                                        <MyText style={[textBold, textH4Style]}>
+                                        {/* <MyText style={[textBold, textH4Style]}>
                                             ₦ {orderDetails ? formatAmount(orderDetails.orders[0].unitCost) : 0}
-                                        </MyText>
+                                        </MyText> */}
                                     </View>
                                     <View style={{ alignItems: 'center'}}>
                                         <MyText style={[textH5Style,textGrey, { marginBottom: 30}]}>QUANTITY</MyText>
-                                        <MyText style={[textBold, textH4Style]}>
+                                        {/* <MyText style={[textBold, textH4Style]}>
                                             {orderDetails ? orderDetails.orders[0].quantity : 0}
-                                        </MyText>
+                                        </MyText> */}
                                     </View>
                                     <View style={{ alignItems: 'center'}}>
                                         <MyText style={[textH5Style,textGrey, { marginBottom: 30}]}>DELIVERY FEE</MyText>
-                                        <MyText style={[textBold, textH4Style]}>₦ {orderDetails ? formatAmount(orderDetails.orders[0].deliveryFee) : 0}</MyText>
+                                        {/* <MyText style={[textBold, textH4Style]}>₦ {orderDetails ? formatAmount(orderDetails.orders[0].deliveryFee) : 0}</MyText> */}
                                     </View>
                                 </View>
+                                {this.renderItems()}
 
                                 <View>
                                     <View style={[flexRow, styles.amountRow]}>

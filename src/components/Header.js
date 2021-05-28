@@ -58,7 +58,7 @@ class Header extends Component {
 const styles = StyleSheet.create({
     container: {
         width: '100%', backgroundColor: colors.white, paddingHorizontal: 20, 
-        paddingTop: Platform.OS === 'ios' ? 30 : 30,
+        paddingTop: Platform.OS === 'ios' ? 30 : 20,
         paddingBottom: Platform.OS === 'ios' ? 10 : 10,
         position: 'absolute', top: 0, zIndex: 100, 
         // borderWidth: 1

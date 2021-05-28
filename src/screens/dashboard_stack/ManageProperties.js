@@ -128,7 +128,7 @@ class ManageProperties extends Component {
             </View>
         </View>
         {this.renderTabs()}
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, borderWidth: 1 }}>
           <Fab active={this.state.active} direction="up" containerStyle={{ }} style={{ backgroundColor: colors.orange }} 
             position="bottomRight" onPress={this.linkToHost}>
             <Icon name="home" />

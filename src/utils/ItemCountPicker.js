@@ -34,13 +34,13 @@ class ItemCountPicker extends Component {
   }
   render() {
     const { rowContainer, increment, decrement} = styles;
-    const { textBold, textH4Style, flexRow} = GStyles;
-    const { title, value, container } = this.props;
+    const { textBold, textH4Style, flexRow, textNormal, textH5Style} = GStyles;
+    const { title, value, container, subtitle } = this.props;
     return (
       <View style={{ width: '100%'}}>
         <View style={[flexRow, rowContainer, container]}>
             <View style={{flex: 7}}>
-                <MyText style={[textBold, textH4Style, {color: '#1E2B37'}]}>{title}</MyText>
+                <MyText style={[textBold, textH4Style, {color: '#1E2B37'}]}>{title} <MyText style={[textNormal, textH5Style]}>{subtitle}</MyText> </MyText>
             </View>
             <View style={[flexRow, {flex: 2.5, alignContent: 'space-between'}]}>
                 <View>

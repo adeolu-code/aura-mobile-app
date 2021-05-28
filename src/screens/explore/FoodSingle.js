@@ -209,41 +209,67 @@ class FoodSingle extends Component {
   }
 
   onAdd = (item) => {
-    // console.log('Item added ', item)
-    // const { selectedFoods } = this.state;
-    // const arr = [ ...selectedFoods ];
-    // arr.push(item)
+    // // console.log('Item added ', item)
+    const { selectedFoods } = this.state;
+    const arr = [ ...selectedFoods ];
+    arr.push(item)
+    this.setState({ selectedFoods: arr })
+
+    // if(arr.length > 0) {
+    //   const getFirstId = arr[0].id
+    //   if(item.id === getFirstId) {
+    //     arr.push(item)
+    //     this.setState({ selectedFoods: arr })
+    //   } else {
+    //     this.setState({ selectedFoods: [item]})
+    //   }
+    // } else {
+    //   this.setState({ selectedFoods: [item]})
+    // }
     // this.setState({ selectedFoods: arr })
 
-    if(arr.length > 0) {
-      const getFirstId = arr[0].id
-      if(item.id === getFirstId) {
-        arr.push(item)
-        this.setState({ selectedFoods: arr })
-      } else {
-        this.setState({ selectedFoods: [item]})
-      }
-    } else {
-      this.setState({ selectedFoods: [item]})
-    }
+    // const { selectedFoods } = this.state;
+    // const arr = [ ...selectedFoods ];
+    // if(arr.length > 0) {
+    //   const getFirstId = arr[0].id
+    //   if(item.id === getFirstId) {
+    //     arr.push(item)
+    //     this.setState({ selectedFoods: arr })
+    //   } else {
+    //     this.setState({ selectedFoods: [item]})
+    //   }
+    // } else {
+    //   this.setState({ selectedFoods: [item]})
+    // }
   }
 
-  onRemove = () => {
+  onRemove = (value) => {
+    // console.log('Value ', value)
     const { selectedFoods } = this.state;
     const arr = [ ...selectedFoods ];
     if(arr.length > 0) {
-      arr.splice(0,1)
+      const foodIndex = arr.findIndex(item => item.id === value.id)
+      // console.log('index ', foodIndex)
+      arr.splice(foodIndex, 1)
       this.setState({ selectedFoods: arr })
     }
   }
 
   setCount = (obj) => {
+    // console.log('Obj ', obj)
     const { selectedFoods } = this.state;
-    if(obj.count > selectedFoods.length) {
+    const filteredFoods = selectedFoods.filter((item) => item.id === obj.item.id)
+
+    if(obj.count > filteredFoods.length) {
       this.onAdd(obj.item)
     } else {
       this.onRemove(obj.item)
     }
+    // if(obj.count > selectedFoods.length) {
+    //   this.onAdd(obj.item)
+    // } else {
+    //   this.onRemove(obj.item)
+    // }
   }
 
   render() {
@@ -294,7 +320,8 @@ const styles = StyleSheet.create({
       paddingHorizontal: 20
   },
   buttomContainer: {
-      position: 'absolute', bottom: 0, width: '100%', zIndex: 50, paddingBottom: 10,
+      position: 'absolute', bottom: 0, width: '100%', zIndex: 50, ...GStyles.shadow
+      // paddingBottom: 10,
   }
 });
 

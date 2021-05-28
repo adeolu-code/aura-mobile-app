@@ -35,8 +35,8 @@ export default class BookingPreview extends Component {
                         {...this.props} wrapperStyles={{ position: 'relative'}}
                         title="Here’s How Guests Will Book With You" 
                     />
-                    <View style={[Styles.container, {marginTop:0 }]}>
-                        <ScrollView scrollEnabled>
+                    <View style={[Styles.container, {marginTop:0, marginBottom: 160, paddingTop: 5 }]}>
+                        <ScrollView style={{paddingBottom: 300}}>
                             <Item 
                                 title={"Qualified Guests Find Your Listing"}
                                 content={"Anyone who wants to book with you would need to confirm their contact information, provide payment details and tell you about their trip."}
