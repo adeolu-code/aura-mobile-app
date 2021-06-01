@@ -27,7 +27,7 @@ class Header extends Component {
       <View>
         <View style={[flexRow, headerStyle]}>
             <View style={{ flex: 6}}>
-                <MyText style={[textExtraBold, textLgStyle]}>{title}</MyText>
+                <MyText style={[textExtraBold, textLgStyle, textDarkGrey]}>{title}</MyText>
                 <MyText style={[textH4Style, textGrey]}>{location}</MyText>
                 
             </View>

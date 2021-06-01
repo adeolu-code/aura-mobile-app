@@ -20,19 +20,46 @@ import MoreComponent from '../../components/explore/photo_single/MoreComponent';
 import BottomMenuComponent from '../../components/explore/photo_single/BottomMenuComponent';
 import ContactModal from '../../components/explore/photo_single/ContactModal';
 
+import LoginModal from '../../components/auth/LoginModal';
+import SignUpModal from '../../components/auth/SignUpModal';
+
 import { setContext, Request, urls, GetRequest, successMessage, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 
 
 class PhotoSingle extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { showModal: false, photo: '', portofilo: [], gettingPhotographer: false, gettingPortofolio: false, loading: false };
+    this.state = { showModal: false, photo: '', portofilo: [], gettingPhotographer: false, 
+    gettingPortofolio: false, loading: false, showLoginModal: false, showRegisterModal: false };
     const { photo } = props.route.params;
     this.state.photo = photo
   }
+  openLoginModal = () => {
+    this.setState({ showLoginModal: true })
+  }
+  openSignUpModal = () => {
+    this.setState({ showRegisterModal: true })
+  }
+  closeSignUpModal = () => {
+    this.setState({ showRegisterModal: false })
+  }
+  closeLoginModal = (bool) => {
+    console.log('Bool ', bool)
+    this.setState(() => ({ showLoginModal: false }), () => {
+      if(bool) {
+        this.getPhotographer(true)
+      }
+    })
+  }
   openModal = () => {
-    this.setState({ showModal: true })
+    const { state } = this.context
+    if (state.isLoggedIn) {
+      this.setState({ showModal: true })
+    } else {
+      this.openLoginModal()
+    }
   }
   closeModal = () => {
     this.setState({ showModal: false })
@@ -44,7 +71,7 @@ class PhotoSingle extends Component {
       }
   }
 
-  getPhotographer = async () => {
+  getPhotographer = async (bool=false) => {
     const { photo } = this.state
     this.setState({ gettingPhotographer: true })
     try {
@@ -57,6 +84,9 @@ class PhotoSingle extends Component {
           const data = res.data;
           if(data !== null) {
             this.setState({ photo: data })
+            if(bool) {
+              this.openModal()
+            }
           }
       }
     } catch (error) {
@@ -85,9 +115,12 @@ class PhotoSingle extends Component {
   }
 
   componentDidMount = () => {
-    this.getPhotographer()
+    const { isLoggedIn } = this.context.state
+    if(isLoggedIn) {
+      this.getPhotographer()
+    }
     this.getPortolio()
-    console.log('Component mounted ', this.props.route)
+    // console.log('Component mounted ', this.props.route)
   }
 
   render() {
@@ -120,6 +153,8 @@ class PhotoSingle extends Component {
                 <BottomMenuComponent onPress={this.openModal}  />
             </View>
             {photo && photo.address ? <ContactModal visible={this.state.showModal} onDecline={this.closeModal} photo={photo} /> : <></>}
+            <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
+            <SignUpModal visible={this.state.showRegisterModal} onDecline={this.closeSignUpModal} {...this.props} openLogin={this.openLoginModal} />
         </SafeAreaView>
     );
   }

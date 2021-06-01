@@ -16,12 +16,18 @@ import { SCREEN_HEIGHT } from '../../../utils'
 
 
 class ImageAndDetails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { currentIndex: 1, loadingPhotos: false };
-  }
+    constructor(props) {
+        super(props);
+        this.state = { currentIndex: 1, loadingPhotos: false };
+    }
+    componentDidUpdate = (prevProps, prevState) => {
+            
+        if(prevProps.loading !== this.props.loading) {
+            this.setState({ loadingPhotos: this.props.loading})
+        }
+    }
     indexChange = (index) => {
-        console.log('Index ', index)
+        // console.log('Index ', index)
         this.setState({ currentIndex: index + 1})
     }
     renderPhotoLoading = () => {
@@ -35,7 +41,7 @@ class ImageAndDetails extends Component {
         return photos.map((item, index) => {
             const url = item.assetPath ? { uri: item.assetPath } : require('../../../assets/images/no_food.png')
             return (
-                <View style={imgContainer} key={index}>
+                <View style={{flex: 1, borderRadius: 10, overflow: 'hidden' }} key={index}>
                     <Image source={url} style={imgStyle} resizeMode="cover" />
                     <View style={overlayStyles}></View>
                 </View>
@@ -69,16 +75,7 @@ class ImageAndDetails extends Component {
                 </View>
             )
         }
-      }
-
-    componentDidUpdate = (prevProps, prevState) => {
-        
-        if(prevProps.loading !== this.props.loading) {
-            this.setState({ loadingPhotos: this.props.loading})
-        }
     }
-
-    
 
   render() {
     const { headerStyle, shareStyle, shareContainer, iconStyle, starContainer, imgContainer, contentContainer,
@@ -118,12 +115,10 @@ class ImageAndDetails extends Component {
                 </View>
             </View>
 
-                 
-
             <View style={contentContainer}>
                 
                 <View style={imgContainer}>
-                    {!loading && photos.length !== 0 ?<Swiper style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
+                    {!loading && photos.length !== 0 ?<Swiper autoplay={true} style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
                     showsPagination={false} onIndexChanged={(index) => {this.indexChange(index)}} pagingEnabled={true} >
                         {this.renderImages()}
                     </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         width: '100%', paddingLeft: 2
     },
     imgContainer: {
-        width: '100%', height: 250, borderRadius: 8, marginBottom: 10,
+        width: '100%', height: 200, borderRadius: 8, marginBottom: 10,
         elevation: 2, backgroundColor: colors.lightGrey, ...GStyles.shadow
     },
 });

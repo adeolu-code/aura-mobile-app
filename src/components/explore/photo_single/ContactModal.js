@@ -77,6 +77,9 @@ class ContactModal extends Component {
         textH4Style, textGrey, textH3Style, textSuccess, textLgStyle, imgStyle, textBold } = GStyles
     const fullName = photo ? `${photo.firstName} ${photo.lastName}` : '****';
     const imgUrl = photo && photo.coverPhoto ? {uri: photo.coverPhoto} : require('../../../assets/images/profile.png');
+
+
+    const house = { district: photo.address.city, state: photo.address.state}
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}}>
             
@@ -117,7 +120,7 @@ class ContactModal extends Component {
                         </View>
                         <View style={divider}></View>
                         <View style={locationContainer}>
-                            {photo ? <LocationComponent noDivider wrapper={{paddingHorizontal: 0}} 
+                            {photo ? <LocationComponent noDivider wrapper={{paddingHorizontal: 0}} house={house}
                             address={photo ? photo.address.street : '***'} location={this.state.location ? this.state.location : false} /> : <></>}
                         </View>
                     </ScrollView>
