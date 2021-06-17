@@ -28,14 +28,19 @@ import { setContext, Request, urls, refreshToken, SCREEN_HEIGHT } from '../../ut
 import { AppContext } from '../../../AppProvider';
 import Geolocation from 'react-native-geolocation-service';
 
-import { formatAmount } from '../../helpers';
+import { formatAmount, getCurrentImage, setCurrentImage } from '../../helpers';
 
 
 class Index extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    this.state = { active: false, loadingPlaces: false, places: [], refreshPlaces: false, refreshing: false };
+    this.state = { active: false, loadingPlaces: false, places: [], refreshPlaces: false, refreshing: false, currentIndex: 0, images: [ require('../../assets/images/mask/aura-landing.png'), 
+                  require('../../assets/images/mask/aura-landing-1.png'), 
+                  require('../../assets/images/mask/aura-landing-2.png') ]  };
+    this.images = [ require('../../assets/images/mask/aura-landing.png'), 
+                  require('../../assets/images/mask/aura-landing-1.png'), 
+                  require('../../assets/images/mask/aura-landing-2.png') ]
   }
   linkToHouses = () => {
     this.props.navigation.navigate('ExploreAll', { tab: 'two' })
@@ -122,7 +127,14 @@ class Index extends Component {
   }
 
   componentDidMount = async () => {
-    // console.log(Number(23349).toLocaleString(undefined, { maximumFractionDigits: 3}))
+    const currentIndex = await getCurrentImage()
+    this.setState({ currentIndex })
+    if((this.images.length - 1) === currentIndex){
+      setCurrentImage(0)
+    } else {
+      setCurrentImage(currentIndex + 1)
+    }
+     // console.log(Number(23349).toLocaleString(undefined, { maximumFractionDigits: 3}))
     // const res = await refreshToken()
     // console.log('Token component ', res, this.context.state)
     // console.log('Explore ',this.context.state)
@@ -175,7 +187,7 @@ class Index extends Component {
                 colors={[colors.orange, colors.success]} progressBackgroundColor={colors.white} />
             } >
             
-              <ImageBackground source={require('../../assets/images/mask/aura-landing.png')} style={[headerBg]}>
+              <ImageBackground source={this.images[this.state.currentIndex]} style={[headerBg]}>
                 <MyText style={[ textWhite, textExtraBold, textH1Style, marginBottomSmall, marginTopLarge ]}>
                   Book unique places
                 </MyText>

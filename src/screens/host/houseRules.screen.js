@@ -31,6 +31,7 @@ export default class HouseRules extends Component {
                 // errorMessage('Something went wrong, please try again')
             } else {
                 const data = res.data;
+                console.log('Data ', data)
                 this.setState({ houseRules: data });
             }
         } catch (error) {
@@ -84,7 +85,7 @@ export default class HouseRules extends Component {
                 <MyText style={[textH4Style, textOrange, textBold]}>Loading...</MyText>
             )
         }
-        if(houseRules.length !== 0 && !gettingHouseRules) {
+        if(houseRules && houseRules.length !== 0 && !gettingHouseRules) {
             return houseRules.map((item, index) => {
                 let key = "HR_"+index;
                 return (

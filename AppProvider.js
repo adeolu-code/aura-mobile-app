@@ -24,6 +24,7 @@ const defaultContext = {
   isInApp: false,
   edit: false,
   editTour: false,
+  editPhotograph: false,
   step: 1,
   notificationSettings: {messages: {}, policy: {}, reminders: {}},
   photographOnboard: null,

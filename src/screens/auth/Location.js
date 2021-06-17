@@ -163,24 +163,26 @@ class Location extends Component {
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
         <Header {...this.props} title={"Did We Get Your Location Right?"} wrapperStyles={{ position: 'relative'}} />
-          <View style={container}>
-              <View style={{flex: 1, height: '100%'}}>
-                
-                    <View style={{marginTop: 14, flex: 4 }}>
-                        <MyText style={[textGrey, textH5Style]}>
-                            Guests will only get your exact address once they’ve booked a reservation
-                        </MyText>
-                        {this.renderMapView()}
-                        {/* <View style={imgContainer}>
-                          <Image source={require('../../assets/images/globe/globe.png')} resizeMode="contain" style={imgStyle} />
-                        </View> */}
-                    </View>
-                    <View style={[button]}>
-                        <CustomButton buttonText="Next" onPress={this.AmenitiesScreen} buttonStyle={{ elevation: 2}} onPress={this.getGeolocation} />
-                    </View>
-                
-              </View>
-          </View> 
+          <ScrollView>
+            <View style={container}>
+                <View style={{flex: 2, height: '100%'}}>
+                  
+                      <View style={{marginTop: 14, flex: 4 }}>
+                          <MyText style={[textGrey, textH5Style]}>
+                              Guests will only get your exact address once they’ve booked a reservation
+                          </MyText>
+                          {this.renderMapView()}
+                          {/* <View style={imgContainer}>
+                            <Image source={require('../../assets/images/globe/globe.png')} resizeMode="contain" style={imgStyle} />
+                          </View> */}
+                      </View>
+                      <View style={[button]}>
+                          <CustomButton buttonText="Next" onPress={this.AmenitiesScreen} buttonStyle={{ elevation: 2}} onPress={this.getGeolocation} />
+                      </View>
+                  
+                </View>
+            </View> 
+          </ScrollView>
       </SafeAreaView>
     );
   }
@@ -197,7 +199,7 @@ const styles = StyleSheet.create({
   button: {
     // marginTop: 150,
     // marginBottom: 86, 
-    flex: 1.5, justifyContent: 'flex-end', paddingBottom: 20
+    flex: 1.5, justifyContent: 'flex-end', paddingBottom: 20, marginTop: 20,
     // borderWidth: 1
   },
   imgContainer: {

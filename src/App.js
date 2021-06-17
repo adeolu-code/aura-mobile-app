@@ -23,29 +23,29 @@ import codePush from "react-native-code-push";
 import FlashMessage from "react-native-flash-message";
 import { MenuProvider } from 'react-native-popup-menu';
 
-const errorHandler = (e, isFatal) => {
-  // console.log('Called')
-  if (isFatal) {
-    reporter(e);
-    Alert.alert(
-        'Unexpected error occurred',
-        `
-        Error: ${(isFatal) ? 'Fatal:' : ''} ${e.name} ${e.message}
-        We have reported this to our team ! Please close the app and start again!
-        `,
-      [{
-        text: 'Close',
-        onPress: () => {
-          BackAndroid.exitApp();
-        }
-      }]
-    );
-  } else {
-    console.log('Error Handler from general error picker ',e); // So that we can see it in the ADB logs in case of Android if needed
-  }
-};
+// const errorHandler = (e, isFatal) => {
+//   // console.log('Called')
+//   if (isFatal) {
+//     reporter(e);
+//     Alert.alert(
+//         'Unexpected error occurred',
+//         `
+//         Error: ${(isFatal) ? 'Fatal:' : ''} ${e.name} ${e.message}
+//         We have reported this to our team ! Please close the app and start again!
+//         `,
+//       [{
+//         text: 'Close',
+//         onPress: () => {
+//           BackAndroid.exitApp();
+//         }
+//       }]
+//     );
+//   } else {
+//     console.log('Error Handler from general error picker ',e); // So that we can see it in the ADB logs in case of Android if needed
+//   }
+// };
 
-setJSExceptionHandler(errorHandler, true);
+// setJSExceptionHandler(errorHandler, true);
 
 LogBox.ignoreAllLogs()
 

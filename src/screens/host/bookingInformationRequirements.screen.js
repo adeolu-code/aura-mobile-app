@@ -254,6 +254,8 @@ export default class BookingInformationRequirements extends Component {
                             <MyText style={[textH5Style, textGrey, lineHeightText]}>
                                 Before Booking any apartment, users must provide any of the following informations
                             </MyText>
+                            {/* <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} disabled={gettingBookingReq || addingInfo || gettingHouse}
+                                    onPress={this.submit} /> */}
                             <View style={[{marginVertical: 20}]}>
                                 {this.renderBookingReq()}
                             </View>

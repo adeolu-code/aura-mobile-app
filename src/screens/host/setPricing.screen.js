@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Styles } from "./host.style";
 import { Input, Picker } from "native-base";
-import { MyText, CustomButton, Loading } from "../../utils/Index";
+import { MyText, CustomButton, Loading, Switch } from "../../utils/Index";
 import GStyles from "../../assets/styles/GeneralStyles";
 import { SafeAreaView, StyleSheet, Keyboard, Platform, View, ScrollView } from "react-native";
 import Header from "../../components/Header";
@@ -18,12 +18,17 @@ export default class SetPricing extends Component {
     constructor(props) {
         super(props);
         this.state = { gettingCommissions: false, commissions: '', gettingAveragePrice: false, averagePrice: '', price: '', 
-        estEarning: 0, commissionAndVAT: 0, submitting: false, loading: false, currency: 'Naira' }
+        estEarning: 0, commissionAndVAT: 0, submitting: false, loading: false, currency: 'Naira', applyDiscount: false, 
+        gettingHouse: false, switchDisabled: false }
     }
 
     renderLoading = () => {
-        const { loading, submitting, gettingCommissions } = this.state;
-        if (loading || submitting || gettingCommissions) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 1000 }} />); }
+        const { loading, submitting, gettingCommissions, gettingHouse } = this.state;
+        if (loading || submitting || gettingCommissions || gettingHouse) { return (<Loading wrapperStyles={{ height: SCREEN_HEIGHT, width: '100%', zIndex: 1000 }} />); }
+    }
+
+    toggleApplyDiscount = () => {
+        this.setState({ applyDiscount: !this.state.applyDiscount })
     }
 
     getCommissions = async () => {
@@ -46,7 +51,6 @@ export default class SetPricing extends Component {
         } catch (error) {
             this.setState({ gettingCommissions: false })
         }
-        
     }
     getAveragePrice = async () => {
         const { state } = this.context
@@ -65,6 +69,32 @@ export default class SetPricing extends Component {
             this.setState({ gettingAveragePrice: false })
         }
         
+    }
+    getHouse = async () => {
+
+        const { propertyContext, appContext } = this.props
+        const propertyFormData = appContext.state.propertyFormData
+        try {
+            this.setState({ gettingHouse: true })
+            const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${propertyFormData.id}`);
+            this.setState({ gettingHouse: false })
+            console.log('Get house ', res)
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data;
+                if(data !== null) {
+                    // this.setState({ bookingReqValues })
+                    appContext.set({ propertyFormData: { ...propertyFormData, pricings: data.pricings, currentDiscount: data.currentDiscount,
+                        currentAmount: data.currentAmount, isDiscountApplied: data.isDiscountApplied } })
+                    if(data.pricings && data.pricings.length > 0) {
+                        this.setState({ switchDisabled: true, applyDiscount: true })
+                    }
+                }
+            }
+        } catch (error) {
+            this.setState({ gettingHouse: false })
+        }
     }
 
     onPriceChange = (text) => {
@@ -88,11 +118,10 @@ export default class SetPricing extends Component {
         // this.setState({ estimatedEarning: (Math.floor(value - tourDeductionInTotal)).toString(), commission: tourDeductionInTotal })
     }
     
-
     componentDidMount = () => {
         this.getAveragePrice();
         this.getCommissions()
-        
+        this.getHouse()
     }
 
     renderAveragePrice = () => {
@@ -135,43 +164,48 @@ export default class SetPricing extends Component {
             maxPreBokingDays: propertyFormData.maxPreBokingDays,
             id: propertyFormData.id
         }
-        this.setState({ submitting: true })
-        const res = await Request(urls.listingBase, `${urls.v}listing/property/update`, obj);
-        this.setState({ submitting: false })
-        console.log('Res ',res)
-        if(res.isError || res.IsError) {
-            errorMessage(res.message)
+        if(this.state.applyDiscount) {
+            appContext.set({ propertyFormData: { ...propertyFormData, pricePerNight: price, currency }})
+            this.props.navigation.navigate('SetPropertyDiscount')
         } else {
-            const data = res.data
-            const newObj = { ...propertyFormData, ...data, mainImage: propertyFormData.mainImage }
-            appContext.set({ propertyFormData: newObj, step: appContext.state.step + 1 })
-
-            const properties = [ ...propertyContext.state.properties ]
-            const pptyArr = this.filterSetProperty(properties, data, propertyFormData)
-            
-            propertyContext.set({ properties: pptyArr })
-            if(data.propertyType.name === 'Apartment') {
-                const apartments = [ ...propertyContext.state.apartments ]
-                const apsArr = this.filterSetProperty(apartments, data, propertyFormData)
-                propertyContext.set({ apartments: apsArr })
+            this.setState({ submitting: true })
+            const res = await Request(urls.listingBase, `${urls.v}listing/property/update`, obj);
+            this.setState({ submitting: false })
+            console.log('Res ',res)
+            if(res.isError || res.IsError) {
+                errorMessage(res.message)
             } else {
-                const hotels = [ ...propertyContext.state.hotels ]
-                const hotelsArr = this.filterSetProperty(hotels, data, propertyFormData)
-                propertyContext.set({ hotels: hotelsArr })
+                const data = res.data
+                const newObj = { ...propertyFormData, ...data, mainImage: propertyFormData.mainImage }
+                appContext.set({ propertyFormData: newObj, step: appContext.state.step + 1 })
+
+                const properties = [ ...propertyContext.state.properties ]
+                const pptyArr = this.filterSetProperty(properties, data, propertyFormData)
+                
+                propertyContext.set({ properties: pptyArr })
+                if(data.propertyType.name === 'Apartment') {
+                    const apartments = [ ...propertyContext.state.apartments ]
+                    const apsArr = this.filterSetProperty(apartments, data, propertyFormData)
+                    propertyContext.set({ apartments: apsArr })
+                } else {
+                    const hotels = [ ...propertyContext.state.hotels ]
+                    const hotelsArr = this.filterSetProperty(hotels, data, propertyFormData)
+                    propertyContext.set({ hotels: hotelsArr })
+                }
+                if(!appContext.state.edit) {
+                    propertyContext.getAllProperties();
+                    propertyContext.getHotels();
+                    propertyContext.getApartments();
+                }
+                this.props.navigation.navigate('GuestPolicy')
             }
-            if(!appContext.state.edit) {
-                propertyContext.getAllProperties();
-                propertyContext.getHotels();
-                propertyContext.getApartments();
-            }
-            this.props.navigation.navigate('GuestPolicy')
         }
+        
     }
 
     submit = () => {
         Keyboard.dismiss()
         this.submitOtherInformation()
-        // this.props.navigation.navigate('GuestPolicy')
     }
     onCurrencyValueChange = (value) => {
         this.setState({ currency: value })
@@ -187,7 +221,7 @@ export default class SetPricing extends Component {
 
     render() {
         const {
-            textBold, textGrey, textGreen, textOrange,
+            textBold, textGrey, textGreen, textOrange, flexRow,
             textH4Style,
             textCenter,
             textWhite,
@@ -248,6 +282,19 @@ export default class SetPricing extends Component {
                                     >
                                         <Picker.Item label="Nigerian Naira" value="Naira" />
                                     </Picker>
+                                </View>
+
+                                <View style={[flexRow, {justifyContent: 'flex-start', marginTop: 30, marginBottom: 20}]}>
+
+                                    <MyText style={[textGrey, textH4Style]}>Apply discount:</MyText>
+                                    <View style={[{marginLeft: 40}]}>
+                                        <Switch
+                                            // onValueChange={() => {}}
+                                            disabled={this.state.switchDisabled}
+                                            value={this.state.applyDiscount} 
+                                            onPress={this.toggleApplyDiscount}
+                                        />
+                                    </View>
                                 </View>
                             </View>
                             <View style={{marginBottom: 160, marginTop: 40, paddingHorizontal: 21}}>

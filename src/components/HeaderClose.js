@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     },
     iconStyle: {
         // borderWidth: 1, 
-        padding: 0,margin: 0, fontSize: 35, marginLeft: -10
+        padding: 0,margin: 0, fontSize: 30, marginLeft: -10
     },
     titleContainer: {
 

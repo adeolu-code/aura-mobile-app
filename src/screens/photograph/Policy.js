@@ -28,10 +28,10 @@ export default class Policy extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     <Header 
                         {...this.props} 
-                        title="Aura Photographer Policy" 
+                        title="Aura Photographer Policy" wrapperStyles={{ position: 'relative'}}
                     />
-                    <Container style={[Styles.container, {marginTop: 120}]}>
-                        <Content scrollEnabled>
+                    <Container style={[Styles.container, {marginTop: 0}]}>
+                        <Content scrollEnabled style={{ paddingBottom: 100}}>
                             <MyText style={[textH4Style, textGrey]}>
                                 Guests are entitled to free cancellation if they cancel their booking not more than 48 hours after booking, 
                                 and at least 14 days before check-in (time shown in the confirmation email) Where guests cancel their booking 
@@ -55,7 +55,7 @@ export default class Policy extends Component {
                                 Where guests choose to check-out early after check-in, the unspent nights are not refunded.
                             </MyText>
                         </Content>
-                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5,}]}>
+                        <Footer style={[Styles.footer, Styles.transparentFooter, {borderRadius: 5, marginTop: 20}]}>
                             <CustomButton buttonText="I Understand" buttonStyle={{ elevation: 2}} onPress={this.submit} />
                         </Footer>
                     </Container>

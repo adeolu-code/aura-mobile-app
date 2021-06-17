@@ -73,6 +73,7 @@ class LoginModal extends Component {
       const res = await Request(urls.identityBase, `${urls.v}auth/user/login`, obj)
       // console.log('Res ',res)
       if(!res.isError) {
+        this.setState({ email: '', password: '' })
         this.getUserDetails(res.data.access_token);
         this.context.set({ token: res.data })
         await setToken(res.data);

@@ -118,7 +118,7 @@ export default class PropertyDescription extends Component {
                     <Header {...this.props}  title="Create A List Title" wrapperStyles={{ position: 'relative'}} />
                     <Content>
                         <KeyboardAvoidingView style={[Styles.container, {marginTop: 0, flex: 1}]} 
-                        behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                        behavior={Platform.OS === "ios" ? "padding" : "padding"}>
                             
                             <View style={{ flex: 1.3, marginBottom: 50}}>
                                 <View>

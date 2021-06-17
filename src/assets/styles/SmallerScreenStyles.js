@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
   },
   textH5Style: {
     // fontSize: 14,
-    fontSize: 12,
+    fontSize: 10,
   },
   textH6Style: {
     // fontSize: 12,
-    fontSize: 10,
+    fontSize: 9,
   },
   textH7Style: {
     // fontSize: 10,

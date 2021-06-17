@@ -55,7 +55,7 @@ export default class TermsModal extends Component {
         return (
             <Modal visible={visible} onRequestClose={() => { }} transparent animationType="slide" statusBarTranslucent={true} >
                 <View style={{ backgroundColor: colors.white }}>
-                    <Header {...this.props} title="Terms of Service" onPress={onDecline} />
+                    <Header {...this.props} title="Terms of Service" onPress={onDecline} wrapperStyles={{ position: 'relative' }} />
                     <ScrollView>
                         <View style={container}>
                             <MyText style={[textBold, textH4Style, { marginBottom: 10}]}>Please read these Terms of Service (“Terms”) carefully as they contain 
@@ -508,7 +508,7 @@ export default class TermsModal extends Component {
                             
                         </View>
                     </ScrollView>
-                    <View style={{ position: 'absolute', zIndex: 1000, bottom: 0, width: '100%', backgroundColor: colors.white, paddingBottom: 15}}>
+                    <View style={{ position: 'absolute', zIndex: 1000, bottom: 80, left: 0, width: '100%', backgroundColor: colors.white, paddingBottom: 35}}>
                         <View style={[flexRow, { justifyContent: 'space-between', marginVertical: 10, paddingHorizontal: 20}]}>
                             <View style={{ width: '48%'}}>
                                 <CustomButton onPress={this.onAccept} buttonText="Accept" buttonStyle={{ elevation: 1}} />
@@ -529,7 +529,9 @@ export default class TermsModal extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 20, paddingTop: Platform.OS === 'ios' ? 150 : 140, marginBottom: 80
+        paddingHorizontal: 20, 
+        // paddingTop: Platform.OS === 'ios' ? 150 : 140, 
+        marginBottom: 80
     },
 
 });

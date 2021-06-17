@@ -15,20 +15,20 @@ import GStyles from "../../assets/styles/GeneralStyles";
 import { Icon } from 'native-base';
 import { AppContext } from '../../../AppProvider'
 
-import { urls, Request, successMessage } from '../../utils'
+import { urls, Request, successMessage, GetRequest } from '../../utils'
 
 class FilterModal extends Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = { loading: false };
+        this.state = { loading: false, gettingHouse: false };
     }
     closeFilterModal = () => {
         this.props.onDecline();
     }
     renderLoading = () => {
-        const { loading } = this.state;
-        if(loading) { return (<Loading />) }
+        const { loading, gettingHouse } = this.state;
+        if(loading || gettingHouse) { return (<Loading />) }
     }
     viewPhotos = () => {
         const { property, navigation, onDecline } = this.props
@@ -38,11 +38,34 @@ class FilterModal extends Component {
     }
     onEdit = () => {
         const { property, navigation, onDecline } = this.props
-        const { state, set } = this.context;
+        const { set } = this.context;
         this.checkStep()
         set({ propertyFormData: property })
         onDecline()
         navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+    }
+    getProperty = async () => {
+        const { property, navigation, onDecline } = this.props
+        const { set } = this.context;
+        try {
+            this.setState({ gettingHouse: true })
+            const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${property.id}`);
+            console.log('House Details ', res, 'property ',property)
+            this.setState({ gettingHouse: false })
+            if(res.isError) {
+                const message = res.Message;
+            } else {
+                const data = res.data;
+                if(data !== null) {
+                    // this.checkStep()
+                    // set({ propertyFormData: property })
+                    // onDecline()
+                    // navigation.navigate("HostPropertyStack", { screen: "HostSteps" })
+                }
+            }
+        } catch (error) {
+            this.setState({ gettingHouse: false })
+        }
     }
     checkStep = () => {
         const { property } = this.props;
@@ -210,7 +233,7 @@ class FilterModal extends Component {
                                 <View style={[dash]}></View>
                                 <Pressable style={tabTwo} onPress={this.onEdit}>
                                     <MyText style={[textDarkBlue, textBold, textH5Style]}>
-                                            Edit Property
+                                        Edit Property
                                     </MyText>
                                 </Pressable>
                                 <View style={[dash]}></View>

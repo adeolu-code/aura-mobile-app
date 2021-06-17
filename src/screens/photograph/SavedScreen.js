@@ -38,10 +38,12 @@ class SavedScreen extends Component {
   }
   componentDidMount = () => {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-    setTimeout(() => {
+    setTimeout( async() => {
       this.context.set({ currentDashboard: 2 })
+      const token = await getToken()
+      this.context.getUserProfile(token.access_token)
       this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
-    }, 2000);
+    }, 3000);
   }
   render() {
     const {container, middleRow } = styles
@@ -49,7 +51,7 @@ class SavedScreen extends Component {
     return (
       <SafeAreaView style={container}>
           <TouchableOpacity style={{ alignSelf: 'flex-end', paddingHorizontal: 20, paddingVertical: 30}} onPress={this.onPress}>
-            <Icon name="x" type="Feather" style={{ fontSize: 40, color: colors.orange}} />
+            <Icon name="x" type="Feather" style={{ fontSize: 35, color: colors.orange}} />
           </TouchableOpacity>
           <View style={middleRow}>
                 <Icon name="checkmark-circle" style={{color:"#FD8323", fontSize: 100, marginTop: -70, marginBottom: 40}} />

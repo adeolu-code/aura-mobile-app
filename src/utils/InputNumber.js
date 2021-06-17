@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, StyleSheet } from 'react-native';
+import { Text, View, TextInput, StyleSheet, Dimensions } from 'react-native';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 class CustomInputNumber extends Component {
     
@@ -21,7 +24,7 @@ const styles = StyleSheet.create({
     TextInputStyle: {
         borderWidth: 1,
         borderColor: '#D9E1F0',
-        width: 50, height: 50,
+        width: width <= 360 || height <= 667 ? 40 : 50, height: width <= 360 || height <= 667 ? 40 : 50,
         fontSize: 20, fontWeight: 'bold',color: '#121429',
         // fontFamily: 'NotoSans-Regular',
         paddingVertical: 0, textAlign: 'center',

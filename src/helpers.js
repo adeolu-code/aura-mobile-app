@@ -70,6 +70,22 @@ export const clearData = async () => {
     }
 }
 
+export const getCurrentImage = async () => {
+    try {
+        let imgCount = await AsyncStorage.getItem("imgCount");
+        return JSON.parse(imgCount) || 0;
+    } catch (error) {
+        return error;
+    }
+}
+export const setCurrentImage = async (value) => {
+    try {
+        await AsyncStorage.setItem("imgCount", JSON.stringify(value));
+    } catch (error) {
+        console.log("Could not set img Count", error.message);
+    }
+}
+
 export const getUser = async () => {
     try {
         let user = await AsyncStorage.getItem("userData");

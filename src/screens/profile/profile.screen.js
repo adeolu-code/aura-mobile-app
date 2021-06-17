@@ -103,6 +103,7 @@ class ProfileScreenClass extends Component {
         this.props.navigation.navigate("HostPropertyStack", {screen: "HostSlider"})
     }
     becomePhotographer = () => {
+        this.context.set({ photographOnboard: null, editPhotograph: false })
         this.setState({ showTermsModal: true, type: PHOTOGRAPH })
     }
 

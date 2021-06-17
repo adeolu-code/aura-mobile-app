@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, LayoutAnimation, UIManager, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, LayoutAnimation, UIManager, Platform, Dimensions } from 'react-native';
 import { Card, MyText, Loading } from '../../utils/Index';
 import GStyles from '../../assets/styles/GeneralStyles';
 import DashboardCardComponent from './DashboardCardComponent';
@@ -17,6 +17,8 @@ import ChangeNumberModal from './ChangeNumberModal';
 
 import MenuItems from './MenuItems';
 import { GetRequest, Request, urls, errorMessage, successMessage } from '../../utils';
+
+const { width, height } = Dimensions.get('window');
 
 if (
   Platform.OS === "android" &&
@@ -238,7 +240,7 @@ class DashboardPhotographer extends Component {
   }
   profileEdit = () => {
     const { set } = this.context
-    set({ edit: true, photographOnboard: this.state.profile })
+    set({ editPhotograph: true, photographOnboard: this.state.profile })
     this.props.navigation.navigate('PhotographStack', { screen: 'TitleDescription'})
   }
   changeProfilePic = () => {
@@ -249,9 +251,9 @@ class DashboardPhotographer extends Component {
   componentDidMount = () => {
     this.getProfile()
     const unsubscribe = this.props.navigation.addListener('focus', () => {
-      if(this.context.state.edit) {
+      if(this.context.state.editPhotograph) {
         this.getProfile()
-        this.context.set({ edit: false })
+        this.context.set({ editPhotograph: false })
       }
       // console.log('Focused ',this.props)
       // The screen is focused
@@ -318,7 +320,7 @@ class DashboardPhotographer extends Component {
                       <TouchableOpacity style={imgContainer} onPress={this.changeProfilePic}>
                         <Image source={imgUrl} resizeMode="cover" style={[imgStyle, {borderRadius: 70}]} /> 
                         <View style={iconContainer}>
-                          <Icon name="edit" type="MaterialIcons" style={{ fontSize: 18, color: colors.grey }} />
+                          <Icon name="edit" type="MaterialIcons" style={{ fontSize: width <= 360 || height <= 667 ? 14 : 16, color: colors.grey }} />
                         </View>
                       </TouchableOpacity>
                     </View>
@@ -399,14 +401,14 @@ const styles = StyleSheet.create({
       flex: 2.8, flexDirection: 'column', justifyContent: 'space-between', paddingVertical: 5,
     },
     imgContainer: {
-      width: 70, height: 70,  borderColor: colors.orange, borderWidth: 2,borderRadius: 70,
+      width: width <= 360 || height <= 667 ? 65 : 70, height: width <= 360 || height <= 667 ? 65 : 70,  borderColor: colors.orange, borderWidth: 2,borderRadius: 70,
     },
     profileImg: {
       flex: 1,
     },
     iconContainer: {
-      width: 30, height: 30, borderRadius: 30, backgroundColor: colors.white, justifyContent: 'center', alignItems: 'center',
-      position: 'absolute', bottom: 5, right: -15, zIndex: 2, elevation: 3
+      width: width <= 360 || height <= 667 ? 20 : 30, height: width <= 360 || height <= 667 ? 20 : 30, borderRadius: 30, backgroundColor: colors.white, justifyContent: 'center', alignItems: 'center',
+      position: 'absolute', bottom: 5, right: width <= 360 || height <= 667 ? -5 : -15, zIndex: 2, elevation: 3
     }
 });
 

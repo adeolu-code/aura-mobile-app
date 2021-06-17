@@ -41,12 +41,13 @@ class HostScreen extends Component {
           return (<Error errors={errors} />);
       }
   }
-  check = (link) => {
+  check = (link, type) => {
     const { userData } = this.context.state;
-    this.context.set({ isInApp: true, edit: false })
+    this.context.set({ isInApp: true, edit: false, editPhotograph: false, editTour: false })
     if (userData.isPhoneVerified) {
       if (userData.isEmailVerified) {
-        link()
+        // link()
+        this.setState({ showTermsModal: true, type })
       } else {
         this.sendMail();
       }
@@ -56,7 +57,8 @@ class HostScreen extends Component {
         this.generateOtp();
       } else {
         if (userData.isEmailVerified) {
-          link()
+          // link()
+          this.setState({ showTermsModal: true, type })
         } else {
           this.sendMail();
         }
@@ -65,15 +67,16 @@ class HostScreen extends Component {
   }
   becomeAPhotographer = () => {
     const link = () => this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: PHOTOGRAPH } })
-    this.check(link)
+    // this.setState({ showTermsModal: true, type: PHOTOGRAPH })
+    this.check(link, PHOTOGRAPH)
   }
   hostAnExperience = () => {
     const link = () => this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: EXPERIENCE } })
-    this.check(link)
+    this.check(link, EXPERIENCE)
   }
   hostARestaurant = () => {
     const link = () => this.props.navigation.navigate('Other', { screen: 'TermsOfService', params: { type: RESTAURANT } })
-    this.check(link)
+    this.check(link, RESTAURANT)
   }
   becomeAHost = () => {
     const { userData } = this.context.state;

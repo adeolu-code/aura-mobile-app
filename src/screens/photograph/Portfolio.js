@@ -188,7 +188,7 @@ class Portfolio extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
         {this.renderLoading()}
-        <Header {...this.props} title="Portfolio" wrapperStyles={{ paddingBottom: 5}} sub="Upload your own pictures" />
+        <Header {...this.props} title="Portfolio" wrapperStyles={{ paddingBottom: 5, position: 'relative'}} sub="Upload your own pictures" />
         <ScrollView>
           <View style={contentContainer}>
             <TouchableOpacity onPress={this.openTipModal}>
@@ -226,7 +226,10 @@ class Portfolio extends Component {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    paddingHorizontal: 20, paddingTop: 150, borderBottomColor: colors.lightGrey, borderBottomWidth: 4, paddingBottom: 20
+    paddingHorizontal: 20, 
+    // paddingTop: 150, 
+    paddingTop: 10,
+    borderBottomColor: colors.lightGrey, borderBottomWidth: 4, paddingBottom: 20
   },
   picTextContainer: {
     width: '48%', 

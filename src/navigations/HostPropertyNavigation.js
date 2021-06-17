@@ -25,6 +25,8 @@ import SavedSuccessScreen from '../screens/host/SavedScreen';
 import ConfirmAndPayScreen from '../screens/bookings/ConfirmAndPay';
 import PaymentWebViewScreen from '../screens/bookings/PaymentWebView';
 
+import setDiscountScreen from '../screens/host/setDiscountHOC';
+
 const Stack = createStackNavigator();
 
 export default function HostPropertyStack() {
@@ -48,6 +50,7 @@ export default function HostPropertyStack() {
             <Stack.Screen name="BookInAdvance" component={BookInAdvance} options={{ headerShown: false }} />
             <Stack.Screen name="PropertyAvailability" component={PropertyAvailability} options={{ headerShown: false }} />
             <Stack.Screen name="SetPricing" component={SetPricing} options={{ headerShown: false }} />
+            <Stack.Screen name="SetPropertyDiscount" component={setDiscountScreen} options={{ headerShown: false }} />
             <Stack.Screen name="GuestPolicy" component={GuestPolicy} options={{ headerShown: false }} />
             <Stack.Screen name="Success" component={SavedSuccessScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ConfirmAndPay" component={ConfirmAndPayScreen} options={{ headerShown: false }} />

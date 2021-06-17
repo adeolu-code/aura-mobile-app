@@ -127,13 +127,12 @@ class ManageProperties extends Component {
                 </TouchableWithoutFeedback>
             </View>
         </View>
+        
         {this.renderTabs()}
-        <View style={{ flex: 1, borderWidth: 1 }}>
           <Fab active={this.state.active} direction="up" containerStyle={{ }} style={{ backgroundColor: colors.orange }} 
             position="bottomRight" onPress={this.linkToHost}>
             <Icon name="home" />
           </Fab>
-        </View>
         <TermsModal visible={this.state.showTermsModal} onDecline={this.closeTermsModal} {...this.props} type={this.state.type} />
       </SafeAreaView>
     );

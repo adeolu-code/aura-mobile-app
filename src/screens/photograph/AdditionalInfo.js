@@ -38,7 +38,7 @@ class AdditionalInfo extends Component {
         try {
             this.setState({ loading: true })
             let res;
-            if(state.edit) {
+            if(state.editPhotograph) {
                 delete obj.equipment
                 res = await Request(urls.photographyBase, `${urls.v}photographer/${obj.id}`, obj, false, 'PUT')
             } else {
@@ -49,7 +49,7 @@ class AdditionalInfo extends Component {
             if(res.isError || res.IsError) {
                 errorMessage(res.message)
             } else {
-                if(state.edit) {
+                if(state.editPhotograph) {
                     successMessage('Photographer details updated successfully !!')
                     this.props.navigation.navigate('Tabs', { screen: 'Dashboard' })
                 } else {
@@ -65,8 +65,8 @@ class AdditionalInfo extends Component {
         
     }
     componentDidMount = () => {
-        const { edit, photographOnboard } = this.context.state
-        if(edit && photographOnboard) {
+        const { editPhotograph, photographOnboard } = this.context.state
+        if(editPhotograph && photographOnboard) {
             this.setState({ additionalInformation: photographOnboard.additionalInformation })
         }
     }
@@ -82,9 +82,9 @@ class AdditionalInfo extends Component {
       <>
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
             {this.renderLoading()}
-            <Header {...this.props}  title="Things You Want People To Keep In Mind" />
+            <Header {...this.props}  title="Things You Want People To Keep In Mind" wrapperStyles={{ position: 'relative'}} />
             <Content>
-                <Container style={[Styles.container, {marginTop: 160, flex: 1}]}>
+                <Container style={[Styles.container, {marginTop: 0, flex: 1}]}>
                     
 
                     <View style={{ flex: 0.7 }}>

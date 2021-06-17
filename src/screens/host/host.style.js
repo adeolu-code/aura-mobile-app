@@ -1,7 +1,10 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, Dimensions } from "react-native";
 import colors from "../../colors";
 import { GLOBAL_PADDING } from "../../utils";
 import GStyles from '../../assets/styles/GeneralStyles';
+
+const { width, height } = Dimensions.get('window');
+
 
 export const Styles = StyleSheet.create({
     container: {
@@ -77,11 +80,11 @@ export const Styles = StyleSheet.create({
         padding: GLOBAL_PADDING,
     },
     propertyContainer: {
-        width: '100%', padding: 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8,
+        width: '100%', padding: width <= 360 || height <= 667 ? 10 : 20, backgroundColor: colors.white, elevation: 2, borderRadius: 8,
         ...GStyles.shadow
     },
     imgContainer: {
-        width: 120, height: 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
+        width: width <= 360 || height <= 667 ? 75 : 120, height: width <= 360 || height <= 667 ? 70 : 110, borderRadius: 6, overflow: 'hidden', marginRight: 20,
         // borderWidth: 1
     },
     buttonStyle: {

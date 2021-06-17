@@ -24,7 +24,7 @@ export default class DateTimePickerComponent extends Component {
         this.setState({showPicker: true})
     }
     renderPicker = () => {
-        const { showPicker } = this.state
+        const { showPicker, date } = this.state
         const { textOrange, textH4Style } = GStyles
         if(showPicker) {
             return (
@@ -35,7 +35,7 @@ export default class DateTimePickerComponent extends Component {
                     </Pressable>}
                     <DateTimePicker mode={this.props.mode || "datetime"}
                             onChange={(e, selectedDate) => {
-                                console.log("e", selectedDate);
+                                // console.log("e", selectedDate);
                                 if(Platform.OS !== 'ios') {
                                     this.setState({showPicker: false})
                                 }
@@ -44,8 +44,10 @@ export default class DateTimePickerComponent extends Component {
                                     this.setState({date: selectedDate})
                                 }
                             }}
-                            value={this.state.date|| this.props.value}
+                            value={this.state.date || this.props.value}
                             display={this.props.display || "calendar"}
+                            minuteInterval={this.props.minuteInterval}
+                            style={{ height: 60}}
                             
                     />
                 </View>

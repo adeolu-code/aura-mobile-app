@@ -159,25 +159,27 @@ class LocationMap extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
-        <Header {...this.props} title={"Did We Get Your Location Right?"} />
-            <View style={container}>
-                <View style={{flex: 1, height: '100%'}}>
-                    
-                        <View style={{marginTop: 18, flex: 4 }}>
-                            {/* <MyText style={[textGrey, textH5Style]}>
-                                Guests will only get your exact address once they’ve booked a reservation
-                            </MyText> */}
-                            {this.renderMapView()}
-                            {/* <View style={imgContainer}>
-                            <Image source={require('../../assets/images/globe/globe.png')} resizeMode="contain" style={imgStyle} />
-                            </View> */}
-                        </View>
-                        <View style={[button]}>
-                            <CustomButton buttonText="Next" onPress={this.AmenitiesScreen} buttonStyle={{ elevation: 2}} onPress={this.getGeolocation} />
-                        </View>
-                    
-                </View>
-            </View> 
+        <Header {...this.props} title={"Did We Get Your Location Right?"} wrapperStyles={{ position: 'relative'}} />
+            <ScrollView>
+              <View style={container}>
+                  <View style={{flex: 1, height: '100%'}}>
+                      
+                          <View style={{marginTop: 0, flex: 4 }}>
+                              {/* <MyText style={[textGrey, textH5Style]}>
+                                  Guests will only get your exact address once they’ve booked a reservation
+                              </MyText> */}
+                              {this.renderMapView()}
+                              {/* <View style={imgContainer}>
+                              <Image source={require('../../assets/images/globe/globe.png')} resizeMode="contain" style={imgStyle} />
+                              </View> */}
+                          </View>
+                          <View style={[button]}>
+                              <CustomButton buttonText="Next" buttonStyle={{ elevation: 2}} onPress={this.getGeolocation} />
+                          </View>
+                      
+                  </View>
+              </View> 
+            </ScrollView>
       </SafeAreaView>
     );
   }
@@ -187,7 +189,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 24,
-    marginTop: 160,
+    // marginTop: 160,
     flex: 1, 
     // borderWidth: 1, borderColor: 'red',
   },
@@ -195,6 +197,8 @@ const styles = StyleSheet.create({
     // marginTop: 150,
     // marginBottom: 86, 
     flex: 1,
+    marginTop: 20,
+    marginBottom: 30
     // borderWidth: 1
   },
   imgContainer: {

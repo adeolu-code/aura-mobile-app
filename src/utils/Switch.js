@@ -29,12 +29,12 @@ handleSwitchToggle = () => {
   // });
 }
   render() {
-    const { value } = this.props
+    const { value, disabled } = this.props
     const active = !!value
     return (
       <View style={{ flex: 1}}>
-        <TouchableOpacity onPress={this.handleSwitchToggle} style={{ backgroundColor: active ? colors.green : colors.lightGrey,
-          borderRadius: 15, height: 30,width: 60,
+        <TouchableOpacity disabled={disabled} onPress={this.handleSwitchToggle} style={{ backgroundColor: active ? colors.green : colors.lightGrey,
+          borderRadius: 15, height: 30,width: 60, opacity: disabled ? 0.7 : 1
         }}>
           <View style={{height: 26, width: 26,
               borderRadius: 15,

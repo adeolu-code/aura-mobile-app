@@ -178,7 +178,7 @@ export default class UploadImages extends Component {
                 this.setState({ loading: false })
             } else {
                 const data = res.data;
-                const urls = data.map(item => item.fileName)
+                const urls = data.uploaded.map(item => item.fileName)
                 this.updateOtherImages(urls)
             }
         })
@@ -285,14 +285,14 @@ export default class UploadImages extends Component {
                 <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
                     {this.renderLoading()}
                     <Header 
-                        {...this.props} title="Upload your Portfolios" onPress={this.closeUpload}
+                        {...this.props} title="Upload your Portfolios" onPress={this.closeUpload} wrapperStyles={{ position: 'relative'}}
                         sub={!isCaptured ? "Upload cover image" : "Series of your best works you would like to share with clients or guests"}
                     />
                     <ScrollView>
-                        <View style={[Styles.container]}>
+                        <View style={[Styles.container, { marginTop: 0, paddingTop: 0}]}>
                             <Content>
                                 <TouchableOpacity onPress={this.openTipsModal}>
-                                    <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40, marginTop: 20}]}>See Photography Tips</MyText>
+                                    <MyText style={[textGreen, textUnderline, textBold, {marginBottom: 40, marginTop: 0}]}>See Photography Tips</MyText>
                                 </TouchableOpacity>
                                 <View style={[Styles.pickImageImageView, Styles.centerItems, (this.state.isCaptured && {backgroundColor: "transparent", justifyContent: 'flex-start'})]}>
                                     {

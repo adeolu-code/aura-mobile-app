@@ -9,6 +9,7 @@ export * from './PhoneNumberInput';
 export * from './Loading';
 export * from './Error';
 export * from './DatePicker';
+export * from './DatePickerTwo';
 export * from './CountryPickerComponent';
 export * from './CheckBox';
 export * from './Switch';

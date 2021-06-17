@@ -1,10 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Card, MyText } from '../../utils/Index';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import GStyles from '../../assets/styles/GeneralStyles';
 import colors from '../../colors';
 import { Icon } from 'native-base';
+
+const { width, height } = Dimensions.get('window');
 
 class ManagePropertyRow extends Component {
     constructor(props) {
@@ -90,11 +92,12 @@ class ManagePropertyRow extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%', paddingVertical: 15, paddingLeft: 15, paddingRight: 0, 
+        width: '100%', paddingVertical: width <= 360 || height <= 667 ? 10 : 15, paddingLeft: width <= 360 || height <= 667 ? 10 : 15, paddingRight: 5, 
         backgroundColor: colors.white, elevation: 2, borderRadius: 8, ...GStyles.shadow
     },
     imgContainer: {
-        width: 120, height: 100, borderRadius: 6, overflow: 'hidden', marginRight: 20, backgroundColor: colors.lightGrey,
+        width: width <= 360 || height <= 667 ? 100 : 120, height: width <= 360 || height <= 667 ? 80 : 100, 
+        borderRadius: 6, overflow: 'hidden', marginRight: 20, backgroundColor: colors.lightGrey,
     },
     typeStyle: {
         marginBottom:10, alignItems: 'center'

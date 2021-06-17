@@ -139,9 +139,10 @@ export default class PickPropertyImage extends Component {
             if(res.isError || res.IsError) {
                 errorMessage('Failed to update cover image, try again else contact support')
             } else {
-                if(propertyFormData.mainImage) {
-                    this.makeCoverImage(res.data, propertyFormData.id)
-                }
+                // if(propertyFormData.mainImage) {
+                //     this.makeCoverImage(res.data, propertyFormData.id)
+                // }
+                this.makeCoverImage(res.data, propertyFormData.id)
                 this.setState({ isCaptured: true,  })
                 const mainImage = res.data
                 set({ propertyFormData: {...propertyFormData, mainImage }})

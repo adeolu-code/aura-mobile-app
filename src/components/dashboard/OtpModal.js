@@ -282,19 +282,19 @@ const styles = StyleSheet.create({
         flex: 1,
       },
       topRow: {
-        flex: 1,
+        flex: 1.5,
         // borderWidth: 1
       },
       middleRow: {
           justifyContent: 'center',
           alignContent: 'space-between',
-          flex: 3,
+          flex: 2,
         //   borderWidth: 1
       },
       bottomRow: {
           justifyContent: 'flex-end',
           paddingBottom: 30,
-          flex: 2.5,
+          flex: 1.5,
         //   borderWidth: 1
       },
       inputContainer: {

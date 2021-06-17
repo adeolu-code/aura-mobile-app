@@ -31,7 +31,7 @@ export default class Equipments extends Component {
             } else {
                 const data = res.data;
                 this.setState({ equipments: data });
-                if(this.context.state.edit && this.context.state.photographOnboard.equipment) {
+                if(this.context.state.editPhotograph && this.context.state.photographOnboard.equipment) {
                     const equip = this.context.state.photographOnboard.equipment;
                     const equipmentValues = equip.map(item => item.id )
                     this.setState({ equipmentValues })

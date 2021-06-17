@@ -10,7 +10,7 @@ import {Calendar} from 'react-native-calendars';
 
 import { AppContext } from '../../../AppProvider';
 import { urls, Request, GetRequest, errorMessage, SCREEN_HEIGHT } from '../../utils';
-import { isEmpty } from '../../helpers';
+import { isEmpty, notEmpty } from '../../helpers';
 
 
 export default class PropertyAvailability extends Component {
@@ -122,7 +122,7 @@ export default class PropertyAvailability extends Component {
     setUnAvailable = async () => {
         const { selectedDays } = this.state
         
-        if(!isEmpty(selectedDays)) {
+        if(!notEmpty(selectedDays)) {
             const dates = []
             for (const item in selectedDays) {
                 dates.push(item)

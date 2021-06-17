@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, TouchableOpacity, Image, Keyboard, ScrollView  } from "react-native";
+import { SafeAreaView, TouchableOpacity, Image, Keyboard, ScrollView, KeyboardAvoidingView, Platform  } from "react-native";
 import { Styles } from "../host/host.style";
 import { Container, Content, View, Icon } from "native-base";
 import colors from "../../colors";
@@ -20,7 +20,7 @@ class TitleDescription extends Component {
         if (loading) { return (<Loading wrapperStyles={{ height: '100%', width: '100%', zIndex: 100 }} />); }
     }
     validate = () => {
-        const { title, description } = this.state
+        const { title } = this.state
         if(title === '') {
             return true
         }
@@ -29,10 +29,10 @@ class TitleDescription extends Component {
     submit = () => {
         Keyboard.dismiss()
         const { title, description } = this.state
-        const { edit, photographOnboard } = this.context.state
+        const { edit, photographOnboard, editPhotograph } = this.context.state
         const { state, set } = this.context
         const obj = { title, description }
-        if(edit) {
+        if(editPhotograph) {
             set({ photographOnboard: { ...photographOnboard, ...obj} })
         } else {
             set({ photographOnboard: obj })
@@ -41,8 +41,8 @@ class TitleDescription extends Component {
     }
 
     componentDidMount = () => {
-        const { edit, photographOnboard } = this.context.state
-        if(edit && photographOnboard) {
+        const { edit, photographOnboard, editPhotograph } = this.context.state
+        if(editPhotograph && photographOnboard) {
             this.setState({ title: photographOnboard.title, description: photographOnboard.description})
         }
     }
@@ -58,11 +58,12 @@ class TitleDescription extends Component {
       <>
         <SafeAreaView style={{flex: 1, backgroundColor: colors.white }}>
             {this.renderLoading()}
-            <Header {...this.props}  title="Give Your Craft A Title" />
+            <Header {...this.props}  title="Give Your Craft A Title" wrapperStyles={{ position: 'relative'}} />
             <ScrollView>
-                <Container style={[Styles.container, {marginTop: 120, flex: 1}]}>
+                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "padding"}>
+                <View style={[Styles.container, {marginTop: 0, flex: 1}]}>
                     
-                    <View style={{ flex: 0.5 }}>
+                    <View style={{ flex: 1, marginBottom: 30 }}>
                         <Content>
                             <LabelInput onChangeText={(text)=>{ this.setState({ title: text })}}
                                 label={"Catch guests’ attention with a listing title that highlights what makes your place special."}
@@ -75,7 +76,7 @@ class TitleDescription extends Component {
                     </View>
                     
 
-                    <View style={{ flex: 0.7 }}>
+                    <View style={{ flex: 1 }}>
                         <MyText style={[textBold,textH2Style]}>Describes Your Craft</MyText>
                         <Content>
                             <LabelInput onChangeText={(text)=>{ this.setState({ description: text })}}
@@ -88,11 +89,12 @@ class TitleDescription extends Component {
                         </Content>
                     </View>
 
-                    <View style={{ flex: 0.2,  }}>
+                    <View style={{ marginTop: 60, flex: 1 }}>
                         <CustomButton onPress={this.submit} buttonText="Next" buttonStyle={{ elevation: 2}} disabled={this.validate()}  />
                     </View>
                 
-                </Container>
+                </View>
+                </KeyboardAvoidingView>
             </ScrollView>
         </SafeAreaView>
       </>

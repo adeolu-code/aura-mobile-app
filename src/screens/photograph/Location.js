@@ -202,8 +202,8 @@ class Location extends Component {
     }
 
     componentDidMount = async () => {
-        const { edit, photographOnboard } = this.context.state
-        if(photographOnboard && edit) {
+        const { edit, photographOnboard, editPhotograph } = this.context.state
+        if(photographOnboard && editPhotograph) {
             this.setState({ st: photographOnboard.address.state, city: photographOnboard.address.city, 
                 street: photographOnboard.address.street, zipCode: photographOnboard.address.zipCode})
 
@@ -228,14 +228,14 @@ class Location extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
-        <Header { ...this.props } title={"Provide Your Location"} />
+        <Header { ...this.props } title={"Provide Your Location"} wrapperStyles={{ position: 'relative'}} />
           <ScrollView style={container} keyboardShouldPersistTaps="always">
             <View style={{ flex: 1}}>
-                <View style={{marginTop: 18}}>
+                <View style={{marginTop: 0}}>
                     {/* <MyText style={[textGrey, textH4Style]}>
                         Guests will only get your exact street once they’ve booked a reservation
                     </MyText> */}
-                    <TouchableOpacity style={{marginTop: 44}} onPress={this.getPresentLocation}>
+                    <TouchableOpacity style={{marginTop: 14}} onPress={this.getPresentLocation}>
                         <View style={[flexRow]}>
                             <View style={[imageView]}>
                                 <Icon type="FontAwesome" name="location-arrow" style={iconStyle} />
@@ -247,7 +247,7 @@ class Location extends Component {
                             </View>
                         </View>
                     </TouchableOpacity>
-                    <View style={{marginTop: 50}}>
+                    <View style={{marginTop: 30}}>
                         <View style={[{ marginBottom: 30, paddingHorizontal: 1}]}>
                             <MyText style={[textH4Style, textGrey, { marginBottom: 10}]}>Location/Address</MyText>
                             <AutoCompleteComponent locationDetails={this.getSelectedLocation} type={true} autofocus={false} 
@@ -292,7 +292,8 @@ class Location extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    paddingHorizontal: 24, marginTop: 100,
+    paddingHorizontal: 24, 
+    // marginTop: 100,
     flex: 1, flexGrow: 1
   },
   picker: {
