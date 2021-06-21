@@ -59,6 +59,41 @@ class ConfirmAndPay extends Component {
       this.props.navigation.navigate('HostPropertyStack', { screen: 'PaymentWebView', params: { house, booked, url: res.data }})
     }
   }
+  // getHouse = async () => {
+  //   const { house } = this.state
+  //   try {
+  //     this.setState({ gettingHouse: true })
+  //     const res = await GetRequest(urls.listingBase, `${urls.v}listing/property/${house.id}`);
+  //     console.log('House Details ', res)
+  //     this.setState({ gettingHouse: false })
+  //     if(res.isError) {
+  //         const message = res.Message;
+  //     } else {
+  //         const data = res.data;
+  //         if(data !== null) {
+  //           this.getDiscountPercent(data)
+  //           this.setState({ house: data })
+  //         }
+  //     }
+  //   } catch (error) {
+  //     this.setState({ gettingHouse: false })
+  //   }
+  // }
+  getDiscountPercent = (house) => {
+      if(house.pricings) {
+          const discount = house.pricings.find(x => {
+              const endDate = moment(`${x.discountEndDate} ${x.discountEndTime}`, 'YYYY-MM-DD HH:mm:ss');
+              const startDate = moment(`${x.discountStartDate} ${x.discountStartTime}`, 'YYYY-MM-DD HH:mm:ss');
+              if(moment().isBetween(startDate, endDate)){
+                return x
+              }
+          })
+          if(discount) {
+            return discount
+          }
+      }
+      return ''
+  }
   getBooked = async () => {
     const { bookedId } = this.state
     try {
@@ -124,12 +159,68 @@ class ConfirmAndPay extends Component {
           )
       } 
   }
+  getCommissionConfiguration = async (country) => {
+    setIsLoading(true);
+    let response = await getCommissionConfig("host", country);
+    if (!response.isError) {
+      calculateHostEarning(
+        response.data?.auraCommission || 0,
+        response.data?.tax || 0
+      );
+      setAuraCommission(response.data?.auraCommission || 0);
+      setTax(response.data?.tax || 0);
+    }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  };
+  calculateHostEarning = (commission, tax) => {
+    console.log("commission = ", commission, "tax = ", tax);
+    console.log("price per night = ", property?.pricePerNight);
+    console.log("price per night 2 = ", props.normalCost);
+    console.log("props = ", props);
+    const auraCommissionPercent = auraCommission;
+    const hostSetPrice = Number(
+      property?.pricePerNight || property?.cost_Per_Night || props.normalCost
+    );
+    const auraCommissionAmount = hostSetPrice * (commission / 100);
+    const taxAmount = auraCommissionAmount * (tax / 100);
+    const hostDeductionInTotal = auraCommissionAmount + taxAmount;
+    const hostEarning =
+      (props.normalCost || property?.cost_Per_Night * property?.no_Of_Days) -
+      hostDeductionInTotal;
+    console.log(
+      "hostDeductionInTotal = ",
+      hostDeductionInTotal,
+      "normal cost = ",
+      props.normalCost
+    );
+    setTotalDeduction(hostDeductionInTotal);
+    setNormalPrice(hostEarning);
+  };
   getVat = () => {
-    const { deductions, booked } = this.state
+    const { deductions, booked, house } = this.state
+    const discount = this.getDiscountPercent(house)
     if(booked) {
-      const auraCommissionAmount = +(booked.cost_Per_Night * booked.no_Of_Days) * (deductions.auraCommission / 100);
+      
+      // let price = booked.total_Cost
+      let totalPrice = house.pricePerNight * booked.no_Of_Days
+      let price = house.pricePerNight
+      // if(discount) {
+      //   const price = price - (+discount.discountValue/100 * price)
+      // }
+      // const auraCommissionAmount = getP * (commissions.auraCommission / 100);
+      // const taxAmount = auraCommissionAmount * (commissions.tax / 100);
+      // const deductionInTotal = auraCommissionAmount + taxAmount;
+
+      const auraCommissionAmount = +(price) * (deductions.auraCommission / 100);
       const taxAmount = auraCommissionAmount * (deductions.tax / 100);
       const deductionInTotal = auraCommissionAmount + taxAmount;
+
+      const hostEarning = totalPrice - deductionInTotal
+      console.log(hostEarning)
+      // const taxAmount = auraCommissionAmount * (deductions.tax / 100);
+      // const deductionInTotal = taxAmount;
       return deductionInTotal
     }
     return 0

@@ -160,6 +160,21 @@ class ReserveModal extends Component {
     componentWillUnmount() {
         // this.backHandler.remove();
     }
+    renderDiscountMessage = () => {
+        const { discount } = this.props
+        const { textH5Style, textSuccess } = GStyles
+        if(discount) {
+            const endDate = moment(`${discount.discountEndDate} ${discount.discountEndTime}`, 'YYYY-MM-DD HH:mm:ss').format('LLL');
+            const startDate = moment(`${discount.discountStartDate} ${discount.discountStartTime}`, 'YYYY-MM-DD HH:mm:ss').format('LLL');
+            return (
+                <View style={{ paddingHorizontal: 20, marginBottom: 10}}>
+                    <View style={styles.discountContainer}>
+                        <MyText style={[textH5Style, textSuccess]}>Discount Valid from {startDate} Till {endDate}</MyText>
+                    </View>
+                </View>
+            )
+        }
+    }
     
 
   render() {
@@ -168,11 +183,14 @@ class ReserveModal extends Component {
         headerStyle, mainHeader, checkInStyle, checkOutStyle, buttonStyle, buttonContainerStyle, timeContainer, divider } = styles;
     const { flexRow, textH2Style, textExtraBold, textDarkGrey, textCenter, textH5Style, textH6Style, textBold, textRight,
         textH4Style, textGrey, textH3Style, textSuccess, upperCase } = GStyles;
-    const { formData, house } = this.props
+    const { formData, house, discount } = this.props
+
+    const formattedAmount = discount ? house.pricePerNight * ((100 - discount.discountValue)/100) : house.pricePerNight
     
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={() => {}} statusBarTranslucent>
             <View style={container}>
+                <View style={styles.emptyContainer} />
                 <View style={modalContainer}>
                     <View style={mainHeader}>
                         <View style={[flexRow, modalHeader]}>
@@ -189,7 +207,7 @@ class ReserveModal extends Component {
                             </MyText>
                         </View>
                     </View>
-                    <View style={{ maxHeight: SCREEN_HEIGHT-200}}>
+                    <View style={{ maxHeight: SCREEN_HEIGHT-250}}>
                         <ScrollView>
                             <View style={[flexRow, contentContainer]}>
                                 <View style={checkInStyle}>
@@ -234,12 +252,12 @@ class ReserveModal extends Component {
                                 <View style={[flexRow, {justifyContent: 'space-between', marginTop: 20}]}>
                                     <MyText style={[textH4Style]}>Amount * {this.checkTotal()}</MyText>
                                     <MyText style={[textH3Style, textExtraBold, textSuccess]}>
-                                    ₦ {house ? formatAmount(house.pricePerNight) : ''} / Night</MyText>
+                                    ₦ {house ? formattedAmount : ''} / Night</MyText>
                                 </View>
                                 <View style={divider}></View>
                                 <View style={[flexRow, {justifyContent: 'space-between', marginTop: 20}]}>
                                     <MyText style={[textH4Style, textBold]}>Total Amount</MyText>
-                                    <MyText style={[textH3Style, textExtraBold, textSuccess]}>₦ {house ? formatAmount(house.pricePerNight * this.checkTotal() * this.state.formData.no_Of_Rooms) : ''}</MyText>
+                                    <MyText style={[textH3Style, textExtraBold, textSuccess]}>₦ {house ? formatAmount(formattedAmount * this.checkTotal() * this.state.formData.no_Of_Rooms) : ''}</MyText>
                                 </View>
                                 <View style={divider}></View>
                             </View>
@@ -257,6 +275,7 @@ class ReserveModal extends Component {
                             <View style={{ paddingHorizontal: 20 }}>
                                 {this.renderError()}
                             </View>
+                            {this.renderDiscountMessage()}
                             <View style={buttonContainerStyle}>
                                 <CustomButton buttonText="Reserve Space" disabled={this.validate()} buttonStyle={buttonStyle} onPress={this.submit} />
                             </View>
@@ -273,11 +292,11 @@ class ReserveModal extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 1,
         // backgroundColor: colors.white, 
-        backgroundColor: 'rgba(255, 255, 255, 0.9)', 
+        backgroundColor: 'rgba(0, 0, 0, 0.6)', 
         width: '100%', 
-        height: '100%',
+        // height: '100%',
         justifyContent: 'flex-end', 
         // backgroundColor: colors.lightGrey
     },
@@ -286,7 +305,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white, borderTopLeftRadius: 15, borderTopRightRadius: 15,  elevation: 4,
         ...GStyles.shadow, 
         // overflow: 'hidden',
-        // flex: 1,
+        flex: 5,
     },
     mainHeader: {
         backgroundColor: colors.white,borderTopLeftRadius: 15, borderTopRightRadius: 15,
@@ -306,7 +325,7 @@ const styles = StyleSheet.create({
         height: 30, flex: 1
     },
     buttonContainerStyle: {
-        paddingHorizontal: 20, paddingTop: 10, paddingBottom: 40, backgroundColor: colors.white, elevation: 6
+        paddingHorizontal: 20, paddingTop: 10, paddingBottom: 40, backgroundColor: colors.white, elevation: 6, marginBottom: 40
     },
     buttonStyle: {
         elevation: 2, borderRadius: 5
@@ -331,6 +350,12 @@ const styles = StyleSheet.create({
     divider: {
         height: 1, backgroundColor: colors.lightGrey, marginTop: 20, width: '100%'
     },
+    discountContainer: {
+        paddingVertical: 6, paddingHorizontal: 10, borderRadius: 5, backgroundColor: colors.lighterGreen, alignItems: 'center'
+    },
+    emptyContainer: {
+        flex: 1
+    }
 });
 
 export default ReserveModal;

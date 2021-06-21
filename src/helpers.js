@@ -141,6 +141,21 @@ export const setToken = async (data) => {
         console.log("Could not set user Data ", error.message);
     }
 }
+export const setBiometric = async (value) => {
+    try {
+		await AsyncStorage.setItem("biometricValue", JSON.stringify(value));
+	} catch (error) {
+		console.log("Could not set user Data ", error.message);
+	}
+}
+export const getBiometric = async () => {
+    try {
+        let biometric = await AsyncStorage.getItem("biometricValue");
+        return JSON.parse(biometric) || false;
+    } catch (error) {
+        return error;
+    }
+}
 
 
 

@@ -377,7 +377,8 @@ class ProfileScreenClass extends Component {
                                         title={"Privacy and Security"} 
                                         description={"Connected apps and Password change settings"} 
                                         iconImage={require("./../../assets/images/profile/lock_closed/lock-closed.png")}
-                                        onPress={() => this.props.navigation.navigate('ChangePassword')}
+                                        // onPress={() => this.props.navigation.navigate('ChangePassword')}
+                                        onPress={() => this.props.navigation.navigate('PrivacySetting')}
                                     />
                                     <ProfileComponent wrapperStyles={{ borderBottomWidth: 0, marginBottom: 30}}
                                         title={"Terms of Service"} 

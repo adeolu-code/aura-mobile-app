@@ -29,7 +29,8 @@ const defaultContext = {
   notificationSettings: {messages: {}, policy: {}, reminders: {}},
   photographOnboard: null,
   currentDashboard: 0,
-  tourOnboard: null
+  tourOnboard: null,
+  biometricEnabled: false,
 };
 
 

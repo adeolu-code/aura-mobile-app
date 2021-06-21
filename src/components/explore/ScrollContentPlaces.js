@@ -9,6 +9,7 @@ import { setContext, urls, GetRequest, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
 import HostDetails from './HostDetails';
+import moment from 'moment';
 
 import colors from '../../colors';
 
@@ -54,10 +55,9 @@ class ScrollContentPlaces extends Component {
                 this.props.loading(false)
             }
             errorMessage(error.message)
-
         }
-        
     }
+    
 
     renderLoading = () => {
         const { loading } = this.state;
@@ -82,29 +82,50 @@ class ScrollContentPlaces extends Component {
         }
     }
 
-
-  renderPlaces = () => {
-    const { location } = this.context.state;
-    const { places, loading } = this.state
-    const { scrollItemContainer, emptyStyles, locationContainer } = styles;
-    if(places.length !== 0) {
-        return (
-            places.map((item, i) => {
-                const formattedAmount = formatAmount(item.pricePerNight)
-                let title = item.title ? item.title : 'no title'
-                title = shortenXterLength(title, 18)
-                const imgUrl = item.mainImage && item.mainImage.assetPath ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
-                return (
-                    <View style={scrollItemContainer} key={item.id}>
-                        <HouseComponent img={imgUrl} onPress={this.linkToHouse.bind(this, item)} rating={item.rating}
-                        title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} propertyId={item.propertyId} />
-                    </View>
-                )
-            })
-        )
+    getDiscountPercent = (item) => {
+        if(item.pricings) {
+          const discount = item.pricings.find(x => {
+            const endDate = moment(`${x.discountEndDate} ${x.discountEndTime}`, 'YYYY-MM-DD HH:mm:ss');
+            const startDate = moment(`${x.discountStartDate} ${x.discountStartTime}`, 'YYYY-MM-DD HH:mm:ss');
+            if(moment().isBetween(startDate, endDate)){
+              return x
+            }
+          })
+          if(discount) {
+            return discount
+          }
+          // console.log('Discount ', discount)
+        }
+        return ''
     }
-    
-  }
+    renderPlaces = () => {
+        const { location } = this.context.state;
+        const { places, loading } = this.state
+        const { scrollItemContainer, emptyStyles, locationContainer } = styles;
+        if(places.length !== 0) {
+            return (
+                places.map((item, i) => {
+                    const discount = this.getDiscountPercent(item)
+                    const formattedAmount = discount ? formatAmount(item.pricePerNight * ((100 - discount.discountValue)/100)) : formatAmount(item.pricePerNight)
+                    const originalAmount = discount ? `₦ ${formatAmount(item.pricePerNight)}` : ''
+                    const percentOff = discount ? discount.discountValue : ''
+
+                    // const formattedAmount = formatAmount(item.pricePerNight)
+                    let title = item.title ? item.title : 'no title'
+                    title = shortenXterLength(title, 18)
+                    const imgUrl = item.mainImage && item.mainImage.assetPath ? {uri: item.mainImage.assetPath} : require('../../assets/images/no_house1.png')
+                    return (
+                        <View style={scrollItemContainer} key={item.id}>
+                            <HouseComponent img={imgUrl} onPress={this.linkToHouse.bind(this, item)} rating={item.rating}
+                            title={title} location={item.state} price={`₦ ${formattedAmount}/ night`} {...this.props} propertyId={item.propertyId} 
+                            originalAmount={originalAmount} percentOff={percentOff} />
+                        </View>
+                    )
+                })
+            )
+        }
+        
+    }
   renderEmptyLocation = () => {
     const { location } = this.context.state;
     const { loading } = this.state

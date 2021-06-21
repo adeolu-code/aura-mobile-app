@@ -48,6 +48,8 @@ import AddProfilePicture from '../screens/edit_profile/addProfilePic.screen';
 import ChangePassword from '../screens/edit_profile/changePassword.screen';
 import Complaint from '../screens/profile/complaints.screen';
 import SupportScreen from '../screens/profile/Support';
+import PrivacyAndSettingsScreen from '../screens/profile/PrivacyAndSettings';
+import BiometricsScreen from '../screens/profile/Biometrics';
 
 
 import TitleDescriptionScreen from '../screens/photograph/TitleDescription';
@@ -190,6 +192,8 @@ export function ProfileStack() {
             <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }} />
             <Stack.Screen name="Complaint" component={Complaint} options={{ headerShown: false }} />
             <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PrivacySetting" component={PrivacyAndSettingsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Biometrics" component={BiometricsScreen} options={{ headerShown: false }} />
             
         </Stack.Navigator>
     );

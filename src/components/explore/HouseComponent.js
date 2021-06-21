@@ -19,6 +19,17 @@ class HouseComponent extends Component {
   linkToHouse = () => {
     this.props.navigation.navigate('Other', { screen: 'HouseSingle'})
   }
+  renderDiscount = () => {
+    const { textWhite, textH5Style, textH6Style, textH7Style, textH8Style } = GStyles
+    const { percentOff } = this.props
+    if(percentOff) {
+      return (
+        <View style={styles.discountContainer}>
+          <MyText style={[textWhite, textH8Style]}>{percentOff}% OFF</MyText>
+        </View>
+      )
+    }
+  }
   renderVerified = () => {
     const { verified } = this.props;
     const { iconContainer, iconStyle } = styles
@@ -38,26 +49,26 @@ class HouseComponent extends Component {
       scrollItemContainer,
     } = styles;
     const {
-      imgStyle, flexRow, textSuccess, textExtraBold, textH3Style, textDarkGrey, marginBottomSmall, textGrey, textH4Style, textH5Style
+      imgStyle, flexRow, textSuccess, textExtraBold, textH3Style, textDarkGrey, marginBottomSmall, textGrey,
+      textH4Style, textH5Style, textGreyWhite, textStrikeThrough
     } = GStyles;
-    const {title, img, location, price, onPress, rating, propertyId } = this.props;
+    const {title, img, location, price, onPress, rating, propertyId, originalAmount } = this.props;
     return (
       <View>
         <Pressable style={scrollItemContainer} onPress={onPress}>
           <View style={imgContainer}>
             <FastImage source={img} resizeMode="cover" style={[imgStyle, { borderRadius: 8}]} />
+            {this.renderDiscount()}
             {this.renderVerified()}
           </View>
           <View style={contentContainer}>
-            <MyText
-              style={[
-                textSuccess,
-                textExtraBold,
-                textH3Style,
-                marginBottomSmall,
-              ]}>
-              {price}
-            </MyText>
+              <View>
+                {originalAmount ? <MyText style={[textGreyWhite, textStrikeThrough, textH4Style, { marginBottom: 5}]}>{originalAmount}</MyText> : <></>}
+              </View>  
+              <MyText style={[ textSuccess, textExtraBold, textH4Style, marginBottomSmall,]}>
+                {price}
+              </MyText>
+            
             <MyText style={[textDarkGrey, textH4Style, marginBottomSmall]}>
               {title}
             </MyText>
@@ -87,6 +98,10 @@ const styles = StyleSheet.create({
     },
     iconStyle: {
       color: colors.white, fontSize: 10
+    },
+    discountContainer: {
+      paddingHorizontal: 10, paddingVertical: 5, borderRadius: 6, backgroundColor: colors.green, position: 'absolute',
+      left: 10, top: 10
     }
 });
 

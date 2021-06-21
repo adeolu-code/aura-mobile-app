@@ -13,12 +13,14 @@ import colors from '../../colors';
 import StarComponent from '../../components/StarComponent';
 import { SCREEN_HEIGHT } from '../../utils'
 
+import moment from 'moment';
+
 
 
 class ImageAndDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentIndex: 1, photos: [], loadingPhotos: false, showModal: false };
+    this.state = { currentIndex: 1, photos: [], loadingPhotos: false, showModal: false, percentOff: '', };
   }
   openHostDetailsModal = () => {
     this.setState({ showModal: true })
@@ -42,6 +44,17 @@ class ImageAndDetails extends Component {
                 </View>
             )
         })
+    }
+    renderDiscount = () => {
+        const { textWhite, textH5Style } = GStyles
+        const { discount }= this.props
+        if(discount) {
+            return (
+                <View style={styles.discountContainer}>
+                  <MyText style={[textWhite, textH5Style]}>{discount.discountValue}% OFF</MyText>
+                </View>
+            )
+        }
     }
     renderVerified = () => {
         const { house } = this.props;
@@ -137,7 +150,7 @@ class ImageAndDetails extends Component {
                     showsPagination={false} onIndexChanged={this.indexChange} pagingEnabled >
                         {this.renderImages()}
                     </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}
-
+                    {this.renderDiscount()}
                     {this.renderVerified()}
                     {this.renderType()}
                     {/* <View style={[flexRow, verifyContainer]}>
@@ -252,6 +265,10 @@ const styles = StyleSheet.create({
     },
     thumbTxtContainer: {
         paddingVertical: 15, alignItems:'center'
+    },
+    discountContainer: {
+        paddingHorizontal: 20, paddingVertical: 8, borderRadius: 8, backgroundColor: colors.green, position: 'absolute',
+        right: 10, top: 10
     }
 });
 

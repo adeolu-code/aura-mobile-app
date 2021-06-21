@@ -1,10 +1,13 @@
 import {combineReducers} from 'redux';
 
 import TestReducers from './TestReducers';
+import AuthReducers from './AuthReducers';
 
 
 const appReducer = combineReducers({
-  test: TestReducers
+  auth: AuthReducers,
+  test: TestReducers,
+  
 });
 
 

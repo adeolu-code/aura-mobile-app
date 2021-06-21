@@ -5,7 +5,7 @@ import { Styles } from "./splashScreenStyle";
 
 import Geolocation from 'react-native-geolocation-service';
 import { setContext, Request, urls, GetRequest, errorMessage, HOST, CLIENT_ID, CLIENT_SECRET } from '../../utils';
-import { getUser, getToken, setToken } from '../../helpers';
+import { getUser, getToken, setToken, getBiometric } from '../../helpers';
 import { AppContext } from '../../../AppProvider';
 import DeviceInfo from 'react-native-device-info';
 
@@ -168,7 +168,10 @@ const SplashScreen = (props) => {
     const checkLogin = async () => {
         const userData = await getUser()
         const token = await getToken()
-        console.log('User await ', userData, token)
+        const biometricEnabled = await getBiometric()
+        context.set({ biometricEnabled })
+        
+        // console.log('User await ', userData, token)
         if(userData && token && token.access_token) {
             renewToken(token)
             context.getUserProfile(token.access_token)

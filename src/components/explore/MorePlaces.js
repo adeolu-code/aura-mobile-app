@@ -8,6 +8,7 @@ import ScrollHeader from './ScrollHeader';
 import { setContext, urls, GetRequest, errorMessage } from '../../utils';
 import { AppContext } from '../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../helpers';
+import moment from 'moment';
 
 import colors from '../../colors';
 
@@ -82,6 +83,21 @@ class MorePlaces extends Component {
             }
         }
     }
+    getDiscountPercent = (item) => {
+        if(item.pricings) {
+            const discount = item.pricings.find(x => {
+                const endDate = moment(`${x.discountEndDate} ${x.discountEndTime}`, 'YYYY-MM-DD HH:mm:ss');
+                const startDate = moment(`${x.discountStartDate} ${x.discountStartTime}`, 'YYYY-MM-DD HH:mm:ss');
+                if(moment().isBetween(startDate, endDate)){
+                return x
+                }
+            })
+            if(discount) {
+                return discount
+            }
+        }
+        return ''
+    }
     renderLoadMore = () => {
         const { loadMore } = this.state;
         const {textH4Style, textCenter, textOrange, textBold,flexRow } = GStyles
@@ -96,14 +112,20 @@ class MorePlaces extends Component {
     }
     renderItem = ({item}) => {
         const { scrollItemContainer } = styles;
-        const formattedAmount = formatAmount(item.pricePerNight);
+        const discount = this.getDiscountPercent(item)
+        const formattedAmount = discount ? formatAmount(item.pricePerNight * ((100 - discount.discountValue)/100)) : formatAmount(item.pricePerNight)
+        const originalAmount = discount ? `₦ ${formatAmount(item.pricePerNight)}` : ''
+        const percentOff = discount ? discount.discountValue : ''
+
+        // const formattedAmount = formatAmount(item.pricePerNight);
         const title = item.title ? shortenXterLength(item.title, 18) : 'No title';
         const imgUrl = item.mainImage ? { uri: item.mainImage.assetPath } : require('../../assets/images/no_house1.png');
         return (
             <View style={scrollItemContainer}>
                 <HouseComponent img={imgUrl} verified={item.isVerified} title={title} location={item.state}
                 onPress={this.linkToHouse.bind(this, item)}
-                price={`₦ ${formattedAmount} / night`} {...this.props} rating={item.rating} />
+                price={`₦ ${formattedAmount} / night`} {...this.props} rating={item.rating} 
+                originalAmount={originalAmount} percentOff={percentOff} />
             </View>
         );
     }

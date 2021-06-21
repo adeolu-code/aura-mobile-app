@@ -212,7 +212,7 @@ class ExploreAll extends Component {
                         <TouchableOpacity style={[flexRow, menuItemStyle, tabTwo ? menuItemActive : '']}
                         onPress={this.linkTo.bind(this, 'two')} onLayout={this.onLayout.bind(this, 'two')}>
                             <Icon type="MaterialIcons" name="hotel" style={[smallIconStyle, tabTwo ? iconActive : '']} />
-                            <MyText style={[textH5Style, tabTwo ? textOrange : textGrey]}>Homes & Hotels</MyText>
+                            <MyText style={[textH5Style, tabTwo ? textOrange : textGrey]}>Homes & Apartments</MyText>
                         </TouchableOpacity>
                         <TouchableOpacity style={[flexRow, menuItemStyle, tabThree ? menuItemActive : '']}
                         onPress={this.linkTo.bind(this, 'three')} onLayout={this.onLayout.bind(this, 'three')}>
@@ -227,7 +227,7 @@ class ExploreAll extends Component {
                         <TouchableOpacity style={[flexRow, menuItemStyle, lastItem, tabFive ? menuItemActive : '']} 
                         onPress={this.linkTo.bind(this, 'five')} onLayout={this.onLayout.bind(this, 'five')}>
                             <Icon type="MaterialCommunityIcons" name="sail-boat" style={[smallIconStyle, tabFive ? iconActive : '']} />
-                            <MyText style={[textH5Style, tabFive ? textOrange : textGrey]}>Tour Experience</MyText>
+                            <MyText style={[textH5Style, tabFive ? textOrange : textGrey]}>Experiences & Tours</MyText>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

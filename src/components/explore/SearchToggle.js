@@ -18,6 +18,7 @@ import { urls, GetRequest, SCREEN_HEIGHT } from '../../utils';
 import ItemComponent from './explore_all/ItemComponent';
 
 import { AppContext } from '../../../AppProvider';
+import moment from 'moment';
 
 
 
@@ -77,17 +78,38 @@ import { AppContext } from '../../../AppProvider';
     }
     renderItem = ({item}) => {
       // console.log('Item ', item)
-      const formattedAmount = formatAmount(item.pricePerNight)
+      const discount = this.getDiscountPercent(item)
+      const formattedAmount = discount ? formatAmount(item.pricePerNight * ((100 - discount.discountValue)/100)) : formatAmount(item.pricePerNight)
+      const originalAmount = discount ? `₦ ${formatAmount(item.pricePerNight)}` : ''
+      const percentOff = discount ? discount.discountValue : ''
+      // const formattedAmount = formatAmount(item.pricePerNight)
       let title = item.title ? item.title : 'no title'
       title = shortenXterLength(title, 18)
       const type = item.propertyType?.name;
       return (
         <View style={{paddingHorizontal: 20}}>
           <ItemComponent title={item.title} price={`₦ ${formattedAmount} / night`} location={item.state} verified={item.isVerified}
-              img={{uri:item.mainImage?.assetPath}} type={type} onPress={this.linkHouse.bind(this, item)} rating={item.rating} />
+              img={{uri:item.mainImage?.assetPath}} type={type} onPress={this.linkHouse.bind(this, item)} rating={item.rating}
+              originalAmount={originalAmount} percentOff={percentOff} />
         </View>
       )
       
+    }
+    getDiscountPercent = (item) => {
+      if(item.pricings) {
+        const discount = item.pricings.find(x => {
+          const endDate = moment(`${x.discountEndDate} ${x.discountEndTime}`, 'YYYY-MM-DD HH:mm:ss');
+          const startDate = moment(`${x.discountStartDate} ${x.discountStartTime}`, 'YYYY-MM-DD HH:mm:ss');
+          if(moment().isBetween(startDate, endDate)){
+            return x
+          }
+        })
+        if(discount) {
+          return discount
+        }
+        // console.log('Discount ', discount)
+      }
+      return ''
     }
     renderLoading = () => {
         const { loading } = this.state;
@@ -215,7 +237,7 @@ import { AppContext } from '../../../AppProvider';
                 
               </View> */}
 
-              {setSearch ? <View style={{ width: '100%'}}>
+              {setSearch ? <View style={{ width: '100%', marginBottom: 120}}>
                   <FlatList
                     ListHeaderComponent={
                       <>

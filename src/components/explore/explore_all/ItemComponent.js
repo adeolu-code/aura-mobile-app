@@ -32,6 +32,19 @@ class ItemComponent extends Component {
     } 
   }
 
+  renderDiscount = () => {
+    const { textWhite, textH5Style } = GStyles
+    const { percentOff } = this.props
+    if(percentOff) {
+      return (
+        <View style={styles.discountContainer}>
+          <MyText style={[textWhite, textH5Style]}>{percentOff}% OFF</MyText>
+        </View>
+      )
+    }
+    
+  }
+
   renderType = () => {
     const { bgLightOrange, bgOrange, typeContainer } = styles;
     const {textOrange, textWhite, textH4Style } = GStyles
@@ -45,13 +58,20 @@ class ItemComponent extends Component {
     }
   }
   renderPrice = () => {
-    const { price } = this.props;
-    const { textSuccess, textExtraBold, textH4Style } = GStyles;
+    const { price, originalAmount } = this.props;
+    const { textSuccess, textExtraBold, textH4Style, textStrikeThrough, flexRow, textGreyWhite } = GStyles;
+    
     if(price) {
+      // console.log('original price 3', originalAmount)
       return (
-        <MyText style={[textSuccess,textExtraBold,textH4Style,{marginBottom: 5}]}>
-          {price}
-        </MyText>
+        <View style={[flexRow]}>
+          
+          {originalAmount ? <MyText style={[textGreyWhite, textStrikeThrough, textH4Style, { marginRight: 15}]}>{originalAmount}</MyText> : <></>}
+          
+          <MyText style={[textSuccess,textExtraBold,textH4Style,{marginBottom: 5 }]}>
+            {price}
+          </MyText>
+        </View>
       )
     }
   }
@@ -84,6 +104,7 @@ class ItemComponent extends Component {
         <Pressable style={scrollItemContainer} onPress={onPress}>
           <View style={imgContainer}>
             <Image source={img} resizeMode="cover" style={[imgStyle, { borderRadius: 8 }]} />
+            {this.renderDiscount()}
             {this.renderVerified()}
             {this.renderType()}
           </View>
@@ -130,6 +151,10 @@ const styles = StyleSheet.create({
     },
     bgLightOrange: {
         backgroundColor: colors.lightOrange
+    },
+    discountContainer: {
+      paddingHorizontal: 20, paddingVertical: 8, borderRadius: 8, backgroundColor: colors.green, position: 'absolute',
+      left: 20, top: 20
     }
 });
 

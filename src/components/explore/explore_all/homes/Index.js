@@ -11,6 +11,7 @@ import FilterModal from './FilterModal';
 import { urls, GetRequest } from '../../../../utils';
 import { AppContext } from '../../../../../AppProvider';
 import { formatAmount, shortenXterLength } from '../../../../helpers';
+import moment from 'moment';
 
 import ExploreLocation from '../ExploreLocation';
 
@@ -102,18 +103,38 @@ class Index extends Component {
   }
   renderItem = ({item}) => {
     // console.log('Item ', item)
-    const formattedAmount = formatAmount(item.pricePerNight)
+    const discount = this.getDiscountPercent(item)
+    const formattedAmount = discount ? formatAmount(item.pricePerNight * ((100 - discount.discountValue)/100)) : formatAmount(item.pricePerNight)
+    const originalAmount = discount ? `₦ ${formatAmount(item.pricePerNight)}` : ''
+    const percentOff = discount ? discount.discountValue : ''
     let title = item.title ? item.title : 'no title'
     title = shortenXterLength(title, 18)
     const type = item.propertyType?.name;
     const imgUrl = item.mainImage ? {uri:item.mainImage.assetPath} : require('../../../../assets/images/no_house1.png')
+    
     return (
       <View style={{paddingHorizontal: 20}}>
         <ItemComponent title={item.title} price={`₦ ${formattedAmount} / night`} location={item.state} verified={item.isVerified}
-            img={imgUrl} type={type} onPress={this.linkHouse.bind(this, item)} rating={item.rating} propertyId={item.propertyId} />
+            img={imgUrl} type={type} onPress={this.linkHouse.bind(this, item)} rating={item.rating} propertyId={item.propertyId}
+            originalAmount={originalAmount} percentOff={percentOff} />
       </View>
     )
-    
+  }
+  getDiscountPercent = (item) => {
+    if(item.pricings) {
+      const discount = item.pricings.find(x => {
+        const endDate = moment(`${x.discountEndDate} ${x.discountEndTime}`, 'YYYY-MM-DD HH:mm:ss');
+        const startDate = moment(`${x.discountStartDate} ${x.discountStartTime}`, 'YYYY-MM-DD HH:mm:ss');
+        if(moment().isBetween(startDate, endDate)){
+          return x
+        }
+      })
+      if(discount) {
+        return discount
+      }
+      // console.log('Discount ', discount)
+    }
+    return ''
   }
   renderLoadMore = () => {
     const { loadMore } = this.state;

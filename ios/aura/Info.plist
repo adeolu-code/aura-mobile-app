@@ -72,6 +72,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This allows users easily take pictures of themselves for their Profile image and also of their properties to showcase and attract guests, To take pictures of their food or menue to drive orders and of their events/experience to aid booking.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Aura requires FaceID access to allows you quick and secure access.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Will you allow this app access to contact?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

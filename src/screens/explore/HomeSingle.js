@@ -62,7 +62,7 @@ class HomeSingle extends Component {
           requestId: ''
         },
         loading: false, contact: false, showIdentityModal: false, shareIdModal: false,
-        booked: '', bookedDays: [], toggle: true, extendStay: false,
+        booked: '', bookedDays: [], toggle: true, extendStay: false, discount: ''
     };
     const { house } = props.route.params;
     this.state.house = house;
@@ -288,6 +288,7 @@ class HomeSingle extends Component {
       } else {
           const data = res.data;
           if(data !== null) {
+            this.getDiscountPercent(data)
             this.setState({ house: data })
           }
       }
@@ -408,6 +409,22 @@ class HomeSingle extends Component {
     }
     
   }
+  getDiscountPercent = (house) => {
+    if(house.pricings) {
+        const discount = house.pricings.find(x => {
+            const endDate = moment(`${x.discountEndDate} ${x.discountEndTime}`, 'YYYY-MM-DD HH:mm:ss');
+            const startDate = moment(`${x.discountStartDate} ${x.discountStartTime}`, 'YYYY-MM-DD HH:mm:ss');
+            if(moment().isBetween(startDate, endDate)){
+              return x
+            }
+        })
+        if(discount) {
+          this.setState({ discount })
+        }
+    } else {
+      this.setState({ discount: '' })
+    }
+}
 
   componentDidUpdate = (prevProps, prevState) => {
     // if(isLoggedIn !== prevState.isLoggedIn) {
@@ -419,11 +436,14 @@ class HomeSingle extends Component {
     const { userData } = this.context.state
     const { house } = this.state
     if(house) {
-      if((userData && userData.id !== house.hostId) || !userData) {
-        return (
-          <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
-        )
-      }
+      return (
+        <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
+      )
+      // if((userData && userData.id !== house.hostId) || !userData) {
+      //   return (
+      //     <BottomMenuComponent onPress={this.openCheckInModal} house={this.state.house} />
+      //   )
+      // }
     }
   }
 
@@ -441,7 +461,7 @@ class HomeSingle extends Component {
         <ScrollView>
             <View>
                 <ImageAndDetails imgArr={this.state.photos} house={house} title={house.title} photos={this.state.photos}
-                loading={this.state.loadingImages} openHostModal={this.openHostDetailsModal} />
+                loading={this.state.loadingImages} openHostModal={this.openHostDetailsModal} discount={this.state.discount} />
                 <AmenitiesComponent house={house} />
                 {houseRules.length !== 0 ?<RulesComponent title="House Rules" rules={houseRules} /> : <Fragment />}
                 <LocationComponent house={house} address={house.address} location={location} />
@@ -471,7 +491,7 @@ class HomeSingle extends Component {
         />
 
         <ReserveModal visible={this.state.showReserveModal} onDecline={this.closeReserveModal} back={this.openCheckOutModal} 
-        formData={this.state.formData} submit={this.reserveSpace} house={this.state.house} />
+        formData={this.state.formData} submit={this.reserveSpace} house={this.state.house} discount={this.state.discount} />
 
         <LoginModal visible={this.state.showLoginModal} onDecline={this.closeLoginModal} openSignUp={this.openSignUpModal} close />
 

@@ -22,6 +22,10 @@ import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentica
 import { GOOGLE_WEB_CLIENTID } from '../../strings'
 import ForgotPassword from "../../screens/auth/ForgotPassword";
 
+import ReactNativeBiometrics from 'react-native-biometrics'
+
+import * as Keychain from 'react-native-keychain';
+
 class LoginModal extends Component {
   static contextType = AppContext;
   constructor(props) {
@@ -198,6 +202,47 @@ class LoginModal extends Component {
       }.bind(this)
     );
   }
+  loginWithBiometrics = async () => {
+    this.pullUpScanner()
+  }
+  pullUpScanner = () => {
+    // FingerprintScanner.authenticate({ description: 'Login with Biometrics' })
+    ReactNativeBiometrics.simplePrompt({promptMessage: 'Login with Biometrics'})
+    .then((res) => {
+        console.log('Finger print response ', res)
+        const { success } = res
+        if (success) {
+            this.getUserInfo()
+        } else {
+            errorMessage('user cancelled biometric prompt')
+        }
+      })
+      .catch((error) => {
+          console.log('fingerprint error ', error.message)
+          errorMessage('biometrics failed')
+          // Alert.alert('Fingerprint Authentication', error.message);
+      });
+  }
+  getUserInfo = async () => {
+    try {
+        // Retrieve the credentials
+        const credentials = await Keychain.getGenericPassword();
+        console.log('Credentials ', credentials)
+        if (credentials) {
+            console.log('Credentials successfully loaded for user ');
+            this.setState({ password: credentials.password, email: credentials.username }, () => {
+              this.submit()
+            })
+            // submit()
+        } else {
+            errorMessage('Login failed, please try again, or contact support if error persists')
+            console.log('No credentials stored');
+        }
+    } catch (error) {
+        errorMessage('Something went wrong, please try again, or contact support if error persists')
+        console.log("Keychain couldn't be accessed!", error);
+    }
+}
 
   onAppleButtonPress = async () => {
     this.setState({ loading: true, formErrors: [] })
@@ -266,6 +311,7 @@ class LoginModal extends Component {
       textGreen, textBold } = GStyles;
     const { modalHeader, closeContainer, logoContainer, container, modalContainer, inputContainer, 
       buttonContainer, modalBodyStyle, dashStyles, dashContainer, socialContainer, buttonStyle, accountStyle } = styles
+    const { state } = this.context
     return (
       
         <Modal visible={visible} transparent onRequestClose={() => {}} animationType="slide">
@@ -293,6 +339,11 @@ class LoginModal extends Component {
                   value={this.state.password} attrName="password" />
                 </View>
                 <View style={buttonContainer} >
+                  {state.biometricEnabled && <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 20}}>
+                    <TouchableOpacity onPress={this.loginWithBiometrics} style={{ borderWidth: 1, borderColor: colors.orange, borderRadius: 10}}>
+                      <Icon type="MaterialIcons" name="fingerprint" style={{ fontSize: 40, color: colors.orange}} />
+                    </TouchableOpacity>
+                  </View>}
                   {this.renderError()}
                   <CustomButton buttonText="Log In" onPress={this.submit} disabled={this.disabled()} />
                 </View>

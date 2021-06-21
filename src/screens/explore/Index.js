@@ -193,7 +193,7 @@ class Index extends Component {
                 </MyText>
 
                 <MyText style={[textWhite, textH2Style, marginBottomSmall]}>
-                  to stay and things to do
+                There’s a home for every Aura.
                 </MyText>
                 <View style={searchContainer}>
                   {/* <SearchInput onFocus={this.openSearch} placeholder="Location, landmark, address" /> */}

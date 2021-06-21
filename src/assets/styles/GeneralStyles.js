@@ -147,6 +147,9 @@ const styles = StyleSheet.create({
   textUnderline: {
     textDecorationLine: 'underline'
   },
+  textStrikeThrough: {
+    textDecorationLine: 'line-through'
+  },
   textNormal: {
     fontFamily: 'Nunito-Regular',
     fontWeight: '300'
