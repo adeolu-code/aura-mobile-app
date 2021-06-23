@@ -240,7 +240,7 @@ class Index extends Component {
 
   render() {
     const {filterContainer, container, contentContainer, contentMainContainer } = styles
-    const { textH3Style, textExtraBold, textH4Style, textDarkGrey, textCenter, textOrange } = GStyles;
+    const { textH3Style, textExtraBold, textH4Style, textDarkGrey, textCenter, textOrange, textBlackClose } = GStyles;
     const { places } = this.state
     return (
       <Fragment>
@@ -259,7 +259,7 @@ class Index extends Component {
                     <TouchableOpacity style={filterContainer} onPress={this.openModal}>
                       <MyText style={[textH4Style, textDarkGrey]}>Filters</MyText>
                     </TouchableOpacity>
-                    <MyText style={[textH3Style, textExtraBold, { marginTop:30}]}>Homes & Hotels On Aura</MyText>
+                    <MyText style={[textH3Style, textExtraBold, textBlackClose, { marginTop:30}]}>Hotels & Apartments On Aura</MyText>
                   </View>
                 </>
               }

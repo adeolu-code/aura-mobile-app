@@ -132,11 +132,11 @@ class ScrollContent extends Component {
             <View style={photoContainer}>
                 {this.renderLoading()}
                 <View style={headerContainer}>
-                    <ScrollHeader title="Book photographers on Aura" noDot />
+                    <ScrollHeader title="Immortalize the Moment" noDot />
                 </View>
                 <View style={textContainer}>
                     <MyText style={[textDarkGrey, textH4Style, lineHeightText]}>
-                    Capture experiences, become a Photographer.
+                    Capture memorable experiences with photographs.
                     </MyText>
                 </View>
                 <View style={scrollMainContainer}>

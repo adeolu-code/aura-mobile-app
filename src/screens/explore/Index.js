@@ -189,7 +189,7 @@ class Index extends Component {
             
               <ImageBackground source={this.images[this.state.currentIndex]} style={[headerBg]}>
                 <MyText style={[ textWhite, textExtraBold, textH1Style, marginBottomSmall, marginTopLarge ]}>
-                  Book unique places
+                  Book Unique Stays
                 </MyText>
 
                 <MyText style={[textWhite, textH2Style, marginBottomSmall]}>
@@ -236,11 +236,10 @@ class Index extends Component {
               <ScrollContentPhoto {...this.props} refresh={this.state.refreshPlaces} />
 
               <View style={tourContainer}>
-                <MyText style={[textWhite, textExtraBold, textH2Style, textCenter, { marginBottom: 15 }]}>Are you New in a city ?</MyText>
-                <MyText style={[textWhite, textH4Style, textCenter, lineHeightText, { marginBottom: 25 }]}>Book a Tour Guide Today</MyText>
+                <MyText style={[textWhite, textExtraBold, textH2Style, textCenter, { marginBottom: 15 }]}>Tour the City</MyText>
+                <MyText style={[textWhite, textH4Style, textCenter, lineHeightText, { marginBottom: 25 }]}>Experience the great outdoors. Book a tour guide today!</MyText>
                 <MyText style={[textWhite, textH4Style, textCenter, { lineHeight: 30 }]}>
-                  Bring your passion to life and make some extra money while leading 
-                  and teaching people on activities you love in your own city.
+                Earn extra income and unlock new experiences by showcasing the sights and sounds of your city.
                   </MyText>
                 <View style={tourContentStyle}>
                   <TourImgComponent {...this.props} refresh={this.state.refreshPlaces} />

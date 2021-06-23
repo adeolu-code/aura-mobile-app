@@ -15,12 +15,12 @@ class ScrollHeader extends Component {
   render() {
     const { title, white, noDot, first } = this.props
     const { dotStyle, dotContainer, textDotContainer, container, textContainer, dotActiveStyle, bottomBorderStyle, dotWhite } = styles;
-    const { flexRow, textExtraBold, textH2Style, textWhite } = GStyles
+    const { flexRow, textExtraBold, textH2Style, textWhite, textBlackClose, textH3Style } = GStyles
     return (
       <View style={container}>
         <View style={[flexRow, textDotContainer]}>
             <View style={textContainer}>
-                <MyText style={[textH2Style, textExtraBold, white ? textWhite : '']}>{title}</MyText>
+                <MyText style={[textH2Style, textExtraBold, textBlackClose, white ? textWhite : '']}>{title}</MyText>
             </View>
             {!noDot ? <View style={[flexRow, dotContainer]}>
                 <View style={[dotStyle, white ? dotWhite: '', first ? dotActiveStyle : ''] }></View>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 
     },
     textDotContainer: {
-        alignItems: 'center', paddingHorizontal: 6
+        alignItems: 'center', paddingRight: 6
     },
     textContainer: {
         flex: 5, 

@@ -229,7 +229,8 @@ class ScrollContent extends Component {
             <View style={placeAroundContainer}>
                 {this.renderLoading()}
                 <View style={headerContainer}>
-                    <ScrollHeader title={`Places to stay around ${this.state.st}`} noDot={this.state.noDot} first={this.state.first} />
+                    {/* <ScrollHeader title={`Great Spots Near You ${this.state.st}`} noDot={this.state.noDot} first={this.state.first} /> */}
+                    <ScrollHeader title={`Great Spots Near You`} noDot={this.state.noDot} first={this.state.first} />
                 </View>
                 <View style={scrollMainContainer}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 2 * width, }}

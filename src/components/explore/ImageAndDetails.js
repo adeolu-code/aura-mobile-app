@@ -10,6 +10,8 @@ import { Icon } from 'native-base';
 
 import colors from '../../colors';
 
+import CustomSwiper from '../CustomSwiper';
+
 import StarComponent from '../../components/StarComponent';
 import { SCREEN_HEIGHT } from '../../utils'
 
@@ -145,11 +147,11 @@ class ImageAndDetails extends Component {
             <View style={contentContainer}>
                 
                 <View style={imgContainer}>
-                
-                    {!loading ?<Swiper autoplay={true} style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
+                    {!loading ?<CustomSwiper slides={photos} /> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}
+                    {/* {!loading ?<Swiper autoplay={true} style={{height: '100%',flex: 1}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
                     showsPagination={false} onIndexChanged={this.indexChange} pagingEnabled >
                         {this.renderImages()}
-                    </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}
+                    </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />} */}
                     {this.renderDiscount()}
                     {this.renderVerified()}
                     {this.renderType()}
@@ -159,11 +161,11 @@ class ImageAndDetails extends Component {
                             <Icon name="check" type="FontAwesome5" style={verifiedStyle} />
                         </View>
                     </View> */}
-                    <View style={cContainer}>
+                    {/* <View style={cContainer}>
                         <View style={countContainer}>
                             <MyText style={[textH4Style, textWhite, textBold]}>{currentIndex}/{photos.length}</MyText>
                         </View>
-                    </View>
+                    </View> */}
                 </View>
                 {house ? <Fragment>
                     <View style={divider}></View>

@@ -113,11 +113,11 @@ class ScrollContentFood extends Component {
         <View style={foodContainer}>
             {this.renderLoading()}
               <View style={headerContainer}>
-                <ScrollHeader title="Good food & restaurants" white noDot />
+                <ScrollHeader title="Great Food & Restaurants" white noDot />
               </View>
               <View style={textContainer}>
                 <MyText style={[textWhite, textH4Style, lineHeightText]}>
-                  The best restaurants, delivering to your doorstep
+                The best restaurant experience, a click away.
                 </MyText>
               </View>
 

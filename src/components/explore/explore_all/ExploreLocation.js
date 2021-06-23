@@ -75,12 +75,12 @@ class ExploreLocation extends Component {
   render() {
     const { width } = Dimensions.get('window')
     const { textContainer, imgContainer, scrollContainer, scrollItemContainer, overlayStyles, locationStyle, locationContainer } = styles;
-    const { imgStyle, flexRow, textH3Style, textExtraBold, textWhite, textH4Style,textH5Style, textBold, textH6Style } = GStyles
+    const { imgStyle, flexRow, textH3Style, textExtraBold, textWhite, textH4Style,textH5Style, textBold, textH6Style, textBlackClose } = GStyles
     const { statesArr} = this.state
     return (
       <View>
         <View style={textContainer}>
-            <MyText style={[textH3Style, textExtraBold]}>Explore Based On Location </MyText>
+            <MyText style={[textH3Style, textExtraBold, textBlackClose]}>Explore Nigeria</MyText>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: statesArr.length * width }}>
             <View style={[flexRow, scrollContainer]}>

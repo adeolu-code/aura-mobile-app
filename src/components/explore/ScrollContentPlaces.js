@@ -196,7 +196,7 @@ class ScrollContentPlaces extends Component {
 
     // const actualWidth = (20/width) * 100
     // const headerTitle = "Places to stay around you"
-    const headerTitle = "Places to stay"
+    const headerTitle = "Hotels & Apartments Near You"
     return (
         <Fragment>
             <View style={placeAroundContainer}>

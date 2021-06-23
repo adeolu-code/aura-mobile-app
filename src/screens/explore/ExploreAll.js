@@ -212,7 +212,7 @@ class ExploreAll extends Component {
                         <TouchableOpacity style={[flexRow, menuItemStyle, tabTwo ? menuItemActive : '']}
                         onPress={this.linkTo.bind(this, 'two')} onLayout={this.onLayout.bind(this, 'two')}>
                             <Icon type="MaterialIcons" name="hotel" style={[smallIconStyle, tabTwo ? iconActive : '']} />
-                            <MyText style={[textH5Style, tabTwo ? textOrange : textGrey]}>Homes & Apartments</MyText>
+                            <MyText style={[textH5Style, tabTwo ? textOrange : textGrey]}>Hotels & Apartments</MyText>
                         </TouchableOpacity>
                         <TouchableOpacity style={[flexRow, menuItemStyle, tabThree ? menuItemActive : '']}
                         onPress={this.linkTo.bind(this, 'three')} onLayout={this.onLayout.bind(this, 'three')}>

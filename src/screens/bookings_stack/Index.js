@@ -15,7 +15,7 @@ class Index extends Component {
   }
 
   render() {
-    const description = `Information about all your trips and bookings are here.`;
+    const description = `All your booking information at a glance.                   `;
     return (
       <>
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>

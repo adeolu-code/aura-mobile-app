@@ -9,6 +9,8 @@ import { MyText, Loading } from '../../../utils/Index';
 import { Icon } from 'native-base';
 
 import colors from '../../../colors';
+import CustomSwiper from '../../CustomSwiper';
+
 
 import StarComponent from '../../StarComponent';
 import moment from 'moment';
@@ -82,7 +84,7 @@ class ImageAndDetails extends Component {
         overlayStyles, iconVerifiedContainer, verifiedStyle, countContainer, divider, thumbContainer, thumbTxtContainer, 
         thumbStyle, cContainer, verifyContainer } = styles;
     const { flexRow, textH2Style, textExtraBold, textBold, textLgStyle, textH5Style, textGrey, textH4Style, 
-            imgStyle, textWhite, textH3Style, textSuccess, textH6Style, textDarkGrey } = GStyles
+            imgStyle, textWhite, textH3Style, textSuccess, textH6Style, textDarkGrey, textBlackClose } = GStyles
     const { currentIndex } = this.state
     const { time, restaurant, title, loading, photos } = this.props;
     let rating
@@ -91,13 +93,19 @@ class ImageAndDetails extends Component {
     } else {
         rating = restaurant.rating
     }
+    const restaurantPhotos = photos.map(item => {
+        return item.assetPath ? { uri: item.assetPath } : require('../../../assets/images/no_food.png')
+        // if(item.assetPath) {
+        //     return 
+        // } 
+    })
 
     // const imgUrl = restaurant.hostPicture ? { uri: restaurant.hostPicture } : require('../../../assets/images/profile.png')
     return (
         <View>
             <View style={[flexRow, headerStyle]}>
                 <View style={{flex: 6 }}>
-                    <MyText style={[textExtraBold, textLgStyle]}>{restaurant ? restaurant.name : ''}</MyText>
+                    <MyText style={[textExtraBold, textLgStyle, textBlackClose]}>{restaurant ? restaurant.name : ''}</MyText>
                     <View style={starContainer}>
                         <StarComponent style={iconStyle} grey rating={restaurant ? rating : 0} />
                     </View>
@@ -118,18 +126,19 @@ class ImageAndDetails extends Component {
             <View style={contentContainer}>
                 
                 <View style={imgContainer}>
-                    {!loading && photos.length !== 0 ?<Swiper autoplay={true} style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
+                    {!loading && photos.length !== 0 ?<CustomSwiper slides={restaurantPhotos} /> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}
+                    {/* {!loading && photos.length !== 0 ?<Swiper autoplay={true} style={{height: '100%'}} showsButtons={false} index={0} activeDotColor={colors.lightGrey} 
                     showsPagination={false} onIndexChanged={(index) => {this.indexChange(index)}} pagingEnabled={true} >
                         {this.renderImages()}
-                    </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />}
+                    </Swiper> : <Loading wrapperStyles={{ height: '100%', width: '100%', elevation:4 }} />} */}
 
                     {this.renderVerified()}
                     
-                    <View style={cContainer}>
+                    {/* <View style={cContainer}>
                         <View style={countContainer}>
                             <MyText style={[textH4Style, textWhite, textBold]}>{currentIndex}/{photos.length}</MyText>
                         </View>
-                    </View>
+                    </View> */}
                 </View>
                 
             </View>
