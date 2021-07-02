@@ -14,7 +14,7 @@ import { Spinner } from './Spinner'
 import GStyles from '../assets/styles/GeneralStyles';
 import colors from '../colors';
 
-class CustomInput extends Component {
+class CustomInputNew extends Component {
   state = {secure: true};
   _onChangeText = (updatedValue) => {
     const { attrName, onChangeText } = this.props; 
@@ -38,6 +38,19 @@ class CustomInput extends Component {
           />
         </TouchableOpacity>
       );
+    }
+  }
+  renderImage = () => {
+    const {iconName, imgUrl } = this.props;
+    if(iconName || imgUrl) {
+        return (
+            <View style={styles.showImgContainerStyle}>
+                {iconName ? <Icon name={iconName || 'user'} type="Feather" style={{ color: 'rgba(125, 149, 182, 1)', fontSize: 24 }} /> : 
+                <View>
+                    <Image source={imgUrl} style={{ width: 20, height: 20 }} resizeMode="contain" />
+                </View>}
+            </View>
+        )
     }
   }
   renderSpinner() {
@@ -82,13 +95,13 @@ class CustomInput extends Component {
     const paddingRight = password ? '' : inputRightPadding;
     const keyboard = this.props.keyType ? this.props.keyType : 'default';
     return (
-      <View>
+      <View style={styles.container}>
         {label ? (
           <MyText style={[lStyles]}>
             <MyText style={[lTextStyles, textH4Style]}>{label}</MyText>
           </MyText>
-        ) : (<></>
-          // <MyText></MyText>
+        ) : (
+          <MyText></MyText>
         )}
         <View style={InputContainerStyles}>
           <TextInput
@@ -106,8 +119,8 @@ class CustomInput extends Component {
             multiline={multiline}
             placeholderTextColor={placeholderColor || 'rgba(99, 99, 99, 0.7)'} textAlignVertical={textAlignVertical || "center"}
           />
-          {this.renderSpinner()}
-          {this.renderShow()}
+          {this.renderImage()}
+          {/* {this.renderShow()} */}
           {disabled ? <View style={overlay}></View> : <></>}
         </View>
         
@@ -116,6 +129,10 @@ class CustomInput extends Component {
   }
 }
 const styles = StyleSheet.create({
+  container: {
+    borderWidth: 1, borderRadius: 6, paddingHorizontal: 15, paddingTop: 10, borderColor: colors.lightGrey,
+    backgroundColor: 'rgba(215, 228, 248, 0.05)'
+  },
   InputContainerStyles: {
     display: 'flex',
     position: 'relative',
@@ -126,12 +143,12 @@ const styles = StyleSheet.create({
     height: 55,
     width: '100%',
     borderRadius: 5,
-    borderColor: colors.lightGrey,
-    borderWidth: 1,
+    // borderColor: colors.lightGrey,
+    // borderWidth: 1,
     fontSize: 17,
     color: colors.darkGrey,
     fontFamily: Platform.OS === 'ios' ? 'Nunito-Regular' : 'Nunito-bold',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
   },
   InputWithImgStyle: {
     paddingLeft: 0,
@@ -142,9 +159,9 @@ const styles = StyleSheet.create({
   showImgContainerStyle: {
     position: 'absolute',
     right: 0,
-    top: 0,
-    height: 55,
-    width: 60,
+    bottom: 0,
+    height: 50,
+    width: 35,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -166,4 +183,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {CustomInput};
+export { CustomInputNew };

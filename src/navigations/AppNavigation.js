@@ -18,6 +18,10 @@ import HostPropertyStack from './HostPropertyNavigation';
 import AddProfilePicture from '../screens/edit_profile/addProfilePic.screen';
 import VerifyPhoneNumber from '../screens/account_verification/verifyPhone.screen';
 
+import VirtualLandingPageScreen from '../screens/VirtualLandingPage';
+import VirtualRegistrationScreen from '../screens/VirtualRegistration';
+import VirtualSuccessScreen from '../screens/VirtualSuccess';
+
 
 import { PhotographStack, ExperienceStack, RestaurantStack } from './StackNavigation';
 
@@ -44,6 +48,9 @@ function AppNavigator() {
       <RootStack.Screen name="TourStack" component={ExperienceStack} options={{headerShown: false}} />
       <RootStack.Screen name="AddProfilePicture" component={AddProfilePicture} options={{headerShown: false}} />
       <RootStack.Screen name="VerifyPhoneNumber" component={VerifyPhoneNumber} options={{headerShown: false}} />
+      <RootStack.Screen name="VirtualLandingPage" component={VirtualLandingPageScreen} options={{headerShown: false}} />
+      <RootStack.Screen name="VirtualRegistration" component={VirtualRegistrationScreen} options={{headerShown: false}} />
+      <RootStack.Screen name="VirtualSuccess" component={VirtualSuccessScreen} options={{headerShown: false}} />
       <RootStack.Screen name="RestaurantStack" component={RestaurantStack} options={{headerShown: false}} />
 
     </RootStack.Navigator>

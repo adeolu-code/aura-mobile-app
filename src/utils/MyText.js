@@ -4,8 +4,8 @@ import {Text, View, StyleSheet} from 'react-native';
 export class MyText extends Component {
   render() {
     const {textStyles} = styles;
-    const {style} = this.props;
-    return <Text style={[textStyles, style]}>{this.props.children}</Text>;
+    const {style, onPress} = this.props;
+    return <Text style={[textStyles, style]} onPress={onPress}>{this.props.children}</Text>;
   }
 }
 

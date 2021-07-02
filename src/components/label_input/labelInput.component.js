@@ -97,6 +97,7 @@ export const LabelInput = (props) => {
                 <View style={[Styles.personalContentView]}>
                     <IntlPhoneInput
                         onChangeText={({dialCode, unmaskedPhoneNumber}) => {
+                            console.log('Working')
                             if (unmaskedPhoneNumber.startsWith("0")) unmaskedPhoneNumber = unmaskedPhoneNumber.substring(1)
                             props.onChangeText && props.onChangeText(`${dialCode}${unmaskedPhoneNumber}`);
                         }} 

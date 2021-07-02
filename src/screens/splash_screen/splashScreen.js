@@ -8,6 +8,7 @@ import { setContext, Request, urls, GetRequest, errorMessage, HOST, CLIENT_ID, C
 import { getUser, getToken, setToken, getBiometric } from '../../helpers';
 import { AppContext } from '../../../AppProvider';
 import DeviceInfo from 'react-native-device-info';
+import moment from "moment";
 
 
 const auraAnimated = require("./../../assets/aura_splash_animation.gif");
@@ -16,8 +17,17 @@ const splashTimeout = 3800;
 import AppVersion from '../../../appVersion';
 
 const navigateToTab = async (props) => {
+    const requiredDate = new Date(2021, 6, 8, 18, 0);
+    const timeNeeded = moment(requiredDate).unix();
+    const timeLeft = timeNeeded - moment().unix();
+    if(timeLeft <= 0){
+        props.navigation.navigate('Tabs', {screen: 'Explore', params: { screen: 'Explore'} })
+    } else {
+        props.navigation.navigate('VirtualLandingPage')
+    }
     // props.navigation.navigate("Tabs");
-    props.navigation.navigate('Tabs', {screen: 'Explore', params: { screen: 'Explore'} })
+    // props.navigation.navigate('Tabs', {screen: 'Explore', params: { screen: 'Explore'} })
+    // props.navigation.navigate('VirtualLandingPage')
     // console.log("moved", new Date().getMinutes(), new Date().getSeconds());
 }
 
