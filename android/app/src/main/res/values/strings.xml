@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Aura</string>
-    <!-- <string name="facebook_app_id">917508958712747</string> -->
-    <string name="facebook_app_id">355492845870779</string>
-    <string name="fb_login_protocol_scheme">fb355492845870779</string>
+    <string name="facebook_app_id">2805391829498549</string>
+    <!-- <string name="facebook_app_id">355492845870779</string> -->
+    <string name="fb_login_protocol_scheme">fb2805391829498549</string>
     <!-- <string name="server_client_id">745362274321-sptpssq375evl7b4s7q46hk8dgc7aao6.apps.googleusercontent.com</string> -->
     <!-- <string name="google_api_key">AIzaSyAFdkU_jxnwUKJ-Vg6iSz2XRiE_TUTVOZg</string> -->
     <string moduleConfig="true" name="CodePushDeploymentKey">zm_4PjRrZR_I224zEupKexTL1diQQWwX8D8Fm</string>

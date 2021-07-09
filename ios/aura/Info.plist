@@ -42,7 +42,7 @@
 	<key>CodePushDeploymentKey</key>
 	<string>zm_4PjRrZR_I224zEupKexTL1diQQWwX8D8Fm</string>
 	<key>FacebookAppID</key>
-	<string>355492845870779</string>
+	<string>2805391829498549</string>
 	<key>FacebookDisplayName</key>
 	<string>Aura</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -72,10 +72,10 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This allows users easily take pictures of themselves for their Profile image and also of their properties to showcase and attract guests, To take pictures of their food or menue to drive orders and of their events/experience to aid booking.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Aura requires FaceID access to allows you quick and secure access.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Will you allow this app access to contact?</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Aura requires FaceID access to allows you quick and secure access.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Aura app needs your location ?</string>
 	<key>NSLocationAlwaysUsageDescription</key>

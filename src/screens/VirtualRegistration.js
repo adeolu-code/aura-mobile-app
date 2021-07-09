@@ -105,7 +105,7 @@ class VirtualRegistration extends Component {
     const { textH3Style, textExtraBold, textH4Style, textDarkGrey, flexRow, textWhite, textH1Style, 
       textH2Style, textH5Style, textXlStyle, textCenter, textBold, textUnderline, textOrange } = GStyles
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
+      <View style={{ flex: 1, backgroundColor: 'white'}}>
         {this.renderLoading()}
         <ImageBackground source={require('../assets/images/bg_virtual.png')} style={container}>
           <ScrollView>
@@ -165,7 +165,7 @@ class VirtualRegistration extends Component {
         </ImageBackground>
         {/* {this.renderLoading()} */}
         
-      </SafeAreaView>
+      </View>
     );
   }
 }

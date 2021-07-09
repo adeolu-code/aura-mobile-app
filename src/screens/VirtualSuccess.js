@@ -50,7 +50,7 @@ class VirtualSuccess extends Component {
       textH2Style, textH5Style, textXlStyle, textCenter, textBold, textUnderline, textOrange } = GStyles
     const { photographers } = this.state
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
+      <View style={{ flex: 1, backgroundColor: 'white'}}>
         <ImageBackground source={require('../assets/images/bg_virtual.png')} style={container}>
           <ScrollView>
             <View style={contentContainer}>
@@ -74,7 +74,7 @@ class VirtualSuccess extends Component {
         </ImageBackground>
         {/* {this.renderLoading()} */}
         
-      </SafeAreaView>
+      </View>
     );
   }
 }

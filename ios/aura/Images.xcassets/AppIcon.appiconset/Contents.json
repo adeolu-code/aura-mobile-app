@@ -3,109 +3,109 @@
 	{
       "size" : "20x20",
       "idiom": "iphone",
-	  "filename" : "aura-20@2x.png",
+	  "filename" : "aura-logo-512x512px-20@2x.png",
       "scale": "2x"
     },
 	{
       "size" : "20x20",
       "idiom": "iphone",
-	  "filename" : "aura-20@3x.png",
+	  "filename" : "aura-logo-512x512px-20@3x.png",
       "scale": "3x"
     },
 	{
       "size" : "20x20",
       "idiom": "ipad",
-	  "filename" : "aura-20.png",
+	  "filename" : "aura-logo-512x512px-20.png",
       "scale": "1x"
     },
     {
       "size" : "20x20",
       "idiom": "ipad",
-	  "filename" : "aura-20@2x.png",
+	  "filename" : "aura-logo-512x512px-20@2x.png",
       "scale": "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "aura-29@2x.png",
+      "filename" : "aura-logo-512x512px-29@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "aura-29@3x.png",
+      "filename" : "aura-logo-512x512px-29@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "aura-40@2x.png",
+      "filename" : "aura-logo-512x512px-40@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "aura-40@3x.png",
+      "filename" : "aura-logo-512x512px-40@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "aura-60@2x.png",
+      "filename" : "aura-logo-512x512px-60@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "aura-60@3x.png",
+      "filename" : "aura-logo-512x512px-60@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "aura-29.png",
+      "filename" : "aura-logo-512x512px-29.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "aura-29@2x.png",
+      "filename" : "aura-logo-512x512px-29@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "aura-40.png",
+      "filename" : "aura-logo-512x512px-40.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "aura-40@2x.png",
+      "filename" : "aura-logo-512x512px-40@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "aura-76.png",
+      "filename" : "aura-logo-512x512px-76.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "aura-76@2x.png",
+      "filename" : "aura-logo-512x512px-76@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "aura-83.5@2x.png",
+      "filename" : "aura-logo-512x512px-83.5@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "aura-1024.png",
+      "filename" : "aura-logo-512x512px-1024.png",
       "scale" : "1x"
     }
   ],

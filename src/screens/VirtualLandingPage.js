@@ -75,7 +75,7 @@ class VirtualLandingPage extends Component {
       textH2Style, textH5Style, textXlStyle, textCenter, textBold, textUnderline, textOrange } = GStyles
     const { photographers } = this.state
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
+      <View style={{ flex: 1, backgroundColor: 'white'}}>
         <ImageBackground source={require('../assets/images/aura_bg.png')} style={container}>
           <ScrollView>
           <View style={contentContainer}>
@@ -129,7 +129,7 @@ class VirtualLandingPage extends Component {
         </ImageBackground>
         {/* {this.renderLoading()} */}
         
-      </SafeAreaView>
+      </View>
     );
   }
 }
