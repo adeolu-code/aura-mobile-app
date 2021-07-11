@@ -23,7 +23,8 @@ export const CLIENT_ID = '0987654321'
 export const CLIENT_SECRET = '1234567890'
 
 export const GOOGLE_API_KEY = "AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs"; 
-export const GOOGLE_SEARCH_KEY = 'AIzaSyDeW1aTWlO-Azt-kFGAIxHsQJflNCY_9mM';
+// export const GOOGLE_SEARCH_KEY = 'AIzaSyDeW1aTWlO-Azt-kFGAIxHsQJflNCY_9mM';
+export const GOOGLE_SEARCH_KEY = 'AIzaSyDgK05jlCwTbkjvemPgyjWcT8iiLoVG0xs';
 
 const UNAUTHORIZED_MESSAGE = 'user is unauthorised to perform action'
 export const EXPIRED_TOKEN = "access code generation failed";

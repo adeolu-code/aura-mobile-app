@@ -10,7 +10,7 @@ import colors from '../../colors';
 
 import MapView, { Marker, ProviderPropType } from 'react-native-maps';
 
-import { errorMessage, GOOGLE_API_KEY } from '../../utils';
+import { errorMessage } from '../../utils';
 
 const { width, height } = Dimensions.get('window');
 

@@ -13,7 +13,7 @@ class ExploreLocation extends Component {
     super(props);
     this.state = { statesArr: [
         {name: 'Lagos', imgUrl: 'https://images.pexels.com/photos/3316337/pexels-photo-3316337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
-        {name: 'Abuja', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+        {name: 'Federal Capital Territory', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
         {name: 'Rivers', imgUrl: 'https://images.pexels.com/photos/1467300/pexels-photo-1467300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
         {name: 'Oyo', imgUrl: 'https://images.pexels.com/photos/3172830/pexels-photo-3172830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
         {name: 'Kaduna', imgUrl: 'https://images.pexels.com/photos/823696/pexels-photo-823696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
@@ -46,7 +46,7 @@ class ExploreLocation extends Component {
       const { statesArr } = this.state;
       const { width } = Dimensions.get('window')
     //   const percent = ((statesArr.length * width)/statesArr.length)/(statesArr.length * width) * 100;
-    const percent = 7
+    const percent = 8
       const { textContainer, imgContainer, closeContainer, scrollItemContainer, overlayStyles, locationStyle, 
         locationContainer, iconStyle } = styles;
       const { imgStyle, flexRow, textWhite, textH5Style, textBold, textH6Style } = GStyles
